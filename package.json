@@ -1,0 +1,11 @@
+{
+  "name": "book-club-talks",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Презентации докладов книжного клуба фронтендеров",
+  "scripts": {
+    "new-talk": "node scripts/new-talk.mjs",
+    "lint:talks": "node scripts/lint-talks.mjs"
+  }
+}

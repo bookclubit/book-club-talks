@@ -1,0 +1,65 @@
+{
+  "books": [
+    {
+      "id": "docker-up-and-running",
+      "code": "DOCKER",
+      "title": "Docker: Up & Running",
+      "subtitle": "Shipping Reliable Containers in Production (O'Reilly Media)",
+      "descRu": "Практическое руководство по созданию, запуску и масштабированию надежных контейнеров в продакшене. Книга охватывает весь спектр работы с Docker — от базовых команд до оркестрации, сетевых настроек и безопасности.",
+      "url": "https://www.oreilly.com/library/view/docker-up/9781098131814/",
+      "cover": "cover/docker-up-and-running.webp",
+      "authors": [
+        {
+          "name": "Sean P. Kane",
+          "url": "https://github.com/spkane",
+          "urlLabel": "github.com/spkane",
+          "avatar": "authors/sean-p-kane.jpg"
+        },
+        {
+          "name": "Karl Matthias",
+          "url": "https://www.linkedin.com/in/karlmatthias/",
+          "urlLabel": "linkedin.com/in/karlmatthias",
+          "avatar": "authors/karl-matthias.jpg"
+        }
+      ],
+      "chapters": [
+        {
+          "number": 9,
+          "title": "Docker в рабочих средах",
+          "topics": [
+            { "title": "Подготовка к развертыванию" },
+            { "title": "Docker в рабочих средах" },
+            { "title": "Docker в конвейере DevOps" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fluent-react",
+      "code": "REACT",
+      "title": "Fluent React",
+      "subtitle": "Build Fast, Performant, and Intuitive Web Applications (O'Reilly Media)",
+      "descRu": "Практическое руководство по глубокому и интуитивному пониманию React. Книга объясняет сложные концепции простым языком без избыточного жаргона, охватывая все аспекты работы с библиотекой — от JSX и виртуального DOM до хуков, оптимизации производительности и серверных компонентов React (RSC).",
+      "url": "https://www.oreilly.com/library/view/fluent-react/9781098138707/",
+      "cover": "cover/fluent-react.webp",
+      "authors": [
+        {
+          "name": "Tejas Kumar",
+          "url": "https://tej.as/",
+          "urlLabel": "tej.as",
+          "avatar": "authors/tejas-kumar.avif"
+        }
+      ],
+      "chapters": [
+        {
+          "number": 1,
+          "title": "Введение в React",
+          "topics": [
+            { "title": "Преимущества" },
+            { "title": "История и мотивация" }
+          ]
+        }
+      ]
+    }
+  ]
+}

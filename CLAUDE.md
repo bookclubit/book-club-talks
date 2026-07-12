@@ -9,15 +9,23 @@
 ```
 book-club-talks/
 ├── BC-112-DOCKER-8-POMAZKOV/     # одна папка = один доклад = один проект Cloudflare Pages
-│   ├── index.html                # точка входа презентации
-│   └── assets/                   # изображения, стили, скрипты
-│       ├── css/
-│       ├── js/
-│       └── img/
-├── BC-113-DOCKER-9-POMAZKOV-1/
-│   └── index.html
-├── .github/workflows/deploy.yml  # CI/CD: диффом определяет изменённые папки и деплоит их
-└── .claude/skills/               # навыки для Claude Code (add-talk, deploy-talk)
+│   ├── index.html                # точка входа презентации (генерируется из _template)
+│   └── assets/                   # локальные ассеты доклада (fonts, css, cover, authors, speakers)
+├── _template/                    # ЕДИНЫЙ шаблон дека (index.html с маркерами + assets/fonts,css)
+├── data/                         # источник правды для генератора
+│   ├── books.json                # книги: мета, авторы, главы (chapters) и темы (topics)
+│   ├── books/<id>/               # обложки и фото авторов по книге
+│   ├── speakers.json             # реестр спикеров (id, name, surname, avatar, url)
+│   └── speakers/                 # аватары спикеров
+├── scripts/
+│   ├── new-talk.mjs              # генератор доклада (единый шаблон + data → папка BC-*)
+│   └── lint-talks.mjs            # проверка автономности докладов
+├── .github/workflows/
+│   ├── deploy.yml                # прод-деплой при push в main (авто-создание проекта)
+│   ├── preview.yml               # preview-деплой на pull request + комментарий со ссылкой
+│   └── ci.yml                    # lint автономности на push/PR
+├── AGENTS.md                     # универсальные инструкции для AI (Codex/Cursor/Antigravity/…)
+└── .claude/skills/               # навыки Claude Code (add-talk, deploy-talk)
 ```
 
 ## Соглашение об именовании папок
@@ -42,6 +50,29 @@ book-club-talks/
 | `BC-112-DOCKER-8-POMAZKOV`   | `bc-112-docker-8-pomazkov`   |
 | `BC-113-DOCKER-9-POMAZKOV-1` | `bc-113-docker-9-pomazkov-1` |
 | `BC-113-DOCKER-9-POMAZKOV-2` | `bc-113-docker-9-pomazkov-2` |
+
+## Генерация доклада
+
+Доклады создаются **только генератором**, не копированием папок вручную. Вся
+книжно-специфичная информация (обложка, описание, авторы, главы, темы) лежит в
+`data/`, а вёрстка — в единственном `_template/index.html` с маркерами.
+
+```bash
+# интерактивно (человек)
+npm run new-talk
+
+# не-интерактивно (AI-инструменты, CI)
+node scripts/new-talk.mjs --book docker-up-and-running --chapter 9 \
+  --topic 2 --speaker pomazkov-anton --stream 112 [--seq 2] [--force]
+```
+
+Генератор подставляет данные в слайды: титул (глава + тема), «о книге»
+(обложка/описание/авторы + спикер), «Программа вечера» и «Что далее» (темы главы
+со статусами пройдено/активна/далее), OG-метатеги; копирует все ассеты локально.
+
+Универсальные инструкции для любого AI-инструмента — в
+[AGENTS.md](./AGENTS.md) (единый файл читают Codex, Cursor, Antigravity и др.;
+Claude Code использует `.claude/skills/add-talk`).
 
 ## Рабочий процесс добавления доклада
 
@@ -70,7 +101,10 @@ book-club-talks/
   `wrangler pages project create` не нужно.
 - Все имена проектов — только lowercase/kebab-case.
 - Не переименовывай существующие папки докладов — это создаст новый проект и осиротит старый.
-- Каждая презентация автономна: относительные пути к ассетам, никаких зависимостей между папками.
+- Каждая презентация автономна: относительные пути к ассетам, никаких внешних CDN.
+  Это проверяет `npm run lint:talks` (и CI на каждом PR/push).
+- «Хром»-слайды (титул, о книге, программа, что далее) не правь руками — меняй
+  данные в `data/` и перегенерируй. Спикер редактирует только контентные слайды.
 
 ## Навыки Claude Code
 

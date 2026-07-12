@@ -25,7 +25,7 @@ book-club-talks/
 │   ├── preview.yml               # preview-деплой на pull request + комментарий со ссылкой
 │   └── ci.yml                    # lint автономности на push/PR
 ├── AGENTS.md                     # универсальные инструкции для AI (Codex/Cursor/Antigravity/…)
-└── .claude/skills/               # навыки Claude Code (add-talk, deploy-talk)
+└── .claude/skills/               # навыки Claude Code (add-talk, open-pr)
 ```
 
 ## Соглашение об именовании папок
@@ -119,8 +119,19 @@ Claude Code использует `.claude/skills/add-talk`).
   `docs(readme): описывает жизненный цикл доклада`.
 - Подробнее — в [AGENTS.md](./AGENTS.md).
 
+## Ручной деплой (запасной путь)
+
+В обычном потоке деплой полностью автоматический — эти команды нужны только в
+аварийной ситуации (например, CI недоступен). Требуется авторизованный
+`wrangler` (`wrangler login` или переменная `CLOUDFLARE_API_TOKEN`).
+
+```bash
+# проект создаётся сам при деплое, но при желании можно заранее:
+wrangler pages project create <lowercase-имя> --production-branch main
+wrangler pages deploy <ПАПКА> --project-name=<lowercase-имя> --branch=main
+```
+
 ## Навыки Claude Code
 
 - `add-talk` — создать доклад генератором (`scripts/new-talk.mjs`).
 - `open-pr` — открыть pull request в едином формате (шаблон + превью-ссылка).
-- `deploy-talk` — как работает автопубликация; ручной деплой через wrangler.

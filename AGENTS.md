@@ -52,10 +52,12 @@ gh pr create --fill --base main
 
 ## Данные (единственный источник правды)
 
-- Новый спикер → добавь запись в `data/speakers.json` и аватар в
-  `data/speakers/assets/` (поле `avatar` = `assets/<файл>`).
+- Все картинки лежат в едином `data/assets/`:
+  `data/assets/books/<id>/{cover,authors}/` и `data/assets/speakers/`.
+  Поля путей в JSON относительны к этой базе (`cover/x.webp`, `anton.png`).
+- Новый спикер → запись в `data/speakers.json` + аватар в `data/assets/speakers/`.
 - Новая книга → запись в `data/books.json` (мета, авторы), главы/темы в
-  `data/books/<id>/chapters.json`, ассеты в `data/books/<id>/assets/`
+  `data/books/<id>/chapters.json`, картинки в `data/assets/books/<id>/`
   (`cover/`, `authors/`). `code` — токен для имени папки (`DOCKER`, `REACT`).
 - Содержимое `chapters.json` (главы и темы) заполняется по оглавлению книги —
   это контент, которым владеет клуб.

@@ -194,14 +194,14 @@ async function main() {
   // 1. копируем шаблон
   cpSync(TEMPLATE, target, { recursive: true, force: true });
 
-  // 2. копируем ассеты
-  const bookDir = join(DATA, 'books', book.id);
+  // 2. копируем ассеты (все картинки лежат в data/assets/)
+  const bookAssets = join(DATA, 'assets', 'books', book.id);
   mkdirSync(join(target, 'assets', 'cover'), { recursive: true });
   mkdirSync(join(target, 'assets', 'authors'), { recursive: true });
   mkdirSync(join(target, 'assets', 'speakers'), { recursive: true });
-  copyFileSync(join(bookDir, book.cover), join(target, 'assets', 'cover', basename(book.cover)));
-  for (const a of book.authors) copyFileSync(join(bookDir, a.avatar), join(target, 'assets', 'authors', basename(a.avatar)));
-  copyFileSync(join(DATA, 'speakers', speaker.avatar), join(target, 'assets', 'speakers', basename(speaker.avatar)));
+  copyFileSync(join(bookAssets, book.cover), join(target, 'assets', 'cover', basename(book.cover)));
+  for (const a of book.authors) copyFileSync(join(bookAssets, a.avatar), join(target, 'assets', 'authors', basename(a.avatar)));
+  copyFileSync(join(DATA, 'assets', 'speakers', speaker.avatar), join(target, 'assets', 'speakers', basename(speaker.avatar)));
 
   // 3. подстановки
   const ogTitle = `${topic} — ${book.title}`;

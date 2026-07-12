@@ -15,9 +15,8 @@ book-club-talks/
 ├── data/                         # источник правды для генератора
 │   ├── books.json                # книги: метаданные и авторы
 │   ├── books/<id>/chapters.json  # главы и темы книги (chapter_number, chapter_title, topics[])
-│   ├── books/<id>/assets/        # обложки (cover/) и фото авторов (authors/) по книге
 │   ├── speakers.json             # реестр спикеров (id, name, surname, avatar, url)
-│   └── speakers/assets/          # аватары спикеров
+│   └── assets/                   # ВСЕ картинки: books/<id>/{cover,authors}/ и speakers/
 ├── scripts/
 │   ├── new-talk.mjs              # генератор доклада (единый шаблон + data → папка BC-*)
 │   └── lint-talks.mjs            # проверка автономности докладов

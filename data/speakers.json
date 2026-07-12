@@ -4,7 +4,7 @@
       "id": "pomazkov-anton",
       "name": "Помазков Антон",
       "surname": "POMAZKOV",
-      "avatar": "anton.png",
+      "avatar": "assets/anton.png",
       "url": "https://github.com/pomazkovanton",
       "urlLabel": "github.com/pomazkovanton"
     },
@@ -12,7 +12,7 @@
       "id": "nikiforov-artem",
       "name": "Никифоров Артём",
       "surname": "NIKIFOROV",
-      "avatar": "art.png",
+      "avatar": "assets/art.png",
       "url": "",
       "urlLabel": ""
     }

@@ -187,11 +187,13 @@ async function main() {
   const folder = parts.join('-');
   const project = folder.toLowerCase();
   const domain = `https://${project}.pages.dev`;
-  const target = join(ROOT, folder);
+  const relPath = `talks/${folder}`;
+  const target = join(ROOT, 'talks', folder);
 
-  if (existsSync(target) && !args.force) fail(`Папка ${folder} уже существует. Используйте --force для перезаписи.`);
+  if (existsSync(target) && !args.force) fail(`Папка ${relPath} уже существует. Используйте --force для перезаписи.`);
 
   // 1. копируем шаблон
+  mkdirSync(join(ROOT, 'talks'), { recursive: true });
   cpSync(TEMPLATE, target, { recursive: true, force: true });
 
   // 2. копируем ассеты (все картинки лежат в data/assets/)
@@ -235,7 +237,7 @@ async function main() {
   writeFileSync(join(target, 'index.html'), html);
 
   // 4. отчёт
-  console.log(`\n✓ Доклад создан: ${folder}`);
+  console.log(`\n✓ Доклад создан: ${relPath}`);
   console.log(`  Книга:   ${book.title}`);
   console.log(`  Глава:   ${chapter.chapter_number} — ${chapter.chapter_title}`);
   console.log(`  Тема:    ${topic}`);
@@ -244,7 +246,7 @@ async function main() {
   console.log(`  URL после публикации:    ${domain}`);
   console.log(`\nДалее — опубликовать через pull request:`);
   console.log(`  git checkout -b ${folder}`);
-  console.log(`  git add ${folder}`);
+  console.log(`  git add ${relPath}`);
   console.log(`  git commit -m "feat(talk): ${folder} — ${topic}"`);
   console.log(`  git push -u origin ${folder}`);
   console.log(`  gh pr create --base main --title "feat(talk): ${folder} — ${topic}" --body-file .github/pull_request_template.md\n`);

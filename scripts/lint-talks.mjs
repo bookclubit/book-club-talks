@@ -14,8 +14,23 @@ import { dirname, resolve, join } from 'node:path';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
-const talkDirs = readdirSync(ROOT)
-  .filter((n) => /^BC-/.test(n) && statSync(join(ROOT, n)).isDirectory());
+// Рекурсивно ищем папки докладов (BC-*) внутри talks/ на любой глубине —
+// структура может быть плоской или сгруппированной (по книге/стриму).
+function findTalks(relBase) {
+  const out = [];
+  const walk = (relDir) => {
+    for (const name of readdirSync(join(ROOT, relDir))) {
+      const rel = join(relDir, name);
+      if (!statSync(join(ROOT, rel)).isDirectory()) continue;
+      if (/^BC-/.test(name)) out.push(rel);
+      else walk(rel);
+    }
+  };
+  walk(relBase);
+  return out;
+}
+
+const talkDirs = existsSync(join(ROOT, 'talks')) ? findTalks('talks') : [];
 
 const problems = [];
 

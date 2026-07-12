@@ -8,9 +8,11 @@
 
 ```
 book-club-talks/
-├── BC-112-DOCKER-8-POMAZKOV/     # одна папка = один доклад = один проект Cloudflare Pages
-│   ├── index.html                # точка входа презентации (генерируется из _template)
-│   └── assets/                   # локальные ассеты доклада (fonts, css, cover, authors, speakers)
+├── talks/                        # ВСЕ доклады здесь (плоско; можно группировать глубже)
+│   ├── BC-112-DOCKER-8-POMAZKOV/ # одна папка = один доклад = один проект Cloudflare Pages
+│   │   ├── index.html            # точка входа презентации (генерируется из _template)
+│   │   └── assets/               # локальные ассеты доклада (fonts, css, cover, authors, speakers)
+│   └── BC-113-DOCKER-9-POMAZKOV-1/
 ├── _template/                    # ЕДИНЫЙ шаблон дека (index.html с маркерами + assets/fonts,css)
 ├── data/                         # источник правды для генератора
 │   ├── books.json                # книги: метаданные и авторы
@@ -89,7 +91,7 @@ Claude Code использует `.claude/skills/add-talk`).
 ## Как работает деплой
 
 1. Workflow `.github/workflows/deploy.yml` через `git diff` находит изменённые
-   папки верхнего уровня `BC-*`.
+   папки докладов `BC-*` внутри `talks/` (на любой глубине).
 2. Для каждой изменённой папки CI **создаёт проект Cloudflare Pages, если его
    ещё нет** (`wrangler pages project create <lowercase-имя> --production-branch main`,
    идемпотентно), затем деплоит

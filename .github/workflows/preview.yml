@@ -3,7 +3,7 @@ name: Preview talks (PR)
 on:
   pull_request:
     paths:
-      - 'BC-*/**'
+      - 'talks/**'
 
 permissions:
   contents: read
@@ -26,7 +26,7 @@ jobs:
           BASE="${{ github.event.pull_request.base.sha }}"
           HEAD="${{ github.event.pull_request.head.sha }}"
           CHANGED=$(git diff --name-only "$BASE" "$HEAD" \
-            | { grep -E '^BC-[^/]+/' || true; } | cut -d/ -f1 | sort -u)
+            | { grep -oE '(^|.*/)BC-[^/]+' || true; } | sort -u)
 
           EXISTING=""
           while IFS= read -r dir; do
@@ -60,7 +60,7 @@ jobs:
         name: Preview-деплой на Cloudflare Pages
         run: |
           set -euo pipefail
-          NAME=$(printf '%s' "${{ matrix.folder }}" | tr '[:upper:]' '[:lower:]')
+          NAME=$(basename "${{ matrix.folder }}" | tr '[:upper:]' '[:lower:]')
           BRANCH="${{ github.event.pull_request.head.ref }}"
           echo "Папка ${{ matrix.folder }} → проект $NAME, ветка $BRANCH"
 

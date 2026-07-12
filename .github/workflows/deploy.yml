@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'BC-*/**'
+      - 'talks/**'
   workflow_dispatch:
     inputs:
       folder:
-        description: 'Папка доклада для ручного деплоя (например BC-112-DOCKER-8-POMAZKOV). Пусто = задеплоить все папки BC-*'
+        description: 'Путь папки доклада для ручного деплоя (например talks/BC-112-DOCKER-8-POMAZKOV). Пусто = задеплоить все доклады'
         required: false
         default: ''
 
@@ -36,8 +36,8 @@ jobs:
             if [ -n "$INPUT" ]; then
               CHANGED="$INPUT"
             else
-              # Все папки BC-* верхнего уровня
-              CHANGED=$(find . -maxdepth 1 -type d -name 'BC-*' -printf '%f\n' | sort -u)
+              # Все доклады (папки BC-* на любой глубине внутри talks/)
+              CHANGED=$(find talks -type d -name 'BC-*' | sort -u)
             fi
           else
             BEFORE="${{ github.event.before }}"
@@ -50,9 +50,9 @@ jobs:
             else
               BASE="$BEFORE"
             fi
+            # Для каждого изменённого файла берём путь до папки BC-* (на любой глубине)
             CHANGED=$(git diff --name-only "$BASE" "${{ github.sha }}" \
-              | { grep -E '^BC-[^/]+/' || true; } \
-              | cut -d/ -f1 \
+              | { grep -oE '(^|.*/)BC-[^/]+' || true; } \
               | sort -u)
           fi
 
@@ -96,7 +96,7 @@ jobs:
       - name: Публикация на Cloudflare Pages
         run: |
           set -euo pipefail
-          NAME=$(printf '%s' "${{ matrix.folder }}" | tr '[:upper:]' '[:lower:]')
+          NAME=$(basename "${{ matrix.folder }}" | tr '[:upper:]' '[:lower:]')
           echo "Папка ${{ matrix.folder }} → проект $NAME"
 
           # Создаём проект Pages, если его ещё нет. Для нового доклада это

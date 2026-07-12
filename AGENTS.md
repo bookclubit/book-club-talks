@@ -42,13 +42,32 @@ Antigravity и др.), работающего с этим репозиторие
 ```bash
 git checkout -b <ИМЯ-ПАПКИ>
 git add <ИМЯ-ПАПКИ>
-git commit -m "<ИМЯ-ПАПКИ> — <тема>"
+git commit -m "feat(talk): <ИМЯ-ПАПКИ> — <тема>"
 git push -u origin <ИМЯ-ПАПКИ>
-gh pr create --fill --base main
+gh pr create --base main \
+  --title "feat(talk): <ИМЯ-ПАПКИ> — <тема>" \
+  --body-file .github/pull_request_template.md
 ```
 
-На PR автоматически поднимается **превью-деплой** и запускается **lint
-автономности** (`npm run lint:talks`). После мержа в `main` — продакшн-деплой.
+PR оформляется **в едином формате** по шаблону `.github/pull_request_template.md`
+(блок «Доклад» + чеклист). Заполни поля и чеклист; превью-ссылку руками не
+добавляй — `preview.yml` сам запостит комментарий со ссылкой. На PR также
+запускается lint автономности (`npm run lint:talks`). После мержа в `main` —
+продакшн-деплой. Единый навык для Claude Code — `open-pr`.
+
+## Коммиты
+
+- Пиши сообщения коммитов **на русском языке**.
+- Формат — [Conventional Commits](https://www.conventionalcommits.org):
+  `<тип>(<область>): <краткое описание в повелительном наклонении>`.
+- Типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`,
+  `ci`, `chore`.
+- Новый доклад — тип `feat`, область `talk`:
+  `feat(talk): BC-112-DOCKER-9-POMAZKOV — Docker в рабочих средах`.
+- Другие примеры:
+  - `fix(generator): чинит резолвинг путей ассетов`
+  - `docs(readme): описывает жизненный цикл доклада`
+  - `ci(preview): добавляет комментарий с превью-ссылкой`
 
 ## Данные (единственный источник правды)
 

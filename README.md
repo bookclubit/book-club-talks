@@ -35,21 +35,29 @@ npm run new-talk
 Отредактируйте контентные слайды (после «Программы») — стиль и примеры лейаутов
 уже готовы в шаблоне. Ветка называется так же, как папка доклада.
 
+Коммиты — на русском языке по [Conventional Commits](https://www.conventionalcommits.org)
+(`feat(talk): <папка> — <тема>`).
+
 ```bash
 git checkout -b BC-114-DOCKER-10-POMAZKOV
 git add BC-114-DOCKER-10-POMAZKOV
-git commit -m "BC-114 Docker гл.10 — доклад Помазкова"
+git commit -m "feat(talk): BC-114-DOCKER-10-POMAZKOV — Подготовка к развертыванию"
 git push -u origin BC-114-DOCKER-10-POMAZKOV
 ```
 
 ### Шаг 3. Откройте pull request
 
-Создайте PR из своей ветки в `main` (через веб-интерфейс GitHub или командой ниже)
-и дождитесь ревью.
+PR создаётся в едином формате по шаблону (блок «Доклад» + чеклист). В вебе шаблон
+подставится сам; командой — так:
 
 ```bash
-gh pr create --fill --base main
+gh pr create --base main \
+  --title "feat(talk): BC-114-DOCKER-10-POMAZKOV — Подготовка к развертыванию" \
+  --body-file .github/pull_request_template.md
 ```
+
+Дождитесь зелёных проверок `CI` и `Preview` — бот пришлёт ссылку на превью
+комментарием в PR.
 
 ### Шаг 4. После одобрения PR публикация происходит автоматически
 

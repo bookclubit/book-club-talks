@@ -245,9 +245,9 @@ async function main() {
   console.log(`\nДалее — опубликовать через pull request:`);
   console.log(`  git checkout -b ${folder}`);
   console.log(`  git add ${folder}`);
-  console.log(`  git commit -m "${folder} — ${topic}"`);
+  console.log(`  git commit -m "feat(talk): ${folder} — ${topic}"`);
   console.log(`  git push -u origin ${folder}`);
-  console.log(`  gh pr create --fill --base main\n`);
+  console.log(`  gh pr create --base main --title "feat(talk): ${folder} — ${topic}" --body-file .github/pull_request_template.md\n`);
 }
 
 main().catch((e) => fail(e.stack || String(e)));

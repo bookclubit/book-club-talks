@@ -1,0 +1,93 @@
+name: Deploy talks to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'BC-*/**'
+  workflow_dispatch:
+    inputs:
+      folder:
+        description: 'Папка доклада для ручного деплоя (например BC-112-DOCKER-8-ANTON). Пусто = задеплоить все папки BC-*'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changes:
+    name: Определить изменённые папки
+    runs-on: ubuntu-latest
+    outputs:
+      folders: ${{ steps.detect.outputs.folders }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: detect
+        name: git diff → список папок BC-*
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            INPUT="${{ github.event.inputs.folder }}"
+            if [ -n "$INPUT" ]; then
+              CHANGED="$INPUT"
+            else
+              # Все папки BC-* верхнего уровня
+              CHANGED=$(find . -maxdepth 1 -type d -name 'BC-*' -printf '%f\n' | sort -u)
+            fi
+          else
+            BEFORE="${{ github.event.before }}"
+            EMPTY_TREE=$(git hash-object -t tree /dev/null)
+            if [ -z "$BEFORE" ] \
+               || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] \
+               || ! git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+              # Первый пуш / неизвестная база — сравниваем с пустым деревом
+              BASE="$EMPTY_TREE"
+            else
+              BASE="$BEFORE"
+            fi
+            CHANGED=$(git diff --name-only "$BASE" "${{ github.sha }}" \
+              | { grep -E '^BC-[^/]+/' || true; } \
+              | cut -d/ -f1 \
+              | sort -u)
+          fi
+
+          echo "Изменённые папки:"
+          echo "${CHANGED:-<нет>}"
+
+          FOLDERS=$(printf '%s\n' "$CHANGED" | { grep -v '^$' || true; } | jq -R . | jq -cs .)
+          echo "folders=$FOLDERS" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    name: Деплой ${{ matrix.folder }}
+    needs: detect-changes
+    if: needs.detect-changes.outputs.folders != '' && needs.detect-changes.outputs.folders != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folder: ${{ fromJSON(needs.detect-changes.outputs.folders) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: project
+        name: Вычислить имя проекта (lowercase)
+        run: |
+          set -euo pipefail
+          NAME=$(printf '%s' "${{ matrix.folder }}" | tr '[:upper:]' '[:lower:]')
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "Папка ${{ matrix.folder }} → проект $NAME"
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy "${{ matrix.folder }}"
+            --project-name=${{ steps.project.outputs.name }}
+            --branch=main

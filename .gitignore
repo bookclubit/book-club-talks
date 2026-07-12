@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+wrangler.toml.bak
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/*
+!.vscode/extensions.json

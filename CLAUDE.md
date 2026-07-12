@@ -8,13 +8,13 @@
 
 ```
 book-club-talks/
-├── BC-112-DOCKER-8-ANTON/        # одна папка = один доклад = один проект Cloudflare Pages
+├── BC-112-DOCKER-8-POMAZKOV/     # одна папка = один доклад = один проект Cloudflare Pages
 │   ├── index.html                # точка входа презентации
 │   └── assets/                   # изображения, стили, скрипты
 │       ├── css/
 │       ├── js/
 │       └── img/
-├── BC-113-DOCKER-9-ANTON-1/
+├── BC-113-DOCKER-9-POMAZKOV-1/
 │   └── index.html
 ├── .github/workflows/deploy.yml  # CI/CD: диффом определяет изменённые папки и деплоит их
 └── .claude/skills/               # навыки для Claude Code (add-talk, deploy-talk)
@@ -22,42 +22,52 @@ book-club-talks/
 
 ## Соглашение об именовании папок
 
-Формат: `BC-<номер стрима>-<КНИГА>-<глава>-<СПИКЕР>[-<порядковый номер>]`
+Формат: `BC-<номер стрима>-<КНИГА>-<глава>-<ФАМИЛИЯ>[-<порядковый номер>]`
 
 Всё капсом, разделитель — дефис. Порядковый номер добавляется, только если у
 одного спикера в одном стриме несколько докладов.
 
 Примеры:
-- `BC-112-DOCKER-8-ANTON`
-- `BC-113-DOCKER-9-ANTON-1`
-- `BC-113-DOCKER-9-ANTON-2`
+- `BC-112-DOCKER-8-POMAZKOV`
+- `BC-113-DOCKER-9-POMAZKOV-1`
+- `BC-113-DOCKER-9-POMAZKOV-2`
 
 ## Имя проекта Cloudflare Pages
 
 Имя проекта = имя папки в **lowercase (kebab-case)**. Преобразование однозначное:
 просто перевести имя папки в нижний регистр.
 
-| Папка                     | Проект Cloudflare Pages   |
-| ------------------------- | ------------------------- |
-| `BC-112-DOCKER-8-ANTON`   | `bc-112-docker-8-anton`   |
-| `BC-113-DOCKER-9-ANTON-1` | `bc-113-docker-9-anton-1` |
-| `BC-113-DOCKER-9-ANTON-2` | `bc-113-docker-9-anton-2` |
+| Папка                        | Проект Cloudflare Pages      |
+| ---------------------------- | ---------------------------- |
+| `BC-112-DOCKER-8-POMAZKOV`   | `bc-112-docker-8-pomazkov`   |
+| `BC-113-DOCKER-9-POMAZKOV-1` | `bc-113-docker-9-pomazkov-1` |
+| `BC-113-DOCKER-9-POMAZKOV-2` | `bc-113-docker-9-pomazkov-2` |
+
+## Рабочий процесс добавления доклада
+
+Публикация идёт через pull request — от спикера не требуется ни `wrangler`,
+ни доступ к Cloudflare.
+
+1. Спикер создаёт ветку с именем, совпадающим с именем папки доклада
+   (`BC-<...>`), кладёт туда папку презентации и открывает PR в `main`.
+2. Мейнтейнер ревьюит и вливает PR.
+3. Пуш в `main` запускает workflow `.github/workflows/deploy.yml`.
 
 ## Как работает деплой
 
-1. Пуш в `main` с изменениями в любой папке `BC-*`.
-2. Workflow `.github/workflows/deploy.yml` через `git diff` находит изменённые
+1. Workflow `.github/workflows/deploy.yml` через `git diff` находит изменённые
    папки верхнего уровня `BC-*`.
-3. Для каждой изменённой папки запускается
+2. Для каждой изменённой папки CI **создаёт проект Cloudflare Pages, если его
+   ещё нет** (`wrangler pages project create <lowercase-имя> --production-branch main`,
+   идемпотентно), затем деплоит
    `wrangler pages deploy <папка> --project-name=<lowercase-имя> --branch=main`.
-4. Аутентификация — через секрет репозитория `CLOUDFLARE_API_TOKEN`
+3. Аутентификация — через секрет репозитория `CLOUDFLARE_API_TOKEN`
    (опционально `CLOUDFLARE_ACCOUNT_ID`, если у токена доступ к нескольким аккаунтам).
 
 ## Важные правила
 
-- **Проект Cloudflare Pages должен существовать до первого деплоя.** Новый доклад →
-  сначала `wrangler pages project create <lowercase-имя> --production-branch main`,
-  затем пуш. См. навык `deploy-talk`.
+- Создание проекта Cloudflare Pages автоматизировано в CI — вручную запускать
+  `wrangler pages project create` не нужно.
 - Все имена проектов — только lowercase/kebab-case.
 - Не переименовывай существующие папки докладов — это создаст новый проект и осиротит старый.
 - Каждая презентация автономна: относительные пути к ассетам, никаких зависимостей между папками.

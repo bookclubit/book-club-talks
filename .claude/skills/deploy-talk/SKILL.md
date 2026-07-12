@@ -1,53 +1,60 @@
 ---
 name: deploy-talk
-description: Создать проект Cloudflare Pages для доклада и/или задеплоить папку доклада вручную через wrangler в репозитории book-club-talks. Использовать, когда пользователь хочет подготовить доклад к автодеплою или задеплоить его прямо сейчас.
+description: Помочь с публикацией доклада в репозитории book-club-talks — объяснить PR-флоу автопубликации и, при необходимости, задеплоить папку вручную через wrangler. Использовать, когда пользователь хочет опубликовать доклад или разобраться, как это происходит.
 ---
 
 # deploy-talk
 
-Готовит доклад к деплою на Cloudflare Pages: создаёт проект (один раз) и,
-при необходимости, деплоит папку вручную.
+Помогает опубликовать доклад на Cloudflare Pages. Штатный путь —
+автоматический через pull request; ручной деплой нужен лишь как запасной вариант.
 
-## Ключевое правило
+## Как это работает
 
-Проект Cloudflare Pages **должен существовать до первого деплоя**. Автодеплой
-через GitHub Actions не создаёт проекты — он только деплоит в уже существующие.
+Публикация полностью автоматизирована в CI (`.github/workflows/deploy.yml`):
+
+- при вливании PR в `main` workflow через `git diff` находит изменённые папки `BC-*`;
+- для каждой **создаёт проект Cloudflare Pages, если его ещё нет** (идемпотентно),
+  затем деплоит.
+
+Поэтому вручную запускать `wrangler pages project create` не нужно — ни спикеру,
+ни мейнтейнеру.
 
 ## Имя проекта
 
 Имя проекта = имя папки доклада в **lowercase (kebab-case)**.
-Пример: `BC-112-DOCKER-8-ANTON` → `bc-112-docker-8-anton`.
-
-Получить имя из папки:
+Пример: `BC-112-DOCKER-8-POMAZKOV` → `bc-112-docker-8-pomazkov`.
 
 ```bash
-PROJECT=$(echo "BC-112-DOCKER-8-ANTON" | tr '[:upper:]' '[:lower:]')
+PROJECT=$(echo "BC-112-DOCKER-8-POMAZKOV" | tr '[:upper:]' '[:lower:]')
 ```
 
-## Шаг 1. Создать проект (один раз на доклад)
+## Штатный путь — PR (рекомендуется)
+
+1. Ветка с именем, совпадающим с именем папки доклада:
+   ```bash
+   git checkout -b BC-112-DOCKER-8-POMAZKOV
+   git add BC-112-DOCKER-8-POMAZKOV
+   git commit -m "BC-112 Docker гл.8 — доклад Помазкова"
+   git push -u origin BC-112-DOCKER-8-POMAZKOV
+   ```
+2. Открыть PR в `main`:
+   ```bash
+   gh pr create --fill --base main
+   ```
+3. После одобрения и вливания PR публикация происходит сама. Через 1–2 минуты
+   доклад доступен на `https://<lowercase-имя>.pages.dev`.
+
+## Запасной путь — ручной деплой
+
+Нужен установленный и авторизованный `wrangler` (`wrangler login` или переменная
+`CLOUDFLARE_API_TOKEN`).
 
 ```bash
-wrangler pages project create bc-112-docker-8-anton --production-branch main
-```
+# проект создастся сам при деплое, но при желании можно заранее:
+wrangler pages project create bc-112-docker-8-pomazkov --production-branch main
 
-Проверить, что проект ещё не создан:
-
-```bash
-wrangler pages project list
-```
-
-## Шаг 2. Деплой
-
-### Вариант А — автоматический (рекомендуется)
-
-Закоммить папку в `main` и запушь. Workflow `.github/workflows/deploy.yml`
-сам найдёт изменённую папку `BC-*` и задеплоит её.
-
-### Вариант Б — вручную
-
-```bash
-wrangler pages deploy BC-112-DOCKER-8-ANTON \
-  --project-name=bc-112-docker-8-anton \
+wrangler pages deploy BC-112-DOCKER-8-POMAZKOV \
+  --project-name=bc-112-docker-8-pomazkov \
   --branch=main
 ```
 
@@ -55,14 +62,6 @@ wrangler pages deploy BC-112-DOCKER-8-ANTON \
 
 ## Аутентификация
 
-- Локально: `wrangler` использует авторизованную сессию (`wrangler login`) или
-  переменную окружения `CLOUDFLARE_API_TOKEN`.
+- Локально: `wrangler login` или переменная окружения `CLOUDFLARE_API_TOKEN`.
 - В CI: секрет репозитория `CLOUDFLARE_API_TOKEN`
   (опционально `CLOUDFLARE_ACCOUNT_ID`, если токен видит несколько аккаунтов).
-
-## Чеклист нового доклада
-
-1. Папка названа по соглашению (см. навык `add-talk`).
-2. Проект Cloudflare Pages создан (`wrangler pages project create <lowercase>`).
-3. Секрет `CLOUDFLARE_API_TOKEN` добавлен в репозиторий.
-4. `git push` в `main` → автодеплой.

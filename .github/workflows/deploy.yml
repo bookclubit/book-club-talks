@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       folder:
-        description: 'Папка доклада для ручного деплоя (например BC-112-DOCKER-8-ANTON). Пусто = задеплоить все папки BC-*'
+        description: 'Папка доклада для ручного деплоя (например BC-112-DOCKER-8-POMAZKOV). Пусто = задеплоить все папки BC-*'
         required: false
         default: ''
 
@@ -56,10 +56,22 @@ jobs:
               | sort -u)
           fi
 
-          echo "Изменённые папки:"
-          echo "${CHANGED:-<нет>}"
+          # Оставляем только реально существующие папки: при переименовании или
+          # удалении доклада git diff показывает и старый путь, который деплоить не нужно.
+          EXISTING=""
+          while IFS= read -r dir; do
+            [ -z "$dir" ] && continue
+            if [ -d "$dir" ]; then
+              EXISTING="${EXISTING}${dir}"$'\n'
+            else
+              echo "Пропускаю $dir — папка удалена/переименована."
+            fi
+          done <<< "$CHANGED"
 
-          FOLDERS=$(printf '%s\n' "$CHANGED" | { grep -v '^$' || true; } | jq -R . | jq -cs .)
+          echo "Папки к деплою:"
+          echo "${EXISTING:-<нет>}"
+
+          FOLDERS=$(printf '%s' "$EXISTING" | { grep -v '^$' || true; } | jq -R . | jq -cs .)
           echo "folders=$FOLDERS" >> "$GITHUB_OUTPUT"
 
   deploy:
@@ -71,23 +83,30 @@ jobs:
       fail-fast: false
       matrix:
         folder: ${{ fromJSON(needs.detect-changes.outputs.folders) }}
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     steps:
       - uses: actions/checkout@v4
 
-      - id: project
-        name: Вычислить имя проекта (lowercase)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Публикация на Cloudflare Pages
         run: |
           set -euo pipefail
           NAME=$(printf '%s' "${{ matrix.folder }}" | tr '[:upper:]' '[:lower:]')
-          echo "name=$NAME" >> "$GITHUB_OUTPUT"
           echo "Папка ${{ matrix.folder }} → проект $NAME"
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: >-
-            pages deploy "${{ matrix.folder }}"
-            --project-name=${{ steps.project.outputs.name }}
+          # Создаём проект Pages, если его ещё нет. Для нового доклада это
+          # избавляет спикера от ручного `wrangler pages project create`.
+          if npx --yes wrangler@4 pages project create "$NAME" --production-branch main; then
+            echo "Проект $NAME создан."
+          else
+            echo "Проект $NAME уже существует — создание пропущено."
+          fi
+
+          npx --yes wrangler@4 pages deploy "${{ matrix.folder }}" \
+            --project-name="$NAME" \
             --branch=main

@@ -17,8 +17,7 @@ book-club-talks/
 ├── BC-113-DOCKER-9-ANTON-1/
 │   └── index.html
 ├── .github/workflows/deploy.yml  # CI/CD: диффом определяет изменённые папки и деплоит их
-├── .claude/skills/               # навыки для Claude Code (add-talk, deploy-talk)
-└── .cursor/rules/                # правила для Cursor
+└── .claude/skills/               # навыки для Claude Code (add-talk, deploy-talk)
 ```
 
 ## Соглашение об именовании папок

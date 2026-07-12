@@ -21,23 +21,6 @@
           "urlLabel": "linkedin.com/in/karlmatthias",
           "avatar": "assets/authors/karl-matthias.jpg"
         }
-      ],
-      "chapters": [
-        {
-          "number": 9,
-          "title": "Docker в рабочих средах",
-          "topics": [
-            {
-              "title": "Подготовка к развертыванию"
-            },
-            {
-              "title": "Docker в рабочих средах"
-            },
-            {
-              "title": "Docker в конвейере DevOps"
-            }
-          ]
-        }
       ]
     },
     {
@@ -54,20 +37,6 @@
           "url": "https://tej.as/",
           "urlLabel": "tej.as",
           "avatar": "assets/authors/tejas-kumar.avif"
-        }
-      ],
-      "chapters": [
-        {
-          "number": 1,
-          "title": "Введение в React",
-          "topics": [
-            {
-              "title": "Преимущества"
-            },
-            {
-              "title": "История и мотивация"
-            }
-          ]
         }
       ]
     }

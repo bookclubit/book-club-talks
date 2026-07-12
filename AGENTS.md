@@ -15,7 +15,9 @@ Antigravity и др.), работающего с этим репозиторие
 ## Как добавить доклад (главный сценарий)
 
 1. Прочитай данные, чтобы показать пользователю доступные варианты:
-   - `data/books.json` — книги, их главы (`chapters[]`) и темы (`topics[]`).
+   - `data/books.json` — книги и их метаданные (`id`, `code`, `title`, авторы…).
+   - `data/books/<id>/chapters.json` — главы и темы книги
+     (`chapter_number`, `chapter_title`, `topics: string[]`).
    - `data/speakers.json` — спикеры (`id`, `name`, `surname`).
 2. Собери у пользователя (если не задано): книгу, главу, **тему доклада**,
    спикера, номер стрима. Тема — одна из `topics` внутри выбранной главы.
@@ -52,11 +54,11 @@ gh pr create --fill --base main
 
 - Новый спикер → добавь запись в `data/speakers.json` и аватар в
   `data/speakers/assets/` (поле `avatar` = `assets/<файл>`).
-- Новая книга → запись в `data/books.json` (мета, авторы, `chapters`/`topics`) и
-  ассеты в `data/books/<id>/assets/` (`cover/`, `authors/`). `code` — токен для
-  имени папки (например `DOCKER`, `REACT`).
-- Реальный список глав/тем каждой книги (`chapters`/`topics`) заполняется по
-  оглавлению книги — это контент, которым владеет клуб.
+- Новая книга → запись в `data/books.json` (мета, авторы), главы/темы в
+  `data/books/<id>/chapters.json`, ассеты в `data/books/<id>/assets/`
+  (`cover/`, `authors/`). `code` — токен для имени папки (`DOCKER`, `REACT`).
+- Содержимое `chapters.json` (главы и темы) заполняется по оглавлению книги —
+  это контент, которым владеет клуб.
 
 ## Правила
 

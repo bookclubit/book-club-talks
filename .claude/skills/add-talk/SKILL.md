@@ -11,8 +11,9 @@ description: Создать новую папку доклада в репози
 
 ## Шаги
 
-1. Прочитай `data/books.json` и `data/speakers.json`, покажи пользователю
-   доступные книги, главы, темы и спикеров.
+1. Прочитай `data/books.json` (книги), `data/books/<id>/chapters.json` (главы и
+   темы выбранной книги) и `data/speakers.json` (спикеры) — покажи пользователю
+   доступные варианты.
 2. Уточни (если не задано): книга, глава, **тема доклада** (одна из `topics`
    внутри главы), спикер, номер стрима, и нужен ли порядковый номер `--seq`
    (только если у спикера в этом стриме несколько докладов).
@@ -41,8 +42,8 @@ description: Создать новую папку доклада в репози
 
 - Спикер → добавь в `data/speakers.json` (`id`, `name`, `surname`, `avatar`,
   `url`) и положи аватар в `data/speakers/`.
-- Книга → добавь в `data/books.json` (мета, `authors`, `chapters`/`topics`) и
-  ассеты в `data/books/<id>/` (`cover/`, `authors/`).
+- Книга → добавь в `data/books.json` (мета, `authors`), главы/темы в
+  `data/books/<id>/chapters.json`, ассеты в `data/books/<id>/assets/`.
 
 ## Важно
 

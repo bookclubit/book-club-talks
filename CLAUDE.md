@@ -13,7 +13,8 @@ book-club-talks/
 │   └── assets/                   # локальные ассеты доклада (fonts, css, cover, authors, speakers)
 ├── _template/                    # ЕДИНЫЙ шаблон дека (index.html с маркерами + assets/fonts,css)
 ├── data/                         # источник правды для генератора
-│   ├── books.json                # книги: мета, авторы, главы (chapters) и темы (topics)
+│   ├── books.json                # книги: метаданные и авторы
+│   ├── books/<id>/chapters.json  # главы и темы книги (chapter_number, chapter_title, topics[])
 │   ├── books/<id>/assets/        # обложки (cover/) и фото авторов (authors/) по книге
 │   ├── speakers.json             # реестр спикеров (id, name, surname, avatar, url)
 │   └── speakers/assets/          # аватары спикеров

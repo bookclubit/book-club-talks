@@ -82,15 +82,22 @@ function timelineItem(title, state) {
 
 function buildAgenda(topics, currentIdx) {
   return topics.map((tp, i) =>
-    timelineItem(tp.title, i < currentIdx ? 'completed' : i === currentIdx ? 'active' : 'upcoming')
+    timelineItem(tp, i < currentIdx ? 'completed' : i === currentIdx ? 'active' : 'upcoming')
   ).join('\n\n                        ');
 }
 
 function buildWhatNext(topics, currentIdx) {
   const nextIdx = currentIdx + 1;
   return topics.map((tp, i) =>
-    timelineItem(tp.title, i <= currentIdx ? 'completed' : i === nextIdx ? 'active' : 'upcoming')
+    timelineItem(tp, i <= currentIdx ? 'completed' : i === nextIdx ? 'active' : 'upcoming')
   ).join('\n\n                        ');
+}
+
+// главы книги лежат в отдельном файле data/books/<id>/chapters.json
+function loadChapters(book) {
+  const p = join(DATA, 'books', book.id, 'chapters.json');
+  if (!existsSync(p)) fail(`Нет файла глав: ${p}`);
+  return readJSON(p).chapters;
 }
 
 function authorCard(a) {
@@ -145,8 +152,9 @@ async function main() {
   if (interactive) {
     rl = createInterface({ input: stdin, output: stdout });
     book = await pick(rl, 'Книга', books, (b) => b.title);
-    chapter = await pick(rl, 'Глава', book.chapters, (c) => `Глава ${c.number} — ${c.title}`);
-    const topic = await pick(rl, 'Тема доклада', chapter.topics, (t) => t.title);
+    const chapters = loadChapters(book);
+    chapter = await pick(rl, 'Глава', chapters, (c) => `Глава ${c.chapter_number} — ${c.chapter_title}`);
+    const topic = await pick(rl, 'Тема доклада', chapter.topics, (t) => t);
     topicIdx = chapter.topics.indexOf(topic);
     speaker = await pick(rl, 'Спикер', speakers, (s) => s.name);
     stream = (await rl.question('\nНомер стрима (например 112): ')).trim();
@@ -156,13 +164,14 @@ async function main() {
     // не-интерактивный режим (флаги)
     book = books.find((b) => b.id === args.book);
     if (!book) fail(`Книга "${args.book}" не найдена. Доступны: ${books.map((b) => b.id).join(', ')}`);
-    chapter = book.chapters.find((c) => String(c.number) === String(args.chapter));
-    if (!chapter) fail(`Глава ${args.chapter} не найдена в книге ${book.id}. Есть: ${book.chapters.map((c) => c.number).join(', ')}`);
-    // topic по индексу (1-based) или по названию
+    const chapters = loadChapters(book);
+    chapter = chapters.find((c) => String(c.chapter_number) === String(args.chapter));
+    if (!chapter) fail(`Глава ${args.chapter} не найдена в книге ${book.id}. Есть: ${chapters.map((c) => c.chapter_number).join(', ')}`);
+    // topic по индексу (1-based) или по точному названию
     if (/^\d+$/.test(String(args.topic))) topicIdx = Number(args.topic) - 1;
-    else topicIdx = chapter.topics.findIndex((t) => t.title === args.topic);
+    else topicIdx = chapter.topics.indexOf(args.topic);
     if (topicIdx < 0 || topicIdx >= chapter.topics.length)
-      fail(`Тема "${args.topic}" не найдена. Темы главы: ${chapter.topics.map((t, i) => `${i + 1}) ${t.title}`).join('; ')}`);
+      fail(`Тема "${args.topic}" не найдена. Темы главы: ${chapter.topics.map((t, i) => `${i + 1}) ${t}`).join('; ')}`);
     speaker = speakers.find((s) => s.id === args.speaker);
     if (!speaker) fail(`Спикер "${args.speaker}" не найден. Доступны: ${speakers.map((s) => s.id).join(', ')}`);
     stream = String(args.stream || '').trim();
@@ -173,7 +182,7 @@ async function main() {
   const topic = chapter.topics[topicIdx];
 
   // имя папки: BC-<стрим>-<CODE>-<глава>-<ФАМИЛИЯ>[-<seq>]
-  const parts = ['BC', stream, book.code, chapter.number, speaker.surname];
+  const parts = ['BC', stream, book.code, chapter.chapter_number, speaker.surname];
   if (seq) parts.push(seq);
   const folder = parts.join('-');
   const project = folder.toLowerCase();
@@ -195,18 +204,18 @@ async function main() {
   copyFileSync(join(DATA, 'speakers', speaker.avatar), join(target, 'assets', 'speakers', basename(speaker.avatar)));
 
   // 3. подстановки
-  const ogTitle = `${topic.title} — ${book.title}`;
+  const ogTitle = `${topic} — ${book.title}`;
   const ogDesc = book.subtitle;
   const ogImage = `${domain}/assets/cover/${basename(book.cover)}`;
 
   const scalars = {
-    TALK_TITLE: esc(topic.title),
+    TALK_TITLE: esc(topic),
     BOOK_TITLE: esc(book.title),
     BOOK_SUBTITLE: esc(book.subtitle),
     BOOK_DESC: esc(book.descRu),
     BOOK_URL: esc(book.url),
     BOOK_COVER_FILE: esc(basename(book.cover)),
-    CHAPTER_LABEL: `Глава ${esc(chapter.number)}`,
+    CHAPTER_LABEL: `Глава ${esc(chapter.chapter_number)}`,
     AUTHORS_BADGE: book.authors.length > 1 ? 'Авторы' : 'Автор',
     OG_TITLE: esc(ogTitle),
     OG_DESCRIPTION: esc(ogDesc),
@@ -228,15 +237,15 @@ async function main() {
   // 4. отчёт
   console.log(`\n✓ Доклад создан: ${folder}`);
   console.log(`  Книга:   ${book.title}`);
-  console.log(`  Глава:   ${chapter.number} — ${chapter.title}`);
-  console.log(`  Тема:    ${topic.title}`);
+  console.log(`  Глава:   ${chapter.chapter_number} — ${chapter.chapter_title}`);
+  console.log(`  Тема:    ${topic}`);
   console.log(`  Спикер:  ${speaker.name}`);
   console.log(`  Проект Cloudflare Pages: ${project}`);
   console.log(`  URL после публикации:    ${domain}`);
   console.log(`\nДалее — опубликовать через pull request:`);
   console.log(`  git checkout -b ${folder}`);
   console.log(`  git add ${folder}`);
-  console.log(`  git commit -m "${folder} — ${topic.title}"`);
+  console.log(`  git commit -m "${folder} — ${topic}"`);
   console.log(`  git push -u origin ${folder}`);
   console.log(`  gh pr create --fill --base main\n`);
 }

@@ -26,7 +26,7 @@ book-club-talks/
 │   ├── deploy.yml                # прод-деплой при push в main (авто-создание проекта)
 │   ├── preview.yml               # preview-деплой на pull request + комментарий со ссылкой
 │   └── ci.yml                    # lint автономности на push/PR
-├── AGENTS.md                     # универсальные инструкции для AI (Codex/Cursor/Antigravity/…)
+├── AGENTS.md                     # универсальные инструкции для AI (Cursor/Antigravity/…)
 └── .claude/skills/               # навыки Claude Code (add-talk, open-pr)
 ```
 
@@ -73,7 +73,7 @@ node scripts/new-talk.mjs --book docker-up-and-running --chapter 9 \
 со статусами пройдено/активна/далее), OG-метатеги; копирует все ассеты локально.
 
 Универсальные инструкции для любого AI-инструмента — в
-[AGENTS.md](./AGENTS.md) (единый файл читают Codex, Cursor, Antigravity и др.;
+[AGENTS.md](./AGENTS.md) (единый файл читают Cursor, Antigravity и др.;
 Claude Code использует `.claude/skills/add-talk`).
 
 ## Рабочий процесс добавления доклада

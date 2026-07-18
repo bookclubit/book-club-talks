@@ -14,11 +14,8 @@ book-club-talks/
 │   │   └── assets/               # локальные ассеты доклада (fonts, css, cover, authors, speakers)
 │   └── BC-113-DOCKER-9-POMAZKOV-1/
 ├── _template/                    # ЕДИНЫЙ шаблон дека (index.html с маркерами + assets/fonts,css)
-├── data/                         # источник правды для генератора
-│   ├── books.json                # книги: метаданные и авторы
-│   ├── books/<id>/chapters.json  # главы и темы книги (chapter_number, chapter_title, topics[])
-│   ├── speakers.json             # реестр спикеров (id, name, surname, avatar, url)
-│   └── assets/                   # ВСЕ картинки: books/<id>/{cover,authors}/ и speakers/
+│                                 # ИСТОЧНИК ДАННЫХ — репозиторий book-club-data (книги/главы/темы/спикеры),
+│                                 # а не локальный data/. Генератор читает его (--data | env BOOK_CLUB_DATA | ../book-club-data).
 ├── scripts/
 │   ├── new-talk.mjs              # генератор доклада (единый шаблон + data → папка BC-*)
 │   └── lint-talks.mjs            # проверка автономности докладов
@@ -56,8 +53,8 @@ book-club-talks/
 ## Генерация доклада
 
 Доклады создаются **только генератором**, не копированием папок вручную. Вся
-книжно-специфичная информация (обложка, описание, авторы, главы, темы) лежит в
-`data/`, а вёрстка — в единственном `_template/index.html` с маркерами.
+книжно-специфичная информация (обложка, описание, авторы, главы, темы) берётся из
+**book-club-data**, а вёрстка — в единственном `_template/index.html` с маркерами.
 
 ```bash
 # интерактивно (человек)
@@ -65,8 +62,11 @@ npm run new-talk
 
 # не-интерактивно (AI-инструменты, CI)
 node scripts/new-talk.mjs --book docker-up-and-running --chapter 9 \
-  --topic 2 --speaker pomazkov-anton --stream 112 [--seq 2] [--force]
+  --topic 2 --speaker pomazkov-anton --stream 112 [--seq 2] [--force] [--data ../book-club-data]
 ```
+
+Книге нужен `code` в `meta.json` (`DOCKER`, `REACT`), событию — `stream`;
+задаются в CMS. Спикер `surname` выводится из `id` (`pomazkov-anton` → `POMAZKOV`).
 
 Генератор подставляет данные в слайды: титул (глава + тема), «о книге»
 (обложка/описание/авторы + спикер), «Программа вечера» и «Что далее» (темы главы

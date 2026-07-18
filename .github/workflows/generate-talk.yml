@@ -1,0 +1,124 @@
+name: Generate talk (auto PR)
+
+# Генерирует доклад из book-club-data и открывает pull request.
+# Триггерится:
+#  - repository_dispatch { event_type: new-talk } — из CMS при апруве спикера;
+#  - workflow_dispatch — вручную из вкладки Actions.
+
+on:
+  repository_dispatch:
+    types: [new-talk]
+  workflow_dispatch:
+    inputs:
+      book:
+        description: 'Книга (folder или id), напр. docker-up-and-running'
+        required: true
+      chapter:
+        description: 'Глава (slug или номер), напр. 01-vvedenie или 1'
+        required: true
+      topic:
+        description: 'Тема (индекс с 1, id или точное название)'
+        required: true
+      speaker:
+        description: 'Спикер (id), напр. pomazkov-anton'
+        required: true
+      stream:
+        description: 'Номер стрима, напр. 112'
+        required: true
+      seq:
+        description: 'Порядковый номер (опц., если у спикера в стриме несколько докладов)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # book-club-data — единый источник контента (репозиторий публичный).
+      - uses: actions/checkout@v4
+        with:
+          repository: bookclubit/book-club-data
+          path: .book-club-data
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - id: params
+        name: Собрать параметры (dispatch или ручной запуск)
+        env:
+          BOOK: ${{ github.event.client_payload.book || github.event.inputs.book }}
+          CHAPTER: ${{ github.event.client_payload.chapter || github.event.inputs.chapter }}
+          TOPIC: ${{ github.event.client_payload.topic || github.event.inputs.topic }}
+          SPEAKER: ${{ github.event.client_payload.speaker || github.event.inputs.speaker }}
+          STREAM: ${{ github.event.client_payload.stream || github.event.inputs.stream }}
+          SEQ: ${{ github.event.client_payload.seq || github.event.inputs.seq }}
+        run: |
+          set -euo pipefail
+          for v in BOOK CHAPTER TOPIC SPEAKER STREAM; do
+            if [ -z "${!v}" ]; then echo "✖ Не задан $v"; exit 1; fi
+          done
+          {
+            echo "book=$BOOK"
+            echo "chapter=$CHAPTER"
+            echo "topic=$TOPIC"
+            echo "speaker=$SPEAKER"
+            echo "stream=$STREAM"
+            echo "seq=$SEQ"
+          } >> "$GITHUB_OUTPUT"
+
+      - id: gen
+        name: Сгенерировать доклад
+        run: |
+          set -euo pipefail
+          SEQ_FLAG=""
+          if [ -n "${{ steps.params.outputs.seq }}" ]; then
+            SEQ_FLAG="--seq ${{ steps.params.outputs.seq }}"
+          fi
+          node scripts/new-talk.mjs \
+            --book "${{ steps.params.outputs.book }}" \
+            --chapter "${{ steps.params.outputs.chapter }}" \
+            --topic "${{ steps.params.outputs.topic }}" \
+            --speaker "${{ steps.params.outputs.speaker }}" \
+            --stream "${{ steps.params.outputs.stream }}" \
+            $SEQ_FLAG \
+            --data .book-club-data --force
+
+      - name: Открыть pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          FOLDER="${{ steps.gen.outputs.folder }}"
+          TOPIC="${{ steps.gen.outputs.topic }}"
+          URL="${{ steps.gen.outputs.url }}"
+
+          git config user.name "book-club-bot"
+          git config user.email "bot@bookclub.local"
+          git checkout -b "$FOLDER"
+          git add "talks/$FOLDER"
+          git commit -m "feat(talk): $FOLDER — $TOPIC"
+          git push --force -u origin "$FOLDER"
+
+          BODY=$(printf '%s\n' \
+            "🎤 Авто-сгенерированный доклад из book-club-data." \
+            "" \
+            "Тема: **$TOPIC**" \
+            "Ссылка после публикации: $URL" \
+            "" \
+            "Спикер редактирует только контентные слайды (после «Программы»); «хром»-слайды не трогать. Превью-ссылку добавит workflow preview автоматически.")
+
+          # Если PR уже открыт для этой ветки — не создаём второй.
+          if [ -z "$(gh pr list --head "$FOLDER" --json number --jq '.[0].number' 2>/dev/null)" ]; then
+            gh pr create --base main --head "$FOLDER" \
+              --title "feat(talk): $FOLDER — $TOPIC" \
+              --body "$BODY"
+          else
+            echo "PR для ветки $FOLDER уже существует — обновлён коммитом."
+          fi

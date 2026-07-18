@@ -13,3 +13,6 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Чекаут book-club-data в CI (генерация докладов)
+.book-club-data/

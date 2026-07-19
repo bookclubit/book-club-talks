@@ -1,9 +1,11 @@
 name: CI
 
+# Триггер push (main + ветки докладов BC-*), без pull_request — чтобы у новых
+# контрибьюторов не требовалось одобрение maintainer («awaiting approval»).
+# Lint автономности всё равно гоняется на каждую ветку доклада перед мержем.
 on:
   push:
-    branches: [main]
-  pull_request:
+    branches: [main, 'BC-*']
 
 permissions:
   contents: read

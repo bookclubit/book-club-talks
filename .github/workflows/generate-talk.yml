@@ -119,10 +119,13 @@ jobs:
           #  - закрытый  → переоткрываем (заявку брали заново после отмены);
           #  - нет вовсе → создаём.
           # Иначе после «отклонил → взял снова» плодятся дубли и остаётся закрытый PR.
+          # Best-effort: если org запрещает Actions открывать PR, job не падает —
+          # ветка уже запушена, а превью поднимет отдельный шаг ниже.
           create_pr() {
             gh pr create --base main --head "$FOLDER" \
               --title "feat(talk): $FOLDER — $TOPIC" \
-              --body "$BODY"
+              --body "$BODY" \
+              || echo "⚠ PR не создан (нужна org-настройка «Allow GitHub Actions to create and approve pull requests»). Ветка $FOLDER запушена, превью поднимется автоматически."
           }
 
           OPEN=$(gh pr list --head "$FOLDER" --state open \
@@ -145,3 +148,25 @@ jobs:
           else
             create_pr
           fi
+
+      # Превью поднимаем здесь же (repository_dispatch не требует апрува maintainer,
+      # в отличие от pull_request-workflow preview.yml). Адрес детерминирован:
+      # preview.<project>.pages.dev — его бот уже дал спикеру. if: always() — чтобы
+      # превью появилось, даже если org заблокировал создание PR выше.
+      - name: Превью-деплой на Cloudflare Pages
+        if: always()
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          FOLDER="${{ steps.gen.outputs.folder }}"
+          if [ -z "$FOLDER" ] || [ ! -d "talks/$FOLDER" ]; then
+            echo "Нет сгенерированной папки — пропускаю превью."; exit 0
+          fi
+          NAME=$(echo "$FOLDER" | tr '[:upper:]' '[:lower:]')
+          npx --yes wrangler@4 pages project create "$NAME" --production-branch main \
+            || echo "Проект $NAME уже существует."
+          npx --yes wrangler@4 pages deploy "talks/$FOLDER" \
+            --project-name="$NAME" --branch="preview"
+          echo "🔎 Превью: https://preview.$NAME.pages.dev"

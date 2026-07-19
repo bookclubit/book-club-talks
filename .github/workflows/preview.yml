@@ -61,18 +61,19 @@ jobs:
         run: |
           set -euo pipefail
           NAME=$(basename "${{ matrix.folder }}" | tr '[:upper:]' '[:lower:]')
-          BRANCH="${{ github.event.pull_request.head.ref }}"
-          echo "Папка ${{ matrix.folder }} → проект $NAME, ветка $BRANCH"
+          # Фиксированная ветка "preview" → стабильный адрес preview.<project>.pages.dev
+          # (детерминирован, поэтому бот может дать ссылку заранее). Каждый пуш в PR
+          # обновляет этот же алиас. Боевой адрес — <project>.pages.dev после мержа в main.
+          echo "Папка ${{ matrix.folder }} → проект $NAME, превью-ветка preview"
 
           # проект создаётся сам, если его ещё нет (идемпотентно)
           npx --yes wrangler@4 pages project create "$NAME" --production-branch main || \
             echo "Проект $NAME уже существует."
 
           npx --yes wrangler@4 pages deploy "${{ matrix.folder }}" \
-            --project-name="$NAME" --branch="$BRANCH" 2>&1 | tee deploy.log
+            --project-name="$NAME" --branch="preview" 2>&1 | tee deploy.log
 
-          URL=$(grep -oE 'https://[a-z0-9._-]+\.pages\.dev' deploy.log | head -1)
-          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "url=https://preview.$NAME.pages.dev" >> "$GITHUB_OUTPUT"
           echo "name=$NAME" >> "$GITHUB_OUTPUT"
 
       - name: Комментарий с превью-ссылкой

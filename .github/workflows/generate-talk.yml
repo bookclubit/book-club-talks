@@ -114,11 +114,34 @@ jobs:
             "" \
             "Спикер редактирует только контентные слайды (после «Программы»); «хром»-слайды не трогать. Превью-ссылку добавит workflow preview автоматически.")
 
-          # Если PR уже открыт для этой ветки — не создаём второй.
-          if [ -z "$(gh pr list --head "$FOLDER" --json number --jq '.[0].number' 2>/dev/null)" ]; then
+          # Один PR на ветку. Смотрим ЛЮБОЙ существующий PR (открытый ИЛИ закрытый):
+          #  - открытый  → ничего не делаем, пуш его уже обновил;
+          #  - закрытый  → переоткрываем (заявку брали заново после отмены);
+          #  - нет вовсе → создаём.
+          # Иначе после «отклонил → взял снова» плодятся дубли и остаётся закрытый PR.
+          create_pr() {
             gh pr create --base main --head "$FOLDER" \
               --title "feat(talk): $FOLDER — $TOPIC" \
               --body "$BODY"
+          }
+
+          OPEN=$(gh pr list --head "$FOLDER" --state open \
+            --json number --jq '.[0].number' 2>/dev/null || echo "")
+          CLOSED=$(gh pr list --head "$FOLDER" --state closed \
+            --json number --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -n "$OPEN" ]; then
+            echo "PR #$OPEN уже открыт для ветки $FOLDER — обновлён коммитом."
+          elif [ -n "$CLOSED" ]; then
+            # Заявку брали заново после отмены. Пробуем переоткрыть тот же PR;
+            # если ветку удаляли (наша очистка) и GitHub не даёт — создаём новый.
+            if gh pr reopen "$CLOSED" 2>/dev/null; then
+              gh pr edit "$CLOSED" --body "$BODY"
+              echo "PR #$CLOSED переоткрыт для ветки $FOLDER."
+            else
+              echo "PR #$CLOSED переоткрыть нельзя — создаём новый."
+              create_pr
+            fi
           else
-            echo "PR для ветки $FOLDER уже существует — обновлён коммитом."
+            create_pr
           fi

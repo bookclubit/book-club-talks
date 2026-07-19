@@ -121,17 +121,23 @@ function loadChapters(DATA, folder, slugs) {
     .sort((a, b) => a.order - b.order);
 }
 
-// Карточка автора: в book-club-data у авторов нет ссылок — простая карточка.
+// Карточка автора: если у автора есть ссылка (meta.authors[].url) — кликабельна.
 function authorCard(a) {
+  const label = urlLabel(a.url);
   const img = a.avatar
     ? `<img class="author-avatar" src="assets/authors/${esc(basename(a.avatar))}" alt="${esc(a.name)}">`
     : '';
-  return `<div class="author-card">
-                                    ${img}
+  const inner = `${img}
                                     <div class="author-info">
                                         <div class="author-name">${esc(a.name)}</div>
-                                        <div class="author-link-text"></div>
-                                    </div>
+                                        <div class="author-link-text">${esc(label)}</div>
+                                    </div>`;
+  return a.url
+    ? `<a class="author-card" href="${esc(a.url)}" target="_blank">
+                                    ${inner}
+                                </a>`
+    : `<div class="author-card">
+                                    ${inner}
                                 </div>`;
 }
 

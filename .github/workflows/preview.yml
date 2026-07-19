@@ -1,52 +1,25 @@
-name: Preview talks (PR)
+name: Preview talks (push)
+
+# Обновляет превью доклада на пуш в его ветку BC-*. Триггер push (а не
+# pull_request) — чтобы не требовать одобрения maintainer у новых контрибьюторов
+# («awaiting approval») и чтобы правки спикера деплоились сами. Первичное превью
+# при генерации поднимает generate-talk.yml (пуш бота свои workflow не триггерит).
+# Адрес детерминирован: preview.<project>.pages.dev.
 
 on:
-  pull_request:
+  push:
+    branches:
+      - 'BC-*'
     paths:
       - 'talks/**'
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
-  detect-changes:
-    name: Определить изменённые папки
-    runs-on: ubuntu-latest
-    outputs:
-      folders: ${{ steps.detect.outputs.folders }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - id: detect
-        run: |
-          set -euo pipefail
-          BASE="${{ github.event.pull_request.base.sha }}"
-          HEAD="${{ github.event.pull_request.head.sha }}"
-          CHANGED=$(git diff --name-only "$BASE" "$HEAD" \
-            | { grep -oE '(^|.*/)BC-[^/]+' || true; } | sort -u)
-
-          EXISTING=""
-          while IFS= read -r dir; do
-            [ -z "$dir" ] && continue
-            [ -d "$dir" ] && EXISTING="${EXISTING}${dir}"$'\n' || echo "Пропускаю $dir — удалена/переименована."
-          done <<< "$CHANGED"
-
-          echo "Папки к превью:"; echo "${EXISTING:-<нет>}"
-          FOLDERS=$(printf '%s' "$EXISTING" | { grep -v '^$' || true; } | jq -R . | jq -cs .)
-          echo "folders=$FOLDERS" >> "$GITHUB_OUTPUT"
-
   preview:
-    name: Превью ${{ matrix.folder }}
-    needs: detect-changes
-    if: needs.detect-changes.outputs.folders != '' && needs.detect-changes.outputs.folders != '[]'
+    name: Превью ${{ github.ref_name }}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        folder: ${{ fromJSON(needs.detect-changes.outputs.folders) }}
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -56,40 +29,18 @@ jobs:
         with:
           node-version: 22
 
-      - id: deploy
-        name: Preview-деплой на Cloudflare Pages
+      - name: Preview-деплой на Cloudflare Pages
         run: |
           set -euo pipefail
-          NAME=$(basename "${{ matrix.folder }}" | tr '[:upper:]' '[:lower:]')
-          # Фиксированная ветка "preview" → стабильный адрес preview.<project>.pages.dev
-          # (детерминирован, поэтому бот может дать ссылку заранее). Каждый пуш в PR
-          # обновляет этот же алиас. Боевой адрес — <project>.pages.dev после мержа в main.
-          echo "Папка ${{ matrix.folder }} → проект $NAME, превью-ветка preview"
-
+          FOLDER="${GITHUB_REF_NAME}"           # ветка BC-* = папка доклада
+          if [ ! -d "talks/$FOLDER" ]; then
+            echo "Папки talks/$FOLDER нет — пропускаю превью."; exit 0
+          fi
+          NAME=$(echo "$FOLDER" | tr '[:upper:]' '[:lower:]')
           # проект создаётся сам, если его ещё нет (идемпотентно)
-          npx --yes wrangler@4 pages project create "$NAME" --production-branch main || \
-            echo "Проект $NAME уже существует."
-
-          npx --yes wrangler@4 pages deploy "${{ matrix.folder }}" \
-            --project-name="$NAME" --branch="preview" 2>&1 | tee deploy.log
-
-          echo "url=https://preview.$NAME.pages.dev" >> "$GITHUB_OUTPUT"
-          echo "name=$NAME" >> "$GITHUB_OUTPUT"
-
-      - name: Комментарий с превью-ссылкой
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const folder = ${{ toJSON(matrix.folder) }};
-            const url = ${{ toJSON(steps.deploy.outputs.url) }};
-            const marker = `<!-- preview:${folder} -->`;
-            const body = `${marker}\n🔎 **Превью доклада \`${folder}\`**: ${url || '(ссылка не распозналась, см. лог Actions)'}\n\n_Обновляется при каждом пуше в PR. Продакшн-ссылка появится после мержа в \`main\`._`;
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
-            });
-            const existing = comments.find((c) => c.body && c.body.includes(marker));
-            if (existing) {
-              await github.rest.issues.updateComment({ owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body });
-            } else {
-              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number, body });
-            }
+          npx --yes wrangler@4 pages project create "$NAME" --production-branch main \
+            || echo "Проект $NAME уже существует."
+          # фиксированная ветка preview → стабильный алиас preview.<project>.pages.dev
+          npx --yes wrangler@4 pages deploy "talks/$FOLDER" \
+            --project-name="$NAME" --branch="preview"
+          echo "🔎 Превью обновлено: https://preview.$NAME.pages.dev"

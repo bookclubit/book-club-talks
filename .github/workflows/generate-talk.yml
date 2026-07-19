@@ -112,7 +112,7 @@ jobs:
             "Тема: **$TOPIC**" \
             "Ссылка после публикации: $URL" \
             "" \
-            "Спикер редактирует только контентные слайды (после «Программы»); «хром»-слайды не трогать. Превью-ссылку добавит workflow preview автоматически.")
+            "Спикер редактирует только контентные слайды (после «Программы»); «хром»-слайды не трогать. Ссылку на превью добавит комментарий ниже.")
 
           # Один PR на ветку. Смотрим ЛЮБОЙ существующий PR (открытый ИЛИ закрытый):
           #  - открытый  → ничего не делаем, пуш его уже обновил;
@@ -158,6 +158,7 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           FOLDER="${{ steps.gen.outputs.folder }}"
@@ -168,5 +169,17 @@ jobs:
           npx --yes wrangler@4 pages project create "$NAME" --production-branch main \
             || echo "Проект $NAME уже существует."
           npx --yes wrangler@4 pages deploy "talks/$FOLDER" \
-            --project-name="$NAME" --branch="preview"
-          echo "🔎 Превью: https://preview.$NAME.pages.dev"
+            --project-name="$NAME" --branch="preview" 2>&1 | tee deploy.log
+
+          ALIAS="https://preview.$NAME.pages.dev"
+          # Хеш-URL этого деплоя работает сразу (у нового проекта DNS алиаса
+          # поднимается пару минут) — даём его как «открыть сейчас».
+          NOW_URL=$(grep -oE "https://[a-z0-9]+\.${NAME}\.pages\.dev" deploy.log | head -1 || echo "")
+          echo "🔎 Превью: $ALIAS (сейчас: ${NOW_URL:-$ALIAS})"
+
+          # Ссылку на превью пишем комментарием в PR (best-effort, не роняет job).
+          PR=$(gh pr list --head "$FOLDER" --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
+          if [ -n "$PR" ]; then
+            gh pr comment "$PR" --body "$(printf '🔎 **Превью доклада**\n\n- Открыть сейчас: %s\n- Постоянная ссылка (обновляется на каждый пуш в ветку): %s\n\n_Боевой адрес — после мержа в `main`._' "${NOW_URL:-$ALIAS}" "$ALIAS")" \
+              || echo "Комментарий в PR не добавлен."
+          fi

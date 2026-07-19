@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сценарии использования базовой модели — AI-инженерия</title>
+    <meta name="description" content="AI Engineering">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Сценарии использования базовой модели — AI-инженерия">
+    <meta property="og:description" content="AI Engineering">
+    <meta property="og:image" content="https://bc-114-ai-1-pomazkov-2.pages.dev/assets/cover/ai-engineering.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Сценарии использования базовой модели — AI-инженерия">
+    <meta name="twitter:description" content="AI Engineering">
+    <meta name="twitter:image" content="https://bc-114-ai-1-pomazkov-2.pages.dev/assets/cover/ai-engineering.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <style>
+        :root {
+            --bg: #000000;
+            --bg-card: #0a0a0a;
+            --bg-hover: #171717;
+            --border: #333333;
+            --border-hover: #444444;
+            --text-main: #ededed;
+            --text-muted: #a1a1aa;
+            --accent: #ffffff;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        html, body {
+            width: 100%; height: 100%; margin: 0; overflow: hidden;
+            background: var(--bg); color: var(--text-main); font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .deck-viewport { position: absolute; inset: 0; overflow: hidden; }
+        .deck-stage {
+            position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+            transform-origin: 0 0; background: var(--bg);
+        }
+        .slide {
+            position: absolute; inset: 0; display: block; visibility: hidden; opacity: 0;
+            pointer-events: none; transition: opacity 0.4s ease;
+        }
+        .slide.active { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+
+        h1 { font-size: 88px; font-weight: 700; letter-spacing: -0.04em; margin-bottom: 24px; line-height: 1.1; }
+        h2 { font-size: 64px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 32px; }
+        h3 { font-size: 32px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 16px; color: var(--accent); }
+        p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 24px; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #71717a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .layout-center {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100%; text-align: center; padding: 0 100px;
+        }
+        .layout-split {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+            height: 100%; padding: 0 100px; align-items: center;
+        }
+        .layout-interactive {
+            display: grid; grid-template-columns: 55% 45%; gap: 60px;
+            height: 100%; padding: 0 80px; align-items: center; align-content: center;
+        }
+
+        .badge {
+            display: inline-block; padding: 10px 20px; border-radius: 9999px;
+            border: 1px solid var(--border); font-size: 18px; font-weight: 500;
+            margin-bottom: 40px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;
+        }
+
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 50px;
+        }
+
+        /* Code Viewer */
+        .code-panel {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+            overflow: hidden; display: flex; flex-direction: column; height: 100%; max-height: 800px;
+        }
+        .code-header {
+            padding: 20px 30px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 12px;
+            font-family: var(--font-mono); font-size: 14px; color: var(--text-muted);
+        }
+        .mac-dots { display: flex; gap: 8px; margin-right: 16px; }
+        .mac-dot { width: 12px; height: 12px; border-radius: 50%; background: #333; }
+        .code-content {
+            padding: 20px; overflow-y: auto; flex-grow: 1; font-family: var(--font-mono);
+            font-size: 18px; line-height: 1.6; color: #a1a1aa;
+        }
+        
+        /* Custom scrollbar in Vercel style */
+        .code-content::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .code-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .code-content::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+        .code-content::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .code-line {
+            padding: 8px 16px; margin: 0 -16px; border-radius: 8px; cursor: pointer;
+            transition: all 0.2s; border-left: 3px solid transparent;
+        }
+        .code-line:hover { background: #171717; color: #fff; }
+        .code-line.active { background: #27272a; color: #fff; border-left-color: #fff; }
+
+        .info-panel {
+            background: transparent; border: none;
+            padding: 60px; height: 100%; display: flex; flex-direction: column; justify-content: center;
+        }
+        .info-panel h3 { font-size: 36px; font-weight: 600; margin-bottom: 24px; }
+        .info-panel p { font-size: 22px; line-height: 1.8; color: var(--text-muted); }
+
+        .interactive-hint {
+            position: absolute; bottom: 40px; left: 80px; font-size: 16px; color: var(--text-muted); opacity: 0.5;
+            display: flex; align-items: center; gap: 8px; font-family: var(--font-sans);
+        }
+        .interactive-hint::before {
+            content: 'ℹ'; font-size: 18px;
+        }
+
+        /* Tooltip style */
+        .tooltip-trigger {
+            position: relative;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dashed #ffffff;
+            transition: border-color 0.2s;
+            display: inline-block;
+        }
+        .tooltip-trigger:hover {
+            border-bottom-color: #a1a1aa;
+        }
+        .tooltip-content {
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px 22px;
+            width: 480px;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--text-muted);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 1000;
+            text-align: left;
+            visibility: hidden;
+        }
+        /* Keep tooltip open when hovering trigger or the tooltip itself */
+        .tooltip-trigger:hover .tooltip-content,
+        .tooltip-content:hover {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+        /* Bridge to allow smooth hover transition */
+        .tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 35px;
+            background: transparent;
+        }
+        /* Style for links inside the tooltip */
+        .tooltip-content a {
+            color: #ffffff;
+            text-decoration: underline;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .tooltip-content a:hover {
+            color: #a1a1aa;
+        }
+
+        /* Syntax */
+        .s-kw { color: #f87171; } /* keyword */
+        .s-str { color: #34d399; } /* string */
+        .s-com { color: #52525b; } /* comment */
+        .s-var { color: #60a5fa; } /* variable */
+        .s-key { color: #e879f9; } /* yaml key */
+
+        .repo-link {
+            position: fixed; top: 40px; right: 40px; padding: 14px 28px;
+            background: transparent; border: 1px solid var(--border); border-radius: 8px;
+            color: var(--text-muted); text-decoration: none; font-size: 16px;
+            transition: all 0.2s; z-index: 100; font-weight: 500; font-family: var(--font-sans);
+        }
+        .repo-link:hover { border-color: #fff; color: #fff; }
+
+        .progress {
+            position: fixed; top: 0; left: 0; height: 2px; background: #fff; z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Flat Icon Styling */
+        .flat-icon {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            display: inline-block;
+        }
+
+        /* Slide 7 Clickable Cards and Tooltips */
+        .build-service-card {
+            cursor: pointer;
+            transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
+        }
+        .build-service-card:hover {
+            border-color: #555;
+            background-color: #111;
+        }
+        .build-service-card.active-card {
+            border-color: #fff;
+            background-color: #171717;
+        }
+
+        .build-controller {
+            cursor: pointer;
+            transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
+        }
+        .build-controller:hover {
+            border-color: #fff;
+            background-color: #0c0c0c;
+        }
+        .build-controller.active-card {
+            border-color: #fff;
+            background-color: #111;
+        }
+
+        .build-tooltip {
+            position: absolute;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 16px;
+            width: 380px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px) translateX(-50%);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        .build-tooltip.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) translateX(-50%);
+        }
+
+        .build-tooltip::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            z-index: 1;
+        }
+
+        .build-tooltip-above {
+            bottom: 515px;
+        }
+        .build-tooltip-above::after {
+            bottom: -6px;
+            left: calc(50% - 5px);
+            transform: rotate(45deg);
+            border-top: none;
+            border-left: none;
+        }
+
+        .build-tooltip-below {
+            top: 505px;
+        }
+        .build-tooltip-below::after {
+            top: -6px;
+            left: calc(50% - 5px);
+            transform: rotate(45deg);
+            border-bottom: none;
+            border-right: none;
+        }
+
+        .tooltip-tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        .tooltip-tab {
+            background: transparent;
+            border: none;
+            color: #666;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .tooltip-tab:hover {
+            color: #fff;
+        }
+        .tooltip-tab.active {
+            color: #fff;
+            background: #222;
+        }
+        
+        .tooltip-header {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #fff;
+            border-bottom: 1px solid #222;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .tooltip-tab-content {
+            display: none;
+        }
+        .tooltip-tab-content.active {
+            display: block;
+        }
+        .tooltip-tab-content pre {
+            margin: 0;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.5;
+            color: #a1a1aa;
+            overflow-x: auto;
+        }
+
+        /* Left Aspect Diagram for Slides 14 & 15 */
+        .arch-container-left {
+            display: flex;
+            flex-direction: column;
+            width: 280px;
+            gap: 12px;
+            margin-left: 0px;
+        }
+        .arch-aspect-stack-left {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .arch-aspect-card-left {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff;
+            text-align: center;
+            opacity: 0.25;
+            transition: all 0.3s ease;
+        }
+        .arch-aspect-card-left.card-app-left {
+            padding: 10px 12px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .arch-aspect-card-left.active-highlight {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: #fff;
+            font-weight: 600;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+        .acc-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.35);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .acc-link:hover {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+        .acc-link[data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a2e;
+            color: #e4e4e7;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            white-space: normal;
+            width: 280px;
+            z-index: 1000;
+            pointer-events: none;
+            animation: tooltipFadeIn 0.2s ease;
+        }
+        .acc-link[data-tooltip]:hover::before {
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 4px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(255, 255, 255, 0.15);
+            z-index: 1001;
+            pointer-events: none;
+            animation: tooltipFadeIn 0.2s ease;
+        }
+        @keyframes tooltipFadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="badge">Глава 1</div>
+                    <h1 class="gradient-text">Сценарии использования базовой модели</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+                <style>
+                    .about-book-slide {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 36px;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100%;
+                        padding: 40px 100px;
+                        box-sizing: border-box;
+                    }
+                    .book-container {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        max-width: 1200px;
+                    }
+                    .book-row {
+                        display: flex;
+                        gap: 40px;
+                        align-items: center;
+                        padding: 12px 0;
+                    }
+                    .book-cover-container {
+                        flex-shrink: 0;
+                    }
+                    .book-cover {
+                        width: 200px;
+                        height: auto;
+                        border-radius: 8px;
+                        box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+                        transition: transform 0.3s ease;
+                    }
+                    .book-cover:hover {
+                        transform: scale(1.05);
+                    }
+                    .book-text-info {
+                        display: flex;
+                        flex-direction: column;
+                        text-align: left;
+                    }
+                    .book-link {
+                        font-size: 32px;
+                        font-weight: 700;
+                        line-height: 1.2;
+                        color: #fff;
+                        text-decoration: none;
+                        margin-bottom: 6px;
+                        transition: color 0.2s;
+                        letter-spacing: -0.02em;
+                    }
+                    .book-link:hover {
+                        color: var(--text-muted);
+                    }
+                    .book-subtitle {
+                        font-size: 16px;
+                        line-height: 1.4;
+                        color: var(--text-muted);
+                        margin: 0 0 12px 0;
+                        font-weight: 500;
+                    }
+                    .book-desc-ru {
+                        font-size: 15px;
+                        line-height: 1.6;
+                        color: #888;
+                        margin: 0;
+                    }
+                    .people-section {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 40px;
+                        width: 100%;
+                        max-width: 1200px;
+                    }
+                    .authors-column {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .authors-grid {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                    }
+                    .speaker-column {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .author-card {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        background: var(--bg-card);
+                        border: 1px solid var(--border);
+                        border-radius: 16px;
+                        padding: 16px;
+                        transition: border-color 0.2s, background-color 0.2s;
+                        text-decoration: none;
+                        color: inherit;
+                        height: 96px;
+                        box-sizing: border-box;
+                    }
+                    .author-card:hover {
+                        border-color: #555;
+                        background: #0f0f0f;
+                    }
+                    .author-avatar {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        border: 2px solid #333;
+                        object-fit: cover;
+                    }
+                    .author-info {
+                        display: flex;
+                        flex-direction: column;
+                        text-align: left;
+                    }
+                    .author-name {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: #fff;
+                        margin-bottom: 4px;
+                    }
+                    .author-link-text {
+                        font-size: 13px;
+                        color: var(--text-muted);
+                        font-family: var(--font-mono);
+                    }
+                </style>
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="" target="_blank">
+                                    <img class="book-cover" src="assets/cover/ai-engineering.webp" alt="AI-инженерия">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="" target="_blank">
+                                    AI-инженерия
+                                </a>
+                                <p class="book-subtitle">
+                                    AI Engineering
+                                </p>
+                                <p class="book-desc-ru">
+                                    Это практическое руководство по созданию приложений на основе готовых фундаментальных моделей (foundation models). В книге объясняется, чем AI-инжиниринг отличается от традиционного ML-инжиниринга, и предлагается пошаговый фреймворк для разработки AI-продуктов — от простых методов (промпт-инжиниринг) до более сложных (RAG, дообучение, AI-агенты). Особое внимание уделяется вопросам оценки моделей (включая подход «AI-as-a-judge»), а также оптимизации задержек и стоимости при развертывании
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <div class="author-card">
+                                    <img class="author-avatar" src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
+                                    <div class="author-info">
+                                        <div class="author-name">Чип Хьюен</div>
+                                        <div class="author-link-text"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/kunjutone" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
+                                <div class="author-info">
+                                    <div class="author-name">Антон Помазков</div>
+                                    <div class="author-link-text">t.me/kunjutone ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <section class="slide" data-slide="3">
+                <style>
+                    .timeline-next-container {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100%;
+                        padding: 0 100px;
+                    }
+                    .timeline-next {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 36px;
+                        position: relative;
+                        width: 100%;
+                        max-width: 850px;
+                        margin-top: 20px;
+                        padding-left: 60px;
+                        box-sizing: border-box;
+                    }
+                    .timeline-next::before {
+                        content: '';
+                        position: absolute;
+                        left: 21px;
+                        top: 20px;
+                        bottom: 20px;
+                        width: 2px;
+                        background: #222;
+                    }
+                    .timeline-next-item {
+                        display: flex;
+                        gap: 24px;
+                        align-items: flex-start;
+                        position: relative;
+                    }
+                    .timeline-next-marker {
+                        width: 14px;
+                        height: 14px;
+                        border-radius: 50%;
+                        background: #000;
+                        border: 2px solid #333;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                        position: absolute;
+                        left: -46px;
+                        top: 15px;
+                        z-index: 2;
+                        box-sizing: border-box;
+                    }
+                    .timeline-next-marker.completed {
+                        width: 20px;
+                        height: 20px;
+                        left: -49px;
+                        top: 12px;
+                        border-color: #555;
+                        background: #000;
+                        color: #555;
+                    }
+                    .timeline-next-content {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        text-align: left;
+                    }
+                    .timeline-next-title {
+                        font-size: 28px;
+                        font-weight: 500;
+                        color: var(--text-muted);
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                    }
+                    .timeline-next-item.completed .timeline-next-title {
+                        color: #555;
+                        font-size: 32px;
+                        font-weight: 500;
+                    }
+                    .timeline-next-item.next-large .timeline-next-title {
+                        font-size: 44px;
+                        font-weight: 600;
+                        color: #fff;
+                    }
+                    .timeline-next-speaker {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        margin-top: 10px;
+                    }
+                    .timeline-next-speaker-avatar {
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        border: 1px solid #444;
+                        object-fit: cover;
+                        background: #111;
+                    }
+                    .timeline-next-speaker-name {
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: #a1a1aa;
+                    }
+                    .timeline-badge-completed {
+                        font-size: 13px;
+                        font-weight: 600;
+                        color: #555;
+                        border: 1px solid #333;
+                        padding: 2px 8px;
+                        border-radius: 4px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                        text-decoration: none;
+                        display: inline-block;
+                    }
+                </style>
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Программа вечера</h2>
+                    <div class="timeline-next">
+                        <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title" style="text-decoration: line-through;">
+                                    Восход AI-инженерии
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker" style="border-color: #fff; background: #fff; top: 21px;"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Сценарии использования базовой модели</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-next-item">
+                            <div class="timeline-next-marker" style="width: 10px; height: 10px; left: -44px; top: 14px; background: #333; border: none;"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title" style="font-size: 28px;">Планирование AI-приложений</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-next-item">
+                            <div class="timeline-next-marker" style="width: 10px; height: 10px; left: -44px; top: 14px; background: #333; border: none;"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title" style="font-size: 28px;">Стек AI-инженерии</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="slide" data-slide="4">
+                <style>
+                    .timeline-next-container {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100%;
+                        padding: 0 100px;
+                    }
+                    .timeline-next {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 36px;
+                        position: relative;
+                        width: 100%;
+                        max-width: 850px;
+                        margin-top: 20px;
+                        padding-left: 60px;
+                        box-sizing: border-box;
+                    }
+                    .timeline-next::before {
+                        content: '';
+                        position: absolute;
+                        left: 21px;
+                        top: 20px;
+                        bottom: 20px;
+                        width: 2px;
+                        background: #222;
+                    }
+                    .timeline-next-item {
+                        display: flex;
+                        gap: 24px;
+                        align-items: flex-start;
+                        position: relative;
+                    }
+                    .timeline-next-marker {
+                        width: 14px;
+                        height: 14px;
+                        border-radius: 50%;
+                        background: #000;
+                        border: 2px solid #333;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                        position: absolute;
+                        left: -46px;
+                        top: 15px;
+                        z-index: 2;
+                        box-sizing: border-box;
+                    }
+                    .timeline-next-marker.completed {
+                        width: 20px;
+                        height: 20px;
+                        left: -49px;
+                        top: 12px;
+                        border-color: #555;
+                        background: #000;
+                        color: #555;
+                    }
+                    .timeline-next-content {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        text-align: left;
+                    }
+                    .timeline-next-title {
+                        font-size: 28px;
+                        font-weight: 500;
+                        color: var(--text-muted);
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                    }
+                    .timeline-next-item.completed .timeline-next-title {
+                        color: #555;
+                        font-size: 32px;
+                        font-weight: 500;
+                    }
+                    .timeline-next-item.next-large .timeline-next-title {
+                        font-size: 44px;
+                        font-weight: 600;
+                        color: #fff;
+                    }
+                    .timeline-next-speaker {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        margin-top: 10px;
+                    }
+                    .timeline-next-speaker-avatar {
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        border: 1px solid #444;
+                        object-fit: cover;
+                        background: #111;
+                    }
+                    .timeline-next-speaker-name {
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: #a1a1aa;
+                    }
+                    .timeline-badge-completed {
+                        font-size: 13px;
+                        font-weight: 600;
+                        color: #555;
+                        border: 1px solid #333;
+                        padding: 2px 8px;
+                        border-radius: 4px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                        text-decoration: none;
+                        display: inline-block;
+                    }
+                
+        /* Before-After Slider Styles */
+        .before-after-slider {
+            position: relative;
+            width: 1400px;
+            height: 520px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px auto;
+            background: #000;
+        }
+        .slider-img-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .slider-img {
+            width: 1400px;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #fff;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .slider-handle-button {
+            width: 48px;
+            height: 48px;
+            background: #fff;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .slider-range-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: ew-resize;
+            z-index: 4;
+            margin: 0;
+        }
+        .slider-caption-container {
+            display: flex;
+            width: 1400px;
+            gap: 40px;
+            margin-top: 16px;
+        }
+        .slider-caption-col {
+            flex: 1;
+            text-align: left;
+        }
+        .slider-caption-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .slider-caption-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+        
+        /* Slide 5 CSS - Scale Tabs */
+        .scale-tabs-container {
+            display: flex;
+            flex-direction: column;
+            width: 1400px;
+            height: auto;
+            margin: 20px auto 0 auto;
+            text-align: left;
+        }
+        .scale-tabs-nav-horizontal {
+            display: flex;
+            width: 1400px;
+            margin: 0 auto 20px auto;
+            position: relative;
+            height: 56px;
+        }
+        .scale-tab-btn-horiz {
+            flex: 1;
+            background: #0d0d0d;
+            border: 1px solid var(--border);
+            height: 100%;
+            color: var(--text-muted);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            margin-right: -15px;
+            outline: none;
+            z-index: 1;
+        }
+        .scale-tab-btn-horiz.tab-first {
+            clip-path: polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%);
+            padding-right: 15px;
+            z-index: 3;
+        }
+        .scale-tab-btn-horiz.tab-mid {
+            clip-path: polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%, 15px 50%);
+            padding-left: 15px;
+            padding-right: 15px;
+            z-index: 2;
+        }
+        .scale-tab-btn-horiz.tab-last {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 15px 50%);
+            padding-left: 15px;
+            margin-right: 0;
+            z-index: 1;
+        }
+        .scale-tab-btn-horiz:hover {
+            background: #141414;
+            color: #fff;
+        }
+        .scale-tab-btn-horiz.active {
+            background: rgba(0, 223, 216, 0.12);
+            color: #00dfd8;
+            z-index: 10;
+        }
+        .scale-tabs-content {
+            width: 1400px;
+            height: 700px;
+            background: #0d0d0d;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .tab-pane {
+            display: none;
+            flex-grow: 1;
+            flex-direction: column;
+            height: calc(100% - 60px);
+        }
+        .tab-pane.active {
+            display: flex;
+        }
+        .pane-step {
+            display: none;
+            flex-grow: 1;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        .pane-step.active {
+            display: flex;
+        }
+        .pane-step-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .pane-grid-2 {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 32px;
+            flex-grow: 1;
+            align-items: start;
+        }
+        .pane-step-desc {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        .pane-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.01);
+            border: 1px dashed #222;
+            border-radius: 16px;
+            padding: 24px;
+            min-height: 460px;
+            flex-grow: 1;
+            height: 100%;
+            box-sizing: border-box;
+            flex-direction: column;
+        }
+        .vis-container-box {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 16px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #fff;
+            min-width: 140px;
+        }
+        .vis-container-box.min-box {
+            padding: 12px 16px;
+            font-size: 13px;
+            min-width: 100px;
+        }
+        .vis-box-icon {
+            font-size: 24px;
+        }
+        .vis-box-port {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+        .vis-arrow-right {
+            font-size: 20px;
+            color: #444;
+        }
+        .pain-points-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .pain-point-item {
+            display: flex;
+            gap: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+        .pain-icon {
+            font-size: 16px;
+            margin-top: 2px;
+        }
+        .pain-solution-card {
+            background: rgba(0,223,216,0.02);
+            border: 1px dashed rgba(0,223,216,0.3);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        .tab-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            border-top: 1px solid #1a1a1a;
+            padding-top: 20px;
+            height: 40px;
+        }
+        .pag-btn {
+            background: transparent;
+            border: 1px solid #222;
+            border-radius: 8px;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pag-btn:hover:not(:disabled) {
+            border-color: #555;
+            background: #111;
+        }
+        .pag-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .pag-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .pag-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #222;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pag-dot.active {
+            background: #00dfd8;
+            box-shadow: 0 0 8px #00dfd8;
+        }
+        /* Slide 6 CSS */
+        .chain-container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 1300px;
+            position: relative;
+        }
+        .chain-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+        .chain-block:hover {
+            border-color: #00dfd8;
+            background: rgba(10, 10, 10, 0.6);
+            transform: scale(1.03) !important;
+            box-shadow: 0 10px 30px rgba(0, 223, 216, 0.15);
+            z-index: 10;
+        }
+        .chain-hover-commands {
+            position: absolute;
+            top: calc(100% + 15px);
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            width: max-content;
+            min-width: 100%;
+            background: none;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+        .chain-block:hover .chain-hover-commands {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .command-line {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #fff;
+            margin: 6px 0;
+            white-space: nowrap;
+            line-height: 1.4;
+        }
+        .command-line:first-child {
+            margin-top: 0;
+        }
+        .command-line:last-child {
+            margin-bottom: 0;
+        }
+        .chain-arrow {
+            opacity: 0;
+            color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gitops-badge {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            background: linear-gradient(135deg, #0070f3 0%, #00dfd8 100%);
+            color: #fff;
+            padding: 8px 24px;
+            border-radius: 9999px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 0 30px rgba(0, 223, 216, 0.3);
+        }
+        .slide.active .chain-block-1 { animation: slideInUp 0.5s ease forwards 0.2s; }
+        .slide.active .chain-arrow-1 { animation: fadeIn 0.5s ease forwards 0.4s; }
+        .slide.active .chain-block-2 { animation: slideInUp 0.5s ease forwards 0.5s; }
+        .slide.active .chain-arrow-2 { animation: fadeIn 0.5s ease forwards 0.7s; }
+        .slide.active .chain-block-3 { animation: slideInUp 0.5s ease forwards 0.8s; }
+        .slide.active .chain-arrow-3 { animation: fadeIn 0.5s ease forwards 1.0s; }
+        .slide.active .chain-block-4 { animation: slideInUp 0.5s ease forwards 1.1s; }
+        .slide.active .gitops-badge { animation: badgeGlow 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.4s; }
+
+        @keyframes badgeGlow {
+            0% { opacity: 0; transform: translate(-50%, 10px); }
+            100% { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        /* Slide 7 CSS */
+        .pillars-container {
+            display: flex;
+            gap: 24px;
+            align-items: stretch;
+            justify-content: center;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 1400px;
+            min-height: 340px;
+        }
+        .pillar-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            opacity: 0;
+            transform: translateY(30px);
+            cursor: pointer;
+            transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        background 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.4s ease,
+                        flex 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .pillar-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+            transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease, margin 0.4s ease;
+            max-height: 80px;
+            opacity: 1;
+        }
+        .pillar-card .pillar-desc {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #a1a1aa;
+            text-align: center;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.4s ease, 
+                        margin-top 0.4s ease;
+        }
+        .pillar-card:not(.collapsed):hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+            transform: scale(1.02) translateY(-4px) !important;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
+            opacity: 1 !important;
+        }
+        .pillar-card.dashed-card {
+            border-style: dashed;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.01);
+        }
+        .pillar-card.dashed-card:not(.collapsed):hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+        .pillar-card.expanded {
+            flex: 2.2;
+            background: rgba(15, 15, 15, 0.6);
+            border-color: #fff;
+            opacity: 1 !important;
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.08);
+            transform: none !important;
+            cursor: default;
+        }
+        .pillar-card.expanded .pillar-desc {
+            max-height: 220px;
+            opacity: 1;
+            margin-top: 16px;
+        }
+        .pillar-card.expanded.dashed-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: #fff;
+        }
+        .pillar-card.collapsed {
+            flex: 0.35;
+            opacity: 0.25 !important;
+            transform: scale(0.97) !important;
+            pointer-events: auto;
+        }
+        .pillar-card.collapsed h3 {
+            opacity: 0;
+            max-height: 0;
+            margin: 0;
+            overflow: hidden;
+            transform: scale(0.8);
+        }
+        .slide.active .pillar-1 { animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s; }
+        .slide.active .pillar-2 { animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s; }
+        .slide.active .pillar-3 { animation: slideInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s; }
+        .slide.active .pillar-4 { animation: slideInUpDashed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s; }
+
+        @keyframes slideInUpDashed {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 0.55; transform: translateY(0); }
+        }
+
+        /* NEW badge styles */
+        .new-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: linear-gradient(135deg, #0070f3 0%, #00dfd8 100%);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 0 10px rgba(0, 223, 216, 0.4);
+            animation: pulseNewBadge 2s infinite ease-in-out;
+            transition: opacity 0.3s ease;
+        }
+        .pillar-card.collapsed .new-badge {
+            opacity: 0;
+            pointer-events: none;
+        }
+        @keyframes pulseNewBadge {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(0, 223, 216, 0.4);
+            }
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 0 18px rgba(0, 223, 216, 0.8);
+            }
+        }
+
+        /* Slide 8 CSS (Главные выводы) */
+        .peel-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 24px;
+            margin-top: 40px; /* added spacing since slide header is removed */
+        }
+        .peel-card-wrapper {
+            position: relative;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            perspective: 800px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
+        }
+        .peel-card-content-inner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-left: 24px;
+            z-index: 1;
+        }
+        .peel-card-text {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .peel-cover {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: calc(100% + 2px);
+            height: calc(100% + 2px);
+            background: linear-gradient(135deg, transparent 23px, #000000 23px);
+            border: 1px dashed #ffffff;
+            box-sizing: border-box;
+            border-radius: 12px;
+            z-index: 10;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            transform-origin: 100% 100%;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+        }
+        .peel-cover.peeled {
+            transform: rotate3d(1, -1, 0, 115deg) translate(80px, -80px) scale(0.2) !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease !important;
+        }
+        .peel-fold {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, transparent 50%, #2f2f36 50%);
+            border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
+            border-right: 1.5px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+            border-bottom-right-radius: 6px;
+            pointer-events: auto;
+            cursor: grab;
+            z-index: 15;
+            transition: transform 0.2s ease;
+        }
+        .peel-fold:hover {
+            transform: scale(1.08);
+            background: linear-gradient(135deg, transparent 50%, #3f3f46 50%);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+        .peel-fold:active {
+            cursor: grabbing;
+        }
+        .main-takeaway-card {
+            width: 100%;
+            max-width: 900px;
+            padding: 32px 24px;
+            background: #09090b;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            margin-top: 20px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .main-takeaway-card.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        </style>
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next">
+
+                        <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title" style="text-decoration: line-through;">
+                                    Восход AI-инженерии
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title" style="text-decoration: line-through;">
+                                    Сценарии использования базовой модели
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker" style="border-color: #fff; background: #fff; top: 21px;"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Планирование AI-приложений</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-next-item">
+                            <div class="timeline-next-marker" style="width: 10px; height: 10px; left: -44px; top: 14px; background: #333; border: none;"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title" style="font-size: 28px;">Стек AI-инженерии</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+<script>
+        window.peeledCount = 0;
+
+        class Presentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.current = 0;
+                this.stage = document.getElementById('deckStage');
+                this.progressBar = document.getElementById('progressBar');
+                
+                this.scaleStage();
+                window.addEventListener('resize', () => this.scaleStage());
+                
+                document.addEventListener('keydown', (e) => {
+                    if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); this.next(); }
+                    if(e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); this.prev(); }
+                });
+  
+                this.setupInteractiveBlocks();
+                this.setupDiagramTooltips();
+                this.setupBeforeAfterSlider();
+                this.setupCollapsibleCompose();
+                this.setupPillarsAccordion();
+                this.setupTakeawaysDrag();
+                this.showSlide(0);
+            }
+
+            setupCollapsibleCompose() {
+                const wrapper = document.querySelector('.col-compose-wrapper');
+                const btn = document.querySelector('.collapse-btn');
+                
+                if (wrapper && btn) {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        wrapper.classList.toggle('collapsed');
+                    });
+                }
+            }
+
+            setupBeforeAfterSlider() {
+                const rangeInput = document.getElementById('sliderRangeInput');
+                const beforeContainer = document.getElementById('sliderBeforeContainer');
+                const beforeText = document.getElementById('sliderBeforeText');
+                const afterText = document.getElementById('sliderAfterText');
+                const handle = document.getElementById('sliderHandle');
+                
+                if (rangeInput && beforeContainer && handle && beforeText && afterText) {
+                    const updateSlider = () => {
+                        const val = rangeInput.value;
+                        beforeContainer.style.width = `${val}%`;
+                        handle.style.left = `${val}%`;
+                        
+                        // Calculate opacities
+                        const beforeOpacity = val / 100;
+                        const afterOpacity = 1 - beforeOpacity;
+                        beforeText.style.opacity = beforeOpacity;
+                        afterText.style.opacity = afterOpacity;
+                        
+                        // Dynamically update pointer-events so tooltips/links are interactive
+                        beforeText.style.pointerEvents = beforeOpacity > 0.5 ? 'auto' : 'none';
+                        afterText.style.pointerEvents = afterOpacity > 0.5 ? 'auto' : 'none';
+                    };
+                    rangeInput.addEventListener('input', updateSlider);
+                    updateSlider(); // Initial run on load
+                }
+            }
+
+            setupDiagramTooltips() {
+                document.querySelectorAll('.build-service-card, .build-controller').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        
+                        let targetId = '';
+                        if (card.classList.contains('build-card-frontend')) targetId = 'tooltip-frontend';
+                        else if (card.classList.contains('build-card-backend')) targetId = 'tooltip-backend';
+                        else if (card.classList.contains('build-card-db')) targetId = 'tooltip-db';
+                        else if (card.classList.contains('build-controller')) targetId = 'tooltip-orchestrator';
+                        
+                        const targetTooltip = document.getElementById(targetId);
+                        const isActive = targetTooltip.classList.contains('active');
+                        
+                        // Close all tooltips & deactivate cards
+                        document.querySelectorAll('.build-tooltip').forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.build-service-card, .build-controller').forEach(c => c.classList.remove('active-card'));
+                        
+                        // Toggle active state
+                        if (!isActive) {
+                            targetTooltip.classList.add('active');
+                            card.classList.add('active-card');
+                        }
+                    });
+                });
+
+                // Close tooltips on click outside
+                document.addEventListener('click', () => {
+                    document.querySelectorAll('.build-tooltip').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.build-service-card, .build-controller').forEach(c => c.classList.remove('active-card'));
+                });
+
+                // Prevent closing when clicking inside tooltip
+                document.querySelectorAll('.build-tooltip').forEach(tooltip => {
+                    tooltip.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                    });
+                });
+
+                // Tab switching
+                document.querySelectorAll('.tooltip-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const container = tab.closest('.build-tooltip');
+                        const tabName = tab.getAttribute('data-tab');
+                        
+                        container.querySelectorAll('.tooltip-tab').forEach(t => t.classList.remove('active'));
+                        container.querySelectorAll('.tooltip-tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        tab.classList.add('active');
+                        container.querySelector(`.tooltip-tab-content[data-content="${tabName}"]`).classList.add('active');
+                    });
+                });
+            }
+
+            scaleStage() {
+                const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                const x = (window.innerWidth - 1920 * factor) / 2;
+                const y = (window.innerHeight - 1080 * factor) / 2;
+                this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+            }
+
+            showSlide(idx) {
+                this.slides[this.current].classList.remove('active');
+                this.current = Math.max(0, Math.min(idx, this.slides.length - 1));
+                this.slides[this.current].classList.add('active');
+                this.progressBar.style.width = `${((this.current + 1) / this.slides.length) * 100}%`;
+                
+                // Reset Slide 8 peel covers when entering the slide
+                if (this.current === 7) {
+                    document.querySelectorAll('.peel-cover').forEach(c => c.classList.remove('peeled'));
+                    const card = document.getElementById('mainTakeawayCard');
+                    if (card) card.classList.remove('revealed');
+                    window.peeledCount = 0;
+                }
+            }
+
+            next() { this.showSlide(this.current + 1); }
+            prev() { this.showSlide(this.current - 1); }
+
+            setupInteractiveBlocks() {
+                document.querySelectorAll('.interactive-block').forEach(block => {
+                    const targetId = block.getAttribute('data-target');
+                    const targetPanel = document.getElementById(targetId);
+                    
+                    block.querySelectorAll('.code-line').forEach(line => {
+                        line.addEventListener('click', () => {
+                            // Reset active classes inside this block
+                            block.querySelectorAll('.code-line').forEach(l => l.classList.remove('active'));
+                            line.classList.add('active');
+                            
+                            const title = line.getAttribute('data-title');
+                            const desc = line.getAttribute('data-desc');
+                            
+                            // Update info panel
+                            targetPanel.innerHTML = `
+                                <h3>${title}</h3>
+                                <p>${desc}</p>
+                            `;
+                            
+                            // Slight animation
+                            targetPanel.style.opacity = '0';
+                            targetPanel.style.transform = 'translateY(10px)';
+                            setTimeout(() => {
+                                targetPanel.style.transition = 'all 0.3s ease';
+                                targetPanel.style.opacity = '1';
+                                targetPanel.style.transform = 'translateY(0)';
+                            }, 50);
+                        });
+                    });
+                });
+            }
+
+            setupPillarsAccordion() {
+                const container = document.querySelector('.pillars-container');
+                if (!container) return;
+                
+                const cards = container.querySelectorAll('.pillar-card');
+                
+                cards.forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const isExpanded = card.classList.contains('expanded');
+                        
+                        // Reset all cards
+                        cards.forEach(c => {
+                            c.classList.remove('expanded');
+                            c.classList.remove('collapsed');
+                        });
+                        
+                        if (!isExpanded) {
+                            // Expand clicked card, collapse others
+                            card.classList.add('expanded');
+                            cards.forEach(c => {
+                                if (c !== card) {
+                                    c.classList.add('collapsed');
+                                }
+                            });
+                        }
+                    });
+                });
+                
+                // Clicking outside container resets all cards
+                document.addEventListener('click', () => {
+                    cards.forEach(c => {
+                        c.classList.remove('expanded');
+                        c.classList.remove('collapsed');
+                    });
+                });
+            }
+
+            setupTakeawaysDrag() {
+                const container = document.querySelector('.peel-container');
+                if (!container) return;
+                
+                const covers = container.querySelectorAll('.peel-cover');
+                
+                covers.forEach(cover => {
+                    const fold = cover.querySelector('.peel-fold');
+                    if (!fold) return;
+                    
+                    let startX = 0;
+                    let startY = 0;
+                    let isDragging = false;
+                    
+                    const onMouseDown = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        if (e.type === 'mousedown' && e.button !== 0) return;
+                        
+                        isDragging = true;
+                        
+                        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                        
+                        startX = clientX;
+                        startY = clientY;
+                        
+                        cover.style.transition = 'none';
+                        fold.style.cursor = 'grabbing';
+                        document.body.style.cursor = 'grabbing';
+                        
+                        const onMouseMove = (moveEvent) => {
+                            if (!isDragging) return;
+                            
+                            const moveX = moveEvent.type === 'touchmove' ? moveEvent.touches[0].clientX : moveEvent.clientX;
+                            const moveY = moveEvent.type === 'touchmove' ? moveEvent.touches[0].clientY : moveEvent.clientY;
+                            
+                            const dx = moveX - startX;
+                            const dy = moveY - startY;
+                            
+                            const activeX = Math.max(0, dx);
+                            const activeY = Math.max(0, dy);
+                            
+                            if (activeX > 0 || activeY > 0) {
+                                // 3D rotate around axis (1, -1, 0)
+                                const angle = Math.min(115, activeX / 1.5);
+                                cover.style.transform = `rotate3d(1, -1, 0, ${angle}deg) translate(${activeX * 0.3}px, -${activeY * 0.3}px) scale(${Math.max(0.2, 1 - activeX / 600)})`;
+                                cover.style.opacity = `${Math.max(0.1, 1 - activeX / 500)}`;
+                            }
+                        };
+                        
+                        const onMouseUp = (upEvent) => {
+                            isDragging = false;
+                            fold.style.cursor = 'grab';
+                            document.body.style.cursor = '';
+                            
+                            document.removeEventListener('mousemove', onMouseMove);
+                            document.removeEventListener('mouseup', onMouseUp);
+                            document.removeEventListener('touchmove', onMouseMove);
+                            document.removeEventListener('touchend', onMouseUp);
+                            
+                            const clientXEnd = upEvent.type === 'touchend' ? upEvent.changedTouches[0].clientX : upEvent.clientX;
+                            const dx = clientXEnd - startX;
+                            
+                            if (dx > 120) {
+                                // Reset inline styles so CSS .peeled classes take effect
+                                cover.style.transform = '';
+                                cover.style.opacity = '';
+                                cover.style.transition = '';
+                                cover.classList.add('peeled');
+                                
+                                window.peeledCount++;
+                                if (window.peeledCount === 5) {
+                                    const card = document.getElementById('mainTakeawayCard');
+                                    if (card) {
+                                        setTimeout(() => {
+                                            card.classList.add('revealed');
+                                        }, 400);
+                                    }
+                                }
+                            } else {
+                                cover.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                                cover.style.transform = '';
+                                cover.style.opacity = '';
+                            }
+                        };
+                        
+                        document.addEventListener('mousemove', onMouseMove);
+                        document.addEventListener('mouseup', onMouseUp);
+                        document.addEventListener('touchmove', onMouseMove, { passive: false });
+                        document.addEventListener('touchend', onMouseUp);
+                    };
+                    
+                    fold.addEventListener('mousedown', onMouseDown);
+                    fold.addEventListener('touchstart', onMouseDown, { passive: false });
+                });
+            }
+        }
+
+        new Presentation();
+    </script>
+</body>
+</html>

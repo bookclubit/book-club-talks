@@ -1369,6 +1369,42 @@
                 .hub-core .s { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); }
                 .hub-tasks { display: flex; flex-wrap: wrap; gap: 16px; }
                 .hub-task { padding: 18px 26px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; font-size: 21px; color: var(--text-main); }
+
+                /* Лестница стоимости (блок 9) */
+                .ladder { display: flex; align-items: stretch; gap: 30px; }
+                .ladder-step { flex: 1; padding: 30px 32px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; display: flex; flex-direction: column; gap: 10px; position: relative; }
+                .ladder-step + .ladder-step::before { content: '→'; position: absolute; left: -33px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 28px; }
+                .ladder-step .amt { font-family: var(--font-mono); font-size: 42px; font-weight: 700; color: #fff; line-height: 1; }
+                .ladder-step .cap { font-size: 17px; color: var(--text-muted); line-height: 1.35; }
+                .ladder-step.wall { border-color: #5a2626; background: #140d0d; }
+                .ladder-step.wall .amt { color: #f87171; }
+                .ladder-step .flag { position: absolute; top: -13px; right: 18px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #f87171; background: #1a0e0e; border: 1px solid #5a2626; border-radius: 999px; padding: 4px 12px; }
+
+                /* Пары самообучения (блок 10) */
+                .src-sentence { font-family: var(--font-mono); font-size: 30px; color: var(--text-main); margin-bottom: 28px; }
+                .src-sentence b { color: #fff; background: #161616; border-radius: 6px; padding: 2px 8px; }
+                .pairs { display: flex; flex-direction: column; gap: 11px; max-width: 940px; }
+                .pair { display: flex; align-items: center; gap: 16px; font-family: var(--font-mono); font-size: 20px; }
+                .pair .ctx { color: var(--text-muted); }
+                .pair .arr { color: #52525b; }
+                .pair .tgt { color: #fff; background: #161616; border: 1px solid var(--border-hover); border-radius: 8px; padding: 4px 14px; }
+
+                /* MoE-сетка (блок 11) */
+                .moe { display: grid; grid-template-columns: auto 1fr; gap: 64px; align-items: center; margin-bottom: 34px; }
+                .moe-grid { display: grid; grid-template-columns: repeat(8, 26px); grid-auto-rows: 26px; gap: 10px; }
+                .moe-cell { width: 26px; height: 26px; border-radius: 7px; background: #1a1a1a; border: 1px solid var(--border); }
+                .moe-cell.on { background: #fff; border-color: #fff; box-shadow: 0 0 16px rgba(255,255,255,0.35); }
+                .moe-txt h3 { margin: 0 0 12px; font-size: 26px; color: #fff; font-weight: 600; }
+                .moe-txt p { margin: 0; font-size: 19px; color: var(--text-muted); line-height: 1.5; }
+
+                /* Вход → база → выход (блок 12) */
+                .io { display: grid; grid-template-columns: 1fr auto 1fr; gap: 54px; align-items: center; margin-bottom: 34px; }
+                .io-col { display: flex; flex-direction: column; gap: 12px; }
+                .io-col .lbl { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 4px; }
+                .io-item { padding: 14px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; font-size: 18px; color: var(--text-main); }
+                .io-core { width: 210px; height: 210px; border-radius: 26px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1c1c1c 0%, #0a0a0a 70%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 8px; padding: 0 18px; }
+                .io-core .n { font-size: 23px; font-weight: 700; color: #fff; line-height: 1.2; }
+                .io-core .s { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
             </style>
 
             <!-- БЛОК 2 -->
@@ -1598,7 +1634,165 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="12">
+            <!-- БЛОК 9 -->
+            <section class="slide ss" data-slide="12">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 09 · Стена разметки</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Обучение с учителем упёрлось в <b>разметку</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Размеченные данные — дорого, долго, вручную. Это узкое место, в которое упёрлась индустрия.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="ladder">
+                            <div class="ladder-step ss-reveal" style="--ss-d:220ms">
+                                <div class="amt">5¢</div>
+                                <div class="cap">за разметку 1 изображения</div>
+                            </div>
+                            <div class="ladder-step ss-reveal" style="--ss-d:340ms">
+                                <div class="amt"><span class="ss-count" data-to="50000" data-prefix="$" data-space="1">$50 000</span></div>
+                                <div class="cap">1 млн изображений — AlexNet, 2012 (1000 категорий)</div>
+                            </div>
+                            <div class="ladder-step wall ss-reveal" style="--ss-d:460ms">
+                                <span class="flag">стена</span>
+                                <div class="amt"><span class="ss-count" data-to="50000000" data-prefix="$" data-space="1">$50 000 000</span></div>
+                                <div class="cap">масштаб до 1 млн категорий</div>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:600ms; margin-top:40px">
+                            Разметка не исчезла — она <b>сместилась</b>. <button class="info-trigger" data-open="label2026" style="margin-left:8px">от «обучить модель» к «оценить модель»</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="label2026" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Разметка в 2026: сдвиг к оценке</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Для чего теперь</b><span>RLHF, DPO, оценка качества. Бизнес на разметке жив: Scale AI, Surge AI, Toloka.</span></div>
+                        <div class="m-row"><b>AI размечает AI</b><span>RLAIF — Reinforcement Learning from AI Feedback: Claude оценивает ответы GPT и наоборот.</span></div>
+                        <div class="m-row"><b>Дорогие домены</b><span>Медицина, юриспруденция — $50–200 за пример.</span></div>
+                        <div class="m-row"><b>Навык инженера</b><span>Время уходит не на разметку для обучения, а на создание eval-наборов (тестов качества).</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 10 -->
+            <section class="slide ss" data-slide="13">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 10 · Ключ к масштабу</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Самообучение снимает <b>потолок данных</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Модель сама выводит метки из текста — человек-разметчик не нужен. Каждое предложение = несколько примеров.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="src-sentence ss-reveal" style="--ss-d:220ms">«I love street food.» → <b>6 обучающих примеров</b></div>
+                        <div class="pairs">
+                            <div class="pair ss-reveal" style="--ss-d:300ms"><span class="ctx">I</span><span class="arr">→</span><span class="tgt">love</span></div>
+                            <div class="pair ss-reveal" style="--ss-d:360ms"><span class="ctx">I love</span><span class="arr">→</span><span class="tgt">street</span></div>
+                            <div class="pair ss-reveal" style="--ss-d:420ms"><span class="ctx">I love street</span><span class="arr">→</span><span class="tgt">food</span></div>
+                            <div class="pair ss-reveal" style="--ss-d:480ms"><span class="ctx">I love street food</span><span class="arr">→</span><span class="tgt">.</span></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:600ms; margin-top:34px">
+                            Текст есть <b>везде</b> — книги, блоги, Reddit → данные почти бесконечны. Вот почему языковые модели смогли вырасти до триллионов токенов. <button class="info-trigger" data-open="self2026" style="margin-left:8px">границы самообучения</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="self2026" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Самообучение в 2026: границы видны</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Расширилось</b><span>Не только текст: код (GitHub), матдоказательства, научные статьи, видео (YouTube), аудио (подкасты).</span></div>
+                        <div class="m-row"><b>Синтетика</b><span>Модели генерируют данные для других: DeepSeek R1 (reasoning), Phi-4 (учебниковые данные от GPT-4).</span></div>
+                        <div class="m-row"><b>Model collapse</b><span>Обучение на своей же синтетике деградирует качество — нужны «свежие» данные.</span></div>
+                        <div class="m-row"><b>Где брать</b><span>Книги (иски NYT vs OpenAI), приватные данные компаний (лицензирование), синтетика с верификацией.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 11 -->
+            <section class="slide ss" data-slide="14">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 11 · Рост и MoE</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">«Большая» — понятие <b>относительное</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">GPT-1 (117M) была «большой». Сегодня «большая» — 100B+, «маленькая» — 1–8B (работает на ноутбуке).</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="moe">
+                            <div class="moe-grid ss-reveal" style="--ss-d:220ms">
+                                <div class="moe-cell on"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell on"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div>
+                                <div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell on"></div><div class="moe-cell"></div><div class="moe-cell"></div>
+                                <div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell on"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div>
+                                <div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell on"></div><div class="moe-cell"></div>
+                            </div>
+                            <div class="moe-txt ss-reveal" style="--ss-d:340ms">
+                                <h3>MoE — Mixture of Experts</h3>
+                                <p>Модель огромна, но на каждый запрос активируется лишь малая часть «экспертов» (белые ячейки). Так растут способности без пропорционального роста стоимости inference.</p>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:480ms">
+                            Больше параметров → нужно больше данных. Но парадигма сместилась: <button class="info-trigger" data-open="moe2026">«больше» → «умнее при ответе»</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="moe2026" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Параметры в 2026: от размера к эффективности</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Масштабы</b><span>GPT-5 ≈ 1–2 трлн (MoE), DeepSeek V3 — 671B (активно 37B), Llama 4 — 400B+.</span></div>
+                        <div class="m-row"><b>Chinchilla (2022)</b><span>Важны не только параметры, но и количество данных — их нужно сбалансировать.</span></div>
+                        <div class="m-row"><b>Test-time compute</b><span>o1/o3/o4 тратят больше вычислений на обдумывание ответа, а не на обучение.</span></div>
+                        <div class="m-row"><b>Выбор инженера</b><span>«Быстрая дешёвая» vs «медленная думающая» модель — ключевое архитектурное решение.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 12 -->
+            <section class="slide ss" data-slide="15">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 12 · Мультимодальность</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">От языковых моделей к <b>базовым</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Мир мультимодален. «Базовая модель» (foundation) — фундамент, на котором строят другие модели.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="io">
+                            <div class="io-col ss-reveal" style="--ss-d:220ms">
+                                <div class="lbl">Вход</div>
+                                <div class="io-item">Текст</div>
+                                <div class="io-item">Изображение</div>
+                                <div class="io-item">Аудио · видео</div>
+                                <div class="io-item">3D · белки</div>
+                            </div>
+                            <div class="io-core ss-reveal" style="--ss-d:340ms">
+                                <div class="n">Базовая модель</div>
+                                <div class="s">foundation model</div>
+                            </div>
+                            <div class="io-col ss-reveal" style="--ss-d:460ms">
+                                <div class="lbl">Выход</div>
+                                <div class="io-item">Текст · код</div>
+                                <div class="io-item">Изображения — Midjourney</div>
+                                <div class="io-item">Видео — Sora, Veo</div>
+                                <div class="io-item">Голос — ElevenLabs</div>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
+                            Мультимодальность в 2026 — не фича, а базовое ожидание. <button class="info-trigger" data-open="mm2026">фото чека + голосом «разбери это»</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="mm2026" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Мультимодальность в 2026 — норма</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Понимают всё</b><span>GPT-5, Claude 4, Gemini 2.5 — текст + изображения + аудио + видео + документы (PDF, таблицы).</span></div>
+                        <div class="m-row"><b>Генерация</b><span>Видео: Sora, Kling 2.0, Runway Gen-4, Veo 3. Картинки: Midjourney V7, Flux, DALL-E 4. Голос: ElevenLabs.</span></div>
+                        <div class="m-row"><b>Наука</b><span>AlphaFold 3 — структура белков; модели для дизайна лекарств и материалов.</span></div>
+                        <div class="m-row"><b>Для инженера</b><span>RAG стал мультимодальным: поиск не только по тексту, но и по изображениям, таблицам, графикам.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="16">
                 <style>
                     .timeline-next-container {
                         display: flex;

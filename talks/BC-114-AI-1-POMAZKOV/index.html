@@ -814,12 +814,12 @@
                     /* Сильная ease-out кривая — по гайду design-eng (не встроенные слабые) */
                     #scale-slide { --se-out: cubic-bezier(0.23, 1, 0.32, 1); }
                     #scale-slide .scale-wrap {
-                        height: 100%; padding: 60px 90px 56px; box-sizing: border-box;
-                        display: flex; flex-direction: column;
+                        height: 100%; padding: 70px 100px 70px; box-sizing: border-box;
+                        display: flex; flex-direction: column; position: relative;
                     }
 
-                    /* ——— Домашний экран: цитата + три крупные карточки по центру ——— */
-                    #scale-slide .scale-home { height: 100%; display: flex; flex-direction: column; }
+                    /* ——— Домашний экран: цитата + три крупные карточки ——— */
+                    #scale-slide .scale-home { height: 100%; display: flex; flex-direction: column; gap: 70px; }
                     #scale-slide .scale-home[hidden] { display: none; }
                     #scale-slide .scale-quote {
                         display: flex; align-items: center; gap: 26px;
@@ -832,41 +832,37 @@
                     #scale-slide .scale-quote-text {
                         font-size: 29px; line-height: 1.4; color: var(--text-main); font-weight: 500; margin: 0;
                     }
+                    #scale-slide .scale-word { color: #fff; font-weight: 700; }
                     #scale-slide .scale-quote-author {
                         font-size: 17px; color: var(--text-muted); margin-top: 10px;
                         text-transform: uppercase; letter-spacing: 0.08em;
                     }
                     #scale-slide .scale-cards {
-                        flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
-                        align-content: center; align-items: stretch;
+                        display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
                     }
                     #scale-slide .scale-card {
-                        background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
-                        padding: 44px 34px; cursor: pointer; text-align: center; color: inherit;
-                        display: flex; flex-direction: column; align-items: center; gap: 18px;
+                        min-height: 560px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
+                        padding: 56px 34px; cursor: pointer; text-align: center; color: inherit;
+                        display: flex; flex-direction: column; align-items: center; gap: 32px;
                         font-family: var(--font-sans);
                         transition: transform 200ms var(--se-out), border-color 200ms var(--se-out), background 200ms var(--se-out);
                     }
                     #scale-slide .scale-card:hover { border-color: var(--border-hover); background: var(--bg-hover); transform: translateY(-4px); }
                     #scale-slide .scale-card:active { transform: scale(0.98); }
                     #scale-slide .scale-card-ico {
-                        width: 76px; height: 76px; border-radius: 18px; flex-shrink: 0;
+                        width: 88px; height: 88px; border-radius: 20px; flex-shrink: 0;
                         display: flex; align-items: center; justify-content: center;
                         background: #161616; border: 1px solid var(--border); color: #fff;
                     }
-                    #scale-slide .scale-card-ico .flat-icon { width: 40px; height: 40px; }
-                    #scale-slide .scale-card-title { font-size: 27px; font-weight: 600; color: var(--text-main); line-height: 1.15; }
-                    #scale-slide .scale-card-sub { font-size: 16px; color: var(--text-muted); line-height: 1.35; margin-top: -6px; }
+                    #scale-slide .scale-card-ico .flat-icon { width: 46px; height: 46px; }
+                    #scale-slide .scale-card-title { font-size: 29px; font-weight: 600; color: var(--text-main); line-height: 1.15; }
                     #scale-slide .scale-card-num {
-                        margin-top: auto; font-family: var(--font-mono); font-size: 40px; font-weight: 700; color: #fff; line-height: 1;
+                        margin-top: auto; font-family: var(--font-mono); font-size: 44px; font-weight: 700; color: #fff; line-height: 1;
                     }
-                    #scale-slide .scale-card-num span { display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--text-muted); margin-top: 8px; letter-spacing: 0.04em; }
-                    #scale-slide .scale-hint {
-                        margin-top: 28px; text-align: center; font-size: 16px; color: var(--text-muted); opacity: 0.6;
-                    }
+                    #scale-slide .scale-card-num span { display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--text-muted); margin-top: 10px; letter-spacing: 0.04em; }
 
                     /* ——— Экран метрики (слайд в слайде) ——— */
-                    #scale-slide .scale-view { height: 100%; flex-direction: column; gap: 22px; }
+                    #scale-slide .scale-view { height: 100%; flex-direction: column; gap: 30px; justify-content: center; }
                     #scale-slide .scale-view[hidden] { display: none; }
                     #scale-slide .scale-view:not([hidden]) {
                         display: flex; animation: scaleViewIn 300ms var(--se-out) both;
@@ -891,16 +887,16 @@
                     #scale-slide .scale-view-title span { color: var(--text-muted); font-weight: 400; }
 
                     #scale-slide .scale-chart {
-                        display: flex; align-items: flex-end; gap: 26px;
-                        padding: 24px 12px 0; border-bottom: 1px solid var(--border); height: 300px;
+                        display: flex; align-items: flex-end; gap: 30px;
+                        padding: 24px 12px 0; border-bottom: 1px solid var(--border); height: 600px;
                     }
                     #scale-slide .scale-bar-col {
                         flex: 1; height: 100%; display: flex; flex-direction: column;
-                        align-items: center; justify-content: flex-end; gap: 12px;
+                        align-items: center; justify-content: flex-end; gap: 14px;
                     }
-                    #scale-slide .scale-bar-val { font-size: 16px; font-weight: 600; color: var(--text-main); font-family: var(--font-mono); }
+                    #scale-slide .scale-bar-val { font-size: 18px; font-weight: 600; color: var(--text-main); font-family: var(--font-mono); }
                     #scale-slide .scale-bar {
-                        width: 62%; max-width: 100px; border-radius: 8px 8px 0 0;
+                        width: 62%; max-width: 120px; border-radius: 8px 8px 0 0;
                         background: linear-gradient(180deg, #ffffff 0%, #52525b 100%);
                         transform-origin: bottom;
                     }
@@ -911,9 +907,8 @@
                     #scale-slide .scale-view:not([hidden]) .scale-bar-col:nth-child(4) .scale-bar { animation-delay: 250ms; }
                     #scale-slide .scale-view:not([hidden]) .scale-bar-col:nth-child(5) .scale-bar { animation-delay: 320ms; }
                     @keyframes barGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-                    #scale-slide .scale-bar-cap { font-size: 15px; color: var(--text-muted); text-align: center; line-height: 1.3; }
+                    #scale-slide .scale-bar-cap { font-size: 16px; color: var(--text-muted); text-align: center; line-height: 1.3; }
                     #scale-slide .scale-bar-cap b { color: var(--text-main); font-weight: 600; }
-                    #scale-slide .scale-chart-note { font-size: 14px; color: #52525b; margin: 12px 4px 0; }
 
                     /* Главная мысль: крупная цифра роста + короткий вывод */
                     #scale-slide .scale-takeaway { display: flex; align-items: center; gap: 34px; }
@@ -934,32 +929,15 @@
                     #scale-slide .src-link:hover { border-bottom-color: #fff; }
                     #scale-slide .src-link::after { content: ' ↗'; color: var(--text-muted); font-size: 0.8em; }
 
-                    /* Выделенный вывод (для «Электричества») */
-                    #scale-slide .scale-conclusion {
-                        display: flex; align-items: center; gap: 14px; margin-top: auto;
-                        border: 1px solid var(--border); border-left: 3px solid #fff; border-radius: 12px;
-                        background: var(--bg-card); padding: 18px 24px;
-                        font-size: 21px; font-weight: 500; color: var(--text-main);
+                    /* Кликабельный триггер модалки прямо в тексте («2026–2028») */
+                    #scale-slide .year-trigger {
+                        background: none; border: none; padding: 0; font: inherit; cursor: pointer;
+                        color: #fff; font-weight: 700; border-bottom: 1px dashed #52525b;
+                        transition: border-color 160ms var(--se-out);
                     }
-                    #scale-slide .scale-conclusion b { color: #fff; }
+                    #scale-slide .year-trigger:hover { border-bottom-color: #fff; }
 
-                    #scale-slide .scale-more { border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); }
-                    #scale-slide .scale-more > summary {
-                        cursor: pointer; padding: 14px 20px; font-size: 17px; font-weight: 600; color: #fff;
-                        list-style: none; display: flex; align-items: center; gap: 10px;
-                    }
-                    #scale-slide .scale-more > summary::-webkit-details-marker { display: none; }
-                    #scale-slide .scale-more > summary::before { content: '▸'; color: var(--text-muted); transition: transform 200ms var(--se-out); }
-                    #scale-slide .scale-more[open] > summary::before { transform: rotate(90deg); }
-                    #scale-slide .scale-more-body { padding: 4px 20px 18px; }
-                    #scale-slide .scale-more-body p { font-size: 16px; line-height: 1.5; color: var(--text-muted); margin: 0 0 10px; }
-                    #scale-slide .scale-badge-year {
-                        display: inline-block; font-size: 13px; padding: 3px 10px; border-radius: 999px;
-                        background: #161616; border: 1px solid var(--border); color: var(--text-muted);
-                        text-transform: uppercase; letter-spacing: 0.08em; margin-left: auto;
-                    }
-
-                    /* Список решений с тултипом сути при наведении */
+                    /* Список решений с тултипом сути при наведении (переиспользуется в модалке) */
                     #scale-slide .sol-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
                     #scale-slide .sol {
                         position: relative; display: flex; align-items: baseline; gap: 12px;
@@ -972,13 +950,59 @@
                     #scale-slide .sol-tip {
                         position: absolute; left: 12px; bottom: calc(100% + 8px); z-index: 5;
                         width: max-content; max-width: 420px; padding: 10px 14px;
-                        background: #161616; border: 1px solid var(--border-hover); border-radius: 10px;
+                        background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px;
                         font-size: 14px; line-height: 1.4; color: var(--text-main);
                         box-shadow: 0 12px 32px rgba(0,0,0,0.6);
                         opacity: 0; transform: scale(0.97) translateY(4px); transform-origin: bottom left; pointer-events: none;
                         transition: opacity 150ms var(--se-out), transform 150ms var(--se-out);
                     }
                     #scale-slide .sol:hover .sol-tip { opacity: 1; transform: scale(1) translateY(0); }
+
+                    /* Модалка «Как индустрия решает» (данные) */
+                    #scale-slide .scale-modal { position: absolute; inset: -70px -100px; z-index: 20; display: flex; align-items: center; justify-content: center; }
+                    #scale-slide .scale-modal[hidden] { display: none; }
+                    #scale-slide .scale-modal-backdrop {
+                        position: absolute; inset: 0; background: rgba(0,0,0,0.72);
+                        opacity: 0; transition: opacity 200ms var(--se-out);
+                    }
+                    #scale-slide .scale-modal.open .scale-modal-backdrop { opacity: 1; }
+                    #scale-slide .scale-modal-panel {
+                        position: relative; width: min(760px, 80%); max-height: 78%; overflow-y: auto;
+                        background: var(--bg-card); border: 1px solid var(--border-hover); border-radius: 20px;
+                        padding-bottom: 12px; box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+                        transform: scale(0.95); opacity: 0; transform-origin: center;
+                        transition: transform 220ms var(--se-out), opacity 220ms var(--se-out);
+                    }
+                    #scale-slide .scale-modal.open .scale-modal-panel { transform: scale(1); opacity: 1; }
+                    #scale-slide .scale-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 22px 26px 14px; }
+                    #scale-slide .scale-modal-head h4 { margin: 0; font-size: 23px; font-weight: 600; color: var(--text-main); }
+                    #scale-slide .scale-modal-x {
+                        width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; cursor: pointer;
+                        background: #161616; border: 1px solid var(--border); color: var(--text-main); font-size: 16px;
+                        transition: background 160ms var(--se-out), transform 160ms var(--se-out);
+                    }
+                    #scale-slide .scale-modal-x:hover { background: var(--bg-hover); }
+                    #scale-slide .scale-modal-x:active { transform: scale(0.9); }
+                    #scale-slide .scale-modal-panel .sol-list { padding: 0 26px 6px; }
+                    #scale-slide .scale-modal-panel .sol:hover { background: var(--bg-hover); }
+
+                    /* Поповер по наведению («Энергия = стоимость…» в «Электричестве») */
+                    #scale-slide .pop-trigger { position: relative; border-bottom: 1px dashed #52525b; cursor: default; }
+                    #scale-slide .pop-panel {
+                        position: absolute; top: calc(100% + 14px); left: 0; z-index: 5;
+                        width: 540px; max-width: 60vw; padding: 18px 22px;
+                        background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 14px;
+                        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                        opacity: 0; transform: scale(0.97) translateY(-4px); transform-origin: top left; pointer-events: none;
+                        transition: opacity 160ms var(--se-out), transform 160ms var(--se-out);
+                    }
+                    #scale-slide .pop-trigger:hover .pop-panel { opacity: 1; transform: scale(1) translateY(0); }
+                    #scale-slide .pop-panel b {
+                        display: block; font-size: 13px; color: var(--text-muted); font-weight: 600;
+                        text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
+                    }
+                    #scale-slide .pop-panel ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+                    #scale-slide .pop-panel li { font-size: 15px; line-height: 1.45; color: var(--text-muted); }
 
                     @media (prefers-reduced-motion: reduce) {
                         #scale-slide .scale-view:not([hidden]),
@@ -993,7 +1017,7 @@
                         <div class="scale-quote">
                             <img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
                             <div>
-                                <p class="scale-quote-text">«Если бы можно было одним словом описать развитие AI после 2020 года, это было бы слово „масштаб“».</p>
+                                <p class="scale-quote-text">«Если бы можно было одним словом описать развитие AI после 2020 года, это было бы слово „<span class="scale-word">масштаб</span>“».</p>
                                 <div class="scale-quote-author">Чип Хьюен · AI Engineering</div>
                             </div>
                         </div>
@@ -1002,23 +1026,19 @@
                             <button class="scale-card" data-metric="params">
                                 <span class="scale-card-ico"><svg class="flat-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg></span>
                                 <span class="scale-card-title">Параметры</span>
-                                <span class="scale-card-sub">Размер модели</span>
                                 <span class="scale-card-num">×30 000<span>за 7 лет</span></span>
                             </button>
                             <button class="scale-card" data-metric="data">
                                 <span class="scale-card-ico"><svg class="flat-icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path></svg></span>
                                 <span class="scale-card-title">Данные</span>
-                                <span class="scale-card-sub">Объём обучающего текста</span>
                                 <span class="scale-card-num">×50 000<span>за 7 лет</span></span>
                             </button>
                             <button class="scale-card" data-metric="power">
                                 <span class="scale-card-ico"><svg class="flat-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
                                 <span class="scale-card-title">Электричество</span>
-                                <span class="scale-card-sub">Вычисления и энергия</span>
                                 <span class="scale-card-num">×10⁸<span>вычислений</span></span>
                             </button>
                         </div>
-                        <div class="scale-hint">Нажми на метрику — увидишь масштаб роста GPT-1 → GPT-5</div>
                     </div>
 
                     <!-- ЭКРАН: ПАРАМЕТРЫ -->
@@ -1026,7 +1046,7 @@
                         <div class="scale-view-head">
                             <button class="scale-back" type="button">← Назад</button>
                             <span class="scale-view-ico"><svg class="flat-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg></span>
-                            <span class="scale-view-title">Параметры <span>· размер модели</span></span>
+                            <span class="scale-view-title">Параметры</span>
                         </div>
                         <div class="scale-chart">
                             <div class="scale-bar-col"><div class="scale-bar-val">117 млн</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div></div>
@@ -1035,7 +1055,6 @@
                             <div class="scale-bar-col"><div class="scale-bar-val">~1,8 трлн</div><div class="scale-bar" style="height:47%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div></div>
                             <div class="scale-bar-col"><div class="scale-bar-val">~4 трлн</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div></div>
                         </div>
-                        <p class="scale-chart-note">Число параметров · высота столбца пропорциональна значению</p>
                         <div class="scale-takeaway">
                             <div class="scale-big">×30 000<small>рост за 7 лет</small></div>
                             <div>
@@ -1043,12 +1062,6 @@
                                 <p class="scale-follows">Это «scaling law»: качество модели предсказуемо растёт с масштабом. Ставка на масштаб — а не на новые алгоритмы — дала скачок способностей.</p>
                             </div>
                         </div>
-                        <details class="scale-more">
-                            <summary>Что за этим стоит <span class="scale-badge-year">пруф</span></summary>
-                            <div class="scale-more-body">
-                                <p>Зависимость «больше параметров + данных + вычислений → ниже ошибка» измерена и описана как степенной закон: <a class="src-link" href="https://arxiv.org/abs/2001.08361" target="_blank">Kaplan et al., «Scaling Laws for Neural Language Models», 2020</a>. Позже гонка размера сменяется гонкой эффективности: у GPT-4/5 — MoE, где на каждый запрос активна лишь часть параметров.</p>
-                            </div>
-                        </details>
                     </div>
 
                     <!-- ЭКРАН: ДАННЫЕ -->
@@ -1056,7 +1069,7 @@
                         <div class="scale-view-head">
                             <button class="scale-back" type="button">← Назад</button>
                             <span class="scale-view-ico"><svg class="flat-icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path></svg></span>
-                            <span class="scale-view-title">Данные <span>· объём обучающего текста</span></span>
+                            <span class="scale-view-title">Данные</span>
                         </div>
                         <div class="scale-chart">
                             <div class="scale-bar-col"><div class="scale-bar-val">0,7 млрд</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div></div>
@@ -1065,17 +1078,22 @@
                             <div class="scale-bar-col"><div class="scale-bar-val">~13 трлн</div><div class="scale-bar" style="height:35%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div></div>
                             <div class="scale-bar-col"><div class="scale-bar-val">~40 трлн</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div></div>
                         </div>
-                        <p class="scale-chart-note">Токены обучения · высота столбца пропорциональна значению</p>
                         <div class="scale-takeaway">
                             <div class="scale-big">×50 000<small>рост за 7 лет</small></div>
                             <div>
                                 <p class="scale-idea">Данные растут быстрее, чем интернет их рождает. Качественного текста — лишь ~3–5 трлн токенов, и он почти исчерпан.</p>
-                                <p class="scale-follows">По прогнозу <a class="src-link" href="https://epoch.ai/publications/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data" target="_blank">Epoch AI</a> качественные данные закончатся в 2026–2028.</p>
+                                <p class="scale-follows">По прогнозу <a class="src-link" href="https://epoch.ai/publications/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data" target="_blank">Epoch AI</a> качественные данные закончатся в <button class="year-trigger" type="button" data-open="data-modal">2026–2028</button> — <span style="color:var(--text-muted)">нажми, чтобы узнать, как индустрия это решает</span>.</p>
                             </div>
                         </div>
-                        <details class="scale-more">
-                            <summary>Как индустрия решает <span class="scale-badge-year">2025–2026</span></summary>
-                            <div class="scale-more-body">
+
+                        <!-- Модалка: как индустрия решает нехватку данных -->
+                        <div class="scale-modal" data-modal="data-modal" hidden>
+                            <div class="scale-modal-backdrop" data-close></div>
+                            <div class="scale-modal-panel">
+                                <div class="scale-modal-head">
+                                    <h4>Как индустрия решает нехватку данных</h4>
+                                    <button class="scale-modal-x" type="button" data-close aria-label="Закрыть">✕</button>
+                                </div>
                                 <ul class="sol-list">
                                     <li class="sol"><b>Синтетика</b><span class="sol-ex">DeepSeek R1</span><span class="sol-tip">Одна модель генерирует обучающие данные для другой — например, цепочки рассуждений.</span></li>
                                     <li class="sol"><b>Лицензирование</b><span class="sol-ex"><a class="src-link" href="https://openai.com/index/news-corp-and-openai-sign-landmark-multi-year-global-partnership/" target="_blank">OpenAI × News Corp</a>, Reddit</span><span class="sol-tip">Покупка приватных, ещё не попавших в общий доступ данных у правообладателей.</span></li>
@@ -1084,7 +1102,7 @@
                                     <li class="sol"><b>RL / верификация</b><span class="sol-ex">o3 / o4</span><span class="sol-tip">Модель учится на проверке правильности ответов, а не на новых текстах.</span></li>
                                 </ul>
                             </div>
-                        </details>
+                        </div>
                     </div>
 
                     <!-- ЭКРАН: ЭЛЕКТРИЧЕСТВО -->
@@ -1092,7 +1110,7 @@
                         <div class="scale-view-head">
                             <button class="scale-back" type="button">← Назад</button>
                             <span class="scale-view-ico"><svg class="flat-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
-                            <span class="scale-view-title">Электричество <span>· вычисления и энергия</span></span>
+                            <span class="scale-view-title">Электричество</span>
                         </div>
                         <div class="scale-chart">
                             <div class="scale-bar-col"><div class="scale-bar-val">10¹⁸</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div></div>
@@ -1101,26 +1119,12 @@
                             <div class="scale-bar-col"><div class="scale-bar-val">2·10²⁵</div><div class="scale-bar" style="height:23%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div></div>
                             <div class="scale-bar-col"><div class="scale-bar-val">10²⁶⁺</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div></div>
                         </div>
-                        <p class="scale-chart-note">FLOPs на обучение · высота столбца пропорциональна значению</p>
                         <div class="scale-takeaway">
                             <div class="scale-big">×10⁸<small>вычислений за 7 лет</small></div>
                             <div>
-                                <p class="scale-idea">Энергия = стоимость каждого токена. Отсюда MoE, квантование и малые модели — чтобы платить меньше.</p>
+                                <p class="scale-idea"><span class="pop-trigger">Энергия = стоимость каждого токена<span class="pop-panel"><b>Что происходит с энергией AI</b><ul><li>Microsoft перезапустила АЭС <a class="src-link" href="https://www.cnbc.com/2024/09/20/constellation-energy-to-restart-three-mile-island-and-sell-the-power-to-microsoft.html" target="_blank">Three Mile Island</a> под дата-центры (2024).</li><li>Amazon купила <a class="src-link" href="https://www.datacenterdynamics.com/en/news/aws-acquires-talens-nuclear-data-center-campus-in-pennsylvania/" target="_blank">дата-центр у АЭС Susquehanna</a>.</li><li>Google — контракты на <a class="src-link" href="https://www.datacenterdynamics.com/en/news/google-backed-geothermal-firm-fervo-valued-at-10bn-on-back-of-ai-wave/" target="_blank">геотермальную энергию (Fervo)</a>.</li><li><a class="src-link" href="https://openai.com/index/announcing-the-stargate-project/" target="_blank">Stargate</a> (OpenAI+Oracle+SoftBank, 2025): $500 млрд на AI-инфраструктуру.</li><li><a class="src-link" href="https://www.cnbc.com/2025/07/09/nvidia-4-trillion.html" target="_blank">NVIDIA</a> — самая дорогая компания мира ($3–4 трлн+).</li></ul></span></span>. Отсюда MoE, квантование и малые модели — чтобы платить меньше.</p>
                             </div>
                         </div>
-                        <details class="scale-more">
-                            <summary>Что происходит с энергией — факты <span class="scale-badge-year">2024–2026</span></summary>
-                            <div class="scale-more-body">
-                                <ul class="sol-list">
-                                    <li class="sol">Microsoft перезапустила АЭС <a class="src-link" href="https://www.cnbc.com/2024/09/20/constellation-energy-to-restart-three-mile-island-and-sell-the-power-to-microsoft.html" target="_blank">Three Mile Island</a> под дата-центры (2024).</li>
-                                    <li class="sol">Amazon купила <a class="src-link" href="https://www.datacenterdynamics.com/en/news/aws-acquires-talens-nuclear-data-center-campus-in-pennsylvania/" target="_blank">дата-центр у АЭС Susquehanna</a>.</li>
-                                    <li class="sol">Google — контракты на <a class="src-link" href="https://www.datacenterdynamics.com/en/news/google-backed-geothermal-firm-fervo-valued-at-10bn-on-back-of-ai-wave/" target="_blank">геотермальную энергию (Fervo)</a>.</li>
-                                    <li class="sol"><a class="src-link" href="https://openai.com/index/announcing-the-stargate-project/" target="_blank">Stargate</a> (OpenAI+Oracle+SoftBank, 2025): $500 млрд на AI-инфраструктуру.</li>
-                                    <li class="sol"><a class="src-link" href="https://www.cnbc.com/2025/07/09/nvidia-4-trillion.html" target="_blank">NVIDIA</a> — самая дорогая компания мира ($3–4 трлн+): её чипы — «нефть» AI-эры.</li>
-                                </ul>
-                            </div>
-                        </details>
-                        <div class="scale-conclusion">→&nbsp;Дата-центры AI будут потреблять <b>&nbsp;8–10% мировой электроэнергии к 2030</b>&nbsp;(Goldman Sachs, IEA).</div>
                     </div>
                 </div>
 
@@ -1141,6 +1145,21 @@
                         });
                         backs.forEach(function (b) {
                             b.addEventListener('click', function () { show(null); });
+                        });
+
+                        // Модалки: [data-open] открывает .scale-modal с тем же data-modal, [data-close] закрывает.
+                        var modals = {};
+                        slide.querySelectorAll('.scale-modal').forEach(function (m) { modals[m.getAttribute('data-modal')] = m; });
+                        function openModal(m) { m.hidden = false; requestAnimationFrame(function () { m.classList.add('open'); }); }
+                        function closeModal(m) {
+                            m.classList.remove('open');
+                            setTimeout(function () { m.hidden = true; }, 240);
+                        }
+                        slide.querySelectorAll('[data-open]').forEach(function (t) {
+                            t.addEventListener('click', function () { var m = modals[t.getAttribute('data-open')]; if (m) openModal(m); });
+                        });
+                        slide.querySelectorAll('.scale-modal [data-close]').forEach(function (c) {
+                            c.addEventListener('click', function () { closeModal(c.closest('.scale-modal')); });
                         });
                     })();
                 </script>

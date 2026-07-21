@@ -812,7 +812,774 @@
                     </div>
                 </div>
             </section>
-            <section class="slide" data-slide="4">
+            <!-- ==================== КОНТЕНТНЫЕ СЛАЙДЫ (блоки 2…18) ==================== -->
+            <style>
+                .ss { --ss-out: cubic-bezier(0.23, 1, 0.32, 1); }
+                .ss .ss-wrap { height: 100%; padding: 76px 100px; box-sizing: border-box; display: flex; flex-direction: column; }
+                .ss .ss-kicker {
+                    font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.14em;
+                    text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;
+                }
+                .ss .ss-title { font-size: 56px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.08; margin: 0; color: var(--text-main); }
+                .ss .ss-title b { color: #fff; font-weight: 700; }
+                .ss .ss-lead { font-size: 24px; line-height: 1.45; color: var(--text-muted); margin: 20px 0 0; max-width: 1200px; }
+                .ss .ss-body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; margin-top: 46px; }
+
+                /* Появление при входе на слайд (.ss.active) */
+                .ss .ss-reveal { opacity: 0; }
+                .ss.active .ss-reveal { animation: ssReveal 640ms var(--ss-out) both; animation-delay: var(--ss-d, 0ms); }
+                @keyframes ssReveal { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+                @media (prefers-reduced-motion: reduce) {
+                    .ss.active .ss-reveal { animation: ssFade 300ms ease both; }
+                    @keyframes ssFade { to { opacity: 1; } }
+                }
+
+                /* Вывод-плашка */
+                .ss-insight {
+                    border: 1px solid var(--border); border-left: 3px solid #fff; background: var(--bg-card);
+                    border-radius: 16px; padding: 26px 34px; font-size: 23px; line-height: 1.5; color: var(--text-main);
+                }
+                .ss-insight b { color: #fff; font-weight: 600; }
+
+                /* Чипы */
+                .ss-chips { display: flex; flex-wrap: wrap; gap: 12px; }
+                .ss-chip { padding: 9px 18px; border: 1px solid var(--border); border-radius: 999px; font-size: 16px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-card); }
+                .ss-chips-label { font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 14px; }
+
+                /* ——— БЛОК 2: поток «масштаб → два последствия» ——— */
+                .b2 { display: grid; grid-template-columns: 340px 1fr; gap: 90px; align-items: center; margin-bottom: 40px; }
+                .b2-source {
+                    height: 300px; border-radius: 26px; border: 1px solid var(--border-hover);
+                    background: radial-gradient(circle at 50% 38%, #1c1c1c 0%, #0a0a0a 70%);
+                    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+                }
+                .b2-source .n { font-size: 42px; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+                .b2-source .y { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); letter-spacing: 0.08em; }
+                .b2-cards { display: flex; flex-direction: column; gap: 28px; }
+                .b2-card {
+                    position: relative; display: flex; gap: 26px; align-items: center;
+                    padding: 30px 38px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+                }
+                .b2-card::before {
+                    content: '→'; position: absolute; left: -52px; top: 50%; transform: translateY(-50%);
+                    color: var(--text-muted); font-size: 30px;
+                }
+                .b2-ico { width: 66px; height: 66px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #161616; border: 1px solid var(--border); color: #fff; }
+                .b2-ico .flat-icon { width: 34px; height: 34px; }
+                .b2-card h3 { margin: 0 0 6px; font-size: 27px; color: var(--text-main); font-weight: 600; letter-spacing: -0.01em; }
+                .b2-card p { margin: 0; font-size: 19px; color: var(--text-muted); line-height: 1.4; }
+
+                /* ——— БЛОК 3: дашборд дисциплины ——— */
+                .b3-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-bottom: 30px; }
+                .b3-stat { padding: 28px 32px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; }
+                .b3-stat .v { font-family: var(--font-mono); font-size: 50px; font-weight: 700; color: #fff; line-height: 1; }
+                .b3-stat .l { margin-top: 12px; font-size: 17px; color: var(--text-muted); line-height: 1.35; }
+                .b3-mid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
+                .b3-role { padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; }
+                .b3-role.accent { border-color: var(--border-hover); background: #111; }
+                .b3-role h3 { margin: 0 0 12px; font-size: 22px; color: #fff; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+                .b3-role h3 .flat-icon { width: 22px; height: 22px; }
+                .b3-role p { margin: 0; font-size: 18px; color: var(--text-muted); line-height: 1.5; }
+                .b3-role .tag { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #52525b; }
+
+                /* ——— БЛОК 4: таймлайн 70 лет ——— */
+                .b4 { position: relative; padding: 30px 0 10px; }
+                .b4-row { display: flex; align-items: flex-start; justify-content: space-between; position: relative; }
+                .b4-row::before { content: ''; position: absolute; left: 2%; width: 96%; top: 60px; height: 3px; background: var(--border); border-radius: 2px; }
+                .b4-row::after { content: ''; position: absolute; left: 2%; width: 0; top: 60px; height: 3px; background: #fff; border-radius: 2px; }
+                .ss.active .b4-row::after { animation: b4draw 1700ms var(--ss-out) 250ms both; }
+                @keyframes b4draw { to { width: 96%; } }
+                .b4-node { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 6px; }
+                .b4-year { font-family: var(--font-mono); font-size: 25px; font-weight: 700; color: #fff; height: 52px; }
+                .b4-dot { width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px #000, 0 0 0 6px var(--border-hover); position: relative; z-index: 2; }
+                .b4-label { margin-top: 18px; font-size: 15px; color: var(--text-muted); line-height: 1.3; max-width: 160px; }
+                .b4-node.hot .b4-dot { background: #fff; box-shadow: 0 0 0 4px #000, 0 0 0 7px #fff, 0 0 24px rgba(255,255,255,0.5); }
+                .b4-node.hot .b4-label { color: var(--text-main); }
+
+                /* ===== Универсальные интерактивные примитивы для .ss ===== */
+                /* Поповер по наведению */
+                .ss .pop-host { position: relative; }
+                .ss .pop-trigger { border-bottom: 1px dashed #52525b; cursor: help; transition: border-color 160ms var(--ss-out); }
+                .ss .pop-trigger:hover { border-bottom-color: #fff; }
+                .ss .pop-panel {
+                    position: absolute; bottom: calc(100% + 14px); left: 0; z-index: 25; width: 600px; max-width: 680px;
+                    padding: 18px 22px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 14px;
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                    opacity: 0; visibility: hidden; transform: scale(0.98) translateY(6px); transform-origin: bottom left; pointer-events: none;
+                    transition: opacity 160ms var(--ss-out), transform 160ms var(--ss-out), visibility 160ms;
+                }
+                .ss .pop-panel.open { opacity: 1; visibility: visible; transform: scale(1) translateY(0); pointer-events: auto; }
+                .ss .pop-panel b.h { display: block; font-size: 13px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+                .ss .pop-panel ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+                .ss .pop-panel li { font-size: 15px; line-height: 1.45; color: var(--text-muted); }
+                .ss .pop-panel a, .ss-modal a { color: #fff; text-decoration: none; border-bottom: 1px dashed #52525b; }
+                .ss .pop-panel a:hover, .ss-modal a:hover { border-bottom-color: #fff; }
+
+                /* Кликабельный триггер-«пилюля» для модалки */
+                .ss .info-trigger {
+                    background: #161616; border: 1px solid var(--border-hover); border-radius: 999px; cursor: pointer;
+                    color: #fff; font: inherit; font-size: 15px; padding: 6px 16px; display: inline-flex; align-items: center; gap: 7px;
+                    transition: background 160ms var(--ss-out), transform 160ms var(--ss-out);
+                }
+                .ss .info-trigger:hover { background: var(--bg-hover); }
+                .ss .info-trigger:active { transform: scale(0.96); }
+                .ss .info-trigger::before { content: '2026'; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+
+                /* Модалка */
+                .ss-modal { position: absolute; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; }
+                .ss-modal[hidden] { display: none; }
+                .ss-modal-bg { position: absolute; inset: 0; background: rgba(0,0,0,0.74); opacity: 0; transition: opacity 200ms var(--ss-out); }
+                .ss-modal.open .ss-modal-bg { opacity: 1; }
+                .ss-modal-panel {
+                    position: relative; width: min(860px, 82%); max-height: 80%; overflow-y: auto;
+                    background: var(--bg-card); border: 1px solid var(--border-hover); border-radius: 20px;
+                    padding: 26px 32px 24px; box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+                    transform: scale(0.95); opacity: 0; transition: transform 220ms var(--ss-out), opacity 220ms var(--ss-out);
+                }
+                .ss-modal.open .ss-modal-panel { transform: scale(1); opacity: 1; }
+                .ss-modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+                .ss-modal-head h4 { margin: 0; font-size: 24px; font-weight: 600; color: #fff; }
+                .ss-modal-x { width: 36px; height: 36px; border-radius: 50%; cursor: pointer; flex-shrink: 0; background: #161616; border: 1px solid var(--border); color: #fff; font-size: 16px; transition: background 160ms var(--ss-out), transform 160ms var(--ss-out); }
+                .ss-modal-x:hover { background: var(--bg-hover); }
+                .ss-modal-x:active { transform: scale(0.9); }
+                .ss-modal-panel .m-row { display: flex; gap: 16px; padding: 13px 0; border-top: 1px solid var(--border); font-size: 16px; color: var(--text-muted); line-height: 1.4; }
+                .ss-modal-panel .m-row:first-of-type { border-top: none; }
+                .ss-modal-panel .m-row b { color: #fff; min-width: 200px; flex-shrink: 0; font-weight: 600; }
+                .ss-modal-panel > p { font-size: 17px; line-height: 1.55; color: var(--text-muted); margin: 0 0 14px; }
+
+                /* Полоски вероятностей (блок 5) */
+                .pb-prompt { font-family: var(--font-mono); font-size: 27px; color: var(--text-main); margin-bottom: 30px; }
+                .pb-prompt .cur { color: #52525b; }
+                .pb-list { display: flex; flex-direction: column; gap: 13px; max-width: 860px; }
+                .pb-item { display: flex; align-items: center; gap: 18px; }
+                .pb-word { width: 130px; font-family: var(--font-mono); font-size: 21px; color: var(--text-main); text-align: right; }
+                .pb-track { flex: 1; height: 36px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+                .pb-bar { height: 100%; background: linear-gradient(90deg, #ffffff, #71717a); border-radius: 7px 0 0 7px; width: 0; }
+                .ss.active .pb-bar { animation: pbGrow 900ms var(--ss-out) forwards; animation-delay: var(--pb-d, 350ms); }
+                @keyframes pbGrow { to { width: var(--pb-w, 0); } }
+                .pb-pct { width: 72px; font-family: var(--font-mono); font-size: 19px; color: var(--text-muted); }
+                .pb-item.no .pb-word { color: #52525b; text-decoration: line-through; }
+                .pb-item.no .pb-bar { background: #2a2a2a; }
+                .pb-note { margin-top: 26px; font-size: 18px; color: var(--text-muted); }
+
+                /* Токены (блок 6) */
+                .tok-line { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+                .tok { padding: 12px 18px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); font-family: var(--font-mono); font-size: 24px; color: var(--text-main); }
+                .tok:nth-child(even) { background: #151515; border-color: var(--border-hover); }
+                .tok-count { font-size: 17px; color: var(--text-muted); margin-bottom: 30px; }
+                .tok-why { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+                .tok-why div { padding: 22px 26px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; font-size: 18px; color: var(--text-muted); line-height: 1.4; }
+                .tok-why b { color: #fff; display: block; margin-bottom: 6px; font-size: 19px; }
+
+                /* Сравнение двух колонок (блоки 7, 13) */
+                .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+                .cmp-col { padding: 32px 34px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; display: flex; flex-direction: column; gap: 16px; }
+                .cmp-col.accent { border-color: var(--border-hover); background: #111; }
+                .cmp-col h3 { margin: 0; font-size: 26px; color: #fff; font-weight: 600; }
+                .cmp-tag { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+                .cmp-demo { font-family: var(--font-mono); font-size: 20px; color: var(--text-main); background: #000; border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+                .cmp-demo .mask { background: #27272a; color: #fff; padding: 2px 8px; border-radius: 5px; }
+                .cmp-demo .next { color: #fff; }
+                .cmp-col p { margin: 0; font-size: 18px; color: var(--text-muted); line-height: 1.45; }
+
+                /* Хаб «один примитив → задачи» (блок 8) */
+                .hub { display: grid; grid-template-columns: 320px 1fr; gap: 80px; align-items: center; margin-bottom: 36px; }
+                .hub-core { height: 220px; border-radius: 24px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1c1c1c 0%, #0a0a0a 70%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+                .hub-core .n { font-size: 30px; font-weight: 700; color: #fff; }
+                .hub-core .s { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); }
+                .hub-tasks { display: flex; flex-wrap: wrap; gap: 16px; }
+                .hub-task { padding: 18px 26px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; font-size: 21px; color: var(--text-main); }
+
+                /* Лестница стоимости (блок 9) */
+                .ladder { display: flex; align-items: stretch; gap: 30px; }
+                .ladder-step { flex: 1; padding: 30px 32px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; display: flex; flex-direction: column; gap: 10px; position: relative; }
+                .ladder-step + .ladder-step::before { content: '→'; position: absolute; left: -33px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 28px; }
+                .ladder-step .amt { font-family: var(--font-mono); font-size: 42px; font-weight: 700; color: #fff; line-height: 1; }
+                .ladder-step .cap { font-size: 17px; color: var(--text-muted); line-height: 1.35; }
+                .ladder-step.wall { border-color: #5a2626; background: #140d0d; }
+                .ladder-step.wall .amt { color: #f87171; }
+                .ladder-step .flag { position: absolute; top: -13px; right: 18px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #f87171; background: #1a0e0e; border: 1px solid #5a2626; border-radius: 999px; padding: 4px 12px; }
+
+                /* Пары самообучения (блок 10) */
+                .src-sentence { font-family: var(--font-mono); font-size: 30px; color: var(--text-main); margin-bottom: 28px; }
+                .src-sentence b { color: #fff; background: #161616; border-radius: 6px; padding: 2px 8px; }
+                .pairs { display: flex; flex-direction: column; gap: 11px; max-width: 940px; }
+                .pair { display: flex; align-items: center; gap: 16px; font-family: var(--font-mono); font-size: 20px; }
+                .pair .ctx { color: var(--text-muted); }
+                .pair .arr { color: #52525b; }
+                .pair .tgt { color: #fff; background: #161616; border: 1px solid var(--border-hover); border-radius: 8px; padding: 4px 14px; }
+
+                /* MoE-сетка (блок 11) */
+                .moe { display: grid; grid-template-columns: auto 1fr; gap: 64px; align-items: center; margin-bottom: 34px; }
+                .moe-grid { display: grid; grid-template-columns: repeat(8, 26px); grid-auto-rows: 26px; gap: 10px; }
+                .moe-cell { width: 26px; height: 26px; border-radius: 7px; background: #1a1a1a; border: 1px solid var(--border); }
+                .moe-cell.on { background: #fff; border-color: #fff; box-shadow: 0 0 16px rgba(255,255,255,0.35); }
+                .moe-txt h3 { margin: 0 0 12px; font-size: 26px; color: #fff; font-weight: 600; }
+                .moe-txt p { margin: 0; font-size: 19px; color: var(--text-muted); line-height: 1.5; }
+
+                /* Вход → база → выход (блок 12) */
+                .io { display: grid; grid-template-columns: 1fr auto 1fr; gap: 54px; align-items: center; margin-bottom: 34px; }
+                .io-col { display: flex; flex-direction: column; gap: 12px; }
+                .io-col .lbl { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 4px; }
+                .io-item { padding: 14px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; font-size: 18px; color: var(--text-main); }
+                .io-core { width: 210px; height: 210px; border-radius: 26px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1c1c1c 0%, #0a0a0a 70%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 8px; padding: 0 18px; }
+                .io-core .n { font-size: 23px; font-weight: 700; color: #fff; line-height: 1.2; }
+                .io-core .s { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
+
+                /* Спектр методов (блок 14) */
+                .spec-axis { display: flex; justify-content: space-between; font-size: 15px; color: var(--text-muted); margin: 0 10px 24px; }
+                .spec-track { position: relative; margin: 0 30px 26px; }
+                .spec-track::before { content: ''; position: absolute; left: 0; right: 0; top: 5px; height: 6px; border-radius: 999px; background: linear-gradient(90deg, #4a4a4a 0%, #ffffff 100%); }
+                .spec-stops { display: flex; justify-content: space-between; position: relative; }
+                .spec-stop { display: flex; flex-direction: column; align-items: center; flex: 1; }
+                .spec-stop .dot { width: 16px; height: 16px; border-radius: 50%; background: #666; box-shadow: 0 0 0 4px #000; z-index: 2; }
+                .spec-stop.hot .dot { background: #fff; box-shadow: 0 0 0 4px #000, 0 0 16px rgba(255,255,255,0.45); }
+                .spec-stop .nm { margin-top: 18px; font-size: 19px; color: var(--text-muted); font-weight: 600; }
+                .spec-stop.hot .nm { color: #fff; }
+                .spec-zone { text-align: center; font-size: 16px; color: var(--text-muted); }
+                .spec-zone b { color: #fff; }
+
+                /* Сетка возможностей (блок 15) */
+                .cap-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-bottom: 30px; }
+                .cap-item { display: flex; gap: 20px; align-items: flex-start; padding: 26px 30px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; }
+                .cap-item .ci { width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #161616; border: 1px solid var(--border); color: #fff; }
+                .cap-item .ci .flat-icon { width: 28px; height: 28px; }
+                .cap-item h3 { margin: 0 0 6px; font-size: 22px; color: #fff; font-weight: 600; }
+                .cap-item p { margin: 0; font-size: 17px; color: var(--text-muted); line-height: 1.4; }
+
+                /* Контраст «тогда → сейчас» (блок 17) */
+                .tn { display: grid; grid-template-columns: 1fr auto 1fr; gap: 44px; align-items: center; margin-bottom: 30px; }
+                .tn-card { padding: 40px 36px; border-radius: 18px; border: 1px solid var(--border); background: var(--bg-card); text-align: center; }
+                .tn-card.now { border-color: var(--border-hover); background: #111; }
+                .tn-card .yr { font-family: var(--font-mono); font-size: 16px; color: var(--text-muted); margin-bottom: 14px; }
+                .tn-card .big { font-family: var(--font-mono); font-size: 46px; font-weight: 700; color: #fff; line-height: 1; }
+                .tn-card.old .big { color: var(--text-muted); }
+                .tn-card .sub { font-size: 16px; color: var(--text-muted); margin-top: 12px; line-height: 1.35; }
+                .tn-arr { font-size: 36px; color: var(--text-muted); }
+
+                /* Термины (блок 18) */
+                .terms { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 34px; }
+                .term { padding: 12px 22px; border-radius: 999px; border: 1px solid var(--border); font-size: 20px; color: var(--text-muted); font-family: var(--font-mono); text-decoration: line-through; opacity: 0.55; }
+                .term.pick { text-decoration: none; opacity: 1; color: #000; background: #fff; border-color: #fff; font-weight: 700; }
+                .term.arrow { border: none; background: none; text-decoration: none; opacity: 1; color: var(--text-muted); }
+                .reasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+                .reason { padding: 24px 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; }
+                .reason .num { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); }
+                .reason p { margin: 8px 0 0; font-size: 18px; color: var(--text-main); line-height: 1.4; }
+            </style>
+            <!-- БЛОК 1 -->
+            <section class="slide ss" data-slide="4">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 01 · Масштаб явления</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">AI-приложения — не ниша, а <b>вселенная</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Приложений бесконечно много, и каждый классифицирует по-своему. Не запоминайте сценарии — ищите паттерны.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="b3-stats">
+                            <div class="b3-stat ss-reveal" style="--ss-d:220ms"><div class="v"><span class="ss-count" data-to="16814" data-space="1">16 814</span></div><div class="l">AI-приложений на theresanaiforthat.com</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:320ms"><div class="v"><span class="ss-count" data-to="14688" data-space="1">14 688</span></div><div class="l">задач, которые они решают</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:420ms"><div class="v">4 разные</div><div class="l">классификации — и все условны</div></div>
+                        </div>
+                        <div class="ss-reveal" style="--ss-d:520ms; margin:30px 0">
+                            <div class="ss-chips-label">Каждый классифицирует по-своему</div>
+                            <div class="ss-chips">
+                                <span class="ss-chip">AWS — 3 группы</span><span class="ss-chip">O'Reilly — 8 категорий</span><span class="ss-chip">Deloitte — по прибыли</span><span class="ss-chip">Gartner — + непрерывность бизнеса</span>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:620ms">
+                            Любая классификация условна и быстро устаревает. <button class="info-trigger" data-open="b1m">новая ось 2026: человек-в-центре vs агент</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b1m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Масштаб и классификация · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Рост</b><span>theresanaiforthat.com — 50 000+ приложений (×3 с 2024).</span></div>
+                        <div class="m-row"><b>Новые категории</b><span>AI-агенты, AI-безопасность, AI-компаньоны, AI-наука — их не было в старых классификациях.</span></div>
+                        <div class="m-row"><b>AI = must have</b><span>Gartner: 65% руководителей называют AI фактором непрерывности бизнеса (было 7% в 2023). McKinsey: 72% компаний используют генеративный AI.</span></div>
+                        <div class="m-row"><b>Новая ось</b><span>Человек-в-центре (copilot) vs агент-в-центре (autonomous). Категории размываются: один агент делает всё сразу.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 2 -->
+            <section class="slide ss" data-slide="5">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 02 · Подверженность профессий</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Сколько задач профессии <b>автоматизирует AI</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Вопрос не «заменит ли», а «какой процент задач». Исследование Эландью (2023): «подвержена» = AI сокращает время на 50%+.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="cmp">
+                            <div class="cmp-col accent ss-reveal" style="--ss-d:220ms">
+                                <span class="cmp-tag">Воздействие ~100% · интеллектуальный труд</span>
+                                <h3>Уязвимы</h3>
+                                <div class="ss-chips"><span class="ss-chip">математики</span><span class="ss-chip">налоговые специалисты</span><span class="ss-chip">аналитики</span><span class="ss-chip">писатели</span><span class="ss-chip">веб-дизайнеры</span></div>
+                            </div>
+                            <div class="cmp-col ss-reveal" style="--ss-d:340ms">
+                                <span class="cmp-tag">Не подвержены · физический труд</span>
+                                <h3>Защищены</h3>
+                                <div class="ss-chips"><span class="ss-chip">повара</span><span class="ss-chip">каменщики</span><span class="ss-chip">спортсмены</span></div>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:480ms; margin-top:34px">
+                            Профессии не исчезают — <b>трансформируются</b>: переводчик → AI-редактор, дизайнер → арт-директор. <button class="info-trigger" data-open="b2m">как именно в 2026</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b2m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Трансформация профессий · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Переводчики</b><span>Рынок машинного перевода $1,5 млрд, но вырос спрос на post-editing: «проверить и улучшить перевод AI».</span></div>
+                        <div class="m-row"><b>Писатели, дизайнеры</b><span>AI пишет 80% маркетинга; дизайнер стал «куратором» (v0, Bolt.new). Спрос на AI-редакторов вырос.</span></div>
+                        <div class="m-row"><b>Новые в зоне 70–90%</b><span>Юристы (анализ договоров), бухгалтеры (отчёты), радиологи (снимки).</span></div>
+                        <div class="m-row"><b>Ключевой навык</b><span>Не «делать работу», а «управлять AI, который её делает». Физтруд защищён: робототехника отстаёт от LLM на 5–10 лет.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 3 -->
+            <section class="slide ss" data-slide="6">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 03 · Методология автора</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">8 категорий AI-приложений</h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Системная выборка, а не абстракции: приложение может относиться сразу к нескольким категориям.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="b3-stats">
+                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v"><span class="ss-count" data-to="50">50</span></div><div class="l">опрошенных компаний</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:290ms"><div class="v">100+</div><div class="l">разобранных кейсов</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:380ms"><div class="v"><span class="ss-count" data-to="205">205</span></div><div class="l">open-source приложений (500+ ⭐ на GitHub)</div></div>
+                        </div>
+                        <div class="ss-reveal" style="--ss-d:480ms; margin:28px 0">
+                            <div class="ss-chips-label">Восемь категорий</div>
+                            <div class="ss-chips">
+                                <span class="ss-chip">Написание кода</span><span class="ss-chip">Изображения / видео</span><span class="ss-chip">Написание текстов</span><span class="ss-chip">Образование</span><span class="ss-chip">Боты-собеседники</span><span class="ss-chip">Сбор информации</span><span class="ss-chip">Организация данных</span><span class="ss-chip">Автоматизация workflow</span>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
+                            Рамка для вопроса «в какую категорию попадает моя идея?». <button class="info-trigger" data-open="b3m">категории 2026: границы стёрты</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b3m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Категории · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Расширились</b><span>8 → 12+: добавились AI-агенты, AI-безопасность/guardrails, AI-наука, AI-робототехника.</span></div>
+                        <div class="m-row"><b>Экосистема</b><span>Open-source AI-приложений на GitHub: 100 000+ (в книге было 205).</span></div>
+                        <div class="m-row"><b>Топ-категории</b><span>AI-агенты, AI-кодирование, RAG/сбор информации, AI-автоматизация.</span></div>
+                        <div class="m-row"><b>Реальность</b><span>Границы стёрты: Cursor (код) + RAG (информация) + агент (автоматизация) = один продукт.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 4 -->
+            <section class="slide ss" data-slide="7">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 04 · Стратегия входа</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Начинай с <b>внутреннего</b>, потом внешнее</h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Компании предпочитают внутренние приложения: главное — минимизировать риск.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="cmp">
+                            <div class="cmp-col accent ss-reveal" style="--ss-d:220ms">
+                                <span class="cmp-tag">Низкий риск · начни здесь</span>
+                                <h3>Внутренние</h3>
+                                <p>Управление знаниями, RAG по документам. Ошибку увидит сотрудник — и исправит.</p>
+                            </div>
+                            <div class="cmp-col ss-reveal" style="--ss-d:340ms">
+                                <span class="cmp-tag">Высокий риск</span>
+                                <h3>Внешние</h3>
+                                <p>Чат-боты для клиентов. Галлюцинацию увидят все. Нужны guardrails и «человек-в-цикле».</p>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:480ms; margin-top:34px">
+                            Задачи классификации популярнее генеративных — их легче оценить. <button class="info-trigger" data-open="b4m">сначала ходить, потом бежать</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b4m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Внутреннее → внешнее · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Внутренние</b><span>RAG по Confluence/Notion/SharePoint — стандарт для 70%+ крупных компаний. NotebookLM, Glean, Guru.</span></div>
+                        <div class="m-row"><b>Внешние</b><span>Чат-боты поддержки (Intercom Fin, Zendesk AI) — с guardrails и «человеком-в-цикле».</span></div>
+                        <div class="m-row"><b>Регулирование</b><span>EU AI Act (2025): прозрачность, оценка рисков, надзор человека для high-risk. Замедлил внешние, ускорил внутренние.</span></div>
+                        <div class="m-row"><b>Урок</b><span>Air Canada (2024): чат-бот без guardrails → PR-катастрофа. Сначала ходить (внутреннее), потом бежать.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 5 -->
+            <section class="slide ss" data-slide="8">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 05 · Сценарий №1</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Написание кода — <b>самый популярный</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Идеально для AI: код структурирован, результат проверяем (компилируется или нет), рынок огромен.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="b3-stats">
+                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v">$2B+</div><div class="l">ARR GitHub Copilot (2026)</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:290ms"><div class="v">$500M+</div><div class="l">ARR Cursor · оценка $10B+</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:380ms"><div class="v"><span class="ss-count" data-to="46" data-suffix="%">46%</span></div><div class="l">нового кода на GitHub — AI-генерированный</div></div>
+                        </div>
+                        <div class="ss-reveal" style="--ss-d:480ms; margin:28px 0">
+                            <div class="ss-chips-label">От автодополнения до автономных агентов</div>
+                            <div class="ss-chips"><span class="ss-chip">Copilot</span><span class="ss-chip">Cursor</span><span class="ss-chip">Claude Code</span><span class="ss-chip">Codex</span><span class="ss-chip">Devin</span><span class="ss-chip">Windsurf</span><span class="ss-chip">v0</span><span class="ss-chip">Bolt.new</span></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
+                            AI не заменил разработчика, а изменил его: 20% кода руками, 80% — редактирование AI. <button class="info-trigger" data-open="b5m">разработчик 2026</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b5m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Написание кода · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Масштаб</b><span>92% разработчиков используют AI-инструменты (GitHub, 2025).</span></div>
+                        <div class="m-row"><b>Агенты</b><span>Copilot Workspace, Devin ($2B оценка), Codex — планируют, пишут, тестируют, создают PR.</span></div>
+                        <div class="m-row"><b>Рынок труда</b><span>Junior-позиции сократились; senior/архитектор — в дефиците.</span></div>
+                        <div class="m-row"><b>Ускорение</b><span>Рутина (документация, boilerplate) — 2×; сложное (архитектура) — 10–20%. AI заменяет рутину, не мышление.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 6 -->
+            <section class="slide ss" data-slide="9">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 06 · Спор</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Заменит ли AI <b>разработчиков</b>?</h2>
+                    </div>
+                    <div class="ss-body">
+                        <div class="cmp">
+                            <div class="cmp-col ss-reveal" style="--ss-d:220ms">
+                                <span class="cmp-tag">Дженсен Хуанг · NVIDIA</span>
+                                <h3>«Заменит»</h3>
+                                <p>«AI заменит разработчиков — не учите детей кодить».</p>
+                            </div>
+                            <div class="cmp-col accent ss-reveal" style="--ss-d:340ms">
+                                <span class="cmp-tag">Мэтт Гарман · AWS</span>
+                                <h3>«Изменит»</h3>
+                                <p>«Разработчики перестанут писать код руками, но профессия не исчезнет — трансформируется».</p>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:480ms; margin-top:34px">
+                            McKinsey: 2× для документации, 25–50% для кода, минимум для сложных задач. Frontend автоматизируется легче backend. <button class="info-trigger" data-open="b6m">что стало в 2026</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b6m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Заменил ли · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Не заменил</b><span>Вакансий «software developer» не меньше, но нужен «AI-augmented developer».</span></div>
+                        <div class="m-row"><b>Junior-кризис</b><span>Вакансии для джунов −30–40% (2024–2026). AI делает то, что делали джуны. Senior/architect — дефицит.</span></div>
+                        <div class="m-row"><b>Frontend vs Backend</b><span>v0, Bolt.new генерируют frontend за минуты; backend (микросервисы, безопасность) — по-прежнему человек.</span></div>
+                        <div class="m-row"><b>Прав Гарман</b><span>Разработчик 2026 — «AI-дирижёр»: системное мышление, декомпозиция, ревью и тестирование.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 7 -->
+            <section class="slide ss" data-slide="10">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 07 · Творчество</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Генерация <b>изображений и видео</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">AI не заменяет креатив — ускоряет: штурм → наброски → доработка человеком.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="tn">
+                            <div class="tn-card old ss-reveal" style="--ss-d:220ms">
+                                <div class="yr">2019</div>
+                                <div class="big" style="font-size:30px">Угроза</div>
+                                <div class="sub">Facebook блокирует AI-сгенерированные фото профиля</div>
+                            </div>
+                            <div class="tn-arr ss-reveal" style="--ss-d:320ms">→</div>
+                            <div class="tn-card now ss-reveal" style="--ss-d:420ms">
+                                <div class="yr">2023</div>
+                                <div class="big" style="font-size:30px">Норма</div>
+                                <div class="sub">Приложения сами генерируют аватары и креативы</div>
+                            </div>
+                        </div>
+                        <div class="ss-reveal" style="--ss-d:540ms; margin:26px 0 0">
+                            <div class="ss-chips-label">Инструменты 2026</div>
+                            <div class="ss-chips"><span class="ss-chip">Midjourney V7</span><span class="ss-chip">DALL-E 4</span><span class="ss-chip">Flux</span><span class="ss-chip">Sora</span><span class="ss-chip">Kling 2.0</span><span class="ss-chip">Veo 3</span><span class="ss-chip">Runway Gen-4</span></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:660ms; margin-top:26px">
+                            Маркетинг — главный потребитель. <button class="info-trigger" data-open="b7m">80% креативов, кино, авторское право</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b7m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Изображения и видео · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Качество</b><span>Фотореализм неотличим от фото; видео 1–2 мин по тексту, кинематографично (Sora, Veo 3, Kling).</span></div>
+                        <div class="m-row"><b>Маркетинг</b><span>~80% digital-креативов генерируются или дорабатываются AI; тысячи вариантов под сегменты.</span></div>
+                        <div class="m-row"><b>Кино</b><span>Превизуализация, VFX, дубляж, де-эйджинг. Голливуд: забастовки 2023 → соглашения 2024 → интеграция.</span></div>
+                        <div class="m-row"><b>Спорный вопрос</b><span>Авторское право: иски художников против Midjourney, Stability AI. EU AI Act требует маркировку AI-контента.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 8 -->
+            <section class="slide ss" data-slide="11">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 08 · Тексты</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Написание текстов</h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Часто, утомительно, с ошибками — идеальное применение. Исследование MIT (2023), 453 специалиста.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="b3-stats" style="grid-template-columns:repeat(2,1fr); max-width:900px">
+                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v">−<span class="ss-count" data-to="40" data-suffix="%">40%</span></div><div class="l">времени на написание с ChatGPT</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:300ms"><div class="v">+<span class="ss-count" data-to="18" data-suffix="%">18%</span></div><div class="l">качества · сильнее помогает слабым писателям</div></div>
+                        </div>
+                        <div class="cmp ss-reveal" style="--ss-d:420ms; margin-top:28px">
+                            <div class="cmp-col accent"><span class="cmp-tag">Светлая сторона</span><h3>Поднимает дно</h3><p>Слабые писатели становятся средними. Демократизация качества.</p></div>
+                            <div class="cmp-col"><span class="cmp-tag">Тёмная сторона</span><h3>Демократизирует мусор</h3><p>Контент-фермы: 400 рекламных объявлений на «мусорных» сайтах (NewsGuard, 2023).</p></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:560ms; margin-top:28px">
+                            AI поднимает дно, но не потолок. <button class="info-trigger" data-open="b8m">кризис доверия к контенту</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b8m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Тексты и доверие · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Подтвердилось</b><span>Мета-анализ 2025: −30–50% времени, +10–25% качества. Сильнее для не-native и слабых.</span></div>
+                        <div class="m-row"><b>Везде</b><span>Gmail, Notion AI, Grammarly. Amazon: 10 000+ книг/день с AI → обязательная маркировка.</span></div>
+                        <div class="m-row"><b>SEO</b><span>Google Helpful Content Update: 90% AI-мусорных сайтов потеряли трафик.</span></div>
+                        <div class="m-row"><b>Доверие</b><span>60% не доверяют онлайн-контенту. Стандарт C2PA («паспорт» контента). «Written by human» — преимущество.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 9 -->
+            <section class="slide ss" data-slide="12">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 09 · Образование</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Образование: <b>страх → интеграция</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Впервые в истории — индивидуальный репетитор для каждого ученика.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="ladder">
+                            <div class="ladder-step ss-reveal" style="--ss-d:220ms"><div class="amt" style="font-size:26px">Страх</div><div class="cap">«AI убьёт образование»</div></div>
+                            <div class="ladder-step ss-reveal" style="--ss-d:320ms"><div class="amt" style="font-size:26px">Запрет</div><div class="cap">Нью-Йорк, Лос-Анджелес блокируют ChatGPT</div></div>
+                            <div class="ladder-step ss-reveal" style="--ss-d:420ms"><div class="amt" style="font-size:26px">Принятие</div><div class="cap">запреты сняты, учат использовать</div></div>
+                            <div class="ladder-step ss-reveal" style="--ss-d:520ms"><div class="amt" style="font-size:26px">Интеграция</div><div class="cap">персональный AI-репетитор</div></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:640ms; margin-top:38px">
+                            <b style="color:#f87171">Chegg</b> (домашка за студентов): акции $28 → $2 — AI убил бизнес-модель. <button class="info-trigger" data-open="b9m">образование 2026</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b9m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Образование · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Khanmigo</b><span>AI-репетитор для 20M+ студентов: не даёт ответ, а задаёт наводящие вопросы (сократический метод).</span></div>
+                        <div class="m-row"><b>Duolingo Max</b><span>AI-ролевые игры, объяснение ошибок, 100M+ пользователей.</span></div>
+                        <div class="m-row"><b>Школы</b><span>Запреты сняты, 80%+ школ США интегрировали AI; AI-грамотность — обязательный курс.</span></div>
+                        <div class="m-row"><b>Риск</b><span>Деградация навыков письма и мышления. Учить не факты, а «как проверить факты».</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 10 -->
+            <section class="slide ss" data-slide="13">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 10 · Боты-собеседники</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Собеседники — <b>новый тип отношений</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">От утилитарного (поддержка) до эмоционального (компаньон). Иногда с ботами проводят больше времени, чем с людьми.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="cap-grid">
+                            <div class="cap-item ss-reveal" style="--ss-d:220ms"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span><div><h3>Character.AI</h3><p>100M+ пользователей, сессия 30+ мин.</p></div></div>
+                            <div class="cap-item ss-reveal" style="--ss-d:300ms"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></svg></span><div><h3>Replika</h3><p>AI-компаньон, 10M+, подписка $70/год.</p></div></div>
+                            <div class="cap-item ss-reveal" style="--ss-d:380ms"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 12h4M15 11v2M18 11v2"></path></svg></span><div><h3>NPC в играх</h3><p>NVIDIA ACE, Inworld — бесконечный диалог.</p></div></div>
+                            <div class="cap-item ss-reveal" style="--ss-d:460ms"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></span><div><h3>AI-терапия</h3><p>Woebot, Wysa — как «wellness», не «medical».</p></div></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:580ms">
+                            Самая этически нагруженная категория. <button class="info-trigger" data-open="b10m">зависимость и регулирование</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b10m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Боты-собеседники · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Зависимость</b><span>Подростки — 4–6 часов/день с AI-компаньонами. Регуляторы рассматривают ограничения.</span></div>
+                        <div class="m-row"><b>Манипуляции</b><span>AI «знает» вас лучше людей → риск эмоциональной и коммерческой эксплуатации.</span></div>
+                        <div class="m-row"><b>Замена отношений</b><span>15% молодых (18–25) предпочитают AI-общение человеческому (опросы 2025–2026).</span></div>
+                        <div class="m-row"><b>Регулирование</b><span>EU AI Act: компаньоны = high-risk, обязательное «вы говорите с AI».</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 11 -->
+            <section class="slide ss" data-slide="14">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 11 · Сбор информации</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Сбор информации — <b>фильтр и сжатие</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">74% пользователей генеративного AI — для анализа и обобщения. AI не создаёт информацию, а сжимает её. Это RAG в действии.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="io">
+                            <div class="io-col ss-reveal" style="--ss-d:220ms">
+                                <div class="lbl">Хаос на входе</div>
+                                <div class="io-item">Документы, PDF</div>
+                                <div class="io-item">Письма, Slack</div>
+                                <div class="io-item">Встречи</div>
+                            </div>
+                            <div class="io-core ss-reveal" style="--ss-d:340ms"><div class="n">AI</div><div class="s">talk-to-your-docs</div></div>
+                            <div class="io-col ss-reveal" style="--ss-d:460ms">
+                                <div class="lbl">Порядок на выходе</div>
+                                <div class="io-item">Краткая выжимка</div>
+                                <div class="io-item">Action items</div>
+                                <div class="io-item">Ответ с источниками</div>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
+                            Instacart «Fast Breakdown»: хаос встреч и писем → пункты действий → автоназначение. <button class="info-trigger" data-open="b11m">проактивный AI и RAG</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b11m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Сбор информации · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>NotebookLM</b><span>Загрузить PDF/видео → ответы, подкаст-обсуждение, study guide. 50M+ пользователей.</span></div>
+                        <div class="m-row"><b>Perplexity</b><span>AI-поиск: не «10 ссылок», а ответ с источниками. 100M+ запросов/день.</span></div>
+                        <div class="m-row"><b>Корпоративное</b><span>Glean, Microsoft Copilot; суммаризаторы встреч Otter, Fireflies → action items в Jira.</span></div>
+                        <div class="m-row"><b>Тренд</b><span>Проактивный AI сам приносит инсайты. RAG стал инфраструктурой (как БД), MCP стандартизировал подключение данных.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 12 -->
+            <section class="slide ss" data-slide="15">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 12 · Организация данных</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Организация данных — <b>хаос → структура</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">AI превращает неструктурированное (фото, PDF, договор) в структурированное. Это фундамент для RAG и аналитики.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="io">
+                            <div class="io-col ss-reveal" style="--ss-d:220ms">
+                                <div class="lbl">Неструктурированное</div>
+                                <div class="io-item">Фото, видео</div>
+                                <div class="io-item">PDF, счета</div>
+                                <div class="io-item">Договоры</div>
+                            </div>
+                            <div class="io-core ss-reveal" style="--ss-d:340ms"><div class="n">AI</div><div class="s">IDP · извлечение</div></div>
+                            <div class="io-col ss-reveal" style="--ss-d:460ms">
+                                <div class="lbl">Структурированное</div>
+                                <div class="io-item">Таблица</div>
+                                <div class="io-item">JSON</div>
+                                <div class="io-item">Метаданные, поиск</div>
+                            </div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
+                            Рынок IDP: $12,81 млрд к 2030, рост 32,9%/год. <button class="info-trigger" data-open="b12m">мультимодальный поиск 2026</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b12m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Организация данных · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Поиск по фото</b><span>Google/Apple Photos: «покажи фото с собакой на пляже в 2023». Распознавание лиц, мест, объектов.</span></div>
+                        <div class="m-row"><b>IDP</b><span>ABBYY, Rossum, Docugami — извлечение из счетов, договоров, паспортов. Рынок $15B+.</span></div>
+                        <div class="m-row"><b>Мультимодальный RAG</b><span>Поиск по тексту, изображениям, таблицам и графикам внутри PDF (GPT-4o, Gemini 2.5).</span></div>
+                        <div class="m-row"><b>Векторный поиск</b><span>CLIP, SigLIP — «найди похожее фото, но с красным фоном». Векторные БД = стандарт, как SQL.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 13 -->
+            <section class="slide ss" data-slide="16">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 13 · Кульминация</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Автоматизация workflow — <b>агенты</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Все сценарии — компоненты. Агент комбинирует их в автономный процесс, а не «отвечает на вопрос».</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="ladder">
+                            <div class="ladder-step ss-reveal" style="--ss-d:220ms"><div class="amt" style="font-size:26px">Планирует</div><div class="cap">разбивает задачу на шаги</div></div>
+                            <div class="ladder-step ss-reveal" style="--ss-d:320ms"><div class="amt" style="font-size:26px">Действует</div><div class="cap">вызывает инструменты и API</div></div>
+                            <div class="ladder-step ss-reveal" style="--ss-d:420ms"><div class="amt" style="font-size:26px">Проверяет</div><div class="cap">оценивает результат</div></div>
+                            <div class="ladder-step ss-reveal" style="--ss-d:520ms"><div class="amt" style="font-size:26px">Итерирует ↻</div><div class="cap">повторяет до готовности</div></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:640ms; margin-top:38px">
+                            «Уровень интереса к агентам граничит с одержимостью». <button class="info-trigger" data-open="b13m">агенты 2026 — мейнстрим</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b13m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Агенты · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Мейнстрим</b><span>OpenAI Operator, Claude computer use, Devin. Мульти-агенты: CrewAI, AutoGen, LangGraph.</span></div>
+                        <div class="m-row"><b>Корпоративное</b><span>Salesforce Agentforce, Microsoft Copilot Agents, ServiceNow AI Agents.</span></div>
+                        <div class="m-row"><b>MCP</b><span>Model Context Protocol — стандарт подключения инструментов. 10 000+ MCP-серверов.</span></div>
+                        <div class="m-row"><b>Проблемы</b><span>Надёжность, безопасность (доступ к email/банку), стоимость, контроль. AI-инженер = «менеджер агентов».</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- БЛОК 14 -->
+            <section class="slide ss" data-slide="17">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 14 · Прагматика</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Не все приложения <b>стоит создавать</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Возможностей бесконечно много, но «AI-powered» — не бизнес-модель. Мост к разделу о планировании.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="b3-stats" style="grid-template-columns:1fr; max-width:520px; margin-bottom:30px">
+                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v"><span class="ss-count" data-to="70" data-suffix="%">70%</span></div><div class="l">AI-стартапов 2023–2024 закрылись к 2026 — «обёртка над API» без ценности</div></div>
+                        </div>
+                        <div class="reasons ss-reveal" style="--ss-d:360ms; grid-template-columns:repeat(4,1fr)">
+                            <div class="reason"><div class="num">01</div><p>Уникальные <b style="color:#fff">данные</b></p></div>
+                            <div class="reason"><div class="num">02</div><p>Реальный <b style="color:#fff">workflow</b>, не игрушка</p></div>
+                            <div class="reason"><div class="num">03</div><p>Измеримый <b style="color:#fff">ROI</b></p></div>
+                            <div class="reason"><div class="num">04</div><p>Защита от «OpenAI добавит это в ChatGPT»</p></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:520ms; margin-top:32px">
+                            Выживают те, кто решает <b>скучную проблему хорошо</b>, а не «AI для всего». <button class="info-trigger" data-open="b14m">кладбище и выжившие</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="b14m" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Что выживает · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Кладбище</b><span>70% AI-стартапов 2023–2024 закрылись: «обёртка над API» без уникальной ценности.</span></div>
+                        <div class="m-row"><b>Выжившие</b><span>Решили реальную проблему в нише: не «AI для всего», а «AI для стоматологов / юристов / логистики».</span></div>
+                        <div class="m-row"><b>Ров (moat)</b><span>Уникальные данные, встроенность в реальный workflow, сетевые эффекты, регуляторные барьеры.</span></div>
+                        <div class="m-row"><b>Дальше</b><span>Раздел о том, как выбрать и спланировать AI-приложение — от вдохновения к прагматике.</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="18">
                 <style>
                     .timeline-next-container {
                         display: flex;
@@ -1978,6 +2745,67 @@
         }
 
         new Presentation();
+    </script>
+    <script>
+        // Счётчики чисел на контентных слайдах — считают вверх при входе на слайд.
+        (function () {
+            function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+            function fmt(n, space) {
+                var s = String(n);
+                return space ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : s;
+            }
+            function run(el) {
+                var to = parseInt(el.getAttribute('data-to'), 10) || 0;
+                var pre = el.getAttribute('data-prefix') || '';
+                var suf = el.getAttribute('data-suffix') || '';
+                var space = el.getAttribute('data-space') === '1';
+                var dur = 1100, start = null;
+                function step(ts) {
+                    if (start === null) start = ts;
+                    var p = Math.min((ts - start) / dur, 1);
+                    el.textContent = pre + fmt(Math.round(to * easeOut(p)), space) + suf;
+                    if (p < 1) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
+            }
+            var obs = new MutationObserver(function (muts) {
+                muts.forEach(function (m) {
+                    if (m.target.classList.contains('active')) {
+                        m.target.querySelectorAll('.ss-count').forEach(run);
+                    }
+                });
+            });
+            document.querySelectorAll('.slide.ss').forEach(function (s) {
+                obs.observe(s, { attributes: true, attributeFilter: ['class'] });
+            });
+
+            // Поповеры (наведение) на контентных слайдах
+            document.querySelectorAll('.ss .pop-host').forEach(function (host) {
+                var trigger = host.querySelector('.pop-trigger');
+                var panel = host.querySelector('.pop-panel');
+                if (!trigger || !panel) return;
+                var timer;
+                function open() { clearTimeout(timer); panel.classList.add('open'); }
+                function close() { timer = setTimeout(function () { panel.classList.remove('open'); }, 140); }
+                trigger.addEventListener('mouseenter', open);
+                trigger.addEventListener('mouseleave', close);
+                trigger.addEventListener('click', open);
+                panel.addEventListener('mouseenter', open);
+                panel.addEventListener('mouseleave', close);
+            });
+
+            // Модалки на контентных слайдах: [data-open] → .ss-modal[data-modal], [data-close] закрывает
+            var ssModals = {};
+            document.querySelectorAll('.ss-modal').forEach(function (m) { ssModals[m.getAttribute('data-modal')] = m; });
+            function ssOpen(m) { m.hidden = false; requestAnimationFrame(function () { m.classList.add('open'); }); }
+            function ssClose(m) { m.classList.remove('open'); setTimeout(function () { m.hidden = true; }, 240); }
+            document.querySelectorAll('.ss [data-open]').forEach(function (t) {
+                t.addEventListener('click', function () { var m = ssModals[t.getAttribute('data-open')]; if (m) ssOpen(m); });
+            });
+            document.querySelectorAll('.ss-modal [data-close]').forEach(function (c) {
+                c.addEventListener('click', function () { ssClose(c.closest('.ss-modal')); });
+            });
+        })();
     </script>
 </body>
 </html>

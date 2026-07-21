@@ -987,21 +987,23 @@
                     #scale-slide .scale-modal-panel .sol:hover { background: var(--bg-hover); }
 
                     /* Поповер по наведению («Энергия = стоимость…» в «Электричестве») */
-                    #scale-slide .pop-trigger { position: relative; border-bottom: 1px dashed #52525b; cursor: default; }
+                    #scale-slide .pop-host { position: relative; }
+                    #scale-slide .pop-trigger { border-bottom: 1px dashed #52525b; cursor: help; transition: border-color 160ms var(--se-out); }
+                    #scale-slide .pop-trigger:hover { border-bottom-color: #fff; }
                     #scale-slide .pop-panel {
-                        position: absolute; top: calc(100% + 14px); left: 0; z-index: 5;
-                        width: 540px; max-width: 60vw; padding: 18px 22px;
+                        position: absolute; bottom: calc(100% + 14px); left: 0; z-index: 15;
+                        width: 620px; max-width: 100%; padding: 18px 22px;
                         background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 14px;
                         box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-                        opacity: 0; transform: scale(0.97) translateY(-4px); transform-origin: top left; pointer-events: none;
-                        transition: opacity 160ms var(--se-out), transform 160ms var(--se-out);
+                        opacity: 0; visibility: hidden; transform: scale(0.98) translateY(6px); transform-origin: bottom left; pointer-events: none;
+                        transition: opacity 160ms var(--se-out), transform 160ms var(--se-out), visibility 160ms;
                     }
-                    #scale-slide .pop-trigger:hover .pop-panel { opacity: 1; transform: scale(1) translateY(0); }
+                    #scale-slide .pop-panel.open { opacity: 1; visibility: visible; transform: scale(1) translateY(0); pointer-events: auto; }
                     #scale-slide .pop-panel b {
                         display: block; font-size: 13px; color: var(--text-muted); font-weight: 600;
-                        text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
+                        text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
                     }
-                    #scale-slide .pop-panel ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+                    #scale-slide .pop-panel ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
                     #scale-slide .pop-panel li { font-size: 15px; line-height: 1.45; color: var(--text-muted); }
 
                     @media (prefers-reduced-motion: reduce) {
@@ -1121,8 +1123,18 @@
                         </div>
                         <div class="scale-takeaway">
                             <div class="scale-big">×10⁸<small>вычислений за 7 лет</small></div>
-                            <div>
-                                <p class="scale-idea"><span class="pop-trigger">Энергия = стоимость каждого токена<span class="pop-panel"><b>Что происходит с энергией AI</b><ul><li>Microsoft перезапустила АЭС <a class="src-link" href="https://www.cnbc.com/2024/09/20/constellation-energy-to-restart-three-mile-island-and-sell-the-power-to-microsoft.html" target="_blank">Three Mile Island</a> под дата-центры (2024).</li><li>Amazon купила <a class="src-link" href="https://www.datacenterdynamics.com/en/news/aws-acquires-talens-nuclear-data-center-campus-in-pennsylvania/" target="_blank">дата-центр у АЭС Susquehanna</a>.</li><li>Google — контракты на <a class="src-link" href="https://www.datacenterdynamics.com/en/news/google-backed-geothermal-firm-fervo-valued-at-10bn-on-back-of-ai-wave/" target="_blank">геотермальную энергию (Fervo)</a>.</li><li><a class="src-link" href="https://openai.com/index/announcing-the-stargate-project/" target="_blank">Stargate</a> (OpenAI+Oracle+SoftBank, 2025): $500 млрд на AI-инфраструктуру.</li><li><a class="src-link" href="https://www.cnbc.com/2025/07/09/nvidia-4-trillion.html" target="_blank">NVIDIA</a> — самая дорогая компания мира ($3–4 трлн+).</li></ul></span></span>. Отсюда MoE, квантование и малые модели — чтобы платить меньше.</p>
+                            <div class="pop-host">
+                                <p class="scale-idea"><span class="pop-trigger">Энергия = стоимость каждого токена</span>. Отсюда MoE, квантование и малые модели — чтобы платить меньше.</p>
+                                <div class="pop-panel">
+                                    <b>Что происходит с энергией AI</b>
+                                    <ul>
+                                        <li>Microsoft перезапустила АЭС <a class="src-link" href="https://www.cnbc.com/2024/09/20/constellation-energy-to-restart-three-mile-island-and-sell-the-power-to-microsoft.html" target="_blank">Three Mile Island</a> под дата-центры (2024).</li>
+                                        <li>Amazon купила <a class="src-link" href="https://www.datacenterdynamics.com/en/news/aws-acquires-talens-nuclear-data-center-campus-in-pennsylvania/" target="_blank">дата-центр у АЭС Susquehanna</a>.</li>
+                                        <li>Google — контракты на <a class="src-link" href="https://www.datacenterdynamics.com/en/news/google-backed-geothermal-firm-fervo-valued-at-10bn-on-back-of-ai-wave/" target="_blank">геотермальную энергию (Fervo)</a>.</li>
+                                        <li><a class="src-link" href="https://openai.com/index/announcing-the-stargate-project/" target="_blank">Stargate</a> (OpenAI+Oracle+SoftBank, 2025): $500 млрд на AI-инфраструктуру.</li>
+                                        <li><a class="src-link" href="https://www.cnbc.com/2025/07/09/nvidia-4-trillion.html" target="_blank">NVIDIA</a> — самая дорогая компания мира ($3–4 трлн+).</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1160,6 +1172,21 @@
                         });
                         slide.querySelectorAll('.scale-modal [data-close]').forEach(function (c) {
                             c.addEventListener('click', function () { closeModal(c.closest('.scale-modal')); });
+                        });
+
+                        // Поповер: наведение на .pop-trigger показывает .pop-panel того же .pop-host.
+                        slide.querySelectorAll('.pop-host').forEach(function (host) {
+                            var trigger = host.querySelector('.pop-trigger');
+                            var panel = host.querySelector('.pop-panel');
+                            if (!trigger || !panel) return;
+                            var timer;
+                            function open() { clearTimeout(timer); panel.classList.add('open'); }
+                            function close() { timer = setTimeout(function () { panel.classList.remove('open'); }, 140); }
+                            trigger.addEventListener('mouseenter', open);
+                            trigger.addEventListener('mouseleave', close);
+                            trigger.addEventListener('click', open);
+                            panel.addEventListener('mouseenter', open);
+                            panel.addEventListener('mouseleave', close);
                         });
                     })();
                 </script>

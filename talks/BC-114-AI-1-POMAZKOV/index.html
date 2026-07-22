@@ -2473,8 +2473,59 @@
                 </div>
             </section>
 
+            <!-- НОВЫЙ: AI-ИНЖЕНЕРИЯ (интро + 3 фактора) -->
+            <section class="slide ss" data-slide="17" id="ai-eng">
+                <style>
+                    #ai-eng .fac-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; max-width: 1200px; margin: 0 auto; }
+                    #ai-eng .fac-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 38px 34px; cursor: pointer; display: flex; flex-direction: column; gap: 18px; min-height: 340px; transition: transform 200ms var(--ss-out), border-color 200ms var(--ss-out), background 200ms var(--ss-out); }
+                    #ai-eng .fac-card:hover { transform: translateY(-4px); border-color: var(--border-hover); background: var(--bg-hover); }
+                    #ai-eng .fac-card:active { transform: scale(0.99); }
+                    #ai-eng .fac-num { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); }
+                    #ai-eng .fac-ico { width: 66px; height: 66px; border-radius: 16px; background: #161616; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: #fff; }
+                    #ai-eng .fac-ico .flat-icon { width: 34px; height: 34px; }
+                    #ai-eng .fac-h { font-size: 25px; font-weight: 600; color: #fff; line-height: 1.25; }
+                    #ai-eng .fac-go { margin-top: auto; font-size: 15px; color: var(--text-muted); }
+                    #ai-eng .fac-card:hover .fac-go { color: #fff; }
+                </style>
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 14 · Дисциплина</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">AI-инженерия</h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">«AI-инженерия» — это процесс создания приложений на основе базовых моделей. Три фактора превратили её в профессию — нажми, чтобы раскрыть:</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="fac-grid">
+                            <div class="fac-card ss-reveal" style="--ss-d:220ms" data-go="fac-1">
+                                <span class="fac-ico"><svg class="flat-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg></span>
+                                <span class="fac-num">Фактор 1</span>
+                                <div class="fac-h">Многоцелевые возможности</div>
+                                <div class="fac-go">нажми →</div>
+                            </div>
+                            <div class="fac-card ss-reveal" style="--ss-d:320ms" data-go="fac-2">
+                                <span class="fac-ico"><svg class="flat-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
+                                <span class="fac-num">Фактор 2</span>
+                                <div class="fac-h">Увеличение инвестиций в AI</div>
+                                <div class="fac-go">нажми →</div>
+                            </div>
+                            <div class="fac-card ss-reveal" style="--ss-d:420ms" data-go="fac-3">
+                                <span class="fac-ico"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="M12 5l-7 7 7 7"></path></svg></span>
+                                <span class="fac-num">Фактор 3</span>
+                                <div class="fac-h">Низкий барьер для входа</div>
+                                <div class="fac-go">нажми →</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    (function () {
+                        function go(id) { var s = [].slice.call(document.querySelectorAll('.slide')); var t = document.getElementById(id); if (window.__deck && t) window.__deck.showSlide(s.indexOf(t)); }
+                        document.querySelectorAll('#ai-eng [data-go]').forEach(function (c) { c.addEventListener('click', function () { go(c.getAttribute('data-go')); }); });
+                    })();
+                </script>
+            </section>
+
             <!-- БЛОК 15 -->
-            <section class="slide ss" data-slide="18">
+            <section class="slide ss" data-slide="18" id="fac-1">
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 15 · Фактор роста №1</div>
@@ -2506,7 +2557,7 @@
             </section>
 
             <!-- БЛОК 16 -->
-            <section class="slide ss" data-slide="19">
+            <section class="slide ss" data-slide="19" id="fac-2">
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 16 · Фактор роста №2</div>
@@ -2537,7 +2588,7 @@
             </section>
 
             <!-- БЛОК 17 -->
-            <section class="slide ss" data-slide="20">
+            <section class="slide ss" data-slide="20" id="fac-3">
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 17 · Фактор роста №3</div>
@@ -2581,40 +2632,85 @@
                 </div>
             </section>
 
-            <!-- БЛОК 18 -->
-            <section class="slide ss" data-slide="21">
+            <!-- НОВЫЙ: РОСТ ДИСЦИПЛИНЫ (цитата + LinkedIn + GitHub) -->
+            <section class="slide ss" data-slide="21" id="grow-slide">
+                <style>
+                    #grow-slide .grow-quote { border-left: 4px solid var(--border); padding-left: 30px; margin-bottom: 40px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+                    #grow-slide .grow-quote p { font-size: 34px; line-height: 1.35; color: var(--text-main); font-weight: 500; margin: 0; }
+                    #grow-slide .grow-quote .a { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); margin-top: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+                    #grow-slide .grow-cols { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 30px; max-width: 1200px; margin: 0 auto; }
+                    #grow-slide .grow-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 30px 34px; }
+                    #grow-slide .grow-big { font-family: var(--font-mono); font-size: 72px; font-weight: 700; color: #fff; line-height: 1; }
+                    #grow-slide .grow-cap { font-size: 16px; color: var(--text-muted); margin-top: 14px; line-height: 1.4; }
+                    #grow-slide .gh-title { font-size: 16px; color: var(--text-muted); margin-bottom: 18px; }
+                    #grow-slide .gh-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+                    #grow-slide .gh-name { width: 180px; font-size: 16px; color: var(--text-main); flex-shrink: 0; }
+                    #grow-slide .gh-name.dim { color: var(--text-muted); }
+                    #grow-slide .gh-track { flex: 1; height: 26px; background: #0d0d0d; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+                    #grow-slide .gh-bar { height: 100%; background: linear-gradient(90deg, #ffffff, #52525b); transform-origin: left; transform: scaleX(0); border-radius: 6px 0 0 6px; }
+                    #grow-slide .gh-bar.dim { background: #333; }
+                    .ss.active #grow-slide .gh-bar, #grow-slide.ss.active .gh-bar { animation: ghGrow 820ms var(--ss-out) forwards; animation-delay: var(--d, 300ms); }
+                    @keyframes ghGrow { to { transform: scaleX(var(--w)); } }
+                    #grow-slide .gh-val { width: 70px; text-align: right; font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); flex-shrink: 0; }
+                    @media (prefers-reduced-motion: reduce) { #grow-slide.ss.active .gh-bar { animation: none; transform: scaleX(var(--w)); } }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 18 · Название дисциплины</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Почему именно <b>«AI-инженерия»</b></h2>
+                        <div class="ss-kicker ss-reveal">Финал · Рост дисциплины</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Одна из самых <b>быстрорастущих</b></h2>
                     </div>
                     <div class="ss-body">
-                        <div class="terms ss-reveal" style="--ss-d:200ms">
-                            <span class="term">MLOps</span>
-                            <span class="term">AIOps</span>
-                            <span class="term">LLMOps</span>
-                            <span class="term">ML-инженерия</span>
-                            <span class="term arrow">→</span>
-                            <span class="term pick">AI-инженерия</span>
+                        <div class="grow-quote ss-reveal" style="--ss-d:160ms">
+                            <p>«AI-инженерия стремительно становится одной из самых быстрорастущих инженерных дисциплин».</p>
+                            <div class="a">Чип Хьюен · AI Engineering</div>
                         </div>
-                        <div class="reasons">
-                            <div class="reason ss-reveal" style="--ss-d:320ms"><div class="num">01</div><p>Работа с <b style="color:#fff">базовыми</b> моделями отличается от традиционного ML.</p></div>
-                            <div class="reason ss-reveal" style="--ss-d:400ms"><div class="num">02</div><p>Фокус на <b style="color:#fff">инженерии</b> (доработке), а не на эксплуатации (Ops).</p></div>
-                            <div class="reason ss-reveal" style="--ss-d:480ms"><div class="num">03</div><p>Опрос 20 практиков — большинство выбрало «AI-инженерия».</p></div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:600ms; margin-top:34px">
-                            AI-инженер <b>строит</b> на готовых моделях, ML-инженер <b>обучает</b> модели — это разные профессии. <button class="info-trigger" data-open="term2026">устоявшаяся дисциплина</button>
+                        <div class="grow-cols">
+                            <div class="grow-card ss-reveal" style="--ss-d:300ms">
+                                <div class="grow-big">+75% <span style="font-size:24px; color:var(--text-muted)">/ мес</span></div>
+                                <div class="grow-cap">рост числа профилей с терминами «генеративный AI», «ChatGPT», «промт-инжиниринг», «создание промтов» — LinkedIn, авг. 2023</div>
+                            </div>
+                            <div class="grow-card ss-reveal" style="--ss-d:420ms">
+                                <div class="gh-title">Звёзд на GitHub (≈): 4 инструмента AI-инженерии обошли Bitcoin и догоняют React/Vue</div>
+                                <div class="gh-row"><div class="gh-name">AutoGPT</div><div class="gh-track"><div class="gh-bar" style="--w:0.73;--d:300ms"></div></div><div class="gh-val">170k</div></div>
+                                <div class="gh-row"><div class="gh-name">Stable Diffusion WebUI</div><div class="gh-track"><div class="gh-bar" style="--w:0.63;--d:380ms"></div></div><div class="gh-val">150k</div></div>
+                                <div class="gh-row"><div class="gh-name">Ollama</div><div class="gh-track"><div class="gh-bar" style="--w:0.6;--d:460ms"></div></div><div class="gh-val">140k</div></div>
+                                <div class="gh-row"><div class="gh-name">LangChain</div><div class="gh-track"><div class="gh-bar" style="--w:0.43;--d:540ms"></div></div><div class="gh-val">100k</div></div>
+                                <div class="gh-row"><div class="gh-name dim">Bitcoin</div><div class="gh-track"><div class="gh-bar dim" style="--w:0.35;--d:620ms"></div></div><div class="gh-val">82k</div></div>
+                                <div class="gh-row"><div class="gh-name dim">React</div><div class="gh-track"><div class="gh-bar dim" style="--w:1;--d:700ms"></div></div><div class="gh-val">232k</div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="term2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>AI-инженерия как дисциплина · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Стек AI-инженера</b><span>LLM API + RAG + агенты + evaluation + guardrails + observability (LangSmith, Braintrust, Arize) + MCP.</span></div>
-                        <div class="m-row"><b>Стек ML-инженера</b><span>PyTorch + распределённое обучение + чипы + data-пайплайны. Разные профессии.</span></div>
-                        <div class="m-row"><b>Признание</b><span>AI Engineer Summit (10 000+); на LinkedIn — отдельная категория вакансий.</span></div>
-                        <div class="m-row"><b>Но</b><span>Меняется быстро: простой RAG 2024-го в 2026-м уже «legacy». Учиться постоянно — часть профессии.</span></div>
+            </section>
+
+            <!-- НОВЫЙ: AI-инженерия vs ML-инженерия -->
+            <section class="slide ss" data-slide="22" id="vs-slide">
+                <style>
+                    #vs-slide .vs { max-width: 1240px; margin: 0 auto; }
+                    #vs-slide .vs-row { display: grid; grid-template-columns: 1fr 210px 1fr; align-items: center; padding: 15px 0; border-top: 1px solid var(--border); }
+                    #vs-slide .vs-row.head { border-top: none; padding-bottom: 22px; }
+                    #vs-slide .vs-ai { text-align: right; padding-right: 34px; font-size: 19px; color: var(--text-main); }
+                    #vs-slide .vs-ml { text-align: left; padding-left: 34px; font-size: 19px; color: var(--text-muted); }
+                    #vs-slide .vs-param { text-align: center; font-family: var(--font-mono); font-size: 14px; color: #52525b; text-transform: uppercase; letter-spacing: 0.06em; border-left: 2px solid var(--border-hover); border-right: 2px solid var(--border-hover); }
+                    #vs-slide .vs-row.head .vs-ai { font-size: 30px; font-weight: 700; color: #fff; }
+                    #vs-slide .vs-row.head .vs-ml { font-size: 30px; font-weight: 700; color: var(--text-muted); }
+                    #vs-slide .vs-ai b, #vs-slide .vs-ml b { color: #fff; }
+                </style>
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Финал · Разные профессии</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">AI-инженерия <b>vs</b> ML-инженерия</h2>
+                    </div>
+                    <div class="ss-body">
+                        <div class="vs ss-reveal" style="--ss-d:200ms">
+                            <div class="vs-row head"><div class="vs-ai">AI-инженерия</div><div class="vs-param"></div><div class="vs-ml">ML-инженерия</div></div>
+                            <div class="vs-row"><div class="vs-ai"><b>Строит приложения</b> на готовых моделях</div><div class="vs-param">что делает</div><div class="vs-ml"><b>Обучает модели</b> с нуля</div></div>
+                            <div class="vs-row"><div class="vs-ai">Базовая модель + API</div><div class="vs-param">точка старта</div><div class="vs-ml">Сырые данные</div></div>
+                            <div class="vs-row"><div class="vs-ai">Промт, RAG, агенты, eval, guardrails</div><div class="vs-param">навыки</div><div class="vs-ml">PyTorch, статистика, распред. обучение</div></div>
+                            <div class="vs-row"><div class="vs-ai">Немного: примеры и промпты</div><div class="vs-param">данные</div><div class="vs-ml">Огромные размеченные датасеты</div></div>
+                            <div class="vs-row"><div class="vs-ai">Вызовы API</div><div class="vs-param">инфраструктура</div><div class="vs-ml">GPU-кластеры, чипы</div></div>
+                            <div class="vs-row"><div class="vs-ai">Часы — дни</div><div class="vs-param">цикл итерации</div><div class="vs-ml">Недели — месяцы</div></div>
+                        </div>
                     </div>
                 </div>
             </section>

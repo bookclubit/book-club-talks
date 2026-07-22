@@ -2061,41 +2061,138 @@
                 </div>
             </section>
 
-            <!-- БЛОК 8 -->
-            <section class="slide ss" data-slide="11">
+            <!-- НОВЫЙ: ВИДЫ МАШИННОГО ОБУЧЕНИЯ -->
+            <section class="slide ss" data-slide="11" id="ml-types">
+                <style>
+                    .mlk { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1200px; margin: 0 auto; }
+                    .mlk-card { border-radius: 20px; padding: 40px 42px; cursor: pointer; display: flex; flex-direction: column; gap: 16px; min-height: 440px; transition: transform 200ms var(--ss-out), border-color 200ms var(--ss-out), background 200ms var(--ss-out), opacity 200ms var(--ss-out); }
+                    .mlk-card:hover { transform: translateY(-4px); }
+                    .mlk-card:active { transform: scale(0.99); }
+                    .mlk-card.dim { background: #0c0c0c; border: 1px solid #262626; opacity: 0.68; }
+                    .mlk-card.dim:hover { opacity: 1; border-color: var(--border-hover); }
+                    .mlk-card.hot { background: #111; border: 1px solid var(--border-hover); }
+                    .mlk-tag { font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+                    .mlk-h { font-size: 32px; font-weight: 700; color: #fff; }
+                    .mlk-card.dim .mlk-h { color: var(--text-muted); }
+                    .mlk-list { display: flex; flex-direction: column; gap: 10px; }
+                    .mlk-list div { font-size: 18px; color: var(--text-muted); }
+                    .mlk-big { font-size: 24px; color: #fff; font-weight: 600; }
+                    .mlk-go { margin-top: auto; font-size: 16px; color: var(--text-muted); }
+                    .mlk-card:hover .mlk-go { color: #fff; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 08 · Генеративный AI</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Один примитив — <b>«дополни текст»</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Почти любую задачу можно сформулировать как задачу завершения. Поэтому одна модель делает всё.</p>
+                        <div class="ss-kicker ss-reveal">Блок 08 · Виды обучения</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Два вида <b>машинного обучения</b></h2>
                     </div>
                     <div class="ss-body">
-                        <div class="hub">
-                            <div class="hub-core ss-reveal" style="--ss-d:200ms">
-                                <div class="n">дополни текст</div>
-                                <div class="s">один примитив</div>
+                        <div class="mlk">
+                            <div class="mlk-card dim ss-reveal" style="--ss-d:200ms" id="mlk-sup">
+                                <span class="mlk-tag">Классический ML</span>
+                                <div class="mlk-h">Нужен учитель</div>
+                                <div class="mlk-list">
+                                    <div>· обнаружение объектов</div>
+                                    <div>· тематическое моделирование</div>
+                                    <div>· рекомендательные системы</div>
+                                    <div>· прогноз погоды</div>
+                                    <div>· предсказание цен на акции</div>
+                                </div>
+                                <div class="mlk-go">нажми, чтобы узнать про обучение с учителем →</div>
                             </div>
-                            <div class="hub-tasks">
-                                <span class="hub-task ss-reveal" style="--ss-d:300ms">Перевод</span>
-                                <span class="hub-task ss-reveal" style="--ss-d:360ms">Реферат</span>
-                                <span class="hub-task ss-reveal" style="--ss-d:420ms">Код</span>
-                                <span class="hub-task ss-reveal" style="--ss-d:480ms">Математика</span>
-                                <span class="hub-task ss-reveal" style="--ss-d:540ms">Диалог</span>
+                            <div class="mlk-card hot ss-reveal" style="--ss-d:320ms" id="mlk-self">
+                                <span class="mlk-tag">Языковые модели</span>
+                                <div class="mlk-h">Обучаются сами</div>
+                                <div class="mlk-big">Языковое моделирование способно обучаться самостоятельно — без разметчика.</div>
+                                <div class="mlk-go">нажми, чтобы узнать про самообучение →</div>
                             </div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:640ms">
-                            Но «завершение» ≠ «беседа»: модель может задать вопрос вместо ответа. Диалогу её учат отдельно — <b>RLHF</b> (глава 2). <button class="info-trigger" data-open="gen2026" style="margin-left:10px">завершение → генерация действий</button>
                         </div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="gen2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>От «завершения» к «генерации действий» · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <p>Концепция «completion» расширилась: модель генерирует не только текст, но и вызовы функций, SQL, клики, нажатия клавиш.</p>
-                        <div class="m-row"><b>Агентное поведение</b><span>Модель планирует → вызывает инструменты → проверяет → итерирует (OpenAI Codex, Claude Code, Cursor).</span></div>
-                        <div class="m-row"><b>Structured output</b><span>Гарантированный JSON/XML/код по схеме — function calling, tool use. Завершение стало управляемым.</span></div>
-                        <div class="m-row"><b>Для инженера</b><span>Промт — это не «вопрос», а <b style="color:#fff">спецификация поведения</b>.</span></div>
+                <script>
+                    (function () {
+                        function go(id) {
+                            var slides = [].slice.call(document.querySelectorAll('.slide'));
+                            var t = document.getElementById(id);
+                            if (window.__deck && t) window.__deck.showSlide(slides.indexOf(t));
+                        }
+                        var s = document.getElementById('mlk-sup'); if (s) s.addEventListener('click', function () { go('ml-supervised'); });
+                        var l = document.getElementById('mlk-self'); if (l) l.addEventListener('click', function () { go('ml-selfsup'); });
+                    })();
+                </script>
+            </section>
+
+            <!-- НОВЫЙ: ОБУЧЕНИЕ С УЧИТЕЛЕМ -->
+            <section class="slide ss" data-slide="11a" id="ml-supervised">
+                <style>
+                    .sup { display: flex; align-items: stretch; gap: 40px; justify-content: center; }
+                    .sup-step { flex: 1; max-width: 340px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 28px 26px; text-align: center; position: relative; display: flex; flex-direction: column; gap: 14px; }
+                    .sup-step + .sup-step::before { content: '→'; position: absolute; left: -30px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 26px; }
+                    .sup-num { font-family: var(--font-mono); font-size: 14px; color: #52525b; }
+                    .sup-h { font-size: 22px; font-weight: 600; color: #fff; }
+                    .sup-shapes { display: flex; gap: 22px; justify-content: center; align-items: flex-start; margin: 6px 0; }
+                    .sup-shape { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted); }
+                    .sup-shape svg { width: 46px; height: 46px; }
+                    .sup-p { font-size: 16px; color: var(--text-muted); line-height: 1.4; margin: 0; }
+                    .sup-ok { color: #34d399; font-weight: 600; }
+                    .sup-back { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; color: var(--text-main); font-family: var(--font-sans); font-size: 15px; padding: 8px 18px; margin-bottom: 18px; }
+                    .sup-back:hover { border-color: var(--border-hover); background: var(--bg-hover); }
+                </style>
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 08 · Обучение с учителем</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Обучение с учителем</h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Обучение алгоритмов на <b style="color:#fff">размеченных</b> данных — мощно, но дорого и долго.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="sup ss-reveal" style="--ss-d:220ms">
+                            <div class="sup-step">
+                                <div class="sup-num">01</div>
+                                <div class="sup-h">Размечаете примеры</div>
+                                <div class="sup-shapes">
+                                    <div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="7" y="7" width="32" height="32" rx="4" fill="#60a5fa"/></svg>«квадрат»</div>
+                                    <div class="sup-shape"><svg viewBox="0 0 46 46"><polygon points="23,7 41,39 5,39" fill="#f87171"/></svg>«треугольник»</div>
+                                </div>
+                                <p class="sup-p">Показываете модели, какие ответы правильные.</p>
+                            </div>
+                            <div class="sup-step">
+                                <div class="sup-num">02</div>
+                                <div class="sup-h">Обучаете на них</div>
+                                <div class="sup-shapes"><div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="6" y="6" width="34" height="34" rx="8" fill="none" stroke="#fff" stroke-width="2"/><circle cx="23" cy="23" r="6" fill="#fff"/></svg>модель</div></div>
+                                <p class="sup-p">Модель ищет закономерности между картинкой и меткой.</p>
+                            </div>
+                            <div class="sup-step">
+                                <div class="sup-num">03</div>
+                                <div class="sup-h">Применяете к новым</div>
+                                <div class="sup-shapes">
+                                    <div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="7" y="7" width="32" height="32" rx="4" fill="#60a5fa"/></svg><span class="sup-ok">✓ квадрат</span></div>
+                                    <div class="sup-shape"><svg viewBox="0 0 46 46"><polygon points="23,7 41,39 5,39" fill="#f87171"/></svg><span class="sup-ok">✓ треугольник</span></div>
+                                </div>
+                                <p class="sup-p">Теперь распознаёт и незнакомые примеры.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- НОВЫЙ: САМООБУЧЕНИЕ -->
+            <section class="slide ss" data-slide="11b" id="ml-selfsup">
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 08 · Самообучение</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Самообучение</h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Языковые модели учатся на текстовых последовательностях <b style="color:#fff">без разметки</b>: модель сама выводит метки из входных данных.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="src-sentence ss-reveal" style="--ss-d:220ms">«I love street food.» → модель сама делает из этого примеры:</div>
+                        <div class="pairs">
+                            <div class="pair ss-reveal" style="--ss-d:300ms"><span class="ctx">I</span><span class="arr">→</span><span class="tgt">love</span></div>
+                            <div class="pair ss-reveal" style="--ss-d:360ms"><span class="ctx">I love</span><span class="arr">→</span><span class="tgt">street</span></div>
+                            <div class="pair ss-reveal" style="--ss-d:420ms"><span class="ctx">I love street</span><span class="arr">→</span><span class="tgt">food</span></div>
+                            <div class="pair ss-reveal" style="--ss-d:480ms"><span class="ctx">I love street food</span><span class="arr">→</span><span class="tgt">.</span></div>
+                        </div>
+                        <div class="ss-insight ss-reveal" style="--ss-d:600ms; margin-top:34px">
+                            Каждое предложение = <b>несколько</b> обучающих примеров. Текст есть везде → данные почти бесконечны, разметчик не нужен.
+                        </div>
                     </div>
                 </div>
             </section>
@@ -3641,7 +3738,7 @@
             }
         }
 
-        new Presentation();
+        window.__deck = new Presentation();
     </script>
     <script>
         // Счётчики чисел на контентных слайдах — считают вверх при входе на слайд.

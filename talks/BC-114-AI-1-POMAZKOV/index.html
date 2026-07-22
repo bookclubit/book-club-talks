@@ -818,19 +818,24 @@
                         display: flex; flex-direction: column; position: relative;
                     }
 
+                    #scale-slide .scale-eyebrow {
+                        position: absolute; top: 40px; left: 100px; font-family: var(--font-mono);
+                        font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);
+                    }
+
                     /* ——— Домашний экран: цитата + три крупные карточки ——— */
-                    #scale-slide .scale-home { height: 100%; display: flex; flex-direction: column; gap: 70px; }
+                    #scale-slide .scale-home { height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 80px; }
                     #scale-slide .scale-home[hidden] { display: none; }
                     #scale-slide .scale-quote {
-                        display: flex; align-items: center; gap: 26px;
-                        border-left: 3px solid var(--border); padding-left: 30px;
+                        display: flex; align-items: center; gap: 40px;
+                        border-left: 4px solid var(--border); padding-left: 44px;
                     }
                     #scale-slide .scale-quote img {
-                        width: 92px; height: 92px; border-radius: 50%;
+                        width: 132px; height: 132px; border-radius: 50%;
                         object-fit: cover; flex-shrink: 0; border: 1px solid var(--border);
                     }
                     #scale-slide .scale-quote-text {
-                        font-size: 29px; line-height: 1.4; color: var(--text-main); font-weight: 500; margin: 0;
+                        font-size: 52px; line-height: 1.3; color: var(--text-main); font-weight: 500; margin: 0;
                     }
                     #scale-slide .scale-word { color: #fff; font-weight: 700; }
                     #scale-slide .scale-quote-author {
@@ -857,9 +862,9 @@
                     #scale-slide .scale-card-ico .flat-icon { width: 46px; height: 46px; }
                     #scale-slide .scale-card-title { font-size: 29px; font-weight: 600; color: var(--text-main); line-height: 1.15; }
                     #scale-slide .scale-card-num {
-                        margin-top: auto; font-family: var(--font-mono); font-size: 44px; font-weight: 700; color: #fff; line-height: 1;
+                        margin-top: auto; font-family: var(--font-mono); font-size: 82px; font-weight: 700; color: #fff; line-height: 1;
                     }
-                    #scale-slide .scale-card-num span { display: block; font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--text-muted); margin-top: 10px; letter-spacing: 0.04em; }
+                    #scale-slide .scale-card-num span { display: block; font-family: var(--font-sans); font-size: 15px; font-weight: 500; color: var(--text-muted); margin-top: 16px; letter-spacing: 0.04em; }
 
                     /* ——— Экран метрики (слайд в слайде) ——— */
                     #scale-slide .scale-view { height: 100%; flex-direction: column; gap: 30px; justify-content: center; }
@@ -892,8 +897,19 @@
                     }
                     #scale-slide .scale-bar-col {
                         flex: 1; height: 100%; display: flex; flex-direction: column;
-                        align-items: center; justify-content: flex-end; gap: 14px;
+                        align-items: center; justify-content: flex-end; gap: 14px; position: relative;
                     }
+                    /* Поповер по наведению на столбец: аналогичные модели */
+                    #scale-slide .bar-pop {
+                        position: absolute; top: calc(100% + 14px); left: 50%;
+                        transform: translateX(-50%) translateY(6px);
+                        width: 244px; padding: 12px 15px; background: #1e1e1e; border: 1px solid var(--border-hover);
+                        border-radius: 10px; font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: left;
+                        box-shadow: 0 12px 32px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 9;
+                        transition: opacity 150ms var(--se-out), transform 150ms var(--se-out);
+                    }
+                    #scale-slide .scale-bar-col:hover .bar-pop { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    #scale-slide .bar-pop b { color: #fff; display: block; margin-bottom: 4px; }
                     #scale-slide .scale-bar-val { font-size: 18px; font-weight: 600; color: var(--text-main); font-family: var(--font-mono); }
                     #scale-slide .scale-bar {
                         width: 62%; max-width: 120px; border-radius: 8px 8px 0 0;
@@ -913,12 +929,12 @@
                     /* Главная мысль: крупная цифра роста + короткий вывод */
                     #scale-slide .scale-takeaway { display: flex; align-items: center; gap: 34px; }
                     #scale-slide .scale-big {
-                        font-family: var(--font-mono); font-size: 66px; font-weight: 700;
-                        color: #fff; line-height: 1; flex-shrink: 0; min-width: 230px;
+                        font-family: var(--font-mono); font-size: 118px; font-weight: 700;
+                        color: #fff; line-height: 0.95; flex-shrink: 0; min-width: 400px;
                     }
-                    #scale-slide .scale-big small { display: block; font-size: 15px; font-weight: 500; color: var(--text-muted); margin-top: 10px; letter-spacing: 0; font-family: var(--font-sans); }
-                    #scale-slide .scale-idea { font-size: 22px; line-height: 1.45; color: var(--text-main); margin: 0 0 10px; font-weight: 500; }
-                    #scale-slide .scale-follows { font-size: 19px; line-height: 1.45; color: var(--text-muted); margin: 0; }
+                    #scale-slide .scale-big small { display: block; font-size: 18px; font-weight: 500; color: var(--text-muted); margin-top: 16px; letter-spacing: 0; font-family: var(--font-sans); }
+                    #scale-slide .scale-idea { font-size: 34px; line-height: 1.35; color: var(--text-main); margin: 0 0 10px; font-weight: 500; }
+                    #scale-slide .scale-follows { font-size: 24px; line-height: 1.45; color: var(--text-muted); margin: 0; }
 
                     /* Ссылки в стиле дека: без грубого подчёркивания */
                     #scale-slide .src-link {
@@ -1014,6 +1030,7 @@
                 </style>
 
                 <div class="scale-wrap">
+                    <div class="scale-eyebrow">Блок 01 · Масштаб роста</div>
                     <!-- ДОМАШНИЙ ЭКРАН: цитата + три крупные метрики -->
                     <div class="scale-home" data-view="home">
                         <div class="scale-quote">
@@ -1051,17 +1068,16 @@
                             <span class="scale-view-title">Параметры</span>
                         </div>
                         <div class="scale-chart">
-                            <div class="scale-bar-col"><div class="scale-bar-val">117 млн</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">1,5 млрд</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-2</b><br>2019</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">175 млрд</div><div class="scale-bar" style="height:8%"></div><div class="scale-bar-cap"><b>GPT-3</b><br>2020</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">~1,8 трлн</div><div class="scale-bar" style="height:47%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">~4 трлн</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">117 млн</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div><div class="bar-pop"><b>~100 млн параметров</b>BERT-base (110 млн), ELMo — уровень 2018 года.</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">1,5 млрд</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-2</b><br>2019</div><div class="bar-pop"><b>~1–2 млрд</b>T5-large (770 млн), ранний Megatron-LM.</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">175 млрд</div><div class="scale-bar" style="height:8%"></div><div class="scale-bar-cap"><b>GPT-3</b><br>2020</div><div class="bar-pop"><b>~175 млрд</b>BLOOM (176 млрд), OPT-175B.</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">~1,8 трлн</div><div class="scale-bar" style="height:47%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div><div class="bar-pop"><b>~1 трлн (MoE)</b>PaLM (540 млрд, dense), Gemini 1 Ultra.</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">~4 трлн</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div><div class="bar-pop"><b>оценка · триллионы</b>Claude 4, DeepSeek V3 (671 млрд, MoE).</div></div>
                         </div>
                         <div class="scale-takeaway">
                             <div class="scale-big">×30 000<small>рост за 7 лет</small></div>
                             <div>
                                 <p class="scale-idea">Ни одна технология в истории не росла так быстро.</p>
-                                <p class="scale-follows">Это «scaling law»: качество модели предсказуемо растёт с масштабом. Ставка на масштаб — а не на новые алгоритмы — дала скачок способностей.</p>
                             </div>
                         </div>
                     </div>
@@ -1074,17 +1090,17 @@
                             <span class="scale-view-title">Данные</span>
                         </div>
                         <div class="scale-chart">
-                            <div class="scale-bar-col"><div class="scale-bar-val">0,7 млрд</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">8 млрд</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-2</b><br>2019</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">300 млрд</div><div class="scale-bar" style="height:5%"></div><div class="scale-bar-cap"><b>GPT-3</b><br>2020</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">~13 трлн</div><div class="scale-bar" style="height:35%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">~40 трлн</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">0,7 млрд</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div><div class="bar-pop"><b>~0,7 млрд токенов</b>BookCorpus — тексты книг (GPT-1).</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">8 млрд</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-2</b><br>2019</div><div class="bar-pop"><b>~8 млрд</b>WebText — 40 ГБ веб-страниц (GPT-2).</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">300 млрд</div><div class="scale-bar" style="height:5%"></div><div class="scale-bar-cap"><b>GPT-3</b><br>2020</div><div class="bar-pop"><b>~300 млрд</b>Common Crawl + книги + Wikipedia (GPT-3).</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">~13 трлн</div><div class="scale-bar" style="height:35%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div><div class="bar-pop"><b>~13 трлн</b>Сопоставимо с Llama 3 (~15 трлн токенов).</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">~40 трлн</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div><div class="bar-pop"><b>оценка · 30–50 трлн</b>Уже почти весь качественный текст интернета.</div></div>
                         </div>
                         <div class="scale-takeaway">
                             <div class="scale-big">×50 000<small>рост за 7 лет</small></div>
                             <div>
                                 <p class="scale-idea">Данные растут быстрее, чем интернет их рождает. Качественного текста — лишь ~3–5 трлн токенов, и он почти исчерпан.</p>
-                                <p class="scale-follows">По прогнозу <a class="src-link" href="https://epoch.ai/publications/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data" target="_blank">Epoch AI</a> качественные данные закончатся в <button class="year-trigger" type="button" data-open="data-modal">2026–2028</button> — <span style="color:var(--text-muted)">нажми, чтобы узнать, как индустрия это решает</span>.</p>
+                                <p class="scale-follows">По прогнозу <a class="src-link" href="https://epoch.ai/publications/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data" target="_blank">Epoch AI</a> качественные данные закончатся в <button class="year-trigger" type="button" data-open="data-modal">2026–2028</button>.</p>
                             </div>
                         </div>
 
@@ -1115,16 +1131,16 @@
                             <span class="scale-view-title">Электричество</span>
                         </div>
                         <div class="scale-chart">
-                            <div class="scale-bar-col"><div class="scale-bar-val">10¹⁸</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">10¹⁹</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-2</b><br>2019</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">3·10²³</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-3</b><br>2020</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">2·10²⁵</div><div class="scale-bar" style="height:23%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div></div>
-                            <div class="scale-bar-col"><div class="scale-bar-val">10²⁶⁺</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">10¹⁸</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-1</b><br>2018</div><div class="bar-pop"><b>~10¹⁸ FLOPs</b>Часы на одной GPU — тренировка «в гараже».</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">10¹⁹</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-2</b><br>2019</div><div class="bar-pop"><b>~10¹⁹ FLOPs</b>Десятки GPU, недели обучения.</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">3·10²³</div><div class="scale-bar" style="height:4%"></div><div class="scale-bar-cap"><b>GPT-3</b><br>2020</div><div class="bar-pop"><b>~3·10²³ FLOPs</b>Обучение ≈ $4–5 млн (оценка).</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">2·10²⁵</div><div class="scale-bar" style="height:23%"></div><div class="scale-bar-cap"><b>GPT-4</b><br>2023</div><div class="bar-pop"><b>~2·10²⁵ FLOPs</b>Обучение ≈ $60–100 млн (оценка).</div></div>
+                            <div class="scale-bar-col"><div class="scale-bar-val">10²⁶⁺</div><div class="scale-bar" style="height:100%"></div><div class="scale-bar-cap"><b>GPT-5</b><br>2025</div><div class="bar-pop"><b>оценка · 10²⁶⁺ FLOPs</b>Сотни млн $ и целые дата-центры.</div></div>
                         </div>
                         <div class="scale-takeaway">
                             <div class="scale-big">×10⁸<small>вычислений за 7 лет</small></div>
                             <div class="pop-host">
-                                <p class="scale-idea"><span class="pop-trigger">Энергия = стоимость каждого токена</span>. Отсюда MoE, квантование и малые модели — чтобы платить меньше.</p>
+                                <p class="scale-idea"><span class="pop-trigger">Энергия = стоимость каждого токена</span>.</p>
                                 <div class="pop-panel">
                                     <b>Что происходит с энергией AI</b>
                                     <ul>

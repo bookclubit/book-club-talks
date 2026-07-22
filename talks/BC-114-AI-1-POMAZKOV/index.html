@@ -2330,85 +2330,109 @@
             </section>
 
             <!-- БЛОК 11 -->
-            <section class="slide ss" data-slide="14">
+            <section class="slide ss" data-slide="14" id="b11-slide">
+                <style>
+                    #b11-slide .b11 { display: flex; align-items: center; justify-content: center; gap: 60px; }
+                    #b11-slide .b11-ask { width: 300px; text-align: right; font-size: 42px; font-weight: 700; color: #fff; line-height: 1.2; flex-shrink: 0; }
+                    #b11-slide .b11-ask small { display: block; font-size: 18px; font-weight: 400; color: var(--text-muted); margin-top: 14px; }
+                    #b11-slide .b11-stage { position: relative; width: 600px; height: 600px; flex-shrink: 0; cursor: pointer; user-select: none; }
+                    #b11-slide .b11-ring { position: absolute; left: 50%; top: 50%; border-radius: 50%; border: 1px solid var(--border-hover); background: rgba(255,255,255,0.02); opacity: 0; transform: translate(-50%, -50%) scale(0.55); transition: opacity 440ms var(--ss-out), transform 440ms var(--ss-out); }
+                    #b11-slide .b11-ring.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                    #b11-slide .b11-disc { background: radial-gradient(circle at 50% 40%, #1e1e1e, #0a0a0a); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; text-align: center; }
+                    #b11-slide .b11-center { font-family: var(--font-mono); font-size: 16px; color: #fff; line-height: 1.5; }
+                    #b11-slide .b11-center b { font-size: 20px; }
+                    #b11-slide .b11-lbl { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); background: #000; padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
+                    #b11-slide .b11-hint { text-align: center; margin-top: 18px; font-size: 15px; color: #52525b; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 11 · Рост и MoE</div>
+                        <div class="ss-kicker ss-reveal">Блок 11 · Рост параметров</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">«Большая» — понятие <b>относительное</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">GPT-1 (117M) была «большой». Сегодня «большая» — 100B+, «маленькая» — 1–8B (работает на ноутбуке).</p>
                     </div>
                     <div class="ss-body">
-                        <div class="moe">
-                            <div class="moe-grid ss-reveal" style="--ss-d:220ms">
-                                <div class="moe-cell on"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell on"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div>
-                                <div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell on"></div><div class="moe-cell"></div><div class="moe-cell"></div>
-                                <div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell on"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div>
-                                <div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell"></div><div class="moe-cell on"></div><div class="moe-cell"></div>
-                            </div>
-                            <div class="moe-txt ss-reveal" style="--ss-d:340ms">
-                                <h3>MoE — Mixture of Experts</h3>
-                                <p>Модель огромна, но на каждый запрос активируется лишь малая часть «экспертов» (белые ячейки). Так растут способности без пропорционального роста стоимости inference.</p>
+                        <div class="b11 ss-reveal" style="--ss-d:200ms">
+                            <div class="b11-ask" id="b11-ask"></div>
+                            <div class="b11-stage" id="b11-stage">
+                                <div class="b11-ring" data-order="5" style="width:600px;height:600px"><span class="b11-lbl">GPT-5 · 2025 · триллионы</span></div>
+                                <div class="b11-ring" data-order="4" style="width:470px;height:470px"><span class="b11-lbl">GPT-4 · 2023 · ~1,8 трлн</span></div>
+                                <div class="b11-ring" data-order="3" style="width:350px;height:350px"><span class="b11-lbl">GPT-3 · 2020 · 175 млрд</span></div>
+                                <div class="b11-ring" data-order="2" style="width:240px;height:240px"><span class="b11-lbl">GPT-2 · 2019 · 1,5 млрд</span></div>
+                                <div class="b11-ring b11-disc" data-order="1" style="width:150px;height:150px"><span class="b11-center"><b>GPT-1</b><br>2018<br>117 млн</span></div>
                             </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:480ms">
-                            Больше параметров → нужно больше данных. Но парадигма сместилась: <button class="info-trigger" data-open="moe2026">«больше» → «умнее при ответе»</button>
-                        </div>
+                        <div class="b11-hint ss-reveal" style="--ss-d:340ms">нажимай на схему — модели растут →</div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="moe2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Параметры в 2026: от размера к эффективности</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Масштабы</b><span>GPT-5 ≈ 1–2 трлн (MoE), DeepSeek V3 — 671B (активно 37B), Llama 4 — 400B+.</span></div>
-                        <div class="m-row"><b>Chinchilla (2022)</b><span>Важны не только параметры, но и количество данных — их нужно сбалансировать.</span></div>
-                        <div class="m-row"><b>Test-time compute</b><span>o1/o3/o4 тратят больше вычислений на обдумывание ответа, а не на обучение.</span></div>
-                        <div class="m-row"><b>Выбор инженера</b><span>«Быстрая дешёвая» vs «медленная думающая» модель — ключевое архитектурное решение.</span></div>
-                    </div>
-                </div>
+                <script>
+                    (function () {
+                        var stage = document.getElementById('b11-stage');
+                        var ask = document.getElementById('b11-ask');
+                        var rings = [].slice.call(stage.querySelectorAll('.b11-ring'));
+                        var shown = 1;
+                        function render() {
+                            rings.forEach(function (r) { r.classList.toggle('show', +r.getAttribute('data-order') <= shown); });
+                            if (shown === 1) ask.innerHTML = 'Это LLM?<small>GPT-1, 2018 — тогда её звали «большой»</small>';
+                            else if (shown < 5) ask.innerHTML = 'Или вот <b>это</b> LLM?<small>каждая новая делает прежнюю «маленькой»</small>';
+                            else ask.innerHTML = 'Так что же тогда LLM?<small>граница «большой» всё время сдвигается</small>';
+                        }
+                        render();
+                        stage.addEventListener('click', function () { shown = shown >= 5 ? 1 : shown + 1; render(); });
+                    })();
+                </script>
             </section>
 
             <!-- БЛОК 12 -->
-            <section class="slide ss" data-slide="15">
+            <section class="slide ss" data-slide="15" id="lmm-slide">
+                <style>
+                    #lmm-slide .lmm-row { display: flex; align-items: center; justify-content: center; gap: 30px; }
+                    #lmm-slide .lmm-row + .lmm-row { margin-top: 30px; }
+                    #lmm-slide .lmm-stage-lbl { text-align: center; font-family: var(--font-mono); font-size: 14px; color: #52525b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+                    #lmm-slide .lmm-in { display: flex; flex-direction: column; gap: 10px; }
+                    #lmm-slide .lmm-chip { font-family: var(--font-mono); font-size: 19px; padding: 12px 18px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+                    #lmm-slide .lmm-chip .em { font-size: 22px; }
+                    #lmm-slide .lmm-arrow { font-size: 30px; color: #52525b; }
+                    #lmm-slide .lmm-box { position: relative; padding: 24px 32px; border-radius: 18px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1a1a1a, #0a0a0a); text-align: center; cursor: help; min-width: 320px; }
+                    #lmm-slide .lmm-box.hot { border-color: #fff; }
+                    #lmm-slide .lmm-box .t { font-size: 22px; font-weight: 700; color: #fff; }
+                    #lmm-slide .lmm-box .s { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+                    #lmm-slide .lmm-tip { position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(6px); width: 380px; padding: 14px 18px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 12px; font-size: 14px; line-height: 1.45; color: var(--text-muted); box-shadow: 0 16px 40px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 20; transition: opacity 160ms var(--ss-out), transform 160ms var(--ss-out); }
+                    #lmm-slide .lmm-box:hover .lmm-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 12 · Мультимодальность</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">От языковых моделей к <b>базовым</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Мир мультимодален. «Базовая модель» (foundation) — фундамент, на котором строят другие модели.</p>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">От языковых моделей к <b>LMM</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Чтобы работать в реальном мире, AI нужно обрабатывать не только текст. Наведи на модель, чтобы понять разницу.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="io">
-                            <div class="io-col ss-reveal" style="--ss-d:220ms">
-                                <div class="lbl">Вход</div>
-                                <div class="io-item">Текст</div>
-                                <div class="io-item">Изображение</div>
-                                <div class="io-item">Аудио · видео</div>
-                                <div class="io-item">3D · белки</div>
-                            </div>
-                            <div class="io-core ss-reveal" style="--ss-d:340ms">
-                                <div class="n">Базовая модель</div>
-                                <div class="s">foundation model</div>
-                            </div>
-                            <div class="io-col ss-reveal" style="--ss-d:460ms">
-                                <div class="lbl">Выход</div>
-                                <div class="io-item">Текст · код</div>
-                                <div class="io-item">Изображения — Midjourney</div>
-                                <div class="io-item">Видео — Sora, Veo</div>
-                                <div class="io-item">Голос — ElevenLabs</div>
+                        <div class="ss-reveal" style="--ss-d:220ms">
+                            <div class="lmm-stage-lbl">Было</div>
+                            <div class="lmm-row">
+                                <div class="lmm-in"><span class="lmm-chip"><span class="em">🔤</span>текст</span></div>
+                                <span class="lmm-arrow">→</span>
+                                <div class="lmm-box">
+                                    <div class="t">Языковая модель</div>
+                                    <div class="s">LLM</div>
+                                    <div class="lmm-tip">Языковая модель генерирует следующий токен, основываясь <b style="color:#fff">только на текстовых</b> токенах.</div>
+                                </div>
+                                <span class="lmm-arrow">→</span>
+                                <div class="lmm-in"><span class="lmm-chip"><span class="em">🔤</span>текст</span></div>
                             </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
-                            Мультимодальность в 2026 — не фича, а базовое ожидание. <button class="info-trigger" data-open="mm2026">фото чека + голосом «разбери это»</button>
+                        <div class="ss-reveal" style="--ss-d:380ms">
+                            <div class="lmm-stage-lbl">Стало</div>
+                            <div class="lmm-row">
+                                <div class="lmm-in"><span class="lmm-chip"><span class="em">🔤</span>текст</span><span class="lmm-chip"><span class="em">🖼️</span>изображение</span></div>
+                                <span class="lmm-arrow">→</span>
+                                <div class="lmm-box hot">
+                                    <div class="t">Большая мультимодальная модель</div>
+                                    <div class="s">LMM · large multimodal model</div>
+                                    <div class="lmm-tip">LMM генерирует следующий токен, основываясь на текстовых <b style="color:#fff">и графических</b> токенах — или токенах любых других модальностей.</div>
+                                </div>
+                                <span class="lmm-arrow">→</span>
+                                <div class="lmm-in"><span class="lmm-chip"><span class="em">✨</span>новый токен</span></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="mm2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Мультимодальность в 2026 — норма</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Понимают всё</b><span>GPT-5, Claude 4, Gemini 2.5 — текст + изображения + аудио + видео + документы (PDF, таблицы).</span></div>
-                        <div class="m-row"><b>Генерация</b><span>Видео: Sora, Kling 2.0, Runway Gen-4, Veo 3. Картинки: Midjourney V7, Flux, DALL-E 4. Голос: ElevenLabs.</span></div>
-                        <div class="m-row"><b>Наука</b><span>AlphaFold 3 — структура белков; модели для дизайна лекарств и материалов.</span></div>
-                        <div class="m-row"><b>Для инженера</b><span>RAG стал мультимодальным: поиск не только по тексту, но и по изображениям, таблицам, графикам.</span></div>
                     </div>
                 </div>
             </section>

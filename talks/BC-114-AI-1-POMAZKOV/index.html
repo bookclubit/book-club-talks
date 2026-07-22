@@ -1635,31 +1635,65 @@
             </section>
 
             <!-- БЛОК 4 -->
-            <section class="slide ss" data-slide="7">
+            <section class="slide ss" data-slide="7" id="tl-slide">
+                <style>
+                    #tl-slide .ss-body { margin-top: 30px; }
+                    .tl-scroll { max-height: 640px; overflow-y: auto; padding: 6px 20px 30px 0; }
+                    .tl-scroll::-webkit-scrollbar { width: 10px; }
+                    .tl-scroll::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 5px; }
+                    .tl-scroll::-webkit-scrollbar-thumb:hover { background: #444; }
+                    .tl { position: relative; padding-left: 160px; }
+                    .tl::before { content: ''; position: absolute; left: 118px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+                    .tl-item { position: relative; padding-bottom: 30px; cursor: pointer; }
+                    .tl-item:last-child { padding-bottom: 4px; }
+                    .tl-year { position: absolute; left: -160px; top: -3px; width: 100px; text-align: right; font-family: var(--font-mono); font-size: 21px; font-weight: 700; color: #fff; }
+                    .tl-dot { position: absolute; left: -50px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px #000, 0 0 0 6px var(--border-hover); transition: box-shadow 160ms var(--ss-out); }
+                    .tl-item:hover .tl-dot { box-shadow: 0 0 0 4px #000, 0 0 0 6px #fff; }
+                    .tl-item.hot .tl-dot { box-shadow: 0 0 0 4px #000, 0 0 0 7px #fff, 0 0 20px rgba(255,255,255,0.55); }
+                    .tl-title { font-size: 24px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+                    .tl-title::after { content: '＋'; font-size: 17px; color: var(--text-muted); transition: transform 200ms var(--ss-out); }
+                    .tl-item.open .tl-title::after { content: '−'; }
+                    .tl-sub { font-size: 16px; color: var(--text-muted); margin-top: 3px; }
+                    .tl-detail { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 320ms var(--ss-out), opacity 320ms var(--ss-out), margin-top 320ms var(--ss-out); }
+                    .tl-item.open .tl-detail { max-height: 220px; opacity: 1; margin-top: 14px; }
+                    .tl-cloud { background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 14px; padding: 16px 20px; font-size: 17px; line-height: 1.5; color: var(--text-muted); max-width: 760px; }
+                    .tl-scroll-hint { text-align: center; font-size: 14px; color: #52525b; margin-top: 6px; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 04 · Исторический контекст</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">ChatGPT — это <b>кульминация 70 лет</b></h2>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Современные модели — это <b>кульминация 70 лет</b></h2>
                     </div>
                     <div class="ss-body">
-                        <div class="b4">
-                            <div class="b4-row">
-                                <div class="b4-node ss-reveal" style="--ss-d:300ms"><div class="b4-year">1950</div><div class="b4-dot"></div><div class="b4-label">Шеннон: энтропия языка</div></div>
-                                <div class="b4-node ss-reveal" style="--ss-d:420ms"><div class="b4-year">2017</div><div class="b4-dot"></div><div class="b4-label">Transformer «Attention is All You Need»</div></div>
-                                <div class="b4-node ss-reveal" style="--ss-d:540ms"><div class="b4-year">2018</div><div class="b4-dot"></div><div class="b4-label">GPT-1, BERT</div></div>
-                                <div class="b4-node ss-reveal" style="--ss-d:660ms"><div class="b4-year">2020</div><div class="b4-dot"></div><div class="b4-label">GPT-3</div></div>
-                                <div class="b4-node hot ss-reveal" style="--ss-d:780ms"><div class="b4-year">2022</div><div class="b4-dot"></div><div class="b4-label">ChatGPT</div></div>
-                                <div class="b4-node ss-reveal" style="--ss-d:900ms"><div class="b4-year">2023</div><div class="b4-dot"></div><div class="b4-label">GPT-4</div></div>
-                                <div class="b4-node ss-reveal" style="--ss-d:1020ms"><div class="b4-year">2024</div><div class="b4-dot"></div><div class="b4-label">Claude 3, Gemini, Llama 3</div></div>
-                                <div class="b4-node ss-reveal" style="--ss-d:1140ms"><div class="b4-year">2025</div><div class="b4-dot"></div><div class="b4-label">GPT-5, Claude 4, DeepSeek R1</div></div>
-                                <div class="b4-node hot ss-reveal" style="--ss-d:1260ms"><div class="b4-year">2026</div><div class="b4-dot"></div><div class="b4-label">Агентная эра</div></div>
+                        <div class="tl-scroll ss-reveal" style="--ss-d:180ms">
+                            <div class="tl">
+                                <div class="tl-item"><div class="tl-year">1905</div><div class="tl-dot"></div><div class="tl-title">«Пляшущие человечки»</div><div class="tl-sub">Артур Конан Дойл</div><div class="tl-detail"><div class="tl-cloud">Шерлок Холмс взламывает шифр, считая частоту букв. Первая популярная идея: язык подчиняется статистике.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">1948</div><div class="tl-dot"></div><div class="tl-title">Теория информации</div><div class="tl-sub">Клод Шеннон</div><div class="tl-detail"><div class="tl-cloud">Шеннон вводит энтропию языка и задачу предсказания следующего символа — математический фундамент языковых моделей.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">1957</div><div class="tl-dot"></div><div class="tl-title">Перцептрон</div><div class="tl-sub">Фрэнк Розенблатт</div><div class="tl-detail"><div class="tl-cloud">Первая обучаемая нейросеть. Показала, что машина может учиться на примерах, а не только следовать правилам.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">1966</div><div class="tl-dot"></div><div class="tl-title">ELIZA</div><div class="tl-sub">Джозеф Вейценбаум</div><div class="tl-detail"><div class="tl-cloud">Первый чат-бот: имитировал психотерапевта по простым шаблонам. Люди верили, что их «понимают» — иллюзия понимания.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">1986</div><div class="tl-dot"></div><div class="tl-title">Обратное распространение</div><div class="tl-sub">Румельхарт, Хинтон, Уильямс</div><div class="tl-detail"><div class="tl-cloud">Backpropagation — алгоритм обучения многослойных сетей. Сделал глубокие нейросети практичными.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">1997</div><div class="tl-dot"></div><div class="tl-title">LSTM</div><div class="tl-sub">Хохрайтер, Шмидхубер</div><div class="tl-detail"><div class="tl-cloud">Рекуррентная сеть с памятью: научилась учитывать длинный контекст последовательностей. До Transformer была основой NLP.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">2013</div><div class="tl-dot"></div><div class="tl-title">word2vec</div><div class="tl-sub">Томаш Миколов, Google</div><div class="tl-detail"><div class="tl-cloud">Слова превращаются в векторы (эмбеддинги): близкие по смыслу оказываются рядом в пространстве. «Король − мужчина + женщина ≈ королева».</div></div></div>
+                                <div class="tl-item hot"><div class="tl-year">2017</div><div class="tl-dot"></div><div class="tl-title">Transformer</div><div class="tl-sub">«Attention is All You Need»</div><div class="tl-detail"><div class="tl-cloud">Архитектура внимания (attention). Основа всех современных LLM — GPT, Claude, Gemini.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">2018</div><div class="tl-dot"></div><div class="tl-title">GPT-1 и BERT</div><div class="tl-sub">первые большие</div><div class="tl-detail"><div class="tl-cloud">GPT (генерация текста) и BERT (понимание) на базе Transformer — разошлись две ветви языковых моделей.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">2020</div><div class="tl-dot"></div><div class="tl-title">GPT-3</div><div class="tl-sub">175 млрд параметров</div><div class="tl-detail"><div class="tl-cloud">Few-shot: модель решает задачи по нескольким примерам прямо в промте, без дообучения.</div></div></div>
+                                <div class="tl-item hot"><div class="tl-year">2022</div><div class="tl-dot"></div><div class="tl-title">ChatGPT</div><div class="tl-sub">массовый прорыв</div><div class="tl-detail"><div class="tl-cloud">RLHF превратил модель в удобного собеседника. 100 млн пользователей за 2 месяца — самый быстрый рост в истории.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">2023</div><div class="tl-dot"></div><div class="tl-title">GPT-4</div><div class="tl-sub">мультимодальность</div><div class="tl-detail"><div class="tl-cloud">Понимает изображения, резко точнее в рассуждениях и коде. Старт эры «AI как инструмент работы».</div></div></div>
+                                <div class="tl-item"><div class="tl-year">2024</div><div class="tl-dot"></div><div class="tl-title">Claude 3, Gemini, Llama 3</div><div class="tl-sub">конкуренция и open-source</div><div class="tl-detail"><div class="tl-cloud">Несколько игроков сравнялись с GPT-4. Open-source (Llama) сделал сильные модели доступными всем.</div></div></div>
+                                <div class="tl-item"><div class="tl-year">2025</div><div class="tl-dot"></div><div class="tl-title">GPT-5, Claude 4, DeepSeek R1</div><div class="tl-sub">reasoning-модели</div><div class="tl-detail"><div class="tl-cloud">Модели «думают» перед ответом (chain-of-thought). DeepSeek показал сильный reasoning за долю бюджета конкурентов.</div></div></div>
+                                <div class="tl-item hot"><div class="tl-year">2026</div><div class="tl-dot"></div><div class="tl-title">Агентная эра</div><div class="tl-sub">AI действует сам</div><div class="tl-detail"><div class="tl-cloud">AI не отвечает, а автономно выполняет задачи: планирует, вызывает инструменты, проверяет результат.</div></div></div>
                             </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:1400ms">
-                            За «магией» ChatGPT — <b>70 лет</b> последовательной работы. В 2026-м AI уже инфраструктура, как электричество: вопрос сместился с «что AI может?» на <b>«как встроить его в каждый процесс?»</b>. Классический ML никуда не делся — он сосуществует с LLM.
-                        </div>
+                        <div class="tl-scroll-hint ss-reveal" style="--ss-d:320ms">↕ прокрути ленту · нажми на точку, чтобы раскрыть</div>
                     </div>
                 </div>
+                <script>
+                    (function () {
+                        document.querySelectorAll('#tl-slide .tl-item').forEach(function (it) {
+                            it.addEventListener('click', function () { it.classList.toggle('open'); });
+                        });
+                    })();
+                </script>
             </section>
 
             <!-- БЛОК 5 -->
@@ -1696,6 +1730,20 @@
 
             <!-- БЛОК 6 -->
             <section class="slide ss" data-slide="9">
+                <style>
+                    .tk2-main { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 16px; }
+                    .tk2-main .tok { font-size: 34px; padding: 14px 22px; }
+                    .tk2-count { text-align: center; font-size: 18px; color: var(--text-muted); margin-bottom: 46px; }
+                    .tk2-count b { color: #fff; font-family: var(--font-mono); }
+                    .tk2-h { text-align: center; font-size: 30px; font-weight: 600; color: #fff; margin-bottom: 30px; }
+                    .tk2-ex { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1100px; margin: 0 auto; }
+                    .tk2-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 30px 34px; }
+                    .tk2-card .w { font-family: var(--font-mono); font-size: 24px; color: var(--text-muted); margin-bottom: 18px; }
+                    .tk2-split { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+                    .tk2-split .tok { font-size: 26px; padding: 12px 18px; }
+                    .tk2-card p { margin: 0; font-size: 18px; color: var(--text-muted); line-height: 1.45; }
+                    .tk2-card b { color: #fff; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 06 · Единица модели</div>
@@ -1703,29 +1751,140 @@
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Модель видит не буквы и не слова, а токены: символ, слово или часть слова.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="tok-line ss-reveal" style="--ss-d:200ms">
+                        <div class="tk2-main ss-reveal" style="--ss-d:200ms">
                             <span class="tok">I</span><span class="tok">can</span><span class="tok">'t</span><span class="tok">wait</span><span class="tok">to</span><span class="tok">build</span><span class="tok">AI</span><span class="tok">applica</span><span class="tok">tions</span>
                         </div>
-                        <div class="tok-count ss-reveal" style="--ss-d:280ms">«I can't wait to build AI applications» → 9 токенов · словарь GPT-4: <span class="ss-count" data-to="100256" data-space="1" style="color:#fff;font-family:var(--font-mono)">100 256</span> токенов</div>
-                        <div class="tok-why ss-reveal" style="--ss-d:360ms">
-                            <div><b>Значимые части</b>разбивают слова на осмысленные куски</div>
-                            <div><b>Компактный словарь</b>меньше вариантов, чем всех слов языка</div>
-                            <div><b>Незнакомые слова</b>собираются из частей — без «дыр»</div>
-                        </div>
-                        <div class="ss-reveal" style="--ss-d:460ms; margin-top:30px">
-                            <button class="info-trigger" data-open="tok2026">токены в 2026: контекст, цена, мультимодальность, русский</button>
+                        <div class="tk2-count ss-reveal" style="--ss-d:280ms">«I can't wait to build AI applications» → <b>9 токенов</b></div>
+                        <div class="tk2-h ss-reveal" style="--ss-d:360ms">Почему токен, а не слово или символ?</div>
+                        <div class="tk2-ex ss-reveal" style="--ss-d:440ms">
+                            <div class="tk2-card">
+                                <div class="w">cooking</div>
+                                <div class="tk2-split"><span class="tok">cook</span><span class="tok">ing</span></div>
+                                <p><b>Знакомое слово</b> разбивается на осмысленные части: корень «cook» + окончание «ing». Модель переиспользует их в тысячах других слов.</p>
+                            </div>
+                            <div class="tk2-card">
+                                <div class="w">chatgpting</div>
+                                <div class="tk2-split"><span class="tok">chat</span><span class="tok">g</span><span class="tok">pt</span><span class="tok">ing</span></div>
+                                <p><b>Незнакомое слово</b> собирается из кусочков — без «дыр» в словаре. Даже выдуманное слово модель прочитает по частям.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="tok2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Токены — «валюта» AI-индустрии · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Контекстное окно</b><span>Gemini 2.5 Pro — 2M токенов, GPT-5 — 1M+, Claude — 200K. Можно загрузить книгу или кодовую базу целиком.</span></div>
-                        <div class="m-row"><b>Цена</b><span>2023: GPT-4 — $0.03 / 1K токенов. 2026: GPT-4o-mini — $0.00015 / 1K. Падение в ~200 раз за 3 года.</span></div>
-                        <div class="m-row"><b>Мультимодальность</b><span>Картинка ≈ 1000 токенов, минута видео — десятки тысяч. Токенизация стала мультимодальной.</span></div>
-                        <div class="m-row"><b>Русский язык</b><span>Русское слово = 2–3 токена (против 1–2 для английского) → дороже и чуть хуже качество.</span></div>
-                        <div class="m-row"><b>Навык инженера</b><span>Управление контекстом: что вставить, что выкинуть, как сжать (кэширование промтов).</span></div>
+            </section>
+
+            <!-- НОВЫЙ: ТОКЕНИЗАТОР -->
+            <section class="slide ss" data-slide="9a" id="tkz-slide">
+                <style>
+                    .tkz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1160px; margin: 0 auto; }
+                    .tkz-col .tkz-lbl { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px; }
+                    .tkz-ta { width: 100%; box-sizing: border-box; height: 96px; resize: none; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; color: var(--text-main); font-family: var(--font-mono); font-size: 20px; line-height: 1.4; }
+                    .tkz-ta:focus { outline: none; border-color: var(--border-hover); }
+                    .tkz-out { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; min-height: 44px; align-content: flex-start; }
+                    .tkz-t { font-family: var(--font-mono); font-size: 18px; padding: 6px 9px; border-radius: 7px; background: #151515; border: 1px solid var(--border); color: var(--text-main); white-space: pre; }
+                    .tkz-t:nth-child(even) { background: #1d1d1d; border-color: var(--border-hover); }
+                    .tkz-count { margin-top: 12px; font-size: 16px; color: var(--text-muted); }
+                    .tkz-count b { color: #fff; font-family: var(--font-mono); }
+                    .tkz-actions { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 30px 0 8px; }
+                    .tkz-btn { cursor: pointer; font-size: 19px; font-weight: 600; color: #000; background: #fff; border: none; border-radius: 999px; padding: 14px 34px; transition: transform 160ms var(--ss-out), background 160ms var(--ss-out); }
+                    .tkz-btn:hover { background: #e2e2e2; }
+                    .tkz-btn:active { transform: scale(0.97); }
+                    .tkz-link { font-size: 16px; color: var(--text-muted); text-decoration: none; border-bottom: 1px dashed #52525b; }
+                    .tkz-link:hover { color: #fff; border-bottom-color: #fff; }
+                </style>
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 06 · Токенизация</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Разбивка текста на токены — <b>токенизация</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Процесс разбивки исходного текста на токены и называется токенизацией. Введи текст и нажми кнопку.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="tkz-grid ss-reveal" style="--ss-d:200ms">
+                            <div class="tkz-col">
+                                <div class="tkz-lbl">Английский</div>
+                                <textarea class="tkz-ta" id="tkz-en">I can't wait to build AI applications</textarea>
+                                <div class="tkz-out" id="tkz-out-en"></div>
+                                <div class="tkz-count" id="tkz-cnt-en"></div>
+                            </div>
+                            <div class="tkz-col">
+                                <div class="tkz-lbl">Русский</div>
+                                <textarea class="tkz-ta" id="tkz-ru">Не могу дождаться, когда создам приложения на AI</textarea>
+                                <div class="tkz-out" id="tkz-out-ru"></div>
+                                <div class="tkz-count" id="tkz-cnt-ru"></div>
+                            </div>
+                        </div>
+                        <div class="tkz-actions ss-reveal" style="--ss-d:320ms">
+                            <button class="tkz-btn" id="tkz-btn" type="button">Токенизировать</button>
+                            <a class="tkz-link" href="https://platform.openai.com/tokenizer" target="_blank">проверить самому на platform.openai.com/tokenizer ↗</a>
+                        </div>
+                        <p style="text-align:center; font-size:14px; color:#52525b; margin-top:6px">приближённая разбивка для модели уровня GPT-3 · русские слова дают в 2–3 раза больше токенов</p>
+                    </div>
+                </div>
+                <script>
+                    (function () {
+                        function tokenize(text) {
+                            var out = [], lead = '';
+                            var parts = text.match(/[A-Za-z]+|[А-Яа-яЁё]+|\d+|[^\sA-Za-zА-Яа-яЁё\d]+|\s+/g) || [];
+                            parts.forEach(function (p) {
+                                if (/^\s+$/.test(p)) { lead = ' '; return; }
+                                var isCyr = /[А-Яа-яЁё]/.test(p);
+                                var size = isCyr ? 2 : (/[A-Za-z]/.test(p) ? 4 : 3);
+                                for (var i = 0; i < p.length; i += size) {
+                                    out.push((i === 0 ? lead : '') + p.slice(i, i + size));
+                                }
+                                lead = '';
+                            });
+                            return out;
+                        }
+                        function render(text, outEl, cntEl) {
+                            var toks = tokenize(text);
+                            outEl.innerHTML = '';
+                            toks.forEach(function (t) {
+                                var s = document.createElement('span');
+                                s.className = 'tkz-t';
+                                s.textContent = t;
+                                outEl.appendChild(s);
+                            });
+                            cntEl.innerHTML = '<b>' + toks.length + '</b> токенов';
+                        }
+                        var btn = document.getElementById('tkz-btn');
+                        btn.addEventListener('click', function () {
+                            render(document.getElementById('tkz-en').value, document.getElementById('tkz-out-en'), document.getElementById('tkz-cnt-en'));
+                            render(document.getElementById('tkz-ru').value, document.getElementById('tkz-out-ru'), document.getElementById('tkz-cnt-ru'));
+                        });
+                    })();
+                </script>
+            </section>
+
+            <!-- НОВЫЙ: СЛОВАРЬ МОДЕЛИ -->
+            <section class="slide ss" data-slide="9b">
+                <style>
+                    .voc-list { display: flex; flex-direction: column; gap: 18px; max-width: 1040px; margin: 0 auto; }
+                    .voc-row { display: flex; align-items: center; gap: 22px; }
+                    .voc-name { width: 210px; font-size: 19px; color: var(--text-main); flex-shrink: 0; }
+                    .voc-name a { color: #fff; text-decoration: none; border-bottom: 1px dashed #52525b; }
+                    .voc-name a:hover { border-bottom-color: #fff; }
+                    .voc-track { flex: 1; height: 42px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+                    .voc-bar { height: 100%; background: linear-gradient(90deg, #ffffff 0%, #52525b 100%); transform-origin: left; transform: scaleX(0); border-radius: 7px 0 0 7px; }
+                    .ss.active .voc-bar { animation: vocGrow 820ms var(--ss-out) forwards; animation-delay: var(--vd, 200ms); }
+                    @keyframes vocGrow { to { transform: scaleX(var(--w)); } }
+                    .voc-val { width: 120px; text-align: right; font-family: var(--font-mono); font-size: 19px; color: var(--text-muted); flex-shrink: 0; }
+                    @media (prefers-reduced-motion: reduce) { .ss.active .voc-bar { animation: none; transform: scaleX(var(--w)); } }
+                </style>
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 06 · Словарь модели</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Словарь модели — <b>набор всех токенов</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Из небольшого числа токенов можно составить огромное число слов — как из алфавита. Размер словаря у моделей разный:</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="voc-list">
+                            <div class="voc-row ss-reveal" style="--ss-d:220ms"><div class="voc-name"><a href="https://huggingface.co/mistralai/Mixtral-8x7B-v0.1" target="_blank">Mixtral 8x7B ↗</a></div><div class="voc-track"><div class="voc-bar" style="--w:0.125;--vd:200ms"></div></div><div class="voc-val">32 000</div></div>
+                            <div class="voc-row ss-reveal" style="--ss-d:300ms"><div class="voc-name"><a href="https://github.com/openai/tiktoken" target="_blank">GPT-3 ↗</a></div><div class="voc-track"><div class="voc-bar" style="--w:0.196;--vd:280ms"></div></div><div class="voc-val">50 257</div></div>
+                            <div class="voc-row ss-reveal" style="--ss-d:380ms"><div class="voc-name"><a href="https://github.com/openai/tiktoken" target="_blank">GPT-4 (cl100k) ↗</a></div><div class="voc-track"><div class="voc-bar" style="--w:0.392;--vd:360ms"></div></div><div class="voc-val">100 256</div></div>
+                            <div class="voc-row ss-reveal" style="--ss-d:460ms"><div class="voc-name"><a href="https://huggingface.co/meta-llama/Meta-Llama-3-8B" target="_blank">Llama 3 ↗</a></div><div class="voc-track"><div class="voc-bar" style="--w:0.501;--vd:440ms"></div></div><div class="voc-val">128 256</div></div>
+                            <div class="voc-row ss-reveal" style="--ss-d:540ms"><div class="voc-name"><a href="https://github.com/openai/tiktoken" target="_blank">GPT-4o (o200k) ↗</a></div><div class="voc-track"><div class="voc-bar" style="--w:0.781;--vd:520ms"></div></div><div class="voc-val">200 019</div></div>
+                            <div class="voc-row ss-reveal" style="--ss-d:620ms"><div class="voc-name"><a href="https://huggingface.co/google/gemma-7b" target="_blank">Gemma ↗</a></div><div class="voc-track"><div class="voc-bar" style="--w:1;--vd:600ms"></div></div><div class="voc-val">256 000</div></div>
+                        </div>
                     </div>
                 </div>
             </section>

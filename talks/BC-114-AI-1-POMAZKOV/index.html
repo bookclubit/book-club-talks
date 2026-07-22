@@ -1211,7 +1211,7 @@
             <!-- ==================== КОНТЕНТНЫЕ СЛАЙДЫ (блоки 2…18) ==================== -->
             <style>
                 .ss { --ss-out: cubic-bezier(0.23, 1, 0.32, 1); }
-                .ss .ss-wrap { height: 100%; padding: 76px 100px; box-sizing: border-box; display: flex; flex-direction: column; }
+                .ss .ss-wrap { height: 100%; padding: 80px 100px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; }
                 .ss .ss-kicker {
                     font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.14em;
                     text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;
@@ -1219,7 +1219,7 @@
                 .ss .ss-title { font-size: 56px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.08; margin: 0; color: var(--text-main); }
                 .ss .ss-title b { color: #fff; font-weight: 700; }
                 .ss .ss-lead { font-size: 24px; line-height: 1.45; color: var(--text-muted); margin: 20px 0 0; max-width: 1200px; }
-                .ss .ss-body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; margin-top: 46px; }
+                .ss .ss-body { display: flex; flex-direction: column; justify-content: center; margin-top: 44px; }
 
                 /* Появление при входе на слайд (.ss.active) */
                 .ss .ss-reveal { opacity: 0; }
@@ -1466,36 +1466,104 @@
 
             <!-- БЛОК 2 -->
             <section class="slide ss" data-slide="5">
-                <div class="ss-wrap">
+                <style>
+                    #b2f-slide .ss-body { margin-top: 30px; }
+                    .b2f { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: start; max-width: 1280px; margin: 0 auto; }
+                    .b2f-col { display: flex; flex-direction: column; align-items: center; }
+                    .b2f-col-title { font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 18px; }
+                    .b2f-col-title b { color: #fff; }
+                    .b2f-node {
+                        position: relative; width: 100%; max-width: 460px; padding: 15px 22px;
+                        background: var(--bg-card); border: 1px solid var(--border); border-radius: 13px;
+                        text-align: center; font-size: 18px; color: var(--text-main); line-height: 1.3;
+                    }
+                    .b2f-node.accent { border-color: var(--border-hover); background: #111; font-weight: 600; }
+                    .b2f-node.has-tip { cursor: help; }
+                    .b2f-link { width: 2px; height: 26px; background: var(--border); position: relative; overflow: hidden; flex-shrink: 0; }
+                    .b2f-link::after {
+                        content: ''; position: absolute; left: -1px; width: 4px; height: 16px; border-radius: 2px;
+                        background: linear-gradient(#ffffff, transparent); box-shadow: 0 0 10px #fff;
+                        animation: b2fSig 2.2s linear infinite;
+                    }
+                    @keyframes b2fSig { from { top: -16px; } to { top: 26px; } }
+                    .b2f-triple { display: flex; gap: 12px; width: 100%; max-width: 460px; }
+                    .b2f-triple .b2f-node { flex: 1; padding: 14px 8px; font-size: 15px; }
+                    .b2f-tip {
+                        position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(6px);
+                        width: 250px; padding: 11px 14px; background: #1e1e1e; border: 1px solid var(--border-hover);
+                        border-radius: 10px; font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: left;
+                        box-shadow: 0 12px 32px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 20;
+                        transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); font-weight: 400;
+                    }
+                    .b2f-node:hover .b2f-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    .b2f-tip b { color: #fff; display: block; margin-bottom: 4px; }
+
+                    .b2f-merge { display: flex; flex-direction: column; align-items: center; margin: 28px auto 0; }
+                    .b2f-converge { font-size: 14px; color: #52525b; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+                    .b2f-node.final { font-size: 22px; padding: 20px 34px; }
+                    .b2f-toggle { display: none; }
+                    .b2f-reveal {
+                        cursor: pointer; font-size: 15px; color: var(--text-muted); background: #161616;
+                        border: 1px dashed var(--border-hover); border-radius: 999px; padding: 8px 18px; margin: 6px 0;
+                        transition: background 160ms var(--ss-out), color 160ms var(--ss-out);
+                    }
+                    .b2f-reveal:hover { background: var(--bg-hover); color: #fff; }
+                    .b2f-agent-wrap { display: flex; flex-direction: column; align-items: center; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 320ms var(--ss-out), opacity 320ms var(--ss-out); }
+                    .b2f-toggle:checked ~ .b2f-reveal { display: none; }
+                    .b2f-toggle:checked ~ .b2f-agent-wrap { max-height: 200px; opacity: 1; }
+                    @media (prefers-reduced-motion: reduce) { .b2f-link::after { animation: none; } }
+                </style>
+                <div class="ss-wrap" id="b2f-slide">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 02 · Последствие масштаба</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Два последствия <b>масштабирования</b></h2>
                     </div>
                     <div class="ss-body">
-                        <div class="b2">
-                            <div class="b2-source ss-reveal" style="--ss-d:140ms">
-                                <div class="n">МАСШТАБ</div>
-                                <div class="y">2020 →</div>
+                        <div class="b2f">
+                            <!-- ЛЕВАЯ СХЕМА: спрос -->
+                            <div class="b2f-col ss-reveal" style="--ss-d:160ms">
+                                <div class="b2f-col-title">Следствие 1 · <b>спрос растёт</b></div>
+                                <div class="b2f-node">Мощность моделей AI растёт</div>
+                                <div class="b2f-link"></div>
+                                <div class="b2f-node">Способны выполнять всё больше задач</div>
+                                <div class="b2f-link"></div>
+                                <div class="b2f-node">Появляется больше приложений</div>
+                                <div class="b2f-link"></div>
+                                <div class="b2f-node">Больше людей и команд используют AI</div>
+                                <div class="b2f-link"></div>
+                                <div class="b2f-node accent">Спрос на AI-приложения вырос</div>
                             </div>
-                            <div class="b2-cards">
-                                <div class="b2-card ss-reveal" style="--ss-d:260ms">
-                                    <span class="b2-ico"><svg class="flat-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
-                                    <div>
-                                        <h3>Мощность</h3>
-                                        <p>Модели умеют решать больше задач → больше приложений для всех.</p>
-                                    </div>
+                            <!-- ПРАВАЯ СХЕМА: концентрация -->
+                            <div class="b2f-col ss-reveal" style="--ss-d:300ms">
+                                <div class="b2f-col-title">Следствие 2 · <b>обучение концентрируется</b></div>
+                                <div class="b2f-node">Обучить большую модель требует…</div>
+                                <div class="b2f-link"></div>
+                                <div class="b2f-triple">
+                                    <div class="b2f-node has-tip">Данные<div class="b2f-tip"><b>Триллионы токенов</b>Весь качественный текст интернета — и это уже почти предел.</div></div>
+                                    <div class="b2f-node has-tip">Специалисты<div class="b2f-tip"><b>Редкие таланты</b>ML-исследователи мирового уровня — их единицы, зарплаты $500K–1M+.</div></div>
+                                    <div class="b2f-node has-tip">Вычисления<div class="b2f-tip"><b>Тысячи GPU</b>Кластеры из десятков тысяч NVIDIA H100 / B200.</div></div>
                                 </div>
-                                <div class="b2-card ss-reveal" style="--ss-d:380ms">
-                                    <span class="b2-ico"><svg class="flat-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
-                                    <div>
-                                        <h3>Концентрация</h3>
-                                        <p>Обучить модель могут единицы-гиганты → «модель как услуга» (MaaS).</p>
-                                    </div>
-                                </div>
+                                <div class="b2f-link"></div>
+                                <div class="b2f-node">Всё это — очень дорого</div>
+                                <div class="b2f-link"></div>
+                                <div class="b2f-node">Позволить могут единицы</div>
+                                <div class="b2f-link"></div>
+                                <div class="b2f-node accent has-tip">Базовые модели обучают единицы<div class="b2f-tip"><b>Кто именно</b>OpenAI, Google, Anthropic, Meta, xAI, DeepSeek.</div></div>
                             </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:520ms">
-                            AI стал мощнее, но <b>создавать</b> его могут только гиганты. Зато <b>пользоваться</b> — каждый. Именно этот разрыв между «создать» и «использовать» и рождает <b>AI-инженерию</b>.
+
+                        <!-- СХОДЯТСЯ В ОДНУ -->
+                        <div class="b2f-merge ss-reveal" style="--ss-d:460ms">
+                            <div class="b2f-converge">↓ обе схемы сходятся ↓</div>
+                            <div class="b2f-node accent has-tip">«Модель как услуга» (MaaS)<div class="b2f-tip"><b>API вместо своей модели</b>Берёшь готовую модель по API: OpenAI, Anthropic, Together AI.</div></div>
+                            <div class="b2f-link"></div>
+                            <input type="checkbox" id="b2f-agent" class="b2f-toggle">
+                            <label for="b2f-agent" class="b2f-reveal">＋ раскрыть следующий уровень</label>
+                            <div class="b2f-agent-wrap">
+                                <div class="b2f-node accent has-tip">«Агент как услуга»<div class="b2f-tip"><b>Готовые агенты по подписке</b>OpenAI Codex (агент-разработчик) · Claude с доступом к компьютеру · Devin (AI-инженер).</div></div>
+                                <div class="b2f-link"></div>
+                            </div>
+                            <div class="b2f-node accent final">Сильное развитие AI-инженерии</div>
                         </div>
                     </div>
                 </div>

@@ -2437,79 +2437,38 @@
                 </div>
             </section>
 
-            <!-- БЛОК 13 -->
-            <section class="slide ss" data-slide="16">
+            <!-- БЛОК 13 (+ спектр адаптации со слайда 14) -->
+            <section class="slide ss" data-slide="16" id="b13-slide">
+                <style>
+                    #b13-slide .spec-stop { position: relative; cursor: help; }
+                    #b13-slide .spec-tip { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%) translateY(6px); width: 240px; padding: 12px 15px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px; font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: center; box-shadow: 0 12px 32px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 20; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
+                    #b13-slide .spec-stop:hover .spec-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    #b13-slide .spec-tip b { color: #fff; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 13 · Смена парадигмы</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Одна базовая модель — <b>все задачи</b></h2>
-                    </div>
-                    <div class="ss-body">
-                        <div class="cmp">
-                            <div class="cmp-col ss-reveal" style="--ss-d:200ms">
-                                <span class="cmp-tag">Раньше</span>
-                                <h3>1 модель = 1 задача</h3>
-                                <p>Спам-фильтр ≠ переводчик. ML-инженер обучал модель <b style="color:#fff">с нуля</b> под каждую задачу.</p>
-                            </div>
-                            <div class="cmp-col accent ss-reveal" style="--ss-d:320ms">
-                                <span class="cmp-tag">Сейчас</span>
-                                <h3>1 базовая модель + адаптация</h3>
-                                <p>Решает многое «относительно хорошо», а для конкретной задачи — донастраивается. Профессия сменилась: не «создать», а <b style="color:#fff">«настроить»</b>.</p>
-                            </div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:460ms; margin-top:36px">
-                            «Одна большая на всё» и «много маленьких специализированных» не исключают друг друга. <button class="info-trigger" data-open="gp2026">архитектура 2026: система моделей</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="gp2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Общее vs специализированное · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Одна на всё</b><span>GPT-5 / Claude 4: перевод, код, документы, изображения, матдоказательства, музыка.</span></div>
-                        <div class="m-row"><b>Специализированные</b><span>Bloomberg GPT, Med-PaLM, юридические — дешевле и быстрее в inference.</span></div>
-                        <div class="m-row"><b>Малые модели (SLM)</b><span>Phi-4, Gemma 3, Llama 4 Scout — на устройстве. Apple Intelligence, Samsung Galaxy AI.</span></div>
-                        <div class="m-row"><b>Архитектура</b><span>Большой оркестратор маршрутизирует задачи к маленьким. Инженер проектирует <b style="color:#fff">систему</b> моделей.</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- БЛОК 14 -->
-            <section class="slide ss" data-slide="17">
-                <div class="ss-wrap">
-                    <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 14 · Инструментарий</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Адаптация — это <b>спектр</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Адаптировать модель: 10 примеров. Создать с нуля: 1 млн примеров + 6 месяцев. В 99% случаев хватает промта или RAG.</p>
+                        <div class="ss-kicker ss-reveal">Блок 13 · Базовые модели</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">От LLM и LMM к <b>базовым моделям</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Базовые модели решают многое «относительно хорошо», а под конкретную задачу — донастраиваются. Ориентир сменился: не «создать», а <b style="color:#fff">«настроить»</b>. Наведи на метод адаптации.</p>
                     </div>
                     <div class="ss-body">
                         <div class="ss-reveal" style="--ss-d:240ms">
                             <div class="spec-axis"><span>проще · дешевле · быстрее</span><span>сложнее · дороже · дольше</span></div>
                             <div class="spec-track">
                                 <div class="spec-stops">
-                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">Промт</span></div>
-                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">RAG</span></div>
-                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">MCP</span></div>
-                                    <div class="spec-stop"><span class="dot"></span><span class="nm">LoRA</span></div>
-                                    <div class="spec-stop"><span class="dot"></span><span class="nm">Fine-tuning</span></div>
-                                    <div class="spec-stop"><span class="dot"></span><span class="nm">С нуля</span></div>
+                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">Промт</span><span class="spec-tip"><b>Промт-инжиниринг</b><br>Инструкции и примеры прямо в запросе. Ничего не обучаешь.</span></div>
+                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">RAG</span><span class="spec-tip"><b>RAG</b><br>Подключаешь внешнюю базу знаний — модель отвечает по твоим документам.</span></div>
+                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">MCP</span><span class="spec-tip"><b>Model Context Protocol</b><br>Стандарт подключения данных и инструментов (от Anthropic).</span></div>
+                                    <div class="spec-stop"><span class="dot"></span><span class="nm">LoRA</span><span class="spec-tip"><b>LoRA / QLoRA</b><br>Лёгкое дообучение: адаптеры на одном GPU, от $100.</span></div>
+                                    <div class="spec-stop"><span class="dot"></span><span class="nm">Fine-tuning</span><span class="spec-tip"><b>Fine-tuning</b><br>Полное дообучение модели на своих данных.</span></div>
+                                    <div class="spec-stop"><span class="dot"></span><span class="nm">С нуля</span><span class="spec-tip"><b>Обучение с нуля</b><br>Своя модель: миллионы примеров, месяцы, огромный бюджет.</span></div>
                                 </div>
                             </div>
                             <div class="spec-zone">Подсвечены методы, что покрывают <b>~80% случаев</b>. Fine-tuning — ~15%, обучение с нуля — ~5%.</div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:440ms; margin-top:38px">
-                            Вам почти никогда не нужно обучать модель с нуля. <button class="info-trigger" data-open="adapt2026">что это за методы в 2026</button>
+                        <div class="ss-insight ss-reveal" style="--ss-d:440ms; margin-top:40px">
+                            Вам почти никогда не нужно обучать модель с нуля — достаточно <b>настроить</b> готовую базовую.
                         </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="adapt2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Методы адаптации · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Промт-инжиниринг</b><span>Системный промт (5–10 страниц) + few-shot + chain-of-thought + инструкции по инструментам.</span></div>
-                        <div class="m-row"><b>RAG</b><span>Стандарт индустрии. Pinecone, Weaviate, pgvector; LlamaIndex, LangChain; hybrid search, reranking, GraphRAG.</span></div>
-                        <div class="m-row"><b>MCP</b><span>Model Context Protocol от Anthropic — стандарт подключения данных и инструментов, заменяет кастомный RAG.</span></div>
-                        <div class="m-row"><b>Fine-tuning</b><span>LoRA/QLoRA — дообучение на одном GPU, от $100 за сессию (OpenAI, Together AI).</span></div>
                     </div>
                 </div>
             </section>

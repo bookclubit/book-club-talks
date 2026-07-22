@@ -1571,6 +1571,24 @@
 
             <!-- БЛОК 3 -->
             <section class="slide ss" data-slide="6">
+                <style>
+                    .b3c-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+                    .b3c-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 36px 34px; min-height: 470px; display: flex; flex-direction: column; }
+                    .b3c-v { font-family: var(--font-mono); font-size: 58px; font-weight: 700; color: #fff; line-height: 1; }
+                    .b3c-l { font-size: 18px; color: var(--text-muted); margin-top: 14px; line-height: 1.35; }
+                    .b3c-chart { margin-top: auto; display: flex; align-items: flex-end; gap: 14px; height: 210px; border-bottom: 1px solid var(--border); }
+                    .b3c-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; height: 100%; }
+                    .b3c-bar { width: 72%; max-width: 46px; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #ffffff 0%, #52525b 100%); transform-origin: bottom; transform: scaleY(0); }
+                    .ss.active .b3c-bar { animation: b3cGrow 720ms var(--ss-out) both; }
+                    .ss.active .b3c-col:nth-child(1) .b3c-bar { animation-delay: 200ms; }
+                    .ss.active .b3c-col:nth-child(2) .b3c-bar { animation-delay: 300ms; }
+                    .ss.active .b3c-col:nth-child(3) .b3c-bar { animation-delay: 400ms; }
+                    .ss.active .b3c-col:nth-child(4) .b3c-bar { animation-delay: 500ms; }
+                    .ss.active .b3c-col:nth-child(5) .b3c-bar { animation-delay: 600ms; }
+                    @keyframes b3cGrow { to { transform: scaleY(1); } }
+                    .b3c-yr { font-family: var(--font-mono); font-size: 12px; color: #52525b; }
+                    @media (prefers-reduced-motion: reduce) { .ss.active .b3c-bar { animation: none; transform: scaleY(1); } }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 03 · Новая дисциплина</div>
@@ -1578,25 +1596,38 @@
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Спрос вырос, барьер входа упал: создание приложений на готовых моделях стало одной из самых быстрорастущих инженерных дисциплин.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="b3-stats">
-                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v"><span class="ss-count" data-to="300" data-prefix="+" data-suffix="%">+300%</span></div><div class="l">рост вакансий «AI Engineer», 2023 → 2026 (LinkedIn)</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:300ms"><div class="v">$180–350K</div><div class="l">средняя вилка зарплаты AI-инженера в США</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:400ms"><div class="v"><span class="ss-count" data-to="10000" data-suffix="+" data-space="1">10 000+</span></div><div class="l">участников AI&nbsp;Engineer&nbsp;Summit, 2025</div></div>
-                        </div>
-                        <div class="b3-mid">
-                            <div class="b3-role ss-reveal" style="--ss-d:500ms">
-                                <h3><svg class="flat-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h6v6H9z"></path><path d="M4 12H1M23 12h-3M12 4V1M12 23v-3"></path></svg> ML-инженер</h3>
-                                <p><span class="tag">обучает модели</span><br>PyTorch, распределённое обучение, чипы, data-пайплайны.</p>
+                        <div class="b3c-grid">
+                            <div class="b3c-card ss-reveal" style="--ss-d:200ms">
+                                <div class="b3c-v"><span class="ss-count" data-to="300" data-prefix="+" data-suffix="%">+300%</span></div>
+                                <div class="b3c-l">рост вакансий «AI Engineer», 2023 → 2026 (LinkedIn)</div>
+                                <div class="b3c-chart">
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:18%"></div><div class="b3c-yr">'22</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:32%"></div><div class="b3c-yr">'23</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:55%"></div><div class="b3c-yr">'24</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:78%"></div><div class="b3c-yr">'25</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:100%"></div><div class="b3c-yr">'26</div></div>
+                                </div>
                             </div>
-                            <div class="b3-role accent ss-reveal" style="--ss-d:580ms">
-                                <h3><svg class="flat-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> AI-инженер</h3>
-                                <p><span class="tag">строит системы вокруг моделей</span><br>оркестрация агентов, управление контекстом, evaluation, guardrails, RAG-пайплайны.</p>
+                            <div class="b3c-card ss-reveal" style="--ss-d:320ms">
+                                <div class="b3c-v">$180–350K</div>
+                                <div class="b3c-l">вилка зарплаты AI-инженера в США — растёт год к году</div>
+                                <div class="b3c-chart">
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:45%"></div><div class="b3c-yr">'22</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:58%"></div><div class="b3c-yr">'23</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:72%"></div><div class="b3c-yr">'24</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:86%"></div><div class="b3c-yr">'25</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:100%"></div><div class="b3c-yr">'26</div></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ss-reveal" style="--ss-d:660ms">
-                            <div class="ss-chips-label">Стек AI-инженера в 2026</div>
-                            <div class="ss-chips">
-                                <span class="ss-chip">LangChain</span><span class="ss-chip">LlamaIndex</span><span class="ss-chip">Pinecone</span><span class="ss-chip">Weaviate</span><span class="ss-chip">pgvector</span><span class="ss-chip">CrewAI</span><span class="ss-chip">AutoGen</span><span class="ss-chip">LangGraph</span><span class="ss-chip">MCP</span>
+                            <div class="b3c-card ss-reveal" style="--ss-d:440ms">
+                                <div class="b3c-v"><span class="ss-count" data-to="10000" data-suffix="+" data-space="1">10 000+</span></div>
+                                <div class="b3c-l">участников AI&nbsp;Engineer&nbsp;Summit — с 2023 года</div>
+                                <div class="b3c-chart">
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:20%"></div><div class="b3c-yr">'23</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:42%"></div><div class="b3c-yr">'24</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:70%"></div><div class="b3c-yr">'25</div></div>
+                                    <div class="b3c-col"><div class="b3c-bar" style="height:100%"></div><div class="b3c-yr">'26</div></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1633,6 +1664,21 @@
 
             <!-- БЛОК 5 -->
             <section class="slide ss" data-slide="8">
+                <style>
+                    .lm-stage { display: flex; align-items: center; justify-content: center; min-height: 460px; }
+                    .lm-sentence { font-family: var(--font-mono); font-weight: 600; font-size: 74px; color: var(--text-main); text-align: center; line-height: 1.4; }
+                    .lm-word { position: relative; color: #52525b; border-bottom: 3px dashed #4a4a4a; cursor: help; transition: color 160ms var(--ss-out); }
+                    .lm-word:hover { color: #8a8a8a; }
+                    .lm-pop {
+                        position: absolute; top: calc(100% + 24px); left: 50%; transform: translateX(-50%) translateY(10px);
+                        width: 560px; padding: 24px 28px; background: #1e1e1e; border: 1px solid var(--border-hover);
+                        border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 30;
+                        transition: opacity 180ms var(--ss-out), transform 180ms var(--ss-out); font-family: var(--font-sans);
+                    }
+                    .lm-word:hover .lm-pop { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    .lm-pop-t { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
+                    .lm-hint { text-align: center; margin-top: 40px; font-size: 17px; color: var(--text-muted); opacity: 0.7; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 05 · Что такое языковая модель</div>
@@ -1640,17 +1686,10 @@
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Не «искусственный разум», а предсказатель следующего слова: какое продолжение вероятнее.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="pb-prompt ss-reveal" style="--ss-d:200ms">My favorite color is <span class="cur">▮</span></div>
-                        <div class="pb-list">
-                            <div class="pb-item ss-reveal" style="--ss-d:260ms"><div class="pb-word">blue</div><div class="pb-track"><div class="pb-bar" style="--pb-w:82%;--pb-d:320ms"></div></div><div class="pb-pct">41%</div></div>
-                            <div class="pb-item ss-reveal" style="--ss-d:320ms"><div class="pb-word">green</div><div class="pb-track"><div class="pb-bar" style="--pb-w:44%;--pb-d:400ms"></div></div><div class="pb-pct">18%</div></div>
-                            <div class="pb-item ss-reveal" style="--ss-d:380ms"><div class="pb-word">red</div><div class="pb-track"><div class="pb-bar" style="--pb-w:32%;--pb-d:480ms"></div></div><div class="pb-pct">13%</div></div>
-                            <div class="pb-item no ss-reveal" style="--ss-d:440ms"><div class="pb-word">car</div><div class="pb-track"><div class="pb-bar" style="--pb-w:2%;--pb-d:560ms"></div></div><div class="pb-pct">0.1%</div></div>
+                        <div class="lm-stage ss-reveal" style="--ss-d:220ms">
+                            <div class="lm-sentence">My&nbsp;favorite&nbsp;color&nbsp;is <span class="lm-word">blue<div class="lm-pop"><div class="lm-pop-t">Что модель могла бы поставить сюда</div><div class="pb-list"><div class="pb-item"><div class="pb-word">blue</div><div class="pb-track"><div class="pb-bar" style="--pb-w:82%;--pb-d:320ms"></div></div><div class="pb-pct">41%</div></div><div class="pb-item"><div class="pb-word">green</div><div class="pb-track"><div class="pb-bar" style="--pb-w:44%;--pb-d:400ms"></div></div><div class="pb-pct">18%</div></div><div class="pb-item"><div class="pb-word">red</div><div class="pb-track"><div class="pb-bar" style="--pb-w:32%;--pb-d:480ms"></div></div><div class="pb-pct">13%</div></div><div class="pb-item no"><div class="pb-word">car</div><div class="pb-track"><div class="pb-bar" style="--pb-w:2%;--pb-d:560ms"></div></div><div class="pb-pct">0.1%</div></div></div></div></span></div>
                         </div>
-                        <div class="pb-note ss-reveal" style="--ss-d:560ms">Идея стара: Шерлок Холмс (1905) читал шифры по частоте букв, Клод Шеннон (1951) измерил энтропию английского. Ново лишь одно — <b style="color:#fff">масштаб</b>.</div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:660ms; margin-top:28px">
-                            <span class="pop-host"><span class="pop-trigger">Почему это работает — открытый вопрос</span><span class="pop-panel"><b class="h">Актуально · 2026</b><ul><li>Принцип «предскажи следующий токен» неизменен: GPT-5, Claude 4, Gemini 3 — все авторегрессионные, в основе — Transformer (2017).</li><li>Гибриды: Mamba (state-space, 2024), Jamba = Transformer + Mamba.</li><li>Reasoning-модели (o3, o4, DeepSeek R1) «думают» перед ответом.</li><li>Emergent abilities — модель вдруг решает то, чему не училась. Почему — наука пока не знает.</li></ul></span></span> — но на практике работает, и инженеру важнее «как», чем «почему».
-                        </div>
+                        <div class="lm-hint ss-reveal" style="--ss-d:420ms">Наведи на «blue» — модель лишь выбирает самое вероятное продолжение</div>
                     </div>
                 </div>
             </section>

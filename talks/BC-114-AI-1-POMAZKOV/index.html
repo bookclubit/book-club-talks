@@ -1891,28 +1891,171 @@
 
             <!-- БЛОК 7 -->
             <section class="slide ss" data-slide="10">
+                <style>
+                    .b7-row { display: flex; gap: 26px; align-items: stretch; }
+                    .b7-col { flex: 1 1 0; min-width: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 30px 34px; display: flex; flex-direction: column; gap: 16px; }
+                    .b7-col.accent { border-color: var(--border-hover); background: #111; position: relative; }
+                    .b7-tag { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+                    .b7-name { font-size: 46px; font-weight: 700; color: #fff; line-height: 1; }
+                    .b7-name small { display: block; font-size: 16px; font-weight: 500; color: var(--text-muted); margin-top: 8px; letter-spacing: 0; }
+                    .b7-demo { font-family: var(--font-mono); font-size: 22px; color: var(--text-main); background: #000; border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+                    .b7-fill { position: relative; color: #52525b; border-bottom: 2px dashed #4a4a4a; cursor: help; }
+                    .b7-fill:hover { color: #8a8a8a; }
+                    .b7-pop { position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(6px); width: 340px; padding: 18px 20px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 14px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 30; transition: opacity 160ms var(--ss-out), transform 160ms var(--ss-out); font-family: var(--font-sans); }
+                    .b7-fill:hover .b7-pop { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    .b7-pop-t { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+                    .b7-desc { font-size: 17px; color: var(--text-muted); line-height: 1.45; margin: 0; }
+                    .b7-desc b { color: #fff; }
+                    .b7-reps { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 8px; }
+                    .b7-rep { position: relative; font-size: 15px; color: var(--text-main); background: #161616; border: 1px solid var(--border-hover); border-radius: 999px; padding: 8px 16px; text-decoration: none; }
+                    .b7-rep:hover { background: var(--bg-hover); }
+                    .b7-rep::after { content: ' ↗'; color: var(--text-muted); font-size: 0.8em; }
+                    .b7-rep-tip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px); width: 220px; padding: 10px 13px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px; font-size: 13px; line-height: 1.4; color: var(--text-muted); text-align: center; box-shadow: 0 12px 32px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 30; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
+                    .b7-rep:hover .b7-rep-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    .b7-rep-tip::after { content: none; }
+                    /* стрелка-раскрытие reasoning справа от авторегрессионной */
+                    .b7-arrow { position: absolute; right: -15px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border-radius: 50%; background: #161616; border: 1px solid var(--border-hover); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 5; transition: background 160ms var(--ss-out), transform 160ms var(--ss-out); }
+                    .b7-arrow:hover { background: var(--bg-hover); }
+                    .b7-col.accent::after { content: ''; position: absolute; right: -1px; top: 16px; bottom: 16px; border-right: 2px dashed var(--border-hover); }
+                    .b7-toggle { display: none; }
+                    .b7-reason { flex: 0 0 0; opacity: 0; padding: 30px 0; overflow: hidden; transition: flex-basis 340ms var(--ss-out), opacity 340ms var(--ss-out), padding 340ms var(--ss-out); }
+                    .b7-toggle:checked ~ .b7-reason { flex: 0 0 340px; opacity: 1; padding: 30px 34px; }
+                    .b7-toggle:checked ~ .b7-col.accent .b7-arrow { transform: translateY(-50%) rotate(180deg); }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 07 · Развилка архитектур</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Два типа языковых моделей</h2>
                     </div>
                     <div class="ss-body">
-                        <div class="cmp">
-                            <div class="cmp-col ss-reveal" style="--ss-d:200ms">
-                                <span class="cmp-tag">Маскированная · BERT</span>
-                                <h3>Заполни пропуск</h3>
-                                <div class="cmp-demo">Я люблю <span class="mask">＿＿</span> еду</div>
-                                <p>Видит контекст с <b style="color:#fff">обеих</b> сторон. Для негенеративных задач: классификация, тональность, эмбеддинги.</p>
+                        <div class="b7-row ss-reveal" style="--ss-d:200ms">
+                            <input type="checkbox" id="b7-reason-t" class="b7-toggle">
+                            <!-- BERT -->
+                            <div class="b7-col">
+                                <span class="b7-tag">Маскированная</span>
+                                <div class="b7-name">BERT<small>заполни пропуск</small></div>
+                                <div class="b7-demo">Я люблю <span class="b7-fill">уличную<span class="b7-pop"><div class="b7-pop-t">Что могло бы быть в пропуске</div><div class="pb-list"><div class="pb-item"><div class="pb-word">уличную</div><div class="pb-track"><div class="pb-bar" style="--pb-w:68%"></div></div><div class="pb-pct">34%</div></div><div class="pb-item"><div class="pb-word">домашнюю</div><div class="pb-track"><div class="pb-bar" style="--pb-w:44%"></div></div><div class="pb-pct">22%</div></div><div class="pb-item"><div class="pb-word">острую</div><div class="pb-track"><div class="pb-bar" style="--pb-w:28%"></div></div><div class="pb-pct">14%</div></div></div></span></span> еду</div>
+                                <p class="b7-desc">Видит контекст с <b>обеих</b> сторон сразу. Не генерирует текст, а понимает его — для классификации, тональности, эмбеддингов.</p>
+                                <div class="b7-reps">
+                                    <a class="b7-rep" href="https://blog.google/products/search/search-language-understanding-bert/" target="_blank">Поиск Google<span class="b7-rep-tip">BERT помогает понимать смысл поисковых запросов</span></a>
+                                    <a class="b7-rep" href="https://platform.openai.com/docs/guides/embeddings" target="_blank">text-embedding-3<span class="b7-rep-tip">эмбеддинги для семантического поиска и RAG</span></a>
+                                    <a class="b7-rep" href="https://huggingface.co/BAAI/bge-m3" target="_blank">BGE / E5<span class="b7-rep-tip">open-source эмбеддинги и reranker'ы для RAG</span></a>
+                                </div>
                             </div>
-                            <div class="cmp-col accent ss-reveal" style="--ss-d:320ms">
-                                <span class="cmp-tag">Авторегрессионная · GPT</span>
-                                <h3>Продолжи текст</h3>
-                                <div class="cmp-demo">Я люблю уличную <span class="next">▮ →</span></div>
-                                <p>Предсказывает <b style="color:#fff">следующий</b> токен по предыдущим и генерирует непрерывно. <span class="pop-host"><span class="pop-trigger">Именно она нас интересует</span><span class="pop-panel"><b class="h">Актуально · 2026</b><ul><li>Доминируют авторегрессионные: GPT-5, Claude 4, Gemini, Llama 4, DeepSeek V3.</li><li>Reasoning-модели (o3, o4, DeepSeek R1) генерируют скрытую цепочку рассуждений — эволюция авторегрессии.</li><li>BERT жив в нише: поиск Google, эмбеддинги (text-embedding-3, BGE, E5), reranker'ы для RAG.</li></ul></span></span>.</p>
+                            <!-- GPT -->
+                            <div class="b7-col accent">
+                                <span class="b7-tag">Авторегрессионная</span>
+                                <div class="b7-name">GPT<small>продолжи текст</small></div>
+                                <div class="b7-demo">Я люблю уличную <span class="b7-fill">еду<span class="b7-pop"><div class="b7-pop-t">Следующий токен</div><div class="pb-list"><div class="pb-item"><div class="pb-word">еду</div><div class="pb-track"><div class="pb-bar" style="--pb-w:80%"></div></div><div class="pb-pct">46%</div></div><div class="pb-item"><div class="pb-word">кухню</div><div class="pb-track"><div class="pb-bar" style="--pb-w:40%"></div></div><div class="pb-pct">21%</div></div><div class="pb-item"><div class="pb-word">пищу</div><div class="pb-track"><div class="pb-bar" style="--pb-w:24%"></div></div><div class="pb-pct">12%</div></div></div></span></span></div>
+                                <p class="b7-desc">Предсказывает <b>следующий</b> токен по предыдущим и генерирует непрерывно. Именно она нас интересует.</p>
+                                <div class="b7-reps">
+                                    <a class="b7-rep" href="https://openai.com" target="_blank">GPT-5<span class="b7-rep-tip">OpenAI — флагманская модель</span></a>
+                                    <a class="b7-rep" href="https://claude.ai" target="_blank">Claude 4<span class="b7-rep-tip">Anthropic</span></a>
+                                    <a class="b7-rep" href="https://gemini.google.com" target="_blank">Gemini<span class="b7-rep-tip">Google</span></a>
+                                    <a class="b7-rep" href="https://www.llama.com" target="_blank">Llama 4<span class="b7-rep-tip">Meta, open-source</span></a>
+                                </div>
+                                <label for="b7-reason-t" class="b7-arrow" title="Показать reasoning-модели">→</label>
+                            </div>
+                            <!-- REASONING (раскрывается) -->
+                            <div class="b7-col accent b7-reason">
+                                <span class="b7-tag">Эволюция 2025–2026</span>
+                                <div class="b7-name" style="font-size:34px">Reasoning<small>«думают» перед ответом</small></div>
+                                <p class="b7-desc">Та же авторегрессия, но модель сначала генерирует <b>скрытую цепочку рассуждений</b> (chain-of-thought), а потом ответ.</p>
+                                <div class="b7-reps">
+                                    <a class="b7-rep" href="https://openai.com" target="_blank">o3 / o4<span class="b7-rep-tip">OpenAI reasoning-модели</span></a>
+                                    <a class="b7-rep" href="https://www.deepseek.com" target="_blank">DeepSeek R1<span class="b7-rep-tip">open-source reasoning</span></a>
+                                </div>
                             </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:460ms; margin-top:36px">
-                            Граница размылась — современные модели умеют всё, — но архитектурно <b>авторегрессия победила</b>. Строишь приложение → работаешь с ней через API.
+                    </div>
+                </div>
+            </section>
+
+            <!-- НОВЫЙ: ГЕНЕРАТИВНАЯ (Mistral) -->
+            <section class="slide ss" data-slide="10a">
+                <style>
+                    .gen-flow { display: flex; align-items: center; justify-content: center; gap: 44px; }
+                    .gen-in { font-family: var(--font-mono); font-size: 22px; color: var(--text-muted); max-width: 240px; text-align: right; line-height: 1.4; }
+                    .gen-arrow { font-size: 34px; color: #52525b; }
+                    .gen-box { width: 230px; height: 230px; border-radius: 22px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1a1a1a, #0a0a0a); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+                    .gen-box .lbl { font-size: 24px; font-weight: 700; color: #fff; }
+                    .gen-box .sub { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
+                    .gen-grid { display: grid; grid-template-columns: repeat(5, 15px); gap: 7px; }
+                    .gen-sq { width: 15px; height: 15px; border-radius: 3px; background: #333; animation: genBlink 1.6s ease-in-out infinite; }
+                    .gen-sq:nth-child(2){animation-delay:.2s} .gen-sq:nth-child(3){animation-delay:.5s} .gen-sq:nth-child(4){animation-delay:.9s} .gen-sq:nth-child(5){animation-delay:.3s}
+                    .gen-sq:nth-child(6){animation-delay:.7s} .gen-sq:nth-child(7){animation-delay:1.1s} .gen-sq:nth-child(8){animation-delay:.15s} .gen-sq:nth-child(9){animation-delay:.6s} .gen-sq:nth-child(10){animation-delay:1s}
+                    @keyframes genBlink { 0%,100% { opacity: .25; background: #333; } 50% { opacity: 1; background: #fff; } }
+                    .gen-out { display: flex; flex-wrap: wrap; gap: 8px; max-width: 300px; }
+                    .gen-tok { font-family: var(--font-mono); font-size: 18px; padding: 8px 12px; border-radius: 8px; background: #151515; border: 1px solid var(--border-hover); color: #fff; opacity: 0; animation: genEmit 4.2s ease-in-out infinite; }
+                    .gen-tok:nth-child(2){animation-delay:.5s} .gen-tok:nth-child(3){animation-delay:1s} .gen-tok:nth-child(4){animation-delay:1.5s} .gen-tok:nth-child(5){animation-delay:2s} .gen-tok:nth-child(6){animation-delay:2.5s}
+                    @keyframes genEmit { 0% { opacity: 0; transform: translateX(-32px); } 12% { opacity: 1; transform: translateX(0); } 82% { opacity: 1; } 100% { opacity: 0; transform: translateX(0); } }
+                    .gen-cap { text-align: center; margin-top: 52px; font-size: 23px; line-height: 1.5; color: var(--text-main); max-width: 1000px; margin-left: auto; margin-right: auto; }
+                    .gen-hl { position: relative; color: #fff; font-weight: 600; border-bottom: 2px dashed #4a4a4a; cursor: help; }
+                    .gen-tip { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(6px); width: 300px; padding: 12px 16px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 12px; font-size: 14px; font-weight: 400; line-height: 1.45; color: var(--text-muted); box-shadow: 0 12px 32px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; transition: opacity 160ms var(--ss-out), transform 160ms var(--ss-out); }
+                    .gen-hl:hover .gen-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    @media (prefers-reduced-motion: reduce) { .gen-sq, .gen-tok { animation: none; } .gen-tok { opacity: 1; } }
+                </style>
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 07 · Генеративность</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">«Языковая модель» = <b>авторегрессионная</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Дальше под «языковой моделью» мы всегда понимаем именно её. Пример — Mistral с его словарём в 32 000 токенов.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="gen-flow ss-reveal" style="--ss-d:220ms">
+                            <div class="gen-in">Столица Франции — это…</div>
+                            <div class="gen-arrow">→</div>
+                            <div class="gen-box">
+                                <div class="lbl">Mistral</div>
+                                <div class="gen-grid"><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span></div>
+                                <div class="sub">32 000 токенов</div>
+                            </div>
+                            <div class="gen-arrow">→</div>
+                            <div class="gen-out"><span class="gen-tok">Париж</span><span class="gen-tok">—</span><span class="gen-tok">кра</span><span class="gen-tok">сивый</span><span class="gen-tok">город</span><span class="gen-tok">Европы</span></div>
+                        </div>
+                        <div class="gen-cap ss-reveal" style="--ss-d:420ms">
+                            Модель комбинирует токены и <span class="gen-hl">создаёт новый<span class="gen-tip">Она не выбирает из готовых вариантов ответа — собирает ответ токен за токеном заново.</span></span> уникальный ответ. Поэтому её называют генеративной — отсюда термин <b>«генеративный AI»</b>.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- НОВЫЙ: МАШИНА-ЗАВЕРШАТЕЛЬ -->
+            <section class="slide ss" data-slide="10b">
+                <style>
+                    .fin-flow { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+                    .fin-in { font-family: var(--font-mono); font-size: 24px; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 24px; }
+                    .fin-arrow { font-size: 28px; color: #52525b; }
+                    .fin-box { width: 280px; padding: 26px; border-radius: 20px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1a1a1a, #0a0a0a); text-align: center; }
+                    .fin-box .lbl { font-size: 24px; font-weight: 700; color: #fff; }
+                    .fin-box .sub { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+                    .fin-outs { display: flex; gap: 20px; }
+                    .fin-out { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 24px; text-align: center; min-width: 150px; }
+                    .fin-out.top { border-color: var(--border-hover); background: #111; }
+                    .fin-out .p { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: #fff; }
+                    .fin-out .t { font-size: 18px; color: var(--text-muted); margin-top: 6px; }
+                    .fin-hl { margin: 40px auto 0; max-width: 900px; border: 1px solid var(--border); border-left: 3px solid #f87171; background: var(--bg-card); border-radius: 14px; padding: 22px 28px; font-size: 22px; line-height: 1.45; color: var(--text-main); text-align: center; }
+                    .fin-hl b { color: #fff; }
+                </style>
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 07 · Природа модели</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Языковая модель = <b>машина-завершатель</b></h2>
+                    </div>
+                    <div class="ss-body">
+                        <div class="fin-flow ss-reveal" style="--ss-d:220ms">
+                            <div class="fin-in">Столица Австралии —</div>
+                            <div class="fin-arrow">↓</div>
+                            <div class="fin-box"><div class="lbl">Mistral</div><div class="sub">завершает текст</div></div>
+                            <div class="fin-arrow">↓</div>
+                            <div class="fin-outs">
+                                <div class="fin-out top"><div class="p">61%</div><div class="t">Сидней</div></div>
+                                <div class="fin-out"><div class="p">33%</div><div class="t">Канберра</div></div>
+                                <div class="fin-out"><div class="p">4%</div><div class="t">Мельбурн</div></div>
+                            </div>
+                        </div>
+                        <div class="fin-hl ss-reveal" style="--ss-d:440ms">
+                            Завершения — это <b>прогнозы, основанные на вероятностях</b>, и нет гарантии, что они верны. <span style="color:var(--text-muted); font-size:17px">(столица Австралии — Канберра, а не Сидней)</span>
                         </div>
                     </div>
                 </div>

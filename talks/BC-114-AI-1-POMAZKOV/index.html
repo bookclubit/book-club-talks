@@ -2198,77 +2198,135 @@
             </section>
 
             <!-- БЛОК 9 -->
-            <section class="slide ss" data-slide="12">
+            <section class="slide ss" data-slide="12" id="an-slide">
+                <style>
+                    #an-slide .an-stage { display: flex; flex-direction: column; align-items: center; gap: 16px; cursor: pointer; user-select: none; }
+                    #an-slide .an-label { font-size: 22px; color: var(--text-main); font-weight: 600; text-align: center; }
+                    #an-slide .an-imgs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; max-width: 660px; min-height: 130px; }
+                    #an-slide .an-img { font-size: 30px; line-height: 1; }
+                    #an-slide .an-img.big { font-size: 100px; }
+                    #an-slide .an-more { font-size: 40px; color: var(--text-muted); align-self: flex-end; }
+                    #an-slide .an-caption { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); }
+                    #an-slide .an-mult { font-family: var(--font-mono); font-size: 22px; color: #f87171; min-height: 28px; font-weight: 600; }
+                    #an-slide .an-total { font-family: var(--font-mono); font-size: 76px; font-weight: 700; color: #fff; line-height: 1; }
+                    #an-slide .an-unit { font-size: 18px; color: var(--text-muted); }
+                    #an-slide .an-next { margin-top: 8px; cursor: pointer; font-size: 17px; font-weight: 600; color: #000; background: #fff; border: none; border-radius: 999px; padding: 12px 28px; }
+                    #an-slide .an-next:hover { background: #e2e2e2; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 09 · Стена разметки</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Обучение с учителем упёрлось в <b>разметку</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Размеченные данные — дорого, долго, вручную. Это узкое место, в которое упёрлась индустрия.</p>
+                        <div class="ss-kicker ss-reveal">Блок 09 · Стоимость разметки</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Проблемы <b>обучения с учителем</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Возьмём <a class="src-link" href="https://neurohive.io/ru/vidy-nejrosetej/alexnet-svjortochnaja-nejronnaja-set-dlja-raspoznavanija-izobrazhenij" target="_blank">AlexNet (2012)</a>. Нажимай — и смотри, как растёт цена разметки.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="ladder">
-                            <div class="ladder-step ss-reveal" style="--ss-d:220ms">
-                                <div class="amt">5¢</div>
-                                <div class="cap">за разметку 1 изображения</div>
-                            </div>
-                            <div class="ladder-step ss-reveal" style="--ss-d:340ms">
-                                <div class="amt"><span class="ss-count" data-to="50000" data-prefix="$" data-space="1">$50 000</span></div>
-                                <div class="cap">1 млн изображений — AlexNet, 2012 (1000 категорий)</div>
-                            </div>
-                            <div class="ladder-step wall ss-reveal" style="--ss-d:460ms">
-                                <span class="flag">стена</span>
-                                <div class="amt"><span class="ss-count" data-to="50000000" data-prefix="$" data-space="1">$50 000 000</span></div>
-                                <div class="cap">масштаб до 1 млн категорий</div>
-                            </div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:600ms; margin-top:40px">
-                            Разметка не исчезла — она <b>сместилась</b>. <button class="info-trigger" data-open="label2026" style="margin-left:8px">от «обучить модель» к «оценить модель»</button>
+                        <div class="an-stage ss-reveal" style="--ss-d:220ms" id="an-stage">
+                            <div class="an-label" id="an-label"></div>
+                            <div class="an-imgs" id="an-imgs"></div>
+                            <div class="an-caption" id="an-caption"></div>
+                            <div class="an-mult" id="an-mult"></div>
+                            <div class="an-total" id="an-total"></div>
+                            <div class="an-unit" id="an-unit"></div>
+                            <button class="an-next" id="an-next" type="button">Дальше →</button>
                         </div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="label2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Разметка в 2026: сдвиг к оценке</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Для чего теперь</b><span>RLHF, DPO, оценка качества. Бизнес на разметке жив: Scale AI, Surge AI, Toloka.</span></div>
-                        <div class="m-row"><b>AI размечает AI</b><span>RLAIF — Reinforcement Learning from AI Feedback: Claude оценивает ответы GPT и наоборот.</span></div>
-                        <div class="m-row"><b>Дорогие домены</b><span>Медицина, юриспруденция — $50–200 за пример.</span></div>
-                        <div class="m-row"><b>Навык инженера</b><span>Время уходит не на разметку для обучения, а на создание eval-наборов (тестов качества).</span></div>
-                    </div>
-                </div>
+                <script>
+                    (function () {
+                        var stages = [
+                            { label: '1 изображение', n: 1, kind: 'dog', mult: '', unit: '5¢ за разметку одного', total: '5¢', cap: 'подпись: «это собака»' },
+                            { label: '1 000 изображений', n: 28, kind: 'dog', mult: '×1 000', unit: '5¢ / шт', total: '$50', cap: 'подпись: «это собака»' },
+                            { label: '1 000 000 изображений · AlexNet, 2012', n: 28, kind: 'dog', mult: '×1 000 000', unit: '5¢ / шт', total: '$50 000', cap: 'подпись: «это собака»' },
+                            { label: '× 1000 категорий объектов', n: 28, kind: 'cats', mult: '× категории', unit: '5¢ / шт', total: '$50 000 000', cap: '«собака», «машина», «цветок» …' },
+                            { label: 'Медицинские снимки — нужен врач', n: 28, kind: 'xray', mult: '× сложность', unit: '$1 / шт (эксперт)', total: '$1 000 000 000+', cap: '«перелом» / «норма» — размечает рентгенолог' }
+                        ];
+                        var cats = ['🐶', '🚗', '🌸', '🐱', '🏠', '🍎', '✈️', '🐟'];
+                        function emoji(kind, i) { if (kind === 'cats') return cats[i % cats.length]; if (kind === 'xray') return '🩻'; return '🐶'; }
+                        var cur = 0;
+                        function render(i) {
+                            var s = stages[i], html = '', show = Math.min(s.n, 28);
+                            for (var k = 0; k < show; k++) html += '<span class="an-img' + (s.n === 1 ? ' big' : '') + '">' + emoji(s.kind, k) + '</span>';
+                            if (s.n > show) html += '<span class="an-more">…</span>';
+                            document.getElementById('an-imgs').innerHTML = html;
+                            document.getElementById('an-label').textContent = s.label;
+                            document.getElementById('an-caption').textContent = s.cap;
+                            document.getElementById('an-mult').textContent = s.mult;
+                            document.getElementById('an-total').textContent = s.total;
+                            document.getElementById('an-unit').textContent = s.unit;
+                            document.getElementById('an-next').textContent = (i === stages.length - 1) ? '↺ сначала' : 'Дальше →';
+                        }
+                        render(0);
+                        document.getElementById('an-stage').addEventListener('click', function () { cur = (cur + 1) % stages.length; render(cur); });
+                    })();
+                </script>
             </section>
 
             <!-- БЛОК 10 -->
-            <section class="slide ss" data-slide="13">
+            <section class="slide ss" data-slide="13" id="sl-slide">
+                <style>
+                    #sl-slide .sl-stage { display: flex; flex-direction: column; align-items: center; gap: 26px; cursor: pointer; user-select: none; position: relative; }
+                    #sl-slide .sl-sources { display: flex; gap: 26px; }
+                    #sl-slide .sl-src { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); transition: opacity 300ms var(--ss-out); }
+                    #sl-slide .sl-src .e { font-size: 34px; }
+                    #sl-slide .sl-src.done { opacity: 0.25; }
+                    #sl-slide .sl-box { border: 1px solid var(--border-hover); border-radius: 22px; background: radial-gradient(circle at 50% 40%, #1c1c1c 0%, #0a0a0a 70%); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; transition: width 420ms var(--ss-out), height 420ms var(--ss-out), font-size 420ms var(--ss-out); }
+                    #sl-slide .sl-note { font-size: 19px; color: var(--text-muted); text-align: center; max-width: 620px; min-height: 28px; }
+                    #sl-slide .sl-fall { position: absolute; font-size: 42px; left: 50%; top: 96px; transform: translateX(-50%); animation: slFall 640ms var(--ss-out) forwards; pointer-events: none; }
+                    @keyframes slFall { 0% { top: 96px; opacity: 0; } 30% { opacity: 1; } 100% { top: 200px; opacity: 0; } }
+                    #sl-slide .sl-next { cursor: pointer; font-size: 17px; font-weight: 600; color: #000; background: #fff; border: none; border-radius: 999px; padding: 12px 28px; }
+                    #sl-slide .sl-next:hover { background: #e2e2e2; }
+                    @media (prefers-reduced-motion: reduce) { #sl-slide .sl-fall { animation: none; opacity: 0; } }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 10 · Ключ к масштабу</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Самообучение снимает <b>потолок данных</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Модель сама выводит метки из текста — человек-разметчик не нужен. Каждое предложение = несколько примеров.</p>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Преимущество <b>самообучения</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Модели учатся на текстовых последовательностях — разметка не нужна. А текст есть везде, значит данных почти бесконечно.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="src-sentence ss-reveal" style="--ss-d:220ms">«I love street food.» → <b>6 обучающих примеров</b></div>
-                        <div class="pairs">
-                            <div class="pair ss-reveal" style="--ss-d:300ms"><span class="ctx">I</span><span class="arr">→</span><span class="tgt">love</span></div>
-                            <div class="pair ss-reveal" style="--ss-d:360ms"><span class="ctx">I love</span><span class="arr">→</span><span class="tgt">street</span></div>
-                            <div class="pair ss-reveal" style="--ss-d:420ms"><span class="ctx">I love street</span><span class="arr">→</span><span class="tgt">food</span></div>
-                            <div class="pair ss-reveal" style="--ss-d:480ms"><span class="ctx">I love street food</span><span class="arr">→</span><span class="tgt">.</span></div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:600ms; margin-top:34px">
-                            Текст есть <b>везде</b> — книги, блоги, Reddit → данные почти бесконечны. Вот почему языковые модели смогли вырасти до триллионов токенов. <button class="info-trigger" data-open="self2026" style="margin-left:8px">границы самообучения</button>
+                        <div class="sl-stage ss-reveal" style="--ss-d:220ms" id="sl-stage">
+                            <div class="sl-sources" id="sl-sources">
+                                <div class="sl-src"><span class="e">📚</span>книги</div>
+                                <div class="sl-src"><span class="e">📝</span>блоги</div>
+                                <div class="sl-src"><span class="e">📄</span>статьи</div>
+                                <div class="sl-src"><span class="e">💬</span>Reddit</div>
+                            </div>
+                            <div class="sl-box" id="sl-box" style="width:160px;height:160px;font-size:26px">модель</div>
+                            <div class="sl-note" id="sl-note"></div>
+                            <button class="sl-next" id="sl-next" type="button">Скормить текст →</button>
                         </div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="self2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Самообучение в 2026: границы видны</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Расширилось</b><span>Не только текст: код (GitHub), матдоказательства, научные статьи, видео (YouTube), аудио (подкасты).</span></div>
-                        <div class="m-row"><b>Синтетика</b><span>Модели генерируют данные для других: DeepSeek R1 (reasoning), Phi-4 (учебниковые данные от GPT-4).</span></div>
-                        <div class="m-row"><b>Model collapse</b><span>Обучение на своей же синтетике деградирует качество — нужны «свежие» данные.</span></div>
-                        <div class="m-row"><b>Где брать</b><span>Книги (иски NYT vs OpenAI), приватные данные компаний (лицензирование), синтетика с верификацией.</span></div>
-                    </div>
-                </div>
+                <script>
+                    (function () {
+                        var stages = [
+                            { w: 160, fs: 26, label: 'модель', got: 0, note: 'Пустая модель. Нажми — «скорми» ей тексты.' },
+                            { w: 230, fs: 28, label: 'модель', got: 1, note: '+ книги · модель растёт', src: '📚' },
+                            { w: 300, fs: 30, label: 'модель', got: 3, note: '+ блоги и статьи · данные почти бесконечны', src: '📄' },
+                            { w: 370, fs: 46, label: 'LLM', got: 4, note: '+ комментарии Reddit → большая языковая модель (LLM)', src: '💬' }
+                        ];
+                        var cur = 0, box = document.getElementById('sl-box'), stage = document.getElementById('sl-stage');
+                        function render(i) {
+                            var s = stages[i];
+                            box.style.width = s.w + 'px'; box.style.height = s.w + 'px'; box.style.fontSize = s.fs + 'px';
+                            box.textContent = s.label;
+                            document.getElementById('sl-note').textContent = s.note;
+                            var srcs = document.querySelectorAll('#sl-sources .sl-src');
+                            srcs.forEach(function (el, k) { el.classList.toggle('done', k < s.got); });
+                            document.getElementById('sl-next').textContent = (i === stages.length - 1) ? '↺ сначала' : 'Скормить текст →';
+                        }
+                        function drop(src) {
+                            var f = document.createElement('span'); f.className = 'sl-fall'; f.textContent = src;
+                            stage.appendChild(f); setTimeout(function () { f.remove(); }, 660);
+                        }
+                        render(0);
+                        stage.addEventListener('click', function () {
+                            cur = (cur + 1) % stages.length;
+                            if (stages[cur].src) drop(stages[cur].src);
+                            render(cur);
+                        });
+                    })();
+                </script>
             </section>
 
             <!-- БЛОК 11 -->

@@ -30,6 +30,13 @@ on:
         required: false
         default: ''
 
+# Один живой запуск на один доклад: группа собрана из параметров, определяющих
+# имя папки BC-* (стрим, книга, глава, спикер, seq). Повторный дизпатч той же
+# заявки отменяет устаревшую генерацию вместо гонки веток и PR-ов.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.client_payload.stream || github.event.inputs.stream }}-${{ github.event.client_payload.book || github.event.inputs.book }}-${{ github.event.client_payload.chapter || github.event.inputs.chapter }}-${{ github.event.client_payload.speaker || github.event.inputs.speaker }}-${{ github.event.client_payload.seq || github.event.inputs.seq }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pull-requests: write
@@ -49,6 +56,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+
+      - name: Установить зависимости (wrangler закреплён в package-lock.json)
+        run: npm ci
 
       - id: params
         name: Собрать параметры (dispatch или ручной запуск)
@@ -104,7 +115,17 @@ jobs:
           git checkout -b "$FOLDER"
           git add "talks/$FOLDER"
           git commit -m "feat(talk): $FOLDER — $TOPIC"
-          git push --force -u origin "$FOLDER"
+
+          # --force-with-lease вместо --force: правки спикера в ветке не
+          # затираются молча. Свежий checkout не знает удалённых веток BC-*,
+          # поэтому пуш поверх УЖЕ существующей ветки будет отклонён — это
+          # осознанно: перегенерация не должна перезаписывать работу спикера.
+          if ! git push --force-with-lease -u origin "$FOLDER"; then
+            echo "✖ Ветка $FOLDER уже существует на origin (вероятно, с правками спикера)."
+            echo "  Перегенерация её не перезаписывает. Если перезапись действительно нужна —"
+            echo "  удалите ветку $FOLDER вручную и запустите генерацию заново."
+            exit 1
+          fi
 
           BODY=$(printf '%s\n' \
             "🎤 Авто-сгенерированный доклад из book-club-data." \
@@ -153,31 +174,29 @@ jobs:
       # в отличие от pull_request-workflow preview.yml). Адрес детерминирован:
       # preview.<project>.pages.dev — его бот уже дал спикеру. if: always() — чтобы
       # превью появилось, даже если org заблокировал создание PR выше.
-      - name: Превью-деплой на Cloudflare Pages
+      # Логика деплоя — общая с preview.yml (composite action deploy-preview).
+      - id: preview
+        name: Превью-деплой на Cloudflare Pages
+        if: always()
+        uses: ./.github/actions/deploy-preview
+        with:
+          folder: ${{ steps.gen.outputs.folder }}
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # Ссылку на превью пишем комментарием в PR (best-effort, не роняет job).
+      - name: Комментарий со ссылкой на превью в PR
         if: always()
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           FOLDER="${{ steps.gen.outputs.folder }}"
-          if [ -z "$FOLDER" ] || [ ! -d "talks/$FOLDER" ]; then
-            echo "Нет сгенерированной папки — пропускаю превью."; exit 0
+          ALIAS="${{ steps.preview.outputs.alias }}"
+          NOW_URL="${{ steps.preview.outputs.now-url }}"
+          if [ -z "$FOLDER" ] || [ -z "$ALIAS" ]; then
+            echo "Нет папки или превью не поднялось — комментарий пропускаю."; exit 0
           fi
-          NAME=$(echo "$FOLDER" | tr '[:upper:]' '[:lower:]')
-          npx --yes wrangler@4 pages project create "$NAME" --production-branch main \
-            || echo "Проект $NAME уже существует."
-          npx --yes wrangler@4 pages deploy "talks/$FOLDER" \
-            --project-name="$NAME" --branch="preview" 2>&1 | tee deploy.log
-
-          ALIAS="https://preview.$NAME.pages.dev"
-          # Хеш-URL этого деплоя работает сразу (у нового проекта DNS алиаса
-          # поднимается пару минут) — даём его как «открыть сейчас».
-          NOW_URL=$(grep -oE "https://[a-z0-9]+\.${NAME}\.pages\.dev" deploy.log | head -1 || echo "")
-          echo "🔎 Превью: $ALIAS (сейчас: ${NOW_URL:-$ALIAS})"
-
-          # Ссылку на превью пишем комментарием в PR (best-effort, не роняет job).
           PR=$(gh pr list --head "$FOLDER" --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
           if [ -n "$PR" ]; then
             gh pr comment "$PR" --body "$(printf '🔎 **Превью доклада**\n\n- Открыть сейчас: %s\n- Постоянная ссылка (обновляется на каждый пуш в ветку): %s\n\n_Боевой адрес — после мержа в `main`._' "${NOW_URL:-$ALIAS}" "$ALIAS")" \

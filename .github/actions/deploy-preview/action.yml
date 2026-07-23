@@ -1,0 +1,63 @@
+name: Превью-деплой доклада
+description: >
+  Деплоит папку talks/<folder> на Cloudflare Pages в фиксированную ветку
+  «preview» (стабильный алиас preview.<project>.pages.dev). Проект создаётся
+  идемпотентно, если его ещё нет. Единая логика для preview.yml и
+  generate-talk.yml — превью-деплой правится в одном месте.
+  Требует уже установленных npm-зависимостей (npm ci): wrangler запускается
+  через npx и закреплён в package-lock.json.
+
+inputs:
+  folder:
+    description: Имя папки доклада BC-* внутри talks/ (пустое или несуществующее — шаг тихо пропускается)
+    required: true
+  cloudflare-api-token:
+    description: Cloudflare API token (secrets.CLOUDFLARE_API_TOKEN)
+    required: true
+  cloudflare-account-id:
+    description: Cloudflare account id (опционально, если у токена доступ к нескольким аккаунтам)
+    required: false
+    default: ''
+
+outputs:
+  alias:
+    description: Постоянная ссылка превью (preview.<project>.pages.dev), обновляется на каждый деплой
+    value: ${{ steps.deploy.outputs.alias }}
+  now-url:
+    description: Хеш-URL этого деплоя — работает сразу, пока DNS алиаса ещё поднимается
+    value: ${{ steps.deploy.outputs.now-url }}
+
+runs:
+  using: composite
+  steps:
+    - id: deploy
+      shell: bash
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ inputs.cloudflare-api-token }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ inputs.cloudflare-account-id }}
+        FOLDER: ${{ inputs.folder }}
+      run: |
+        set -euo pipefail
+        if [ -z "$FOLDER" ] || [ ! -d "talks/$FOLDER" ]; then
+          echo "Папки talks/$FOLDER нет — пропускаю превью."
+          exit 0
+        fi
+        NAME=$(echo "$FOLDER" | tr '[:upper:]' '[:lower:]')
+
+        # Проект создаётся сам, если его ещё нет (идемпотентно).
+        npx wrangler pages project create "$NAME" --production-branch main \
+          || echo "Проект $NAME уже существует."
+
+        # Фиксированная ветка preview → стабильный алиас preview.<project>.pages.dev.
+        npx wrangler pages deploy "talks/$FOLDER" \
+          --project-name="$NAME" --branch="preview" 2>&1 | tee deploy.log
+
+        ALIAS="https://preview.$NAME.pages.dev"
+        # Хеш-URL этого деплоя работает сразу (у нового проекта DNS алиаса
+        # поднимается пару минут) — отдаём его как «открыть сейчас».
+        NOW_URL=$(grep -oE "https://[a-z0-9]+\.${NAME}\.pages\.dev" deploy.log | head -1 || echo "")
+        echo "🔎 Превью: $ALIAS (сейчас: ${NOW_URL:-$ALIAS})"
+        {
+          echo "alias=$ALIAS"
+          echo "now-url=${NOW_URL:-$ALIAS}"
+        } >> "$GITHUB_OUTPUT"

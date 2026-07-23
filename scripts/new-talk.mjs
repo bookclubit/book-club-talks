@@ -37,6 +37,20 @@ const esc = (s = '') =>
 // путь в book-club-data вида «/media/...» → абсолютный файл
 const dataFile = (DATA, p) => join(DATA, String(p).replace(/^\//, ''));
 
+// Ограничения Cloudflare Pages на имя проекта: lowercase, буквы/цифры/дефисы,
+// начинается с буквы или цифры, длина ≤ 58 символов (project + ".pages.dev" ≤ 68).
+const CF_PROJECT_RE = /^[a-z0-9][a-z0-9-]*$/;
+const CF_PROJECT_MAX = 58;
+
+// Проверка имени проекта Cloudflare Pages; возвращает текст ошибки или null.
+function cfProjectNameError(project) {
+  if (!CF_PROJECT_RE.test(project))
+    return `имя проекта "${project}" не подходит для Cloudflare Pages: допустимы только строчные латинские буквы, цифры и дефисы (без пробелов, точек и кириллицы), первый символ — буква или цифра`;
+  if (project.length > CF_PROJECT_MAX)
+    return `имя проекта "${project}" длиннее ${CF_PROJECT_MAX} символов (${project.length}) — Cloudflare Pages его не примет`;
+  return null;
+}
+
 function parseArgs(argv) {
   const a = {};
   for (let i = 0; i < argv.length; i++) {
@@ -231,8 +245,17 @@ async function main() {
   const code = meta.code;
   if (!code) fail(`У книги ${bookEntry.folder} нет поля "code" в meta.json (нужно для имени папки, например DOCKER). Задайте его в CMS.`);
 
+  // Валидация обязательных полей данных — падаем сразу с адресной подсказкой,
+  // а не поздно с непонятной ошибкой в разметке или в CI.
+  if (!String(meta.title ?? '').trim())
+    fail(`У книги ${bookEntry.folder} пустое поле "title" в books/${bookEntry.folder}/meta.json — заполните название книги (в CMS или в book-club-data).`);
+  if (chapter.order === undefined || chapter.order === null || String(chapter.order).trim() === '')
+    fail(`У главы "${chapter.slug}" книги ${bookEntry.folder} пустое поле "order" в chapter.json — укажите номер главы (нужен для бейджа «Глава N» и имени папки).`);
+
   const topic = chapter.topics[topicIdx];
   const topicTitle = topic.title;
+  if (!String(topicTitle ?? '').trim())
+    fail(`У темы №${topicIdx + 1} главы "${chapter.slug}" книги ${bookEntry.folder} пустое поле "title" в chapter.json — заполните название темы доклада.`);
   const topicTitles = chapter.topics.map((t) => t.title);
   const surname = String(speaker.id).split('-')[0].toUpperCase();
 
@@ -241,6 +264,12 @@ async function main() {
   if (seq) parts.push(seq);
   const folder = parts.join('-');
   const project = folder.toLowerCase();
+
+  // Fail-fast: проверяем имя проекта Cloudflare Pages сразу после сборки,
+  // а не поздно в CI на шаге wrangler.
+  const nameError = cfProjectNameError(project);
+  if (nameError)
+    fail(`${nameError}.\n  Проверьте составные части имени: стрим "${stream}", код книги "${code}", номер главы "${chapter.order}", фамилию "${surname}"${seq ? `, порядковый номер "${seq}"` : ''}.`);
   const domain = `https://${project}.pages.dev`;
   const relPath = `talks/${folder}`;
   const target = join(ROOT, 'talks', folder);
@@ -252,14 +281,26 @@ async function main() {
   cpSync(TEMPLATE, target, { recursive: true, force: true });
 
   // 2. копируем ассеты из book-club-data/media
+  // Обёртка над copyFileSync: адресная ошибка вместо голого стектрейса ENOENT.
+  const copyAsset = (srcRel, destDir, what) => {
+    const src = dataFile(DATA, srcRel);
+    if (!existsSync(src))
+      fail(`Нет файла ${srcRel} в book-club-data (искали: ${src}) — ${what}.\n  Проверьте путь в данных книги/спикера или обновите book-club-data (git pull).`);
+    try {
+      copyFileSync(src, join(target, 'assets', destDir, basename(srcRel)));
+    } catch (e) {
+      fail(`Не удалось скопировать ${srcRel} из book-club-data (${what}): ${e.message}`);
+    }
+  };
+
   mkdirSync(join(target, 'assets', 'cover'), { recursive: true });
   mkdirSync(join(target, 'assets', 'authors'), { recursive: true });
   mkdirSync(join(target, 'assets', 'speakers'), { recursive: true });
-  if (meta.cover) copyFileSync(dataFile(DATA, meta.cover), join(target, 'assets', 'cover', basename(meta.cover)));
+  if (meta.cover) copyAsset(meta.cover, 'cover', `обложка книги ${bookEntry.folder} (meta.json → "cover")`);
   for (const a of meta.authors ?? []) {
-    if (a.avatar) copyFileSync(dataFile(DATA, a.avatar), join(target, 'assets', 'authors', basename(a.avatar)));
+    if (a.avatar) copyAsset(a.avatar, 'authors', `аватар автора «${a.name}» (meta.json → authors[].avatar)`);
   }
-  if (speaker.avatar) copyFileSync(dataFile(DATA, speaker.avatar), join(target, 'assets', 'speakers', basename(speaker.avatar)));
+  if (speaker.avatar) copyAsset(speaker.avatar, 'speakers', `аватар спикера «${speaker.name}» (index.json → speakers[].avatar)`);
 
   // 3. подстановки
   const subtitle = meta.title_original ?? '';

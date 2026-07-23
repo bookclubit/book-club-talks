@@ -12,6 +12,13 @@ on:
         required: false
         default: ''
 
+# Один живой прод-деплой на ветку: новый пуш отменяет устаревший запуск.
+# Отмена середины матрицы допустима: изменённые папки нового пуша задеплоятся
+# его же запуском, а «потерянную» папку всегда можно дослать workflow_dispatch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -92,6 +99,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+
+      - name: Установить зависимости (wrangler закреплён в package-lock.json)
+        run: npm ci
 
       - name: Публикация на Cloudflare Pages
         run: |
@@ -101,12 +112,12 @@ jobs:
 
           # Создаём проект Pages, если его ещё нет. Для нового доклада это
           # избавляет спикера от ручного `wrangler pages project create`.
-          if npx --yes wrangler@4 pages project create "$NAME" --production-branch main; then
+          if npx wrangler pages project create "$NAME" --production-branch main; then
             echo "Проект $NAME создан."
           else
             echo "Проект $NAME уже существует — создание пропущено."
           fi
 
-          npx --yes wrangler@4 pages deploy "${{ matrix.folder }}" \
+          npx wrangler pages deploy "${{ matrix.folder }}" \
             --project-name="$NAME" \
             --branch=main

@@ -13,6 +13,11 @@ on:
     paths:
       - 'talks/**'
 
+# Один живой превью-деплой на ветку: новый пуш отменяет устаревший.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -20,27 +25,19 @@ jobs:
   preview:
     name: Превью ${{ github.ref_name }}
     runs-on: ubuntu-latest
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+
+      - name: Установить зависимости (wrangler закреплён в package-lock.json)
+        run: npm ci
 
       - name: Preview-деплой на Cloudflare Pages
-        run: |
-          set -euo pipefail
-          FOLDER="${GITHUB_REF_NAME}"           # ветка BC-* = папка доклада
-          if [ ! -d "talks/$FOLDER" ]; then
-            echo "Папки talks/$FOLDER нет — пропускаю превью."; exit 0
-          fi
-          NAME=$(echo "$FOLDER" | tr '[:upper:]' '[:lower:]')
-          # проект создаётся сам, если его ещё нет (идемпотентно)
-          npx --yes wrangler@4 pages project create "$NAME" --production-branch main \
-            || echo "Проект $NAME уже существует."
-          # фиксированная ветка preview → стабильный алиас preview.<project>.pages.dev
-          npx --yes wrangler@4 pages deploy "talks/$FOLDER" \
-            --project-name="$NAME" --branch="preview"
-          echo "🔎 Превью обновлено: https://preview.$NAME.pages.dev"
+        uses: ./.github/actions/deploy-preview
+        with:
+          folder: ${{ github.ref_name }} # ветка BC-* = папка доклада
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -71,8 +71,8 @@ function timelineItem(title, state) {
                                 <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
                             </div>
                             <div class="timeline-next-content">
-                                <div class="timeline-next-title" style="text-decoration: line-through;">
-                                    ${t}
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">${t}</span>
                                     <span class="timeline-badge-completed">Пройдено</span>
                                 </div>
                             </div>

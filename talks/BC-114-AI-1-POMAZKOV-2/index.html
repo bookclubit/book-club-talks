@@ -841,6 +841,28 @@
                 }
                 .ss-insight b { color: #fff; font-weight: 600; }
 
+                /* Цитата автора/спикера с аватаркой (глобально) */
+                .ss .ss-quote { display: flex; align-items: center; gap: 28px; border-left: 4px solid var(--border); padding-left: 32px; max-width: 1040px; margin: 36px auto 0; text-align: left; }
+                .ss .ss-quote img, .ss .ss-quote .mono { width: 96px; height: 96px; border-radius: 50%; flex-shrink: 0; }
+                .ss .ss-quote img { object-fit: cover; border: 1px solid var(--border); }
+                .ss .ss-quote p { font-size: 26px; line-height: 1.4; color: var(--text-main); font-weight: 500; margin: 0; }
+                .ss .ss-quote b { color: #fff; }
+                .ss .ss-quote .a { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); margin-top: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+                /* Монограмма-аватар (когда нет фото) */
+                .mono { display: flex; align-items: center; justify-content: center; background: #161616; border: 1px solid var(--border-hover); color: #fff; font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.02em; }
+                /* Ссылки-источники в стиле дека */
+                .ss .src-link { color: var(--text-main); text-decoration: none; font-weight: 600; border-bottom: 1px dashed #52525b; padding-bottom: 1px; transition: border-color 160ms var(--ss-out), color 160ms var(--ss-out); }
+                .ss .src-link:hover { border-bottom-color: #fff; color: #fff; }
+                .ss .src-link::after { content: ' ↗'; color: var(--text-muted); font-size: 0.8em; }
+                /* Инструмент-чип: ссылка + тултип «что это» */
+                .tool-chip { position: relative; display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 16px; color: var(--text-main); background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 9px 18px; text-decoration: none; transition: border-color 160ms var(--ss-out), background 160ms var(--ss-out), transform 160ms var(--ss-out); }
+                .tool-chip:hover { border-color: var(--border-hover); background: var(--bg-hover); }
+                .tool-chip:active { transform: scale(0.97); }
+                .tool-chip::after { content: ' ↗'; color: #52525b; font-size: 0.8em; margin-left: 6px; }
+                .tool-chip .tool-tip { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(6px); width: 240px; padding: 12px 15px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px; font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: center; box-shadow: 0 12px 32px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 30; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
+                .tool-chip:hover .tool-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+                .tool-chip .tool-tip::after { content: none; }
+
                 /* Чипы */
                 .ss-chips { display: flex; flex-wrap: wrap; gap: 12px; }
                 .ss-chip { padding: 9px 18px; border: 1px solid var(--border); border-radius: 999px; font-size: 16px; color: var(--text-muted); font-family: var(--font-mono); background: var(--bg-card); }
@@ -1068,160 +1090,219 @@
                 .reason p { margin: 8px 0 0; font-size: 18px; color: var(--text-main); line-height: 1.4; }
             </style>
             <!-- БЛОК 1 -->
-            <section class="slide ss" data-slide="4">
+            <section class="slide ss" data-slide="4" id="cls-slide">
+                <style>
+                    #cls-slide .ss-body { margin-top: 24px; }
+                    #cls-slide .cls-nodes { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px; }
+                    #cls-slide .cls-node { width: 120px; height: 120px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 8px; text-align: center; transition: transform 180ms var(--ss-out), border-color 180ms var(--ss-out), background 180ms var(--ss-out); }
+                    #cls-slide .cls-node:hover { transform: translateY(-3px); border-color: var(--border-hover); }
+                    #cls-slide .cls-node:active { transform: scale(0.97); }
+                    #cls-slide .cls-node.on { border-color: #fff; background: #111; box-shadow: 0 0 0 1px #fff inset; }
+                    #cls-slide .cls-node .nm { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.1; }
+                    #cls-slide .cls-node .sub { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+                    #cls-slide .cls-node .y26 { font-family: var(--font-mono); font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; }
+                    #cls-slide .cls-tree { margin-top: 26px; min-height: 190px; display: flex; flex-direction: column; align-items: center; }
+                    #cls-slide .cls-hub { font-size: 20px; font-weight: 700; color: #fff; background: #111; border: 1px solid #fff; border-radius: 12px; padding: 12px 26px; text-align: center; }
+                    #cls-slide .cls-hub small { display: block; font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--text-muted); margin-top: 4px; }
+                    #cls-slide .cls-trunk { width: 2px; height: 26px; background: var(--border-hover); }
+                    #cls-slide .cls-cats { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 18px; max-width: 1100px; padding-top: 26px; }
+                    #cls-slide .cls-cats::before { content: ''; position: absolute; top: 0; left: 12%; right: 12%; height: 2px; background: var(--border); }
+                    #cls-slide .cls-cat { position: relative; font-family: var(--font-mono); font-size: 17px; color: var(--text-main); background: var(--bg-card); border: 1px solid var(--border-hover); border-radius: 999px; padding: 10px 20px; animation: clsPop 340ms var(--ss-out) both; }
+                    #cls-slide .cls-cat::before { content: ''; position: absolute; bottom: 100%; left: 50%; width: 2px; height: 26px; background: var(--border); }
+                    @keyframes clsPop { from { opacity: 0; transform: translateY(-10px) scale(0.9); } to { opacity: 1; transform: none; } }
+                    #cls-slide .cls-hint { text-align: center; margin-top: 6px; font-size: 15px; color: #52525b; }
+                    @media (prefers-reduced-motion: reduce) { #cls-slide .cls-cat { animation: none; } }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 01 · Масштаб явления</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">AI-приложения — не ниша, а <b>вселенная</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Приложений бесконечно много, и каждый классифицирует по-своему. Не запоминайте сценарии — ищите паттерны.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Приложений бесконечно много, и каждый классифицирует по-своему. Нажми на источник — увидишь, как он делит мир AI.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="b3-stats">
-                            <div class="b3-stat ss-reveal" style="--ss-d:220ms"><div class="v"><span class="ss-count" data-to="16814" data-space="1">16 814</span></div><div class="l">AI-приложений на theresanaiforthat.com</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:320ms"><div class="v"><span class="ss-count" data-to="14688" data-space="1">14 688</span></div><div class="l">задач, которые они решают</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:420ms"><div class="v">4 разные</div><div class="l">классификации — и все условны</div></div>
-                        </div>
-                        <div class="ss-reveal" style="--ss-d:520ms; margin:30px 0">
-                            <div class="ss-chips-label">Каждый классифицирует по-своему</div>
-                            <div class="ss-chips">
-                                <span class="ss-chip">AWS — 3 группы</span><span class="ss-chip">O'Reilly — 8 категорий</span><span class="ss-chip">Deloitte — по прибыли</span><span class="ss-chip">Gartner — + непрерывность бизнеса</span>
+                        <div class="cls-nodes ss-reveal" style="--ss-d:220ms" id="cls-nodes"></div>
+                        <div class="cls-tree" id="cls-tree"></div>
+                        <div class="cls-hint ss-reveal" style="--ss-d:320ms">↑ выбери классификатор — категории разойдутся ветками</div>
+                        <div class="ss-quote ss-reveal" style="--ss-d:420ms">
+                            <img src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
+                            <div>
+                                <p>«Любая классификация условна и <b>быстро устаревает</b>».</p>
+                                <div class="a">Антон Помазков · спикер</div>
                             </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:620ms">
-                            Любая классификация условна и быстро устаревает. <button class="info-trigger" data-open="b1m">новая ось 2026: человек-в-центре vs агент</button>
-                        </div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="b1m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Масштаб и классификация · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Рост</b><span>theresanaiforthat.com — 50 000+ приложений (×3 с 2024).</span></div>
-                        <div class="m-row"><b>Новые категории</b><span>AI-агенты, AI-безопасность, AI-компаньоны, AI-наука — их не было в старых классификациях.</span></div>
-                        <div class="m-row"><b>AI = must have</b><span>Gartner: 65% руководителей называют AI фактором непрерывности бизнеса (было 7% в 2023). McKinsey: 72% компаний используют генеративный AI.</span></div>
-                        <div class="m-row"><b>Новая ось</b><span>Человек-в-центре (copilot) vs агент-в-центре (autonomous). Категории размываются: один агент делает всё сразу.</span></div>
-                    </div>
-                </div>
+                <script>
+                    (function () {
+                        var DATA = {
+                            oreilly: { nm: "O'Reilly", sub: '8 категорий', cats: ['Код', 'Изображения / видео', 'Тексты', 'Образование', 'Боты-собеседники', 'Сбор информации', 'Организация данных', 'Автоматизация'] },
+                            aws: { nm: 'AWS', sub: '3 группы', cats: ['Генерация', 'Извлечение', 'Классификация'] },
+                            deloitte: { nm: 'Deloitte', sub: 'по прибыли', cats: ['Рост выручки', 'Снижение затрат', 'Снижение рисков'] },
+                            gartner: { nm: 'Gartner', sub: '+ бизнес', cats: ['Продуктивность', 'Клиентский опыт', 'Новые продукты', 'Непрерывность бизнеса'] },
+                            taft: { nm: 'TAAFT', sub: 'по задаче', y26: 1, cats: ['16 000+ задач', '«написать письмо»', '«смонтировать видео»', '«найти юриста»'] },
+                            a16z: { nm: 'a16z', sub: 'агентность', y26: 1, cats: ['Копайлоты', 'Вертикальные агенты', 'Автономные агенты'] },
+                            mckinsey: { nm: 'McKinsey', sub: 'по функциям', y26: 1, cats: ['Маркетинг', 'Разработка', 'Поддержка', 'Операции', 'R&D'] }
+                        };
+                        var order = ['oreilly', 'aws', 'deloitte', 'gartner', 'taft', 'a16z', 'mckinsey'];
+                        var nodesEl = document.getElementById('cls-nodes');
+                        var treeEl = document.getElementById('cls-tree');
+                        var cur = null;
+                        order.forEach(function (k) {
+                            var d = DATA[k];
+                            var b = document.createElement('button');
+                            b.className = 'cls-node'; b.type = 'button'; b.setAttribute('data-c', k);
+                            b.innerHTML = (d.y26 ? '<span class="y26">2026</span>' : '') + '<span class="nm">' + d.nm + '</span><span class="sub">' + d.sub + '</span>';
+                            b.addEventListener('click', function () { select(k); });
+                            nodesEl.appendChild(b);
+                        });
+                        function select(k) {
+                            cur = cur === k ? null : k;
+                            [].forEach.call(nodesEl.children, function (b) { b.classList.toggle('on', b.getAttribute('data-c') === cur); });
+                            if (!cur) { treeEl.innerHTML = ''; return; }
+                            var d = DATA[k];
+                            var cats = d.cats.map(function (c, i) { return '<div class="cls-cat" style="animation-delay:' + (i * 60) + 'ms">' + c + '</div>'; }).join('');
+                            treeEl.innerHTML = '<div class="cls-hub">' + d.nm + '<small>' + d.sub + '</small></div><div class="cls-trunk"></div><div class="cls-cats">' + cats + '</div>';
+                        }
+                        select('oreilly');
+                    })();
+                </script>
             </section>
 
             <!-- БЛОК 2 -->
-            <section class="slide ss" data-slide="5">
+            <section class="slide ss" data-slide="5" id="prof-slide">
+                <style>
+                    #prof-slide .ss-body { margin-top: 20px; }
+                    #prof-slide .pbar-group { padding-left: 22px; margin-bottom: 22px; }
+                    #prof-slide .pbar-group.hi { border-left: 3px solid #fff; }
+                    #prof-slide .pbar-group.lo { border-left: 3px solid var(--border-hover); }
+                    #prof-slide .pbar-glabel { font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 12px; }
+                    #prof-slide .pbar-group.hi .pbar-glabel b { color: #fff; }
+                    #prof-slide .pbar-row { display: grid; grid-template-columns: 250px 1fr; gap: 20px; align-items: center; margin-bottom: 9px; cursor: default; }
+                    #prof-slide .pbar-name { text-align: right; font-size: 17px; color: var(--text-main); }
+                    #prof-slide .pbar-track { position: relative; height: 30px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+                    #prof-slide .pbar-fill { height: 100%; background: linear-gradient(90deg, #ffffff, #52525b); transform-origin: left; transform: scaleX(0); border-radius: 7px 0 0 7px; }
+                    #prof-slide .pbar-group.lo .pbar-fill { background: #3a3a3a; }
+                    .ss.active #prof-slide .pbar-fill { animation: pbarGrow 800ms var(--ss-out) forwards; animation-delay: var(--d, 200ms); }
+                    @keyframes pbarGrow { to { transform: scaleX(var(--w)); } }
+                    #prof-slide .pbar-pct { position: absolute; top: 50%; right: 14px; transform: translateY(-50%); font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: #fff; opacity: 0; transition: opacity 150ms var(--ss-out); text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+                    #prof-slide .pbar-row:hover .pbar-pct { opacity: 1; }
+                    #prof-slide .pbar-src { margin-top: 6px; font-size: 15px; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 02 · Подверженность профессий</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Сколько задач профессии <b>автоматизирует AI</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Вопрос не «заменит ли», а «какой процент задач». Исследование Эландью (2023): «подвержена» = AI сокращает время на 50%+.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Вопрос не «заменит ли», а «какой процент задач». «Подвержена» = AI сокращает время на задачу на 50%+. Наведи на столбик — увидишь процент.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="cmp">
-                            <div class="cmp-col accent ss-reveal" style="--ss-d:220ms">
-                                <span class="cmp-tag">Воздействие ~100% · интеллектуальный труд</span>
-                                <h3>Уязвимы</h3>
-                                <div class="ss-chips"><span class="ss-chip">математики</span><span class="ss-chip">налоговые специалисты</span><span class="ss-chip">аналитики</span><span class="ss-chip">писатели</span><span class="ss-chip">веб-дизайнеры</span></div>
-                            </div>
-                            <div class="cmp-col ss-reveal" style="--ss-d:340ms">
-                                <span class="cmp-tag">Не подвержены · физический труд</span>
-                                <h3>Защищены</h3>
-                                <div class="ss-chips"><span class="ss-chip">повара</span><span class="ss-chip">каменщики</span><span class="ss-chip">спортсмены</span></div>
+                        <div class="pbar-group hi ss-reveal" style="--ss-d:200ms">
+                            <div class="pbar-glabel">Воздействие ~100% · <b>интеллектуальный труд</b></div>
+                            <div class="pbar-row"><div class="pbar-name">Математики</div><div class="pbar-track"><div class="pbar-fill" style="--w:1;--d:220ms"></div><span class="pbar-pct">100%</span></div></div>
+                            <div class="pbar-row"><div class="pbar-name">Налоговые специалисты</div><div class="pbar-track"><div class="pbar-fill" style="--w:1;--d:290ms"></div><span class="pbar-pct">100%</span></div></div>
+                            <div class="pbar-row"><div class="pbar-name">Писатели</div><div class="pbar-track"><div class="pbar-fill" style="--w:0.89;--d:360ms"></div><span class="pbar-pct">89%</span></div></div>
+                            <div class="pbar-row"><div class="pbar-name">Веб-дизайнеры</div><div class="pbar-track"><div class="pbar-fill" style="--w:0.82;--d:430ms"></div><span class="pbar-pct">82%</span></div></div>
+                            <div class="pbar-row"><div class="pbar-name">Бухгалтеры, аналитики</div><div class="pbar-track"><div class="pbar-fill" style="--w:0.72;--d:500ms"></div><span class="pbar-pct">72%</span></div></div>
+                        </div>
+                        <div class="pbar-group lo ss-reveal" style="--ss-d:420ms">
+                            <div class="pbar-glabel">Не подвержены · <b>физический труд</b></div>
+                            <div class="pbar-row"><div class="pbar-name">Повара</div><div class="pbar-track"><div class="pbar-fill" style="--w:0.04;--d:560ms"></div><span class="pbar-pct" style="--w-pct:4%">4%</span></div></div>
+                            <div class="pbar-row"><div class="pbar-name">Каменщики</div><div class="pbar-track"><div class="pbar-fill" style="--w:0.02;--d:620ms"></div><span class="pbar-pct" style="--w-pct:2%">2%</span></div></div>
+                            <div class="pbar-row"><div class="pbar-name">Спортсмены</div><div class="pbar-track"><div class="pbar-fill" style="--w:0.01;--d:680ms"></div><span class="pbar-pct" style="--w-pct:1%">0%</span></div></div>
+                        </div>
+                        <div class="pbar-src ss-reveal" style="--ss-d:620ms"><a class="src-link" href="https://arxiv.org/abs/2303.10130" target="_blank">Исследование Эландью (2023)</a></div>
+                        <div class="ss-quote ss-reveal" style="--ss-d:720ms">
+                            <img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
+                            <div>
+                                <p>«Профессии не исчезают — <b>трансформируются</b>: переводчик → AI-редактор, дизайнер → арт-директор».</p>
+                                <div class="a">Чип Хьюен · AI Engineering</div>
                             </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:480ms; margin-top:34px">
-                            Профессии не исчезают — <b>трансформируются</b>: переводчик → AI-редактор, дизайнер → арт-директор. <button class="info-trigger" data-open="b2m">как именно в 2026</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="b2m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Трансформация профессий · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Переводчики</b><span>Рынок машинного перевода $1,5 млрд, но вырос спрос на post-editing: «проверить и улучшить перевод AI».</span></div>
-                        <div class="m-row"><b>Писатели, дизайнеры</b><span>AI пишет 80% маркетинга; дизайнер стал «куратором» (v0, Bolt.new). Спрос на AI-редакторов вырос.</span></div>
-                        <div class="m-row"><b>Новые в зоне 70–90%</b><span>Юристы (анализ договоров), бухгалтеры (отчёты), радиологи (снимки).</span></div>
-                        <div class="m-row"><b>Ключевой навык</b><span>Не «делать работу», а «управлять AI, который её делает». Физтруд защищён: робототехника отстаёт от LLM на 5–10 лет.</span></div>
                     </div>
                 </div>
             </section>
 
             <!-- БЛОК 3 -->
-            <section class="slide ss" data-slide="6">
+            <section class="slide ss" data-slide="6" id="cat-slide">
+                <style>
+                    #cat-slide .ss-head { margin-bottom: 8px; }
+                    #cat-slide .b3-stats { margin: 0 0 26px; }
+                    #cat-slide .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 1200px; margin: 0 auto; }
+                    #cat-slide .cat-btn { position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 15px 16px; font-size: 16px; color: var(--text-main); cursor: pointer; text-align: left; transition: transform 160ms var(--ss-out), border-color 160ms var(--ss-out), background 160ms var(--ss-out); }
+                    #cat-slide .cat-btn:hover { border-color: var(--border-hover); background: var(--bg-hover); }
+                    #cat-slide .cat-btn:active { transform: scale(0.98); }
+                    #cat-slide .cat-btn.on { border-color: #fff; background: #111; }
+                    #cat-slide .cat-btn .y26 { font-family: var(--font-mono); font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
+                    #cat-slide .cat-detail { max-width: 1200px; margin: 18px auto 0; display: none; }
+                    #cat-slide .cat-detail.show { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; animation: catIn 300ms var(--ss-out) both; }
+                    @keyframes catIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+                    #cat-slide .cat-pane { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; }
+                    #cat-slide .cat-pane.ent { border-color: var(--border-hover); background: #111; }
+                    #cat-slide .cat-pane h4 { margin: 0 0 10px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+                    #cat-slide .cat-pane.ent h4 { color: #fff; }
+                    #cat-slide .cat-pane p { margin: 0; font-size: 18px; color: var(--text-main); line-height: 1.5; }
+                    #cat-slide .cat-hint { text-align: center; margin-top: 16px; font-size: 15px; color: #52525b; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 03 · Методология автора</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">8 категорий AI-приложений</h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Системная выборка, а не абстракции: приложение может относиться сразу к нескольким категориям.</p>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Категории AI-приложений</h2>
                     </div>
                     <div class="ss-body">
                         <div class="b3-stats">
-                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v"><span class="ss-count" data-to="50">50</span></div><div class="l">опрошенных компаний</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:290ms"><div class="v">100+</div><div class="l">разобранных кейсов</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:380ms"><div class="v"><span class="ss-count" data-to="205">205</span></div><div class="l">open-source приложений (500+ ⭐ на GitHub)</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:160ms"><div class="v"><span class="ss-count" data-to="50">50</span></div><div class="l">опрошенных компаний</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:230ms"><div class="v">100+</div><div class="l">разобранных кейсов</div></div>
+                            <div class="b3-stat ss-reveal" style="--ss-d:300ms"><div class="v"><span class="ss-count" data-to="205">205</span></div><div class="l">open-source приложений (500+ ⭐ на GitHub)</div></div>
                         </div>
-                        <div class="ss-reveal" style="--ss-d:480ms; margin:28px 0">
-                            <div class="ss-chips-label">Восемь категорий</div>
-                            <div class="ss-chips">
-                                <span class="ss-chip">Написание кода</span><span class="ss-chip">Изображения / видео</span><span class="ss-chip">Написание текстов</span><span class="ss-chip">Образование</span><span class="ss-chip">Боты-собеседники</span><span class="ss-chip">Сбор информации</span><span class="ss-chip">Организация данных</span><span class="ss-chip">Автоматизация workflow</span>
-                            </div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
-                            Рамка для вопроса «в какую категорию попадает моя идея?». <button class="info-trigger" data-open="b3m">категории 2026: границы стёрты</button>
-                        </div>
+                        <div class="cat-grid ss-reveal" style="--ss-d:400ms" id="cat-grid"></div>
+                        <div class="cat-detail" id="cat-detail"></div>
+                        <div class="cat-hint ss-reveal" style="--ss-d:480ms" id="cat-hint">↑ 12 категорий — нажми, чтобы увидеть, как её используют люди и компании</div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="b3m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Категории · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Расширились</b><span>8 → 12+: добавились AI-агенты, AI-безопасность/guardrails, AI-наука, AI-робототехника.</span></div>
-                        <div class="m-row"><b>Экосистема</b><span>Open-source AI-приложений на GitHub: 100 000+ (в книге было 205).</span></div>
-                        <div class="m-row"><b>Топ-категории</b><span>AI-агенты, AI-кодирование, RAG/сбор информации, AI-автоматизация.</span></div>
-                        <div class="m-row"><b>Реальность</b><span>Границы стёрты: Cursor (код) + RAG (информация) + агент (автоматизация) = один продукт.</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- БЛОК 4 -->
-            <section class="slide ss" data-slide="7">
-                <div class="ss-wrap">
-                    <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 04 · Стратегия входа</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Начинай с <b>внутреннего</b>, потом внешнее</h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Компании предпочитают внутренние приложения: главное — минимизировать риск.</p>
-                    </div>
-                    <div class="ss-body">
-                        <div class="cmp">
-                            <div class="cmp-col accent ss-reveal" style="--ss-d:220ms">
-                                <span class="cmp-tag">Низкий риск · начни здесь</span>
-                                <h3>Внутренние</h3>
-                                <p>Управление знаниями, RAG по документам. Ошибку увидит сотрудник — и исправит.</p>
-                            </div>
-                            <div class="cmp-col ss-reveal" style="--ss-d:340ms">
-                                <span class="cmp-tag">Высокий риск</span>
-                                <h3>Внешние</h3>
-                                <p>Чат-боты для клиентов. Галлюцинацию увидят все. Нужны guardrails и «человек-в-цикле».</p>
-                            </div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:480ms; margin-top:34px">
-                            Задачи классификации популярнее генеративных — их легче оценить. <button class="info-trigger" data-open="b4m">сначала ходить, потом бежать</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="b4m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Внутреннее → внешнее · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Внутренние</b><span>RAG по Confluence/Notion/SharePoint — стандарт для 70%+ крупных компаний. NotebookLM, Glean, Guru.</span></div>
-                        <div class="m-row"><b>Внешние</b><span>Чат-боты поддержки (Intercom Fin, Zendesk AI) — с guardrails и «человеком-в-цикле».</span></div>
-                        <div class="m-row"><b>Регулирование</b><span>EU AI Act (2025): прозрачность, оценка рисков, надзор человека для high-risk. Замедлил внешние, ускорил внутренние.</span></div>
-                        <div class="m-row"><b>Урок</b><span>Air Canada (2024): чат-бот без guardrails → PR-катастрофа. Сначала ходить (внутреннее), потом бежать.</span></div>
-                    </div>
-                </div>
+                <script>
+                    (function () {
+                        var CATS = [
+                            { n: 'Написание кода', u: 'Пишут скрипты, учатся, автоматизируют рутину.', e: 'Копайлоты в IDE, ревью, генерация тестов, миграции легаси.' },
+                            { n: 'Изображения / видео', u: 'Аватары, арты, ролики для соцсетей.', e: 'Реклама, превизуализация, дубляж, тысячи креативов под сегменты.' },
+                            { n: 'Написание текстов', u: 'Письма, посты, резюме, переписка.', e: 'Маркетинг, документация, SEO и локализация в масштабе.' },
+                            { n: 'Образование', u: 'Репетитор 24/7, объяснение сложных тем.', e: 'Корп-обучение, онбординг, база знаний компании.' },
+                            { n: 'Боты-собеседники', u: 'Компаньоны, ролевые сценарии, советы.', e: 'Поддержка клиентов, внутренние ассистенты сотрудников.' },
+                            { n: 'Сбор информации', u: 'Поиск по своим заметкам, суммаризация статей.', e: 'RAG по внутренней базе, ответы по документам, аналитика.' },
+                            { n: 'Организация данных', u: 'Разметка фото и заметок, наведение порядка.', e: 'Структурирование документов, извлечение сущностей.' },
+                            { n: 'Автоматизация', u: 'Личные сценарии, Zapier + AI.', e: 'Агенты для бизнес-процессов, интеграции систем.' },
+                            { n: 'AI-агенты', y26: 1, u: 'Агент сам бронирует, покупает, планирует.', e: 'Автономные процессы, оркестрация инструментов и API.' },
+                            { n: 'AI-безопасность', y26: 1, u: 'Фильтры, проверка фактов, безопасные ответы.', e: 'Модерация, соответствие, guardrails, red-teaming.' },
+                            { n: 'AI-наука', y26: 1, u: 'Помощь в учёбе и небольших исследованиях.', e: 'R&D: лекарства, материалы, доказательства теорем.' },
+                            { n: 'Поиск / ассистенты', y26: 1, u: 'Perplexity, ответы со ссылками на источники.', e: 'Enterprise-search: Glean, ассистент по всем данным.' }
+                        ];
+                        var grid = document.getElementById('cat-grid');
+                        var det = document.getElementById('cat-detail');
+                        var hint = document.getElementById('cat-hint');
+                        var cur = -1;
+                        CATS.forEach(function (c, i) {
+                            var b = document.createElement('button');
+                            b.className = 'cat-btn'; b.type = 'button';
+                            b.innerHTML = c.n + (c.y26 ? '<span class="y26">2026</span>' : '');
+                            b.addEventListener('click', function () { toggle(i); });
+                            grid.appendChild(b);
+                        });
+                        function toggle(i) {
+                            cur = cur === i ? -1 : i;
+                            [].forEach.call(grid.children, function (b, k) { b.classList.toggle('on', k === cur); });
+                            if (cur < 0) { det.className = 'cat-detail'; det.innerHTML = ''; hint.style.visibility = 'visible'; return; }
+                            var c = CATS[i];
+                            det.innerHTML = '<div class="cat-pane"><h4>Как используют люди</h4><p>' + c.u + '</p></div><div class="cat-pane ent"><h4>В корпоративной среде</h4><p>' + c.e + '</p></div>';
+                            det.className = 'cat-detail show';
+                            hint.style.visibility = 'hidden';
+                        }
+                    })();
+                </script>
             </section>
 
             <!-- БЛОК 5 -->
-            <section class="slide ss" data-slide="8">
+            <section class="slide ss" data-slide="7">
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 05 · Сценарий №1</div>
+                        <div class="ss-kicker ss-reveal">Блок 04 · Сценарий №1</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Написание кода — <b>самый популярный</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Идеально для AI: код структурирован, результат проверяем (компилируется или нет), рынок огромен.</p>
                     </div>
@@ -1231,103 +1312,178 @@
                             <div class="b3-stat ss-reveal" style="--ss-d:290ms"><div class="v">$500M+</div><div class="l">ARR Cursor · оценка $10B+</div></div>
                             <div class="b3-stat ss-reveal" style="--ss-d:380ms"><div class="v"><span class="ss-count" data-to="46" data-suffix="%">46%</span></div><div class="l">нового кода на GitHub — AI-генерированный</div></div>
                         </div>
-                        <div class="ss-reveal" style="--ss-d:480ms; margin:28px 0">
-                            <div class="ss-chips-label">От автодополнения до автономных агентов</div>
-                            <div class="ss-chips"><span class="ss-chip">Copilot</span><span class="ss-chip">Cursor</span><span class="ss-chip">Claude Code</span><span class="ss-chip">Codex</span><span class="ss-chip">Devin</span><span class="ss-chip">Windsurf</span><span class="ss-chip">v0</span><span class="ss-chip">Bolt.new</span></div>
+                        <div class="ss-reveal" style="--ss-d:480ms; margin:30px 0 0">
+                            <div class="ss-chips-label">От автодополнения до автономных агентов · 2026 · наведи / нажми</div>
+                            <div class="ss-chips">
+                                <a class="tool-chip" href="https://github.com/features/copilot" target="_blank">Copilot<span class="tool-tip">GitHub Copilot: автодополнение и чат прямо в IDE</span></a>
+                                <a class="tool-chip" href="https://cursor.com" target="_blank">Cursor<span class="tool-tip">IDE со встроенным AI-агентом · оценка $10B+</span></a>
+                                <a class="tool-chip" href="https://www.anthropic.com/claude-code" target="_blank">Claude Code<span class="tool-tip">Агент-разработчик в терминале (Anthropic)</span></a>
+                                <a class="tool-chip" href="https://openai.com/index/introducing-codex/" target="_blank">Codex<span class="tool-tip">Облачный агент-разработчик OpenAI</span></a>
+                                <a class="tool-chip" href="https://devin.ai" target="_blank">Devin<span class="tool-tip">Автономный AI-инженер (Cognition)</span></a>
+                                <a class="tool-chip" href="https://windsurf.com" target="_blank">Windsurf<span class="tool-tip">AI-редактор кода с агентным режимом</span></a>
+                                <a class="tool-chip" href="https://v0.dev" target="_blank">v0<span class="tool-tip">Генерация интерфейсов по описанию (Vercel)</span></a>
+                                <a class="tool-chip" href="https://bolt.new" target="_blank">Bolt.new<span class="tool-tip">Целое веб-приложение прямо в браузере</span></a>
+                            </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
-                            AI не заменил разработчика, а изменил его: 20% кода руками, 80% — редактирование AI. <button class="info-trigger" data-open="b5m">разработчик 2026</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="b5m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Написание кода · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Масштаб</b><span>92% разработчиков используют AI-инструменты (GitHub, 2025).</span></div>
-                        <div class="m-row"><b>Агенты</b><span>Copilot Workspace, Devin ($2B оценка), Codex — планируют, пишут, тестируют, создают PR.</span></div>
-                        <div class="m-row"><b>Рынок труда</b><span>Junior-позиции сократились; senior/архитектор — в дефиците.</span></div>
-                        <div class="m-row"><b>Ускорение</b><span>Рутина (документация, boilerplate) — 2×; сложное (архитектура) — 10–20%. AI заменяет рутину, не мышление.</span></div>
                     </div>
                 </div>
             </section>
 
             <!-- БЛОК 6 -->
-            <section class="slide ss" data-slide="9">
+            <section class="slide ss" data-slide="8" id="dev-slide">
+                <style>
+                    #dev-slide .qc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; max-width: 1200px; margin: 0 auto; }
+                    #dev-slide .qc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+                    #dev-slide .qc-row { display: flex; gap: 18px; align-items: flex-start; }
+                    #dev-slide .qc-face { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
+                    #dev-slide .qc .mono { width: 64px; height: 64px; border-radius: 50%; font-size: 20px; flex-shrink: 0; }
+                    #dev-slide .qc-quote { margin: 0; font-size: 20px; line-height: 1.4; color: var(--text-main); font-weight: 500; }
+                    #dev-slide .qc-attr { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; padding-left: 82px; }
+                    #dev-slide .qc-attr b { color: #fff; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 06 · Спор</div>
+                        <div class="ss-kicker ss-reveal">Блок 05 · Спор</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Заменит ли AI <b>разработчиков</b>?</h2>
                     </div>
                     <div class="ss-body">
-                        <div class="cmp">
-                            <div class="cmp-col ss-reveal" style="--ss-d:220ms">
-                                <span class="cmp-tag">Дженсен Хуанг · NVIDIA</span>
-                                <h3>«Заменит»</h3>
-                                <p>«AI заменит разработчиков — не учите детей кодить».</p>
+                        <div class="qc-grid">
+                            <div class="qc ss-reveal" style="--ss-d:200ms">
+                                <div class="qc-row"><img class="qc-face" src="assets/people/jensen-huang.webp" alt="Дженсен Хуанг"><p class="qc-quote">«Не учите детей программировать — за них это сделает AI».</p></div>
+                                <div class="qc-attr"><b>Дженсен Хуанг</b> · CEO, NVIDIA</div>
                             </div>
-                            <div class="cmp-col accent ss-reveal" style="--ss-d:340ms">
-                                <span class="cmp-tag">Мэтт Гарман · AWS</span>
-                                <h3>«Изменит»</h3>
-                                <p>«Разработчики перестанут писать код руками, но профессия не исчезнет — трансформируется».</p>
+                            <div class="qc ss-reveal" style="--ss-d:300ms">
+                                <div class="qc-row"><span class="mono">MG</span><p class="qc-quote">«Разработчики перестанут писать код руками, но профессия не исчезнет — трансформируется».</p></div>
+                                <div class="qc-attr"><b>Мэтт Гарман</b> · CEO, AWS</div>
                             </div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:480ms; margin-top:34px">
-                            McKinsey: 2× для документации, 25–50% для кода, минимум для сложных задач. Frontend автоматизируется легче backend. <button class="info-trigger" data-open="b6m">что стало в 2026</button>
+                            <div class="qc ss-reveal" style="--ss-d:400ms">
+                                <div class="qc-row"><img class="qc-face" src="assets/people/andrej-karpathy.webp" alt="Андрей Карпаты"><p class="qc-quote">«Самый горячий новый язык программирования — это английский».</p></div>
+                                <div class="qc-attr"><b>Андрей Карпаты</b> · сооснователь OpenAI, ex-Tesla</div>
+                            </div>
+                            <div class="qc ss-reveal" style="--ss-d:500ms">
+                                <div class="qc-row"><img class="qc-face" src="assets/people/dario-amodei.webp" alt="Дарио Амодеи"><p class="qc-quote">«В ближайший год почти весь код будет писать AI — под присмотром человека».</p></div>
+                                <div class="qc-attr"><b>Дарио Амодеи</b> · CEO, Anthropic</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="ss-modal" data-modal="b6m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Заменил ли · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Не заменил</b><span>Вакансий «software developer» не меньше, но нужен «AI-augmented developer».</span></div>
-                        <div class="m-row"><b>Junior-кризис</b><span>Вакансии для джунов −30–40% (2024–2026). AI делает то, что делали джуны. Senior/architect — дефицит.</span></div>
-                        <div class="m-row"><b>Frontend vs Backend</b><span>v0, Bolt.new генерируют frontend за минуты; backend (микросервисы, безопасность) — по-прежнему человек.</span></div>
-                        <div class="m-row"><b>Прав Гарман</b><span>Разработчик 2026 — «AI-дирижёр»: системное мышление, декомпозиция, ревью и тестирование.</span></div>
+            </section>
+
+            <!-- НОВЫЙ: специализированные инструменты кода -->
+            <section class="slide ss" data-slide="9" id="spec-slide">
+                <style>
+                    #spec-slide .tcloud { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; align-items: flex-start; max-width: 1320px; margin: 12px auto 0; }
+                    #spec-slide .tcg { position: relative; display: flex; flex-wrap: wrap; gap: 10px; padding: 18px 16px 16px; border-radius: 16px; border: 1px solid transparent; transition: border-color 180ms var(--ss-out), background 180ms var(--ss-out); }
+                    #spec-slide .tcg:hover { border-color: var(--border-hover); background: #0d0d0d; }
+                    #spec-slide .tcg-label { position: absolute; bottom: calc(100% - 4px); left: 14px; font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #fff; background: #000; padding: 3px 10px; border-radius: 6px; opacity: 0; transform: translateY(6px); transition: opacity 180ms var(--ss-out), transform 180ms var(--ss-out); pointer-events: none; white-space: nowrap; z-index: 5; }
+                    #spec-slide .tcg:hover .tcg-label { opacity: 1; transform: none; }
+                </style>
+                <div class="ss-wrap">
+                    <div class="ss-head">
+                        <div class="ss-kicker ss-reveal">Блок 06 · Специализированные инструменты</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Инструменты под <b>конкретные задачи</b> кода</h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Помимо универсальных ассистентов — сотни инструментов под узкие задачи. Наведи на инструмент: подсветится вся его группа.</p>
+                    </div>
+                    <div class="ss-body">
+                        <div class="tcloud ss-reveal" style="--ss-d:220ms">
+                            <div class="tcg">
+                                <div class="tcg-label">Тестирование</div>
+                                <a class="tool-chip" href="https://www.qodo.ai" target="_blank">Qodo<span class="tool-tip">Генерация тестов и проверка кода (ex-Codium)</span></a>
+                                <a class="tool-chip" href="https://www.diffblue.com" target="_blank">Diffblue<span class="tool-tip">Автогенерация unit-тестов для Java</span></a>
+                                <a class="tool-chip" href="https://www.meticulous.ai" target="_blank">Meticulous<span class="tool-tip">Автотесты фронтенда без написания кода</span></a>
+                            </div>
+                            <div class="tcg">
+                                <div class="tcg-label">Документация</div>
+                                <a class="tool-chip" href="https://mintlify.com" target="_blank">Mintlify<span class="tool-tip">Документация из кода + AI-поиск</span></a>
+                                <a class="tool-chip" href="https://swimm.io" target="_blank">Swimm<span class="tool-tip">Документация, синхронная с кодом</span></a>
+                            </div>
+                            <div class="tcg">
+                                <div class="tcg-label">Code review</div>
+                                <a class="tool-chip" href="https://coderabbit.ai" target="_blank">CodeRabbit<span class="tool-tip">AI-ревью пул-реквестов</span></a>
+                                <a class="tool-chip" href="https://graphite.dev" target="_blank">Graphite<span class="tool-tip">Стек-PR и AI-ревьюер</span></a>
+                                <a class="tool-chip" href="https://www.greptile.com" target="_blank">Greptile<span class="tool-tip">Ревью с пониманием всей кодовой базы</span></a>
+                            </div>
+                            <div class="tcg">
+                                <div class="tcg-label">Безопасность</div>
+                                <a class="tool-chip" href="https://snyk.io" target="_blank">Snyk<span class="tool-tip">Поиск уязвимостей в коде и зависимостях</span></a>
+                                <a class="tool-chip" href="https://semgrep.dev" target="_blank">Semgrep<span class="tool-tip">Статический анализ и правила безопасности</span></a>
+                                <a class="tool-chip" href="https://socket.dev" target="_blank">Socket<span class="tool-tip">Защита цепочки поставок npm/pip</span></a>
+                            </div>
+                            <div class="tcg">
+                                <div class="tcg-label">Рефакторинг и миграции</div>
+                                <a class="tool-chip" href="https://sourcegraph.com" target="_blank">Sourcegraph<span class="tool-tip">Поиск по коду и массовые правки (Cody)</span></a>
+                                <a class="tool-chip" href="https://www.moderne.io" target="_blank">Moderne<span class="tool-tip">Автоматические миграции легаси</span></a>
+                            </div>
+                            <div class="tcg">
+                                <div class="tcg-label">Базы данных / SQL</div>
+                                <a class="tool-chip" href="https://supabase.com" target="_blank">Supabase AI<span class="tool-tip">Помощник по SQL и схемам БД</span></a>
+                                <a class="tool-chip" href="https://www.text2sql.ai" target="_blank">Text2SQL<span class="tool-tip">Запрос на человеческом → SQL</span></a>
+                            </div>
+                            <div class="tcg">
+                                <div class="tcg-label">Мониторинг и отладка</div>
+                                <a class="tool-chip" href="https://sentry.io" target="_blank">Sentry AI<span class="tool-tip">Анализ ошибок и подсказки по фиксам</span></a>
+                                <a class="tool-chip" href="https://www.honeycomb.io" target="_blank">Honeycomb<span class="tool-tip">Наблюдаемость с AI-запросами по логам</span></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- БЛОК 7 -->
-            <section class="slide ss" data-slide="10">
+            <section class="slide ss" data-slide="10" id="cr-slide">
+                <style>
+                    #cr-slide .shift { display: flex; align-items: stretch; justify-content: center; gap: 26px; }
+                    #cr-slide .crc { flex: 1; max-width: 460px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 26px 28px; display: flex; flex-direction: column; gap: 14px; }
+                    #cr-slide .crc.now { border-color: var(--border-hover); background: #111; }
+                    #cr-slide .crc-top { display: flex; align-items: center; gap: 8px; }
+                    #cr-slide .crc-date { font-family: var(--font-mono); font-size: 14px; color: #000; background: #fff; border-radius: 6px; padding: 2px 10px; font-weight: 700; }
+                    #cr-slide .crc-tag { font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+                    #cr-slide .crc-q { display: flex; gap: 16px; align-items: flex-start; }
+                    #cr-slide .crc-face { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
+                    #cr-slide .crc .mono { width: 58px; height: 58px; border-radius: 50%; font-size: 20px; flex-shrink: 0; }
+                    #cr-slide .crc-q p { margin: 0; font-size: 20px; line-height: 1.4; color: var(--text-main); font-weight: 500; }
+                    #cr-slide .crc-attr { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; padding-left: 74px; }
+                    #cr-slide .crc-attr b { color: #fff; }
+                    #cr-slide .shift-arr { align-self: center; font-size: 34px; color: #52525b; }
+                    #cr-slide .cr-tools { margin-top: 30px; }
+                    #cr-slide .cr-tools .ss-chips-label { margin-top: 18px; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 07 · Творчество</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Генерация <b>изображений и видео</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">AI не заменяет креатив — ускоряет: штурм → наброски → доработка человеком.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">За несколько лет — путь от «угрозы» до нормы. Наведи на инструмент — узнаешь, для чего он.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="tn">
-                            <div class="tn-card old ss-reveal" style="--ss-d:220ms">
-                                <div class="yr">2019</div>
-                                <div class="big" style="font-size:30px">Угроза</div>
-                                <div class="sub">Facebook блокирует AI-сгенерированные фото профиля</div>
+                        <div class="shift">
+                            <div class="crc ss-reveal" style="--ss-d:200ms">
+                                <div class="crc-top"><span class="crc-date">2019</span><span class="crc-tag">Угроза</span></div>
+                                <div class="crc-q"><span class="mono">M</span><p>«AI-сгенерированные лица используют для фейковых аккаунтов — мы их удаляем».</p></div>
+                                <div class="crc-attr"><b>Meta</b> · борьба с дезинформацией</div>
                             </div>
-                            <div class="tn-arr ss-reveal" style="--ss-d:320ms">→</div>
-                            <div class="tn-card now ss-reveal" style="--ss-d:420ms">
-                                <div class="yr">2023</div>
-                                <div class="big" style="font-size:30px">Норма</div>
-                                <div class="sub">Приложения сами генерируют аватары и креативы</div>
+                            <div class="shift-arr ss-reveal" style="--ss-d:300ms">→</div>
+                            <div class="crc now ss-reveal" style="--ss-d:400ms">
+                                <div class="crc-top"><span class="crc-date">2023</span><span class="crc-tag">Норма</span></div>
+                                <div class="crc-q"><img class="crc-face" src="assets/people/emad-mostaque.webp" alt="Эмад Мостак"><p>«Мы отдали генерацию изображений в руки каждому».</p></div>
+                                <div class="crc-attr"><b>Эмад Мостак</b> · основатель Stability AI</div>
                             </div>
                         </div>
-                        <div class="ss-reveal" style="--ss-d:540ms; margin:26px 0 0">
-                            <div class="ss-chips-label">Инструменты 2026</div>
-                            <div class="ss-chips"><span class="ss-chip">Midjourney V7</span><span class="ss-chip">DALL-E 4</span><span class="ss-chip">Flux</span><span class="ss-chip">Sora</span><span class="ss-chip">Kling 2.0</span><span class="ss-chip">Veo 3</span><span class="ss-chip">Runway Gen-4</span></div>
+                        <div class="cr-tools ss-reveal" style="--ss-d:520ms">
+                            <div class="ss-chips-label">Изображения · лидеры 2026 · наведи / нажми</div>
+                            <div class="ss-chips">
+                                <a class="tool-chip" href="https://midjourney.com" target="_blank">Midjourney<span class="tool-tip">Лидер художественной генерации изображений</span></a>
+                                <a class="tool-chip" href="https://openai.com/dall-e" target="_blank">DALL·E<span class="tool-tip">Генерация изображений от OpenAI</span></a>
+                                <a class="tool-chip" href="https://bfl.ai" target="_blank">Flux<span class="tool-tip">Open-source генерация (Black Forest Labs)</span></a>
+                                <a class="tool-chip" href="https://ideogram.ai" target="_blank">Ideogram<span class="tool-tip">Изображения с точным текстом внутри</span></a>
+                            </div>
+                            <div class="ss-chips-label">Видео · лидеры 2026</div>
+                            <div class="ss-chips">
+                                <a class="tool-chip" href="https://openai.com/sora" target="_blank">Sora<span class="tool-tip">Видео по тексту (OpenAI)</span></a>
+                                <a class="tool-chip" href="https://deepmind.google/technologies/veo/" target="_blank">Veo<span class="tool-tip">Видеогенерация Google DeepMind</span></a>
+                                <a class="tool-chip" href="https://klingai.com" target="_blank">Kling<span class="tool-tip">Кинематографичное видео (Kuaishou)</span></a>
+                                <a class="tool-chip" href="https://runwayml.com" target="_blank">Runway<span class="tool-tip">Видео и VFX-инструменты для студий</span></a>
+                            </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:660ms; margin-top:26px">
-                            Маркетинг — главный потребитель. <button class="info-trigger" data-open="b7m">80% креативов, кино, авторское право</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="b7m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Изображения и видео · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Качество</b><span>Фотореализм неотличим от фото; видео 1–2 мин по тексту, кинематографично (Sora, Veo 3, Kling).</span></div>
-                        <div class="m-row"><b>Маркетинг</b><span>~80% digital-креативов генерируются или дорабатываются AI; тысячи вариантов под сегменты.</span></div>
-                        <div class="m-row"><b>Кино</b><span>Превизуализация, VFX, дубляж, де-эйджинг. Голливуд: забастовки 2023 → соглашения 2024 → интеграция.</span></div>
-                        <div class="m-row"><b>Спорный вопрос</b><span>Авторское право: иски художников против Midjourney, Stability AI. EU AI Act требует маркировку AI-контента.</span></div>
                     </div>
                 </div>
             </section>

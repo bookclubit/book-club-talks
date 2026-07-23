@@ -1092,38 +1092,38 @@
             <!-- БЛОК 1 -->
             <section class="slide ss" data-slide="4" id="cls-slide">
                 <style>
-                    #cls-slide .ss-body { margin-top: 24px; }
-                    #cls-slide .cls-nodes { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px; }
-                    #cls-slide .cls-node { width: 120px; height: 120px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 8px; text-align: center; transition: transform 180ms var(--ss-out), border-color 180ms var(--ss-out), background 180ms var(--ss-out); }
-                    #cls-slide .cls-node:hover { transform: translateY(-3px); border-color: var(--border-hover); }
-                    #cls-slide .cls-node:active { transform: scale(0.97); }
-                    #cls-slide .cls-node.on { border-color: #fff; background: #111; box-shadow: 0 0 0 1px #fff inset; }
-                    #cls-slide .cls-node .nm { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.1; }
-                    #cls-slide .cls-node .sub { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
-                    #cls-slide .cls-node .y26 { font-family: var(--font-mono); font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; }
-                    #cls-slide .cls-tree { margin-top: 26px; min-height: 190px; display: flex; flex-direction: column; align-items: center; }
-                    #cls-slide .cls-hub { font-size: 20px; font-weight: 700; color: #fff; background: #111; border: 1px solid #fff; border-radius: 12px; padding: 12px 26px; text-align: center; }
-                    #cls-slide .cls-hub small { display: block; font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--text-muted); margin-top: 4px; }
-                    #cls-slide .cls-trunk { width: 2px; height: 26px; background: var(--border-hover); }
-                    #cls-slide .cls-cats { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 18px; max-width: 1100px; padding-top: 26px; }
-                    #cls-slide .cls-cats::before { content: ''; position: absolute; top: 0; left: 12%; right: 12%; height: 2px; background: var(--border); }
-                    #cls-slide .cls-cat { position: relative; font-family: var(--font-mono); font-size: 17px; color: var(--text-main); background: var(--bg-card); border: 1px solid var(--border-hover); border-radius: 999px; padding: 10px 20px; animation: clsPop 340ms var(--ss-out) both; }
-                    #cls-slide .cls-cat::before { content: ''; position: absolute; bottom: 100%; left: 50%; width: 2px; height: 26px; background: var(--border); }
-                    @keyframes clsPop { from { opacity: 0; transform: translateY(-10px) scale(0.9); } to { opacity: 1; transform: none; } }
-                    #cls-slide .cls-hint { text-align: center; margin-top: 6px; font-size: 15px; color: #52525b; }
-                    @media (prefers-reduced-motion: reduce) { #cls-slide .cls-cat { animation: none; } }
+                    #cls-slide .ss-body { margin-top: 16px; }
+                    #cls-slide .cls-picks { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+                    #cls-slide .cls-pick { position: relative; font-family: var(--font-mono); font-size: 16px; color: var(--text-main); background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 10px 20px; cursor: pointer; transition: transform 160ms var(--ss-out), border-color 160ms var(--ss-out), background 160ms var(--ss-out); }
+                    #cls-slide .cls-pick:hover { border-color: var(--border-hover); background: var(--bg-hover); }
+                    #cls-slide .cls-pick:active { transform: scale(0.97); }
+                    #cls-slide .cls-pick.on { border-color: #fff; background: #111; color: #fff; }
+                    #cls-slide .cls-pick .y26 { font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
+                    #cls-slide .cls-tip { position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(-6px); width: 250px; padding: 12px 15px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px; font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: center; box-shadow: 0 14px 34px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 30; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
+                    #cls-slide .cls-pick:hover .cls-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    #cls-slide .cls-hint { text-align: center; margin: 12px 0 0; font-size: 15px; color: #52525b; }
+                    #cls-slide .rad { position: relative; width: 920px; max-width: 100%; height: 470px; margin: 6px auto 0; }
+                    #cls-slide .rad svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+                    #cls-slide .rad-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 150px; height: 150px; border-radius: 50%; background: #fff; color: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px; z-index: 3; box-shadow: 0 0 40px rgba(255,255,255,0.15); }
+                    #cls-slide .rad-center .n { font-size: 20px; font-weight: 700; line-height: 1.1; }
+                    #cls-slide .rad-center .s { font-family: var(--font-mono); font-size: 11px; color: #333; margin-top: 5px; }
+                    #cls-slide .rad-leaf { position: absolute; width: 124px; height: 124px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-hover); color: var(--text-main); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; line-height: 1.25; padding: 12px; box-sizing: border-box; z-index: 2; transform: translate(-50%, -50%) scale(0); animation: radPop 380ms var(--ss-out) forwards; }
+                    @keyframes radPop { to { transform: translate(-50%, -50%) scale(1); } }
+                    #cls-slide .rad-line { stroke: var(--border-hover); stroke-width: 1.5; opacity: 0; animation: radLine 300ms var(--ss-out) forwards; }
+                    @keyframes radLine { to { opacity: 1; } }
+                    @media (prefers-reduced-motion: reduce) { #cls-slide .rad-leaf { animation: none; transform: translate(-50%, -50%) scale(1); } #cls-slide .rad-line { animation: none; opacity: 1; } }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 01 · Масштаб явления</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">AI-приложения — не ниша, а <b>вселенная</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Приложений бесконечно много, и каждый классифицирует по-своему. Нажми на источник — увидишь, как он делит мир AI.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Приложений бесконечно много, и каждый классифицирует по-своему.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="cls-nodes ss-reveal" style="--ss-d:220ms" id="cls-nodes"></div>
-                        <div class="cls-tree" id="cls-tree"></div>
-                        <div class="cls-hint ss-reveal" style="--ss-d:320ms">↑ выбери классификатор — категории разойдутся ветками</div>
-                        <div class="ss-quote ss-reveal" style="--ss-d:420ms">
+                        <div class="cls-picks ss-reveal" style="--ss-d:200ms" id="cls-picks"></div>
+                        <div class="cls-hint ss-reveal" style="--ss-d:280ms">наведи на источник — что это · нажми — категории появятся вокруг</div>
+                        <div class="rad ss-reveal" style="--ss-d:340ms" id="cls-rad"></div>
+                        <div class="ss-quote ss-reveal" style="--ss-d:440ms">
                             <img src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
                             <div>
                                 <p>«Любая классификация условна и <b>быстро устаревает</b>».</p>
@@ -1135,33 +1135,47 @@
                 <script>
                     (function () {
                         var DATA = {
-                            oreilly: { nm: "O'Reilly", sub: '8 категорий', cats: ['Код', 'Изображения / видео', 'Тексты', 'Образование', 'Боты-собеседники', 'Сбор информации', 'Организация данных', 'Автоматизация'] },
-                            aws: { nm: 'AWS', sub: '3 группы', cats: ['Генерация', 'Извлечение', 'Классификация'] },
-                            deloitte: { nm: 'Deloitte', sub: 'по прибыли', cats: ['Рост выручки', 'Снижение затрат', 'Снижение рисков'] },
-                            gartner: { nm: 'Gartner', sub: '+ бизнес', cats: ['Продуктивность', 'Клиентский опыт', 'Новые продукты', 'Непрерывность бизнеса'] },
-                            taft: { nm: 'TAAFT', sub: 'по задаче', y26: 1, cats: ['16 000+ задач', '«написать письмо»', '«смонтировать видео»', '«найти юриста»'] },
-                            a16z: { nm: 'a16z', sub: 'агентность', y26: 1, cats: ['Копайлоты', 'Вертикальные агенты', 'Автономные агенты'] },
-                            mckinsey: { nm: 'McKinsey', sub: 'по функциям', y26: 1, cats: ['Маркетинг', 'Разработка', 'Поддержка', 'Операции', 'R&D'] }
+                            oreilly: { nm: "O'Reilly", sub: '8 категорий', tip: 'Издательство тех-книг. 8 категорий из книги Chip Huyen «AI Engineering».', cats: ['Код', 'Изображения / видео', 'Тексты', 'Образование', 'Боты-собеседники', 'Сбор информации', 'Организация данных', 'Автоматизация'] },
+                            aws: { nm: 'AWS', sub: '3 группы', tip: 'Облачная платформа Amazon. Делит по типу задачи.', cats: ['Генерация', 'Извлечение', 'Классификация'] },
+                            deloitte: { nm: 'Deloitte', sub: 'по прибыли', tip: 'Консалтинговая компания. Классифицирует по влиянию на прибыль.', cats: ['Рост выручки', 'Снижение затрат', 'Снижение рисков'] },
+                            gartner: { nm: 'Gartner', sub: '+ бизнес', tip: 'Аналитическое агентство. Добавляет ось «непрерывность бизнеса».', cats: ['Продуктивность', 'Клиентский опыт', 'Новые продукты', 'Непрерывность бизнеса'] },
+                            taft: { nm: 'TAAFT', sub: 'по задаче', y26: 1, tip: 'theresanaiforthat.com — каталог AI-приложений. Делит по конкретной задаче.', cats: ['16 000+ задач', '«написать письмо»', '«смонтировать видео»', '«найти юриста»'] },
+                            a16z: { nm: 'a16z', sub: 'агентность', y26: 1, tip: 'Венчурный фонд Andreessen Horowitz. Делит по степени агентности.', cats: ['Копайлоты', 'Вертикальные агенты', 'Автономные агенты'] },
+                            mckinsey: { nm: 'McKinsey', sub: 'по функциям', y26: 1, tip: 'Консалтинг McKinsey. Делит по бизнес-функциям.', cats: ['Маркетинг', 'Разработка', 'Поддержка', 'Операции', 'R&D'] }
                         };
                         var order = ['oreilly', 'aws', 'deloitte', 'gartner', 'taft', 'a16z', 'mckinsey'];
-                        var nodesEl = document.getElementById('cls-nodes');
-                        var treeEl = document.getElementById('cls-tree');
+                        var picksEl = document.getElementById('cls-picks');
+                        var radEl = document.getElementById('cls-rad');
                         var cur = null;
                         order.forEach(function (k) {
                             var d = DATA[k];
                             var b = document.createElement('button');
-                            b.className = 'cls-node'; b.type = 'button'; b.setAttribute('data-c', k);
-                            b.innerHTML = (d.y26 ? '<span class="y26">2026</span>' : '') + '<span class="nm">' + d.nm + '</span><span class="sub">' + d.sub + '</span>';
+                            b.className = 'cls-pick'; b.type = 'button'; b.setAttribute('data-c', k);
+                            b.innerHTML = d.nm + (d.y26 ? '<span class="y26">2026</span>' : '') + '<span class="cls-tip">' + d.tip + '</span>';
                             b.addEventListener('click', function () { select(k); });
-                            nodesEl.appendChild(b);
+                            picksEl.appendChild(b);
                         });
                         function select(k) {
-                            cur = cur === k ? null : k;
-                            [].forEach.call(nodesEl.children, function (b) { b.classList.toggle('on', b.getAttribute('data-c') === cur); });
-                            if (!cur) { treeEl.innerHTML = ''; return; }
-                            var d = DATA[k];
-                            var cats = d.cats.map(function (c, i) { return '<div class="cls-cat" style="animation-delay:' + (i * 60) + 'ms">' + c + '</div>'; }).join('');
-                            treeEl.innerHTML = '<div class="cls-hub">' + d.nm + '<small>' + d.sub + '</small></div><div class="cls-trunk"></div><div class="cls-cats">' + cats + '</div>';
+                            cur = k;
+                            [].forEach.call(picksEl.children, function (b) { b.classList.toggle('on', b.getAttribute('data-c') === cur); });
+                            var d = DATA[k], cats = d.cats, n = cats.length;
+                            var W = 920, H = 470, cx = 460, cy = 235, Rx = 350, Ry = 168, cr = 75, lr = 62;
+                            var lines = '', leaves = '';
+                            for (var i = 0; i < n; i++) {
+                                var a = -Math.PI / 2 + i * 2 * Math.PI / n;
+                                var x = cx + Rx * Math.cos(a), y = cy + Ry * Math.sin(a);
+                                var dx = x - cx, dy = y - cy, len = Math.sqrt(dx * dx + dy * dy);
+                                var ux = dx / len, uy = dy / len;
+                                var x1 = cx + ux * cr, y1 = cy + uy * cr, x2 = x - ux * lr, y2 = y - uy * lr;
+                                lines += '<line class="rad-line" x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" marker-end="url(#clsArr)" style="animation-delay:' + (i * 55) + 'ms"></line>';
+                                leaves += '<div class="rad-leaf" style="left:' + (x / W * 100).toFixed(2) + '%;top:' + (y / H * 100).toFixed(2) + '%;animation-delay:' + (i * 55 + 60) + 'ms">' + cats[i] + '</div>';
+                            }
+                            radEl.innerHTML =
+                                '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">' +
+                                '<defs><marker id="clsArr" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#666"></path></marker></defs>' +
+                                lines + '</svg>' +
+                                '<div class="rad-center"><div class="n">' + d.nm + '</div><div class="s">' + d.sub + '</div></div>' +
+                                leaves;
                         }
                         select('oreilly');
                     })();

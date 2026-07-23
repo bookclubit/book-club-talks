@@ -1101,13 +1101,12 @@
                     #cls-slide .cls-pick .y26 { font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
                     #cls-slide .cls-tip { position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(-6px); width: 250px; padding: 12px 15px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px; font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: center; box-shadow: 0 14px 34px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 30; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
                     #cls-slide .cls-pick:hover .cls-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
-                    #cls-slide .cls-hint { text-align: center; margin: 12px 0 0; font-size: 15px; color: #52525b; }
-                    #cls-slide .rad { position: relative; width: 920px; max-width: 100%; height: 470px; margin: 6px auto 0; }
+                    #cls-slide .rad { position: relative; width: 1060px; max-width: 100%; height: 660px; margin: 10px auto 0; }
                     #cls-slide .rad svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-                    #cls-slide .rad-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 150px; height: 150px; border-radius: 50%; background: #fff; color: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px; z-index: 3; box-shadow: 0 0 40px rgba(255,255,255,0.15); }
-                    #cls-slide .rad-center .n { font-size: 20px; font-weight: 700; line-height: 1.1; }
-                    #cls-slide .rad-center .s { font-family: var(--font-mono); font-size: 11px; color: #333; margin-top: 5px; }
-                    #cls-slide .rad-leaf { position: absolute; width: 124px; height: 124px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-hover); color: var(--text-main); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; line-height: 1.25; padding: 12px; box-sizing: border-box; z-index: 2; transform: translate(-50%, -50%) scale(0); animation: radPop 380ms var(--ss-out) forwards; }
+                    #cls-slide .rad-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 190px; height: 190px; border-radius: 50%; background: #fff; color: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 14px; z-index: 3; box-shadow: 0 0 50px rgba(255,255,255,0.15); }
+                    #cls-slide .rad-center .n { font-size: 24px; font-weight: 700; line-height: 1.1; }
+                    #cls-slide .rad-center .s { font-family: var(--font-mono); font-size: 12px; color: #333; margin-top: 6px; }
+                    #cls-slide .rad-leaf { position: absolute; width: 150px; height: 150px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-hover); color: var(--text-main); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 16px; line-height: 1.28; padding: 14px; box-sizing: border-box; z-index: 2; transform: translate(-50%, -50%) scale(0); animation: radPop 380ms var(--ss-out) forwards; }
                     @keyframes radPop { to { transform: translate(-50%, -50%) scale(1); } }
                     #cls-slide .rad-line { stroke: var(--border-hover); stroke-width: 1.5; opacity: 0; animation: radLine 300ms var(--ss-out) forwards; }
                     @keyframes radLine { to { opacity: 1; } }
@@ -1121,15 +1120,7 @@
                     </div>
                     <div class="ss-body">
                         <div class="cls-picks ss-reveal" style="--ss-d:200ms" id="cls-picks"></div>
-                        <div class="cls-hint ss-reveal" style="--ss-d:280ms">наведи на источник — что это · нажми — категории появятся вокруг</div>
-                        <div class="rad ss-reveal" style="--ss-d:340ms" id="cls-rad"></div>
-                        <div class="ss-quote ss-reveal" style="--ss-d:440ms">
-                            <img src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
-                            <div>
-                                <p>«Любая классификация условна и <b>быстро устаревает</b>».</p>
-                                <div class="a">Антон Помазков · спикер</div>
-                            </div>
-                        </div>
+                        <div class="rad ss-reveal" style="--ss-d:320ms" id="cls-rad"></div>
                     </div>
                 </div>
                 <script>
@@ -1159,7 +1150,7 @@
                             cur = k;
                             [].forEach.call(picksEl.children, function (b) { b.classList.toggle('on', b.getAttribute('data-c') === cur); });
                             var d = DATA[k], cats = d.cats, n = cats.length;
-                            var W = 920, H = 470, cx = 460, cy = 235, Rx = 350, Ry = 168, cr = 75, lr = 62;
+                            var W = 1060, H = 660, cx = 530, cy = 330, Rx = 400, Ry = 250, cr = 95, lr = 75;
                             var lines = '', leaves = '';
                             for (var i = 0; i < n; i++) {
                                 var a = -Math.PI / 2 + i * 2 * Math.PI / n;

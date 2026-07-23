@@ -1030,7 +1030,7 @@
                 </style>
 
                 <div class="scale-wrap">
-                    <div class="scale-eyebrow">Блок 01 · Масштаб роста</div>
+                    <div class="scale-eyebrow">Слайд 1</div>
                     <!-- ДОМАШНИЙ ЭКРАН: цитата + три крупные метрики -->
                     <div class="scale-home" data-view="home">
                         <div class="scale-quote">
@@ -1526,7 +1526,7 @@
                 </style>
                 <div class="ss-wrap" id="b2f-slide">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 02 · Последствие масштаба</div>
+                        <div class="ss-kicker ss-reveal">Слайд 2</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Два последствия <b>масштабирования</b></h2>
                     </div>
                     <div class="ss-body">
@@ -1618,7 +1618,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 03 · Новая дисциплина</div>
+                        <div class="ss-kicker ss-reveal">Слайд 3</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">AI-инженерия — <b>отдельная профессия</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Спрос вырос, барьер входа упал: создание приложений на готовых моделях стало одной из самых быстрорастущих инженерных дисциплин.</p>
                     </div>
@@ -1681,39 +1681,40 @@
                     .tl-title::after { content: '＋'; font-size: 17px; color: var(--text-muted); transition: transform 200ms var(--ss-out); }
                     .tl-item.open .tl-title::after { content: '−'; }
                     .tl-sub { font-size: 16px; color: var(--text-muted); margin-top: 3px; }
-                    .tl-detail { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 340ms var(--ss-out), opacity 340ms var(--ss-out), margin-top 340ms var(--ss-out); }
-                    .tl-item.open .tl-detail { max-height: 300px; opacity: 1; margin-top: 14px; }
-                    .tl-dwrap { display: flex; gap: 22px; align-items: stretch; max-width: 840px; }
-                    .tl-cloud { flex: 1; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 14px; padding: 16px 20px; font-size: 17px; line-height: 1.5; color: var(--text-muted); }
-                    .tl-cloud .src-link { display: inline-block; margin-top: 12px; font-size: 15px; }
-                    .tl-fig { flex-shrink: 0; width: 172px; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
-                    .tl-fig svg { width: 108px; height: 108px; }
-                    .tl-fig svg [fill="none"] { fill: none; }
+                    .tl-detail { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 400ms var(--ss-out), opacity 400ms var(--ss-out), margin-top 400ms var(--ss-out); }
+                    .tl-item.open .tl-detail { max-height: 680px; opacity: 1; margin-top: 16px; }
+                    .tl-detail .tl-dcard { max-width: 660px; }
+                    .tl-photos { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+                    .tl-photo { max-height: 220px; max-width: 340px; border-radius: 12px; border: 1px solid var(--border); display: block; }
+                    .tl-photo.diag { background: #fff; padding: 8px; }
+                    .tl-cloud { background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 14px; padding: 16px 20px; font-size: 17px; line-height: 1.5; color: var(--text-muted); max-width: 640px; }
+                    .tl-src { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 20px; }
+                    .tl-src .src-link { font-size: 15px; }
                     .tl-scroll-hint { text-align: center; font-size: 14px; color: #52525b; margin-top: 6px; }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 04 · Исторический контекст</div>
+                        <div class="ss-kicker ss-reveal">Слайд 4</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Современные модели — это <b>кульминация 70 лет</b></h2>
                     </div>
                     <div class="ss-body">
                         <div class="tl-scroll ss-reveal" style="--ss-d:180ms">
                             <div class="tl">
-                                <div class="tl-item"><div class="tl-year">1905</div><div class="tl-dot"></div><div class="tl-title">«Пляшущие человечки»</div><div class="tl-sub">Артур Конан Дойл</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Шерлок Холмс взламывает шифр, считая частоту букв. Первая популярная идея: язык подчиняется статистике.<a class="src-link" href="https://ru.wikipedia.org/wiki/Пляшущие_человечки" target="_blank">Артур Конан Дойл · рассказ</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="33" cy="24" r="7"/><path d="M33 31v20M33 37l-12 7M33 37l12 7M33 51l-10 16M33 51l10 16"/><circle cx="69" cy="24" r="7"/><path d="M69 31v20M69 37l-12 7M69 37l12 7M69 51l-10 16M69 51l10 16"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">1948</div><div class="tl-dot"></div><div class="tl-title">Теория информации</div><div class="tl-sub">Клод Шеннон</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Шеннон вводит энтропию языка и задачу предсказания следующего символа — математический фундамент языковых моделей.<a class="src-link" href="https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication" target="_blank">Клод Шеннон · статья</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 46q9-26 18 0t18 0 18 0 18 0"/><path d="M8 76h12M26 76h6M36 76h12M52 76h6M62 76h12M78 76h6" stroke-width="5"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">1957</div><div class="tl-dot"></div><div class="tl-title">Перцептрон</div><div class="tl-sub">Фрэнк Розенблатт</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Первая обучаемая нейросеть. Показала, что машина может учиться на примерах, а не только следовать правилам.<a class="src-link" href="https://ru.wikipedia.org/wiki/Перцептрон" target="_blank">Фрэнк Розенблатт · перцептрон</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="26" r="5"/><circle cx="20" cy="50" r="5"/><circle cx="20" cy="74" r="5"/><circle cx="62" cy="50" r="11"/><path d="M25 26L51 50M25 50h26M25 74L51 50M73 50h19"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">1966</div><div class="tl-dot"></div><div class="tl-title">ELIZA</div><div class="tl-sub">Джозеф Вейценбаум</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Первый чат-бот: имитировал психотерапевта по простым шаблонам. Люди верили, что их «понимают» — иллюзия понимания.<a class="src-link" href="https://ru.wikipedia.org/wiki/Элиза_(программа)" target="_blank">Джозеф Вейценбаум · ELIZA</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 24h62a8 8 0 0 1 8 8v28a8 8 0 0 1-8 8H42L28 90V68h-4a8 8 0 0 1-8-8V32a8 8 0 0 1 8-8z"/><path d="M32 40h34M32 52h22" stroke-width="3"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">1986</div><div class="tl-dot"></div><div class="tl-title">Обратное распространение</div><div class="tl-sub">Румельхарт, Хинтон, Уильямс</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Backpropagation — алгоритм обучения многослойных сетей. Сделал глубокие нейросети практичными.<a class="src-link" href="https://ru.wikipedia.org/wiki/Метод_обратного_распространения_ошибки" target="_blank">Румельхарт · Хинтон · Уильямс</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="30" r="5"/><circle cx="22" cy="66" r="5"/><circle cx="50" cy="48" r="5"/><circle cx="78" cy="30" r="5"/><circle cx="78" cy="66" r="5"/><path d="M27 30L45 48M27 66L45 48M55 48L73 30M55 48L73 66"/><path d="M80 86q-30 8-60 0" stroke-dasharray="4 5"/><path d="M20 86l7-4M20 86l7 4"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">1997</div><div class="tl-dot"></div><div class="tl-title">LSTM</div><div class="tl-sub">Хохрайтер, Шмидхубер</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Рекуррентная сеть с памятью: научилась учитывать длинный контекст последовательностей. До Transformer была основой NLP.<a class="src-link" href="https://ru.wikipedia.org/wiki/Долгая_краткосрочная_память" target="_blank">Хохрайтер · Шмидхубер · LSTM</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="26" y="34" width="48" height="38" rx="8"/><path d="M14 53h12M74 53h12M50 14v20M50 72v14"/><path d="M42 46a10 10 0 1 0 12-8"/><path d="M52 32l-6 5 4 7"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">2013</div><div class="tl-dot"></div><div class="tl-title">word2vec</div><div class="tl-sub">Томаш Миколов, Google</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Слова превращаются в векторы (эмбеддинги): близкие по смыслу оказываются рядом в пространстве. «Король − мужчина + женщина ≈ королева».<a class="src-link" href="https://ru.wikipedia.org/wiki/Word2vec" target="_blank">Томаш Миколов · Google · word2vec</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="80" r="3" fill="#ededed" stroke="none"/><path d="M20 80L56 34"/><path d="M56 34l-3 9 9-3"/><path d="M20 80L82 60"/><path d="M82 60l-9-1 4 8"/></svg></div></div></div></div>
-                                <div class="tl-item hot"><div class="tl-year">2017</div><div class="tl-dot"></div><div class="tl-title">Transformer</div><div class="tl-sub">«Attention is All You Need»</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Архитектура внимания (attention). Основа всех современных LLM — GPT, Claude, Gemini.<a class="src-link" href="https://arxiv.org/abs/1706.03762" target="_blank">«Attention is All You Need» · arXiv</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="18" width="64" height="64" rx="6"/><path d="M18 39h64M18 61h64M39 18v64M61 18v64" stroke-width="2"/><rect x="21" y="21" width="15" height="15" fill="#ededed" stroke="none"/><rect x="64" y="42" width="15" height="15" fill="#ededed" stroke="none"/><rect x="42" y="64" width="15" height="15" fill="#ededed" stroke="none"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">2018</div><div class="tl-dot"></div><div class="tl-title">GPT-1 и BERT</div><div class="tl-sub">первые большие</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">GPT (генерация текста) и BERT (понимание) на базе Transformer — разошлись две ветви языковых моделей.<a class="src-link" href="https://arxiv.org/abs/1810.04805" target="_blank">GPT-1 (OpenAI) · BERT (Google)</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="22" r="8"/><path d="M50 30v12"/><path d="M50 42L28 60M50 42L72 60"/><circle cx="26" cy="70" r="9"/><circle cx="74" cy="70" r="9"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">2020</div><div class="tl-dot"></div><div class="tl-title">GPT-3</div><div class="tl-sub">175 млрд параметров</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Few-shot: модель решает задачи по нескольким примерам прямо в промте, без дообучения.<a class="src-link" href="https://arxiv.org/abs/2005.14165" target="_blank">«Language Models are Few-Shot Learners»</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="30" y="18" width="40" height="9" rx="2"/><rect x="24" y="34" width="52" height="9" rx="2"/><rect x="18" y="50" width="64" height="9" rx="2"/><rect x="12" y="66" width="76" height="9" rx="2"/></svg></div></div></div></div>
-                                <div class="tl-item hot"><div class="tl-year">2022</div><div class="tl-dot"></div><div class="tl-title">ChatGPT</div><div class="tl-sub">массовый прорыв</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">RLHF превратил модель в удобного собеседника. 100 млн пользователей за 2 месяца — самый быстрый рост в истории.<a class="src-link" href="https://openai.com/index/chatgpt/" target="_blank">OpenAI · ChatGPT</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22h50a8 8 0 0 1 8 8v22a8 8 0 0 1-8 8H40L26 82V60h-4a8 8 0 0 1-8-8V30a8 8 0 0 1 8-8z"/><path d="M45 30l4 8 8 3-8 3-4 8-4-8-8-3 8-3z" fill="#ededed" stroke="none"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">2023</div><div class="tl-dot"></div><div class="tl-title">GPT-4</div><div class="tl-sub">мультимодальность</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Понимает изображения, резко точнее в рассуждениях и коде. Старт эры «AI как инструмент работы».<a class="src-link" href="https://openai.com/index/gpt-4/" target="_blank">OpenAI · GPT-4</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 50q34-30 68 0-34 30-68 0z"/><circle cx="50" cy="50" r="12"/><circle cx="50" cy="50" r="4" fill="#ededed" stroke="none"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">2024</div><div class="tl-dot"></div><div class="tl-title">Claude 3, Gemini, Llama 3</div><div class="tl-sub">конкуренция и open-source</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Несколько игроков сравнялись с GPT-4. Open-source (Llama) сделал сильные модели доступными всем.<a class="src-link" href="https://www.llama.com/" target="_blank">Anthropic · Google · Meta</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="40" r="13"/><circle cx="68" cy="40" r="13"/><circle cx="50" cy="66" r="13"/></svg></div></div></div></div>
-                                <div class="tl-item"><div class="tl-year">2025</div><div class="tl-dot"></div><div class="tl-title">GPT-5, Claude 4, DeepSeek R1</div><div class="tl-sub">reasoning-модели</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">Модели «думают» перед ответом (chain-of-thought). DeepSeek показал сильный reasoning за долю бюджета конкурентов.<a class="src-link" href="https://arxiv.org/abs/2501.12948" target="_blank">DeepSeek R1 · arXiv</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M50 16a26 26 0 0 1 16 46v10H34V62a26 26 0 0 1 16-46z"/><path d="M40 82h20M43 90h14"/><path d="M42 50l6 6 12-14" stroke-width="3"/></svg></div></div></div></div>
-                                <div class="tl-item hot"><div class="tl-year">2026</div><div class="tl-dot"></div><div class="tl-title">Агентная эра</div><div class="tl-sub">AI действует сам</div><div class="tl-detail"><div class="tl-dwrap"><div class="tl-cloud">AI не отвечает, а автономно выполняет задачи: планирует, вызывает инструменты, проверяет результат.<a class="src-link" href="https://ru.wikipedia.org/wiki/Интеллектуальный_агент" target="_blank">Интеллектуальные агенты</a></div><div class="tl-fig"><svg viewBox="0 0 100 100" fill="none" stroke="#ededed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="28" y="36" width="44" height="36" rx="9"/><circle cx="42" cy="52" r="4" fill="#ededed" stroke="none"/><circle cx="58" cy="52" r="4" fill="#ededed" stroke="none"/><path d="M40 63h20" stroke-width="3"/><path d="M50 36V22"/><circle cx="50" cy="18" r="4"/><path d="M28 50H16M72 50h12"/></svg></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">1905</div><div class="tl-dot"></div><div class="tl-title">«Пляшущие человечки»</div><div class="tl-sub">Артур Конан Дойл</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-photos"><img class="tl-photo" src="assets/timeline/danc-1905.webp" alt="Пляшущие человечки — шифр"></div><div class="tl-cloud">Шерлок Холмс взламывает шифр, считая частоту букв. Первая популярная идея: язык подчиняется статистике.</div><div class="tl-src"><a class="src-link" href="https://ru.wikipedia.org/wiki/Пляшущие_человечки" target="_blank">Артур Конан Дойл · рассказ</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">1948</div><div class="tl-dot"></div><div class="tl-title">Теория информации</div><div class="tl-sub">Клод Шеннон</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-photos"><img class="tl-photo" src="assets/timeline/shannon-1948.webp" alt="Клод Шеннон"></div><div class="tl-cloud">Шеннон вводит энтропию языка и задачу предсказания следующего символа — математический фундамент языковых моделей.</div><div class="tl-src"><a class="src-link" href="https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication" target="_blank">Клод Шеннон · статья</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">1957</div><div class="tl-dot"></div><div class="tl-title">Перцептрон</div><div class="tl-sub">Фрэнк Розенблатт</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-photos"><img class="tl-photo" src="assets/timeline/rosenblatt-1957.webp" alt="Фрэнк Розенблатт"></div><div class="tl-cloud">Первая обучаемая нейросеть. Показала, что машина может учиться на примерах, а не только следовать правилам.</div><div class="tl-src"><a class="src-link" href="https://ru.wikipedia.org/wiki/Перцептрон" target="_blank">Фрэнк Розенблатт · перцептрон</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">1966</div><div class="tl-dot"></div><div class="tl-title">ELIZA</div><div class="tl-sub">Джозеф Вейценбаум</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-photos"><img class="tl-photo" src="assets/timeline/weizenbaum-1966.webp" alt="Джозеф Вейценбаум"><img class="tl-photo diag" src="assets/timeline/eliza-1966.webp" alt="Диалог с ELIZA"></div><div class="tl-cloud">Первый чат-бот: имитировал психотерапевта по простым шаблонам. Люди верили, что их «понимают» — иллюзия понимания.</div><div class="tl-src"><a class="src-link" href="https://ru.wikipedia.org/wiki/Элиза_(программа)" target="_blank">Джозеф Вейценбаум · ELIZA</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">1986</div><div class="tl-dot"></div><div class="tl-title">Обратное распространение</div><div class="tl-sub">Румельхарт, Хинтон, Уильямс</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-photos"><img class="tl-photo diag" src="assets/timeline/backprop-1986.webp" alt="Схема нейросети"></div><div class="tl-cloud">Backpropagation — алгоритм обучения многослойных сетей. Сделал глубокие нейросети практичными.</div><div class="tl-src"><a class="src-link" href="https://ru.wikipedia.org/wiki/Метод_обратного_распространения_ошибки" target="_blank">Backpropagation · статья</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">1997</div><div class="tl-dot"></div><div class="tl-title">LSTM</div><div class="tl-sub">Хохрайтер, Шмидхубер</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-photos"><img class="tl-photo diag" src="assets/timeline/lstm-1997.webp" alt="Ячейка LSTM"></div><div class="tl-cloud">Рекуррентная сеть с памятью: научилась учитывать длинный контекст последовательностей. До Transformer была основой NLP.</div><div class="tl-src"><a class="src-link" href="https://ru.wikipedia.org/wiki/Долгая_краткосрочная_память" target="_blank">LSTM · статья</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">2013</div><div class="tl-dot"></div><div class="tl-title">word2vec</div><div class="tl-sub">Томаш Миколов, Google</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-photos"><img class="tl-photo" src="assets/timeline/mikolov-2013.webp" alt="Томаш Миколов"></div><div class="tl-cloud">Слова превращаются в векторы (эмбеддинги): близкие по смыслу оказываются рядом в пространстве. «Король − мужчина + женщина ≈ королева».</div><div class="tl-src"><a class="src-link" href="https://ru.wikipedia.org/wiki/Word2vec" target="_blank">word2vec · статья</a></div></div></div></div>
+                                <div class="tl-item hot"><div class="tl-year">2017</div><div class="tl-dot"></div><div class="tl-title">Transformer</div><div class="tl-sub">«Attention is All You Need»</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-photos"><img class="tl-photo diag" src="assets/timeline/transformer-2017.webp" alt="Архитектура Transformer"></div><div class="tl-cloud">Архитектура внимания (attention). Основа всех современных LLM — GPT, Claude, Gemini.</div><div class="tl-src"><a class="src-link" href="https://arxiv.org/abs/1706.03762" target="_blank">«Attention is All You Need» · arXiv</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">2018</div><div class="tl-dot"></div><div class="tl-title">GPT-1 и BERT</div><div class="tl-sub">первые большие</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-cloud">GPT (генерация текста) и BERT (понимание) на базе Transformer — разошлись две ветви языковых моделей.</div><div class="tl-src"><a class="src-link" href="https://worldvectorlogo.com/ru/logo/chatgpt-1" target="_blank">GPT (OpenAI)</a><a class="src-link" href="https://www.tengoldenrules.com/bert-google-algorithm-that-encourages-to-write-for-people-first/" target="_blank">BERT (Google)</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">2020</div><div class="tl-dot"></div><div class="tl-title">GPT-3</div><div class="tl-sub">175 млрд параметров</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-cloud">Few-shot: модель решает задачи по нескольким примерам прямо в промте, без дообучения.</div><div class="tl-src"><a class="src-link" href="https://arxiv.org/abs/2005.14165" target="_blank">GPT-3 · arXiv</a></div></div></div></div>
+                                <div class="tl-item hot"><div class="tl-year">2022</div><div class="tl-dot"></div><div class="tl-title">ChatGPT</div><div class="tl-sub">массовый прорыв</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-cloud">RLHF превратил модель в удобного собеседника. 100 млн пользователей за 2 месяца — самый быстрый рост в истории.</div><div class="tl-src"><a class="src-link" href="https://openai.com/index/chatgpt/" target="_blank">OpenAI · ChatGPT</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">2023</div><div class="tl-dot"></div><div class="tl-title">GPT-4</div><div class="tl-sub">мультимодальность</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-cloud">Понимает изображения, резко точнее в рассуждениях и коде. Старт эры «AI как инструмент работы».</div><div class="tl-src"><a class="src-link" href="https://openai.com/index/gpt-4/" target="_blank">OpenAI · GPT-4</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">2024</div><div class="tl-dot"></div><div class="tl-title">Claude 3, Gemini, Llama 3</div><div class="tl-sub">конкуренция и open-source</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-cloud">Несколько игроков сравнялись с GPT-4. Open-source (Llama) сделал сильные модели доступными всем.</div><div class="tl-src"><a class="src-link" href="https://www.anthropic.com/news/claude-3-family" target="_blank">Claude 3</a><a class="src-link" href="https://blog.google/technology/ai/google-gemini-ai/" target="_blank">Gemini</a><a class="src-link" href="https://ai.meta.com/blog/meta-llama-3/" target="_blank">Llama 3</a></div></div></div></div>
+                                <div class="tl-item"><div class="tl-year">2025</div><div class="tl-dot"></div><div class="tl-title">GPT-5, Claude 4, DeepSeek R1</div><div class="tl-sub">reasoning-модели</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-cloud">Модели «думают» перед ответом (chain-of-thought). DeepSeek показал сильный reasoning за долю бюджета конкурентов.</div><div class="tl-src"><a class="src-link" href="https://openai.com" target="_blank">GPT-5</a><a class="src-link" href="https://www.anthropic.com/news/claude-4" target="_blank">Claude 4</a><a class="src-link" href="https://arxiv.org/abs/2501.12948" target="_blank">DeepSeek R1</a></div></div></div></div>
+                                <div class="tl-item hot"><div class="tl-year">2026</div><div class="tl-dot"></div><div class="tl-title">Агентная эра</div><div class="tl-sub">AI действует сам</div><div class="tl-detail"><div class="tl-dcard"><div class="tl-cloud">AI не отвечает, а автономно выполняет задачи: планирует, вызывает инструменты, проверяет результат.</div><div class="tl-src"><a class="src-link" href="https://ru.wikipedia.org/wiki/Интеллектуальный_агент" target="_blank">Интеллектуальные агенты</a></div></div></div></div>
                             </div>
                         </div>
                         <div class="tl-scroll-hint ss-reveal" style="--ss-d:320ms">↕ прокрути ленту · нажми на точку, чтобы раскрыть</div>
@@ -1747,7 +1748,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 05 · Что такое языковая модель</div>
+                        <div class="ss-kicker ss-reveal">Слайд 5</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Языковая модель — это <b>статистика языка</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Не «искусственный разум», а предсказатель следующего слова: какое продолжение вероятнее.</p>
                     </div>
@@ -1782,10 +1783,42 @@
                     .tk2-vs .sml { font-size: 34px; }
                     .tk2-vs .cap { font-size: 14px; color: var(--text-muted); margin-top: 8px; }
                     .tk2-vs .op { font-family: var(--font-mono); font-size: 22px; color: #52525b; padding-bottom: 6px; }
+                    /* порядок в карточке: описание сверху, пример снизу */
+                    .tk2-card p { margin: 0 0 18px; }
+                    .tk2-card .w { margin-bottom: 12px; }
+                    .tk2-card .tk2-split, .tk2-card .tk2-vs { margin-bottom: 0; margin-top: auto; }
+                    /* анимация: появление рамок и разбивка на токены (зациклено) */
+                    .ss.active .tk2-main .tok { animation: tk2frame 5.4s var(--ss-out) infinite both; }
+                    .ss.active .tk2-main .tok:nth-child(1){animation-delay:0s}
+                    .ss.active .tk2-main .tok:nth-child(2){animation-delay:.1s}
+                    .ss.active .tk2-main .tok:nth-child(3){animation-delay:.2s}
+                    .ss.active .tk2-main .tok:nth-child(4){animation-delay:.3s}
+                    .ss.active .tk2-main .tok:nth-child(5){animation-delay:.4s}
+                    .ss.active .tk2-main .tok:nth-child(6){animation-delay:.5s}
+                    .ss.active .tk2-main .tok:nth-child(7){animation-delay:.6s}
+                    .ss.active .tk2-main .tok:nth-child(8){animation-delay:.7s}
+                    .ss.active .tk2-main .tok:nth-child(9){animation-delay:.8s}
+                    @keyframes tk2frame {
+                        0%, 7% { border-color: transparent; background: transparent; opacity: .4; transform: scale(.92); }
+                        20%, 80% { border-color: var(--border-hover); background: #151515; opacity: 1; transform: none; }
+                        93%, 100% { border-color: transparent; background: transparent; opacity: .4; transform: scale(.92); }
+                    }
+                    /* анимация: слово разбивается на токены (зациклено) */
+                    .ss.active .tk2-split .tk2-arw, .ss.active .tk2-split .tk2-suf { animation: tk2split 4.2s var(--ss-out) infinite both; }
+                    .ss.active .tk2-split .tk2-arw { animation-delay: .2s; }
+                    .ss.active .tk2-split .tk2-suf { animation-delay: .45s; }
+                    @keyframes tk2split {
+                        0%, 10% { opacity: 0; transform: translateX(-26px); }
+                        32%, 82% { opacity: 1; transform: none; }
+                        96%, 100% { opacity: 0; transform: translateX(-26px); }
+                    }
+                    @media (prefers-reduced-motion: reduce) {
+                        .ss.active .tk2-main .tok, .ss.active .tk2-split .tk2-arw, .ss.active .tk2-split .tk2-suf { animation: none; opacity: 1; transform: none; }
+                    }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 06 · Единица модели</div>
+                        <div class="ss-kicker ss-reveal">Слайд 6</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Токены — <b>атомы языка</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Модель видит не буквы и не слова, а токены: символ, слово или часть слова.</p>
                     </div>
@@ -1797,23 +1830,22 @@
                         <div class="tk2-h ss-reveal" style="--ss-d:360ms">Почему токен, а не слово или символ?</div>
                         <div class="tk2-ex ss-reveal" style="--ss-d:440ms">
                             <div class="tk2-card">
-                                <div class="w">cooking</div>
-                                <div class="tk2-split"><span class="tok">cook</span><span class="tk2-arw">+</span><span class="tok">ing</span></div>
                                 <p>Токены дают разбивать слова на <b>значимые компоненты</b>: «cook» + «ing» — оба несут часть смысла исходного слова.</p>
+                                <div class="w">cooking</div>
+                                <div class="tk2-split"><span class="tok">cook</span><span class="tk2-arw">+</span><span class="tok tk2-suf">ing</span></div>
                             </div>
                             <div class="tk2-card">
-                                <div class="w">меньше словарь</div>
+                                <p>Уникальных токенов <b>меньше</b>, чем уникальных слов — а значит меньше и размер словаря модели.</p>
                                 <div class="tk2-vs">
                                     <div class="c"><div class="n big">~1 млн</div><div class="cap">уникальных слов</div></div>
                                     <div class="op">›</div>
                                     <div class="c"><div class="n sml">~50 тыс</div><div class="cap">уникальных токенов</div></div>
                                 </div>
-                                <p>Уникальных токенов <b>меньше</b>, чем уникальных слов — а значит меньше и размер словаря модели.</p>
                             </div>
                             <div class="tk2-card">
-                                <div class="w">chatgpting</div>
-                                <div class="tk2-split"><span class="tok">chatgpt</span><span class="tk2-arw">+</span><span class="tok">ing</span></div>
                                 <p>Токены помогают обрабатывать <b>незнакомые слова</b>: даже выдуманное «chatgpting» собирается из кусочков — без «дыр» в словаре.</p>
+                                <div class="w">chatgpting</div>
+                                <div class="tk2-split"><span class="tok">chatgpt</span><span class="tk2-arw">+</span><span class="tok tk2-suf">ing</span></div>
                             </div>
                         </div>
                     </div>
@@ -1841,7 +1873,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 07 · Токенизация</div>
+                        <div class="ss-kicker ss-reveal">Слайд 7</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms"><b>Токенизация</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Процесс разбивки исходного текста на токены и называется токенизацией.</p>
                     </div>
@@ -1920,7 +1952,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 08 · Словарь модели</div>
+                        <div class="ss-kicker ss-reveal">Слайд 8</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Словарь модели — <b>набор всех токенов</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Из небольшого числа токенов можно составить огромное число слов — как из алфавита. Размер словаря у моделей разный:</p>
                     </div>
@@ -1972,7 +2004,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 09 · Развилка архитектур</div>
+                        <div class="ss-kicker ss-reveal">Слайд 9</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Два типа языковых моделей</h2>
                     </div>
                     <div class="ss-body">
@@ -2045,7 +2077,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 10 · Генеративность</div>
+                        <div class="ss-kicker ss-reveal">Слайд 10</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">«Языковая модель» = <b>авторегрессионная</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Дальше под «языковой моделью» мы всегда понимаем именно её. Пример — Mistral с его словарём в 32 000 токенов.</p>
                     </div>
@@ -2071,35 +2103,47 @@
             <!-- НОВЫЙ: МАШИНА-ЗАВЕРШАТЕЛЬ -->
             <section class="slide ss" data-slide="14">
                 <style>
-                    .fin-flow { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-                    .fin-in { font-family: var(--font-mono); font-size: 24px; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 24px; }
-                    .fin-arrow { font-size: 28px; color: #52525b; }
-                    .fin-box { width: 280px; padding: 26px; border-radius: 20px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1a1a1a, #0a0a0a); text-align: center; }
-                    .fin-box .lbl { font-size: 24px; font-weight: 700; color: #fff; }
-                    .fin-box .sub { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-top: 6px; }
-                    .fin-outs { display: flex; gap: 20px; }
-                    .fin-out { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 24px; text-align: center; min-width: 150px; }
-                    .fin-out.top { border-color: var(--border-hover); background: #111; }
-                    .fin-out .p { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: #fff; }
-                    .fin-out .t { font-size: 18px; color: var(--text-muted); margin-top: 6px; }
-                    .fin-hl { margin: 40px auto 0; max-width: 900px; border: 1px solid var(--border); border-left: 3px solid #f87171; background: var(--bg-card); border-radius: 14px; padding: 22px 28px; font-size: 22px; line-height: 1.45; color: var(--text-main); text-align: center; }
+                    .fin2 { display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap; }
+                    .fin-in { font-family: var(--font-mono); font-size: 22px; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 22px; max-width: 220px; text-align: center; line-height: 1.4; }
+                    .fin-arrow { font-size: 32px; color: #52525b; }
+                    .fin-box { width: 200px; padding: 26px; border-radius: 20px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1a1a1a, #0a0a0a); display: flex; flex-direction: column; align-items: center; gap: 16px; }
+                    .fin-box .lbl { font-size: 22px; font-weight: 700; color: #fff; }
+                    .fin-box .sub { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+                    .fin-outs2 { position: relative; display: flex; flex-direction: column; gap: 12px; width: 340px; }
+                    .fin-row { height: 60px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); }
+                    .fin-row .w { font-size: 20px; color: #fff; }
+                    .fin-row .p { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--text-muted); opacity: 0; }
+                    .ss.active .fin-row .p { animation: finPct 6s var(--ss-out) infinite both; }
+                    .fin-cursor { position: absolute; left: -3px; right: -3px; top: 0; height: 60px; border: 2px solid #fff; border-radius: 13px; box-shadow: 0 0 22px rgba(255,255,255,0.4); pointer-events: none; }
+                    .ss.active .fin-cursor { animation: finRun 6s var(--ss-out) infinite both; }
+                    @keyframes finRun {
+                        0%, 6% { top: 0; }
+                        14%, 20% { top: 72px; }
+                        28%, 34% { top: 144px; }
+                        42%, 48% { top: 72px; }
+                        56%, 100% { top: 0; }
+                    }
+                    @keyframes finPct { 0%, 50% { opacity: 0; } 62%, 100% { opacity: 1; } }
+                    .fin-hl { margin: 44px auto 0; max-width: 900px; border: 1px solid var(--border); border-left: 3px solid #f87171; background: var(--bg-card); border-radius: 14px; padding: 22px 28px; font-size: 22px; line-height: 1.45; color: var(--text-main); text-align: center; }
                     .fin-hl b { color: #fff; }
+                    @media (prefers-reduced-motion: reduce) { .ss.active .fin-cursor { animation: none; top: 0; } .ss.active .fin-row .p { animation: none; opacity: 1; } }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 11 · Природа модели</div>
+                        <div class="ss-kicker ss-reveal">Слайд 11</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Языковая модель = <b>машина-завершатель</b></h2>
                     </div>
                     <div class="ss-body">
-                        <div class="fin-flow ss-reveal" style="--ss-d:220ms">
+                        <div class="fin2 ss-reveal" style="--ss-d:220ms">
                             <div class="fin-in">Столица Австралии —</div>
-                            <div class="fin-arrow">↓</div>
-                            <div class="fin-box"><div class="lbl">Mistral</div><div class="sub">завершает текст</div></div>
-                            <div class="fin-arrow">↓</div>
-                            <div class="fin-outs">
-                                <div class="fin-out top"><div class="p">61%</div><div class="t">Сидней</div></div>
-                                <div class="fin-out"><div class="p">33%</div><div class="t">Канберра</div></div>
-                                <div class="fin-out"><div class="p">4%</div><div class="t">Мельбурн</div></div>
+                            <div class="fin-arrow">→</div>
+                            <div class="fin-box"><div class="lbl">Mistral</div><div class="gen-grid"><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span></div><div class="sub">завершает текст</div></div>
+                            <div class="fin-arrow">→</div>
+                            <div class="fin-outs2">
+                                <div class="fin-cursor"></div>
+                                <div class="fin-row"><span class="w">Сидней</span><span class="p">61%</span></div>
+                                <div class="fin-row"><span class="w">Канберра</span><span class="p">33%</span></div>
+                                <div class="fin-row"><span class="w">Мельбурн</span><span class="p">4%</span></div>
                             </div>
                         </div>
                         <div class="fin-hl ss-reveal" style="--ss-d:440ms">
@@ -2151,10 +2195,23 @@
                     .mlk-pair { font-family: var(--font-mono); font-size: 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 18px; }
                     .mlk-pair .a { color: #52525b; }
                     .mlk-pair .t { color: #fff; }
+                    .mlk-lead { font-size: 18px; color: var(--text-muted); line-height: 1.5; margin: 0 0 26px; max-width: 940px; }
+                    .mlk-lead b { color: #fff; }
+                    /* полное содержимое «обучения с учителем» инлайн */
+                    #ml-types .sup { display: flex; align-items: stretch; gap: 40px; justify-content: center; }
+                    #ml-types .sup-step { flex: 1; max-width: 340px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 28px 26px; text-align: center; position: relative; display: flex; flex-direction: column; gap: 14px; }
+                    #ml-types .sup-step + .sup-step::before { content: '→'; position: absolute; left: -30px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 26px; }
+                    #ml-types .sup-num { font-family: var(--font-mono); font-size: 14px; color: #52525b; }
+                    #ml-types .sup-h { font-size: 22px; font-weight: 600; color: #fff; }
+                    #ml-types .sup-shapes { display: flex; gap: 22px; justify-content: center; align-items: flex-start; margin: 6px 0; }
+                    #ml-types .sup-shape { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted); }
+                    #ml-types .sup-shape svg { width: 46px; height: 46px; }
+                    #ml-types .sup-p { font-size: 16px; color: var(--text-muted); line-height: 1.4; margin: 0; }
+                    #ml-types .sup-ok { color: #34d399; font-weight: 600; }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 12 · Виды обучения</div>
+                        <div class="ss-kicker ss-reveal">Слайд 12</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Два вида <b>машинного обучения</b></h2>
                     </div>
                     <div class="ss-body">
@@ -2179,32 +2236,55 @@
                             </div>
                         </div>
 
-                        <!-- ИНЛАЙН: обучение с учителем -->
+                        <!-- ИНЛАЙН: обучение с учителем (полная копия) -->
                         <div class="mlk-detail" id="mlk-d-sup">
                             <button class="mlk-back" type="button" data-mlk-back>← назад</button>
                             <div class="mlk-dtag">Классический ML</div>
                             <div class="mlk-dh">Обучение с учителем</div>
-                            <div class="mlk-steps">
-                                <div class="mlk-step"><div class="n">01</div><div class="h">Размечаете примеры</div><p>Человек ставит метки: «красный квадрат», «синий треугольник». Модели показывают, какие ответы <b>правильные</b>.</p></div>
-                                <div class="mlk-step"><div class="n">02</div><div class="h">Обучаете модель</div><p>Она ищет закономерности между входом и меткой.</p></div>
-                                <div class="mlk-step"><div class="n">03</div><div class="h">Применяете к новым</div><p>Теперь распознаёт и <b>незнакомые</b> примеры.</p></div>
+                            <p class="mlk-lead">Обучение алгоритмов на <b>размеченных</b> данных — мощно, но дорого и долго.</p>
+                            <div class="sup">
+                                <div class="sup-step">
+                                    <div class="sup-num">01</div>
+                                    <div class="sup-h">Размечаете примеры</div>
+                                    <div class="sup-shapes">
+                                        <div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="7" y="7" width="32" height="32" rx="4" fill="#60a5fa"/></svg>«синий квадрат»</div>
+                                        <div class="sup-shape"><svg viewBox="0 0 46 46"><polygon points="23,7 41,39 5,39" fill="#f87171"/></svg>«красный треугольник»</div>
+                                    </div>
+                                    <p class="sup-p">Показываете модели, какие ответы правильные.</p>
+                                </div>
+                                <div class="sup-step">
+                                    <div class="sup-num">02</div>
+                                    <div class="sup-h">Обучаете на них</div>
+                                    <div class="sup-shapes"><div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="6" y="6" width="34" height="34" rx="8" fill="none" stroke="#fff" stroke-width="2"/><circle cx="23" cy="23" r="6" fill="#fff"/></svg>модель</div></div>
+                                    <p class="sup-p">Модель ищет закономерности между картинкой и меткой.</p>
+                                </div>
+                                <div class="sup-step">
+                                    <div class="sup-num">03</div>
+                                    <div class="sup-h">Применяете к новым</div>
+                                    <div class="sup-shapes">
+                                        <div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="7" y="7" width="32" height="32" rx="4" fill="#60a5fa"/></svg><span class="sup-ok">✓ синий квадрат</span></div>
+                                        <div class="sup-shape"><svg viewBox="0 0 46 46"><polygon points="23,7 41,39 5,39" fill="#f87171"/></svg><span class="sup-ok">✓ красный треугольник</span></div>
+                                    </div>
+                                    <p class="sup-p">Теперь распознаёт и незнакомые примеры.</p>
+                                </div>
                             </div>
                             <div class="mlk-note">Мощно, но <b>дорого и долго</b>: разметка каждого примера стоит денег и времени.</div>
                         </div>
 
-                        <!-- ИНЛАЙН: самообучение -->
+                        <!-- ИНЛАЙН: самообучение (полная копия) -->
                         <div class="mlk-detail" id="mlk-d-self">
                             <button class="mlk-back" type="button" data-mlk-back>← назад</button>
                             <div class="mlk-dtag">Языковые модели</div>
                             <div class="mlk-dh">Самообучение</div>
-                            <div class="mlk-note" style="margin-top:0;margin-bottom:20px">«I love street food.» → модель сама делает из этого обучающие примеры <b>без разметчика</b>:</div>
-                            <div class="mlk-pairs">
-                                <div class="mlk-pair">I <span class="a">→</span> <span class="t">love</span></div>
-                                <div class="mlk-pair">I love <span class="a">→</span> <span class="t">street</span></div>
-                                <div class="mlk-pair">I love street <span class="a">→</span> <span class="t">food</span></div>
-                                <div class="mlk-pair">I love street food <span class="a">→</span> <span class="t">.</span></div>
+                            <p class="mlk-lead">Языковые модели учатся на текстовых последовательностях <b>без разметки</b>: модель сама выводит метки из входных данных.</p>
+                            <div class="src-sentence">«I love street food.» → модель сама делает из этого примеры:</div>
+                            <div class="pairs">
+                                <div class="pair"><span class="ctx">I</span><span class="arr">→</span><span class="tgt">love</span></div>
+                                <div class="pair"><span class="ctx">I love</span><span class="arr">→</span><span class="tgt">street</span></div>
+                                <div class="pair"><span class="ctx">I love street</span><span class="arr">→</span><span class="tgt">food</span></div>
+                                <div class="pair"><span class="ctx">I love street food</span><span class="arr">→</span><span class="tgt">.</span></div>
                             </div>
-                            <div class="mlk-note">Текст есть везде → данные <b>почти бесконечны</b>, разметчик не нужен.</div>
+                            <div class="mlk-note" style="margin-top:28px">Каждое предложение = <b>несколько</b> обучающих примеров. Текст окружает нас повсюду — значит, данных практически бесконечно, и разметчик не нужен.</div>
                         </div>
                     </div>
                 </div>
@@ -2223,84 +2303,9 @@
                 </script>
             </section>
 
-            <!-- НОВЫЙ: ОБУЧЕНИЕ С УЧИТЕЛЕМ -->
-            <section class="slide ss" data-slide="16" id="ml-supervised">
-                <style>
-                    .sup { display: flex; align-items: stretch; gap: 40px; justify-content: center; }
-                    .sup-step { flex: 1; max-width: 340px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 28px 26px; text-align: center; position: relative; display: flex; flex-direction: column; gap: 14px; }
-                    .sup-step + .sup-step::before { content: '→'; position: absolute; left: -30px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 26px; }
-                    .sup-num { font-family: var(--font-mono); font-size: 14px; color: #52525b; }
-                    .sup-h { font-size: 22px; font-weight: 600; color: #fff; }
-                    .sup-shapes { display: flex; gap: 22px; justify-content: center; align-items: flex-start; margin: 6px 0; }
-                    .sup-shape { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted); }
-                    .sup-shape svg { width: 46px; height: 46px; }
-                    .sup-p { font-size: 16px; color: var(--text-muted); line-height: 1.4; margin: 0; }
-                    .sup-ok { color: #34d399; font-weight: 600; }
-                    .sup-back { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; color: var(--text-main); font-family: var(--font-sans); font-size: 15px; padding: 8px 18px; margin-bottom: 18px; }
-                    .sup-back:hover { border-color: var(--border-hover); background: var(--bg-hover); }
-                </style>
-                <div class="ss-wrap">
-                    <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 13 · Обучение с учителем</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Обучение с учителем</h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Обучение алгоритмов на <b style="color:#fff">размеченных</b> данных — мощно, но дорого и долго.</p>
-                    </div>
-                    <div class="ss-body">
-                        <div class="sup ss-reveal" style="--ss-d:220ms">
-                            <div class="sup-step">
-                                <div class="sup-num">01</div>
-                                <div class="sup-h">Размечаете примеры</div>
-                                <div class="sup-shapes">
-                                    <div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="7" y="7" width="32" height="32" rx="4" fill="#f87171"/></svg>«красный квадрат»</div>
-                                    <div class="sup-shape"><svg viewBox="0 0 46 46"><polygon points="23,7 41,39 5,39" fill="#60a5fa"/></svg>«синий треугольник»</div>
-                                </div>
-                                <p class="sup-p">Показываете модели, какие ответы правильные.</p>
-                            </div>
-                            <div class="sup-step">
-                                <div class="sup-num">02</div>
-                                <div class="sup-h">Обучаете на них</div>
-                                <div class="sup-shapes"><div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="6" y="6" width="34" height="34" rx="8" fill="none" stroke="#fff" stroke-width="2"/><circle cx="23" cy="23" r="6" fill="#fff"/></svg>модель</div></div>
-                                <p class="sup-p">Модель ищет закономерности между картинкой и меткой.</p>
-                            </div>
-                            <div class="sup-step">
-                                <div class="sup-num">03</div>
-                                <div class="sup-h">Применяете к новым</div>
-                                <div class="sup-shapes">
-                                    <div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="7" y="7" width="32" height="32" rx="4" fill="#f87171"/></svg><span class="sup-ok">✓ красный квадрат</span></div>
-                                    <div class="sup-shape"><svg viewBox="0 0 46 46"><polygon points="23,7 41,39 5,39" fill="#60a5fa"/></svg><span class="sup-ok">✓ синий треугольник</span></div>
-                                </div>
-                                <p class="sup-p">Теперь распознаёт и незнакомые примеры.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- НОВЫЙ: САМООБУЧЕНИЕ -->
-            <section class="slide ss" data-slide="17" id="ml-selfsup">
-                <div class="ss-wrap">
-                    <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 14 · Самообучение</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Самообучение</h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Языковые модели учатся на текстовых последовательностях <b style="color:#fff">без разметки</b>: модель сама выводит метки из входных данных.</p>
-                    </div>
-                    <div class="ss-body">
-                        <div class="src-sentence ss-reveal" style="--ss-d:220ms">«I love street food.» → модель сама делает из этого примеры:</div>
-                        <div class="pairs">
-                            <div class="pair ss-reveal" style="--ss-d:300ms"><span class="ctx">I</span><span class="arr">→</span><span class="tgt">love</span></div>
-                            <div class="pair ss-reveal" style="--ss-d:360ms"><span class="ctx">I love</span><span class="arr">→</span><span class="tgt">street</span></div>
-                            <div class="pair ss-reveal" style="--ss-d:420ms"><span class="ctx">I love street</span><span class="arr">→</span><span class="tgt">food</span></div>
-                            <div class="pair ss-reveal" style="--ss-d:480ms"><span class="ctx">I love street food</span><span class="arr">→</span><span class="tgt">.</span></div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:600ms; margin-top:34px">
-                            Каждое предложение = <b>несколько</b> обучающих примеров. Текст есть везде → данные почти бесконечны, разметчик не нужен.
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- БЛОК 9 -->
-            <section class="slide ss" data-slide="18" id="an-slide">
+            <section class="slide ss" data-slide="16" id="an-slide">
                 <style>
                     #an-slide .an-stage { display: flex; flex-direction: column; align-items: center; gap: 16px; cursor: pointer; user-select: none; }
                     #an-slide .an-label { font-size: 22px; color: var(--text-main); font-weight: 600; text-align: center; }
@@ -2318,7 +2323,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 15 · Стоимость разметки</div>
+                        <div class="ss-kicker ss-reveal">Слайд 13</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Проблемы <b>обучения с учителем</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Возьмём <a class="src-link" href="https://neurohive.io/ru/vidy-nejrosetej/alexnet-svjortochnaja-nejronnaja-set-dlja-raspoznavanija-izobrazhenij" target="_blank">AlexNet (2012)</a>. Нажимай — и смотри, как растёт цена разметки.</p>
                     </div>
@@ -2366,7 +2371,7 @@
             </section>
 
             <!-- БЛОК 10 -->
-            <section class="slide ss" data-slide="19" id="sl-slide">
+            <section class="slide ss" data-slide="17" id="sl-slide">
                 <style>
                     #sl-slide .sl-stage { display: flex; flex-direction: column; align-items: center; gap: 26px; cursor: pointer; user-select: none; position: relative; }
                     #sl-slide .sl-sources { display: flex; gap: 26px; }
@@ -2385,9 +2390,9 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 16 · Ключ к масштабу</div>
+                        <div class="ss-kicker ss-reveal">Слайд 14</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Преимущество <b>самообучения</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Модели учатся на текстовых последовательностях — разметка не нужна. А текст есть везде, значит данных почти бесконечно.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Модели учатся на текстовых последовательностях — разметка не нужна. А текст окружает нас повсюду, поэтому данных практически бесконечно.</p>
                     </div>
                     <div class="ss-body">
                         <div class="sl-stage ss-reveal" style="--ss-d:220ms" id="sl-stage">
@@ -2439,7 +2444,7 @@
             </section>
 
             <!-- БЛОК 11 -->
-            <section class="slide ss" data-slide="20" id="b11-slide">
+            <section class="slide ss" data-slide="18" id="b11-slide">
                 <style>
                     #b11-slide .b11 { display: flex; align-items: center; justify-content: center; gap: 60px; }
                     #b11-slide .b11-ask { width: 300px; text-align: right; font-size: 42px; font-weight: 700; color: #fff; line-height: 1.2; flex-shrink: 0; }
@@ -2455,7 +2460,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 17 · Рост параметров</div>
+                        <div class="ss-kicker ss-reveal">Слайд 15</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">«Большая» — понятие <b>относительное</b></h2>
                     </div>
                     <div class="ss-body">
@@ -2491,56 +2496,63 @@
             </section>
 
             <!-- БЛОК 12 -->
-            <section class="slide ss" data-slide="21" id="lmm-slide">
+            <section class="slide ss" data-slide="19" id="lmm-slide">
                 <style>
-                    #lmm-slide .lmm-row { display: flex; align-items: center; justify-content: center; gap: 30px; }
-                    #lmm-slide .lmm-row + .lmm-row { margin-top: 30px; }
-                    #lmm-slide .lmm-stage-lbl { text-align: center; font-family: var(--font-mono); font-size: 14px; color: #52525b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
-                    #lmm-slide .lmm-in { display: flex; flex-direction: column; gap: 10px; }
+                    #lmm-slide .lmm2 { display: flex; gap: 70px; justify-content: center; align-items: flex-start; max-width: 1200px; margin: 0 auto; }
+                    #lmm-slide .lmm-scheme { flex: 1; max-width: 470px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+                    #lmm-slide .lmm-stage-lbl { font-family: var(--font-mono); font-size: 15px; color: #52525b; text-transform: uppercase; letter-spacing: 0.1em; }
+                    #lmm-slide .lmm-ins { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
                     #lmm-slide .lmm-chip { font-family: var(--font-mono); font-size: 19px; padding: 12px 18px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); display: flex; align-items: center; gap: 10px; white-space: nowrap; }
                     #lmm-slide .lmm-chip .em { display: inline-flex; align-items: center; color: #ededed; }
                     #lmm-slide .lmm-chip .em svg { width: 22px; height: 22px; }
-                    #lmm-slide .lmm-arrow { font-size: 30px; color: #52525b; }
-                    #lmm-slide .lmm-box { position: relative; padding: 24px 32px; border-radius: 18px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1a1a1a, #0a0a0a); text-align: center; cursor: help; min-width: 320px; }
+                    #lmm-slide .lmm-arrow { font-size: 30px; color: #52525b; line-height: 1; }
+                    #lmm-slide .lmm-box { position: relative; width: 100%; box-sizing: border-box; padding: 22px 28px; border-radius: 18px; border: 1px solid var(--border-hover); background: radial-gradient(circle at 50% 40%, #1a1a1a, #0a0a0a); text-align: center; cursor: help; display: flex; flex-direction: column; align-items: center; gap: 14px; }
                     #lmm-slide .lmm-box.hot { border-color: #fff; }
-                    #lmm-slide .lmm-box .t { font-size: 22px; font-weight: 700; color: #fff; }
-                    #lmm-slide .lmm-box .s { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+                    #lmm-slide .lmm-box .t { font-size: 21px; font-weight: 700; color: #fff; }
+                    #lmm-slide .lmm-box .s { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
                     #lmm-slide .lmm-tip { position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(6px); width: 380px; padding: 14px 18px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 12px; font-size: 14px; line-height: 1.45; color: var(--text-muted); box-shadow: 0 16px 40px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 20; transition: opacity 160ms var(--ss-out), transform 160ms var(--ss-out); }
                     #lmm-slide .lmm-box:hover .lmm-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    #lmm-slide .lmm-outchip { border: 1px solid var(--border-hover); border-radius: 12px; padding: 14px 22px; background: var(--bg-card); }
+                    #lmm-slide .lmm-newtok { font-family: var(--font-mono); font-size: 19px; font-weight: 700; background: linear-gradient(90deg, #fff 50%, #52525b 50%); background-size: 200% 100%; background-position: 100% 0; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+                    .ss.active #lmm-slide .lmm-newtok { animation: lmmFill 3.4s var(--ss-out) infinite both; }
+                    @keyframes lmmFill { 0%, 10% { background-position: 100% 0; } 58%, 82% { background-position: 0 0; } 94%, 100% { background-position: 100% 0; } }
+                    @media (prefers-reduced-motion: reduce) { .ss.active #lmm-slide .lmm-newtok { animation: none; -webkit-text-fill-color: #fff; color: #fff; } .ss.active #lmm-slide .gen-sq { animation: none; } }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 18 · Мультимодальность</div>
+                        <div class="ss-kicker ss-reveal">Слайд 16</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">От языковых моделей к <b>LMM</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Чтобы работать в реальном мире, AI нужно обрабатывать не только текст. Наведи на модель, чтобы понять разницу.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="ss-reveal" style="--ss-d:220ms">
-                            <div class="lmm-stage-lbl">Было</div>
-                            <div class="lmm-row">
-                                <div class="lmm-in"><span class="lmm-chip"><span class="em"><svg viewBox="0 0 24 24" fill="none" stroke="#ededed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>текст</span></div>
-                                <span class="lmm-arrow">→</span>
+                        <div class="lmm2">
+                            <!-- БЫЛО -->
+                            <div class="lmm-scheme ss-reveal" style="--ss-d:220ms">
+                                <div class="lmm-stage-lbl">Было</div>
+                                <div class="lmm-ins"><span class="lmm-chip"><span class="em"><svg viewBox="0 0 24 24" fill="none" stroke="#ededed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>текст</span></div>
+                                <span class="lmm-arrow">↓</span>
                                 <div class="lmm-box">
                                     <div class="t">Языковая модель</div>
+                                    <div class="gen-grid"><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span></div>
                                     <div class="s">LLM</div>
                                     <div class="lmm-tip">Языковая модель генерирует следующий токен, основываясь <b style="color:#fff">только на текстовых</b> токенах.</div>
                                 </div>
-                                <span class="lmm-arrow">→</span>
-                                <div class="lmm-in"><span class="lmm-chip"><span class="em"><svg viewBox="0 0 24 24" fill="none" stroke="#ededed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>текст</span></div>
+                                <span class="lmm-arrow">↓</span>
+                                <div class="lmm-outchip"><span class="lmm-newtok">новый токен</span></div>
                             </div>
-                        </div>
-                        <div class="ss-reveal" style="--ss-d:380ms">
-                            <div class="lmm-stage-lbl">Стало</div>
-                            <div class="lmm-row">
-                                <div class="lmm-in"><span class="lmm-chip"><span class="em"><svg viewBox="0 0 24 24" fill="none" stroke="#ededed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>текст</span><span class="lmm-chip"><span class="em"><svg viewBox="0 0 24 24" fill="none" stroke="#ededed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 15l-5-5L5 21"/></svg></span>изображение</span></div>
-                                <span class="lmm-arrow">→</span>
+                            <!-- СТАЛО -->
+                            <div class="lmm-scheme ss-reveal" style="--ss-d:380ms">
+                                <div class="lmm-stage-lbl">Стало</div>
+                                <div class="lmm-ins"><span class="lmm-chip"><span class="em"><svg viewBox="0 0 24 24" fill="none" stroke="#ededed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>текст</span><span class="lmm-chip"><span class="em"><svg viewBox="0 0 24 24" fill="none" stroke="#ededed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 15l-5-5L5 21"/></svg></span>изображение</span></div>
+                                <span class="lmm-arrow">↓</span>
                                 <div class="lmm-box hot">
                                     <div class="t">Большая мультимодальная модель</div>
+                                    <div class="gen-grid"><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span></div>
                                     <div class="s">LMM · large multimodal model</div>
                                     <div class="lmm-tip">LMM генерирует следующий токен, основываясь на текстовых <b style="color:#fff">и графических</b> токенах — или токенах любых других модальностей.</div>
                                 </div>
-                                <span class="lmm-arrow">→</span>
-                                <div class="lmm-in"><span class="lmm-chip"><span class="em"><svg viewBox="0 0 24 24" fill="none" stroke="#ededed" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.7L19.5 10l-5.6 1.3L12 17l-1.9-5.7L4.5 10l5.6-1.3z"/></svg></span>новый токен</span></div>
+                                <span class="lmm-arrow">↓</span>
+                                <div class="lmm-outchip"><span class="lmm-newtok">новый токен</span></div>
                             </div>
                         </div>
                     </div>
@@ -2548,30 +2560,33 @@
             </section>
 
             <!-- БЛОК 13 (+ спектр адаптации со слайда 14) -->
-            <section class="slide ss" data-slide="22" id="b13-slide">
+            <section class="slide ss" data-slide="20" id="b13-slide">
                 <style>
+                    #b13-slide .spec-air { padding: 52px 0; }
                     #b13-slide .spec-stop { position: relative; cursor: help; }
-                    #b13-slide .spec-tip { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%) translateY(6px); width: 240px; padding: 12px 15px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px; font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: center; box-shadow: 0 12px 32px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 20; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
-                    #b13-slide .spec-stop:hover .spec-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
-                    #b13-slide .spec-tip b { color: #fff; }
+                    #b13-slide .spec-tip { position: absolute; top: calc(100% + 16px); left: 50%; transform: translateX(-50%) translateY(6px); width: 300px; padding: 16px 18px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 12px; font-size: 14px; line-height: 1.5; color: var(--text-muted); text-align: left; box-shadow: 0 16px 40px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 20; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
+                    #b13-slide .spec-tip::before { content: ''; position: absolute; bottom: 100%; left: 0; right: 0; height: 16px; }
+                    #b13-slide .spec-stop:hover .spec-tip, #b13-slide .spec-tip:hover { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+                    #b13-slide .spec-tip b { color: #fff; display: block; margin-bottom: 6px; }
+                    #b13-slide .spec-tip .src-link { display: inline-block; margin-top: 10px; font-size: 13px; }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 19 · Базовые модели</div>
+                        <div class="ss-kicker ss-reveal">Слайд 17</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">От LLM и LMM к <b>базовым моделям</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Базовые модели решают многое «относительно хорошо», а под конкретную задачу — донастраиваются. Ориентир сменился: не «создать», а <b style="color:#fff">«настроить»</b>. Наведи на метод адаптации.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="ss-reveal" style="--ss-d:240ms">
+                        <div class="ss-reveal spec-air" style="--ss-d:240ms">
                             <div class="spec-axis"><span>проще · дешевле · быстрее</span><span>сложнее · дороже · дольше</span></div>
                             <div class="spec-track">
                                 <div class="spec-stops">
-                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">Промт</span><span class="spec-tip"><b>Промт-инжиниринг</b><br>Инструкции и примеры прямо в запросе. Ничего не обучаешь.</span></div>
-                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">RAG</span><span class="spec-tip"><b>RAG</b><br>Подключаешь внешнюю базу знаний — модель отвечает по твоим документам.</span></div>
-                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">MCP</span><span class="spec-tip"><b>Model Context Protocol</b><br>Стандарт подключения данных и инструментов (от Anthropic).</span></div>
-                                    <div class="spec-stop"><span class="dot"></span><span class="nm">LoRA</span><span class="spec-tip"><b>LoRA / QLoRA</b><br>Лёгкое дообучение: адаптеры на одном GPU, от $100.</span></div>
-                                    <div class="spec-stop"><span class="dot"></span><span class="nm">Fine-tuning</span><span class="spec-tip"><b>Fine-tuning</b><br>Полное дообучение модели на своих данных.</span></div>
-                                    <div class="spec-stop"><span class="dot"></span><span class="nm">С нуля</span><span class="spec-tip"><b>Обучение с нуля</b><br>Своя модель: миллионы примеров, месяцы, огромный бюджет.</span></div>
+                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">Промт</span><span class="spec-tip"><b>Промт-инжиниринг</b>Ты просто хорошо формулируешь запрос: даёшь инструкции и пример прямо в тексте. Модель ничему не учится — ты объясняешь задачу словами.<a class="src-link" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank">Гайд по промтам</a></span></div>
+                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">RAG</span><span class="spec-tip"><b>RAG · поиск по своим данным</b>Перед ответом модель находит нужные куски в твоих документах и отвечает по ним — так она «знает» то, чего не было при обучении.<a class="src-link" href="https://en.wikipedia.org/wiki/Retrieval-augmented_generation" target="_blank">Что такое RAG</a></span></div>
+                                    <div class="spec-stop hot"><span class="dot"></span><span class="nm">MCP</span><span class="spec-tip"><b>MCP · разъём к инструментам</b>Единый «USB-разъём», через который модель безопасно подключается к твоим данным и инструментам (файлы, базы, API). Открытый стандарт Anthropic.<a class="src-link" href="https://modelcontextprotocol.io" target="_blank">modelcontextprotocol.io</a></span></div>
+                                    <div class="spec-stop"><span class="dot"></span><span class="nm">LoRA</span><span class="spec-tip"><b>LoRA · лёгкое дообучение</b>Вместо всей модели обучаешь маленькие «насадки»-адаптеры. Дёшево — на одной видеокарте, от $100.<a class="src-link" href="https://arxiv.org/abs/2106.09685" target="_blank">Статья про LoRA</a></span></div>
+                                    <div class="spec-stop"><span class="dot"></span><span class="nm">Fine-tuning</span><span class="spec-tip"><b>Fine-tuning · полное дообучение</b>Продолжаешь обучать саму модель на своих примерах. Дороже и дольше, зато глубже подстраивает поведение.<a class="src-link" href="https://platform.openai.com/docs/guides/fine-tuning" target="_blank">Гайд по fine-tuning</a></span></div>
+                                    <div class="spec-stop"><span class="dot"></span><span class="nm">С нуля</span><span class="spec-tip"><b>Обучение с нуля</b>Строишь свою модель с чистого листа: миллионы примеров, тысячи GPU, месяцы работы и огромный бюджет. Почти никому не нужно.<a class="src-link" href="https://arxiv.org/abs/2005.14165" target="_blank">Как обучали GPT-3</a></span></div>
                                 </div>
                             </div>
                             <div class="spec-zone">Подсвечены методы, что покрывают <b>~80% случаев</b>. Fine-tuning — ~15%, обучение с нуля — ~5%.</div>
@@ -2581,7 +2596,7 @@
             </section>
 
             <!-- НОВЫЙ: AI-ИНЖЕНЕРИЯ (интро + 3 фактора) -->
-            <section class="slide ss" data-slide="23" id="ai-eng">
+            <section class="slide ss" data-slide="21" id="ai-eng">
                 <style>
                     #ai-eng .fac-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; max-width: 1200px; margin: 0 auto; }
                     #ai-eng .fac-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 38px 34px; cursor: pointer; display: flex; flex-direction: column; gap: 18px; min-height: 340px; transition: transform 200ms var(--ss-out), border-color 200ms var(--ss-out), background 200ms var(--ss-out); }
@@ -2609,10 +2624,16 @@
                     #ai-eng .fac-pt { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; }
                     #ai-eng .fac-pt h4 { margin: 0 0 6px; font-size: 18px; color: #fff; }
                     #ai-eng .fac-pt p { margin: 0; font-size: 15px; color: var(--text-muted); line-height: 1.45; }
+                    #ai-eng a.ss-chip { text-decoration: none; transition: border-color 160ms var(--ss-out), color 160ms var(--ss-out); }
+                    #ai-eng a.ss-chip:hover { border-color: var(--border-hover); color: #fff; }
+                    #ai-eng a.ss-chip::after { content: ' ↗'; font-size: 0.8em; color: #52525b; }
+                    #ai-eng .fac-group { margin-top: 26px; }
+                    #ai-eng .fac-help { font-size: 17px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
+                    #ai-eng .fac-help b { color: #fff; }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 20 · Дисциплина</div>
+                        <div class="ss-kicker ss-reveal">Слайд 18</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">AI-инженерия</h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">«AI-инженерия» — это процесс создания приложений на основе базовых моделей. Три фактора превратили её в профессию — нажми, чтобы раскрыть:</p>
                     </div>
@@ -2638,47 +2659,71 @@
                             </div>
                         </div>
 
-                        <!-- ИНЛАЙН: фактор 1 -->
+                        <!-- ИНЛАЙН: фактор 1 (полная копия) -->
                         <div class="fac-detail" id="fac-d1">
                             <button class="fac-back" type="button" data-fac-back>← назад</button>
                             <div class="fac-dnum">Фактор 1</div>
-                            <div class="fac-dh">Многоцелевые возможности</div>
-                            <p class="fac-dlead">Модели делают не только старое лучше, но и совершенно новое — а это почти все задачи бизнеса.</p>
-                            <div class="fac-points">
-                                <div class="fac-pt"><h4>Код</h4><p>Cursor, Claude Code, Copilot — агенты пишут приложения по описанию.</p></div>
-                                <div class="fac-pt"><h4>Видео и изображения</h4><p>Sora, Kling, Runway, Midjourney — VFX, дубляж.</p></div>
-                                <div class="fac-pt"><h4>Наука</h4><p>Лекарства (Insilico), материалы (GNoME), доказательства (AlphaProof).</p></div>
-                                <div class="fac-pt"><h4>AI создаёт AI</h4><p>Синтетические данные и код для обучения других моделей.</p></div>
+                            <div class="fac-dh">Многоцелевость — <b>автоматизация коммуникации</b></div>
+                            <p class="fac-dlead">Модели делают не только старое лучше, но и совершенно новое. А это почти все задачи бизнеса.</p>
+                            <div class="cap-grid">
+                                <div class="cap-item"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></span><div><h3>Код</h3><p>Cursor, Claude Code, Copilot. Агенты пишут приложения по описанию.</p></div></div>
+                                <div class="cap-item"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg></span><div><h3>Видео и изображения</h3><p>Sora, Kling, Runway, Midjourney. Голливуд — VFX, дубляж.</p></div></div>
+                                <div class="cap-item"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M10 2v6l-4 8a4 4 0 0 0 4 6h4a4 4 0 0 0 4-6l-4-8V2"></path><path d="M8 2h8"></path></svg></span><div><h3>Наука</h3><p>Лекарства (Insilico), материалы (GNoME — 2,2 млн), доказательства (AlphaProof).</p></div></div>
+                                <div class="cap-item"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.5"></path><polyline points="21 3 21 9 15 9"></polyline></svg></span><div><h3>AI создаёт AI</h3><p>Синтетические данные, код для обучения других моделей — рекурсивное улучшение.</p></div></div>
                             </div>
                         </div>
 
-                        <!-- ИНЛАЙН: фактор 2 -->
+                        <!-- ИНЛАЙН: фактор 2 (полная копия) -->
                         <div class="fac-detail" id="fac-d2">
                             <button class="fac-back" type="button" data-fac-back>← назад</button>
                             <div class="fac-dnum">Фактор 2</div>
-                            <div class="fac-dh">Увеличение инвестиций в AI</div>
-                            <p class="fac-dlead">Успех ChatGPT запустил взрыв денег — а вместе с ним падение стоимости и рост доступности.</p>
-                            <div class="fac-points">
-                                <div class="fac-pt"><h4>$500B</h4><p>Stargate (OpenAI + Oracle + SoftBank) на дата-центры.</p></div>
-                                <div class="fac-pt"><h4>$3T+</h4><p>Капитализация NVIDIA — самая дорогая компания мира.</p></div>
-                                <div class="fac-pt"><h4>×300</h4><p>Во столько раз дешевле стал inference уровня GPT-4 (2023→2026).</p></div>
-                                <div class="fac-pt"><h4>S&amp;P 500</h4><p>Каждая третья компания индекса упоминает AI.</p></div>
+                            <div class="fac-dh">Инвестиции — <b>не хайп, а тренд</b></div>
+                            <p class="fac-dlead">Успех ChatGPT запустил взрыв денег, а вместе с ним — падение стоимости и рост доступности.</p>
+                            <div class="b3-stats">
+                                <div class="b3-stat"><div class="v">$500B</div><div class="l">Stargate (OpenAI + Oracle + SoftBank) на дата-центры</div></div>
+                                <div class="b3-stat"><div class="v">$3T+</div><div class="l">капитализация NVIDIA — самая дорогая компания мира</div></div>
+                                <div class="b3-stat"><div class="v">×300</div><div class="l">во столько раз дешевле стал inference уровня GPT-4 (2023→2026)</div></div>
+                            </div>
+                            <div class="ss-insight" style="margin-top:32px">
+                                Каждая третья компания S&amp;P 500 упоминает AI. Инвестиции сместились с «дайте модель» на «дайте инфраструктуру для агентов». <button class="info-trigger" data-open="inv2026">геополитика и AI-фабрики</button>
                             </div>
                         </div>
 
-                        <!-- ИНЛАЙН: фактор 3 -->
+                        <!-- ИНЛАЙН: фактор 3 (полная копия) -->
                         <div class="fac-detail" id="fac-d3">
                             <button class="fac-back" type="button" data-fac-back>← назад</button>
                             <div class="fac-dnum">Фактор 3</div>
-                            <div class="fac-dh">Низкий барьер для входа</div>
-                            <p class="fac-dlead">«Модель как услуга» через API — не нужна инфраструктура, достаточно идеи и английского языка.</p>
-                            <div class="fac-points">
-                                <div class="fac-pt"><h4>2022 · $10K–100K</h4><p>Инфраструктура + ML-команда, чтобы сделать MVP.</p></div>
-                                <div class="fac-pt"><h4>2026 · $0–100</h4><p>API-кредиты; MVP описывается на английском.</p></div>
-                                <div class="fac-pt"><h4>No-code</h4><p>Bolt.new, Lovable, v0, Replit Agent, Cursor.</p></div>
-                                <div class="fac-pt"><h4>Сдвиг</h4><p>От «уметь сделать» к «понимать, ЧТО делать».</p></div>
+                            <div class="fac-dh">Барьер входа упал <b>почти до нуля</b></div>
+                            <p class="fac-dlead">«Модель как услуга» через API. Не нужна инфраструктура — достаточно идеи и английского языка.</p>
+                            <div class="tn">
+                                <div class="tn-card old"><div class="yr">2022</div><div class="big">$10K–100K</div><div class="sub">инфраструктура + ML-команда, чтобы сделать MVP</div></div>
+                                <div class="tn-arr">→</div>
+                                <div class="tn-card now"><div class="yr">2026</div><div class="big">$0–100</div><div class="sub">API-кредиты; MVP описывается на английском</div></div>
+                            </div>
+                            <div class="fac-group">
+                                <div class="ss-chips-label">No-code / AI-инструменты 2026</div>
+                                <div class="ss-chips">
+                                    <a class="ss-chip" href="https://bolt.new" target="_blank">Bolt.new</a><a class="ss-chip" href="https://lovable.dev" target="_blank">Lovable</a><a class="ss-chip" href="https://v0.dev" target="_blank">v0</a><a class="ss-chip" href="https://replit.com" target="_blank">Replit Agent</a><a class="ss-chip" href="https://cursor.com" target="_blank">Cursor</a><a class="ss-chip" href="https://ollama.com" target="_blank">Ollama</a><a class="ss-chip" href="https://modelcontextprotocol.io" target="_blank">MCP-серверы</a>
+                                </div>
+                            </div>
+                            <div class="fac-group">
+                                <div class="ss-chips-label">Помощники кода</div>
+                                <div class="ss-chips">
+                                    <a class="ss-chip" href="https://cursor.com" target="_blank">Cursor</a><a class="ss-chip" href="https://windsurf.com" target="_blank">Windsurf</a><a class="ss-chip" href="https://www.anthropic.com/claude-code" target="_blank">Claude Code</a><a class="ss-chip" href="https://github.com/features/copilot" target="_blank">Copilot</a>
+                                </div>
+                                <p class="fac-help">Пишут <b>50–80% кода</b>. Разработчик становится «редактором» и «архитектором».</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="ss-modal" data-modal="inv2026" hidden>
+                    <div class="ss-modal-bg" data-close></div>
+                    <div class="ss-modal-panel">
+                        <div class="ss-modal-head"><h4>Инвестиции · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
+                        <div class="m-row"><b>Кто вложил</b><span>Microsoft — $13B+ в OpenAI; Google — $12B и Amazon — $8B в Anthropic.</span></div>
+                        <div class="m-row"><b>AI-фабрики</b><span>Строят не просто дата-центры, а чипы + энергия + охлаждение + сеть (NVIDIA B200, GB300).</span></div>
+                        <div class="m-row"><b>Геополитика</b><span>США ограничивают экспорт чипов в Китай. Ответ — DeepSeek: обучение за ~$6M против $100M+ у конкурентов.</span></div>
+                        <div class="m-row"><b>Регулирование</b><span>EU AI Act вступил в силу (2025); в США — отраслевые правила.</span></div>
                     </div>
                 </div>
                 <script>
@@ -2699,116 +2744,8 @@
                 </script>
             </section>
 
-            <!-- БЛОК 15 -->
-            <section class="slide ss" data-slide="24" id="fac-1">
-                <div class="ss-wrap">
-                    <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 21 · Фактор роста №1</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Многоцелевость — <b>автоматизация коммуникации</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Модели делают не только старое лучше, но и совершенно новое. А это почти все задачи бизнеса.</p>
-                    </div>
-                    <div class="ss-body">
-                        <div class="cap-grid">
-                            <div class="cap-item ss-reveal" style="--ss-d:220ms"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></span><div><h3>Код</h3><p>Cursor, Claude Code, Copilot. Агенты пишут приложения по описанию.</p></div></div>
-                            <div class="cap-item ss-reveal" style="--ss-d:300ms"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg></span><div><h3>Видео и изображения</h3><p>Sora, Kling, Runway, Midjourney. Голливуд — VFX, дубляж.</p></div></div>
-                            <div class="cap-item ss-reveal" style="--ss-d:380ms"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M10 2v6l-4 8a4 4 0 0 0 4 6h4a4 4 0 0 0 4-6l-4-8V2"></path><path d="M8 2h8"></path></svg></span><div><h3>Наука</h3><p>Лекарства (Insilico), материалы (GNoME — 2,2 млн), доказательства (AlphaProof).</p></div></div>
-                            <div class="cap-item ss-reveal" style="--ss-d:460ms"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.5"></path><polyline points="21 3 21 9 15 9"></polyline></svg></span><div><h3>AI создаёт AI</h3><p>Синтетические данные, код для обучения других моделей — рекурсивное улучшение.</p></div></div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:580ms">
-                            Многоцелевость привела к <b>агентной революции</b>: AI не помогает, а автономно выполняет многошаговые задачи. <button class="info-trigger" data-open="agents2026">агенты 2026</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="agents2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Агентная революция · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Что такое агент</b><span>Получает задачу → планирует → вызывает инструменты → проверяет → итерирует.</span></div>
-                        <div class="m-row"><b>Примеры</b><span>Devin (Cognition), OpenAI Codex agent, Claude с computer use.</span></div>
-                        <div class="m-row"><b>Код</b><span>По данным GitHub, 46% нового кода в 2025 написано с помощью AI.</span></div>
-                        <div class="m-row"><b>Навык инженера</b><span>Проектирование агентных систем: orchestration, memory, tool use — главный навык 2026.</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- БЛОК 16 -->
-            <section class="slide ss" data-slide="25" id="fac-2">
-                <div class="ss-wrap">
-                    <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 22 · Фактор роста №2</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Инвестиции — <b>не хайп, а тренд</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Успех ChatGPT запустил взрыв денег, а вместе с ним — падение стоимости и рост доступности.</p>
-                    </div>
-                    <div class="ss-body">
-                        <div class="b3-stats">
-                            <div class="b3-stat ss-reveal" style="--ss-d:220ms"><div class="v"><span class="ss-count" data-to="500" data-prefix="$" data-suffix="B">$500B</span></div><div class="l">Stargate (OpenAI + Oracle + SoftBank) на дата-центры</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:320ms"><div class="v">$3T+</div><div class="l">капитализация NVIDIA — самая дорогая компания мира</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:420ms"><div class="v">×<span class="ss-count" data-to="300">300</span></div><div class="l">во столько раз дешевле стал inference уровня GPT-4 (2023→2026)</div></div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:560ms; margin-top:36px">
-                            Каждая третья компания S&P 500 упоминает AI. Инвестиции сместились с «дайте модель» на «дайте инфраструктуру для агентов». <button class="info-trigger" data-open="inv2026">геополитика и AI-фабрики</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="inv2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Инвестиции · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Кто вложил</b><span>Microsoft — $13B+ в OpenAI; Google — $12B и Amazon — $8B в Anthropic.</span></div>
-                        <div class="m-row"><b>AI-фабрики</b><span>Строят не просто дата-центры, а чипы + энергия + охлаждение + сеть (NVIDIA B200, GB300).</span></div>
-                        <div class="m-row"><b>Геополитика</b><span>США ограничивают экспорт чипов в Китай. Ответ — DeepSeek: обучение за ~$6M против $100M+ у конкурентов.</span></div>
-                        <div class="m-row"><b>Регулирование</b><span>EU AI Act вступил в силу (2025); в США — отраслевые правила.</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- БЛОК 17 -->
-            <section class="slide ss" data-slide="26" id="fac-3">
-                <div class="ss-wrap">
-                    <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 23 · Фактор роста №3</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Барьер входа упал <b>почти до нуля</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">«Модель как услуга» через API. Не нужна инфраструктура — достаточно идеи и английского языка.</p>
-                    </div>
-                    <div class="ss-body">
-                        <div class="tn">
-                            <div class="tn-card old ss-reveal" style="--ss-d:220ms">
-                                <div class="yr">2022</div>
-                                <div class="big">$10K–100K</div>
-                                <div class="sub">инфраструктура + ML-команда, чтобы сделать MVP</div>
-                            </div>
-                            <div class="tn-arr ss-reveal" style="--ss-d:320ms">→</div>
-                            <div class="tn-card now ss-reveal" style="--ss-d:420ms">
-                                <div class="yr">2026</div>
-                                <div class="big">$0–100</div>
-                                <div class="sub">API-кредиты; MVP описывается на английском</div>
-                            </div>
-                        </div>
-                        <div class="ss-reveal" style="--ss-d:540ms">
-                            <div class="ss-chips-label">No-code / AI-инструменты 2026</div>
-                            <div class="ss-chips">
-                                <span class="ss-chip">Bolt.new</span><span class="ss-chip">Lovable</span><span class="ss-chip">v0</span><span class="ss-chip">Replit Agent</span><span class="ss-chip">Cursor</span><span class="ss-chip">Ollama</span><span class="ss-chip">MCP-серверы</span>
-                            </div>
-                        </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:640ms; margin-top:30px">
-                            Преимущество сместилось от «уметь сделать» к <b>«понимать, ЧТО делать»</b>. <button class="info-trigger" data-open="barrier2026">кто теперь AI-инженер</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="barrier2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Барьер входа · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>No-code</b><span>Bolt.new, Lovable, v0, Replit Agent — описываешь приложение → получаешь работающий продукт.</span></div>
-                        <div class="m-row"><b>Помощники кода</b><span>Cursor, Windsurf, Claude Code, Copilot пишут 50–80% кода. Разработчик — «редактор» и «архитектор».</span></div>
-                        <div class="m-row"><b>Обратная сторона</b><span>Рынок наводнён низкокачественными AI-приложениями.</span></div>
-                        <div class="m-row"><b>AI-инженер 2026</b><span>Не «кодер», а архитектор решений: понимает бизнес-задачу и знает, какие модели/агенты применить.</span></div>
-                    </div>
-                </div>
-            </section>
-
             <!-- НОВЫЙ: РОСТ ДИСЦИПЛИНЫ (цитата + LinkedIn + GitHub) -->
-            <section class="slide ss" data-slide="27" id="grow-slide">
+            <section class="slide ss" data-slide="22" id="grow-slide">
                 <style>
                     #grow-slide .grow-quote { display: flex; align-items: center; gap: 40px; border-left: 4px solid var(--border); padding-left: 44px; margin: 0 auto 46px; max-width: 1200px; }
                     #grow-slide .grow-quote img { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid var(--border); }
@@ -2832,7 +2769,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 24 · Рост дисциплины</div>
+                        <div class="ss-kicker ss-reveal">Слайд 19</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Одна из самых <b>быстрорастущих</b></h2>
                     </div>
                     <div class="ss-body">
@@ -2863,7 +2800,7 @@
             </section>
 
             <!-- НОВЫЙ: AI-инженерия vs ML-инженерия -->
-            <section class="slide ss" data-slide="28" id="vs-slide">
+            <section class="slide ss" data-slide="23" id="vs-slide">
                 <style>
                     #vs-slide .vs { max-width: 1240px; margin: 0 auto; }
                     #vs-slide .vs-row { display: grid; grid-template-columns: 1fr 210px 1fr; align-items: center; padding: 15px 0; border-top: 1px solid var(--border); }
@@ -2877,7 +2814,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 25 · Разные профессии</div>
+                        <div class="ss-kicker ss-reveal">Слайд 20</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">AI-инженерия <b>vs</b> ML-инженерия</h2>
                     </div>
                     <div class="ss-body">
@@ -2894,7 +2831,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="29">
+            <section class="slide" data-slide="24">
                 <style>
                     .timeline-next-container {
                         display: flex;

@@ -1237,6 +1237,13 @@
                 }
                 .ss-insight b { color: #fff; font-weight: 600; }
 
+                /* Цитата автора с аватаркой (глобально) */
+                .ss .ss-quote { display: flex; align-items: center; gap: 28px; border-left: 4px solid var(--border); padding-left: 32px; max-width: 1000px; margin: 40px auto 0; text-align: left; }
+                .ss .ss-quote img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid var(--border); }
+                .ss .ss-quote p { font-size: 27px; line-height: 1.4; color: var(--text-main); font-weight: 500; margin: 0; }
+                .ss .ss-quote b { color: #fff; }
+                .ss .ss-quote .a { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); margin-top: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+
                 /* Ссылки-источники в стиле дека (глобально для всех .ss-слайдов) */
                 .ss .src-link {
                     color: var(--text-main); text-decoration: none; font-weight: 600;
@@ -2079,16 +2086,16 @@
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Слайд 10</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">«Языковая модель» = <b>авторегрессионная</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Дальше под «языковой моделью» мы всегда понимаем именно её. Пример — Mistral с его словарём в 32 000 токенов.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Дальше под «языковой моделью» мы всегда понимаем именно её.</p>
                     </div>
                     <div class="ss-body">
                         <div class="gen-flow ss-reveal" style="--ss-d:220ms">
                             <div class="gen-in">Столица Франции — это…</div>
                             <div class="gen-arrow">→</div>
                             <div class="gen-box">
-                                <div class="lbl">Mistral</div>
+                                <div class="lbl">Языковая модель</div>
                                 <div class="gen-grid"><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span><span class="gen-sq"></span></div>
-                                <div class="sub">32 000 токенов</div>
+                                <div class="sub">генерирует ответ</div>
                             </div>
                             <div class="gen-arrow">→</div>
                             <div class="gen-out"><span class="gen-tok">Париж</span><span class="gen-tok">—</span><span class="gen-tok">кра</span><span class="gen-tok">сивый</span><span class="gen-tok">город</span><span class="gen-tok">Европы</span></div>
@@ -2112,21 +2119,19 @@
                     .fin-outs2 { position: relative; display: flex; flex-direction: column; gap: 12px; width: 340px; }
                     .fin-row { height: 60px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); }
                     .fin-row .w { font-size: 20px; color: #fff; }
-                    .fin-row .p { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--text-muted); opacity: 0; }
-                    .ss.active .fin-row .p { animation: finPct 6s var(--ss-out) infinite both; }
+                    .fin-row .p { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--text-muted); }
                     .fin-cursor { position: absolute; left: -3px; right: -3px; top: 0; height: 60px; border: 2px solid #fff; border-radius: 13px; box-shadow: 0 0 22px rgba(255,255,255,0.4); pointer-events: none; }
-                    .ss.active .fin-cursor { animation: finRun 6s var(--ss-out) infinite both; }
+                    .ss.active .fin-cursor { animation: finRun 3s var(--ss-out) forwards; }
                     @keyframes finRun {
-                        0%, 6% { top: 0; }
-                        14%, 20% { top: 72px; }
-                        28%, 34% { top: 144px; }
-                        42%, 48% { top: 72px; }
-                        56%, 100% { top: 0; }
+                        0% { top: 0; }
+                        15% { top: 72px; }
+                        30% { top: 144px; }
+                        45% { top: 72px; }
+                        60% { top: 0; }
+                        72% { top: 72px; }
+                        84%, 100% { top: 0; }
                     }
-                    @keyframes finPct { 0%, 50% { opacity: 0; } 62%, 100% { opacity: 1; } }
-                    .fin-hl { margin: 44px auto 0; max-width: 900px; border: 1px solid var(--border); border-left: 3px solid #f87171; background: var(--bg-card); border-radius: 14px; padding: 22px 28px; font-size: 22px; line-height: 1.45; color: var(--text-main); text-align: center; }
-                    .fin-hl b { color: #fff; }
-                    @media (prefers-reduced-motion: reduce) { .ss.active .fin-cursor { animation: none; top: 0; } .ss.active .fin-row .p { animation: none; opacity: 1; } }
+                    @media (prefers-reduced-motion: reduce) { .ss.active .fin-cursor { animation: none; top: 0; } }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
@@ -2141,13 +2146,17 @@
                             <div class="fin-arrow">→</div>
                             <div class="fin-outs2">
                                 <div class="fin-cursor"></div>
-                                <div class="fin-row"><span class="w">Сидней</span><span class="p">61%</span></div>
-                                <div class="fin-row"><span class="w">Канберра</span><span class="p">33%</span></div>
-                                <div class="fin-row"><span class="w">Мельбурн</span><span class="p">4%</span></div>
+                                <div class="fin-row"><span class="w">Сидней</span><span class="p ss-count" data-to="61" data-suffix="%">0%</span></div>
+                                <div class="fin-row"><span class="w">Канберра</span><span class="p ss-count" data-to="33" data-suffix="%">0%</span></div>
+                                <div class="fin-row"><span class="w">Мельбурн</span><span class="p ss-count" data-to="4" data-suffix="%">0%</span></div>
                             </div>
                         </div>
-                        <div class="fin-hl ss-reveal" style="--ss-d:440ms">
-                            Завершения — это <b>прогнозы, основанные на вероятностях</b>, и нет гарантии, что они верны. <span style="color:var(--text-muted); font-size:17px">(столица Австралии — Канберра, а не Сидней)</span>
+                        <div class="ss-quote ss-reveal" style="--ss-d:440ms">
+                            <img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
+                            <div>
+                                <p>«Завершения — это <b>прогнозы, основанные на вероятностях</b>, и нет гарантии, что они верны».</p>
+                                <div class="a">Чип Хьюен · AI Engineering</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2207,7 +2216,23 @@
                     #ml-types .sup-shape { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted); }
                     #ml-types .sup-shape svg { width: 46px; height: 46px; }
                     #ml-types .sup-p { font-size: 16px; color: var(--text-muted); line-height: 1.4; margin: 0; }
+                    #ml-types .sup-p b { color: #fff; }
                     #ml-types .sup-ok { color: #34d399; font-weight: 600; }
+                    /* анимация самообучения: модель «подставляет» токен + искра */
+                    #ml-types .pairs .tgt { position: relative; }
+                    #ml-types .pairs .tgt::after { content: '✦'; position: absolute; top: -13px; right: -15px; font-size: 15px; color: #fff; opacity: 0; pointer-events: none; }
+                    #ml-types .self-done { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; font-size: 17px; font-weight: 600; color: #34d399; opacity: 0; }
+                    #ml-types.show-self .pairs .tgt { animation: selfPop 5s var(--ss-out) infinite both; }
+                    #ml-types.show-self .pairs .tgt::after { animation: selfSpark 5s var(--ss-out) infinite both; }
+                    #ml-types.show-self .pairs .pair:nth-child(1) .tgt, #ml-types.show-self .pairs .pair:nth-child(1) .tgt::after { animation-delay: .3s; }
+                    #ml-types.show-self .pairs .pair:nth-child(2) .tgt, #ml-types.show-self .pairs .pair:nth-child(2) .tgt::after { animation-delay: .8s; }
+                    #ml-types.show-self .pairs .pair:nth-child(3) .tgt, #ml-types.show-self .pairs .pair:nth-child(3) .tgt::after { animation-delay: 1.3s; }
+                    #ml-types.show-self .pairs .pair:nth-child(4) .tgt, #ml-types.show-self .pairs .pair:nth-child(4) .tgt::after { animation-delay: 1.8s; }
+                    #ml-types.show-self .self-done { animation: selfDone 5s var(--ss-out) infinite both; }
+                    @keyframes selfPop { 0%, 4% { opacity: 0; transform: scale(.6); } 10% { opacity: 1; transform: scale(1.15); } 16%, 86% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(.6); } }
+                    @keyframes selfSpark { 0%, 4% { opacity: 0; transform: scale(.3) rotate(0deg); } 10% { opacity: 1; transform: scale(1.2) rotate(25deg); } 26% { opacity: 0; transform: scale(1.9) rotate(45deg); } 100% { opacity: 0; } }
+                    @keyframes selfDone { 0%, 48% { opacity: 0; transform: translateY(6px); } 58%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+                    @media (prefers-reduced-motion: reduce) { #ml-types.show-self .pairs .tgt, #ml-types.show-self .pairs .tgt::after, #ml-types.show-self .self-done { animation: none; opacity: 1; transform: none; } }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
@@ -2262,10 +2287,10 @@
                                     <div class="sup-num">03</div>
                                     <div class="sup-h">Применяете к новым</div>
                                     <div class="sup-shapes">
-                                        <div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="7" y="7" width="32" height="32" rx="4" fill="#60a5fa"/></svg><span class="sup-ok">✓ синий квадрат</span></div>
-                                        <div class="sup-shape"><svg viewBox="0 0 46 46"><polygon points="23,7 41,39 5,39" fill="#f87171"/></svg><span class="sup-ok">✓ красный треугольник</span></div>
+                                        <div class="sup-shape"><svg viewBox="0 0 46 46"><rect x="7" y="7" width="32" height="32" rx="4" fill="#f87171"/></svg><span class="sup-ok">✓ квадрат</span></div>
+                                        <div class="sup-shape"><svg viewBox="0 0 46 46"><polygon points="23,7 41,39 5,39" fill="#60a5fa"/></svg><span class="sup-ok">✓ треугольник</span></div>
                                     </div>
-                                    <p class="sup-p">Теперь распознаёт и незнакомые примеры.</p>
+                                    <p class="sup-p">Теперь уже <b>красный</b> квадрат и <b>синий</b> треугольник — цвета новые, а модель всё равно узнаёт форму. Она выучила не цвет, а <b>саму фигуру</b>.</p>
                                 </div>
                             </div>
                             <div class="mlk-note">Мощно, но <b>дорого и долго</b>: разметка каждого примера стоит денег и времени.</div>
@@ -2284,7 +2309,8 @@
                                 <div class="pair"><span class="ctx">I love street</span><span class="arr">→</span><span class="tgt">food</span></div>
                                 <div class="pair"><span class="ctx">I love street food</span><span class="arr">→</span><span class="tgt">.</span></div>
                             </div>
-                            <div class="mlk-note" style="margin-top:28px">Каждое предложение = <b>несколько</b> обучающих примеров. Текст окружает нас повсюду — значит, данных практически бесконечно, и разметчик не нужен.</div>
+                            <div class="self-done">✦ модель обучилась</div>
+                            <div class="mlk-note" style="margin-top:22px">Каждое предложение = <b>несколько</b> обучающих примеров. Текст окружает нас повсюду — значит, данных практически бесконечно, и разметчик не нужен.</div>
                         </div>
                     </div>
                 </div>
@@ -2522,7 +2548,7 @@
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Слайд 16</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">От языковых моделей к <b>LMM</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Чтобы работать в реальном мире, AI нужно обрабатывать не только текст. Наведи на модель, чтобы понять разницу.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Чтобы работать в реальном мире, AI нужно обрабатывать не только текст.</p>
                     </div>
                     <div class="ss-body">
                         <div class="lmm2">
@@ -2568,7 +2594,7 @@
                     #b13-slide .spec-tip::before { content: ''; position: absolute; bottom: 100%; left: 0; right: 0; height: 16px; }
                     #b13-slide .spec-stop:hover .spec-tip, #b13-slide .spec-tip:hover { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
                     #b13-slide .spec-tip b { color: #fff; display: block; margin-bottom: 6px; }
-                    #b13-slide .spec-tip .src-link { display: inline-block; margin-top: 10px; font-size: 13px; }
+                    #b13-slide .spec-tip .src-link { display: block; margin-top: 14px; font-size: 13px; }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
@@ -2684,8 +2710,12 @@
                                 <div class="b3-stat"><div class="v">$3T+</div><div class="l">капитализация NVIDIA — самая дорогая компания мира</div></div>
                                 <div class="b3-stat"><div class="v">×300</div><div class="l">во столько раз дешевле стал inference уровня GPT-4 (2023→2026)</div></div>
                             </div>
-                            <div class="ss-insight" style="margin-top:32px">
-                                Каждая третья компания S&amp;P 500 упоминает AI. Инвестиции сместились с «дайте модель» на «дайте инфраструктуру для агентов». <button class="info-trigger" data-open="inv2026">геополитика и AI-фабрики</button>
+                            <div class="ss-quote" style="margin-top:32px">
+                                <img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
+                                <div>
+                                    <p>«Каждая третья компания S&amp;P 500 упоминает AI. Инвестиции сместились с „дайте модель“ на „дайте инфраструктуру для агентов“».</p>
+                                    <div class="a">Чип Хьюен · AI Engineering</div>
+                                </div>
                             </div>
                         </div>
 
@@ -2714,16 +2744,6 @@
                                 <p class="fac-help">Пишут <b>50–80% кода</b>. Разработчик становится «редактором» и «архитектором».</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="inv2026" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Инвестиции · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Кто вложил</b><span>Microsoft — $13B+ в OpenAI; Google — $12B и Amazon — $8B в Anthropic.</span></div>
-                        <div class="m-row"><b>AI-фабрики</b><span>Строят не просто дата-центры, а чипы + энергия + охлаждение + сеть (NVIDIA B200, GB300).</span></div>
-                        <div class="m-row"><b>Геополитика</b><span>США ограничивают экспорт чипов в Китай. Ответ — DeepSeek: обучение за ~$6M против $100M+ у конкурентов.</span></div>
-                        <div class="m-row"><b>Регулирование</b><span>EU AI Act вступил в силу (2025); в США — отраслевые правила.</span></div>
                     </div>
                 </div>
                 <script>

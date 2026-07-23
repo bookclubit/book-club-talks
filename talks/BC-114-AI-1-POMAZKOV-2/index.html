@@ -1184,11 +1184,11 @@
                     #prof-slide .pbar-row { display: grid; grid-template-columns: 250px 1fr; gap: 20px; align-items: center; margin-bottom: 9px; cursor: default; }
                     #prof-slide .pbar-name { text-align: right; font-size: 17px; color: var(--text-main); }
                     #prof-slide .pbar-track { position: relative; height: 30px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-                    #prof-slide .pbar-fill { width: calc(var(--w) * 100%); height: 100%; background: linear-gradient(90deg, #ffffff, #52525b); transform-origin: left; transform: scaleX(0); border-radius: 7px 0 0 7px; }
+                    #prof-slide .pbar-fill { width: calc(var(--w) * 100%); height: 100%; background: linear-gradient(90deg, #ffffff, #52525b); border-radius: 7px 0 0 7px; }
                     #prof-slide .pbar-group.lo .pbar-fill { background: #3a3a3a; }
-                    .ss.active #prof-slide .pbar-fill { animation: pbarGrow 800ms var(--ss-out) forwards; animation-delay: var(--d, 200ms); }
-                    @keyframes pbarGrow { to { transform: scaleX(1); } }
-                    @media (prefers-reduced-motion: reduce) { .ss.active #prof-slide .pbar-fill { animation: none; transform: scaleX(1); } }
+                    .ss.active #prof-slide .pbar-fill { animation: pbarGrow 800ms var(--ss-out) both; animation-delay: var(--d, 200ms); }
+                    @keyframes pbarGrow { from { width: 0; } }
+                    @media (prefers-reduced-motion: reduce) { .ss.active #prof-slide .pbar-fill { animation: none; } }
                     #prof-slide .pbar-pct { position: absolute; top: 50%; right: 14px; transform: translateY(-50%); font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: #fff; opacity: 0; transition: opacity 150ms var(--ss-out); text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
                     #prof-slide .pbar-row:hover .pbar-pct { opacity: 1; }
                     #prof-slide .pbar-src { margin-top: 6px; font-size: 15px; }

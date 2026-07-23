@@ -1093,7 +1093,7 @@
             <section class="slide ss" data-slide="4" id="cls-slide">
                 <style>
                     #cls-slide .ss-body { margin-top: 16px; }
-                    #cls-slide .cls-picks { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+                    #cls-slide .cls-picks { position: relative; z-index: 5; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
                     #cls-slide .cls-pick { position: relative; font-family: var(--font-mono); font-size: 16px; color: var(--text-main); background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 10px 20px; cursor: pointer; transition: transform 160ms var(--ss-out), border-color 160ms var(--ss-out), background 160ms var(--ss-out); }
                     #cls-slide .cls-pick:hover { border-color: var(--border-hover); background: var(--bg-hover); }
                     #cls-slide .cls-pick:active { transform: scale(0.97); }
@@ -1101,7 +1101,7 @@
                     #cls-slide .cls-pick .y26 { font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
                     #cls-slide .cls-tip { position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(-6px); width: 250px; padding: 12px 15px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px; font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: center; box-shadow: 0 14px 34px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 30; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
                     #cls-slide .cls-pick:hover .cls-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
-                    #cls-slide .rad { position: relative; width: 1060px; max-width: 100%; height: 660px; margin: 10px auto 0; }
+                    #cls-slide .rad { position: relative; z-index: 1; width: 1060px; max-width: 100%; height: 660px; margin: 10px auto 0; }
                     #cls-slide .rad svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
                     #cls-slide .rad-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 190px; height: 190px; border-radius: 50%; background: #fff; color: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 14px; z-index: 3; box-shadow: 0 0 50px rgba(255,255,255,0.15); }
                     #cls-slide .rad-center .n { font-size: 24px; font-weight: 700; line-height: 1.1; }
@@ -1130,11 +1130,10 @@
                             aws: { nm: 'AWS', sub: '3 группы', tip: 'Облачная платформа Amazon. Делит по типу задачи.', cats: ['Генерация', 'Извлечение', 'Классификация'] },
                             deloitte: { nm: 'Deloitte', sub: 'по прибыли', tip: 'Консалтинговая компания. Классифицирует по влиянию на прибыль.', cats: ['Рост выручки', 'Снижение затрат', 'Снижение рисков'] },
                             gartner: { nm: 'Gartner', sub: '+ бизнес', tip: 'Аналитическое агентство. Добавляет ось «непрерывность бизнеса».', cats: ['Продуктивность', 'Клиентский опыт', 'Новые продукты', 'Непрерывность бизнеса'] },
-                            taft: { nm: 'TAAFT', sub: 'по задаче', y26: 1, tip: 'theresanaiforthat.com — каталог AI-приложений. Делит по конкретной задаче.', cats: ['16 000+ задач', '«написать письмо»', '«смонтировать видео»', '«найти юриста»'] },
                             a16z: { nm: 'a16z', sub: 'агентность', y26: 1, tip: 'Венчурный фонд Andreessen Horowitz. Делит по степени агентности.', cats: ['Копайлоты', 'Вертикальные агенты', 'Автономные агенты'] },
                             mckinsey: { nm: 'McKinsey', sub: 'по функциям', y26: 1, tip: 'Консалтинг McKinsey. Делит по бизнес-функциям.', cats: ['Маркетинг', 'Разработка', 'Поддержка', 'Операции', 'R&D'] }
                         };
-                        var order = ['oreilly', 'aws', 'deloitte', 'gartner', 'taft', 'a16z', 'mckinsey'];
+                        var order = ['oreilly', 'aws', 'deloitte', 'gartner', 'a16z', 'mckinsey'];
                         var picksEl = document.getElementById('cls-picks');
                         var radEl = document.getElementById('cls-rad');
                         var cur = null;

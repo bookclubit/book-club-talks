@@ -2121,7 +2121,7 @@
                     .fin-row .w { font-size: 20px; color: #fff; }
                     .fin-row .p { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--text-muted); }
                     .fin-cursor { position: absolute; left: -3px; right: -3px; top: 0; height: 60px; border: 2px solid #fff; border-radius: 13px; box-shadow: 0 0 22px rgba(255,255,255,0.4); pointer-events: none; }
-                    .ss.active .fin-cursor { animation: finRun 3s var(--ss-out) forwards; }
+                    .ss.active .fin-cursor { animation: finRun 5.5s var(--ss-out) forwards; }
                     @keyframes finRun {
                         0% { top: 0; }
                         15% { top: 72px; }
@@ -2146,9 +2146,9 @@
                             <div class="fin-arrow">→</div>
                             <div class="fin-outs2">
                                 <div class="fin-cursor"></div>
-                                <div class="fin-row"><span class="w">Сидней</span><span class="p ss-count" data-to="61" data-suffix="%">0%</span></div>
-                                <div class="fin-row"><span class="w">Канберра</span><span class="p ss-count" data-to="33" data-suffix="%">0%</span></div>
-                                <div class="fin-row"><span class="w">Мельбурн</span><span class="p ss-count" data-to="4" data-suffix="%">0%</span></div>
+                                <div class="fin-row"><span class="w">Сидней</span><span class="p ss-count" data-to="61" data-suffix="%" data-dur="5500">0%</span></div>
+                                <div class="fin-row"><span class="w">Канберра</span><span class="p ss-count" data-to="33" data-suffix="%" data-dur="5500">0%</span></div>
+                                <div class="fin-row"><span class="w">Мельбурн</span><span class="p ss-count" data-to="4" data-suffix="%" data-dur="5500">0%</span></div>
                             </div>
                         </div>
                         <div class="ss-quote ss-reveal" style="--ss-d:440ms">
@@ -4026,7 +4026,7 @@
                 var pre = el.getAttribute('data-prefix') || '';
                 var suf = el.getAttribute('data-suffix') || '';
                 var space = el.getAttribute('data-space') === '1';
-                var dur = 1100, start = null;
+                var dur = parseInt(el.getAttribute('data-dur'), 10) || 1100, start = null;
                 function step(ts) {
                     if (start === null) start = ts;
                     var p = Math.min((ts - start) / dur, 1);

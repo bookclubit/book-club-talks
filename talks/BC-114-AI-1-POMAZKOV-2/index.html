@@ -1308,16 +1308,20 @@
             <section class="slide ss" data-slide="7" id="code-slide">
                 <style>
                     #code-slide .ss-head { margin-bottom: 0; }
-                    #code-slide .code-qh { font-family: var(--font-mono); font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 26px 0 14px; }
+                    #code-slide .ss-body { display: flex; flex-direction: column; min-height: 0; }
+                    #code-slide .code-qh { font-family: var(--font-mono); font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 22px 0 14px; }
                     #code-slide .code-qh b { color: #fff; }
-                    #code-slide .qc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; margin: 0 auto; }
-                    #code-slide .qc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 22px; display: flex; gap: 18px; align-items: center; }
-                    #code-slide .qc-face { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
-                    #code-slide .qc .mono { width: 52px; height: 52px; border-radius: 50%; font-size: 17px; flex-shrink: 0; }
-                    #code-slide .qc-body { display: flex; flex-direction: column; gap: 6px; }
-                    #code-slide .qc-quote { margin: 0; font-size: 18px; line-height: 1.38; color: var(--text-main); font-weight: 500; }
-                    #code-slide .qc-attr { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+                    #code-slide .qc-grid { display: flex; flex-direction: column; gap: 14px; width: 100%; flex: 1; min-height: 0; }
+                    #code-slide .qc { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 18px 30px; display: flex; gap: 26px; align-items: center; text-decoration: none; transition: border-color 160ms var(--ss-out), background 160ms var(--ss-out), transform 160ms var(--ss-out); }
+                    #code-slide .qc:hover { border-color: var(--border-hover); background: #0d0d0d; transform: translateY(-2px); }
+                    #code-slide .qc-face { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
+                    #code-slide .qc .mono { width: 84px; height: 84px; border-radius: 50%; font-size: 26px; flex-shrink: 0; }
+                    #code-slide .qc-body { display: flex; flex-direction: column; gap: 9px; }
+                    #code-slide .qc-quote { margin: 0; font-size: 24px; line-height: 1.34; color: var(--text-main); font-weight: 500; }
+                    #code-slide .qc-attr { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
                     #code-slide .qc-attr b { color: #fff; }
+                    #code-slide .qc-src { margin-left: auto; flex-shrink: 0; align-self: flex-start; font-size: 22px; color: var(--text-muted); transition: color 160ms var(--ss-out); }
+                    #code-slide .qc:hover .qc-src { color: #fff; }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
@@ -1328,22 +1332,26 @@
                     <div class="ss-body">
                         <div class="code-qh ss-reveal" style="--ss-d:180ms">Заменит ли AI <b>разработчиков</b>? — прогнозы лидеров</div>
                         <div class="qc-grid ss-reveal" style="--ss-d:240ms">
-                            <div class="qc">
+                            <a class="qc" href="https://www.businessinsider.com/nvidia-ceo-jensen-huang-ai-coding-2024-2" target="_blank">
                                 <img class="qc-face" src="assets/people/jensen-huang.webp" alt="Дженсен Хуанг">
                                 <div class="qc-body"><p class="qc-quote">«Не учите детей программировать — за них это сделает AI».</p><div class="qc-attr"><b>Дженсен Хуанг</b> · CEO, NVIDIA</div></div>
-                            </div>
-                            <div class="qc">
+                                <span class="qc-src">↗</span>
+                            </a>
+                            <a class="qc" href="https://www.businessinsider.com/aws-ceo-developers-stop-coding-ai-2024-8" target="_blank">
                                 <span class="mono">MG</span>
                                 <div class="qc-body"><p class="qc-quote">«Разработчики перестанут писать код руками, но профессия не исчезнет — трансформируется».</p><div class="qc-attr"><b>Мэтт Гарман</b> · CEO, AWS</div></div>
-                            </div>
-                            <div class="qc">
+                                <span class="qc-src">↗</span>
+                            </a>
+                            <a class="qc" href="https://twitter.com/karpathy/status/1617979122625712128" target="_blank">
                                 <img class="qc-face" src="assets/people/andrej-karpathy.webp" alt="Андрей Карпаты">
                                 <div class="qc-body"><p class="qc-quote">«Самый горячий новый язык программирования — это английский».</p><div class="qc-attr"><b>Андрей Карпаты</b> · сооснователь OpenAI, ex-Tesla</div></div>
-                            </div>
-                            <div class="qc">
+                                <span class="qc-src">↗</span>
+                            </a>
+                            <a class="qc" href="https://www.businessinsider.com/anthropic-ceo-ai-90-percent-code-3-6-months-2025-3" target="_blank">
                                 <img class="qc-face" src="assets/people/dario-amodei.webp" alt="Дарио Амодеи">
                                 <div class="qc-body"><p class="qc-quote">«В ближайший год почти весь код будет писать AI — под присмотром человека».</p><div class="qc-attr"><b>Дарио Амодеи</b> · CEO, Anthropic</div></div>
-                            </div>
+                                <span class="qc-src">↗</span>
+                            </a>
                         </div>
                         <div class="ss-reveal" style="--ss-d:520ms; margin:26px 0 0">
                             <div class="ss-chips-label">От автодополнения до автономных агентов · 2026</div>
@@ -1365,7 +1373,8 @@
             <!-- НОВЫЙ: специализированные инструменты кода -->
             <section class="slide ss" data-slide="8" id="spec-slide">
                 <style>
-                    #spec-slide .tcloud { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; align-items: flex-start; max-width: 1320px; margin: 12px auto 0; }
+                    #spec-slide .ss-body { display: flex; flex-direction: column; min-height: 0; }
+                    #spec-slide .tcloud { display: flex; flex-wrap: wrap; gap: 14px 18px; justify-content: center; align-content: space-between; align-items: flex-start; width: 100%; flex: 1; margin: 14px auto 0; }
                     #spec-slide .tcg { position: relative; display: flex; flex-wrap: wrap; gap: 10px; padding: 18px 16px 16px; border-radius: 16px; border: 1px solid transparent; transition: border-color 180ms var(--ss-out), background 180ms var(--ss-out); }
                     #spec-slide .tcg:hover { border-color: var(--border-hover); background: #0d0d0d; }
                     #spec-slide .tcg-label { position: absolute; bottom: calc(100% - 4px); left: 14px; font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #fff; background: #000; padding: 3px 10px; border-radius: 6px; opacity: 0; transform: translateY(6px); transition: opacity 180ms var(--ss-out), transform 180ms var(--ss-out); pointer-events: none; white-space: nowrap; z-index: 5; }
@@ -1380,42 +1389,70 @@
                     <div class="ss-body">
                         <div class="tcloud ss-reveal" style="--ss-d:220ms">
                             <div class="tcg">
+                                <div class="tcg-label">Автодополнение и IDE</div>
+                                <a class="tool-chip" href="https://www.tabnine.com" target="_blank">Tabnine<span class="tool-tip">AI-автодополнение с приватным деплоем</span></a>
+                                <a class="tool-chip" href="https://aws.amazon.com/q/developer/" target="_blank">Amazon Q<span class="tool-tip">AI-ассистент разработчика от AWS</span></a>
+                                <a class="tool-chip" href="https://www.continue.dev" target="_blank">Continue<span class="tool-tip">Open-source AI-ассистент для IDE</span></a>
+                                <a class="tool-chip" href="https://sourcery.ai" target="_blank">Sourcery<span class="tool-tip">Подсказки по улучшению кода на лету</span></a>
+                                <a class="tool-chip" href="https://codeium.com" target="_blank">Codeium<span class="tool-tip">Бесплатное автодополнение и чат</span></a>
+                            </div>
+                            <div class="tcg">
                                 <div class="tcg-label">Тестирование</div>
                                 <a class="tool-chip" href="https://www.qodo.ai" target="_blank">Qodo<span class="tool-tip">Генерация тестов и проверка кода (ex-Codium)</span></a>
                                 <a class="tool-chip" href="https://www.diffblue.com" target="_blank">Diffblue<span class="tool-tip">Автогенерация unit-тестов для Java</span></a>
                                 <a class="tool-chip" href="https://www.meticulous.ai" target="_blank">Meticulous<span class="tool-tip">Автотесты фронтенда без написания кода</span></a>
+                                <a class="tool-chip" href="https://www.testim.io" target="_blank">Testim<span class="tool-tip">AI-стабильные E2E-тесты UI</span></a>
+                                <a class="tool-chip" href="https://www.mabl.com" target="_blank">Mabl<span class="tool-tip">Автотесты с самовосстановлением</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Документация</div>
                                 <a class="tool-chip" href="https://mintlify.com" target="_blank">Mintlify<span class="tool-tip">Документация из кода + AI-поиск</span></a>
                                 <a class="tool-chip" href="https://swimm.io" target="_blank">Swimm<span class="tool-tip">Документация, синхронная с кодом</span></a>
+                                <a class="tool-chip" href="https://trelent.net" target="_blank">Trelent<span class="tool-tip">Автогенерация docstring в IDE</span></a>
+                                <a class="tool-chip" href="https://readme.com" target="_blank">ReadMe<span class="tool-tip">Интерактивная документация API с AI</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Code review</div>
                                 <a class="tool-chip" href="https://coderabbit.ai" target="_blank">CodeRabbit<span class="tool-tip">AI-ревью пул-реквестов</span></a>
                                 <a class="tool-chip" href="https://graphite.dev" target="_blank">Graphite<span class="tool-tip">Стек-PR и AI-ревьюер</span></a>
                                 <a class="tool-chip" href="https://www.greptile.com" target="_blank">Greptile<span class="tool-tip">Ревью с пониманием всей кодовой базы</span></a>
+                                <a class="tool-chip" href="https://www.codacy.com" target="_blank">Codacy<span class="tool-tip">Автоматический контроль качества кода</span></a>
+                                <a class="tool-chip" href="https://bito.ai" target="_blank">Bito<span class="tool-tip">AI-ревью и объяснение кода</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Безопасность</div>
                                 <a class="tool-chip" href="https://snyk.io" target="_blank">Snyk<span class="tool-tip">Поиск уязвимостей в коде и зависимостях</span></a>
                                 <a class="tool-chip" href="https://semgrep.dev" target="_blank">Semgrep<span class="tool-tip">Статический анализ и правила безопасности</span></a>
                                 <a class="tool-chip" href="https://socket.dev" target="_blank">Socket<span class="tool-tip">Защита цепочки поставок npm/pip</span></a>
+                                <a class="tool-chip" href="https://www.gitguardian.com" target="_blank">GitGuardian<span class="tool-tip">Поиск утёкших секретов в репозиториях</span></a>
+                                <a class="tool-chip" href="https://www.endorlabs.com" target="_blank">Endor Labs<span class="tool-tip">Анализ рисков зависимостей</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Рефакторинг и миграции</div>
                                 <a class="tool-chip" href="https://sourcegraph.com" target="_blank">Sourcegraph<span class="tool-tip">Поиск по коду и массовые правки (Cody)</span></a>
                                 <a class="tool-chip" href="https://www.moderne.io" target="_blank">Moderne<span class="tool-tip">Автоматические миграции легаси</span></a>
+                                <a class="tool-chip" href="https://www.grit.io" target="_blank">Grit.io<span class="tool-tip">Массовые правки и миграции по паттернам</span></a>
+                                <a class="tool-chip" href="https://codemod.com" target="_blank">Codemod<span class="tool-tip">Платформа автоматических codemod-ов</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Базы данных / SQL</div>
                                 <a class="tool-chip" href="https://supabase.com" target="_blank">Supabase AI<span class="tool-tip">Помощник по SQL и схемам БД</span></a>
                                 <a class="tool-chip" href="https://www.text2sql.ai" target="_blank">Text2SQL<span class="tool-tip">Запрос на человеческом → SQL</span></a>
+                                <a class="tool-chip" href="https://www.ai2sql.io" target="_blank">AI2sql<span class="tool-tip">Генерация SQL по описанию</span></a>
+                                <a class="tool-chip" href="https://www.outerbase.com" target="_blank">Outerbase<span class="tool-tip">Интерфейс к БД с AI-запросами</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Мониторинг и отладка</div>
                                 <a class="tool-chip" href="https://sentry.io" target="_blank">Sentry AI<span class="tool-tip">Анализ ошибок и подсказки по фиксам</span></a>
                                 <a class="tool-chip" href="https://www.honeycomb.io" target="_blank">Honeycomb<span class="tool-tip">Наблюдаемость с AI-запросами по логам</span></a>
+                                <a class="tool-chip" href="https://www.datadoghq.com" target="_blank">Datadog<span class="tool-tip">Bits AI — ассистент по инцидентам</span></a>
+                                <a class="tool-chip" href="https://www.traceloop.com" target="_blank">Traceloop<span class="tool-tip">Наблюдаемость для LLM-приложений</span></a>
+                            </div>
+                            <div class="tcg">
+                                <div class="tcg-label">Инфраструктура и DevOps</div>
+                                <a class="tool-chip" href="https://www.pulumi.com/ai/" target="_blank">Pulumi AI<span class="tool-tip">Инфраструктура как код по описанию</span></a>
+                                <a class="tool-chip" href="https://www.warp.dev" target="_blank">Warp<span class="tool-tip">Терминал со встроенным AI-агентом</span></a>
+                                <a class="tool-chip" href="https://k8sgpt.ai" target="_blank">k8sGPT<span class="tool-tip">Диагностика Kubernetes через AI</span></a>
                             </div>
                         </div>
                     </div>

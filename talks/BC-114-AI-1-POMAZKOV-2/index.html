@@ -1581,36 +1581,90 @@
                 </div>
             </section>
 
-            <!-- БЛОК 8 -->
-            <section class="slide ss" data-slide="10">
+            <!-- СЦЕНАРИЙ 3 · Написание текстов -->
+            <section class="slide ss" data-slide="10" id="txt-slide">
+                <style>
+                    #txt-slide .ss-body { display: flex; flex-direction: column; min-height: 0; }
+                    #txt-slide .exp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+                    #txt-slide .exp-setup { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+                    #txt-slide .ep { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 8px 16px; white-space: nowrap; }
+                    #txt-slide .ep.big { color: #fff; }
+                    #txt-slide .ep.hi { color: #000; background: #fff; border-color: #fff; font-weight: 600; }
+                    #txt-slide .ep-arr, #txt-slide .ep-plus { color: #52525b; font-size: 18px; }
+                    #txt-slide .txt-res { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 26px; }
+                    #txt-slide .metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 28px; }
+                    #txt-slide .m-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+                    #txt-slide .m-title { font-size: 19px; color: var(--text-main); font-weight: 600; }
+                    #txt-slide .m-delta { font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: #fff; line-height: 1; }
+                    #txt-slide .mrow { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+                    #txt-slide .mrl { width: 104px; flex-shrink: 0; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+                    #txt-slide .mtrack { flex: 1; height: 16px; background: #141414; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+                    #txt-slide .mfill { height: 100%; width: 0; border-radius: 999px; transition: width 1100ms var(--ss-out); }
+                    #txt-slide .mfill.base { background: #3f3f46; }
+                    #txt-slide .mfill.hi { background: #fff; }
+                    #txt-slide.active .mfill { width: calc(var(--w) * 100%); }
+                    #txt-slide .txt-note { margin-top: 22px; display: flex; gap: 30px; align-items: center; flex-wrap: wrap; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 18px 26px; }
+                    #txt-slide .tn-main { flex: 1; min-width: 300px; font-size: 17px; line-height: 1.45; color: var(--text-muted); }
+                    #txt-slide .tn-main b { color: #fff; }
+                    #txt-slide .tn-ados { display: flex; gap: 24px; }
+                    #txt-slide .ado { text-align: center; }
+                    #txt-slide .ado .x { font-family: var(--font-mono); font-size: 30px; font-weight: 700; color: #fff; line-height: 1; }
+                    #txt-slide .ado .c { margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+                    @media (prefers-reduced-motion: reduce) { #txt-slide .mfill { transition: none; } }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Сценарий 3 — Написание текстов</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Написание текстов</h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Часто, утомительно, с ошибками — идеальное применение. Исследование MIT (2023), 453 специалиста.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">От автокоррекции и автозаполнения до генерации целых текстов: LLM обучают завершать текст — поэтому письмо даётся им лучше всего.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="b3-stats" style="grid-template-columns:repeat(2,1fr); max-width:900px">
-                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v">−<span class="ss-count" data-to="40" data-suffix="%">40%</span></div><div class="l">времени на написание с ChatGPT</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:300ms"><div class="v">+<span class="ss-count" data-to="18" data-suffix="%">18%</span></div><div class="l">качества · сильнее помогает слабым писателям</div></div>
+                        <div class="exp-head ss-reveal" style="--ss-d:200ms">
+                            <div class="exp-setup">
+                                <span class="ep big">453 специалиста</span>
+                                <span class="ep-arr">→</span>
+                                <span class="ep">случайное деление</span>
+                                <span class="ep-arr">→</span>
+                                <span class="ep">группа без AI</span>
+                                <span class="ep-plus">+</span>
+                                <span class="ep hi">группа с ChatGPT</span>
+                            </div>
+                            <a class="src-link" href="https://economics.mit.edu/sites/default/files/inline-files/Noy_Zhang_1.pdf" target="_blank">Ной и Цзанг · MIT, 2023</a>
                         </div>
-                        <div class="cmp ss-reveal" style="--ss-d:420ms; margin-top:28px">
-                            <div class="cmp-col accent"><span class="cmp-tag">Светлая сторона</span><h3>Поднимает дно</h3><p>Слабые писатели становятся средними. Демократизация качества.</p></div>
-                            <div class="cmp-col"><span class="cmp-tag">Тёмная сторона</span><h3>Демократизирует мусор</h3><p>Контент-фермы: 400 рекламных объявлений на «мусорных» сайтах (NewsGuard, 2023).</p></div>
+                        <div class="txt-res">
+                            <div class="metric ss-reveal" style="--ss-d:320ms">
+                                <div class="m-head"><span class="m-title">Время на задачу</span><span class="m-delta">−40%</span></div>
+                                <div class="mrow"><span class="mrl">Без AI</span><div class="mtrack"><div class="mfill base" style="--w:1"></div></div></div>
+                                <div class="mrow"><span class="mrl">С ChatGPT</span><div class="mtrack"><div class="mfill hi" style="--w:.6"></div></div></div>
+                            </div>
+                            <div class="metric ss-reveal" style="--ss-d:420ms">
+                                <div class="m-head"><span class="m-title">Качество текста</span><span class="m-delta">+18%</span></div>
+                                <div class="mrow"><span class="mrl">Без AI</span><div class="mtrack"><div class="mfill base" style="--w:.72"></div></div></div>
+                                <div class="mrow"><span class="mrl">С ChatGPT</span><div class="mtrack"><div class="mfill hi" style="--w:.85"></div></div></div>
+                            </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:560ms; margin-top:28px">
-                            AI поднимает дно, но не потолок. <button class="info-trigger" data-open="b8m">кризис доверия к контенту</button>
+                        <div class="txt-note ss-reveal" style="--ss-d:520ms">
+                            <div class="tn-main">Сильнее помогает <b>слабым писателям</b> — сокращает разрыв в качестве. И людям заходит: после эксперимента продолжили пользоваться ChatGPT сами.</div>
+                            <div class="tn-ados">
+                                <div class="ado"><div class="x">×2</div><div class="c">через 2 недели</div></div>
+                                <div class="ado"><div class="x">×1,6</div><div class="c">через 2 месяца</div></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="b8m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Тексты и доверие · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Подтвердилось</b><span>Мета-анализ 2025: −30–50% времени, +10–25% качества. Сильнее для не-native и слабых.</span></div>
-                        <div class="m-row"><b>Везде</b><span>Gmail, Notion AI, Grammarly. Amazon: 10 000+ книг/день с AI → обязательная маркировка.</span></div>
-                        <div class="m-row"><b>SEO</b><span>Google Helpful Content Update: 90% AI-мусорных сайтов потеряли трафик.</span></div>
-                        <div class="m-row"><b>Доверие</b><span>60% не доверяют онлайн-контенту. Стандарт C2PA («паспорт» контента). «Written by human» — преимущество.</span></div>
+                        <div class="ss-reveal" style="--ss-d:640ms; margin-top:22px">
+                            <div class="ss-chips-label">Инструменты для текста · 2026</div>
+                            <div class="ss-chips">
+                                <a class="tool-chip" href="https://chatgpt.com" target="_blank"><img class="tool-logo" src="assets/logos/chatgpt.webp" alt="" loading="lazy">ChatGPT<span class="tool-tip">Универсальный генератор и редактор текста (OpenAI)</span></a>
+                                <a class="tool-chip" href="https://www.grammarly.com" target="_blank"><img class="tool-logo" src="assets/logos/grammarly.webp" alt="" loading="lazy">Grammarly<span class="tool-tip">Проверка грамматики, стиля и тона</span></a>
+                                <a class="tool-chip" href="https://www.notion.so/product/ai" target="_blank"><img class="tool-logo" src="assets/logos/notion-ai.webp" alt="" loading="lazy">Notion AI<span class="tool-tip">Письмо и суммаризация прямо в заметках</span></a>
+                                <a class="tool-chip" href="https://www.jasper.ai" target="_blank"><img class="tool-logo" src="assets/logos/jasper.webp" alt="" loading="lazy">Jasper<span class="tool-tip">Маркетинговые тексты и кампании</span></a>
+                                <a class="tool-chip" href="https://www.copy.ai" target="_blank"><img class="tool-logo" src="assets/logos/copyai.webp" alt="" loading="lazy">Copy.ai<span class="tool-tip">Копирайтинг и продающие тексты</span></a>
+                                <a class="tool-chip" href="https://writesonic.com" target="_blank"><img class="tool-logo" src="assets/logos/writesonic.webp" alt="" loading="lazy">Writesonic<span class="tool-tip">SEO-статьи и контент по брифу</span></a>
+                                <a class="tool-chip" href="https://www.wordtune.com" target="_blank"><img class="tool-logo" src="assets/logos/wordtune.webp" alt="" loading="lazy">Wordtune<span class="tool-tip">Перефразирование и настройка тона</span></a>
+                                <a class="tool-chip" href="https://quillbot.com" target="_blank"><img class="tool-logo" src="assets/logos/quillbot.webp" alt="" loading="lazy">QuillBot<span class="tool-tip">Перефразирование и грамматика</span></a>
+                                <a class="tool-chip" href="https://www.sudowrite.com" target="_blank"><img class="tool-logo" src="assets/logos/sudowrite.webp" alt="" loading="lazy">Sudowrite<span class="tool-tip">Помощник для художественной прозы</span></a>
+                                <a class="tool-chip" href="https://rytr.me" target="_blank"><img class="tool-logo" src="assets/logos/rytr.webp" alt="" loading="lazy">Rytr<span class="tool-tip">Быстрый AI-копирайтер</span></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -1310,13 +1310,13 @@
                     #code-slide .ss-head { margin-bottom: 0; }
                     #code-slide .code-qh { font-family: var(--font-mono); font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 26px 0 14px; }
                     #code-slide .code-qh b { color: #fff; }
-                    #code-slide .qc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1240px; margin: 0 auto; }
-                    #code-slide .qc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; }
-                    #code-slide .qc-row { display: flex; gap: 16px; align-items: flex-start; }
+                    #code-slide .qc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; margin: 0 auto; }
+                    #code-slide .qc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 22px; display: flex; gap: 18px; align-items: center; }
                     #code-slide .qc-face { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
                     #code-slide .qc .mono { width: 52px; height: 52px; border-radius: 50%; font-size: 17px; flex-shrink: 0; }
-                    #code-slide .qc-quote { margin: 0; font-size: 17px; line-height: 1.38; color: var(--text-main); font-weight: 500; }
-                    #code-slide .qc-attr { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; padding-left: 68px; }
+                    #code-slide .qc-body { display: flex; flex-direction: column; gap: 6px; }
+                    #code-slide .qc-quote { margin: 0; font-size: 18px; line-height: 1.38; color: var(--text-main); font-weight: 500; }
+                    #code-slide .qc-attr { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
                     #code-slide .qc-attr b { color: #fff; }
                 </style>
                 <div class="ss-wrap">
@@ -1326,12 +1326,26 @@
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Идеально для AI: код структурирован, результат проверяем (компилируется или нет), рынок огромен.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="b3-stats">
-                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v">$2B+</div><div class="l">ARR GitHub Copilot (2026)</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:290ms"><div class="v">$500M+</div><div class="l">ARR Cursor · оценка $10B+</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:380ms"><div class="v"><span class="ss-count" data-to="46" data-suffix="%">46%</span></div><div class="l">нового кода на GitHub — AI-генерированный</div></div>
+                        <div class="code-qh ss-reveal" style="--ss-d:180ms">Заменит ли AI <b>разработчиков</b>? — прогнозы лидеров</div>
+                        <div class="qc-grid ss-reveal" style="--ss-d:240ms">
+                            <div class="qc">
+                                <img class="qc-face" src="assets/people/jensen-huang.webp" alt="Дженсен Хуанг">
+                                <div class="qc-body"><p class="qc-quote">«Не учите детей программировать — за них это сделает AI».</p><div class="qc-attr"><b>Дженсен Хуанг</b> · CEO, NVIDIA</div></div>
+                            </div>
+                            <div class="qc">
+                                <span class="mono">MG</span>
+                                <div class="qc-body"><p class="qc-quote">«Разработчики перестанут писать код руками, но профессия не исчезнет — трансформируется».</p><div class="qc-attr"><b>Мэтт Гарман</b> · CEO, AWS</div></div>
+                            </div>
+                            <div class="qc">
+                                <img class="qc-face" src="assets/people/andrej-karpathy.webp" alt="Андрей Карпаты">
+                                <div class="qc-body"><p class="qc-quote">«Самый горячий новый язык программирования — это английский».</p><div class="qc-attr"><b>Андрей Карпаты</b> · сооснователь OpenAI, ex-Tesla</div></div>
+                            </div>
+                            <div class="qc">
+                                <img class="qc-face" src="assets/people/dario-amodei.webp" alt="Дарио Амодеи">
+                                <div class="qc-body"><p class="qc-quote">«В ближайший год почти весь код будет писать AI — под присмотром человека».</p><div class="qc-attr"><b>Дарио Амодеи</b> · CEO, Anthropic</div></div>
+                            </div>
                         </div>
-                        <div class="ss-reveal" style="--ss-d:480ms; margin:30px 0 0">
+                        <div class="ss-reveal" style="--ss-d:520ms; margin:26px 0 0">
                             <div class="ss-chips-label">От автодополнения до автономных агентов · 2026</div>
                             <div class="ss-chips">
                                 <a class="tool-chip" href="https://github.com/features/copilot" target="_blank">Copilot<span class="tool-tip">GitHub Copilot: автодополнение и чат прямо в IDE</span></a>
@@ -1342,25 +1356,6 @@
                                 <a class="tool-chip" href="https://windsurf.com" target="_blank">Windsurf<span class="tool-tip">AI-редактор кода с агентным режимом</span></a>
                                 <a class="tool-chip" href="https://v0.dev" target="_blank">v0<span class="tool-tip">Генерация интерфейсов по описанию (Vercel)</span></a>
                                 <a class="tool-chip" href="https://bolt.new" target="_blank">Bolt.new<span class="tool-tip">Целое веб-приложение прямо в браузере</span></a>
-                            </div>
-                        </div>
-                        <div class="code-qh ss-reveal" style="--ss-d:560ms">Заменит ли AI <b>разработчиков</b>? — прогнозы лидеров</div>
-                        <div class="qc-grid ss-reveal" style="--ss-d:620ms">
-                            <div class="qc">
-                                <div class="qc-row"><img class="qc-face" src="assets/people/jensen-huang.webp" alt="Дженсен Хуанг"><p class="qc-quote">«Не учите детей программировать — за них это сделает AI».</p></div>
-                                <div class="qc-attr"><b>Дженсен Хуанг</b> · CEO, NVIDIA</div>
-                            </div>
-                            <div class="qc">
-                                <div class="qc-row"><span class="mono">MG</span><p class="qc-quote">«Разработчики перестанут писать код руками, но профессия не исчезнет — трансформируется».</p></div>
-                                <div class="qc-attr"><b>Мэтт Гарман</b> · CEO, AWS</div>
-                            </div>
-                            <div class="qc">
-                                <div class="qc-row"><img class="qc-face" src="assets/people/andrej-karpathy.webp" alt="Андрей Карпаты"><p class="qc-quote">«Самый горячий новый язык программирования — это английский».</p></div>
-                                <div class="qc-attr"><b>Андрей Карпаты</b> · сооснователь OpenAI, ex-Tesla</div>
-                            </div>
-                            <div class="qc">
-                                <div class="qc-row"><img class="qc-face" src="assets/people/dario-amodei.webp" alt="Дарио Амодеи"><p class="qc-quote">«В ближайший год почти весь код будет писать AI — под присмотром человека».</p></div>
-                                <div class="qc-attr"><b>Дарио Амодеи</b> · CEO, Anthropic</div>
                             </div>
                         </div>
                     </div>

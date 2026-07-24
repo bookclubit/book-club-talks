@@ -822,7 +822,243 @@
                     </div>
                 </div>
             </section>
+            <!-- ===== CONTENT SLIDES ===== -->
             <section class="slide" data-slide="4">
+                <style>
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card ul { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; font-size: 18px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-card b, .cs-list b, .cs-callout b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 36px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 22px; line-height: 1.55; color: var(--text-main); max-width: 1520px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-callout { margin-top: 36px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1520px; }
+                    .cs-table { width: 100%; border-collapse: collapse; margin-top: 36px; }
+                    .cs-table th { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em; color: #71717a; text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); font-weight: 600; }
+                    .cs-table td { font-size: 20px; color: var(--text-muted); padding: 16px 20px; border-bottom: 1px solid #1c1c1c; line-height: 1.45; }
+                    .cs-table td:first-child { color: #fff; font-weight: 600; }
+                    .cs-stack { display: flex; flex-direction: column; gap: 16px; margin-top: 36px; }
+                    .cs-layer { border: 1px solid var(--border); background: var(--bg-card); border-radius: 14px; padding: 24px 36px; display: grid; grid-template-columns: 400px 1fr; gap: 32px; align-items: center; }
+                    .cs-layer h3 { margin: 0; font-size: 25px; color: #fff; }
+                    .cs-layer .cs-layer-sub { display: block; font-size: 15px; color: #71717a; margin-top: 6px; font-weight: 400; }
+                    .cs-layer p { margin: 0; font-size: 18px; line-height: 1.55; color: var(--text-muted); }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 1 · Стек AI-инженерии</div>
+                    <h2 class="gradient-text">Инструментов — лавина, кирпичики — те же</h2>
+                    <p class="cs-lead">Каждый день выходят новые инструменты, модели и методики — уследить за всем невозможно. Вместо погони за постоянно меняющейся картиной достаточно понимать основные строительные блоки AI-инженерии.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Выросла из ML-инженерии</h3>
+                            <p>Когда компания начинает экспериментировать с базовыми моделями, работу обычно возглавляет существующая ML-команда. Обязанности AI- и ML-инженеров сильно пересекаются — многие компании даже не разделяют эти роли в вакансиях.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Но это уже отдельная роль</h3>
+                            <p>В части компаний появились отдельные должности AI-инженеров. Встречаются AI-инженеры вообще без опыта в ML: знание ML полезно, но больше не обязательно.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Три уровня</div>
+                    <h2 class="gradient-text">Три уровня стека AI</h2>
+                    <p class="cs-lead">В любом стеке AI-приложений есть три уровня. Разработка обычно начинается с верхнего — и спускается вниз по мере необходимости.</p>
+                    <div class="cs-stack">
+                        <div class="cs-layer">
+                            <h3>1 · Разработка приложений<span class="cs-layer-sub">самый быстрорастущий уровень</span></h3>
+                            <p>Модели легкодоступны — приложение может строить каждый. Суть: дать модели качественные промты и нужный контекст, тщательно оценивать результат и завернуть всё в хороший интерфейс.</p>
+                        </div>
+                        <div class="cs-layer">
+                            <h3>2 · Разработка модели<span class="cs-layer-sub">центральное место — данные</span></h3>
+                            <p>Инструментарий для создания, обучения и дообучения моделей, проектирование наборов данных, оптимизация вывода.</p>
+                        </div>
+                        <div class="cs-layer">
+                            <h3>3 · Инфраструктура<span class="cs-layer-sub">фундамент</span></h3>
+                            <p>Обслуживание моделей, управление данными и вычислениями, мониторинг.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Анализ GitHub (920 AI-репозиториев с 500+ звёзд, март 2024): взрывной рост 2023 года пришёлся на <b>приложения и их разработку</b>. Инфраструктура выросла скромнее — её базовые потребности не изменились.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Фундамент</div>
+                    <h2 class="gradient-text">Принципы, которые никуда не делись</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Бизнес-задача прежде всего.</b> AI-приложение всё ещё должно её решать — путь «бизнес-метрики → ML-метрики → бизнес-метрики» остаётся обязательным.</span></li>
+                        <li><span><b>Систематические эксперименты.</b> Раньше перебирали гиперпараметры, теперь — модели, промты, алгоритмы поиска и параметры сэмплирования.</span></li>
+                        <li><span><b>Быстрее и дешевле.</b> Пользователи не откажутся от скорости, а бизнес — от снижения стоимости вывода.</span></li>
+                        <li><span><b>Цикл обратной связи.</b> Приложение улучшается итеративно — на производственных данных.</span></li>
+                    </ul>
+                    <div class="cs-callout">Опыт, накопленный ML-инженерами за последнее десятилетие, по-прежнему актуален — именно этот коллективный опыт позволяет каждому начать создавать AI-приложения.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">AI vs ML</div>
+                    <h2 class="gradient-text">Три больших отличия от ML-инженерии</h2>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <span class="cs-num">01</span>
+                            <h3>Модель уже обучена за вас</h3>
+                            <p>Раньше модель под задачу обучали сами. Теперь берём готовую — фокус смещается с моделирования и обучения на <b>адаптацию модели</b>.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">02</span>
+                            <h3>Модели стали огромными</h3>
+                            <p>Больше вычислений, выше задержки — оптимизация вывода критична, нужны GPU-кластеры. «Мы знаем, как работать с 10 GPU, но не знаем, как с 1000».</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">03</span>
+                            <h3>Выводы открытого типа</h3>
+                            <p>Модель гибкая и решает много задач, но такие ответы сложно оценивать. <b>Оценка</b> превращается в главную проблему AI-инженерии.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Коротко: AI-инженерия — <b>меньше про разработку модели, больше про её адаптацию и оценку</b>.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Адаптация</div>
+                    <h2 class="gradient-text">Адаптировать модель можно двумя способами</h2>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Промт-инжиниринг — веса не меняются</h3>
+                            <p>Модель адаптируют инструкциями и контекстом. Простой старт, мало данных, легко перебирать модели — многие успешные приложения построены на одних промтах. Но для сложных задач и строгих требований к производительности этого может не хватить.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Дообучение — веса меняются</h3>
+                            <p>Сложнее и требует больше данных, зато может заметно поднять качество, сократить задержку и стоимость вычислений. Без изменения весов не обойтись, если модель должна освоить задачу, которой не видела при обучении.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="9">
+                <div class="cs">
+                    <div class="badge">Уровень «Разработка модели»</div>
+                    <h2 class="gradient-text">Разработка модели: три зоны ответственности</h2>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <h3>Моделирование и обучение</h3>
+                            <p>TensorFlow, PyTorch, Transformers. Градиентный спуск и функции потерь знать больше не обязательно — но ML-знания расширяют инструментарий и сильно упрощают отладку, когда модель ведёт себя не так.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Проектирование наборов данных</h3>
+                            <p>Задачи открытого типа размечать сложнее: «спам / не спам» проще, чем эссе. Вместо табличных признаков — неструктурированные данные: дедупликация, токенизация, извлечение контекста, контроль качества.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Оптимизация вывода</h3>
+                            <p>Базовые модели авторегрессионны — токены генерируются последовательно: 10 мс на токен = секунда на 100 токенов. А от веб-приложения ждут ответа за ~100 мс. Была важна — стала ещё важнее.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10">
+                <div class="cs">
+                    <div class="badge">Словарик</div>
+                    <h2 class="gradient-text">Обучение бывает разным</h2>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <h3>Предварительное обучение</h3>
+                            <p>Обучение с нуля, со случайных весов. Самый ресурсоёмкий этап: у InstructGPT — до 98 % всех вычислений и данных. Искусство, доступное немногим.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Дообучение</h3>
+                            <p>Продолжение обучения уже обученной модели. Она уже что-то умеет, поэтому данных и вычислений нужно заметно меньше. Так разработчики приложений адаптируют чужие модели под себя.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Последующее обучение</h3>
+                            <p>Концептуально то же дообучение, но термин обычно используют разработчики моделей: например, научить модель следовать инструкциям перед релизом.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout"><b>Промт-инжиниринг — это не обучение.</b> «Скормить ChatGPT свои дневники» — это контекст: веса модели при этом не меняются.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="11">
+                <div class="cs">
+                    <div class="badge">Уровень «Разработка приложений»</div>
+                    <h2 class="gradient-text">Разработка приложений: где теперь конкуренция</h2>
+                    <p class="cs-lead">Когда несколько команд используют одну и ту же базовую модель, различий приходится добиваться процессом разработки приложения.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <h3>Оценка</h3>
+                            <p>Нужна на всех этапах: выбрать модель, отследить прогресс, решиться на продакшен, ловить проблемы в бою. Для открытых ответов нет эталона, с которым можно сравнить, — в этом главная сложность.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Промт-инжиниринг и контекст</h3>
+                            <p>Заставить модель делать нужное, не меняя весов: инструкции, контекст, инструменты, а для длинных задач — управление памятью.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Интерфейс AI</h3>
+                            <p>Самостоятельные приложения, браузерные расширения, чат-боты в мессенджерах, плагины к VSCode, Shopify, Microsoft 365. Чат — самый частый интерфейс, но есть голос и AR/VR.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Насколько промты влияют на результат: Gemini Ultra в MMLU — <b>83,7 %</b> с 5 примерами и <b>90 %</b> с CoT@32. Сам способ промтинга меняет место модели в бенчмарке.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="12">
+                <div class="cs">
+                    <div class="badge">Итого по уровням</div>
+                    <h2 class="gradient-text">Что стало важнее с приходом базовых моделей</h2>
+                    <table class="cs-table">
+                        <tr><th>Категория</th><th>Традиционный ML</th><th>Базовые модели</th></tr>
+                        <tr><td>Создание и обучение моделей</td><td>Знания ML обязательны</td><td>Приятное дополнение, не требование</td></tr>
+                        <tr><td>Наборы данных</td><td>Конструирование признаков</td><td>Дедупликация, токенизация, контекст, качество</td></tr>
+                        <tr><td>Оптимизация вывода</td><td>Важна</td><td>Ещё важнее</td></tr>
+                        <tr><td>Промт-инжиниринг</td><td>Не применяется</td><td>Важен</td></tr>
+                        <tr><td>Интерфейс AI</td><td>Менее важен</td><td>Важен</td></tr>
+                        <tr><td>Оценка</td><td>Важна</td><td>Ещё важнее</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="13">
+                <div class="cs">
+                    <div class="badge">Кто такой AI-инженер</div>
+                    <h2 class="gradient-text">AI-инженерия сближается с full-stack</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Интерфейсы выходят на первый план</b> — в AI приходят фронтенд- и full-stack-разработчики.</span></li>
+                        <li><span><b>Python всё ещё главный, но JS-экосистема растёт:</b> LangChain.js, Transformers.js, openai-node, AI SDK от Vercel.</span></li>
+                        <li><span><b>Рабочий процесс перевернулся:</b> раньше — «данные → модель → продукт», теперь — «продукт → а если взлетел, инвестируем в данные и модель».</span></li>
+                        <li><span><b>Выигрывает тот, кто быстрее итерируется:</b> превращает идею в демо, собирает отзывы и улучшает продукт.</span></li>
+                    </ul>
+                    <div class="cs-callout">«AI-инженерия — это просто программная инженерия с добавлением моделей AI в стек».</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="14">
+                <div class="cs">
+                    <div class="badge">Главные выводы</div>
+                    <h2 class="gradient-text">Если запомнить только это</h2>
+                    <ul class="cs-list">
+                        <li><span>Стек AI — три уровня: <b>приложения, модели, инфраструктура</b>. Хайп наверху, фундамент почти не меняется.</span></li>
+                        <li><span>AI-инженерия — меньше про обучение моделей, больше про <b>адаптацию и оценку</b>.</span></li>
+                        <li><span>Два пути адаптации: <b>промты</b> (веса не трогаем) и <b>дообучение</b> (веса меняем).</span></li>
+                        <li><span><b>Оценка открытых ответов</b> — главная сложность и главный дифференциатор.</span></li>
+                        <li><span>Порог входа упал: продукт строится до инвестиций в модели — <b>побеждают быстрые итерации</b>.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="15">
                 <style>
                     .timeline-next-container {
                         display: flex;

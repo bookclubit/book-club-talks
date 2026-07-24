@@ -859,6 +859,7 @@
                 .tool-chip:hover { border-color: var(--border-hover); background: var(--bg-hover); }
                 .tool-chip:active { transform: scale(0.97); }
                 .tool-chip::after { content: ' ↗'; color: #52525b; font-size: 0.8em; margin-left: 6px; }
+                .tool-chip .tool-logo { width: 20px; height: 20px; object-fit: contain; margin-right: 9px; border-radius: 5px; background: #fff; padding: 2px; flex-shrink: 0; }
                 .tool-chip .tool-tip { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(6px); width: 240px; padding: 12px 15px; background: #1e1e1e; border: 1px solid var(--border-hover); border-radius: 10px; font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--text-muted); text-align: center; box-shadow: 0 12px 32px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 30; transition: opacity 150ms var(--ss-out), transform 150ms var(--ss-out); }
                 .tool-chip:hover .tool-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
                 .tool-chip .tool-tip::after { content: none; }
@@ -1390,69 +1391,69 @@
                         <div class="tcloud ss-reveal" style="--ss-d:220ms">
                             <div class="tcg">
                                 <div class="tcg-label">Автодополнение и IDE</div>
-                                <a class="tool-chip" href="https://www.tabnine.com" target="_blank">Tabnine<span class="tool-tip">AI-автодополнение с приватным деплоем</span></a>
-                                <a class="tool-chip" href="https://aws.amazon.com/q/developer/" target="_blank">Amazon Q<span class="tool-tip">AI-ассистент разработчика от AWS</span></a>
-                                <a class="tool-chip" href="https://www.continue.dev" target="_blank">Continue<span class="tool-tip">Open-source AI-ассистент для IDE</span></a>
-                                <a class="tool-chip" href="https://sourcery.ai" target="_blank">Sourcery<span class="tool-tip">Подсказки по улучшению кода на лету</span></a>
-                                <a class="tool-chip" href="https://codeium.com" target="_blank">Codeium<span class="tool-tip">Бесплатное автодополнение и чат</span></a>
+                                <a class="tool-chip" href="https://www.tabnine.com" target="_blank"><img class="tool-logo" src="assets/logos/tabnine.webp" alt="" loading="lazy">Tabnine<span class="tool-tip">AI-автодополнение с приватным деплоем</span></a>
+                                <a class="tool-chip" href="https://aws.amazon.com/q/developer/" target="_blank"><img class="tool-logo" src="assets/logos/amazon-q.webp" alt="" loading="lazy">Amazon Q<span class="tool-tip">AI-ассистент разработчика от AWS</span></a>
+                                <a class="tool-chip" href="https://www.continue.dev" target="_blank"><img class="tool-logo" src="assets/logos/continue.webp" alt="" loading="lazy">Continue<span class="tool-tip">Open-source AI-ассистент для IDE</span></a>
+                                <a class="tool-chip" href="https://sourcery.ai" target="_blank"><img class="tool-logo" src="assets/logos/sourcery.webp" alt="" loading="lazy">Sourcery<span class="tool-tip">Подсказки по улучшению кода на лету</span></a>
+                                <a class="tool-chip" href="https://codeium.com" target="_blank"><img class="tool-logo" src="assets/logos/codeium.webp" alt="" loading="lazy">Codeium<span class="tool-tip">Бесплатное автодополнение и чат</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Тестирование</div>
-                                <a class="tool-chip" href="https://www.qodo.ai" target="_blank">Qodo<span class="tool-tip">Генерация тестов и проверка кода (ex-Codium)</span></a>
-                                <a class="tool-chip" href="https://www.diffblue.com" target="_blank">Diffblue<span class="tool-tip">Автогенерация unit-тестов для Java</span></a>
-                                <a class="tool-chip" href="https://www.meticulous.ai" target="_blank">Meticulous<span class="tool-tip">Автотесты фронтенда без написания кода</span></a>
-                                <a class="tool-chip" href="https://www.testim.io" target="_blank">Testim<span class="tool-tip">AI-стабильные E2E-тесты UI</span></a>
-                                <a class="tool-chip" href="https://www.mabl.com" target="_blank">Mabl<span class="tool-tip">Автотесты с самовосстановлением</span></a>
+                                <a class="tool-chip" href="https://www.qodo.ai" target="_blank"><img class="tool-logo" src="assets/logos/qodo.webp" alt="" loading="lazy">Qodo<span class="tool-tip">Генерация тестов и проверка кода (ex-Codium)</span></a>
+                                <a class="tool-chip" href="https://www.diffblue.com" target="_blank"><img class="tool-logo" src="assets/logos/diffblue.webp" alt="" loading="lazy">Diffblue<span class="tool-tip">Автогенерация unit-тестов для Java</span></a>
+                                <a class="tool-chip" href="https://www.meticulous.ai" target="_blank"><img class="tool-logo" src="assets/logos/meticulous.webp" alt="" loading="lazy">Meticulous<span class="tool-tip">Автотесты фронтенда без написания кода</span></a>
+                                <a class="tool-chip" href="https://www.testim.io" target="_blank"><img class="tool-logo" src="assets/logos/testim.webp" alt="" loading="lazy">Testim<span class="tool-tip">AI-стабильные E2E-тесты UI</span></a>
+                                <a class="tool-chip" href="https://www.mabl.com" target="_blank"><img class="tool-logo" src="assets/logos/mabl.webp" alt="" loading="lazy">Mabl<span class="tool-tip">Автотесты с самовосстановлением</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Документация</div>
-                                <a class="tool-chip" href="https://mintlify.com" target="_blank">Mintlify<span class="tool-tip">Документация из кода + AI-поиск</span></a>
-                                <a class="tool-chip" href="https://swimm.io" target="_blank">Swimm<span class="tool-tip">Документация, синхронная с кодом</span></a>
-                                <a class="tool-chip" href="https://trelent.net" target="_blank">Trelent<span class="tool-tip">Автогенерация docstring в IDE</span></a>
-                                <a class="tool-chip" href="https://readme.com" target="_blank">ReadMe<span class="tool-tip">Интерактивная документация API с AI</span></a>
+                                <a class="tool-chip" href="https://mintlify.com" target="_blank"><img class="tool-logo" src="assets/logos/mintlify.webp" alt="" loading="lazy">Mintlify<span class="tool-tip">Документация из кода + AI-поиск</span></a>
+                                <a class="tool-chip" href="https://swimm.io" target="_blank"><img class="tool-logo" src="assets/logos/swimm.webp" alt="" loading="lazy">Swimm<span class="tool-tip">Документация, синхронная с кодом</span></a>
+                                <a class="tool-chip" href="https://trelent.net" target="_blank"><img class="tool-logo" src="assets/logos/trelent.webp" alt="" loading="lazy">Trelent<span class="tool-tip">Автогенерация docstring в IDE</span></a>
+                                <a class="tool-chip" href="https://readme.com" target="_blank"><img class="tool-logo" src="assets/logos/readme.webp" alt="" loading="lazy">ReadMe<span class="tool-tip">Интерактивная документация API с AI</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Code review</div>
-                                <a class="tool-chip" href="https://coderabbit.ai" target="_blank">CodeRabbit<span class="tool-tip">AI-ревью пул-реквестов</span></a>
-                                <a class="tool-chip" href="https://graphite.dev" target="_blank">Graphite<span class="tool-tip">Стек-PR и AI-ревьюер</span></a>
-                                <a class="tool-chip" href="https://www.greptile.com" target="_blank">Greptile<span class="tool-tip">Ревью с пониманием всей кодовой базы</span></a>
-                                <a class="tool-chip" href="https://www.codacy.com" target="_blank">Codacy<span class="tool-tip">Автоматический контроль качества кода</span></a>
-                                <a class="tool-chip" href="https://bito.ai" target="_blank">Bito<span class="tool-tip">AI-ревью и объяснение кода</span></a>
+                                <a class="tool-chip" href="https://coderabbit.ai" target="_blank"><img class="tool-logo" src="assets/logos/coderabbit.webp" alt="" loading="lazy">CodeRabbit<span class="tool-tip">AI-ревью пул-реквестов</span></a>
+                                <a class="tool-chip" href="https://graphite.dev" target="_blank"><img class="tool-logo" src="assets/logos/graphite.webp" alt="" loading="lazy">Graphite<span class="tool-tip">Стек-PR и AI-ревьюер</span></a>
+                                <a class="tool-chip" href="https://www.greptile.com" target="_blank"><img class="tool-logo" src="assets/logos/greptile.webp" alt="" loading="lazy">Greptile<span class="tool-tip">Ревью с пониманием всей кодовой базы</span></a>
+                                <a class="tool-chip" href="https://www.codacy.com" target="_blank"><img class="tool-logo" src="assets/logos/codacy.webp" alt="" loading="lazy">Codacy<span class="tool-tip">Автоматический контроль качества кода</span></a>
+                                <a class="tool-chip" href="https://bito.ai" target="_blank"><img class="tool-logo" src="assets/logos/bito.webp" alt="" loading="lazy">Bito<span class="tool-tip">AI-ревью и объяснение кода</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Безопасность</div>
-                                <a class="tool-chip" href="https://snyk.io" target="_blank">Snyk<span class="tool-tip">Поиск уязвимостей в коде и зависимостях</span></a>
-                                <a class="tool-chip" href="https://semgrep.dev" target="_blank">Semgrep<span class="tool-tip">Статический анализ и правила безопасности</span></a>
-                                <a class="tool-chip" href="https://socket.dev" target="_blank">Socket<span class="tool-tip">Защита цепочки поставок npm/pip</span></a>
-                                <a class="tool-chip" href="https://www.gitguardian.com" target="_blank">GitGuardian<span class="tool-tip">Поиск утёкших секретов в репозиториях</span></a>
-                                <a class="tool-chip" href="https://www.endorlabs.com" target="_blank">Endor Labs<span class="tool-tip">Анализ рисков зависимостей</span></a>
+                                <a class="tool-chip" href="https://snyk.io" target="_blank"><img class="tool-logo" src="assets/logos/snyk.webp" alt="" loading="lazy">Snyk<span class="tool-tip">Поиск уязвимостей в коде и зависимостях</span></a>
+                                <a class="tool-chip" href="https://semgrep.dev" target="_blank"><img class="tool-logo" src="assets/logos/semgrep.webp" alt="" loading="lazy">Semgrep<span class="tool-tip">Статический анализ и правила безопасности</span></a>
+                                <a class="tool-chip" href="https://socket.dev" target="_blank"><img class="tool-logo" src="assets/logos/socket.webp" alt="" loading="lazy">Socket<span class="tool-tip">Защита цепочки поставок npm/pip</span></a>
+                                <a class="tool-chip" href="https://www.gitguardian.com" target="_blank"><img class="tool-logo" src="assets/logos/gitguardian.webp" alt="" loading="lazy">GitGuardian<span class="tool-tip">Поиск утёкших секретов в репозиториях</span></a>
+                                <a class="tool-chip" href="https://www.endorlabs.com" target="_blank"><img class="tool-logo" src="assets/logos/endorlabs.webp" alt="" loading="lazy">Endor Labs<span class="tool-tip">Анализ рисков зависимостей</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Рефакторинг и миграции</div>
-                                <a class="tool-chip" href="https://sourcegraph.com" target="_blank">Sourcegraph<span class="tool-tip">Поиск по коду и массовые правки (Cody)</span></a>
-                                <a class="tool-chip" href="https://www.moderne.io" target="_blank">Moderne<span class="tool-tip">Автоматические миграции легаси</span></a>
-                                <a class="tool-chip" href="https://www.grit.io" target="_blank">Grit.io<span class="tool-tip">Массовые правки и миграции по паттернам</span></a>
-                                <a class="tool-chip" href="https://codemod.com" target="_blank">Codemod<span class="tool-tip">Платформа автоматических codemod-ов</span></a>
+                                <a class="tool-chip" href="https://sourcegraph.com" target="_blank"><img class="tool-logo" src="assets/logos/sourcegraph.webp" alt="" loading="lazy">Sourcegraph<span class="tool-tip">Поиск по коду и массовые правки (Cody)</span></a>
+                                <a class="tool-chip" href="https://www.moderne.io" target="_blank"><img class="tool-logo" src="assets/logos/moderne.webp" alt="" loading="lazy">Moderne<span class="tool-tip">Автоматические миграции легаси</span></a>
+                                <a class="tool-chip" href="https://www.grit.io" target="_blank"><img class="tool-logo" src="assets/logos/grit.webp" alt="" loading="lazy">Grit.io<span class="tool-tip">Массовые правки и миграции по паттернам</span></a>
+                                <a class="tool-chip" href="https://codemod.com" target="_blank"><img class="tool-logo" src="assets/logos/codemod.webp" alt="" loading="lazy">Codemod<span class="tool-tip">Платформа автоматических codemod-ов</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Базы данных / SQL</div>
-                                <a class="tool-chip" href="https://supabase.com" target="_blank">Supabase AI<span class="tool-tip">Помощник по SQL и схемам БД</span></a>
-                                <a class="tool-chip" href="https://www.text2sql.ai" target="_blank">Text2SQL<span class="tool-tip">Запрос на человеческом → SQL</span></a>
-                                <a class="tool-chip" href="https://www.ai2sql.io" target="_blank">AI2sql<span class="tool-tip">Генерация SQL по описанию</span></a>
-                                <a class="tool-chip" href="https://www.outerbase.com" target="_blank">Outerbase<span class="tool-tip">Интерфейс к БД с AI-запросами</span></a>
+                                <a class="tool-chip" href="https://supabase.com" target="_blank"><img class="tool-logo" src="assets/logos/supabase.webp" alt="" loading="lazy">Supabase AI<span class="tool-tip">Помощник по SQL и схемам БД</span></a>
+                                <a class="tool-chip" href="https://www.text2sql.ai" target="_blank"><img class="tool-logo" src="assets/logos/text2sql.webp" alt="" loading="lazy">Text2SQL<span class="tool-tip">Запрос на человеческом → SQL</span></a>
+                                <a class="tool-chip" href="https://www.ai2sql.io" target="_blank"><img class="tool-logo" src="assets/logos/ai2sql.webp" alt="" loading="lazy">AI2sql<span class="tool-tip">Генерация SQL по описанию</span></a>
+                                <a class="tool-chip" href="https://www.outerbase.com" target="_blank"><img class="tool-logo" src="assets/logos/outerbase.webp" alt="" loading="lazy">Outerbase<span class="tool-tip">Интерфейс к БД с AI-запросами</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Мониторинг и отладка</div>
-                                <a class="tool-chip" href="https://sentry.io" target="_blank">Sentry AI<span class="tool-tip">Анализ ошибок и подсказки по фиксам</span></a>
-                                <a class="tool-chip" href="https://www.honeycomb.io" target="_blank">Honeycomb<span class="tool-tip">Наблюдаемость с AI-запросами по логам</span></a>
-                                <a class="tool-chip" href="https://www.datadoghq.com" target="_blank">Datadog<span class="tool-tip">Bits AI — ассистент по инцидентам</span></a>
-                                <a class="tool-chip" href="https://www.traceloop.com" target="_blank">Traceloop<span class="tool-tip">Наблюдаемость для LLM-приложений</span></a>
+                                <a class="tool-chip" href="https://sentry.io" target="_blank"><img class="tool-logo" src="assets/logos/sentry.webp" alt="" loading="lazy">Sentry AI<span class="tool-tip">Анализ ошибок и подсказки по фиксам</span></a>
+                                <a class="tool-chip" href="https://www.honeycomb.io" target="_blank"><img class="tool-logo" src="assets/logos/honeycomb.webp" alt="" loading="lazy">Honeycomb<span class="tool-tip">Наблюдаемость с AI-запросами по логам</span></a>
+                                <a class="tool-chip" href="https://www.datadoghq.com" target="_blank"><img class="tool-logo" src="assets/logos/datadog.webp" alt="" loading="lazy">Datadog<span class="tool-tip">Bits AI — ассистент по инцидентам</span></a>
+                                <a class="tool-chip" href="https://www.traceloop.com" target="_blank"><img class="tool-logo" src="assets/logos/traceloop.webp" alt="" loading="lazy">Traceloop<span class="tool-tip">Наблюдаемость для LLM-приложений</span></a>
                             </div>
                             <div class="tcg">
                                 <div class="tcg-label">Инфраструктура и DevOps</div>
-                                <a class="tool-chip" href="https://www.pulumi.com/ai/" target="_blank">Pulumi AI<span class="tool-tip">Инфраструктура как код по описанию</span></a>
-                                <a class="tool-chip" href="https://www.warp.dev" target="_blank">Warp<span class="tool-tip">Терминал со встроенным AI-агентом</span></a>
-                                <a class="tool-chip" href="https://k8sgpt.ai" target="_blank">k8sGPT<span class="tool-tip">Диагностика Kubernetes через AI</span></a>
+                                <a class="tool-chip" href="https://www.pulumi.com/ai/" target="_blank"><img class="tool-logo" src="assets/logos/pulumi.webp" alt="" loading="lazy">Pulumi AI<span class="tool-tip">Инфраструктура как код по описанию</span></a>
+                                <a class="tool-chip" href="https://www.warp.dev" target="_blank"><img class="tool-logo" src="assets/logos/warp.webp" alt="" loading="lazy">Warp<span class="tool-tip">Терминал со встроенным AI-агентом</span></a>
+                                <a class="tool-chip" href="https://k8sgpt.ai" target="_blank"><img class="tool-logo" src="assets/logos/k8sgpt.webp" alt="" loading="lazy">k8sGPT<span class="tool-tip">Диагностика Kubernetes через AI</span></a>
                             </div>
                         </div>
                     </div>
@@ -1463,7 +1464,7 @@
             <section class="slide ss" data-slide="9" id="cr-slide">
                 <style>
                     #cr-slide .ss-body { display: flex; flex-direction: column; min-height: 0; }
-                    #cr-slide .cr-stage { position: relative; }
+                    #cr-slide .cr-stage { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; }
                     #cr-slide .crq { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 24px 32px; display: flex; gap: 26px; align-items: center; text-decoration: none; }
                     #cr-slide .crq-face { width: 78px; height: 78px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
                     #cr-slide .crq .mono { width: 78px; height: 78px; border-radius: 50%; font-size: 24px; flex-shrink: 0; }
@@ -1501,16 +1502,16 @@
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 06 · Творчество</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Генерация <b>изображений и видео</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">За несколько лет — путь от «угрозы» до нормы. Нажми на цитату Meta — что говорят лидеры рынка сегодня.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">За несколько лет — путь от «угрозы» до нормы.</p>
                     </div>
                     <div class="ss-body">
                         <div class="cr-stage ss-reveal" style="--ss-d:200ms">
                             <div class="crq cr-threat" role="button" tabindex="0" onclick="this.closest('.cr-stage').classList.add('show-leaders')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.closest('.cr-stage').classList.add('show-leaders')}">
-                                <span class="mono">M</span>
+                                <img class="crq-face" src="assets/people/mark-zuckerberg.webp" alt="Марк Цукерберг">
                                 <div class="crq-body">
                                     <div class="crq-top"><span class="crq-date">2019</span><span class="crq-tag">Угроза</span></div>
                                     <p class="crq-q">«AI-сгенерированные лица используют для фейковых аккаунтов — мы их удаляем».</p>
-                                    <div class="crq-attr"><b>Meta</b> · борьба с дезинформацией</div>
+                                    <div class="crq-attr"><b>Марк Цукерберг</b> · Meta · борьба с дезинформацией</div>
                                 </div>
                                 <span class="crq-cta">что дальше <span class="arr">→</span></span>
                             </div>

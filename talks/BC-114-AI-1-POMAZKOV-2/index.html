@@ -1229,38 +1229,45 @@
             <!-- БЛОК 3 -->
             <section class="slide ss" data-slide="6" id="cat-slide">
                 <style>
-                    #cat-slide .ss-head { margin-bottom: 8px; }
-                    #cat-slide .b3-stats { margin: 0 0 26px; }
-                    #cat-slide .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 1200px; margin: 0 auto; }
-                    #cat-slide .cat-btn { position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 15px 16px; font-size: 16px; color: var(--text-main); cursor: pointer; text-align: left; transition: transform 160ms var(--ss-out), border-color 160ms var(--ss-out), background 160ms var(--ss-out); }
-                    #cat-slide .cat-btn:hover { border-color: var(--border-hover); background: var(--bg-hover); }
-                    #cat-slide .cat-btn:active { transform: scale(0.98); }
-                    #cat-slide .cat-btn.on { border-color: #fff; background: #111; }
-                    #cat-slide .cat-btn .y26 { font-family: var(--font-mono); font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
-                    #cat-slide .cat-detail { max-width: 1200px; margin: 18px auto 0; display: none; }
-                    #cat-slide .cat-detail.show { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; animation: catIn 300ms var(--ss-out) both; }
-                    @keyframes catIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-                    #cat-slide .cat-pane { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; }
-                    #cat-slide .cat-pane.ent { border-color: var(--border-hover); background: #111; }
-                    #cat-slide .cat-pane h4 { margin: 0 0 10px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
-                    #cat-slide .cat-pane.ent h4 { color: #fff; }
-                    #cat-slide .cat-pane p { margin: 0; font-size: 18px; color: var(--text-main); line-height: 1.5; }
-                    #cat-slide .cat-hint { text-align: center; margin-top: 16px; font-size: 15px; color: #52525b; }
+                    #cat-slide .b3-stats { margin: 0 0 22px; }
+                    #cat-slide .ss-head { margin-bottom: 22px; }
+                    #cat-slide .cat3 { display: grid; grid-template-columns: 1fr 300px 1fr; gap: 40px; align-items: start; max-width: 1300px; margin: 0 auto; }
+                    #cat-slide .cat3-side.left { text-align: right; }
+                    #cat-slide .cat3-side.right { text-align: left; }
+                    #cat-slide .cat3-h { font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 18px; }
+                    #cat-slide .cat3-side.right .cat3-h { color: #fff; }
+                    #cat-slide .cat3-text { font-size: 19px; line-height: 1.55; color: var(--text-main); min-height: 60px; }
+                    #cat-slide .cat3-text.f { animation: catFade 280ms var(--ss-out) both; }
+                    @keyframes catFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+                    #cat-slide .cat3-mid { display: flex; flex-direction: column; gap: 8px; }
+                    #cat-slide .cat3-cat { position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; font-size: 15px; color: var(--text-main); cursor: pointer; text-align: center; transition: transform 140ms var(--ss-out), border-color 140ms var(--ss-out), background 140ms var(--ss-out); }
+                    #cat-slide .cat3-cat:hover { border-color: var(--border-hover); background: var(--bg-hover); }
+                    #cat-slide .cat3-cat:active { transform: scale(0.98); }
+                    #cat-slide .cat3-cat.on { border-color: #fff; background: #111; }
+                    #cat-slide .cat3-cat .y26 { font-family: var(--font-mono); font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
                 </style>
                 <div class="ss-wrap">
+                    <div class="b3-stats ss-reveal" style="--ss-d:60ms">
+                        <div class="b3-stat"><div class="v"><span class="ss-count" data-to="50">50</span></div><div class="l">опрошенных компаний</div></div>
+                        <div class="b3-stat"><div class="v">100+</div><div class="l">разобранных кейсов</div></div>
+                        <div class="b3-stat"><div class="v"><span class="ss-count" data-to="205">205</span></div><div class="l">open-source приложений (500+ ⭐ на GitHub)</div></div>
+                    </div>
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 03 · Методология автора</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Категории AI-приложений</h2>
+                        <div class="ss-kicker ss-reveal" style="--ss-d:120ms">Блок 03 · Методология автора</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:180ms">Категории AI-приложений</h2>
                     </div>
                     <div class="ss-body">
-                        <div class="b3-stats">
-                            <div class="b3-stat ss-reveal" style="--ss-d:160ms"><div class="v"><span class="ss-count" data-to="50">50</span></div><div class="l">опрошенных компаний</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:230ms"><div class="v">100+</div><div class="l">разобранных кейсов</div></div>
-                            <div class="b3-stat ss-reveal" style="--ss-d:300ms"><div class="v"><span class="ss-count" data-to="205">205</span></div><div class="l">open-source приложений (500+ ⭐ на GitHub)</div></div>
+                        <div class="cat3 ss-reveal" style="--ss-d:260ms">
+                            <div class="cat3-side left">
+                                <div class="cat3-h">Как используют люди</div>
+                                <p class="cat3-text" id="cat-users"></p>
+                            </div>
+                            <div class="cat3-mid" id="cat-list"></div>
+                            <div class="cat3-side right">
+                                <div class="cat3-h">В корпоративной среде</div>
+                                <p class="cat3-text" id="cat-ent"></p>
+                            </div>
                         </div>
-                        <div class="cat-grid ss-reveal" style="--ss-d:400ms" id="cat-grid"></div>
-                        <div class="cat-detail" id="cat-detail"></div>
-                        <div class="cat-hint ss-reveal" style="--ss-d:480ms" id="cat-hint">↑ 12 категорий — нажми, чтобы увидеть, как её используют люди и компании</div>
                     </div>
                 </div>
                 <script>
@@ -1279,26 +1286,27 @@
                             { n: 'AI-наука', y26: 1, u: 'Помощь в учёбе и небольших исследованиях.', e: 'R&D: лекарства, материалы, доказательства теорем.' },
                             { n: 'Поиск / ассистенты', y26: 1, u: 'Perplexity, ответы со ссылками на источники.', e: 'Enterprise-search: Glean, ассистент по всем данным.' }
                         ];
-                        var grid = document.getElementById('cat-grid');
-                        var det = document.getElementById('cat-detail');
-                        var hint = document.getElementById('cat-hint');
+                        var list = document.getElementById('cat-list');
+                        var usersEl = document.getElementById('cat-users');
+                        var entEl = document.getElementById('cat-ent');
                         var cur = -1;
                         CATS.forEach(function (c, i) {
                             var b = document.createElement('button');
-                            b.className = 'cat-btn'; b.type = 'button';
+                            b.className = 'cat3-cat'; b.type = 'button';
                             b.innerHTML = c.n + (c.y26 ? '<span class="y26">2026</span>' : '');
-                            b.addEventListener('click', function () { toggle(i); });
-                            grid.appendChild(b);
+                            b.addEventListener('click', function () { select(i); });
+                            list.appendChild(b);
                         });
-                        function toggle(i) {
-                            cur = cur === i ? -1 : i;
-                            [].forEach.call(grid.children, function (b, k) { b.classList.toggle('on', k === cur); });
-                            if (cur < 0) { det.className = 'cat-detail'; det.innerHTML = ''; hint.style.visibility = 'visible'; return; }
+                        function select(i) {
+                            cur = i;
+                            [].forEach.call(list.children, function (b, k) { b.classList.toggle('on', k === cur); });
                             var c = CATS[i];
-                            det.innerHTML = '<div class="cat-pane"><h4>Как используют люди</h4><p>' + c.u + '</p></div><div class="cat-pane ent"><h4>В корпоративной среде</h4><p>' + c.e + '</p></div>';
-                            det.className = 'cat-detail show';
-                            hint.style.visibility = 'hidden';
+                            usersEl.classList.remove('f'); entEl.classList.remove('f');
+                            void usersEl.offsetWidth;
+                            usersEl.textContent = c.u; entEl.textContent = c.e;
+                            usersEl.classList.add('f'); entEl.classList.add('f');
                         }
+                        select(0);
                     })();
                 </script>
             </section>

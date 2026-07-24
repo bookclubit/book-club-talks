@@ -1699,12 +1699,24 @@
             <!-- БЛОК 9 -->
             <section class="slide ss" data-slide="11" id="edu-slide">
                 <style>
-                    #edu-slide .ss-quote { margin: 0 auto; }
-                    #edu-slide .edu-list { display: flex; flex-direction: column; gap: 13px; margin-top: 34px; }
-                    #edu-slide .edu-item { display: flex; gap: 24px; align-items: center; padding: 17px 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; }
+                    #edu-slide .ss-quote { margin: 0; max-width: 100%; gap: 36px; }
+                    #edu-slide .ss-quote img { width: 160px; height: 160px; }
+                    #edu-slide .ss-quote p { font-size: 38px; line-height: 1.32; }
+                    #edu-slide .ss-quote .a { font-size: 17px; margin-top: 14px; }
+                    #edu-slide .edu-list { display: flex; flex-direction: column; gap: 12px; margin-top: 34px; }
+                    #edu-slide .edu-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; transition: border-color 160ms var(--ss-out), background 160ms var(--ss-out); }
+                    #edu-slide .edu-item:hover { border-color: var(--border-hover); background: var(--bg-hover); }
+                    #edu-slide .edu-item.on { border-color: #fff; background: #111; }
+                    #edu-slide .edu-head { display: flex; gap: 24px; align-items: center; padding: 14px 28px; cursor: pointer; }
                     #edu-slide .edu-num { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #161616; border: 1px solid var(--border-hover); color: #fff; font-family: var(--font-mono); font-size: 17px; font-weight: 700; }
-                    #edu-slide .edu-item p { margin: 0; font-size: 20px; line-height: 1.42; color: var(--text-main); }
-                    #edu-slide .edu-item p b { color: #fff; }
+                    #edu-slide .edu-head p { margin: 0; flex: 1; font-size: 20px; line-height: 1.42; color: var(--text-main); }
+                    #edu-slide .edu-head p b { color: #fff; }
+                    #edu-slide .edu-arr { flex-shrink: 0; color: var(--text-muted); font-size: 18px; transition: transform 200ms var(--ss-out); }
+                    #edu-slide .edu-item.on .edu-arr { transform: rotate(180deg); color: #fff; }
+                    #edu-slide .edu-links { display: none; padding: 2px 28px 16px 92px; }
+                    #edu-slide .edu-item.on .edu-links { display: flex; flex-wrap: wrap; gap: 12px; animation: eduIn 260ms var(--ss-out) both; }
+                    @keyframes eduIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+                    @media (prefers-reduced-motion: reduce) { #edu-slide .edu-item.on .edu-links { animation: none; } }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
@@ -1720,11 +1732,56 @@
                             </div>
                         </div>
                         <div class="edu-list">
-                            <div class="edu-item ss-reveal" style="--ss-d:260ms"><span class="edu-num">1</span><p>AI способен <b>конспектировать материал учебников</b> и составлять индивидуальные планы лекций для каждого обучающегося.</p></div>
-                            <div class="edu-item ss-reveal" style="--ss-d:340ms"><span class="edu-num">2</span><p>Студенты-аудиалы могут попросить AI <b>прочитать материалы вслух</b>.</p></div>
-                            <div class="edu-item ss-reveal" style="--ss-d:420ms"><span class="edu-num">3</span><p>Те, кому легче читать код, чем математические уравнения, могут попросить AI <b>перевести уравнения в код</b>.</p></div>
-                            <div class="edu-item ss-reveal" style="--ss-d:500ms"><span class="edu-num">4</span><p>AI особенно полезен при <b>изучении языков</b>: его можно попросить разыграть по ролям различные тренировочные сценки.</p></div>
-                            <div class="edu-item ss-reveal" style="--ss-d:580ms"><span class="edu-num">5</span><p>AI может <b>генерировать тесты</b> — с множественным выбором и открытыми вопросами — и оценивать ответы, а ещё стать вашим <b>партнёром в дебатах</b>.</p></div>
+                            <div class="edu-item ss-reveal" style="--ss-d:260ms">
+                                <div class="edu-head" role="button" tabindex="0" onclick="compToggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();compToggle(this)}">
+                                    <span class="edu-num">1</span><p>AI способен <b>конспектировать материал учебников</b> и составлять индивидуальные планы лекций для каждого обучающегося.</p><span class="edu-arr">▾</span>
+                                </div>
+                                <div class="edu-links">
+                                    <a class="tool-chip" href="https://www.khanmigo.ai" target="_blank"><img class="tool-logo" src="assets/logos/khanmigo.webp" alt="" loading="lazy">Khanmigo<span class="tool-tip">AI-репетитор Khan Academy: не даёт ответ, а ведёт наводящими вопросами</span></a>
+                                    <a class="tool-chip" href="https://notebooklm.google.com" target="_blank"><img class="tool-logo" src="assets/logos/notebooklm.webp" alt="" loading="lazy">NotebookLM<span class="tool-tip">Конспекты, study guide и подкасты из загруженных учебников</span></a>
+                                    <a class="tool-chip" href="https://chatgpt.com" target="_blank"><img class="tool-logo" src="assets/logos/chatgpt.webp" alt="" loading="lazy">ChatGPT<span class="tool-tip">Индивидуальные учебные планы под уровень и цели ученика</span></a>
+                                </div>
+                            </div>
+                            <div class="edu-item ss-reveal" style="--ss-d:340ms">
+                                <div class="edu-head" role="button" tabindex="0" onclick="compToggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();compToggle(this)}">
+                                    <span class="edu-num">2</span><p>Студенты-аудиалы могут попросить AI <b>прочитать материалы вслух</b>.</p><span class="edu-arr">▾</span>
+                                </div>
+                                <div class="edu-links">
+                                    <a class="tool-chip" href="https://elevenlabs.io" target="_blank"><img class="tool-logo" src="assets/logos/elevenlabs.webp" alt="" loading="lazy">ElevenLabs<span class="tool-tip">Реалистичная озвучка любого текста десятками голосов</span></a>
+                                    <a class="tool-chip" href="https://speechify.com" target="_blank"><img class="tool-logo" src="assets/logos/speechify.webp" alt="" loading="lazy">Speechify<span class="tool-tip">Читает вслух учебники, статьи и PDF</span></a>
+                                    <a class="tool-chip" href="https://notebooklm.google.com" target="_blank"><img class="tool-logo" src="assets/logos/notebooklm.webp" alt="" loading="lazy">NotebookLM<span class="tool-tip">Audio Overviews: материал в формате подкаста двух ведущих</span></a>
+                                </div>
+                            </div>
+                            <div class="edu-item ss-reveal" style="--ss-d:420ms">
+                                <div class="edu-head" role="button" tabindex="0" onclick="compToggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();compToggle(this)}">
+                                    <span class="edu-num">3</span><p>Те, кому легче читать код, чем математические уравнения, могут попросить AI <b>перевести уравнения в код</b>.</p><span class="edu-arr">▾</span>
+                                </div>
+                                <div class="edu-links">
+                                    <a class="tool-chip" href="https://claude.ai" target="_blank"><img class="tool-logo" src="assets/logos/claude.webp" alt="" loading="lazy">Claude<span class="tool-tip">Переводит формулы в исполняемый Python/JS с пояснениями</span></a>
+                                    <a class="tool-chip" href="https://chatgpt.com" target="_blank"><img class="tool-logo" src="assets/logos/chatgpt.webp" alt="" loading="lazy">ChatGPT<span class="tool-tip">Код из уравнений + выполнение прямо в чате (Code Interpreter)</span></a>
+                                    <a class="tool-chip" href="https://www.wolframalpha.com" target="_blank"><img class="tool-logo" src="assets/logos/wolfram.webp" alt="" loading="lazy">Wolfram|Alpha<span class="tool-tip">Пошаговые решения уравнений и вычисления</span></a>
+                                </div>
+                            </div>
+                            <div class="edu-item ss-reveal" style="--ss-d:500ms">
+                                <div class="edu-head" role="button" tabindex="0" onclick="compToggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();compToggle(this)}">
+                                    <span class="edu-num">4</span><p>AI особенно полезен при <b>изучении языков</b>: его можно попросить разыграть по ролям различные тренировочные сценки.</p><span class="edu-arr">▾</span>
+                                </div>
+                                <div class="edu-links">
+                                    <a class="tool-chip" href="https://www.duolingo.com" target="_blank"><img class="tool-logo" src="assets/logos/duolingo.webp" alt="" loading="lazy">Duolingo<span class="tool-tip">Duolingo Max: ролевые диалоги с AI и разбор ошибок</span></a>
+                                    <a class="tool-chip" href="https://www.speak.com" target="_blank"><img class="tool-logo" src="assets/logos/speak.webp" alt="" loading="lazy">Speak<span class="tool-tip">Разговорная практика с AI-собеседником голосом</span></a>
+                                    <a class="tool-chip" href="https://chatgpt.com" target="_blank"><img class="tool-logo" src="assets/logos/chatgpt.webp" alt="" loading="lazy">ChatGPT<span class="tool-tip">Голосовой режим: сценки по ролям на любом языке</span></a>
+                                </div>
+                            </div>
+                            <div class="edu-item ss-reveal" style="--ss-d:580ms">
+                                <div class="edu-head" role="button" tabindex="0" onclick="compToggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();compToggle(this)}">
+                                    <span class="edu-num">5</span><p>AI может <b>генерировать тесты</b> — с множественным выбором и открытыми вопросами — и оценивать ответы, а ещё стать вашим <b>партнёром в дебатах</b>.</p><span class="edu-arr">▾</span>
+                                </div>
+                                <div class="edu-links">
+                                    <a class="tool-chip" href="https://quizlet.com" target="_blank"><img class="tool-logo" src="assets/logos/quizlet.webp" alt="" loading="lazy">Quizlet<span class="tool-tip">Q-Chat: карточки и тесты по вашему материалу</span></a>
+                                    <a class="tool-chip" href="https://kahoot.com" target="_blank"><img class="tool-logo" src="assets/logos/kahoot.webp" alt="" loading="lazy">Kahoot!<span class="tool-tip">Генерация викторин по любой теме за минуты</span></a>
+                                    <a class="tool-chip" href="https://claude.ai" target="_blank"><img class="tool-logo" src="assets/logos/claude.webp" alt="" loading="lazy">Claude<span class="tool-tip">Оценка открытых ответов и партнёр в дебатах</span></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1585,12 +1585,35 @@
             <section class="slide ss" data-slide="10" id="txt-slide">
                 <style>
                     #txt-slide .ss-body { display: flex; flex-direction: column; min-height: 0; }
-                    #txt-slide .exp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-                    #txt-slide .exp-setup { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-                    #txt-slide .ep { font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px; padding: 8px 16px; white-space: nowrap; }
-                    #txt-slide .ep.big { color: #fff; }
-                    #txt-slide .ep.hi { color: #000; background: #fff; border-color: #fff; font-weight: 600; }
-                    #txt-slide .ep-arr, #txt-slide .ep-plus { color: #52525b; font-size: 18px; }
+                    #txt-slide .exp-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+                    #txt-slide .ef-flow { display: flex; align-items: center; }
+                    #txt-slide .ef-node { display: flex; align-items: center; gap: 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 20px; font-family: var(--font-mono); font-size: 16px; color: var(--text-main); white-space: nowrap; opacity: 0; }
+                    #txt-slide .ef-src { flex-direction: column; gap: 3px; padding: 10px 22px; }
+                    #txt-slide .ef-src .n { font-size: 30px; font-weight: 700; color: #fff; line-height: 1; }
+                    #txt-slide .ef-src .l { font-size: 13px; color: var(--text-muted); }
+                    #txt-slide .ef-mid .flat-icon, #txt-slide .ef-grp .flat-icon { width: 18px; height: 18px; flex-shrink: 0; }
+                    #txt-slide .ef-line { width: 52px; height: 2px; background: var(--border-hover); transform: scaleX(0); transform-origin: left; }
+                    #txt-slide .ef-fork { width: 62px; height: 108px; flex-shrink: 0; }
+                    #txt-slide .ef-fork path { fill: none; stroke: var(--border-hover); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; }
+                    #txt-slide .ef-groups { display: flex; flex-direction: column; gap: 16px; }
+                    #txt-slide .ef-grp { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 999px; padding: 10px 20px; font-family: var(--font-mono); font-size: 16px; color: var(--text-muted); white-space: nowrap; opacity: 0; }
+                    #txt-slide .ef-grp.hi { color: #000; background: #fff; border-color: #fff; font-weight: 600; }
+                    #txt-slide.active .ef-node, #txt-slide.active .ef-grp { animation: efPop 420ms var(--ss-out) both; }
+                    #txt-slide.active .ef-src { animation-delay: 240ms; }
+                    #txt-slide.active .ef-mid { animation-delay: 620ms; }
+                    #txt-slide.active .ef-line { animation: efLine 240ms var(--ss-out) 440ms both; }
+                    #txt-slide.active .ef-fork path { animation: efDraw 320ms var(--ss-out) 880ms both; }
+                    #txt-slide.active .ef-grp.lo { animation-delay: 1080ms; }
+                    #txt-slide.active .ef-grp.hi { animation: efPop 420ms var(--ss-out) 1200ms both, efGlow 1500ms ease 1750ms 2; }
+                    @keyframes efPop { from { opacity: 0; transform: scale(0.82); } to { opacity: 1; transform: scale(1); } }
+                    @keyframes efLine { to { transform: scaleX(1); } }
+                    @keyframes efDraw { to { stroke-dashoffset: 0; } }
+                    @keyframes efGlow { 0%, 100% { box-shadow: 0 0 0 rgba(255,255,255,0); } 50% { box-shadow: 0 0 26px rgba(255,255,255,0.35); } }
+                    @media (prefers-reduced-motion: reduce) {
+                        #txt-slide .ef-node, #txt-slide .ef-grp, #txt-slide.active .ef-node, #txt-slide.active .ef-grp { opacity: 1; animation: none; }
+                        #txt-slide .ef-line, #txt-slide.active .ef-line { transform: none; animation: none; }
+                        #txt-slide .ef-fork path, #txt-slide.active .ef-fork path { stroke-dashoffset: 0; animation: none; }
+                    }
                     #txt-slide .txt-res { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 26px; }
                     #txt-slide .metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 28px; }
                     #txt-slide .m-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
@@ -1620,14 +1643,18 @@
                     </div>
                     <div class="ss-body">
                         <div class="exp-head ss-reveal" style="--ss-d:200ms">
-                            <div class="exp-setup">
-                                <span class="ep big">453 специалиста</span>
-                                <span class="ep-arr">→</span>
-                                <span class="ep">случайное деление</span>
-                                <span class="ep-arr">→</span>
-                                <span class="ep">группа без AI</span>
-                                <span class="ep-plus">+</span>
-                                <span class="ep hi">группа с ChatGPT</span>
+                            <div class="ef-flow">
+                                <div class="ef-node ef-src"><span class="n">453</span><span class="l">специалиста</span></div>
+                                <div class="ef-line"></div>
+                                <div class="ef-node ef-mid"><svg class="flat-icon" viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>случайное деление</div>
+                                <svg class="ef-fork" viewBox="0 0 62 108" aria-hidden="true">
+                                    <path d="M2 54 C 28 54, 28 26, 60 26" pathLength="1"></path>
+                                    <path d="M2 54 C 28 54, 28 82, 60 82" pathLength="1"></path>
+                                </svg>
+                                <div class="ef-groups">
+                                    <div class="ef-grp lo"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>группа без AI</div>
+                                    <div class="ef-grp hi"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M12 3l1.9 5.8L20 12l-6.1 3.2L12 21l-1.9-5.8L4 12l6.1-3.2z"></path></svg>группа с ChatGPT</div>
+                                </div>
                             </div>
                             <a class="src-link" href="https://economics.mit.edu/sites/default/files/inline-files/Noy_Zhang_1.pdf" target="_blank">Ной и Цзанг · MIT, 2023</a>
                         </div>
@@ -1815,42 +1842,49 @@
             </section>
 
             <!-- БЛОК 11 -->
-            <section class="slide ss" data-slide="13">
+            <section class="slide ss" data-slide="13" id="info-slide">
+                <style>
+                    #info-slide .info2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+                    #info-slide .i2-card { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 30px 34px; transition: border-color 160ms var(--ss-out); }
+                    #info-slide .i2-card:hover { border-color: var(--border-hover); }
+                    #info-slide .i2-card h3 { margin: 0; font-size: 26px; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+                    #info-slide .i2-card > p { margin: 14px 0 0; font-size: 18px; line-height: 1.5; color: var(--text-muted); flex: 1; }
+                    #info-slide .i2-card > p b { color: var(--text-main); }
+                    #info-slide .i2-card .ss-chips-label { margin: 24px 0 12px; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Сценарий 6 — Сбор информации</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Сбор информации — <b>фильтр и сжатие</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">74% пользователей генеративного AI — для анализа и обобщения. AI не создаёт информацию, а сжимает её. Это RAG в действии.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">74% пользователей генеративного AI применяют его для анализа сложных идей и обобщения информации.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="io">
-                            <div class="io-col ss-reveal" style="--ss-d:220ms">
-                                <div class="lbl">Хаос на входе</div>
-                                <div class="io-item">Документы, PDF</div>
-                                <div class="io-item">Письма, Slack</div>
-                                <div class="io-item">Встречи</div>
+                        <div class="info2">
+                            <div class="i2-card ss-reveal" style="--ss-d:220ms">
+                                <h3>Talk-to-your-docs</h3>
+                                <p>Многие приложения могут обрабатывать документы — <b>договоры, уведомления</b> и пр. — и предоставлять информацию из них <b>в форме беседы</b>.</p>
+                                <div class="ss-chips-label">Популярные решения</div>
+                                <div class="ss-chips">
+                                    <a class="tool-chip" href="https://notebooklm.google.com" target="_blank"><img class="tool-logo" src="assets/logos/notebooklm.webp" alt="" loading="lazy">NotebookLM<span class="tool-tip">Загрузи PDF или видео — ответы с цитатами и подкаст-обсуждение (Google)</span></a>
+                                    <a class="tool-chip" href="https://chatgpt.com" target="_blank"><img class="tool-logo" src="assets/logos/chatgpt.webp" alt="" loading="lazy">ChatGPT<span class="tool-tip">Загрузка PDF и документов, ответы по содержимому</span></a>
+                                    <a class="tool-chip" href="https://claude.ai" target="_blank"><img class="tool-logo" src="assets/logos/claude.webp" alt="" loading="lazy">Claude<span class="tool-tip">Анализ договоров и длинных PDF (Anthropic)</span></a>
+                                    <a class="tool-chip" href="https://www.chatpdf.com" target="_blank"><img class="tool-logo" src="assets/logos/chatpdf.webp" alt="" loading="lazy">ChatPDF<span class="tool-tip">Беседа с любым PDF-документом</span></a>
+                                    <a class="tool-chip" href="https://www.adobe.com/acrobat/generative-ai-pdf.html" target="_blank"><img class="tool-logo" src="assets/logos/acrobat.webp" alt="" loading="lazy">Acrobat AI<span class="tool-tip">AI-ассистент по документам прямо в Adobe Acrobat</span></a>
+                                </div>
                             </div>
-                            <div class="io-core ss-reveal" style="--ss-d:340ms"><div class="n">AI</div><div class="s">talk-to-your-docs</div></div>
-                            <div class="io-col ss-reveal" style="--ss-d:460ms">
-                                <div class="lbl">Порядок на выходе</div>
-                                <div class="io-item">Краткая выжимка</div>
-                                <div class="io-item">Action items</div>
-                                <div class="io-item">Ответ с источниками</div>
+                            <div class="i2-card ss-reveal" style="--ss-d:340ms">
+                                <h3>«Быстрый разбор» (Fast Breakdown)</h3>
+                                <p>Обобщает <b>записи собраний, письма и беседы в Slack</b>: факты, открытые вопросы и пункты действий. Затем пункты действий можно автоматически добавить <b>в инструмент управления проектами</b>.</p>
+                                <div class="ss-chips-label">Популярные решения</div>
+                                <div class="ss-chips">
+                                    <a class="tool-chip" href="https://otter.ai" target="_blank"><img class="tool-logo" src="assets/logos/otter.webp" alt="" loading="lazy">Otter.ai<span class="tool-tip">Транскрипты и выжимки встреч в реальном времени</span></a>
+                                    <a class="tool-chip" href="https://fireflies.ai" target="_blank"><img class="tool-logo" src="assets/logos/fireflies.webp" alt="" loading="lazy">Fireflies<span class="tool-tip">Записывает встречи, выделяет action items → Jira, Asana</span></a>
+                                    <a class="tool-chip" href="https://fathom.video" target="_blank"><img class="tool-logo" src="assets/logos/fathom.webp" alt="" loading="lazy">Fathom<span class="tool-tip">AI-заметочник для Zoom, Meet и Teams</span></a>
+                                    <a class="tool-chip" href="https://tldv.io" target="_blank"><img class="tool-logo" src="assets/logos/tldv.webp" alt="" loading="lazy">tl;dv<span class="tool-tip">Конспекты встреч с таймкодами и клипами</span></a>
+                                    <a class="tool-chip" href="https://slack.com/features/ai" target="_blank"><img class="tool-logo" src="assets/logos/slack.webp" alt="" loading="lazy">Slack AI<span class="tool-tip">Выжимки каналов и тредов прямо в Slack</span></a>
+                                </div>
                             </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:600ms">
-                            Instacart «Fast Breakdown»: хаос встреч и писем → пункты действий → автоназначение. <button class="info-trigger" data-open="b11m">проактивный AI и RAG</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="b11m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Сбор информации · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>NotebookLM</b><span>Загрузить PDF/видео → ответы, подкаст-обсуждение, study guide. 50M+ пользователей.</span></div>
-                        <div class="m-row"><b>Perplexity</b><span>AI-поиск: не «10 ссылок», а ответ с источниками. 100M+ запросов/день.</span></div>
-                        <div class="m-row"><b>Корпоративное</b><span>Glean, Microsoft Copilot; суммаризаторы встреч Otter, Fireflies → action items в Jira.</span></div>
-                        <div class="m-row"><b>Тренд</b><span>Проактивный AI сам приносит инсайты. RAG стал инфраструктурой (как БД), MCP стандартизировал подключение данных.</span></div>
                     </div>
                 </div>
             </section>

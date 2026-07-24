@@ -1970,7 +1970,7 @@
                     #dat-slide .idp-core .spin { position: absolute; inset: -12px; border-radius: 50%; border: 1.5px dashed #3f3f46; }
                     #dat-slide.active .idp-core .spin { animation: coreSpin 10s linear infinite; }
                     @keyframes coreSpin { to { transform: rotate(360deg); } }
-                    #dat-slide.active .idp-core { animation: corePulse 2.4s ease-in-out infinite; }
+                    #dat-slide.active .idp-core { animation: ssReveal 640ms var(--ss-out) 340ms both, corePulse 2.4s ease-in-out 1.2s infinite; }
                     @keyframes corePulse { 0%, 100% { box-shadow: 0 0 0 rgba(255,255,255,0); } 50% { box-shadow: 0 0 46px rgba(255,255,255,0.13); } }
                     #dat-slide .idp-core .n { font-size: 44px; font-weight: 700; color: #fff; line-height: 1; }
                     #dat-slide .idp-core .s { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); }
@@ -1979,7 +1979,8 @@
                     #dat-slide.active .toks span { animation: tokFill 1.8s ease-in-out infinite; animation-delay: calc(var(--i) * 0.22s); }
                     @keyframes tokFill { 0%, 60%, 100% { background: #26262b; } 12%, 40% { background: #fff; } }
                     @media (prefers-reduced-motion: reduce) {
-                        #dat-slide.active .idp-res, #dat-slide.active .idp-lane .track::after, #dat-slide.active .idp-core, #dat-slide.active .idp-core .spin, #dat-slide.active .toks span { animation: none; }
+                        #dat-slide.active .idp-res, #dat-slide.active .idp-lane .track::after, #dat-slide.active .idp-core .spin, #dat-slide.active .toks span { animation: none; }
+                        #dat-slide.active .idp-core { animation: ssFade 300ms ease both; }
                         #dat-slide .idp-lane .track::after { opacity: 1; left: calc(50% - 4px); }
                     }
                 </style>
@@ -2106,7 +2107,7 @@
             <section class="slide ss" data-slide="16" id="prag-slide">
                 <style>
                     #prag-slide .dead-hero { position: relative; display: flex; align-items: center; gap: 54px; padding: 44px 60px 62px; background: linear-gradient(180deg, #140d0d 0%, #0a0a0a 100%); border: 1px solid #5a2626; border-radius: 24px; overflow: hidden; }
-                    #prag-slide.active .dead-hero { animation: heroGlow 3.2s ease-in-out infinite; }
+                    #prag-slide.active .dead-hero { animation: ssReveal 640ms var(--ss-out) 160ms both, heroGlow 3.2s ease-in-out 1s infinite; }
                     @keyframes heroGlow { 0%, 100% { box-shadow: 0 0 0 rgba(248,113,113,0); border-color: #5a2626; } 50% { box-shadow: 0 0 60px rgba(248,113,113,0.13); border-color: #7a3030; } }
                     #prag-slide .dh-num { font-family: var(--font-mono); font-size: 140px; font-weight: 700; color: #f87171; line-height: 1; text-shadow: 0 0 60px rgba(248,113,113,0.35); flex-shrink: 0; }
                     #prag-slide .dh-title { font-size: 40px; font-weight: 600; color: var(--text-main); line-height: 1.22; letter-spacing: -0.01em; }
@@ -2127,7 +2128,7 @@
                     #prag-slide .tool-chip.dead .yr { font-size: 11px; color: #f87171; background: #1a0e0e; border: 1px solid #5a2626; border-radius: 4px; padding: 1px 6px; margin-left: 8px; }
                     #prag-slide .grave-label { font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #f87171; margin: 26px 0 12px; }
                     @media (prefers-reduced-motion: reduce) {
-                        #prag-slide.active .dead-hero { animation: none; }
+                        #prag-slide.active .dead-hero { animation: ssFade 300ms ease both; }
                         #prag-slide .dh-ecg path, #prag-slide.active .dh-ecg path { animation: none; stroke-dashoffset: 0; opacity: 0.5; }
                     }
                 </style>

@@ -1229,17 +1229,16 @@
             <!-- БЛОК 3 -->
             <section class="slide ss" data-slide="6" id="cat-slide">
                 <style>
-                    #cat-slide .b3-stats { margin: 0 0 22px; }
-                    #cat-slide .ss-head { margin-bottom: 22px; }
-                    #cat-slide .cat3 { display: grid; grid-template-columns: 1fr 300px 1fr; gap: 40px; align-items: start; max-width: 1300px; margin: 0 auto; }
-                    #cat-slide .cat3-side.left { text-align: right; }
-                    #cat-slide .cat3-side.right { text-align: left; }
-                    #cat-slide .cat3-h { font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 18px; }
-                    #cat-slide .cat3-side.right .cat3-h { color: #fff; }
-                    #cat-slide .cat3-text { font-size: 19px; line-height: 1.55; color: var(--text-main); min-height: 60px; }
-                    #cat-slide .cat3-text.f { animation: catFade 280ms var(--ss-out) both; }
-                    @keyframes catFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-                    #cat-slide .cat3-mid { display: flex; flex-direction: column; gap: 8px; }
+                    #cat-slide .ss-head { margin-bottom: 0; }
+                    #cat-slide .b3-stats { margin: 22px 0 0; }
+                    #cat-slide .cat3 { display: grid; grid-template-columns: 1fr 300px 1fr; gap: 9px 40px; align-items: center; max-width: 1300px; margin: 26px auto 0; }
+                    #cat-slide .cat3-h { font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); padding-bottom: 6px; }
+                    #cat-slide .cat3-h.left { text-align: right; }
+                    #cat-slide .cat3-h.right { text-align: left; color: #fff; }
+                    #cat-slide .cat3-u { text-align: right; font-size: 17px; line-height: 1.45; color: var(--text-main); }
+                    #cat-slide .cat3-e { text-align: left; font-size: 17px; line-height: 1.45; color: var(--text-main); }
+                    #cat-slide .cat3-u.f, #cat-slide .cat3-e.f { animation: catFade 260ms var(--ss-out) both; }
+                    @keyframes catFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
                     #cat-slide .cat3-cat { position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; font-size: 15px; color: var(--text-main); cursor: pointer; text-align: center; transition: transform 140ms var(--ss-out), border-color 140ms var(--ss-out), background 140ms var(--ss-out); }
                     #cat-slide .cat3-cat:hover { border-color: var(--border-hover); background: var(--bg-hover); }
                     #cat-slide .cat3-cat:active { transform: scale(0.98); }
@@ -1247,27 +1246,17 @@
                     #cat-slide .cat3-cat .y26 { font-family: var(--font-mono); font-size: 9px; color: #000; background: #fff; border-radius: 4px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
                 </style>
                 <div class="ss-wrap">
-                    <div class="b3-stats ss-reveal" style="--ss-d:60ms">
-                        <div class="b3-stat"><div class="v"><span class="ss-count" data-to="50">50</span></div><div class="l">опрошенных компаний</div></div>
-                        <div class="b3-stat"><div class="v">100+</div><div class="l">разобранных кейсов</div></div>
-                        <div class="b3-stat"><div class="v"><span class="ss-count" data-to="205">205</span></div><div class="l">open-source приложений (500+ ⭐ на GitHub)</div></div>
-                    </div>
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal" style="--ss-d:120ms">Блок 03 · Методология автора</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:180ms">Категории AI-приложений</h2>
+                        <div class="ss-kicker ss-reveal">Блок 03 · Методология автора</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Категории AI-приложений</h2>
                     </div>
                     <div class="ss-body">
-                        <div class="cat3 ss-reveal" style="--ss-d:260ms">
-                            <div class="cat3-side left">
-                                <div class="cat3-h">Как используют люди</div>
-                                <p class="cat3-text" id="cat-users"></p>
-                            </div>
-                            <div class="cat3-mid" id="cat-list"></div>
-                            <div class="cat3-side right">
-                                <div class="cat3-h">В корпоративной среде</div>
-                                <p class="cat3-text" id="cat-ent"></p>
-                            </div>
+                        <div class="b3-stats ss-reveal" style="--ss-d:120ms">
+                            <div class="b3-stat"><div class="v"><span class="ss-count" data-to="50">50</span></div><div class="l">опрошенных компаний</div></div>
+                            <div class="b3-stat"><div class="v">100+</div><div class="l">разобранных кейсов</div></div>
+                            <div class="b3-stat"><div class="v"><span class="ss-count" data-to="205">205</span></div><div class="l">open-source приложений (500+ ⭐ на GitHub)</div></div>
                         </div>
+                        <div class="cat3 ss-reveal" style="--ss-d:220ms" id="cat3"></div>
                     </div>
                 </div>
                 <script>
@@ -1286,36 +1275,53 @@
                             { n: 'AI-наука', y26: 1, u: 'Помощь в учёбе и небольших исследованиях.', e: 'R&D: лекарства, материалы, доказательства теорем.' },
                             { n: 'Поиск / ассистенты', y26: 1, u: 'Perplexity, ответы со ссылками на источники.', e: 'Enterprise-search: Glean, ассистент по всем данным.' }
                         ];
-                        var list = document.getElementById('cat-list');
-                        var usersEl = document.getElementById('cat-users');
-                        var entEl = document.getElementById('cat-ent');
-                        var cur = -1;
+                        var grid = document.getElementById('cat3');
+                        grid.innerHTML = '<div class="cat3-h left">Как используют люди</div><div></div><div class="cat3-h right">В корпоративной среде</div>';
+                        var cells = [];
                         CATS.forEach(function (c, i) {
-                            var b = document.createElement('button');
-                            b.className = 'cat3-cat'; b.type = 'button';
+                            var u = document.createElement('div'); u.className = 'cat3-u';
+                            var b = document.createElement('button'); b.className = 'cat3-cat'; b.type = 'button';
                             b.innerHTML = c.n + (c.y26 ? '<span class="y26">2026</span>' : '');
                             b.addEventListener('click', function () { select(i); });
-                            list.appendChild(b);
+                            var e = document.createElement('div'); e.className = 'cat3-e';
+                            grid.appendChild(u); grid.appendChild(b); grid.appendChild(e);
+                            cells.push({ u: u, b: b, e: e });
                         });
                         function select(i) {
-                            cur = i;
-                            [].forEach.call(list.children, function (b, k) { b.classList.toggle('on', k === cur); });
-                            var c = CATS[i];
-                            usersEl.classList.remove('f'); entEl.classList.remove('f');
-                            void usersEl.offsetWidth;
-                            usersEl.textContent = c.u; entEl.textContent = c.e;
-                            usersEl.classList.add('f'); entEl.classList.add('f');
+                            cells.forEach(function (o, k) {
+                                o.b.classList.toggle('on', k === i);
+                                if (k === i) {
+                                    o.u.textContent = CATS[k].u; o.e.textContent = CATS[k].e;
+                                    o.u.classList.remove('f'); o.e.classList.remove('f'); void o.u.offsetWidth;
+                                    o.u.classList.add('f'); o.e.classList.add('f');
+                                } else {
+                                    o.u.textContent = ''; o.e.textContent = ''; o.u.classList.remove('f'); o.e.classList.remove('f');
+                                }
+                            });
                         }
                         select(0);
                     })();
                 </script>
             </section>
 
-            <!-- БЛОК 5 -->
-            <section class="slide ss" data-slide="7">
+            <!-- БЛОК 4+5 (объединены): написание кода + спор «заменит ли AI» -->
+            <section class="slide ss" data-slide="7" id="code-slide">
+                <style>
+                    #code-slide .ss-head { margin-bottom: 0; }
+                    #code-slide .code-qh { font-family: var(--font-mono); font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 26px 0 14px; }
+                    #code-slide .code-qh b { color: #fff; }
+                    #code-slide .qc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1240px; margin: 0 auto; }
+                    #code-slide .qc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; }
+                    #code-slide .qc-row { display: flex; gap: 16px; align-items: flex-start; }
+                    #code-slide .qc-face { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
+                    #code-slide .qc .mono { width: 52px; height: 52px; border-radius: 50%; font-size: 17px; flex-shrink: 0; }
+                    #code-slide .qc-quote { margin: 0; font-size: 17px; line-height: 1.38; color: var(--text-main); font-weight: 500; }
+                    #code-slide .qc-attr { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; padding-left: 68px; }
+                    #code-slide .qc-attr b { color: #fff; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 04 · Сценарий №1</div>
+                        <div class="ss-kicker ss-reveal">Блок 04 · Написание кода</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Написание кода — <b>самый популярный</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Идеально для AI: код структурирован, результат проверяем (компилируется или нет), рынок огромен.</p>
                     </div>
@@ -1326,7 +1332,7 @@
                             <div class="b3-stat ss-reveal" style="--ss-d:380ms"><div class="v"><span class="ss-count" data-to="46" data-suffix="%">46%</span></div><div class="l">нового кода на GitHub — AI-генерированный</div></div>
                         </div>
                         <div class="ss-reveal" style="--ss-d:480ms; margin:30px 0 0">
-                            <div class="ss-chips-label">От автодополнения до автономных агентов · 2026 · наведи / нажми</div>
+                            <div class="ss-chips-label">От автодополнения до автономных агентов · 2026</div>
                             <div class="ss-chips">
                                 <a class="tool-chip" href="https://github.com/features/copilot" target="_blank">Copilot<span class="tool-tip">GitHub Copilot: автодополнение и чат прямо в IDE</span></a>
                                 <a class="tool-chip" href="https://cursor.com" target="_blank">Cursor<span class="tool-tip">IDE со встроенным AI-агентом · оценка $10B+</span></a>
@@ -1338,42 +1344,21 @@
                                 <a class="tool-chip" href="https://bolt.new" target="_blank">Bolt.new<span class="tool-tip">Целое веб-приложение прямо в браузере</span></a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- БЛОК 6 -->
-            <section class="slide ss" data-slide="8" id="dev-slide">
-                <style>
-                    #dev-slide .qc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; max-width: 1200px; margin: 0 auto; }
-                    #dev-slide .qc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
-                    #dev-slide .qc-row { display: flex; gap: 18px; align-items: flex-start; }
-                    #dev-slide .qc-face { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
-                    #dev-slide .qc .mono { width: 64px; height: 64px; border-radius: 50%; font-size: 20px; flex-shrink: 0; }
-                    #dev-slide .qc-quote { margin: 0; font-size: 20px; line-height: 1.4; color: var(--text-main); font-weight: 500; }
-                    #dev-slide .qc-attr { font-family: var(--font-mono); font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; padding-left: 82px; }
-                    #dev-slide .qc-attr b { color: #fff; }
-                </style>
-                <div class="ss-wrap">
-                    <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 05 · Спор</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Заменит ли AI <b>разработчиков</b>?</h2>
-                    </div>
-                    <div class="ss-body">
-                        <div class="qc-grid">
-                            <div class="qc ss-reveal" style="--ss-d:200ms">
+                        <div class="code-qh ss-reveal" style="--ss-d:560ms">Заменит ли AI <b>разработчиков</b>? — прогнозы лидеров</div>
+                        <div class="qc-grid ss-reveal" style="--ss-d:620ms">
+                            <div class="qc">
                                 <div class="qc-row"><img class="qc-face" src="assets/people/jensen-huang.webp" alt="Дженсен Хуанг"><p class="qc-quote">«Не учите детей программировать — за них это сделает AI».</p></div>
                                 <div class="qc-attr"><b>Дженсен Хуанг</b> · CEO, NVIDIA</div>
                             </div>
-                            <div class="qc ss-reveal" style="--ss-d:300ms">
+                            <div class="qc">
                                 <div class="qc-row"><span class="mono">MG</span><p class="qc-quote">«Разработчики перестанут писать код руками, но профессия не исчезнет — трансформируется».</p></div>
                                 <div class="qc-attr"><b>Мэтт Гарман</b> · CEO, AWS</div>
                             </div>
-                            <div class="qc ss-reveal" style="--ss-d:400ms">
+                            <div class="qc">
                                 <div class="qc-row"><img class="qc-face" src="assets/people/andrej-karpathy.webp" alt="Андрей Карпаты"><p class="qc-quote">«Самый горячий новый язык программирования — это английский».</p></div>
                                 <div class="qc-attr"><b>Андрей Карпаты</b> · сооснователь OpenAI, ex-Tesla</div>
                             </div>
-                            <div class="qc ss-reveal" style="--ss-d:500ms">
+                            <div class="qc">
                                 <div class="qc-row"><img class="qc-face" src="assets/people/dario-amodei.webp" alt="Дарио Амодеи"><p class="qc-quote">«В ближайший год почти весь код будет писать AI — под присмотром человека».</p></div>
                                 <div class="qc-attr"><b>Дарио Амодеи</b> · CEO, Anthropic</div>
                             </div>
@@ -1383,7 +1368,7 @@
             </section>
 
             <!-- НОВЫЙ: специализированные инструменты кода -->
-            <section class="slide ss" data-slide="9" id="spec-slide">
+            <section class="slide ss" data-slide="8" id="spec-slide">
                 <style>
                     #spec-slide .tcloud { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; align-items: flex-start; max-width: 1320px; margin: 12px auto 0; }
                     #spec-slide .tcg { position: relative; display: flex; flex-wrap: wrap; gap: 10px; padding: 18px 16px 16px; border-radius: 16px; border: 1px solid transparent; transition: border-color 180ms var(--ss-out), background 180ms var(--ss-out); }
@@ -1393,7 +1378,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 06 · Специализированные инструменты</div>
+                        <div class="ss-kicker ss-reveal">Блок 05 · Специализированные инструменты</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Инструменты под <b>конкретные задачи</b> кода</h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Помимо универсальных ассистентов — сотни инструментов под узкие задачи. Наведи на инструмент: подсветится вся его группа.</p>
                     </div>
@@ -1443,7 +1428,7 @@
             </section>
 
             <!-- БЛОК 7 -->
-            <section class="slide ss" data-slide="10" id="cr-slide">
+            <section class="slide ss" data-slide="9" id="cr-slide">
                 <style>
                     #cr-slide .shift { display: flex; align-items: stretch; justify-content: center; gap: 26px; }
                     #cr-slide .crc { flex: 1; max-width: 460px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 26px 28px; display: flex; flex-direction: column; gap: 14px; }
@@ -1463,7 +1448,7 @@
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 07 · Творчество</div>
+                        <div class="ss-kicker ss-reveal">Блок 06 · Творчество</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Генерация <b>изображений и видео</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">За несколько лет — путь от «угрозы» до нормы. Наведи на инструмент — узнаешь, для чего он.</p>
                     </div>
@@ -1482,7 +1467,7 @@
                             </div>
                         </div>
                         <div class="cr-tools ss-reveal" style="--ss-d:520ms">
-                            <div class="ss-chips-label">Изображения · лидеры 2026 · наведи / нажми</div>
+                            <div class="ss-chips-label">Изображения · лидеры 2026</div>
                             <div class="ss-chips">
                                 <a class="tool-chip" href="https://midjourney.com" target="_blank">Midjourney<span class="tool-tip">Лидер художественной генерации изображений</span></a>
                                 <a class="tool-chip" href="https://openai.com/dall-e" target="_blank">DALL·E<span class="tool-tip">Генерация изображений от OpenAI</span></a>
@@ -1502,10 +1487,10 @@
             </section>
 
             <!-- БЛОК 8 -->
-            <section class="slide ss" data-slide="11">
+            <section class="slide ss" data-slide="10">
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 08 · Тексты</div>
+                        <div class="ss-kicker ss-reveal">Блок 07 · Тексты</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Написание текстов</h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Часто, утомительно, с ошибками — идеальное применение. Исследование MIT (2023), 453 специалиста.</p>
                     </div>
@@ -1536,10 +1521,10 @@
             </section>
 
             <!-- БЛОК 9 -->
-            <section class="slide ss" data-slide="12">
+            <section class="slide ss" data-slide="11">
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 09 · Образование</div>
+                        <div class="ss-kicker ss-reveal">Блок 08 · Образование</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Образование: <b>страх → интеграция</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Впервые в истории — индивидуальный репетитор для каждого ученика.</p>
                     </div>
@@ -1568,10 +1553,10 @@
             </section>
 
             <!-- БЛОК 10 -->
-            <section class="slide ss" data-slide="13">
+            <section class="slide ss" data-slide="12">
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 10 · Боты-собеседники</div>
+                        <div class="ss-kicker ss-reveal">Блок 09 · Боты-собеседники</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Собеседники — <b>новый тип отношений</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">От утилитарного (поддержка) до эмоционального (компаньон). Иногда с ботами проводят больше времени, чем с людьми.</p>
                     </div>
@@ -1600,10 +1585,10 @@
             </section>
 
             <!-- БЛОК 11 -->
-            <section class="slide ss" data-slide="14">
+            <section class="slide ss" data-slide="13">
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 11 · Сбор информации</div>
+                        <div class="ss-kicker ss-reveal">Блок 10 · Сбор информации</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Сбор информации — <b>фильтр и сжатие</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">74% пользователей генеративного AI — для анализа и обобщения. AI не создаёт информацию, а сжимает её. Это RAG в действии.</p>
                     </div>
@@ -1641,10 +1626,10 @@
             </section>
 
             <!-- БЛОК 12 -->
-            <section class="slide ss" data-slide="15">
+            <section class="slide ss" data-slide="14">
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 12 · Организация данных</div>
+                        <div class="ss-kicker ss-reveal">Блок 11 · Организация данных</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Организация данных — <b>хаос → структура</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">AI превращает неструктурированное (фото, PDF, договор) в структурированное. Это фундамент для RAG и аналитики.</p>
                     </div>
@@ -1682,10 +1667,10 @@
             </section>
 
             <!-- БЛОК 13 -->
-            <section class="slide ss" data-slide="16">
+            <section class="slide ss" data-slide="15">
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 13 · Кульминация</div>
+                        <div class="ss-kicker ss-reveal">Блок 12 · Кульминация</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Автоматизация workflow — <b>агенты</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Все сценарии — компоненты. Агент комбинирует их в автономный процесс, а не «отвечает на вопрос».</p>
                     </div>
@@ -1714,10 +1699,10 @@
             </section>
 
             <!-- БЛОК 14 -->
-            <section class="slide ss" data-slide="17">
+            <section class="slide ss" data-slide="16">
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Блок 14 · Прагматика</div>
+                        <div class="ss-kicker ss-reveal">Блок 13 · Прагматика</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Не все приложения <b>стоит создавать</b></h2>
                         <p class="ss-lead ss-reveal" style="--ss-d:120ms">Возможностей бесконечно много, но «AI-powered» — не бизнес-модель. Мост к разделу о планировании.</p>
                     </div>
@@ -1748,7 +1733,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="18">
+            <section class="slide" data-slide="17">
                 <style>
                     .timeline-next-container {
                         display: flex;

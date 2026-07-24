@@ -1462,49 +1462,109 @@
             <!-- БЛОК 7 -->
             <section class="slide ss" data-slide="9" id="cr-slide">
                 <style>
-                    #cr-slide .shift { display: flex; align-items: stretch; justify-content: center; gap: 26px; }
-                    #cr-slide .crc { flex: 1; max-width: 460px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 26px 28px; display: flex; flex-direction: column; gap: 14px; }
-                    #cr-slide .crc.now { border-color: var(--border-hover); background: #111; }
-                    #cr-slide .crc-top { display: flex; align-items: center; gap: 8px; }
-                    #cr-slide .crc-date { font-family: var(--font-mono); font-size: 14px; color: #000; background: #fff; border-radius: 6px; padding: 2px 10px; font-weight: 700; }
-                    #cr-slide .crc-tag { font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
-                    #cr-slide .crc-q { display: flex; gap: 16px; align-items: flex-start; }
-                    #cr-slide .crc-face { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
-                    #cr-slide .crc .mono { width: 58px; height: 58px; border-radius: 50%; font-size: 20px; flex-shrink: 0; }
-                    #cr-slide .crc-q p { margin: 0; font-size: 20px; line-height: 1.4; color: var(--text-main); font-weight: 500; }
-                    #cr-slide .crc-attr { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; padding-left: 74px; }
-                    #cr-slide .crc-attr b { color: #fff; }
-                    #cr-slide .shift-arr { align-self: center; font-size: 34px; color: #52525b; }
-                    #cr-slide .cr-tools { margin-top: 30px; }
-                    #cr-slide .cr-tools .ss-chips-label { margin-top: 18px; }
+                    #cr-slide .ss-body { display: flex; flex-direction: column; min-height: 0; }
+                    #cr-slide .cr-stage { position: relative; }
+                    #cr-slide .crq { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 24px 32px; display: flex; gap: 26px; align-items: center; text-decoration: none; }
+                    #cr-slide .crq-face { width: 78px; height: 78px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
+                    #cr-slide .crq .mono { width: 78px; height: 78px; border-radius: 50%; font-size: 24px; flex-shrink: 0; }
+                    #cr-slide .crq-body { flex: 1; display: flex; flex-direction: column; gap: 9px; }
+                    #cr-slide .crq-top { display: flex; align-items: center; gap: 10px; }
+                    #cr-slide .crq-date { font-family: var(--font-mono); font-size: 13px; color: #000; background: #fff; border-radius: 6px; padding: 2px 10px; font-weight: 700; }
+                    #cr-slide .crq-tag { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+                    #cr-slide .crq-q { margin: 0; font-size: 23px; line-height: 1.36; color: var(--text-main); font-weight: 500; }
+                    #cr-slide .crq-attr { font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+                    #cr-slide .crq-attr b { color: #fff; }
+                    /* карточка-угроза: кликабельная */
+                    #cr-slide .cr-threat { cursor: pointer; transition: border-color 160ms var(--ss-out), background 160ms var(--ss-out); }
+                    #cr-slide .cr-threat:hover { border-color: var(--border-hover); background: #0d0d0d; }
+                    #cr-slide .cr-threat .crq-cta { margin-left: auto; flex-shrink: 0; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+                    #cr-slide .cr-threat .crq-cta .arr { font-size: 22px; transition: transform 200ms var(--ss-out); }
+                    #cr-slide .cr-threat:hover .crq-cta .arr { transform: translateX(4px); }
+                    /* лидеры: скрыты до клика */
+                    #cr-slide .cr-leaders { display: none; flex-direction: column; gap: 14px; }
+                    #cr-slide .cr-leaders .crq.src { border-color: var(--border-hover); background: #111; }
+                    #cr-slide .cr-leaders .crq.src:hover { background: #161616; }
+                    #cr-slide .cr-leaders .crq-src { margin-left: auto; flex-shrink: 0; font-size: 20px; color: var(--text-muted); }
+                    #cr-slide .cr-leaders .crq.src:hover .crq-src { color: #fff; }
+                    #cr-slide .cr-stage.show-leaders .cr-threat { display: none; }
+                    #cr-slide .cr-stage.show-leaders .cr-leaders { display: flex; }
+                    #cr-slide .cr-stage.show-leaders .cr-leaders .crq { animation: crqIn 420ms var(--ss-out) both; }
+                    #cr-slide .cr-leaders .crq:nth-child(2) { animation-delay: 80ms; }
+                    #cr-slide .cr-leaders .crq:nth-child(3) { animation-delay: 160ms; }
+                    #cr-slide .cr-leaders .crq:nth-child(4) { animation-delay: 240ms; }
+                    @keyframes crqIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+                    #cr-slide .cr-tools { margin-top: 26px; }
+                    #cr-slide .cr-tools .ss-chips-label { margin-top: 16px; }
+                    @media (prefers-reduced-motion: reduce) { #cr-slide .cr-stage.show-leaders .cr-leaders .crq { animation: none; } }
                 </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Блок 06 · Творчество</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Генерация <b>изображений и видео</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">За несколько лет — путь от «угрозы» до нормы. Наведи на инструмент — узнаешь, для чего он.</p>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">За несколько лет — путь от «угрозы» до нормы. Нажми на цитату Meta — что говорят лидеры рынка сегодня.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="shift">
-                            <div class="crc ss-reveal" style="--ss-d:200ms">
-                                <div class="crc-top"><span class="crc-date">2019</span><span class="crc-tag">Угроза</span></div>
-                                <div class="crc-q"><span class="mono">M</span><p>«AI-сгенерированные лица используют для фейковых аккаунтов — мы их удаляем».</p></div>
-                                <div class="crc-attr"><b>Meta</b> · борьба с дезинформацией</div>
+                        <div class="cr-stage ss-reveal" style="--ss-d:200ms">
+                            <div class="crq cr-threat" role="button" tabindex="0" onclick="this.closest('.cr-stage').classList.add('show-leaders')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.closest('.cr-stage').classList.add('show-leaders')}">
+                                <span class="mono">M</span>
+                                <div class="crq-body">
+                                    <div class="crq-top"><span class="crq-date">2019</span><span class="crq-tag">Угроза</span></div>
+                                    <p class="crq-q">«AI-сгенерированные лица используют для фейковых аккаунтов — мы их удаляем».</p>
+                                    <div class="crq-attr"><b>Meta</b> · борьба с дезинформацией</div>
+                                </div>
+                                <span class="crq-cta">что дальше <span class="arr">→</span></span>
                             </div>
-                            <div class="shift-arr ss-reveal" style="--ss-d:300ms">→</div>
-                            <div class="crc now ss-reveal" style="--ss-d:400ms">
-                                <div class="crc-top"><span class="crc-date">2023</span><span class="crc-tag">Норма</span></div>
-                                <div class="crc-q"><img class="crc-face" src="assets/people/emad-mostaque.webp" alt="Эмад Мостак"><p>«Мы отдали генерацию изображений в руки каждому».</p></div>
-                                <div class="crc-attr"><b>Эмад Мостак</b> · основатель Stability AI</div>
+                            <div class="cr-leaders">
+                                <a class="crq src" href="https://stability.ai" target="_blank">
+                                    <img class="crq-face" src="assets/people/emad-mostaque.webp" alt="Эмад Мостак">
+                                    <div class="crq-body">
+                                        <div class="crq-top"><span class="crq-date">2023</span><span class="crq-tag">Норма</span></div>
+                                        <p class="crq-q">«Мы отдали генерацию изображений в руки каждому».</p>
+                                        <div class="crq-attr"><b>Эмад Мостак</b> · основатель Stability AI</div>
+                                    </div>
+                                    <span class="crq-src">↗</span>
+                                </a>
+                                <a class="crq src" href="https://www.midjourney.com" target="_blank">
+                                    <span class="mono">DH</span>
+                                    <div class="crq-body">
+                                        <div class="crq-top"><span class="crq-date">2024</span><span class="crq-tag">Инструмент</span></div>
+                                        <p class="crq-q">«Мы строим не замену художникам, а движок воображения».</p>
+                                        <div class="crq-attr"><b>Дэвид Хольц</b> · основатель Midjourney</div>
+                                    </div>
+                                    <span class="crq-src">↗</span>
+                                </a>
+                                <a class="crq src" href="https://openai.com/sora" target="_blank">
+                                    <img class="crq-face" src="assets/people/sam-altman.webp" alt="Сэм Альтман">
+                                    <div class="crq-body">
+                                        <div class="crq-top"><span class="crq-date">2024</span><span class="crq-tag">Прорыв</span></div>
+                                        <p class="crq-q">«Sora — шаг к моделям, которые понимают и симулируют реальный мир».</p>
+                                        <div class="crq-attr"><b>Сэм Альтман</b> · CEO, OpenAI</div>
+                                    </div>
+                                    <span class="crq-src">↗</span>
+                                </a>
+                                <a class="crq src" href="https://runwayml.com" target="_blank">
+                                    <span class="mono">CV</span>
+                                    <div class="crq-body">
+                                        <div class="crq-top"><span class="crq-date">2025</span><span class="crq-tag">Кино</span></div>
+                                        <p class="crq-q">«Кино больше не ограничено бюджетом — только идеей».</p>
+                                        <div class="crq-attr"><b>Кристобаль Валенсуэла</b> · CEO, Runway</div>
+                                    </div>
+                                    <span class="crq-src">↗</span>
+                                </a>
                             </div>
                         </div>
                         <div class="cr-tools ss-reveal" style="--ss-d:520ms">
                             <div class="ss-chips-label">Изображения · лидеры 2026</div>
                             <div class="ss-chips">
-                                <a class="tool-chip" href="https://midjourney.com" target="_blank">Midjourney<span class="tool-tip">Лидер художественной генерации изображений</span></a>
+                                <a class="tool-chip" href="https://www.midjourney.com" target="_blank">Midjourney<span class="tool-tip">Лидер художественной генерации изображений</span></a>
                                 <a class="tool-chip" href="https://openai.com/dall-e" target="_blank">DALL·E<span class="tool-tip">Генерация изображений от OpenAI</span></a>
                                 <a class="tool-chip" href="https://bfl.ai" target="_blank">Flux<span class="tool-tip">Open-source генерация (Black Forest Labs)</span></a>
                                 <a class="tool-chip" href="https://ideogram.ai" target="_blank">Ideogram<span class="tool-tip">Изображения с точным текстом внутри</span></a>
+                                <a class="tool-chip" href="https://www.adobe.com/products/firefly.html" target="_blank">Adobe Firefly<span class="tool-tip">Генерация в Photoshop с лицензией на коммерцию</span></a>
+                                <a class="tool-chip" href="https://leonardo.ai" target="_blank">Leonardo.ai<span class="tool-tip">Ассеты для игр и дизайна</span></a>
+                                <a class="tool-chip" href="https://www.recraft.ai" target="_blank">Recraft<span class="tool-tip">Векторы и брендовый стиль</span></a>
+                                <a class="tool-chip" href="https://stability.ai/stable-image" target="_blank">Stable Diffusion<span class="tool-tip">Open-source модель Stability AI</span></a>
+                                <a class="tool-chip" href="https://deepmind.google/technologies/imagen/" target="_blank">Imagen<span class="tool-tip">Фотореалистичная генерация Google</span></a>
                             </div>
                             <div class="ss-chips-label">Видео · лидеры 2026</div>
                             <div class="ss-chips">
@@ -1512,6 +1572,9 @@
                                 <a class="tool-chip" href="https://deepmind.google/technologies/veo/" target="_blank">Veo<span class="tool-tip">Видеогенерация Google DeepMind</span></a>
                                 <a class="tool-chip" href="https://klingai.com" target="_blank">Kling<span class="tool-tip">Кинематографичное видео (Kuaishou)</span></a>
                                 <a class="tool-chip" href="https://runwayml.com" target="_blank">Runway<span class="tool-tip">Видео и VFX-инструменты для студий</span></a>
+                                <a class="tool-chip" href="https://pika.art" target="_blank">Pika<span class="tool-tip">Быстрая генерация коротких клипов</span></a>
+                                <a class="tool-chip" href="https://lumalabs.ai/dream-machine" target="_blank">Luma<span class="tool-tip">Dream Machine — реалистичное видео</span></a>
+                                <a class="tool-chip" href="https://hailuoai.video" target="_blank">Hailuo<span class="tool-tip">Видеогенерация MiniMax</span></a>
                             </div>
                         </div>
                     </div>

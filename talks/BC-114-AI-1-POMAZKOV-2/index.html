@@ -2039,68 +2039,134 @@
             </section>
 
             <!-- БЛОК 13 -->
-            <section class="slide ss" data-slide="15">
+            <section class="slide ss" data-slide="15" id="auto-slide">
+                <style>
+                    #auto-slide .auto-list { display: flex; flex-direction: column; gap: 14px; max-width: 1340px; margin: 0 auto; width: 100%; }
+                    #auto-slide .auto-row { display: grid; grid-template-columns: 330px 1fr; gap: 26px; align-items: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 15px 26px; transition: border-color 160ms var(--ss-out), background 160ms var(--ss-out); }
+                    #auto-slide .auto-row:hover { border-color: var(--border-hover); background: var(--bg-hover); }
+                    #auto-slide .auto-cat { display: flex; align-items: center; gap: 15px; font-size: 20px; font-weight: 600; color: #fff; }
+                    #auto-slide .auto-cat .ci { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #161616; border: 1px solid var(--border); color: #fff; }
+                    #auto-slide .auto-cat .ci .flat-icon { width: 22px; height: 22px; }
+                    #auto-slide .auto-row .ss-chips { gap: 10px; }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
-                        <div class="ss-kicker ss-reveal">Итог · Кульминация</div>
-                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Автоматизация workflow — <b>агенты</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Все сценарии — компоненты. Агент комбинирует их в автономный процесс, а не «отвечает на вопрос».</p>
+                        <div class="ss-kicker ss-reveal">Сценарий 8 — Автоматизация процессов</div>
+                        <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Автоматизация <b>повторяющихся задач</b></h2>
+                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Для организаций AI может автоматизировать повторяющиеся задачи — от лид-менеджмента до ввода данных.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="ladder">
-                            <div class="ladder-step ss-reveal" style="--ss-d:220ms"><div class="amt" style="font-size:26px">Планирует</div><div class="cap">разбивает задачу на шаги</div></div>
-                            <div class="ladder-step ss-reveal" style="--ss-d:320ms"><div class="amt" style="font-size:26px">Действует</div><div class="cap">вызывает инструменты и API</div></div>
-                            <div class="ladder-step ss-reveal" style="--ss-d:420ms"><div class="amt" style="font-size:26px">Проверяет</div><div class="cap">оценивает результат</div></div>
-                            <div class="ladder-step ss-reveal" style="--ss-d:520ms"><div class="amt" style="font-size:26px">Итерирует ↻</div><div class="cap">повторяет до готовности</div></div>
+                        <div class="auto-list">
+                            <div class="auto-row ss-reveal" style="--ss-d:220ms">
+                                <div class="auto-cat"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"></path></svg></span>Лид-менеджмент</div>
+                                <div class="ss-chips">
+                                    <a class="tool-chip" href="https://www.hubspot.com/products/artificial-intelligence" target="_blank"><img class="tool-logo" src="assets/logos/hubspot.webp" alt="" loading="lazy">HubSpot<span class="tool-tip">Breeze AI: скоринг, обогащение и ведение лидов в CRM</span></a>
+                                    <a class="tool-chip" href="https://www.salesforce.com/agentforce/" target="_blank"><img class="tool-logo" src="assets/logos/salesforce.webp" alt="" loading="lazy">Salesforce<span class="tool-tip">Agentforce: AI-агенты для продаж и квалификации лидов</span></a>
+                                    <a class="tool-chip" href="https://www.apollo.io" target="_blank"><img class="tool-logo" src="assets/logos/apollo.webp" alt="" loading="lazy">Apollo.io<span class="tool-tip">Поиск, приоритизация и AI-персонализация в аутриче</span></a>
+                                </div>
+                            </div>
+                            <div class="auto-row ss-reveal" style="--ss-d:300ms">
+                                <div class="auto-cat"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>Выставление счетов</div>
+                                <div class="ss-chips">
+                                    <a class="tool-chip" href="https://rossum.ai" target="_blank"><img class="tool-logo" src="assets/logos/rossum.webp" alt="" loading="lazy">Rossum<span class="tool-tip">AI-обработка счетов и инвойсов без шаблонов</span></a>
+                                    <a class="tool-chip" href="https://www.bill.com" target="_blank"><img class="tool-logo" src="assets/logos/bill.webp" alt="" loading="lazy">Bill<span class="tool-tip">Автоматизация выставления счетов и платежей</span></a>
+                                    <a class="tool-chip" href="https://quickbooks.intuit.com" target="_blank"><img class="tool-logo" src="assets/logos/quickbooks.webp" alt="" loading="lazy">QuickBooks<span class="tool-tip">Intuit Assist: инвойсы, напоминания и сверка</span></a>
+                                </div>
+                            </div>
+                            <div class="auto-row ss-reveal" style="--ss-d:380ms">
+                                <div class="auto-cat"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>Запросы клиентов</div>
+                                <div class="ss-chips">
+                                    <a class="tool-chip" href="https://www.intercom.com/fin" target="_blank"><img class="tool-logo" src="assets/logos/intercom.webp" alt="" loading="lazy">Intercom Fin<span class="tool-tip">AI-агент поддержки: закрывает до 65% обращений сам</span></a>
+                                    <a class="tool-chip" href="https://www.zendesk.com/ai/" target="_blank"><img class="tool-logo" src="assets/logos/zendesk.webp" alt="" loading="lazy">Zendesk AI<span class="tool-tip">AI-агенты и копайлот оператора поддержки</span></a>
+                                    <a class="tool-chip" href="https://decagon.ai" target="_blank"><img class="tool-logo" src="assets/logos/decagon.webp" alt="" loading="lazy">Decagon<span class="tool-tip">AI-агенты поддержки для энтерпрайза (Notion, Duolingo)</span></a>
+                                </div>
+                            </div>
+                            <div class="auto-row ss-reveal" style="--ss-d:460ms">
+                                <div class="auto-cat"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></span>Возмещение расходов</div>
+                                <div class="ss-chips">
+                                    <a class="tool-chip" href="https://ramp.com" target="_blank"><img class="tool-logo" src="assets/logos/ramp.webp" alt="" loading="lazy">Ramp<span class="tool-tip">Авторазбор чеков и контроль политики трат</span></a>
+                                    <a class="tool-chip" href="https://www.expensify.com" target="_blank"><img class="tool-logo" src="assets/logos/expensify.webp" alt="" loading="lazy">Expensify<span class="tool-tip">SmartScan: сфотографируй чек — отчёт готов</span></a>
+                                    <a class="tool-chip" href="https://www.brex.com" target="_blank"><img class="tool-logo" src="assets/logos/brex.webp" alt="" loading="lazy">Brex<span class="tool-tip">AI-ассистент по корпоративным расходам</span></a>
+                                </div>
+                            </div>
+                            <div class="auto-row ss-reveal" style="--ss-d:540ms">
+                                <div class="auto-cat"><span class="ci"><svg class="flat-icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg></span>Ввод данных</div>
+                                <div class="ss-chips">
+                                    <a class="tool-chip" href="https://www.uipath.com" target="_blank"><img class="tool-logo" src="assets/logos/uipath.webp" alt="" loading="lazy">UiPath<span class="tool-tip">RPA + AI: перенос данных между системами</span></a>
+                                    <a class="tool-chip" href="https://zapier.com" target="_blank"><img class="tool-logo" src="assets/logos/zapier.webp" alt="" loading="lazy">Zapier<span class="tool-tip">Связывает 7000+ приложений, AI-шаги в сценариях</span></a>
+                                    <a class="tool-chip" href="https://www.make.com" target="_blank"><img class="tool-logo" src="assets/logos/make.webp" alt="" loading="lazy">Make<span class="tool-tip">Визуальные сценарии автоматизации с AI-модулями</span></a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:640ms; margin-top:38px">
-                            «Уровень интереса к агентам граничит с одержимостью». <button class="info-trigger" data-open="b13m">агенты 2026 — мейнстрим</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="b13m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Агенты · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Мейнстрим</b><span>OpenAI Operator, Claude computer use, Devin. Мульти-агенты: CrewAI, AutoGen, LangGraph.</span></div>
-                        <div class="m-row"><b>Корпоративное</b><span>Salesforce Agentforce, Microsoft Copilot Agents, ServiceNow AI Agents.</span></div>
-                        <div class="m-row"><b>MCP</b><span>Model Context Protocol — стандарт подключения инструментов. 10 000+ MCP-серверов.</span></div>
-                        <div class="m-row"><b>Проблемы</b><span>Надёжность, безопасность (доступ к email/банку), стоимость, контроль. AI-инженер = «менеджер агентов».</span></div>
                     </div>
                 </div>
             </section>
 
             <!-- БЛОК 14 -->
-            <section class="slide ss" data-slide="16">
+            <section class="slide ss" data-slide="16" id="prag-slide">
+                <style>
+                    #prag-slide .dead-hero { position: relative; display: flex; align-items: center; gap: 54px; padding: 44px 60px 62px; background: linear-gradient(180deg, #140d0d 0%, #0a0a0a 100%); border: 1px solid #5a2626; border-radius: 24px; overflow: hidden; }
+                    #prag-slide.active .dead-hero { animation: heroGlow 3.2s ease-in-out infinite; }
+                    @keyframes heroGlow { 0%, 100% { box-shadow: 0 0 0 rgba(248,113,113,0); border-color: #5a2626; } 50% { box-shadow: 0 0 60px rgba(248,113,113,0.13); border-color: #7a3030; } }
+                    #prag-slide .dh-num { font-family: var(--font-mono); font-size: 140px; font-weight: 700; color: #f87171; line-height: 1; text-shadow: 0 0 60px rgba(248,113,113,0.35); flex-shrink: 0; }
+                    #prag-slide .dh-title { font-size: 40px; font-weight: 600; color: var(--text-main); line-height: 1.22; letter-spacing: -0.01em; }
+                    #prag-slide .dh-title b { color: #f87171; }
+                    #prag-slide .dh-sub { margin-top: 12px; font-size: 20px; color: var(--text-muted); }
+                    #prag-slide .dh-ecg { position: absolute; left: 0; right: 0; bottom: 12px; width: 100%; height: 40px; }
+                    #prag-slide .dh-ecg path { fill: none; stroke: #f87171; stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+                    #prag-slide.active .dh-ecg path { animation: ecgDraw 3.6s linear infinite; }
+                    @keyframes ecgDraw { 0% { stroke-dashoffset: 1; opacity: 0.85; } 72% { stroke-dashoffset: 0; opacity: 0.85; } 90% { opacity: 0.2; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+                    #prag-slide .why-label { font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 28px 0 12px; }
+                    #prag-slide .why { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+                    #prag-slide .why-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px; }
+                    #prag-slide .why-card .num { font-family: var(--font-mono); font-size: 13px; color: #f87171; margin-bottom: 8px; }
+                    #prag-slide .why-card p { margin: 0; font-size: 16px; line-height: 1.42; color: var(--text-main); }
+                    #prag-slide .why-card p b { color: #fff; }
+                    #prag-slide .tool-chip.dead { border-color: #5a2626; background: #140d0d; }
+                    #prag-slide .tool-chip.dead:hover { border-color: #f87171; background: #1a0e0e; }
+                    #prag-slide .tool-chip.dead .yr { font-size: 11px; color: #f87171; background: #1a0e0e; border: 1px solid #5a2626; border-radius: 4px; padding: 1px 6px; margin-left: 8px; }
+                    #prag-slide .grave-label { font-family: var(--font-mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #f87171; margin: 26px 0 12px; }
+                    @media (prefers-reduced-motion: reduce) {
+                        #prag-slide.active .dead-hero { animation: none; }
+                        #prag-slide .dh-ecg path, #prag-slide.active .dh-ecg path { animation: none; stroke-dashoffset: 0; opacity: 0.5; }
+                    }
+                </style>
                 <div class="ss-wrap">
                     <div class="ss-head">
                         <div class="ss-kicker ss-reveal">Итог · Прагматика</div>
                         <h2 class="ss-title ss-reveal" style="--ss-d:60ms">Не все приложения <b>стоит создавать</b></h2>
-                        <p class="ss-lead ss-reveal" style="--ss-d:120ms">Возможностей бесконечно много, но «AI-powered» — не бизнес-модель. Мост к разделу о планировании.</p>
                     </div>
                     <div class="ss-body">
-                        <div class="b3-stats" style="grid-template-columns:1fr; max-width:520px; margin-bottom:30px">
-                            <div class="b3-stat ss-reveal" style="--ss-d:200ms"><div class="v"><span class="ss-count" data-to="70" data-suffix="%">70%</span></div><div class="l">AI-стартапов 2023–2024 закрылись к 2026 — «обёртка над API» без ценности</div></div>
+                        <div class="dead-hero ss-reveal" style="--ss-d:160ms">
+                            <div class="dh-num"><span class="ss-count" data-to="70" data-suffix="%">70%</span></div>
+                            <div>
+                                <div class="dh-title">AI-стартапов, запущенных в 2023–2024, <b>уже мертвы</b></div>
+                                <div class="dh-sub">родились на хайпе GPT — не дожили до 2026 года</div>
+                            </div>
+                            <svg class="dh-ecg" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true">
+                                <path pathLength="1" d="M0 20 H100 L112 4 L124 36 L136 20 H240 L250 9 L260 31 L270 20 H370 L378 14 L386 26 L394 20 H600"></path>
+                            </svg>
                         </div>
-                        <div class="reasons ss-reveal" style="--ss-d:360ms; grid-template-columns:repeat(4,1fr)">
-                            <div class="reason"><div class="num">01</div><p>Уникальные <b style="color:#fff">данные</b></p></div>
-                            <div class="reason"><div class="num">02</div><p>Реальный <b style="color:#fff">workflow</b>, не игрушка</p></div>
-                            <div class="reason"><div class="num">03</div><p>Измеримый <b style="color:#fff">ROI</b></p></div>
-                            <div class="reason"><div class="num">04</div><p>Защита от «OpenAI добавит это в ChatGPT»</p></div>
+                        <div class="ss-reveal" style="--ss-d:340ms">
+                            <div class="why-label">Почему умерли</div>
+                            <div class="why">
+                                <div class="why-card"><div class="num">01</div><p><b>«Обёртка над API»</b> — нет уникальной ценности, любой повторит за выходные</p></div>
+                                <div class="why-card"><div class="num">02</div><p><b>Платформа съедает</b> — OpenAI и Google добавляют то же в базовую модель</p></div>
+                                <div class="why-card"><div class="num">03</div><p><b>Юнит-экономика</b> — инференс стоит дороже, чем пользователи готовы платить</p></div>
+                                <div class="why-card"><div class="num">04</div><p><b>Решение без проблемы</b> — хайп приводит пользователей, но удержание нулевое</p></div>
+                            </div>
                         </div>
-                        <div class="ss-insight ss-reveal" style="--ss-d:520ms; margin-top:32px">
-                            Выживают те, кто решает <b>скучную проблему хорошо</b>, а не «AI для всего». <button class="info-trigger" data-open="b14m">кладбище и выжившие</button>
+                        <div class="ss-reveal" style="--ss-d:500ms">
+                            <div class="grave-label">Кладбище · громкие примеры</div>
+                            <div class="ss-chips">
+                                <a class="tool-chip dead" href="https://startupobituary.com/p/olive" target="_blank">Olive AI<span class="yr">†2023</span><span class="tool-tip">Автоматизация здравоохранения, оценка $4 млрд — распродана по частям</span></a>
+                                <a class="tool-chip dead" href="https://en.wikipedia.org/wiki/Babylon_Health" target="_blank">Babylon Health<span class="yr">†2023</span><span class="tool-tip">AI-диагностика, оценка $4,2 млрд — банкротство</span></a>
+                                <a class="tool-chip dead" href="https://en.wikipedia.org/wiki/Neeva" target="_blank">Neeva<span class="yr">†2023</span><span class="tool-tip">AI-поиск без рекламы — закрыт, команда ушла в Snowflake</span></a>
+                                <a class="tool-chip dead" href="https://en.wikipedia.org/wiki/Artifact_(app)" target="_blank">Artifact<span class="yr">†2024</span><span class="tool-tip">AI-новости от основателей Instagram — закрыт через год</span></a>
+                                <a class="tool-chip dead" href="https://techcrunch.com/2024/04/03/openai-backed-ghost-autonomy-shuts-down/" target="_blank">Ghost Autonomy<span class="yr">†2024</span><span class="tool-tip">Автопилот на LLM с инвестициями OpenAI — закрылся</span></a>
+                                <a class="tool-chip dead" href="https://www.fiercehealthcare.com/health-tech/primary-care-player-forward-shutters-after-raising-400m-rolling-out-carepods" target="_blank">Forward<span class="yr">†2024</span><span class="tool-tip">AI-клиники CarePods, $400+ млн инвестиций — закрылся за один день</span></a>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="ss-modal" data-modal="b14m" hidden>
-                    <div class="ss-modal-bg" data-close></div>
-                    <div class="ss-modal-panel">
-                        <div class="ss-modal-head"><h4>Что выживает · 2026</h4><button class="ss-modal-x" type="button" data-close aria-label="Закрыть">✕</button></div>
-                        <div class="m-row"><b>Кладбище</b><span>70% AI-стартапов 2023–2024 закрылись: «обёртка над API» без уникальной ценности.</span></div>
-                        <div class="m-row"><b>Выжившие</b><span>Решили реальную проблему в нише: не «AI для всего», а «AI для стоматологов / юристов / логистики».</span></div>
-                        <div class="m-row"><b>Ров (moat)</b><span>Уникальные данные, встроенность в реальный workflow, сетевые эффекты, регуляторные барьеры.</span></div>
-                        <div class="m-row"><b>Дальше</b><span>Раздел о том, как выбрать и спланировать AI-приложение — от вдохновения к прагматике.</span></div>
                     </div>
                 </div>
             </section>

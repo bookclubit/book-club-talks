@@ -123,9 +123,11 @@ function buildWhatNext(topics, currentIdx) {
 }
 
 // главы книги в book-club-data: books/<folder>/chapters/<slug>/chapter.json
-function loadChapters(DATA, folder, slugs) {
-  return slugs
-    .map((slug) => {
+// В index.json главы лежат объектами {slug, order, title, topics} (реестр v2).
+function loadChapters(DATA, folder, entries) {
+  return entries
+    .map((entry) => {
+      const slug = entry.slug;
       const p = join(DATA, 'books', folder, 'chapters', slug, 'chapter.json');
       if (!existsSync(p)) return null;
       const c = readJSON(p);

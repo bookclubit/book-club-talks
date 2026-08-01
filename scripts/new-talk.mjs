@@ -76,9 +76,55 @@ function urlLabel(url) {
   return `${url.replace(/^https?:\/\//, '').replace(/\/$/, '')} ↗`;
 }
 
+// ---------- «хром»-слайды ----------
+// Слайды, которые собирает генератор, помечены в шаблоне data-chrome
+// («agenda», «whatnext»): по этой метке их находит и пересборка
+// (scripts/rebuild-talk.mjs), не трогая контентные слайды спикера.
+export function chromeSlideRe(kind) {
+  return new RegExp(
+    `[ \\t]*<section class="slide"[^>]*data-chrome="${kind}"[\\s\\S]*?</section>\\s*`,
+    '',
+  );
+}
+
+/** Убирает «хром»-слайд целиком (например, программу вечера у второго доклада). */
+export function dropChromeSlide(html, kind) {
+  return html.replace(chromeSlideRe(kind), '\n');
+}
+
+/** Тело «хром»-слайда: содержимое `.timeline-next` — только его и пересобираем. */
+export function replaceTimeline(html, kind, items) {
+  const slide = html.match(chromeSlideRe(kind));
+  if (!slide) return html;
+  const updated = slide[0].replace(
+    /(<div class="timeline-next">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/section>)/,
+    (_, open, tail) => `${open}\n                        ${items}\n                    ${tail}`,
+  );
+  return html.replace(slide[0], updated);
+}
+
 // ---------- построение таймлайнов ----------
-function timelineItem(title, state) {
-  const t = esc(title);
+// Пункт программы: `item` = { title, speaker: {name, avatar}, slidesUrl }.
+// Название ведёт на доклад этой темы, под ним — спикер с аватаркой: на слайде
+// видно не только что будет, но и кто выступает.
+function timelineItem(item, state) {
+  const title = esc(item.title);
+  const link = item.slidesUrl
+    ? `<a href="${esc(item.slidesUrl)}" target="_blank" rel="noreferrer">${title}</a>`
+    : title;
+
+  const speaker = item.speaker?.name
+    ? `
+                                <div class="timeline-next-speaker">
+                                    ${
+                                      item.speaker.avatar
+                                        ? `<img class="timeline-next-speaker-avatar" src="assets/speakers/${esc(basename(item.speaker.avatar))}" alt="">`
+                                        : ''
+                                    }
+                                    <span class="timeline-next-speaker-name">${esc(item.speaker.name)}</span>
+                                </div>`
+    : '';
+
   if (state === 'completed') {
     return `<div class="timeline-next-item completed">
                             <div class="timeline-next-marker completed">
@@ -86,9 +132,9 @@ function timelineItem(title, state) {
                             </div>
                             <div class="timeline-next-content">
                                 <div class="timeline-next-title">
-                                    <span style="text-decoration: line-through;">${t}</span>
+                                    <span style="text-decoration: line-through;">${link}</span>
                                     <span class="timeline-badge-completed">Пройдено</span>
-                                </div>
+                                </div>${speaker}
                             </div>
                         </div>`;
   }
@@ -96,7 +142,7 @@ function timelineItem(title, state) {
     return `<div class="timeline-next-item next-large">
                             <div class="timeline-next-marker" style="border-color: #fff; background: #fff; top: 21px;"></div>
                             <div class="timeline-next-content">
-                                <div class="timeline-next-title">${t}</div>
+                                <div class="timeline-next-title">${link}</div>${speaker}
                             </div>
                         </div>`;
   }
@@ -104,22 +150,74 @@ function timelineItem(title, state) {
   return `<div class="timeline-next-item">
                             <div class="timeline-next-marker" style="width: 10px; height: 10px; left: -44px; top: 14px; background: #333; border: none;"></div>
                             <div class="timeline-next-content">
-                                <div class="timeline-next-title" style="font-size: 28px;">${t}</div>
+                                <div class="timeline-next-title" style="font-size: 28px;">${link}</div>${speaker}
                             </div>
                         </div>`;
 }
 
-function buildAgenda(topics, currentIdx) {
-  return topics.map((tp, i) =>
-    timelineItem(tp, i < currentIdx ? 'completed' : i === currentIdx ? 'active' : 'upcoming')
+export function buildAgenda(items, currentIdx) {
+  return items.map((it, i) =>
+    timelineItem(it, i < currentIdx ? 'completed' : i === currentIdx ? 'active' : 'upcoming')
   ).join('\n\n                        ');
 }
 
-function buildWhatNext(topics, currentIdx) {
+export function buildWhatNext(items, currentIdx) {
   const nextIdx = currentIdx + 1;
-  return topics.map((tp, i) =>
-    timelineItem(tp, i <= currentIdx ? 'completed' : i === nextIdx ? 'active' : 'upcoming')
+  return items.map((it, i) =>
+    timelineItem(it, i <= currentIdx ? 'completed' : i === nextIdx ? 'active' : 'upcoming')
   ).join('\n\n                        ');
+}
+
+/**
+ * Программа вечера: снимок из CMS (`--program`) или, если его нет, темы главы
+ * из book-club-data. Снимок нужен потому, что спикеров знает только D1 бота,
+ * а ссылки на соседние доклады — CMS.
+ *
+ * Формат снимка: [{ title, topic_id?, speaker?: {name, avatar}, slides_url?,
+ * current?: true }].
+ */
+export function readProgram(args, chapterTopics, topicIdx) {
+  const raw = args['program-file']
+    ? readFileSync(resolve(String(args['program-file'])), 'utf8')
+    : args.program && args.program !== true
+      ? String(args.program)
+      : null;
+
+  if (!raw) {
+    const items = chapterTopics.map((t) => ({ title: t.title, topicId: t.id }));
+    return { items, currentIdx: topicIdx };
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    fail(`Не разобрать --program: ${e.message}`);
+  }
+  if (!Array.isArray(parsed) || parsed.length === 0) fail('--program: ожидался непустой массив тем');
+
+  const items = parsed.map((p) => ({
+    title: p.title,
+    topicId: p.topic_id ?? p.topicId,
+    speaker: p.speaker,
+    slidesUrl: p.slides_url ?? p.slidesUrl,
+    current: Boolean(p.current),
+  }));
+
+  // Какая тема в программе — эта: сначала по выбранной теме доклада (--topic),
+  // и только если её в снимке нет — по метке current. Иначе снимок с чужой
+  // меткой (в нём current стоит у первого доклада) сбил бы нумерацию.
+  const wanted = chapterTopics[topicIdx];
+  let currentIdx = wanted
+    ? items.findIndex((p) => p.topicId === wanted.id || p.title === wanted.title)
+    : -1;
+  if (currentIdx < 0) currentIdx = items.findIndex((p) => p.current);
+  if (currentIdx < 0) {
+    fail(
+      `Тема доклада не найдена в --program (${items.map((p) => p.title).join('; ')}) — программа и тема должны быть из одной встречи.`,
+    );
+  }
+  return { items, currentIdx };
 }
 
 // главы книги в book-club-data: books/<folder>/chapters/<slug>/chapter.json
@@ -258,7 +356,9 @@ async function main() {
   const topicTitle = topic.title;
   if (!String(topicTitle ?? '').trim())
     fail(`У темы №${topicIdx + 1} главы "${chapter.slug}" книги ${bookEntry.folder} пустое поле "title" в chapter.json — заполните название темы доклада.`);
-  const topicTitles = chapter.topics.map((t) => t.title);
+  // Программа вечера: снимок из CMS (со спикерами и ссылками на доклады)
+  // или, если его нет, просто темы главы.
+  const program = readProgram(args, chapter.topics, topicIdx);
   const surname = String(speaker.id).split('-')[0].toUpperCase();
 
   // имя папки: BC-<стрим>-<CODE>-<номер главы>-<ФАМИЛИЯ>[-<seq>]
@@ -303,6 +403,13 @@ async function main() {
     if (a.avatar) copyAsset(a.avatar, 'authors', `аватар автора «${a.name}» (meta.json → authors[].avatar)`);
   }
   if (speaker.avatar) copyAsset(speaker.avatar, 'speakers', `аватар спикера «${speaker.name}» (index.json → speakers[].avatar)`);
+  // Аватарки спикеров всей программы: они видны на слайдах «Программа вечера»
+  // и «Что далее». Доклад автономен, поэтому файлы кладём внутрь папки.
+  for (const item of program.items) {
+    const avatar = item.speaker?.avatar;
+    if (!avatar || avatar === speaker.avatar) continue;
+    copyAsset(avatar, 'speakers', `аватар спикера «${item.speaker.name}» из программы вечера`);
+  }
 
   // 3. подстановки
   const subtitle = meta.title_original ?? '';
@@ -331,8 +438,12 @@ async function main() {
   for (const [k, v] of Object.entries(scalars)) html = html.split(`{{${k}}}`).join(v);
   html = html.replace('<!--AUTHOR_CARDS-->', (meta.authors ?? []).map(authorCard).join('\n                                '));
   html = html.replace('<!--SPEAKER_CARD-->', speakerCard(speakerView));
-  html = html.replace('<!--AGENDA_ITEMS-->', buildAgenda(topicTitles, topicIdx));
-  html = html.replace('<!--WHATNEXT_ITEMS-->', buildWhatNext(topicTitles, topicIdx));
+  html = html.replace('<!--AGENDA_ITEMS-->', buildAgenda(program.items, program.currentIdx));
+  html = html.replace('<!--WHATNEXT_ITEMS-->', buildWhatNext(program.items, program.currentIdx));
+
+  // «Программа вечера» — только в первом докладе вечера: дальше её повторять
+  // незачем, ход вечера показывает слайд «Что далее».
+  if (program.currentIdx > 0) html = dropChromeSlide(html, 'agenda');
 
   const leftover = html.match(/\{\{[A-Z_]+\}\}|<!--(?:AUTHOR_CARDS|SPEAKER_CARD|AGENDA_ITEMS|WHATNEXT_ITEMS)-->/g);
   if (leftover) fail(`Остались незаполненные маркеры: ${[...new Set(leftover)].join(', ')}`);
@@ -354,4 +465,8 @@ async function main() {
   console.log(`  URL после публикации:    ${domain}`);
 }
 
-main().catch((e) => fail(e.stack || String(e)));
+// Файл ещё и модуль: пересборка (rebuild-talk.mjs) переиспользует построение
+// таймлайнов, поэтому main запускаем только при прямом вызове.
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => fail(e.stack || String(e)));
+}

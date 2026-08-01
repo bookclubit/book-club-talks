@@ -70,6 +70,7 @@ jobs:
           SPEAKER: ${{ github.event.client_payload.speaker || github.event.inputs.speaker }}
           STREAM: ${{ github.event.client_payload.stream || github.event.inputs.stream }}
           SEQ: ${{ github.event.client_payload.seq || github.event.inputs.seq }}
+          PROGRAM: ${{ toJSON(github.event.client_payload.program) != 'null' && toJSON(github.event.client_payload.program) || '' }}
         run: |
           set -euo pipefail
           for v in BOOK CHAPTER TOPIC SPEAKER STREAM; do
@@ -83,6 +84,8 @@ jobs:
             echo "stream=$STREAM"
             echo "seq=$SEQ"
           } >> "$GITHUB_OUTPUT"
+          # Программа вечера — многострочный JSON, поэтому файлом, а не output.
+          printf '%s' "$PROGRAM" > program.json
 
       - id: gen
         name: Сгенерировать доклад
@@ -92,14 +95,21 @@ jobs:
           if [ -n "${{ steps.params.outputs.seq }}" ]; then
             SEQ_FLAG="--seq ${{ steps.params.outputs.seq }}"
           fi
+          # Снимок программы (спикеры и ссылки на соседние доклады) — если CMS
+          # его прислала; без него слайд соберётся из тем главы, без спикеров.
+          PROGRAM_FLAG=""
+          if [ -s program.json ]; then
+            PROGRAM_FLAG="--program-file program.json"
+          fi
           node scripts/new-talk.mjs \
             --book "${{ steps.params.outputs.book }}" \
             --chapter "${{ steps.params.outputs.chapter }}" \
             --topic "${{ steps.params.outputs.topic }}" \
             --speaker "${{ steps.params.outputs.speaker }}" \
             --stream "${{ steps.params.outputs.stream }}" \
-            $SEQ_FLAG \
+            $SEQ_FLAG $PROGRAM_FLAG \
             --data .book-club-data --force
+          rm -f program.json
 
       - name: Открыть pull request
         env:

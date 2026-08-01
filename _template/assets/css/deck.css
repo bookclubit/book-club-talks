@@ -679,6 +679,17 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     font-weight: 500;
     color: #a1a1aa;
 }
+/* Название темы в программе ведёт на доклад этой темы: подчёркивание тонкое,
+   цвет наследуется — ссылка не должна выбиваться из таймлайна. */
+.timeline-next-title a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+    transition: border-color 0.2s ease;
+}
+.timeline-next-title a:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.7);
+}
 .timeline-badge-completed {
     font-size: 13px;
     font-weight: 600;

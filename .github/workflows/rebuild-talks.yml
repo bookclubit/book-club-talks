@@ -1,0 +1,93 @@
+name: Rebuild talk chrome slides
+
+# Пересобирает «хром»-слайды докладов вечера («Программа вечера», «Что далее»)
+# по свежей программе: спикера подтвердили, заменили или появились ссылки
+# на соседние доклады. Контентные слайды спикера не трогаются.
+#
+# Триггерится:
+#  - repository_dispatch { event_type: rebuild-talks } — кнопкой в CMS;
+#  - workflow_dispatch — вручную из вкладки Actions.
+#
+# Программа — JSON-массив тем вечера в порядке вечера:
+#   [{ "title": "…", "topic_id": "…", "speaker": {"name": "…", "avatar": "/media/speakers/x.webp"},
+#      "slides_url": "https://bc-115-react-9-pomazkov.pages.dev" }]
+# Папки докладов вычисляются из slides_url, поэтому отдельный список не нужен.
+
+on:
+  repository_dispatch:
+    types: [rebuild-talks]
+  workflow_dispatch:
+    inputs:
+      program:
+        description: 'Программа вечера (JSON-массив тем)'
+        required: true
+
+# Один живой запуск: пересборки одной и той же встречи не должны драться
+# за main. Ключ — сам JSON программы.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # book-club-data — источник аватарок спикеров программы.
+      - uses: actions/checkout@v4
+        with:
+          repository: bookclubit/book-club-data
+          path: .book-club-data
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Пересобрать слайды докладов вечера
+        env:
+          PROGRAM: ${{ toJSON(github.event.client_payload.program) != 'null' && toJSON(github.event.client_payload.program) || github.event.inputs.program }}
+        run: |
+          set -euo pipefail
+          if [ -z "$PROGRAM" ]; then echo "✖ Не передана программа"; exit 1; fi
+          printf '%s' "$PROGRAM" > program.json
+
+          # Папки докладов — из ссылок на слайды (bc-115-… → BC-115-…).
+          FOLDERS=$(node -e '
+            const p = JSON.parse(require("fs").readFileSync("program.json", "utf8"));
+            const out = [];
+            for (const t of p) {
+              const url = t.slides_url ?? t.slidesUrl;
+              if (!url) continue;
+              try { out.push(new URL(url).hostname.split(".")[0].toUpperCase()); } catch {}
+            }
+            console.log([...new Set(out)].join("\n"));
+          ')
+
+          if [ -z "$FOLDERS" ]; then echo "В программе нет ссылок на доклады — пересобирать нечего."; exit 0; fi
+
+          for folder in $FOLDERS; do
+            if [ ! -d "talks/$folder" ]; then
+              echo "· $folder ещё не в main (доклад в открытом PR) — пропускаем"
+              continue
+            fi
+            node scripts/rebuild-talk.mjs --talk "$folder" --program-file program.json --data .book-club-data
+          done
+
+          rm -f program.json
+
+      - name: Закоммитить изменения
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- talks; then
+            echo "Слайды не изменились — коммит не нужен."
+            exit 0
+          fi
+          git config user.name "book-club-bot"
+          git config user.email "bot@bookclub.local"
+          git add talks
+          git commit -m "chore(talks): пересобрать хром-слайды по свежей программе вечера"
+          git push

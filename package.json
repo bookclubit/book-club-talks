@@ -6,7 +6,8 @@
   "description": "Презентации докладов книжного клуба фронтендеров",
   "scripts": {
     "new-talk": "node scripts/new-talk.mjs",
-    "lint:talks": "node scripts/lint-talks.mjs"
+    "lint:talks": "node scripts/lint-talks.mjs",
+    "rebuild-talk": "node scripts/rebuild-talk.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.113.0"

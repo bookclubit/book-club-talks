@@ -508,6 +508,18 @@ async function main() {
   const folder = parts.join('-');
   const project = folder.toLowerCase();
 
+  // Имя папки считает генератор, а ссылку на слайды для заявки и сообщения
+  // спикеру — CMS. Если формулы разошлись (например, у админа открыта вкладка
+  // со старой сборкой), спикер получит письмо про ветку, которой нет. Поэтому
+  // CMS присылает ожидаемое имя, и расхождение роняет генерацию сразу.
+  const expected = args.expect && args.expect !== true ? String(args.expect).trim().toUpperCase() : '';
+  if (expected && expected !== folder) {
+    fail(
+      `CMS ждёт доклад "${expected}", а по данным book-club-data имя папки — "${folder}".\n` +
+        '  Обычно это старая вкладка CMS: обновите её (Ctrl+F5) и создайте презентацию заново.',
+    );
+  }
+
   // Fail-fast: проверяем имя проекта Cloudflare Pages сразу после сборки,
   // а не поздно в CI на шаге wrangler.
   const nameError = cfProjectNameError(project);

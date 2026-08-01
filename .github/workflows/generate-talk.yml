@@ -70,6 +70,7 @@ jobs:
           SPEAKER: ${{ github.event.client_payload.speaker || github.event.inputs.speaker }}
           STREAM: ${{ github.event.client_payload.stream || github.event.inputs.stream }}
           SEQ: ${{ github.event.client_payload.seq || github.event.inputs.seq }}
+          EXPECT: ${{ github.event.client_payload.expect || '' }}
           PROGRAM: ${{ toJSON(github.event.client_payload.program) != 'null' && toJSON(github.event.client_payload.program) || '' }}
         run: |
           set -euo pipefail
@@ -83,6 +84,7 @@ jobs:
             echo "speaker=$SPEAKER"
             echo "stream=$STREAM"
             echo "seq=$SEQ"
+            echo "expect=$EXPECT"
           } >> "$GITHUB_OUTPUT"
           # Программа вечера — многострочный JSON, поэтому файлом, а не output.
           printf '%s' "$PROGRAM" > program.json
@@ -101,13 +103,19 @@ jobs:
           if [ -s program.json ]; then
             PROGRAM_FLAG="--program-file program.json"
           fi
+          # Имя папки, которое посчитала CMS: расхождение = у админа старая
+          # вкладка, и спикер получил бы ссылку на несуществующую ветку.
+          EXPECT_FLAG=""
+          if [ -n "${{ steps.params.outputs.expect }}" ]; then
+            EXPECT_FLAG="--expect ${{ steps.params.outputs.expect }}"
+          fi
           node scripts/new-talk.mjs \
             --book "${{ steps.params.outputs.book }}" \
             --chapter "${{ steps.params.outputs.chapter }}" \
             --topic "${{ steps.params.outputs.topic }}" \
             --speaker "${{ steps.params.outputs.speaker }}" \
             --stream "${{ steps.params.outputs.stream }}" \
-            $SEQ_FLAG $PROGRAM_FLAG \
+            $SEQ_FLAG $PROGRAM_FLAG $EXPECT_FLAG \
             --data .book-club-data --force
           rm -f program.json
 

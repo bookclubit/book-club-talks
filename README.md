@@ -23,9 +23,11 @@ npm run new-talk
 Скрипт спросит книгу, главу, тему доклада, спикера и номер стрима (списки берутся
 из репозитория **book-club-data** — рядом, `../book-club-data`, или через
 `--data <путь>`) и создаст правильно названную папку
-`talks/BC-<стрим>-<КНИГА>-<глава>-<ФАМИЛИЯ>` с готовыми слайдами: титул, «о книге»
-с авторами, «Программа вечера» и «Что далее». Пример:
-`talks/BC-114-DOCKER-10-POMAZKOV` (все доклады лежат в каталоге `talks/`).
+`talks/BC-<стрим>-<КНИГА>-<глава>-<номер темы>-<ФАМИЛИЯ>` с готовыми слайдами:
+титул, «о книге» с авторами, «Программа вечера» и «Что далее». Пример:
+`talks/BC-116-REACT-9-2-POMAZKOV` (все доклады лежат в каталоге `talks/`).
+Номер темы в имени обязателен: у спикера бывает несколько тем одной главы,
+и без него доклады совпали бы папкой и адресом.
 
 > Нет вашей книги/темы/спикера в списках? Добавьте их через CMS клуба
 > (`book-club-cms` → pull request в `book-club-data`) или попросите мейнтейнера.
@@ -40,10 +42,10 @@ npm run new-talk
 (`feat(talk): <папка> — <тема>`).
 
 ```bash
-git checkout -b BC-114-DOCKER-10-POMAZKOV
-git add talks/BC-114-DOCKER-10-POMAZKOV
-git commit -m "feat(talk): BC-114-DOCKER-10-POMAZKOV — Подготовка к развертыванию"
-git push -u origin BC-114-DOCKER-10-POMAZKOV
+git checkout -b BC-116-REACT-9-2-POMAZKOV
+git add talks/BC-116-REACT-9-2-POMAZKOV
+git commit -m "feat(talk): BC-116-REACT-9-2-POMAZKOV — Серверный рендеринг"
+git push -u origin BC-116-REACT-9-2-POMAZKOV
 ```
 
 ### Шаг 3. Откройте pull request
@@ -53,7 +55,7 @@ PR создаётся в едином формате по шаблону (бло
 
 ```bash
 gh pr create --base main \
-  --title "feat(talk): BC-114-DOCKER-10-POMAZKOV — Подготовка к развертыванию" \
+  --title "feat(talk): BC-116-REACT-9-2-POMAZKOV — Серверный рендеринг" \
   --body-file .github/pull_request_template.md
 ```
 
@@ -72,7 +74,7 @@ gh pr create --base main \
 https://<имя-папки-в-нижнем-регистре>.pages.dev
 ```
 
-Например, `BC-114-DOCKER-10-POMAZKOV` → `https://bc-114-docker-10-pomazkov.pages.dev`.
+Например, `BC-116-REACT-9-2-POMAZKOV` → `https://bc-116-react-9-2-pomazkov.pages.dev`.
 
 ## Полезно знать
 

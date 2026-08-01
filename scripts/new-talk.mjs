@@ -9,7 +9,11 @@
 //
 // Использование (не-интерактивно, для CI/AI):
 //   node scripts/new-talk.mjs --book docker-up-and-running --chapter 9 \
-//        --topic 1 --speaker pomazkov-anton --stream 112 [--seq 2] [--force] [--data ../book-club-data]
+//        --topic 1 --speaker pomazkov-anton --stream 112 [--force] [--data ../book-club-data]
+//
+// Имя папки: BC-<стрим>-<КНИГА>-<глава>-<номер темы>-<ФАМИЛИЯ>. Номер темы
+// в имени обязателен — иначе доклады одного спикера по одной главе совпали бы.
+// --seq добавляет ещё один суффикс; нужен в редких ручных случаях.
 //
 // Интерактивно (для человека):
 //   npm run new-talk
@@ -455,7 +459,7 @@ async function main() {
     topicIdx = chapter.topics.indexOf(topic);
     speaker = await pick(rl, 'Спикер', speakers, (s) => s.name);
     stream = (await rl.question('\nНомер стрима (например 112): ')).trim();
-    seq = (await rl.question('Порядковый номер доклада (Enter — пропустить): ')).trim();
+    seq = (await rl.question('Суффикс имени папки (Enter — пропустить, нужен редко): ')).trim();
     rl.close();
   } else {
     bookEntry = index.books.find((b) => b.folder === args.book || b.id === args.book);
@@ -496,8 +500,10 @@ async function main() {
   const program = readProgram(args, chapter.topics, topicIdx);
   const surname = String(speaker.id).split('-')[0].toUpperCase();
 
-  // имя папки: BC-<стрим>-<CODE>-<номер главы>-<ФАМИЛИЯ>[-<seq>]
-  const parts = ['BC', stream, code, chapter.order, surname];
+  // Имя папки: BC-<стрим>-<CODE>-<глава>-<номер темы>-<ФАМИЛИЯ>. Номер темы —
+  // её порядок в главе: без него два доклада одного спикера по одной главе
+  // получали одну папку и один адрес (и второй доклад затирал первый).
+  const parts = ['BC', stream, code, chapter.order, topicIdx + 1, surname];
   if (seq) parts.push(seq);
   const folder = parts.join('-');
   const project = folder.toLowerCase();
@@ -506,7 +512,7 @@ async function main() {
   // а не поздно в CI на шаге wrangler.
   const nameError = cfProjectNameError(project);
   if (nameError)
-    fail(`${nameError}.\n  Проверьте составные части имени: стрим "${stream}", код книги "${code}", номер главы "${chapter.order}", фамилию "${surname}"${seq ? `, порядковый номер "${seq}"` : ''}.`);
+    fail(`${nameError}.\n  Проверьте составные части имени: стрим "${stream}", код книги "${code}", номер главы "${chapter.order}", номер темы "${topicIdx + 1}", фамилию "${surname}"${seq ? `, суффикс "${seq}"` : ''}.`);
   const domain = `https://${project}.pages.dev`;
   const relPath = `talks/${folder}`;
   const target = join(ROOT, 'talks', folder);

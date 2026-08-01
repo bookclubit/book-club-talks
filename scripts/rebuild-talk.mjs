@@ -20,7 +20,13 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join, basename } from 'node:path';
 import { env } from 'node:process';
 
-import { buildAgenda, buildWhatNext, dropChromeSlide, replaceTimeline } from './new-talk.mjs';
+import {
+  buildAgenda,
+  buildWhatNext,
+  dropChromeSlide,
+  replaceTimeline,
+  syncChromeStyles,
+} from './new-talk.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -74,6 +80,8 @@ const items = parsed.map((p) => ({
   topicId: p.topic_id ?? p.topicId,
   speaker: p.speaker,
   slidesUrl: p.slides_url ?? p.slidesUrl,
+  // Глава темы — по ней таймлайн раскладывается по колонкам.
+  group: p.group ?? p.chapter_title ?? p.chapterTitle,
   current: Boolean(p.current),
 }));
 
@@ -116,6 +124,19 @@ html = replaceTimeline(html, 'whatnext', buildWhatNext(items, currentIdx));
 if (currentIdx > 0) html = dropChromeSlide(html, 'agenda');
 
 writeFileSync(indexPath, html);
+
+// Раскладка таймлайна живёт в CSS (колонки под число тем), поэтому вместе
+// со слайдами обновляем и блок «хром»-стилей — свои стили спикера, дописанные
+// вне маркеров, остаются на месте.
+const deckCssPath = join(target, 'assets', 'css', 'deck.css');
+const templateCssPath = join(ROOT, '_template', 'assets', 'css', 'deck.css');
+if (existsSync(deckCssPath) && existsSync(templateCssPath)) {
+  const synced = syncChromeStyles(
+    readFileSync(deckCssPath, 'utf8'),
+    readFileSync(templateCssPath, 'utf8'),
+  );
+  writeFileSync(deckCssPath, synced);
+}
 
 console.log(`\n✓ Пересобраны слайды доклада ${talk}`);
 console.log(`  Тема доклада: ${items[currentIdx].title}`);

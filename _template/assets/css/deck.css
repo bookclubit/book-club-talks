@@ -575,7 +575,11 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     font-family: var(--font-mono);
 }
 
-/* ===== Слайды-таймлайны («Программа вечера», «Что далее») ===== */
+/* @chrome-timeline-start
+   ===== Слайды-таймлайны («Программа вечера», «Что далее») =====
+   Этот блок принадлежит шаблону: его целиком обновляет пересборка
+   «хром»-слайдов (scripts/rebuild-talk.mjs), поэтому свои стили пишите
+   ВНЕ маркеров — иначе они потеряются. */
 
 .timeline-next-container {
     display: flex;
@@ -585,16 +589,94 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     height: 100%;
     padding: 0 100px;
 }
+
+/* Тем за вечер бывает много (несколько глав, до десятка докладов) — тогда
+   таймлайн раскладывается в 2–3 колонки, по колонке на главу. Размеры ведут
+   переменные: колонок больше или тем в колонке много — шрифты мельче. */
+.timeline-next-columns {
+    --tl-rail: 60px;
+    --tl-gap: 36px;
+    --tl-title: 28px;
+    --tl-title-active: 44px;
+    --tl-title-done: 32px;
+    --tl-avatar: 32px;
+    --tl-speaker: 18px;
+
+    display: grid;
+    grid-template-columns: repeat(var(--tl-cols, 1), minmax(0, 1fr));
+    gap: 56px;
+    width: 100%;
+    max-width: 850px;
+    margin-top: 20px;
+    align-items: start;
+    box-sizing: border-box;
+}
+.timeline-next-columns[data-cols='2'] {
+    --tl-cols: 2;
+    --tl-rail: 48px;
+    --tl-gap: 28px;
+    --tl-title: 24px;
+    --tl-title-active: 32px;
+    --tl-title-done: 24px;
+    --tl-avatar: 28px;
+    --tl-speaker: 16px;
+    max-width: 1540px;
+}
+.timeline-next-columns[data-cols='3'] {
+    --tl-cols: 3;
+    --tl-rail: 44px;
+    --tl-gap: 22px;
+    --tl-title: 20px;
+    --tl-title-active: 26px;
+    --tl-title-done: 20px;
+    --tl-avatar: 24px;
+    --tl-speaker: 14px;
+    gap: 44px;
+    max-width: 1700px;
+}
+/* Длинная колонка (девять тем и больше) — ещё компактнее, иначе уедет за экран. */
+.timeline-next-columns[data-density='tight'] {
+    --tl-gap: 18px;
+    --tl-title: 19px;
+    --tl-title-active: 23px;
+    --tl-title-done: 19px;
+    --tl-avatar: 22px;
+    --tl-speaker: 13px;
+}
+.timeline-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+}
+/* Заголовок колонки — глава, темы которой в ней собраны. Место под две строки
+   держим всегда: иначе колонка с длинным названием главы опускала бы свой
+   список ниже соседних. */
+.timeline-column-label {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.25;
+    min-height: 2.5em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #71717a;
+    padding-left: var(--tl-rail);
+    text-align: left;
+}
 .timeline-next {
     display: flex;
     flex-direction: column;
-    gap: 36px;
+    gap: var(--tl-gap, 36px);
     position: relative;
     width: 100%;
     max-width: 850px;
     margin-top: 20px;
-    padding-left: 60px;
+    padding-left: var(--tl-rail, 60px);
     box-sizing: border-box;
+}
+.timeline-column .timeline-next {
+    margin-top: 0;
+    max-width: none;
 }
 .timeline-next::before {
     content: '';
@@ -622,7 +704,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     justify-content: center;
     flex-shrink: 0;
     position: absolute;
-    left: -46px;
+    left: calc(-1 * (var(--tl-rail, 60px) - 14px));
     top: 15px;
     z-index: 2;
     box-sizing: border-box;
@@ -630,11 +712,24 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .timeline-next-marker.completed {
     width: 20px;
     height: 20px;
-    left: -49px;
+    left: calc(-1 * (var(--tl-rail, 60px) - 11px));
     top: 12px;
     border-color: #555;
     background: #000;
     color: #555;
+}
+.timeline-next-marker.active {
+    border-color: #fff;
+    background: #fff;
+    top: 21px;
+}
+.timeline-next-marker.upcoming {
+    width: 10px;
+    height: 10px;
+    left: calc(-1 * (var(--tl-rail, 60px) - 16px));
+    top: 14px;
+    background: #333;
+    border: none;
 }
 .timeline-next-content {
     display: flex;
@@ -643,20 +738,21 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     text-align: left;
 }
 .timeline-next-title {
-    font-size: 28px;
+    font-size: var(--tl-title, 28px);
     font-weight: 500;
     color: var(--text-muted);
     display: flex;
     align-items: center;
     gap: 16px;
+    line-height: 1.25;
 }
 .timeline-next-item.completed .timeline-next-title {
     color: #555;
-    font-size: 32px;
+    font-size: var(--tl-title-done, 32px);
     font-weight: 500;
 }
 .timeline-next-item.next-large .timeline-next-title {
-    font-size: 44px;
+    font-size: var(--tl-title-active, 44px);
     font-weight: 600;
     color: #fff;
 }
@@ -667,15 +763,15 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     margin-top: 10px;
 }
 .timeline-next-speaker-avatar {
-    width: 32px;
-    height: 32px;
+    width: var(--tl-avatar, 32px);
+    height: var(--tl-avatar, 32px);
     border-radius: 50%;
     border: 1px solid #444;
     object-fit: cover;
     background: #111;
 }
 .timeline-next-speaker-name {
-    font-size: 18px;
+    font-size: var(--tl-speaker, 18px);
     font-weight: 500;
     color: #a1a1aa;
 }
@@ -702,6 +798,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     text-decoration: none;
     display: inline-block;
 }
+/* @chrome-timeline-end */
 
 /* ===== Интерактивные блоки контентных слайдов (слайдер, табы, карточки) ===== */
 /* Before-After Slider Styles */

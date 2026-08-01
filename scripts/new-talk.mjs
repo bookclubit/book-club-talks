@@ -92,13 +92,35 @@ export function dropChromeSlide(html, kind) {
   return html.replace(chromeSlideRe(kind), '\n');
 }
 
-/** Тело «хром»-слайда: содержимое `.timeline-next` — только его и пересобираем. */
-export function replaceTimeline(html, kind, items) {
+// Стили «хром»-слайдов выделены в deck.css маркерами: пересборка старого
+// доклада обновляет этот блок (иначе новая раскладка таймлайна осталась бы
+// без стилей), не трогая всё, что спикер дописал вне маркеров.
+const CHROME_CSS_RE = /\/\* @chrome-timeline-start[\s\S]*?\/\* @chrome-timeline-end \*\//;
+const LEGACY_TIMELINE_CSS_RE = /\/\* ===== Слайды-таймлайны[\s\S]*?(?=\/\* ===== )/;
+
+/** Подтягивает блок «хром»-стилей доклада к шаблонному. */
+export function syncChromeStyles(deckCss, templateCss) {
+  const fresh = templateCss.match(CHROME_CSS_RE);
+  if (!fresh) return deckCss;
+  if (CHROME_CSS_RE.test(deckCss)) return deckCss.replace(CHROME_CSS_RE, fresh[0]);
+  // Доклад со старым CSS: блок ещё без маркеров — меняем прежнюю секцию.
+  if (LEGACY_TIMELINE_CSS_RE.test(deckCss)) {
+    return deckCss.replace(LEGACY_TIMELINE_CSS_RE, `${fresh[0]}\n\n`);
+  }
+  return `${deckCss.replace(/\s*$/, '')}\n\n${fresh[0]}\n`;
+}
+
+/**
+ * Тело «хром»-слайда: всё под заголовком внутри `.timeline-next-container`.
+ * Меняем целиком (а не пункты внутри `.timeline-next`), потому что от числа
+ * тем зависит и сама раскладка — одна колонка или несколько.
+ */
+export function replaceTimeline(html, kind, block) {
   const slide = html.match(chromeSlideRe(kind));
   if (!slide) return html;
   const updated = slide[0].replace(
-    /(<div class="timeline-next">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/section>)/,
-    (_, open, tail) => `${open}\n                        ${items}\n                    ${tail}`,
+    /(<\/h2>)[\s\S]*(<\/div>\s*<\/section>)/,
+    (_, head, tail) => `${head}\n                    ${block}\n                ${tail}`,
   );
   return html.replace(slide[0], updated);
 }
@@ -125,6 +147,8 @@ function timelineItem(item, state) {
                                 </div>`
     : '';
 
+  // Размеры и отступы задаёт CSS (переменные под число колонок) — инлайновых
+  // стилей у пунктов нет, иначе колонки не смогли бы их уменьшить.
   if (state === 'completed') {
     return `<div class="timeline-next-item completed">
                             <div class="timeline-next-marker completed">
@@ -140,7 +164,7 @@ function timelineItem(item, state) {
   }
   if (state === 'active') {
     return `<div class="timeline-next-item next-large">
-                            <div class="timeline-next-marker" style="border-color: #fff; background: #fff; top: 21px;"></div>
+                            <div class="timeline-next-marker active"></div>
                             <div class="timeline-next-content">
                                 <div class="timeline-next-title">${link}</div>${speaker}
                             </div>
@@ -148,24 +172,133 @@ function timelineItem(item, state) {
   }
   // upcoming
   return `<div class="timeline-next-item">
-                            <div class="timeline-next-marker" style="width: 10px; height: 10px; left: -44px; top: 14px; background: #333; border: none;"></div>
+                            <div class="timeline-next-marker upcoming"></div>
                             <div class="timeline-next-content">
-                                <div class="timeline-next-title" style="font-size: 28px;">${link}</div>${speaker}
+                                <div class="timeline-next-title">${link}</div>${speaker}
                             </div>
                         </div>`;
 }
 
+// Сколько тем помещается в колонку, пока таймлайн не начал вылезать за слайд.
+const PER_COLUMN = 6;
+const MAX_COLUMNS = 3;
+
+/** Подряд идущие темы одной главы — секция будущей колонки. */
+function sections(items) {
+  const out = [];
+  items.forEach((item, index) => {
+    const label = item.group || '';
+    const last = out[out.length - 1];
+    if (last && last.label === label) last.items.push({ item, index });
+    else out.push({ label, items: [{ item, index }] });
+  });
+  return out;
+}
+
+/**
+ * Пока есть место, делит самую длинную колонку пополам: главы бывают очень
+ * разными (пять тем и восемь), и без этого длинная колонка упирается в низ
+ * слайда, а рядом пустует место. Порядок вечера сохраняется — колонки читают
+ * слева направо, поэтому продолжение главы встаёт следующей колонкой.
+ */
+function splitLongColumns(columns) {
+  const out = columns.map((c) => ({ label: c.label, items: [...c.items] }));
+  while (out.length < MAX_COLUMNS) {
+    let longest = 0;
+    out.forEach((c, i) => {
+      if (c.items.length > out[longest].items.length) longest = i;
+    });
+    if (out[longest].items.length <= PER_COLUMN) break;
+    const half = Math.ceil(out[longest].items.length / 2);
+    const tail = out[longest].items.splice(half);
+    // «Глава 10. Альтернативы React» → «Глава 10 · продолжение»: полное название
+    // уже стоит в соседней колонке, а длинный заголовок ломается на две строки.
+    const short = out[longest].label.split('. ')[0];
+    out.splice(longest + 1, 0, { label: `${short} · продолжение`, items: tail });
+  }
+  return out;
+}
+
+/** Делит список на `cols` колонок примерно поровну, сохраняя порядок. */
+function evenColumns(entries, cols) {
+  const size = Math.ceil(entries.length / cols);
+  const out = [];
+  for (let i = 0; i < entries.length; i += size) out.push({ label: '', items: entries.slice(i, i + size) });
+  return out;
+}
+
+/**
+ * Раскладка таймлайна: список тем → колонки. Темы разных глав (в снимке
+ * программы у них есть `group`) идут отдельными колонками — слева одна глава,
+ * справа другая. Если глава одна, длинный список просто делится поровну:
+ * десяток тем в столбик не помещается на слайде.
+ */
+export function timelineColumns(items) {
+  const parts = sections(items);
+  const labelled = parts.length > 1 && parts.every((p) => p.label);
+
+  if (!labelled) {
+    const entries = items.map((item, index) => ({ item, index }));
+    const cols = Math.min(MAX_COLUMNS, Math.max(1, Math.ceil(entries.length / PER_COLUMN)));
+    return cols === 1 ? [{ label: '', items: entries }] : evenColumns(entries, cols);
+  }
+  if (parts.length <= MAX_COLUMNS) return splitLongColumns(parts);
+
+  // Глав больше, чем колонок: складываем соседние главы в общую колонку,
+  // пока она не наберёт свою долю тем. Порядок вечера при этом сохраняется.
+  const target = Math.ceil(items.length / MAX_COLUMNS);
+  const packed = [];
+  for (const part of parts) {
+    const last = packed[packed.length - 1];
+    const full = packed.length >= MAX_COLUMNS;
+    if (last && (full || last.items.length + part.items.length <= target)) {
+      last.items.push(...part.items);
+      last.label = `${last.label} · ${part.label}`;
+    } else {
+      packed.push({ label: part.label, items: [...part.items] });
+    }
+  }
+  return packed;
+}
+
+/** Таймлайн целиком: колонки с заголовками глав и пунктами в состоянии. */
+export function buildTimeline(items, stateOf) {
+  const columns = timelineColumns(items);
+  const longest = Math.max(...columns.map((c) => c.items.length));
+  const density = longest > PER_COLUMN ? 'tight' : 'normal';
+
+  const body = columns
+    .map((column) => {
+      const label = column.label
+        ? `<div class="timeline-column-label">${esc(column.label)}</div>\n                            `
+        : '';
+      const rows = column.items
+        .map(({ item, index }) => timelineItem(item, stateOf(index)))
+        .join('\n\n                            ');
+      return `<div class="timeline-column">
+                            ${label}<div class="timeline-next">
+                            ${rows}
+                            </div>
+                        </div>`;
+    })
+    .join('\n                        ');
+
+  return `<div class="timeline-next-columns" data-cols="${columns.length}" data-density="${density}">
+                        ${body}
+                    </div>`;
+}
+
 export function buildAgenda(items, currentIdx) {
-  return items.map((it, i) =>
-    timelineItem(it, i < currentIdx ? 'completed' : i === currentIdx ? 'active' : 'upcoming')
-  ).join('\n\n                        ');
+  return buildTimeline(items, (i) =>
+    i < currentIdx ? 'completed' : i === currentIdx ? 'active' : 'upcoming',
+  );
 }
 
 export function buildWhatNext(items, currentIdx) {
   const nextIdx = currentIdx + 1;
-  return items.map((it, i) =>
-    timelineItem(it, i <= currentIdx ? 'completed' : i === nextIdx ? 'active' : 'upcoming')
-  ).join('\n\n                        ');
+  return buildTimeline(items, (i) =>
+    i <= currentIdx ? 'completed' : i === nextIdx ? 'active' : 'upcoming',
+  );
 }
 
 /**
@@ -201,6 +334,8 @@ export function readProgram(args, chapterTopics, topicIdx) {
     topicId: p.topic_id ?? p.topicId,
     speaker: p.speaker,
     slidesUrl: p.slides_url ?? p.slidesUrl,
+    // Глава темы: по ней таймлайн раскладывается по колонкам (глава — колонка).
+    group: p.group ?? p.chapter_title ?? p.chapterTitle,
     current: Boolean(p.current),
   }));
 

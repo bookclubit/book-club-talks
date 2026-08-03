@@ -20,6 +20,22 @@ cd book-club-talks
 npm run new-talk
 ```
 
+> **Если бот уже создал вам черновик** — генерировать ничего не нужно, забирайте
+> готовую ветку. И берите только свою папку: презентаций в репозитории становится
+> всё больше, а нужна одна.
+>
+> ```bash
+> git clone --filter=blob:none --no-checkout --depth 1 >   -b BC-116-REACT-9-2-POMAZKOV git@github.com:bookclubit/book-club-talks.git
+> cd book-club-talks
+> git sparse-checkout set talks/BC-116-REACT-9-2-POMAZKOV
+> git checkout
+> ```
+>
+> Скачается около мегабайта вместо всего архива: `--filter=blob:none` не тянет
+> содержимое чужих файлов, `--depth 1` — историю, `sparse-checkout` оставляет
+> в рабочей копии только вашу папку (плюс файлы в корне — README и npm-скрипты).
+> `git push` из такой копии работает как обычно.
+
 Скрипт спросит книгу, главу, тему доклада, спикера и номер стрима (списки берутся
 из репозитория **book-club-data** — рядом, `../book-club-data`, или через
 `--data <путь>`) и создаст правильно названную папку

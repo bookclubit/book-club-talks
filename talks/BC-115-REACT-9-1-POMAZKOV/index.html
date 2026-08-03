@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body>
@@ -158,7 +160,545 @@
                     </div>
                 </div>
             </section>
-            <section class="slide" data-slide="4" data-chrome="whatnext">
+            <!-- ===== КОНТЕНТНЫЕ СЛАЙДЫ ДОКЛАДА ===== -->
+
+            <!-- SLIDE 5: предыдущая глава — зачем нужен фреймворк -->
+            <section class="slide" data-slide="5">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Предыдущая глава: погружение в мир фреймворков React</h2>
+                    <p class="section-label" style="margin-top: 28px;">Зачем нужен фреймворк?</p>
+
+                    <div class="pillars-container">
+                        <div class="pillar-card pillar-1">
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M12 3l9 5-9 5-9-5 9-5z"></path>
+                                    <path d="M3 13l9 5 9-5"></path>
+                                </svg>
+                            </span>
+                            <h3>Абстрагирование</h3>
+                            <p class="pillar-desc">
+                                Фреймворк скрывает сложные детали: маршрутизацию, гидратацию,
+                                сборку, кэширование. Разработчик сосредотачивается
+                                на бизнес-логике.
+                            </p>
+                        </div>
+
+                        <div class="pillar-card pillar-2">
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M4 6h16M4 12h16M4 18h10"></path>
+                                    <path d="M18.5 17l2 2 3-3.5"></path>
+                                </svg>
+                            </span>
+                            <h3>Соглашения</h3>
+                            <p class="pillar-desc">
+                                Единые правила структуры файлов, именования и потоков данных
+                                ускоряют командную работу и снижают когнитивную нагрузку.
+                            </p>
+                        </div>
+
+                        <div class="pillar-card pillar-3">
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <rect x="3" y="3" width="8" height="8" rx="2"></rect>
+                                    <rect x="13" y="3" width="8" height="8" rx="2"></rect>
+                                    <rect x="3" y="13" width="8" height="8" rx="2"></rect>
+                                    <rect x="13" y="13" width="8" height="8" rx="2"></rect>
+                                </svg>
+                            </span>
+                            <h3>Комплексные решения</h3>
+                            <p class="pillar-desc">
+                                Фреймворк даёт готовый набор инструментов: рендеринг,
+                                маршрутизацию, оптимизацию ассетов, работу с данными.
+                            </p>
+                        </div>
+
+                        <div class="pillar-card pillar-4">
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M13 2L5 14h6l-1 8 8-12h-6l1-8z"></path>
+                                </svg>
+                            </span>
+                            <h3>Производительность</h3>
+                            <p class="pillar-desc">
+                                Правильно выбранный фреймворк положительно влияет
+                                на скорость загрузки и отклика приложения.
+                            </p>
+                        </div>
+
+                        <div class="pillar-card pillar-5 dashed-card">
+                            <span class="new-badge">сегодня</span>
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                    <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                    <path d="M7 7h.01M7 17h.01"></path>
+                                </svg>
+                            </span>
+                            <h3>Серверные компоненты React (RSC)</h3>
+                            <p class="pillar-desc">
+                                В прошлой главе их лишь немного упомянули — сегодня разберём
+                                подробнее: что это за компоненты, где они выполняются
+                                и что попадает в клиентский бандл.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="pillar-hint">Нажмите на блок — он раскроется, остальные свернутся до иконок</p>
+
+                    <!-- Лента фреймворков: едет сама, останавливается под курсором,
+                         каждый логотип ведёт на официальный сайт. Два одинаковых
+                         набора подряд — чтобы сдвиг на половину трека был бесшовным. -->
+                    <div class="marquee">
+                        <div class="marquee-track">
+                            <a class="marquee-item" href="https://nextjs.org/" target="_blank" rel="noreferrer"><span>Next.js</span></a>
+                            <a class="marquee-item" href="https://remix.run/" target="_blank" rel="noreferrer"><span>Remix</span></a>
+                            <a class="marquee-item" href="https://reactrouter.com/" target="_blank" rel="noreferrer"><span>React Router</span></a>
+                            <a class="marquee-item" href="https://tanstack.com/start" target="_blank" rel="noreferrer"><span>TanStack Start</span></a>
+                            <a class="marquee-item" href="https://astro.build/" target="_blank" rel="noreferrer"><span>Astro</span></a>
+                            <a class="marquee-item" href="https://waku.gg/" target="_blank" rel="noreferrer"><span>Waku</span></a>
+                            <a class="marquee-item" href="https://www.gatsbyjs.com/" target="_blank" rel="noreferrer"><span>Gatsby</span></a>
+                            <a class="marquee-item" href="https://redwoodjs.com/" target="_blank" rel="noreferrer"><span>RedwoodJS</span></a>
+                            <a class="marquee-item" href="https://vike.dev/" target="_blank" rel="noreferrer"><span>Vike</span></a>
+                            <a class="marquee-item" href="https://expo.dev/router" target="_blank" rel="noreferrer"><span>Expo Router</span></a>
+                            <a class="marquee-item" href="https://nextjs.org/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>Next.js</span></a>
+                            <a class="marquee-item" href="https://remix.run/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>Remix</span></a>
+                            <a class="marquee-item" href="https://reactrouter.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>React Router</span></a>
+                            <a class="marquee-item" href="https://tanstack.com/start" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>TanStack Start</span></a>
+                            <a class="marquee-item" href="https://astro.build/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>Astro</span></a>
+                            <a class="marquee-item" href="https://waku.gg/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>Waku</span></a>
+                            <a class="marquee-item" href="https://www.gatsbyjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>Gatsby</span></a>
+                            <a class="marquee-item" href="https://redwoodjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>RedwoodJS</span></a>
+                            <a class="marquee-item" href="https://vike.dev/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>Vike</span></a>
+                            <a class="marquee-item" href="https://expo.dev/router" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><span>Expo Router</span></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: RSC — новый тип компонентов -->
+            <section class="slide" data-slide="6">
+                <div class="content-slide">
+                    <h2 class="gradient-text">RSC — новый тип компонентов</h2>
+
+                    <div class="kinds-grid">
+                        <div class="kind-card">
+                            <div class="kind-head">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <rect x="2.5" y="4" width="19" height="15" rx="2.5"></rect>
+                                    <path d="M2.5 8.5h19M6 6.2h.01M8.5 6.2h.01"></path>
+                                </svg>
+                                <h3>Клиентский компонент</h3>
+                            </div>
+                            <div class="kind-scheme">
+                                <div class="scheme-box">component.jsx<small>исходный код</small></div>
+                                <span class="scheme-arrow">→</span>
+                                <div class="scheme-box is-browser">bundle.js<small>уезжает в браузер</small></div>
+                            </div>
+                            <p>
+                                Выполняется в браузере: код
+                                <span class="tooltip-trigger">попадает в клиентский бандл<span class="tooltip-content">
+                                    Функция компонента и всё, что она импортирует, собираются
+                                    в JS-бандл и скачиваются пользователем — вместе с зависимостями,
+                                    которые нужны только для рендера.
+                                </span></span>
+                                и работает на устройстве пользователя.
+                            </p>
+                            <p class="kind-note">Хуки, состояние, обработчики событий — как всегда.</p>
+                        </div>
+
+                        <div class="kind-card kind-server">
+                            <div class="kind-head">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                    <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                    <path d="M7 7h.01M7 17h.01"></path>
+                                </svg>
+                                <h3>Серверный компонент</h3>
+                            </div>
+                            <div class="kind-scheme">
+                                <div class="scheme-box is-server">component.jsx<small>остаётся на сервере</small></div>
+                                <span class="scheme-arrow">→</span>
+                                <div class="scheme-box">результат<small>дерево элементов</small></div>
+                            </div>
+                            <p>
+                                <span class="tooltip-trigger">Запускается на сервере<span class="tooltip-content">
+                                    Функция компонента вызывается и выполняется в серверной среде —
+                                    во время сборки или при запросе. В браузере она не выполняется
+                                    никогда.
+                                </span></span>
+                                и не попадает в клиентский бандл — пользователь скачивает
+                                только результат его работы.
+                            </p>
+                            <p class="kind-note">Может быть асинхронным и обращаться к данным напрямую.</p>
+                        </div>
+                    </div>
+
+                    <div class="flow">
+                        <div class="flow-row">
+                            <div class="flow-side"><b>клиентский</b>component.jsx</div>
+                            <div>
+                                <div class="flow-track"></div>
+                                <p class="flow-label">код уезжает в бандл браузера</p>
+                            </div>
+                            <div class="flow-side"><b>браузер</b>bundle.js</div>
+                        </div>
+                        <div class="flow-row is-blocked">
+                            <div class="flow-side"><b>серверный</b>component.jsx</div>
+                            <div>
+                                <div class="flow-track"></div>
+                                <p class="flow-label">код остаётся на сервере — на клиент уходит результат</p>
+                            </div>
+                            <div class="flow-side"><b>браузер</b>дерево элементов</div>
+                        </div>
+                    </div>
+
+                    <p class="flow-main">
+                        Запускаются на сервере <span>·</span> не попадают в клиентский бандл
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: старт во время сборки -->
+            <section class="slide" data-slide="7">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Преимущество RSC над клиентскими</h2>
+                    <p class="slide-lead">
+                        Серверные компоненты могут стартовать во время сборки (build time) —
+                        и тогда им доступны операции, которых в браузере просто нет.
+                    </p>
+
+                    <div class="build-grid">
+                        <div class="build-card">
+                            <span class="build-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M3 7.5A2 2 0 0 1 5 5.5h4l2 2.5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-11z"></path>
+                                </svg>
+                            </span>
+                            <span class="build-card-num">01</span>
+                            <h3>Чтение из файловой системы</h3>
+                            <p>
+                                Импорт Markdown-файлов, локальных JSON, конфигураций.
+                                В браузере прямой доступ к файловой системе невозможен
+                                или сильно ограничен — на сервере при сборке это
+                                естественная операция.
+                            </p>
+                        </div>
+
+                        <div class="build-card">
+                            <span class="build-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M12 3v12"></path>
+                                    <path d="M7.5 10.5L12 15l4.5-4.5"></path>
+                                    <path d="M4 18.5h16"></path>
+                                </svg>
+                            </span>
+                            <span class="build-card-num">02</span>
+                            <h3>Извлечение статического содержимого</h3>
+                            <p>
+                                Данные из CMS, статических API, внешних источников —
+                                на этапе сборки. Контент «фиксируется» заранее, и его
+                                не приходится запрашивать при каждом обращении
+                                пользователя.
+                            </p>
+                        </div>
+
+                        <div class="build-card">
+                            <span class="build-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <ellipse cx="12" cy="6" rx="7.5" ry="3"></ellipse>
+                                    <path d="M4.5 6v12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V6"></path>
+                                    <path d="M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3"></path>
+                                </svg>
+                            </span>
+                            <span class="build-card-num">03</span>
+                            <h3>Доступ к уровню данных</h3>
+                            <p>
+                                Серверные компоненты обращаются напрямую к базам данных,
+                                внутренним сервисам и ORM-слою. Для простых операций
+                                чтения отдельный API-слой становится не нужен.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-strip">
+                        <span class="strip-step is-now"><b>build time</b> — сборка</span>
+                        <span>→</span>
+                        <span class="strip-step">request time — запрос</span>
+                        <span>→</span>
+                        <span class="strip-step">браузер — гидратация</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: как работает RSC (шаги + пояснение справа) -->
+            <section class="slide" data-slide="8">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Как работает RSC?</h2>
+
+                    <div class="rsc-flow interactive-block" data-target="rsc-panel">
+                        <div class="rsc-chain">
+                            <div class="code-line rsc-step active"
+                                 data-title="Компонент — это функция"
+                                 data-desc="Шаг назад к базовой модели React: компонент — не класс и не особый объект, а обычная JavaScript-функция, которая возвращает элемент React. Минимальный пример: <b>const Component = () =&gt; &lt;div&gt;hi!&lt;/div&gt;</b>. JSX здесь — синтаксический сахар: он компилируется в вызовы <b>React.createElement</b> (глава 2 книги), а на выходе получается объект JavaScript, а не HTML-строка.">
+                                <span class="rsc-step-num">1</span>
+                                <span class="rsc-step-text">Функция-компонент (серверный)<small>const Component = async () =&gt; …</small></span>
+                            </div>
+                            <div class="rsc-arrow"></div>
+
+                            <div class="code-line rsc-step"
+                                 data-title="Вызов на сервере"
+                                 data-desc="Серверный компонент никогда не выполняется в браузере. Его функция вызывается в серверной среде — во время сборки (build time) или при запросе (request time), — создаёт дерево элементов, и на этом жизненный цикл серверного компонента завершается.">
+                                <span class="rsc-step-num">2</span>
+                                <span class="rsc-step-text">Вызов на сервере<small>build time или request time</small></span>
+                            </div>
+                            <div class="rsc-arrow"></div>
+
+                            <div class="code-line rsc-step"
+                                 data-title="Возврат элемента React"
+                                 data-desc="Серверный компонент возвращает ровно то же, что и клиентский, — элемент React, объектное представление виртуального DOM. Не HTML-строку и не бинарные данные. Элемент — это JSON-подобный объект: <b>$$typeof</b> (служебный Symbol, по которому React отличает элементы), <b>type</b> ('div', 'span' или ссылка на другой компонент), <b>props</b> вместе с children и вложенными элементами. Где выполнялась функция — в браузере или на сервере — на результат не влияет.">
+                                <span class="rsc-step-num">3</span>
+                                <span class="rsc-step-text">Возврат элемента React<small>{ $$typeof, type, props }</small></span>
+                            </div>
+                            <div class="rsc-arrow"></div>
+
+                            <div class="code-line rsc-step"
+                                 data-title="Сериализация (RSC payload)"
+                                 data-desc="Поскольку элемент React — обычный объект, дерево можно сериализовать в JSON-подобный поток. Это и есть RSC payload: не код компонента, а описание того, что он вернул, вместе со ссылками на клиентские компоненты, которые предстоит подключить в браузере.">
+                                <span class="rsc-step-num">4</span>
+                                <span class="rsc-step-text">Сериализация результата<small>RSC payload</small></span>
+                            </div>
+                            <div class="rsc-arrow"></div>
+
+                            <div class="code-line rsc-step"
+                                 data-title="Отправка по сети"
+                                 data-desc="Сериализованное дерево уходит клиенту по сети. Клиент получает результат работы компонента, а не его код: сам компонент, его импорты и зависимости остаются на сервере и в бандл не попадают.">
+                                <span class="rsc-step-num">5</span>
+                                <span class="rsc-step-text">Отправка по сети клиенту<small>поток, а не бандл</small></span>
+                            </div>
+                            <div class="rsc-arrow"></div>
+
+                            <div class="code-line rsc-step"
+                                 data-title="Клиент рендерит готовый результат"
+                                 data-desc="React на клиенте восстанавливает дерево элементов и рендерит его. Клиентские компоненты при этом остаются привычными компонентами React — с хуками, состоянием и обработчиками событий: RSC не отменяют то, к чему все привыкли, а добавляют второй тип компонентов.">
+                                <span class="rsc-step-num">6</span>
+                                <span class="rsc-step-text">Клиент получает результат и рендерит<small>клиентские компоненты — как раньше</small></span>
+                            </div>
+
+                            <p class="rsc-idea">
+                                <b>Идея:</b> серверный компонент — это прежде всего компонент
+                                React, то есть функция, возвращающая элемент vDOM. Место
+                                выполнения не меняет контракта — поэтому сервер и может
+                                отправить клиенту не код, а готовый результат.
+                            </p>
+                        </div>
+
+                        <div class="info-panel rsc-panel" id="rsc-panel">
+                            <h3>Компонент — это функция</h3>
+                            <p>
+                                Шаг назад к базовой модели React: компонент — не класс
+                                и не особый объект, а обычная JavaScript-функция, которая
+                                возвращает элемент React. Минимальный пример:
+                                <b>const Component = () =&gt; &lt;div&gt;hi!&lt;/div&gt;</b>.
+                                JSX здесь — синтаксический сахар: он компилируется в вызовы
+                                <b>React.createElement</b> (глава 2 книги), а на выходе
+                                получается объект JavaScript, а не HTML-строка.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-hint">Нажмите на шаг — справа появится пояснение</div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: преимущества RSC (раскрываются на весь слайд) -->
+            <section class="slide" data-slide="9">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Преимущества RSC</h2>
+
+                    <div class="adv-grid">
+                        <button class="adv-card" type="button" data-adv="adv-1">
+                            <span class="adv-num">01</span>
+                            <h3>Предсказуемая производительность</h3>
+                            <p>Выполняются на контролируемых серверных мощностях, а не на чужих устройствах.</p>
+                            <span class="adv-more">подробнее →</span>
+                        </button>
+
+                        <button class="adv-card" type="button" data-adv="adv-2">
+                            <span class="adv-num">02</span>
+                            <h3>Безопасность</h3>
+                            <p>Выполняются в защищённых серверных средах — без утечки токенов и ключей.</p>
+                            <span class="adv-more">подробнее →</span>
+                        </button>
+
+                        <button class="adv-card" type="button" data-adv="adv-3">
+                            <span class="adv-num">03</span>
+                            <h3>Асинхронность</h3>
+                            <p>Могут быть асинхронными: сервер дождётся завершения и только потом ответит.</p>
+                            <span class="adv-more">подробнее →</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Преимущество №1 -->
+                <div class="adv-overlay" id="adv-1">
+                    <header>
+                        <div>
+                            <p class="adv-eyebrow">Преимущество 01</p>
+                            <h3>Предсказуемая производительность</h3>
+                        </div>
+                        <button class="adv-close" type="button" aria-label="Закрыть">✕</button>
+                    </header>
+                    <div class="adv-body">
+                        <div class="adv-point">
+                            <h4>Выполняются только на стороне сервера</h4>
+                            <p>Отправная точка: серверный компонент работает в известной, управляемой среде.</p>
+                        </div>
+                        <div class="adv-point">
+                            <h4>Мощности, которые мы контролируем</h4>
+                            <ul>
+                                <li>сколько CPU и RAM;</li>
+                                <li>какая версия Node.js или среды выполнения;</li>
+                                <li>какие ограничения и квоты заданы;</li>
+                                <li>как масштабируется нагрузка.</li>
+                            </ul>
+                        </div>
+                        <div class="adv-point">
+                            <h4>Отсюда — предсказуемость</h4>
+                            <ul>
+                                <li>код можно профилировать и оптимизировать;</li>
+                                <li>можно гарантировать уровень сервиса (SLA);</li>
+                                <li>нет деградации на слабых устройствах;</li>
+                                <li>масштабирование планируется заранее.</li>
+                            </ul>
+                        </div>
+                        <div class="adv-point">
+                            <h4>Не считаем на чужих устройствах</h4>
+                            <p>
+                                Парк устройств разнороден: от мощных десктопов до старых смартфонов
+                                с медленным CPU и малой памятью. Тяжёлый код на клиенте — это
+                                вычисления, которые мы не контролируем.
+                            </p>
+                        </div>
+                    </div>
+                    <p class="adv-footnote">
+                        <b>Архитектурное следствие:</b> RSC — естественный инструмент, чтобы
+                        перенести тяжёлую обработку данных на сервер. Клиент разгружается,
+                        а производительность становится предсказуемой на широком диапазоне
+                        устройств.
+                    </p>
+                </div>
+
+                <!-- Преимущество №2 -->
+                <div class="adv-overlay" id="adv-2">
+                    <header>
+                        <div>
+                            <p class="adv-eyebrow">Преимущество 02</p>
+                            <h3>Безопасность серверных сред и защита секретов</h3>
+                        </div>
+                        <button class="adv-close" type="button" aria-label="Закрыть">✕</button>
+                    </header>
+                    <div class="adv-body">
+                        <div class="adv-point">
+                            <h4>Защищённые серверные среды</h4>
+                            <p>
+                                Дата-центры, приватные сети, переменные окружения, секреты
+                                в CI/CD — среда, доступ к которой контролируем мы, а не
+                                конечный пользователь.
+                            </p>
+                        </div>
+                        <div class="adv-point">
+                            <h4>Безопасные операции</h4>
+                            <ul>
+                                <li>обращение к базам данных с учётными данными;</li>
+                                <li>вызовы внутренних API с секретными ключами;</li>
+                                <li>проверка прав доступа;</li>
+                                <li>работа с платёжными системами и токенами.</li>
+                            </ul>
+                        </div>
+                        <div class="adv-point">
+                            <h4>Секреты не утекают в браузер</h4>
+                            <p>На клиенте те же операции означали бы, что любой может:</p>
+                            <ul>
+                                <li>посмотреть исходный код бандла;</li>
+                                <li>перехватить сетевые запросы;</li>
+                                <li>извлечь токены и ключи;</li>
+                                <li>модифицировать запросы.</li>
+                            </ul>
+                        </div>
+                        <div class="adv-point is-warning">
+                            <h4>Важное ограничение</h4>
+                            <p>
+                                Преимущество работает, пока секрет не передан клиенту сами.
+                                Отдали секретное значение пропсом в клиентский компонент
+                                (<b>'use client'</b>) — оно сериализуется и уедет в браузер.
+                                Правило: секреты живут только внутри серверных компонентов.
+                            </p>
+                        </div>
+                    </div>
+                    <p class="adv-footnote">
+                        <b>Архитектурное следствие:</b> серверный компонент сам становится
+                        безопасным слоем — не нужно прятать секреты за прокси или выносить
+                        их в отдельный BFF.
+                    </p>
+                </div>
+
+                <!-- Преимущество №3 -->
+                <div class="adv-overlay" id="adv-3">
+                    <header>
+                        <div>
+                            <p class="adv-eyebrow">Преимущество 03</p>
+                            <h3>Асинхронность серверных компонентов</h3>
+                        </div>
+                        <button class="adv-close" type="button" aria-label="Закрыть">✕</button>
+                    </header>
+                    <div class="adv-body">
+                        <div class="adv-point">
+                            <h4>Компонент может быть async</h4>
+                            <p>
+                                В клиентском React компонент не может быть async-функцией:
+                                React ждёт синхронный возврат JSX, а данные приходят через
+                                хуки (useEffect, Suspense, use()). У серверных компонентов
+                                этого ограничения нет — можно объявить <b>async</b>
+                                и напрямую <b>await</b>-ить загрузку.
+                            </p>
+                        </div>
+                        <div class="adv-point">
+                            <h4>Почему так можно</h4>
+                            <p>Сервер контролирует момент отправки ответа, поэтому он может:</p>
+                            <ul>
+                                <li>начать выполнение асинхронного компонента;</li>
+                                <li>дождаться разрешения всех промисов;</li>
+                                <li>и только потом сериализовать результат и ответить.</li>
+                            </ul>
+                        </div>
+                        <div class="adv-point">
+                            <h4>В браузере это дороже</h4>
+                            <p>
+                                Там React не может «заблокировать» рендеринг в ожидании данных
+                                без сложных механизмов. На сервере ожидание — просто задержка
+                                ответа, которую мы полностью контролируем.
+                            </p>
+                        </div>
+                        <div class="adv-point">
+                            <h4>Практическое следствие</h4>
+                            <p>
+                                Данные загружаются прямо в компоненте — без useEffect,
+                                без useState для загрузки и без ручного состояния
+                                «загрузка / ошибка / данные».
+                            </p>
+                        </div>
+                    </div>
+                    <p class="adv-footnote">
+                        <b>Далее:</b> в этом и заключается истинная мощь серверных компонентов —
+                        следующий шаг главы про то, как они взаимодействуют с рендерингом
+                        на стороне сервера (SSR).
+                    </p>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
@@ -237,6 +777,8 @@
 
     <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
     <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов этого доклада -->
+    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

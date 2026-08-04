@@ -7,18 +7,26 @@
 
 /* ===== Каркас контентного слайда ===== */
 
+/* Заголовок прижат к верху, содержимое центрировано в остатке высоты: пустой
+   хвостовой элемент с автоотступом вместе с margin-bottom: auto у заголовка
+   делят свободное место поровну — сверху и снизу выходит одинаково. */
 .content-slide {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100%;
     padding: 52px 100px;
     box-sizing: border-box;
 }
 .content-slide > h2 {
     font-size: 52px;
-    margin: 0;
+    margin: 0 0 auto;
     line-height: 1.1;
+    flex-shrink: 0;
+}
+.content-slide::after {
+    content: '';
+    margin-top: auto;
 }
 .slide-lead {
     font-size: 21px;

@@ -579,6 +579,7 @@ async function main() {
     BOOK_URL: esc(bookUrl),
     BOOK_COVER_FILE: esc(coverFile),
     CHAPTER_LABEL: `Глава ${esc(chapter.order)}`,
+    CHAPTER_TITLE: esc(chapter.title ?? ''),
     AUTHORS_BADGE: (meta.authors ?? []).length > 1 ? 'Авторы' : 'Автор',
     OG_TITLE: esc(ogTitle),
     OG_DESCRIPTION: esc(subtitle || meta.description || ''),

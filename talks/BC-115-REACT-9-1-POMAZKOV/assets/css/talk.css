@@ -846,10 +846,10 @@
 
 .chain-slide {
     display: grid;
-    grid-template-columns: 40% 60%;
+    grid-template-columns: 42% 58%;
     gap: 70px;
     align-items: center;
-    margin-top: 34px;
+    margin-top: 20px;
 }
 /* Таймлайн: линия с точками. Серая линия — весь путь, белая (--tl-fill) —
    пройденная часть до активной точки, её высоту считает talk.js. */
@@ -857,19 +857,19 @@
     position: relative;
     list-style: none;
     margin: 0;
-    padding: 0 0 0 40px;
+    padding: 0 0 0 54px;
 }
 .tl::before,
 .tl::after {
     content: '';
     position: absolute;
-    left: 6px;
-    top: 26px;
-    width: 2px;
+    left: 9px;
+    top: 74px;
+    width: 3px;
     border-radius: 2px;
 }
 .tl::before {
-    bottom: 26px;
+    bottom: 74px;
     background: #232323;
 }
 .tl::after {
@@ -884,9 +884,10 @@
     position: relative;
     display: flex;
     align-items: baseline;
-    gap: 14px;
+    gap: 20px;
     width: 100%;
-    padding: 13px 0;
+    /* Высокие шаги: таймлайн занимает почти всю высоту слайда. */
+    padding: 50px 0;
     background: none;
     border: none;
     text-align: left;
@@ -899,10 +900,12 @@
    с ободком — активная. */
 .tl-dot {
     position: absolute;
-    left: -40px;
-    top: 21px;
-    width: 14px;
-    height: 14px;
+    left: -54px;
+    /* Точка по центру шага, а не по первой строке: шаги высокие. */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
     box-sizing: border-box;
     border-radius: 50%;
     border: 2px solid #3f3f46;
@@ -926,13 +929,13 @@
 .tl-step.is-active .tl-dot {
     border-color: #fff;
     background: #fff;
-    transform: scale(1.15);
-    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.1);
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1);
 }
 .tl-num {
     flex-shrink: 0;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 17px;
     color: #3f3f46;
     transition: color 0.25s ease;
 }
@@ -940,7 +943,7 @@
     color: #a1a1aa;
 }
 .tl-title {
-    font-size: 23px;
+    font-size: 34px;
     font-weight: 500;
     line-height: 1.3;
 }
@@ -965,25 +968,25 @@
 .chain-of {
     display: block;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 15px;
     color: #52525b;
     margin-bottom: 10px;
 }
 .chain-panel h3 {
-    margin: 0 0 18px;
-    font-size: 32px;
+    margin: 0 0 20px;
+    font-size: 36px;
     color: #fff;
 }
 .chain-panel p {
     margin: 0;
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1.65;
     color: var(--text-muted);
 }
 .chain-panel pre {
-    margin: 22px 0 0;
+    margin: 26px 0 0;
     font-family: var(--font-mono);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
     color: #ededed;
     background: #060606;
@@ -1089,10 +1092,118 @@
     transform: translateY(-6px);
     outline: none;
 }
+.adv-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
 .adv-num {
     font-family: var(--font-mono);
     font-size: 14px;
     color: #52525b;
+}
+/* ===== Живые иконки карточек =====
+   Крутятся, пока слайд открыт (.slide.active), и ускоряются при наведении:
+   иконка подсказывает смысл преимущества, а не просто украшает карточку. */
+.adv-icon svg {
+    width: 54px;
+    height: 54px;
+    stroke: #fff;
+    stroke-width: 1.7;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    display: block;
+}
+/* 01 — спидометр: стрелка ходит по шкале. */
+.gauge-needle {
+    transform-box: view-box;
+    transform-origin: 24px 35px;
+    transform: rotate(-52deg);
+}
+.slide.active .adv-card .gauge-needle {
+    animation: needleSweep 3.6s ease-in-out infinite;
+}
+@keyframes needleSweep {
+    0%,
+    100% {
+        transform: rotate(-52deg);
+    }
+    50% {
+        transform: rotate(52deg);
+    }
+}
+/* 02 — щит: дуга замка защёлкивается, щит подсвечивается. */
+.lock-arc {
+    stroke-dasharray: 26;
+    stroke-dashoffset: 0;
+}
+.slide.active .adv-card .lock-arc {
+    animation: lockShut 3.6s ease-in-out infinite;
+}
+@keyframes lockShut {
+    0%,
+    12% {
+        stroke-dashoffset: 26;
+    }
+    34%,
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+.slide.active .adv-card .shield {
+    animation: shieldPulse 3.6s ease-in-out infinite;
+}
+@keyframes shieldPulse {
+    0%,
+    30% {
+        stroke: #71717a;
+    }
+    46%,
+    76% {
+        stroke: #fff;
+    }
+    92%,
+    100% {
+        stroke: #71717a;
+    }
+}
+/* 03 — часы: стрелки идут, сервер ждёт завершения. */
+.hand-min,
+.hand-hour {
+    transform-box: view-box;
+    transform-origin: 24px 24px;
+}
+.slide.active .adv-card .hand-min {
+    animation: handRound 3.6s linear infinite;
+}
+.slide.active .adv-card .hand-hour {
+    animation: handRound 14.4s linear infinite;
+}
+@keyframes handRound {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.slide.active .adv-card .spin-dot {
+    animation: dotPulse 1.8s ease-in-out infinite;
+}
+@keyframes dotPulse {
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+/* Под курсором иконка живёт заметно быстрее — карточка отвечает на наведение. */
+.adv-card:hover .gauge-needle,
+.adv-card:hover .lock-arc,
+.adv-card:hover .shield,
+.adv-card:hover .hand-min {
+    animation-duration: 1.6s;
 }
 .adv-card h3 {
     margin: 0;
@@ -1192,10 +1303,8 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 36px;
 }
-.adv-point {
-    border-left: 2px solid #2a2a2a;
-    padding-left: 22px;
-}
+/* Вертикальных линий у блоков нет: они рябили на большом экране. Блоки держит
+   сетка и типографика — заголовок белым, текст серым. */
 .adv-point h4 {
     margin: 0 0 10px;
     font-size: 22px;
@@ -1218,10 +1327,70 @@
 .adv-point.is-wide h4 {
     font-size: 24px;
 }
-.adv-point.is-warning {
-    border-left-color: #6b6b6b;
+/* Два крупных блока по центру: после удаления вводного ряда они остались
+   вдвоём, и растянутая на всю ширину сетка выглядела пустой. */
+.adv-rows.is-centered {
+    max-width: 1360px;
+    margin: auto;
 }
-.adv-point.is-warning h4::before {
-    content: '! ';
+.adv-cols-2.is-big {
+    gap: 90px;
+}
+.adv-cols-2.is-big h4 {
+    font-size: 27px;
+    margin-bottom: 14px;
+}
+.adv-cols-2.is-big p,
+.adv-cols-2.is-big ul {
+    font-size: 20px;
+    line-height: 1.7;
+}
+.adv-cols-2.is-big li + li {
+    margin-top: 8px;
+}
+/* Выноска: то, что нельзя пропустить. Рамка и «!» в кружке. */
+.adv-point.is-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    border: 1px solid #3f3f46;
+    border-radius: 16px;
+    padding: 24px 28px;
+    background: rgba(255, 255, 255, 0.02);
+}
+.adv-bang {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid #6b6b6b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
     color: #fff;
+}
+/* Раздел с номером и иконкой: шапка над заголовком. */
+.point-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+.point-icon svg {
+    width: 26px;
+    height: 26px;
+    stroke: #fff;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    display: block;
+}
+.point-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #52525b;
 }

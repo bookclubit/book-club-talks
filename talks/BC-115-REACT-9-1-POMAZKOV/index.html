@@ -645,21 +645,52 @@ root.<span class="f">render</span>(element);</pre>
 
                     <div class="adv-grid">
                         <button class="adv-card" type="button" data-adv="adv-1">
-                            <span class="adv-num">01</span>
+                            <span class="adv-head">
+                                <!-- Спидометр: стрелка ходит по шкале — «предсказуемая скорость». -->
+                                <span class="adv-icon">
+                                    <svg viewBox="0 0 48 48">
+                                        <path d="M9 35a15 15 0 0 1 30 0"></path>
+                                        <line class="gauge-needle" x1="24" y1="35" x2="24" y2="17"></line>
+                                        <circle cx="24" cy="35" r="2.4"></circle>
+                                    </svg>
+                                </span>
+                                <span class="adv-num">01</span>
+                            </span>
                             <h3>Предсказуемая производительность</h3>
                             <p>Выполняются на контролируемых серверных мощностях, а не на чужих устройствах.</p>
                             <span class="adv-more">подробнее →</span>
                         </button>
 
                         <button class="adv-card" type="button" data-adv="adv-2">
-                            <span class="adv-num">02</span>
+                            <span class="adv-head">
+                                <!-- Щит с замком: дуга замка «защёлкивается». -->
+                                <span class="adv-icon">
+                                    <svg viewBox="0 0 48 48">
+                                        <path class="shield" d="M24 6l14 5v12c0 9-5.8 15.4-14 18-8.2-2.6-14-9-14-18V11l14-5z"></path>
+                                        <path class="lock-arc" d="M19.5 25v-3.5a4.5 4.5 0 0 1 9 0V25"></path>
+                                        <rect class="lock-body" x="17.5" y="25" width="13" height="9.5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                                <span class="adv-num">02</span>
+                            </span>
                             <h3>Безопасность</h3>
                             <p>Выполняются в защищённых серверных средах — без утечки токенов и ключей.</p>
                             <span class="adv-more">подробнее →</span>
                         </button>
 
                         <button class="adv-card" type="button" data-adv="adv-3">
-                            <span class="adv-num">03</span>
+                            <span class="adv-head">
+                                <!-- Часы: стрелки идут — сервер ждёт завершения. -->
+                                <span class="adv-icon">
+                                    <svg viewBox="0 0 48 48">
+                                        <circle cx="24" cy="24" r="15"></circle>
+                                        <line class="hand-min" x1="24" y1="24" x2="24" y2="12.5"></line>
+                                        <line class="hand-hour" x1="24" y1="24" x2="31.5" y2="24"></line>
+                                        <circle class="spin-dot" cx="24" cy="24" r="1.6"></circle>
+                                    </svg>
+                                </span>
+                                <span class="adv-num">03</span>
+                            </span>
                             <h3>Асинхронность</h3>
                             <p>Могут быть асинхронными: сервер дождётся завершения и только потом ответит.</p>
                             <span class="adv-more">подробнее →</span>
@@ -676,12 +707,8 @@ root.<span class="f">render</span>(element);</pre>
                         </div>
                         <button class="adv-close" type="button" aria-label="Закрыть">✕</button>
                     </header>
-                    <div class="adv-rows">
-                        <div class="adv-point is-wide">
-                            <h4>RSC выполняются только на стороне сервера</h4>
-                            <p>Отправная точка: компонент работает в известной, управляемой среде.</p>
-                        </div>
-                        <div class="adv-cols-2">
+                    <div class="adv-rows is-centered">
+                        <div class="adv-cols-2 is-big">
                             <div class="adv-point">
                                 <h4>Предсказуемость</h4>
                                 <ul>
@@ -701,13 +728,16 @@ root.<span class="f">render</span>(element);</pre>
                                 </ul>
                             </div>
                         </div>
-                        <div class="adv-point is-wide">
-                            <h4>Не считаем на чужих устройствах</h4>
-                            <p>
-                                Парк устройств разнороден: от мощных десктопов до старых
-                                смартфонов с медленным CPU и малой памятью. Тяжёлый код
-                                на клиенте — это вычисления, которые мы не контролируем.
-                            </p>
+                        <div class="adv-point is-callout is-wide">
+                            <span class="adv-bang" aria-hidden="true">!</span>
+                            <div>
+                                <h4>Не считаем на чужих устройствах</h4>
+                                <p>
+                                    Парк устройств разнороден: от мощных десктопов до старых
+                                    смартфонов с медленным CPU и малой памятью. Тяжёлый код
+                                    на клиенте — это вычисления, которые мы не контролируем.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -724,6 +754,16 @@ root.<span class="f">render</span>(element);</pre>
                     <div class="adv-rows">
                         <div class="adv-cols-3">
                             <div class="adv-point">
+                                <span class="point-head">
+                                    <span class="point-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                            <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                            <path d="M7 7h.01M7 17h.01"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="point-num">01</span>
+                                </span>
                                 <h4>Защищённые серверные среды</h4>
                                 <p>
                                     Дата-центры, приватные сети, переменные окружения,
@@ -732,6 +772,15 @@ root.<span class="f">render</span>(element);</pre>
                                 </p>
                             </div>
                             <div class="adv-point">
+                                <span class="point-head">
+                                    <span class="point-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <circle cx="8" cy="12" r="4"></circle>
+                                            <path d="M12 12h9M17 12v4M20 12v3"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="point-num">02</span>
+                                </span>
                                 <h4>Безопасные операции</h4>
                                 <ul>
                                     <li>обращение к базам данных с учётными данными;</li>
@@ -741,6 +790,16 @@ root.<span class="f">render</span>(element);</pre>
                                 </ul>
                             </div>
                             <div class="adv-point">
+                                <span class="point-head">
+                                    <span class="point-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"></path>
+                                            <circle cx="12" cy="12" r="2.5"></circle>
+                                            <path d="M4 20L20 4"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="point-num">03</span>
+                                </span>
                                 <h4>Секреты не утекают в браузер</h4>
                                 <p>На клиенте те же операции означали бы, что любой может:</p>
                                 <ul>
@@ -750,14 +809,17 @@ root.<span class="f">render</span>(element);</pre>
                                 </ul>
                             </div>
                         </div>
-                        <div class="adv-point is-warning is-wide">
-                            <h4>Важное ограничение</h4>
-                            <p>
-                                Преимущество работает, пока секрет не передан клиенту сами.
-                                Отдали секретное значение пропсом в клиентский компонент
-                                (<b>'use client'</b>) — оно сериализуется и уедет в браузер.
-                                Правило: секреты живут только внутри серверных компонентов.
-                            </p>
+                        <div class="adv-point is-callout is-wide">
+                            <span class="adv-bang" aria-hidden="true">!</span>
+                            <div>
+                                <h4>Важное ограничение</h4>
+                                <p>
+                                    Преимущество работает, пока секрет не передан клиенту сами.
+                                    Отдали секретное значение пропсом в клиентский компонент
+                                    (<b>'use client'</b>) — оно сериализуется и уедет в браузер.
+                                    Правило: секреты живут только внутри серверных компонентов.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -32,8 +32,13 @@
             <!-- SLIDE 1 (Copy of Slide 1) -->
             <section class="slide" data-slide="1">
                 <div class="layout-center">
-                    <div class="badge">Глава 9</div>
-                    <p class="title-chapter">Серверные компоненты React</p>
+                    <div class="title-tags">
+                        <span class="badge">Глава 9</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Серверные компоненты React</span>
+                        </span>
+                    </div>
                     <h1 class="gradient-text">Преимущества</h1>
                 </div>
             </section>
@@ -834,18 +839,15 @@ root.<span class="f">render</span>(element);</pre>
                         </div>
                         <button class="adv-close" type="button" aria-label="Закрыть">✕</button>
                     </header>
-                    <div class="adv-rows">
-                        <div class="adv-point is-wide">
-                            <h4>Компонент может быть async</h4>
-                            <p>
-                                В клиентском React компонент не может быть async-функцией:
-                                React ждёт синхронный возврат JSX, а данные приходят через
-                                хуки (useEffect, Suspense, use()). У серверных компонентов
-                                этого ограничения нет — можно объявить <b>async</b>
-                                и напрямую <b>await</b>-ить загрузку.
-                            </p>
-                        </div>
-                        <div class="adv-cols-2">
+                    <p class="adv-lead">
+                        В клиентском React компонент не может быть async-функцией:
+                        React ждёт синхронный возврат JSX, а данные приходят через
+                        хуки (useEffect, Suspense, use()). У серверных компонентов
+                        этого ограничения нет — можно объявить <b>async</b>
+                        и напрямую <b>await</b>-ить загрузку.
+                    </p>
+                    <div class="adv-rows is-centered">
+                        <div class="adv-cols-2 is-big">
                             <div class="adv-point">
                                 <h4>Почему так можно</h4>
                                 <p>Сервер контролирует момент отправки ответа, поэтому он может:</p>
@@ -864,14 +866,6 @@ root.<span class="f">render</span>(element);</pre>
                                     контролируем.
                                 </p>
                             </div>
-                        </div>
-                        <div class="adv-point is-wide">
-                            <h4>Практическое следствие</h4>
-                            <p>
-                                Данные загружаются прямо в компоненте — без useEffect,
-                                без useState для загрузки и без ручного состояния
-                                «загрузка / ошибка / данные».
-                            </p>
                         </div>
                     </div>
                 </div>

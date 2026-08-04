@@ -51,12 +51,37 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     height: 100%; text-align: center; padding: 0 100px;
 }
-/* Титульный слайд: «Глава N» → название главы мелким шрифтом → тема крупно.
-   Название главы держится рядом с номером, поэтому у бейджа отступ меньше. */
-.layout-center .badge { margin-bottom: 22px; }
-.title-chapter {
-    font-size: 30px; font-weight: 400; line-height: 1.3;
-    color: var(--text-muted); margin: 0 0 18px; letter-spacing: -0.01em;
+/* ===== Титульный слайд: «Глава N» × «Название главы», ниже — тема крупно =====
+   Сначала виден только номер главы, затем справа из-под него выезжает второй
+   пузырь с названием главы, между ними проявляется крестик. Расходятся они
+   сами: хвост растёт от нулевой ширины, а строка выровнена по центру, поэтому
+   первый пузырь уезжает влево ровно на половину — без магических сдвигов. */
+.title-tags {
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 26px; max-width: 1500px;
+}
+.title-tags .badge { margin-bottom: 0; white-space: nowrap; }
+.title-tail {
+    display: flex; align-items: center; gap: 16px;
+    overflow: hidden; max-width: 0; opacity: 0; white-space: nowrap;
+}
+.slide.active .title-tail {
+    animation: titleTailOut 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.75s forwards;
+}
+@keyframes titleTailOut {
+    from { max-width: 0; opacity: 0; padding-left: 0; }
+    to { max-width: 1200px; opacity: 1; padding-left: 16px; }
+}
+.title-x {
+    font-size: 22px; font-weight: 400; color: #52525b; line-height: 1;
+}
+/* Название темы появляется после того, как пузыри разошлись. */
+.slide.active .title-tags + h1 {
+    animation: titleFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.35s backwards;
+}
+@keyframes titleFadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 .layout-split {
     display: grid; grid-template-columns: 1fr 1fr; gap: 80px;

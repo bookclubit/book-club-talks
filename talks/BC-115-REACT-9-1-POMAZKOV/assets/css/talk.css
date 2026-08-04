@@ -864,12 +864,14 @@
     content: '';
     position: absolute;
     left: 9px;
-    top: 74px;
+    top: 62px;
     width: 3px;
     border-radius: 2px;
+    /* Линия — на задний план: иначе заливка перечёркивала точки насквозь. */
+    z-index: 0;
 }
 .tl::before {
-    bottom: 74px;
+    bottom: 62px;
     background: #232323;
 }
 .tl::after {
@@ -887,7 +889,7 @@
     gap: 20px;
     width: 100%;
     /* Высокие шаги: таймлайн занимает почти всю высоту слайда. */
-    padding: 50px 0;
+    padding: 40px 0;
     background: none;
     border: none;
     text-align: left;
@@ -900,6 +902,8 @@
    с ободком — активная. */
 .tl-dot {
     position: absolute;
+    /* Точки поверх линии. */
+    z-index: 2;
     left: -54px;
     /* Точка по центру шага, а не по первой строке: шаги высокие. */
     top: 50%;
@@ -1287,6 +1291,13 @@
     border-color: #fff;
 }
 /* Тело раскрытого преимущества: ряды на всю ширину и ряды-колонки. */
+.adv-lead {
+    margin: 26px 0 0;
+    font-size: 26px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 1500px;
+}
 .adv-rows {
     display: flex;
     flex-direction: column;
@@ -1350,6 +1361,8 @@
 }
 /* Выноска: то, что нельзя пропустить. Рамка и «!» в кружке. */
 .adv-point.is-callout {
+    /* Отбита от содержимого: это отдельное предупреждение, а не ещё один блок. */
+    margin-top: 24px;
     display: flex;
     align-items: flex-start;
     gap: 20px;

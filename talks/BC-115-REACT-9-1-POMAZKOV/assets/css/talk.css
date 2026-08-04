@@ -290,156 +290,501 @@
     color: var(--text-muted);
 }
 
-/* ===== Мини-схемы под пунктами: только CSS, крутятся сами =====
-   Анимации привязаны к .slide.active: пока слайд не показан, они не идут
-   и каждый показ начинается с начала. */
+/* ===== Сцены-анимации под пунктами «Особенностей RSC» =====
+   Обе — чистый CSS, крутятся по кругу и привязаны к .slide.active: пока слайд
+   не показан, они не идут, а каждый показ начинается с начала. Числа в кадрах
+   привязаны к координатам площадок (сервер/браузер) внутри сцены, поэтому
+   менять их надо парой «позиция площадки + кадр анимации».
+   Цикл у всех анимаций один — 9s, иначе фазы разъехались бы. */
 
-.mini {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-top: 10px;
-}
-.mini-lane {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-.mini-tag {
-    flex-shrink: 0;
-    width: 92px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: #52525b;
-    text-align: right;
-}
-.mini-box {
+.stage {
     position: relative;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 62px;
-    padding: 0 16px;
+    height: 300px;
+    margin-top: 20px;
+}
+/* Площадка-зона: подпись с иконкой в левом верхнем углу, внутрь падают
+   компоненты. Серверная — пунктиром: она «проницаемая», клиентские компоненты
+   пролетают сквозь неё в браузер. */
+.layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 96px;
+    box-sizing: border-box;
     border: 1px solid #262626;
-    border-radius: 14px;
+    border-radius: 16px;
     background: #070707;
-    overflow: hidden;
 }
-.mini-box.is-dashed {
+.layer.is-server {
+    top: 90px;
     border-style: dashed;
-    border-color: #232323;
-    background: transparent;
+    border-color: #2f2f2f;
+    background: rgba(10, 10, 10, 0.55);
 }
-.mini-chip {
-    flex-shrink: 0;
+.layer.is-client {
+    top: 200px;
+}
+.layer-icon {
+    position: absolute;
+    left: 18px;
+    top: 12px;
+    width: 22px;
+    height: 22px;
+    stroke: #a1a1aa;
+    stroke-width: 1.6;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.layer-name {
+    position: absolute;
+    left: 50px;
+    top: 15px;
     font-family: var(--font-mono);
     font-size: 13px;
-    color: #d4d4d8;
-    border: 1px solid #2f2f2f;
-    border-radius: 8px;
-    padding: 6px 10px;
-    background: #101010;
-    white-space: nowrap;
+    color: #71717a;
 }
-.mini-chip.is-muted {
-    color: #52525b;
-    border-style: dashed;
-    text-decoration: line-through;
-    background: transparent;
+/* Площадка «оживает» в момент, когда на неё встаёт компонент: серверная —
+   когда прилетает серверный, браузер — когда доезжает клиентский. */
+.slide.active .layer.is-server {
+    animation: serverWake 9s ease-in-out infinite;
 }
-.mini-never {
-    font-size: 13px;
-    color: #52525b;
-}
-/* Волна по серверной дорожке = «компонент выполняется». */
-.mini-sweep {
-    position: absolute;
-    inset: 0 auto 0 -40%;
-    width: 40%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
-}
-.slide.active .mini-sweep {
-    animation: miniSweep 3.2s linear infinite;
-}
-@keyframes miniSweep {
-    to {
-        transform: translateX(350%);
-    }
-}
-/* Соединительная линия дорастает до результата, потом результат проявляется. */
-.mini-arrow {
-    height: 1px;
-    width: 34px;
-    flex-shrink: 0;
-    background: #3f3f46;
-    transform-origin: left center;
-}
-.slide.active .mini-arrow {
-    animation: miniGrow 3.2s ease-in-out infinite;
-}
-@keyframes miniGrow {
+@keyframes serverWake {
     0%,
-    12% {
-        transform: scaleX(0);
+    13% {
+        border-color: #2f2f2f;
     }
-    38%,
+    17%,
+    22% {
+        border-color: #8a8a8a;
+    }
+    27%,
+    29% {
+        border-color: #2f2f2f;
+    }
+    33%,
+    38% {
+        border-color: #8a8a8a;
+    }
+    44%,
     100% {
-        transform: scaleX(1);
+        border-color: #2f2f2f;
     }
 }
-.mini-chip.is-result {
-    color: #fff;
-    border-color: #3f3f46;
+.slide.active .layer.is-client {
+    animation: clientWake 9s ease-in-out infinite;
 }
-.slide.active .mini-box:not(.is-dashed) .mini-chip.is-result {
-    animation: miniAppear 3.2s ease-in-out infinite;
-}
-@keyframes miniAppear {
-    0%,
-    30% {
-        opacity: 0;
-        transform: translateX(-8px);
-    }
-    50%,
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-/* Серверный модуль выпадает из бандла, соседи сдвигаются. */
-.mini-chip.is-dropped {
-    overflow: hidden;
-}
-.slide.active .mini-chip.is-dropped {
-    animation: miniDrop 4.2s ease-in-out infinite;
-}
-@keyframes miniDrop {
+@keyframes clientWake {
     0%,
     22% {
+        border-color: #262626;
+    }
+    26%,
+    34% {
+        border-color: #8a8a8a;
+    }
+    40%,
+    100% {
+        border-color: #262626;
+    }
+}
+
+/* Падающий компонент: имя функции и метка «серверный / клиентский». */
+.drop {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 11px;
+    border: 1px solid #2f2f2f;
+    border-radius: 9px;
+    background: #101010;
+    white-space: nowrap;
+    opacity: 0;
+    z-index: 2;
+}
+.drop b {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: #ededed;
+}
+.drop i {
+    font-style: normal;
+    font-size: 11px;
+    color: #71717a;
+}
+.drop.is-client i {
+    color: #d4d4d8;
+}
+.d1 {
+    left: 40px;
+    animation-delay: 0s;
+}
+.d2 {
+    left: 250px;
+    animation-delay: 0.7s;
+}
+.d3 {
+    left: 430px;
+    animation-delay: 1.4s;
+}
+.d4 {
+    left: 600px;
+    animation-delay: 2.1s;
+}
+/* Серверный компонент остаётся внутри серверной зоны (90…186), клиентский
+   проходит сквозь неё и встаёт внутри браузера (200…296). */
+.slide.active .drop {
+    animation: dropToServer 9s cubic-bezier(0.4, 0, 0.7, 1) infinite;
+}
+.slide.active .drop.is-client {
+    animation-name: dropThrough;
+}
+@keyframes dropToServer {
+    0% {
+        transform: translateY(-46px);
+        opacity: 0;
+    }
+    4% {
         opacity: 1;
-        max-width: 220px;
-        transform: translateY(0);
+    }
+    15% {
+        transform: translateY(140px);
+    }
+    18% {
+        transform: translateY(130px);
+    }
+    21%,
+    82% {
+        transform: translateY(138px);
+        opacity: 1;
+    }
+    92%,
+    100% {
+        transform: translateY(138px);
+        opacity: 0;
+    }
+}
+@keyframes dropThrough {
+    0% {
+        transform: translateY(-46px);
+        opacity: 0;
+    }
+    4% {
+        opacity: 1;
+    }
+    /* Просвечивает, пока проходит через серверную зону. */
+    14% {
+        transform: translateY(130px);
+        opacity: 0.4;
+    }
+    22% {
+        transform: translateY(250px);
+        opacity: 1;
+    }
+    25% {
+        transform: translateY(240px);
+    }
+    28%,
+    82% {
+        transform: translateY(246px);
+        opacity: 1;
+    }
+    92%,
+    100% {
+        transform: translateY(246px);
+        opacity: 0;
+    }
+}
+
+/* Конфетти в браузере: клиентский компонент доехал и заработал. */
+.burst {
+    position: absolute;
+    top: 46px;
+    width: 0;
+    height: 0;
+}
+.burst.b1 {
+    left: 300px;
+}
+.burst.b2 {
+    left: 650px;
+}
+.burst i {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background: #ededed;
+    opacity: 0;
+}
+.burst i:nth-child(1) {
+    --dx: -38px;
+    --dy: -30px;
+}
+.burst i:nth-child(2) {
+    --dx: -16px;
+    --dy: -44px;
+    background: #a1a1aa;
+}
+.burst i:nth-child(3) {
+    --dx: 12px;
+    --dy: -46px;
+}
+.burst i:nth-child(4) {
+    --dx: 34px;
+    --dy: -32px;
+    background: #a1a1aa;
+}
+.burst i:nth-child(5) {
+    --dx: -30px;
+    --dy: -10px;
+}
+.burst i:nth-child(6) {
+    --dx: 30px;
+    --dy: -8px;
+    background: #71717a;
+}
+.slide.active .burst i {
+    animation: confetti 9s ease-out infinite;
+}
+.slide.active .burst.b1 i {
+    animation-delay: 0.7s;
+}
+.slide.active .burst.b2 i {
+    animation-delay: 2.1s;
+}
+@keyframes confetti {
+    0%,
+    21% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.4);
+    }
+    24% {
+        opacity: 1;
+        transform: translate(calc(var(--dx) * 0.45), calc(var(--dy) * 0.7)) scale(1);
     }
     38% {
         opacity: 0;
-        max-width: 220px;
-        transform: translateY(16px);
-    }
-    46%,
-    88% {
-        opacity: 0;
-        max-width: 0;
-        padding-left: 0;
-        padding-right: 0;
-        border-width: 0;
-        margin-left: -10px;
-        transform: translateY(16px);
+        transform: translate(var(--dx), calc(var(--dy) * 0.15)) scale(0.9) rotate(90deg);
     }
     100% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.4);
+    }
+}
+
+/* ===== Сцена «бандл»: коробку собирают на сервере и увозят в браузер ===== */
+
+.stage-pack .pack-side {
+    position: absolute;
+    top: 118px;
+    height: 168px;
+    box-sizing: border-box;
+    border: 1px solid #262626;
+    border-radius: 16px;
+    background: #070707;
+}
+.pack-side.is-server {
+    left: 0;
+    width: 56%;
+}
+.pack-side.is-client {
+    right: 0;
+    width: 38%;
+}
+/* Браузер загорается, когда бандл доехал. */
+.slide.active .pack-side.is-client {
+    animation: clientWake 9s ease-in-out infinite;
+    animation-delay: 3.1s;
+}
+/* Пунктирный путь, по которому уезжает собранный бандл. */
+.pack-rail {
+    position: absolute;
+    left: 200px;
+    right: 6%;
+    top: 157px;
+    border-top: 1px dashed #232323;
+}
+.pack-drop {
+    position: absolute;
+    top: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 7px 11px;
+    border: 1px solid #2f2f2f;
+    border-radius: 9px;
+    background: #101010;
+    color: #d4d4d8;
+    white-space: nowrap;
+    opacity: 0;
+    z-index: 2;
+}
+.p1 {
+    left: 40px;
+    animation-delay: 0s;
+}
+.p2 {
+    left: 230px;
+    animation-delay: 0.8s;
+}
+.p3 {
+    left: 46px;
+    animation-delay: 1.6s;
+}
+.p4 {
+    left: 350px;
+    animation-delay: 2.4s;
+}
+/* Клиентские модули падают в коробку (она стоит внутри серверной зоны,
+   left 20px / top 186px) и «впитываются»; серверные ложатся рядом с ней. */
+.slide.active .pack-drop {
+    animation: packStay 9s cubic-bezier(0.4, 0, 0.7, 1) infinite;
+}
+.slide.active .pack-drop.is-client {
+    animation-name: packIn;
+}
+@keyframes packStay {
+    0% {
+        transform: translateY(-46px);
+        opacity: 0;
+    }
+    4% {
         opacity: 1;
-        max-width: 220px;
-        transform: translateY(0);
+    }
+    16% {
+        transform: translateY(232px);
+    }
+    19% {
+        transform: translateY(222px);
+    }
+    22%,
+    80% {
+        transform: translateY(228px);
+        opacity: 0.8;
+    }
+    90%,
+    100% {
+        transform: translateY(228px);
+        opacity: 0;
+    }
+}
+@keyframes packIn {
+    0% {
+        transform: translateY(-46px) scale(1);
+        opacity: 0;
+    }
+    4% {
+        opacity: 1;
+    }
+    15% {
+        transform: translateY(176px) scale(1);
+        opacity: 1;
+    }
+    22% {
+        transform: translateY(196px) scale(0.7);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(196px) scale(0.7);
+        opacity: 0;
+    }
+}
+/* Коробка: пока падают модули — стоит на сервере, потом уезжает по пунктиру
+   в браузер. Едет через left/top: это проценты от ширины сцены, поэтому
+   попадание в браузерную зону не зависит от того, какой она ширины в пикселях. */
+.pack-box {
+    position: absolute;
+    left: 20px;
+    top: 190px;
+    width: 168px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 12px 14px;
+    border: 1px solid #3f3f46;
+    border-radius: 12px;
+    background: #0d0d0d;
+    z-index: 3;
+}
+.pack-box b {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+}
+.pack-box i {
+    font-style: normal;
+    font-size: 11px;
+    color: #71717a;
+}
+.slide.active .pack-box {
+    animation: shipBox 9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes shipBox {
+    0%,
+    44% {
+        left: 20px;
+        top: 190px;
+        transform: scale(1);
+        border-color: #3f3f46;
+    }
+    /* Модули упали — коробка «звякнула», поднялась на пунктирный путь и поехала:
+       летит выше серверных модулей, чтобы их не заслонять. */
+    48% {
+        left: 20px;
+        top: 130px;
+        transform: scale(1.03);
+        border-color: #fff;
+    }
+    55% {
+        left: 40%;
+        top: 130px;
+        transform: scale(1);
+        border-color: #fff;
+    }
+    64%,
+    84% {
+        left: 71%;
+        top: 190px;
+        transform: scale(1);
+        border-color: #fff;
+    }
+    92%,
+    100% {
+        left: 20px;
+        top: 190px;
+        transform: scale(1);
+        border-color: #3f3f46;
+    }
+}
+
+.pack-stay {
+    position: absolute;
+    left: 20px;
+    top: 292px;
+    font-size: 12px;
+    color: #52525b;
+    opacity: 0;
+}
+.slide.active .pack-stay {
+    animation: stayHint 9s ease-in-out infinite;
+}
+@keyframes stayHint {
+    0%,
+    44% {
+        opacity: 0;
+    }
+    50%,
+    84% {
+        opacity: 1;
+    }
+    90%,
+    100% {
+        opacity: 0;
     }
 }
 

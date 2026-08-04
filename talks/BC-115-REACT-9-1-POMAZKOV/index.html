@@ -316,26 +316,33 @@
                                 не выполняется никогда.
                             </p>
 
-                            <!-- Мини-схема: на сервере компонент выполняется (по нему
-                                 проходит волна и появляется результат), в браузере он
-                                 остаётся неисполненным. Только CSS, крутится сама. -->
-                            <div class="mini" aria-hidden="true">
-                                <div class="mini-lane">
-                                    <span class="mini-tag">сервер</span>
-                                    <span class="mini-box">
-                                        <span class="mini-chip is-live">Greeting()</span>
-                                        <span class="mini-arrow"></span>
-                                        <span class="mini-chip is-result">&lt;div&gt;Hi!&lt;/div&gt;</span>
-                                        <span class="mini-sweep"></span>
-                                    </span>
-                                </div>
-                                <div class="mini-lane">
-                                    <span class="mini-tag">браузер</span>
-                                    <span class="mini-box is-dashed">
-                                        <span class="mini-chip is-muted">Greeting()</span>
-                                        <span class="mini-never">никогда не вызывается</span>
-                                    </span>
-                                </div>
+                            <!-- Анимация: сверху падают компоненты. Серверные остаются
+                                 на сервере (там они и выполняются), клиентские проходят
+                                 сквозь него и оживают в браузере. Только CSS. -->
+                            <div class="stage stage-run" aria-hidden="true">
+                                <span class="drop d1"><b>Greeting()</b><i>серверный</i></span>
+                                <span class="drop d2 is-client"><b>Counter()</b><i>клиентский</i></span>
+                                <span class="drop d3"><b>Sidebar()</b><i>серверный</i></span>
+                                <span class="drop d4 is-client"><b>Search()</b><i>клиентский</i></span>
+
+                                <span class="layer is-server">
+                                    <svg class="layer-icon" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                        <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                        <path d="M7 7h.01M7 17h.01"></path>
+                                    </svg>
+                                    <span class="layer-name">сервер — здесь выполняются</span>
+                                </span>
+
+                                <span class="layer is-client">
+                                    <svg class="layer-icon" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                                        <path d="M9 20h6M12 16v4"></path>
+                                    </svg>
+                                    <span class="layer-name">браузер</span>
+                                    <span class="burst b1"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                                    <span class="burst b2"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                                </span>
                             </div>
                         </div>
 
@@ -347,24 +354,36 @@
                                 скачивает только результат его работы.
                             </p>
 
-                            <!-- Мини-схема: из бандла выпадает серверный модуль,
-                                 оставшиеся куски сдвигаются, бандл становится меньше. -->
-                            <div class="mini" aria-hidden="true">
-                                <div class="mini-lane">
-                                    <span class="mini-tag">бандл</span>
-                                    <span class="mini-box">
-                                        <span class="mini-chip">app.js</span>
-                                        <span class="mini-chip">button.js</span>
-                                        <span class="mini-chip is-dropped">greeting.server.js</span>
-                                    </span>
-                                </div>
-                                <div class="mini-lane">
-                                    <span class="mini-tag">по сети</span>
-                                    <span class="mini-box is-dashed">
-                                        <span class="mini-chip is-result">результат работы RSC</span>
-                                        <span class="mini-never">без кода компонента</span>
-                                    </span>
-                                </div>
+                            <!-- Анимация: на сервере собирают бандл. Клиентские модули
+                                 падают в коробку, серверные ложатся рядом и остаются;
+                                 собранная коробка уезжает в браузер. -->
+                            <div class="stage stage-pack" aria-hidden="true">
+                                <span class="pack-drop p1 is-client">Counter.jsx</span>
+                                <span class="pack-drop p2">Greeting.jsx</span>
+                                <span class="pack-drop p3 is-client">Search.jsx</span>
+                                <span class="pack-drop p4">Sidebar.jsx</span>
+
+                                <span class="pack-rail"></span>
+
+                                <span class="pack-side is-server">
+                                    <svg class="layer-icon" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                        <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                        <path d="M7 7h.01M7 17h.01"></path>
+                                    </svg>
+                                    <span class="layer-name">сервер</span>
+                                </span>
+
+                                <span class="pack-side is-client">
+                                    <svg class="layer-icon" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                                        <path d="M9 20h6M12 16v4"></path>
+                                    </svg>
+                                    <span class="layer-name">браузер</span>
+                                </span>
+
+                                <span class="pack-box"><b>bundle.js</b><i>только клиентские</i></span>
+                                <span class="pack-stay">серверные остаются на сервере</span>
                             </div>
                         </div>
                     </div>

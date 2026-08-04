@@ -74,7 +74,9 @@
 .pillars-container {
     min-height: 260px;
     max-width: 1660px;
-    margin-top: 26px;
+    /* Своего отступа сверху нет: блок центрируется целиком (см. .pillars-wrap),
+       и лишний отступ сдвинул бы карточки вниз от середины слайда. */
+    margin-top: 0;
 }
 .pillar-card {
     justify-content: center;
@@ -107,7 +109,12 @@
 .pillar-card.expanded .pillar-desc {
     max-height: 260px;
 }
+/* Подпись висит под карточками, но в их высоту не входит: иначе центрировался бы
+   блок «карточки + подпись», и сами карточки оказались бы выше середины. */
 .pillar-hint {
+    position: absolute;
+    top: 100%;
+    left: 0;
     margin: 18px 0 0;
     font-size: 15px;
     color: #52525b;
@@ -115,20 +122,31 @@
 
 /* ===== Лента фреймворков ===== */
 
-/* Лента живёт в контейнере, который забирает всю оставшуюся высоту слайда
-   и центрирует её: от ленты до блока карточек и от ленты до нижнего края
-   получается одинаково, без подгонки отступов вручную. */
-.marquee-space {
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    min-height: 0;
+/* Раскладка слайда: заголовок сверху, карточки — ровно по центру слайда,
+   лента — у нижнего края. Карточки вынуты из потока и центрированы по высоте
+   слайда: в потоке их центр уезжал вверх, потому что снизу ленту с логотипами
+   никто не уравновешивает. В потоке остаются заголовок и лента, а автоотступ
+   прижимает ленту к низу. */
+.slide[data-slide='5'] .content-slide {
+    position: relative;
 }
 .slide[data-slide='5'] .content-slide > h2 {
     margin-bottom: 26px;
 }
 .slide[data-slide='5'] .content-slide::after {
     margin-top: 0;
+}
+.pillars-wrap {
+    position: absolute;
+    left: 100px;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.marquee-space {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
 }
 .marquee {
     position: relative;

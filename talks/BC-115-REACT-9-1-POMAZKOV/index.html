@@ -246,92 +246,55 @@
 
                     <p class="pillar-hint">Нажмите на блок — он раскроется, остальные свернутся до иконок</p>
 
-                    <!-- Лента фреймворков: едет сама, под курсором замирает, знак
+                    <div class="marquee-space">
+                    <!-- Лента фреймворков: едет сама, под курсором замирает, логотип
                          увеличивается и раздвигает соседей, название — в подсказке.
-                         Два одинаковых набора подряд дают бесшовный цикл. -->
+                         Набор здесь один: talk.js клонирует его столько раз, сколько
+                         нужно, чтобы лента шла без разрыва (сдвиг на половину трека). -->
                     <div class="marquee">
-                        <div class="marquee-track">
-                            <a class="marquee-item" href="https://nextjs.org/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">N</span>
+                        <div class="marquee-track" data-marquee>
+                            <a class="marquee-item" data-brand="next-js" href="https://nextjs.org/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/next-js.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">Next.js</span>
                             </a>
-                            <a class="marquee-item" href="https://remix.run/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">R</span>
+                            <a class="marquee-item" data-brand="remix" href="https://remix.run/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/remix.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">Remix</span>
                             </a>
-                            <a class="marquee-item" href="https://reactrouter.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">RR</span>
+                            <a class="marquee-item" data-brand="react-router" href="https://reactrouter.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/react-router.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">React Router</span>
                             </a>
-                            <a class="marquee-item" href="https://tanstack.com/start" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">TS</span>
+                            <a class="marquee-item" data-brand="tanstack-start" href="https://tanstack.com/start" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/tanstack-start.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">TanStack Start</span>
                             </a>
-                            <a class="marquee-item" href="https://astro.build/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">A</span>
+                            <a class="marquee-item" data-brand="astro" href="https://astro.build/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/astro.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">Astro</span>
                             </a>
-                            <a class="marquee-item" href="https://waku.gg/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">W</span>
+                            <a class="marquee-item" data-brand="waku" href="https://waku.gg/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/waku.svg" alt="" width="97" height="30">
                                 <span class="marquee-name">Waku</span>
                             </a>
-                            <a class="marquee-item" href="https://www.gatsbyjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">G</span>
+                            <a class="marquee-item" data-brand="gatsby" href="https://www.gatsbyjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/gatsby.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">Gatsby</span>
                             </a>
-                            <a class="marquee-item" href="https://redwoodjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">RW</span>
+                            <a class="marquee-item" data-brand="redwoodjs" href="https://redwoodjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/redwoodjs.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">RedwoodJS</span>
                             </a>
-                            <a class="marquee-item" href="https://vike.dev/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">V</span>
+                            <a class="marquee-item" data-brand="vike" href="https://vike.dev/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/vike.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">Vike</span>
                             </a>
-                            <a class="marquee-item" href="https://expo.dev/router" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">E</span>
-                                <span class="marquee-name">Expo Router</span>
-                            </a>
-                            <a class="marquee-item" href="https://nextjs.org/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">N</span>
-                                <span class="marquee-name">Next.js</span>
-                            </a>
-                            <a class="marquee-item" href="https://remix.run/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">R</span>
-                                <span class="marquee-name">Remix</span>
-                            </a>
-                            <a class="marquee-item" href="https://reactrouter.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">RR</span>
-                                <span class="marquee-name">React Router</span>
-                            </a>
-                            <a class="marquee-item" href="https://tanstack.com/start" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">TS</span>
-                                <span class="marquee-name">TanStack Start</span>
-                            </a>
-                            <a class="marquee-item" href="https://astro.build/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">A</span>
-                                <span class="marquee-name">Astro</span>
-                            </a>
-                            <a class="marquee-item" href="https://waku.gg/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">W</span>
-                                <span class="marquee-name">Waku</span>
-                            </a>
-                            <a class="marquee-item" href="https://www.gatsbyjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">G</span>
-                                <span class="marquee-name">Gatsby</span>
-                            </a>
-                            <a class="marquee-item" href="https://redwoodjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">RW</span>
-                                <span class="marquee-name">RedwoodJS</span>
-                            </a>
-                            <a class="marquee-item" href="https://vike.dev/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">V</span>
-                                <span class="marquee-name">Vike</span>
-                            </a>
-                            <a class="marquee-item" href="https://expo.dev/router" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
-                                <span class="marquee-mono">E</span>
+                            <a class="marquee-item" data-brand="expo-router" href="https://expo.dev/router" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/expo-router.svg" alt="" width="38" height="38">
                                 <span class="marquee-name">Expo Router</span>
                             </a>
                         </div>
+                    </div>
                     </div>
                 </div>
             </section>
@@ -350,6 +313,28 @@
                                 среде — во время сборки или при запросе. В браузере она
                                 не выполняется никогда.
                             </p>
+
+                            <!-- Мини-схема: на сервере компонент выполняется (по нему
+                                 проходит волна и появляется результат), в браузере он
+                                 остаётся неисполненным. Только CSS, крутится сама. -->
+                            <div class="mini" aria-hidden="true">
+                                <div class="mini-lane">
+                                    <span class="mini-tag">сервер</span>
+                                    <span class="mini-box">
+                                        <span class="mini-chip is-live">Greeting()</span>
+                                        <span class="mini-arrow"></span>
+                                        <span class="mini-chip is-result">&lt;div&gt;Hi!&lt;/div&gt;</span>
+                                        <span class="mini-sweep"></span>
+                                    </span>
+                                </div>
+                                <div class="mini-lane">
+                                    <span class="mini-tag">браузер</span>
+                                    <span class="mini-box is-dashed">
+                                        <span class="mini-chip is-muted">Greeting()</span>
+                                        <span class="mini-never">никогда не вызывается</span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="feature">
@@ -359,6 +344,26 @@
                                 JS-код RSC не попадает в клиентский бандл — пользователь
                                 скачивает только результат его работы.
                             </p>
+
+                            <!-- Мини-схема: из бандла выпадает серверный модуль,
+                                 оставшиеся куски сдвигаются, бандл становится меньше. -->
+                            <div class="mini" aria-hidden="true">
+                                <div class="mini-lane">
+                                    <span class="mini-tag">бандл</span>
+                                    <span class="mini-box">
+                                        <span class="mini-chip">app.js</span>
+                                        <span class="mini-chip">button.js</span>
+                                        <span class="mini-chip is-dropped">greeting.server.js</span>
+                                    </span>
+                                </div>
+                                <div class="mini-lane">
+                                    <span class="mini-tag">по сети</span>
+                                    <span class="mini-box is-dashed">
+                                        <span class="mini-chip is-result">результат работы RSC</span>
+                                        <span class="mini-never">без кода компонента</span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -366,7 +371,7 @@
 
             <!-- SLIDE 7: старт во время сборки -->
             <section class="slide" data-slide="7">
-                <div class="content-slide">
+                <div class="content-slide lead-top">
                     <h2 class="gradient-text">Преимущество RSC над клиентскими</h2>
                     <p class="slide-lead">
                         Серверные компоненты могут стартовать
@@ -396,13 +401,13 @@
                                 или сильно ограничен — на сервере при сборке это
                                 естественная операция.
                             </p>
-                            <pre>import fs from "node:fs/promises";
+                            <pre><span class="k">import</span> fs <span class="k">from</span> <span class="s">"node:fs/promises"</span>;
 
-const Post = async () =&gt; {
-  const md = await fs.readFile(
-    "posts/hello.md", "utf8"
+<span class="k">const</span> <span class="f">Post</span> = <span class="k">async</span> () =&gt; {
+  <span class="k">const</span> md = <span class="k">await</span> fs.<span class="f">readFile</span>(
+    <span class="s">"posts/hello.md"</span>, <span class="s">"utf8"</span>
   );
-  return &lt;article&gt;{md}&lt;/article&gt;;
+  <span class="k">return</span> <span class="p">&lt;</span><span class="t">article</span><span class="p">&gt;</span>{md}<span class="p">&lt;/</span><span class="t">article</span><span class="p">&gt;</span>;
 };</pre>
                         </div>
 
@@ -422,12 +427,12 @@ const Post = async () =&gt; {
                                 не приходится запрашивать при каждом обращении
                                 пользователя.
                             </p>
-                            <pre>const Posts = async () =&gt; {
-  const posts = await fetch(
-    "https://cms.example/api/posts"
-  ).then((r) =&gt; r.json());
+                            <pre><span class="k">const</span> <span class="f">Posts</span> = <span class="k">async</span> () =&gt; {
+  <span class="k">const</span> posts = <span class="k">await</span> <span class="f">fetch</span>(
+    <span class="s">"https://cms.example/api/posts"</span>
+  ).<span class="f">then</span>((r) =&gt; r.<span class="f">json</span>());
 
-  return &lt;List items={posts} /&gt;;
+  <span class="k">return</span> <span class="p">&lt;</span><span class="t">List</span> <span class="a">items</span>={posts} <span class="p">/&gt;</span>;
 };</pre>
                         </div>
 
@@ -446,48 +451,76 @@ const Post = async () =&gt; {
                                 внутренним сервисам и ORM-слою. Для простых операций
                                 чтения отдельный API-слой становится не нужен.
                             </p>
-                            <pre>import { db } from "./db";
+                            <pre><span class="k">import</span> { db } <span class="k">from</span> <span class="s">"./db"</span>;
 
-const Users = async () =&gt; {
-  const users = await db
-    .select().from(usersTable);
+<span class="k">const</span> <span class="f">Users</span> = <span class="k">async</span> () =&gt; {
+  <span class="k">const</span> users = <span class="k">await</span> db
+    .<span class="f">select</span>().<span class="f">from</span>(usersTable);
 
-  return &lt;Table rows={users} /&gt;;
+  <span class="k">return</span> <span class="p">&lt;</span><span class="t">Table</span> <span class="a">rows</span>={users} <span class="p">/&gt;</span>;
 };</pre>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- SLIDE 8: как работает RSC (ствол с ответвлениями) -->
+            <!-- SLIDE 8: как работает RSC (таймлайн этапов + пояснение) -->
             <section class="slide" data-slide="8">
                 <div class="content-slide">
                     <h2 class="gradient-text">Как работает RSC?</h2>
 
                     <div class="chain-slide">
-                        <div class="chain">
-                            <button class="chain-step is-active" type="button">
-                                <span class="chain-step-title">Создаём RSC</span>
-                            </button>
-                            <button class="chain-step" type="button">
-                                <span class="chain-step-title">Вызываем RSC на сервере</span>
-                            </button>
-                            <button class="chain-step" type="button">
-                                <span class="chain-step-title">RSC возвращает элемент React</span>
-                            </button>
-                            <button class="chain-step" type="button">
-                                <span class="chain-step-title">Сериализуем RSC в payload</span>
-                            </button>
-                            <button class="chain-step" type="button">
-                                <span class="chain-step-title">Отправляем RSC payload по сети</span>
-                            </button>
-                            <button class="chain-step" type="button">
-                                <span class="chain-step-title">Клиент рендерит результат RSC</span>
-                            </button>
-                        </div>
+                        <!-- Таймлайн этапов: точки на линии, пройденное закрашено,
+                             активный этап — с ободком. Заполнение линии до активной
+                             точки ставит talk.js (переменная --tl-fill). -->
+                        <ol class="tl" data-timeline>
+                            <li class="tl-item">
+                                <button class="tl-step is-active" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">01</span>
+                                    <span class="tl-title">Создаём RSC</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">02</span>
+                                    <span class="tl-title">Вызываем RSC на сервере</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">03</span>
+                                    <span class="tl-title">RSC возвращает элемент React</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">04</span>
+                                    <span class="tl-title">Сериализуем RSC в payload</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">05</span>
+                                    <span class="tl-title">Отправляем payload по сети</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">06</span>
+                                    <span class="tl-title">Клиент рендерит результат</span>
+                                </button>
+                            </li>
+                        </ol>
 
                         <div class="chain-panels">
                             <div class="chain-panel is-active">
+                                <span class="chain-of">Этап 01 из 06</span>
                                 <h3>Создаём RSC</h3>
                                 <p>
                                     RSC — это особый тип
@@ -499,24 +532,26 @@ const Users = async () =&gt; {
                                         <code>React.createElement</code>.
                                     </span></span>, который выполняется только на сервере.
                                 </p>
-                                <pre><span class="cm">// минимальный серверный компонент</span>
-const Greeting = async () =&gt; {
-  return &lt;div&gt;Hi!&lt;/div&gt;;
+                                <pre><span class="c">// минимальный серверный компонент</span>
+<span class="k">const</span> <span class="f">Greeting</span> = <span class="k">async</span> () =&gt; {
+  <span class="k">return</span> <span class="p">&lt;</span><span class="t">div</span><span class="p">&gt;</span>Hi!<span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>;
 };</pre>
                             </div>
 
                             <div class="chain-panel">
+                                <span class="chain-of">Этап 02 из 06</span>
                                 <h3>Вызываем RSC на сервере</h3>
                                 <p>
                                     Функция компонента вызывается и выполняется в серверной
                                     среде — во время сборки (build time) или при запросе
                                     (request time). В браузере она не выполняется никогда.
                                 </p>
-                                <pre><span class="cm">// на сервере, с await: компонент может быть асинхронным</span>
-const element = await Greeting();</pre>
+                                <pre><span class="c">// на сервере, с await: компонент может быть асинхронным</span>
+<span class="k">const</span> element = <span class="k">await</span> <span class="f">Greeting</span>();</pre>
                             </div>
 
                             <div class="chain-panel">
+                                <span class="chain-of">Этап 03 из 06</span>
                                 <h3>RSC возвращает элемент React</h3>
                                 <p>
                                     Серверный компонент возвращает
@@ -528,15 +563,16 @@ const element = await Greeting();</pre>
                                         с <code>children</code> и вложенными элементами.
                                     </span></span> — ровно то же, что и клиентский компонент.
                                 </p>
-                                <pre><span class="cm">// что вернул наш Greeting</span>
+                                <pre><span class="c">// что вернул наш Greeting</span>
 {
-  $$typeof: Symbol(react.element),
-  type: "div",
-  props: { children: "Hi!" }
+  <span class="a">$$typeof</span>: <span class="f">Symbol</span>(<span class="s">react.element</span>),
+  <span class="a">type</span>: <span class="s">"div"</span>,
+  <span class="a">props</span>: { <span class="a">children</span>: <span class="s">"Hi!"</span> }
 }</pre>
                             </div>
 
                             <div class="chain-panel">
+                                <span class="chain-of">Этап 04 из 06</span>
                                 <h3>Сериализуем RSC в payload</h3>
                                 <p>
                                     Дерево элементов — обычный объект, поэтому его можно
@@ -545,24 +581,26 @@ const element = await Greeting();</pre>
                                     а символы не сериализуются, поэтому маркер заменяют
                                     строкой.
                                 </p>
-                                <pre><span class="cm">// сериализованный элемент</span>
-'{"$$typeof":"react.element",
+                                <pre><span class="c">// сериализованный элемент</span>
+<span class="s">'{"$$typeof":"react.element",
   "type":"div",
-  "props":{"children":"Hi!"}}'</pre>
+  "props":{"children":"Hi!"}}'</span></pre>
                             </div>
 
                             <div class="chain-panel">
-                                <h3>Отправляем RSC payload по сети</h3>
+                                <span class="chain-of">Этап 05 из 06</span>
+                                <h3>Отправляем payload по сети</h3>
                                 <p>
                                     Клиент получает результат работы компонента, а не его код:
                                     сам компонент, его импорты и зависимости остаются
                                     на сервере и в бандл не попадают.
                                 </p>
-                                <pre><span class="cm">// ответ сервера — поток, а не бандл</span>
-res.end(serializedTree);</pre>
+                                <pre><span class="c">// ответ сервера — поток, а не бандл</span>
+res.<span class="f">end</span>(serializedTree);</pre>
                             </div>
 
                             <div class="chain-panel">
+                                <span class="chain-of">Этап 06 из 06</span>
                                 <h3>Клиент рендерит результат RSC</h3>
                                 <p>
                                     React на клиенте восстанавливает дерево (символ-маркер
@@ -570,9 +608,9 @@ res.end(serializedTree);</pre>
                                     компоненты при этом остаются привычными — с хуками,
                                     состоянием и обработчиками событий.
                                 </p>
-                                <pre><span class="cm">// на клиенте</span>
-const element = JSON.parse(payload, reviver);
-root.render(element);</pre>
+                                <pre><span class="c">// на клиенте</span>
+<span class="k">const</span> element = JSON.<span class="f">parse</span>(payload, reviver);
+root.<span class="f">render</span>(element);</pre>
                             </div>
                         </div>
                     </div>

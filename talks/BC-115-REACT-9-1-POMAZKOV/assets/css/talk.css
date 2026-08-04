@@ -37,6 +37,28 @@
     margin: 20px 0 0;
     max-width: 1200px;
 }
+/* Слайд, где подзаголовок — часть шапки: он идёт сразу под заголовком, а свободную
+   высоту делят отступы вокруг основного блока, поэтому блок стоит по центру
+   остатка. Без этого автоотступ заголовка уносил подзаголовок к центру слайда. */
+.content-slide.lead-top > h2 {
+    margin-bottom: 18px;
+}
+.content-slide.lead-top > .slide-lead {
+    margin: 0 0 auto;
+}
+.content-slide.lead-top > .build-grid {
+    margin-top: 0;
+}
+/* Подсказка термина в шапке раскрывается вниз: вверху места нет, там заголовок
+   и край слайда — раскрываясь вверх, она обрезалась. */
+.content-slide.lead-top .term-pop {
+    top: calc(100% + 12px);
+    bottom: auto;
+    transform: translateY(-6px);
+}
+.content-slide.lead-top .term:hover .term-pop {
+    transform: translateY(0);
+}
 .flat-icon-lg {
     width: 34px;
     height: 34px;
@@ -93,10 +115,28 @@
 
 /* ===== Лента фреймворков ===== */
 
+/* Лента живёт в контейнере, который забирает всю оставшуюся высоту слайда
+   и центрирует её: от ленты до блока карточек и от ленты до нижнего края
+   получается одинаково, без подгонки отступов вручную. */
+.marquee-space {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-height: 0;
+}
+.slide[data-slide='5'] .content-slide > h2 {
+    margin-bottom: 26px;
+}
+.slide[data-slide='5'] .content-slide::after {
+    margin-top: 0;
+}
 .marquee {
     position: relative;
-    margin-top: 30px;
-    padding: 26px 0 6px;
+    width: 100%;
+    /* Отступы сверху и снизу равны и с запасом: лента обрезает всё, что вылезает
+       за её пределы, а при наведении знак вырастает и над ним всплывает название —
+       им нужно место внутри. Равные отступы держат ленту по центру. */
+    padding: 62px 0;
     overflow: hidden;
     /* Края растворяются, иначе логотипы обрубаются на границе слайда. */
     mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -107,7 +147,9 @@
     align-items: center;
     gap: 30px;
     width: max-content;
-    animation: marquee 42s linear infinite;
+    /* Скорость считается от длины трека (talk.js ставит --marquee-time), иначе
+       после клонирования наборов лента ехала бы то быстрее, то медленнее. */
+    animation: marquee var(--marquee-time, 42s) linear infinite;
 }
 /* Под курсором лента замирает — иначе логотип не поймать. */
 .marquee:hover .marquee-track {
@@ -117,7 +159,8 @@
     from {
         transform: translateX(0);
     }
-    /* Трек содержит два одинаковых набора, поэтому сдвиг на половину — бесшовный. */
+    /* talk.js клонирует набор так, чтобы половина трека была шире слайда:
+       тогда сдвиг ровно на половину бесшовно возвращает ленту в начало. */
     to {
         transform: translateX(-50%);
     }
@@ -127,8 +170,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 76px;
+    min-width: 76px;
     height: 76px;
+    padding: 0 16px;
+    box-sizing: border-box;
     flex-shrink: 0;
     border: 1px solid #2a2a2a;
     border-radius: 20px;
@@ -147,14 +192,22 @@
     margin: 0 22px;
     border-color: #fff;
 }
-/* Монограмма вместо фирменного логотипа: рисовать чужие знаки по памяти —
-   врать, а тянуть их с CDN нельзя (доклад автономен). Полное название
-   показывает подсказка при наведении. */
-.marquee-mono {
-    font-size: 27px;
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1;
+/* Настоящие знаки фреймворков лежат в assets/logos (выгружены заранее, доклад
+   остаётся автономным): восемь — монохромные контуры из simple-icons (CC0),
+   Waku — его собственный логотип-надпись, Vike — родной знак-молоток. */
+.marquee-logo {
+    height: 38px;
+    width: auto;
+    max-width: 132px;
+    display: block;
+}
+/* Знак Waku — надпись, ей нужна ширина; молоток Vike цветной, поэтому его
+   обесцвечиваем и подсвечиваем: белым он встаёт в один ряд с остальными. */
+.marquee-item[data-brand='waku'] .marquee-logo {
+    height: 30px;
+}
+.marquee-item[data-brand='vike'] .marquee-logo {
+    filter: grayscale(1) brightness(1.8) contrast(0.9);
 }
 .marquee-name {
     position: absolute;
@@ -219,6 +272,159 @@
     color: var(--text-muted);
 }
 
+/* ===== Мини-схемы под пунктами: только CSS, крутятся сами =====
+   Анимации привязаны к .slide.active: пока слайд не показан, они не идут
+   и каждый показ начинается с начала. */
+
+.mini {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 10px;
+}
+.mini-lane {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.mini-tag {
+    flex-shrink: 0;
+    width: 92px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #52525b;
+    text-align: right;
+}
+.mini-box {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 62px;
+    padding: 0 16px;
+    border: 1px solid #262626;
+    border-radius: 14px;
+    background: #070707;
+    overflow: hidden;
+}
+.mini-box.is-dashed {
+    border-style: dashed;
+    border-color: #232323;
+    background: transparent;
+}
+.mini-chip {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #d4d4d8;
+    border: 1px solid #2f2f2f;
+    border-radius: 8px;
+    padding: 6px 10px;
+    background: #101010;
+    white-space: nowrap;
+}
+.mini-chip.is-muted {
+    color: #52525b;
+    border-style: dashed;
+    text-decoration: line-through;
+    background: transparent;
+}
+.mini-never {
+    font-size: 13px;
+    color: #52525b;
+}
+/* Волна по серверной дорожке = «компонент выполняется». */
+.mini-sweep {
+    position: absolute;
+    inset: 0 auto 0 -40%;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+}
+.slide.active .mini-sweep {
+    animation: miniSweep 3.2s linear infinite;
+}
+@keyframes miniSweep {
+    to {
+        transform: translateX(350%);
+    }
+}
+/* Соединительная линия дорастает до результата, потом результат проявляется. */
+.mini-arrow {
+    height: 1px;
+    width: 34px;
+    flex-shrink: 0;
+    background: #3f3f46;
+    transform-origin: left center;
+}
+.slide.active .mini-arrow {
+    animation: miniGrow 3.2s ease-in-out infinite;
+}
+@keyframes miniGrow {
+    0%,
+    12% {
+        transform: scaleX(0);
+    }
+    38%,
+    100% {
+        transform: scaleX(1);
+    }
+}
+.mini-chip.is-result {
+    color: #fff;
+    border-color: #3f3f46;
+}
+.slide.active .mini-box:not(.is-dashed) .mini-chip.is-result {
+    animation: miniAppear 3.2s ease-in-out infinite;
+}
+@keyframes miniAppear {
+    0%,
+    30% {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    50%,
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+/* Серверный модуль выпадает из бандла, соседи сдвигаются. */
+.mini-chip.is-dropped {
+    overflow: hidden;
+}
+.slide.active .mini-chip.is-dropped {
+    animation: miniDrop 4.2s ease-in-out infinite;
+}
+@keyframes miniDrop {
+    0%,
+    22% {
+        opacity: 1;
+        max-width: 220px;
+        transform: translateY(0);
+    }
+    38% {
+        opacity: 0;
+        max-width: 220px;
+        transform: translateY(16px);
+    }
+    46%,
+    88% {
+        opacity: 0;
+        max-width: 0;
+        padding-left: 0;
+        padding-right: 0;
+        border-width: 0;
+        margin-left: -10px;
+        transform: translateY(16px);
+    }
+    100% {
+        opacity: 1;
+        max-width: 220px;
+        transform: translateY(0);
+    }
+}
+
 /* ===== Слайд «Старт во время сборки» ===== */
 
 .build-grid {
@@ -273,67 +479,109 @@
     white-space: pre-wrap;
 }
 
-/* ===== Слайд «Как работает RSC?»: ствол с ответвлениями ===== */
+/* ===== Слайд «Как работает RSC?»: таймлайн этапов ===== */
 
 .chain-slide {
     display: grid;
-    grid-template-columns: 44% 56%;
-    gap: 60px;
+    grid-template-columns: 40% 60%;
+    gap: 70px;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 34px;
 }
-.chain {
+/* Таймлайн: линия с точками. Серая линия — весь путь, белая (--tl-fill) —
+   пройденная часть до активной точки, её высоту считает talk.js. */
+.tl {
     position: relative;
-    padding-left: 46px;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 40px;
 }
-/* Ствол: вертикальная линия слева, каждый этап соединён с ней «усиком». */
-.chain::before {
+.tl::before,
+.tl::after {
     content: '';
     position: absolute;
-    left: 0;
+    left: 6px;
     top: 26px;
-    bottom: 26px;
     width: 2px;
-    background: #2a2a2a;
+    border-radius: 2px;
 }
-.chain-step {
+.tl::before {
+    bottom: 26px;
+    background: #232323;
+}
+.tl::after {
+    height: var(--tl-fill, 0px);
+    background: linear-gradient(180deg, #ffffff, #6b6b6b);
+    transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tl-item {
+    margin: 0;
+}
+.tl-step {
     position: relative;
-    display: block;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
     width: 100%;
-    padding: 15px 0;
+    padding: 13px 0;
     background: none;
     border: none;
     text-align: left;
     font: inherit;
-    color: #a1a1aa;
+    color: #71717a;
     cursor: pointer;
     transition: color 0.25s ease;
 }
-.chain-step::before {
-    content: '';
+/* Точка этапа: пустая — впереди, закрашенная — пройденная,
+   с ободком — активная. */
+.tl-dot {
     position: absolute;
-    left: -46px;
-    top: 50%;
-    width: 38px;
-    height: 2px;
-    background: #2a2a2a;
-    transition: background 0.25s ease;
+    left: -40px;
+    top: 21px;
+    width: 14px;
+    height: 14px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 2px solid #3f3f46;
+    background: var(--bg);
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
-.chain-step:hover {
+.tl-step:hover {
     color: #d4d4d8;
 }
-.chain-step.is-active {
+.tl-step:hover .tl-dot {
+    border-color: #71717a;
+}
+.tl-step.is-done .tl-dot {
+    border-color: #d4d4d8;
+    background: #d4d4d8;
+}
+.tl-step.is-active {
     color: #fff;
 }
-.chain-step.is-active::before {
+.tl-step.is-active .tl-dot {
+    border-color: #fff;
     background: #fff;
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.1);
 }
-.chain-step-title {
-    font-size: 24px;
+.tl-num {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #3f3f46;
+    transition: color 0.25s ease;
+}
+.tl-step.is-active .tl-num {
+    color: #a1a1aa;
+}
+.tl-title {
+    font-size: 23px;
     font-weight: 500;
     line-height: 1.3;
 }
-.chain-step.is-active .chain-step-title {
+.tl-step.is-active .tl-title {
     font-weight: 600;
 }
 /* Панель пояснения — без рамки: рядом с рамками этапов слайд рябил. */
@@ -350,6 +598,13 @@
 @keyframes chainPanelIn {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
+}
+.chain-of {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #52525b;
+    margin-bottom: 10px;
 }
 .chain-panel h3 {
     margin: 0 0 18px;
@@ -374,8 +629,31 @@
     padding: 18px 20px;
     white-space: pre-wrap;
 }
-.chain-panel pre .cm {
-    color: #52525b;
+/* ===== Подсветка примеров кода =====
+   Палитра — та же, что у «хром»-слайдов дека (deck.css, класс s-*), чтобы код
+   в докладе и в шаблоне выглядел одинаково. Разметка ручная: подсветка на слайде
+   должна работать и без JS, а тянуть highlight.js нельзя — доклад автономен. */
+
+.content-slide pre .c {
+    color: #52525b; /* комментарий */
+}
+.content-slide pre .k {
+    color: #f87171; /* ключевое слово: const, await, return, import */
+}
+.content-slide pre .s {
+    color: #34d399; /* строка */
+}
+.content-slide pre .f {
+    color: #60a5fa; /* функция и метод */
+}
+.content-slide pre .t {
+    color: #e879f9; /* JSX-тег или компонент */
+}
+.content-slide pre .a {
+    color: #fbbf24; /* пропс, ключ объекта */
+}
+.content-slide pre .p {
+    color: #71717a; /* угловые скобки JSX */
 }
 
 /* Подсказка по термину: пунктирное подчёркивание, раскрывается по наведению. */

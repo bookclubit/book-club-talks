@@ -122,8 +122,8 @@
                             <span class="pnode-sub">async function</span>
                             <div class="pnode-pop">
                                 <b>Что это</b>
-                                <pre>const App = async () =&gt; {
-  return &lt;div&gt;Hi!&lt;/div&gt;;
+                                <pre><span class="kw">const</span> <span class="fn">App</span> = <span class="kw">async</span> () =&gt; {
+  <span class="kw">return</span> <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>Hi!<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>;
 };</pre>
                                 <p>
                                     Обычная функция, которую можно ожидать через await.
@@ -143,9 +143,9 @@
                             <div class="pnode-pop">
                                 <b>Что это</b>
                                 <pre>{
-  $$typeof: Symbol(react.element),
-  type: "div",
-  props: { children: "Hi!" }
+  <span class="attr">$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">"div"</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> }
 }</pre>
                                 <p>
                                     Не HTML и не DOM, а описание того, каким должен быть DOM.
@@ -164,8 +164,8 @@
                             <span class="pnode-sub">строка / stream</span>
                             <div class="pnode-pop">
                                 <b>Что это</b>
-                                <pre>ReactDOMServer.renderToString(tree)
-// → "&lt;div&gt;Hi!&lt;/div&gt;"</pre>
+                                <pre>ReactDOMServer.<span class="fn">renderToString</span>(tree)
+<span class="cm">// → "&lt;div&gt;Hi!&lt;/div&gt;"</span></pre>
                                 <p>
                                     Разметка, которую можно отдать по сети сразу — до того,
                                     как браузер скачает и выполнит JavaScript.
@@ -183,8 +183,8 @@
                             <span class="pnode-sub">DOM + гидратация</span>
                             <div class="pnode-pop">
                                 <b>Что это</b>
-                                <pre>&lt;div id="root"&gt;&lt;div&gt;Hi!&lt;/div&gt;&lt;/div&gt;
-hydrateRoot(document, &lt;App /&gt;)</pre>
+                                <pre><span class="punc">&lt;</span><span class="tag">div</span> <span class="attr">id</span>=<span class="str">"root"</span><span class="punc">&gt;&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>Hi!<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+<span class="fn">hydrateRoot</span>(document, <span class="punc">&lt;</span><span class="tag">App</span> <span class="punc">/&gt;</span>)</pre>
                                 <p>
                                     Браузер показывает готовую разметку, а React подключает
                                     к ней обработчики событий и динамику.
@@ -194,8 +194,8 @@ hydrateRoot(document, &lt;App /&gt;)</pre>
                     </div>
 
                     <p class="pipeline-hint">
-                        Наведите на конвейер — проявятся границы: где заканчивается RSR
-                        и начинается SSR
+                        Голубая рамка — RSR, янтарная — SSR. Дерево элементов принадлежит
+                        обеим зонам: им заканчивается первый процесс и начинается второй
                     </p>
                 </div>
 
@@ -232,48 +232,45 @@ hydrateRoot(document, &lt;App /&gt;)</pre>
                     <h2 class="gradient-text">А что по коду?</h2>
                     <p class="slide-lead">
                         Обычный express-сервер: раздаёт бандл, на любой маршрут собирает
-                        дерево, рендерит его в строку и отдаёт HTML. Нажмите на подсвеченную
-                        строку — справа появится пояснение.
+                        дерево, рендерит его в строку и отдаёт HTML. Подсвеченные области
+                        кликабельны — справа появится пояснение.
                     </p>
 
                     <div class="code-slide interactive-block" data-target="server-note">
-                        <div class="code-box is-small">
-<pre><span class="cm">// server.js</span>
-<span class="kw">const</span> express = require(<span class="str">"express"</span>);
-<span class="kw">const</span> path = require(<span class="str">"path"</span>);
-<span class="kw">const</span> React = require(<span class="str">"react"</span>);
-<span class="kw">const</span> ReactDOMServer = require(<span class="str">"react-dom/server"</span>);
-<span class="kw">const</span> App = require(<span class="str">"./src/App"</span>);
+                        <div class="code-box is-small is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>server.js</em></div>
+<pre><span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">"express"</span>);
+<span class="kw">const</span> path = <span class="fn">require</span>(<span class="str">"path"</span>);
+<span class="kw">const</span> React = <span class="fn">require</span>(<span class="str">"react"</span>);
+<span class="kw">const</span> ReactDOMServer = <span class="fn">require</span>(<span class="str">"react-dom/server"</span>);
+<span class="kw">const</span> App = <span class="fn">require</span>(<span class="str">"./src/App"</span>);
 
-<span class="kw">const</span> app = express();
+<span class="kw">const</span> app = <span class="fn">express</span>();
 
-<div class="code-line" data-title="Раздача клиентского бандла" data-desc="Статика отдаётся из build: там лежит собранный клиентский JavaScript. Именно он позже подключится к серверной разметке при гидратации — сервер отдаёт HTML, а браузер добирает интерактивность из этого файла.">app.use(express.static(path.join(__dirname, <span class="str">"build"</span>)));</div>
+<div class="code-line" data-title="Раздача клиентского бандла" data-desc="Статика отдаётся из build: там лежит собранный клиентский JavaScript. Именно он позже подключится к серверной разметке при гидратации — сервер отдаёт HTML, а браузер добирает интерактивность из этого файла.">app.<span class="fn">use</span>(express.<span class="fn">static</span>(path.<span class="fn">join</span>(__dirname, <span class="str">"build"</span>)));</div>
 
-<div class="code-line" data-title="Один маршрут на всё приложение" data-desc="app.get(&quot;*&quot;) — обработчик любого пути: маршрутизацию берёт на себя React-дерево, а не express. Обработчик асинхронный, потому что сборка дерева умеет ждать данные: внутри будет await.">app.get(<span class="str">"*"</span>, <span class="kw">async</span> (req, res) =&gt; {</div>
-  <span class="cm">// Это секретный соус</span>
-<div class="code-line" data-title="RSR: компоненты → дерево элементов" data-desc="Тот самый «секретный соус». Функция обходит JSX, вызывает серверные компоненты (с await!) и возвращает дерево элементов React — обычный объект со всеми разрешёнными зависимостями данных. Это первый из двух процессов: HTML здесь ещё не появляется.">  <span class="kw">const</span> rscTree = <span class="kw">await</span> turnServerComponentsIntoTreeOfElements(&lt;App /&gt;);</div>
-  <span class="cm">// Это секретный соус</span>
+<div class="code-line" data-title="Один маршрут на всё приложение" data-desc="app.get(&quot;*&quot;) — обработчик любого пути: маршрутизацию берёт на себя React-дерево, а не express. Обработчик асинхронный, потому что сборка дерева умеет ждать данные: внутри будет await.">app.<span class="fn">get</span>(<span class="str">"*"</span>, <span class="kw">async</span> (req, res) =&gt; {</div>
+<div class="code-line" data-title="RSR: компоненты → дерево элементов" data-desc="На сервере дерево JSX преобразуется в дерево элементов. Подробнее работу этой функции рассмотрим на следующем слайде.">  <span class="kw">const</span> rscTree = <span class="kw">await</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(<span class="punc">&lt;</span><span class="tag">App</span> <span class="punc">/&gt;</span>);</div>
 
-  <span class="cm">// Преобразуем ожидаемые серверные компоненты в строку</span>
-<div class="code-line" data-title="SSR: дерево → HTML-строка" data-desc="Второй процесс. renderToString проходит по готовому дереву элементов и склеивает HTML. Ему уже не нужно ничего ждать: все асинхронные компоненты разрешены на предыдущем шаге. В продакшене здесь чаще стриминг — renderToPipeableStream или renderToReadableStream.">  <span class="kw">const</span> html = ReactDOMServer.renderToString(rscTree);</div>
+<div class="code-line" data-title="SSR: дерево → HTML-строка" data-desc="Второй процесс. renderToString проходит по готовому дереву элементов и склеивает HTML. Ему уже не нужно ничего ждать: все асинхронные компоненты разрешены на предыдущем шаге. В продакшене здесь чаще стриминг.">  <span class="kw">const</span> html = ReactDOMServer.<span class="fn">renderToString</span>(rscTree);</div>
+  <span class="cm">// в продакшене — стриминг:</span> <span class="term-chip" data-term="stream">renderToPipeableStream<span class="term-pop"><b>Стриминг вместо строки</b><span>renderToString собирает весь HTML в память и отдаёт целиком. Стриминговые API отдают разметку порциями, по мере готовности: <em>renderToPipeableStream</em> — для Node.js, <em>renderToReadableStream</em> — для сред с Web Streams (Deno, воркеры, edge). Вместе с Suspense это даёт первую отрисовку до того, как готовы все данные.</span><a href="https://react.dev/reference/react-dom/server/renderToPipeableStream" target="_blank" rel="noreferrer">Документация React ↗</a></span></span> <span class="cm">/ renderToReadableStream</span>
 
-  <span class="cm">// Отправим это</span>
-  res.send(`
-    &lt;!DOCTYPE html&gt;
-    &lt;html&gt;
-      &lt;head&gt;
-        &lt;title&gt;My React App&lt;/title&gt;
-      &lt;/head&gt;
-      &lt;body&gt;
-<div class="code-line" data-title="Точка гидратации" data-desc="Готовая разметка кладётся в #root. Пользователь видит контент сразу, ещё до загрузки JavaScript. Этот же узел потом получает hydrateRoot: React «привязывается» к существующему DOM вместо того, чтобы рисовать всё заново.">        &lt;div id="root"&gt;${html}&lt;/div&gt;</div>
-<div class="code-line" data-title="Клиентский бандл" data-desc="Тег script подключает клиентский JavaScript — тот, что раздаётся из build. До этого момента страница уже видна; скрипт нужен, чтобы включить интерактивность и дальнейшие обновления (в том числе мягкую навигацию).">        &lt;script src&#61;"/static/js/main.js"&gt;&lt;/script&gt;</div>
-      &lt;/body&gt;
-    &lt;/html&gt;
-  `);
+<div class="code-line is-block" data-title="Что уходит на клиент" data-desc="Ответ собирается строкой: каркас документа, готовая разметка внутри #root и тег script с клиентским бандлом. Пользователь видит контент сразу — до загрузки JavaScript; узел #root потом получит hydrateRoot, и React привяжется к существующему DOM вместо повторной отрисовки, а скрипт включит интерактивность и мягкую навигацию.">  res.<span class="fn">send</span>(`
+    <span class="punc">&lt;!DOCTYPE html&gt;</span>
+    <span class="punc">&lt;</span><span class="tag">html</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">head</span><span class="punc">&gt;</span>
+        <span class="punc">&lt;</span><span class="tag">title</span><span class="punc">&gt;</span>My React App<span class="punc">&lt;/</span><span class="tag">title</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;/</span><span class="tag">head</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">body</span><span class="punc">&gt;</span>
+        <span class="punc">&lt;</span><span class="tag">div</span> <span class="attr">id</span>=<span class="str">"root"</span><span class="punc">&gt;</span>${html}<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+        <span class="punc">&lt;</span><span class="tag">script</span> <span class="attr">src</span>&#61;<span class="str">"/static/js/main.js"</span><span class="punc">&gt;&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;/</span><span class="tag">body</span><span class="punc">&gt;</span>
+    <span class="punc">&lt;/</span><span class="tag">html</span><span class="punc">&gt;</span>
+  `);</div>
 });
 
-app.listen(<span class="str">3000</span>, () =&gt; {
-  console.log(<span class="str">"Server listening on port 3000"</span>);
+app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
+  console.<span class="fn">log</span>(<span class="str">"Server listening on port 3000"</span>);
 });</pre>
                         </div>
 
@@ -282,8 +279,8 @@ app.listen(<span class="str">3000</span>, () =&gt; {
                             <p>
                                 Вся глава — про две строки в середине обработчика:
                                 сначала компоненты превращаются в дерево элементов,
-                                затем дерево — в HTML. Нажмите на подсвеченную строку,
-                                чтобы разобрать её отдельно.
+                                затем дерево — в HTML. Нажмите на подсвеченную
+                                область, чтобы разобрать её отдельно.
                             </p>
                         </div>
                     </div>
@@ -294,331 +291,156 @@ app.listen(<span class="str">3000</span>, () =&gt; {
             <section class="slide" data-slide="5">
                 <div class="content-slide">
                     <h2 class="gradient-text">Что делает turnServerComponentsIntoTreeOfElements</h2>
+                    <p class="slide-lead">
+                        По сути это набор условий: ничего сложного внутри нет — функция
+                        смотрит, что ей передали, и решает, как с этим быть.
+                        Нажмите на ветку, чтобы увидеть её на примере.
+                    </p>
 
                     <div class="code-slide is-wide interactive-block" data-target="rsr-note">
-                        <div class="code-box is-small">
-<pre><span class="kw">async function</span> turnServerComponentsIntoTreeOfElements(jsx) {
-<div class="code-line" data-title="Базовый случай: примитивы" data-desc="Строки, числа, логические значения и null возвращаются как есть. Это «листья» дерева: React понимает их и на сервере, и на клиенте, и они сериализуемы. В &lt;div&gt;Hi!&lt;/div&gt; дочернее «Hi!» — просто строка, и должно остаться строкой.">  <span class="kw">if</span> (typeof jsx === <span class="str">"string"</span> || typeof jsx === <span class="str">"number"</span> ||
-      typeof jsx === <span class="str">"boolean"</span> || jsx == <span class="kw">null</span>) {
+                        <div class="code-box is-small is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>renderJSXToClientJSX.js</em></div>
+<pre><span class="kw">async function</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(jsx) {
+<div class="code-line" data-title="Базовый случай: примитивы" data-desc="Строки, числа, логические значения и null возвращаются как есть. Это «листья» дерева: React понимает их и на сервере, и на клиенте, и они сериализуемы." data-pass1="renderJSXToClientJSX(&quot;Hi!&quot;) → &quot;Hi!&quot;" data-pass2="renderJSXToClientJSX(&quot;Hi!&quot;) → &quot;Hi!&quot;&#10;// рекурсия закончилась: примитив вернулся сам собой">  <span class="kw">if</span> (<span class="kw">typeof</span> jsx === <span class="str">"string"</span> || <span class="kw">typeof</span> jsx === <span class="str">"number"</span> ||
+      <span class="kw">typeof</span> jsx === <span class="str">"boolean"</span> || jsx == <span class="kw">null</span>) {
     <span class="kw">return</span> jsx;
   }</div>
 
-<div class="code-line" data-title="Массивы: рекурсия по детям" data-desc="Каждый элемент массива обрабатывается рекурсивно, а Promise.all запускает обработку конкурентно: независимые серверные компоненты грузят данные параллельно, а не по очереди. Фрагменты React представляют детей массивом — значит, отдельный код для &lt;&gt;…&lt;/&gt; не нужен.">  <span class="kw">if</span> (Array.isArray(jsx)) {
-    <span class="kw">return await</span> Promise.all(jsx.map(child =&gt; renderJSXToClientJSX(child)));
+<div class="code-line" data-title="Массивы: рекурсия по детям" data-desc="Каждый элемент массива обрабатывается рекурсивно, а Promise.all запускает обработку конкурентно: независимые серверные компоненты грузят данные параллельно. Фрагменты React представляют детей массивом — значит, отдельный код для &lt;&gt;…&lt;/&gt; не нужен." data-pass1="// у &lt;div&gt;Hi!&lt;/div&gt; массива нет: children — строка&#10;Array.isArray(&quot;Hi!&quot;) → false" data-pass2="// если бы детей было несколько:&#10;await Promise.all([&quot;Hi!&quot;, &lt;b/&gt;].map(renderJSXToClientJSX))">  <span class="kw">if</span> (Array.<span class="fn">isArray</span>(jsx)) {
+    <span class="kw">return await</span> Promise.<span class="fn">all</span>(jsx.<span class="fn">map</span>(child =&gt; <span class="fn">renderJSXToClientJSX</span>(child)));
   }</div>
 
-  <span class="kw">if</span> (jsx != <span class="kw">null</span> &amp;&amp; typeof jsx === <span class="str">"object"</span>) {
-<div class="code-line" data-title="Это элемент React?" data-desc="Все элементы React — объекты, но не все объекты — элементы React. Отличает их служебный маркер $$typeof со значением Symbol.for(&quot;react.element&quot;). Символ нельзя подделать через JSON — исторически это защита от инъекций поддельных элементов.">    <span class="kw">if</span> (jsx.$$typeof === Symbol.for(<span class="str">"react.element"</span>)) {</div>
-<div class="code-line" data-title="type — строка: DOM-элемент" data-desc="&quot;div&quot;, &quot;span&quot;, &quot;h1&quot; — встроенные элементы. Вызывать их как функцию нечего: элемент возвращается как есть, но пропсы обходятся рекурсивно — внутри children могут прятаться серверные компоненты, которые ещё надо развернуть.">      <span class="kw">if</span> (typeof jsx.type === <span class="str">"string"</span>) {
-        <span class="kw">return</span> { ...jsx, props: <span class="kw">await</span> renderJSXToClientJSX(jsx.props) };
+  <span class="kw">if</span> (jsx != <span class="kw">null</span> &amp;&amp; <span class="kw">typeof</span> jsx === <span class="str">"object"</span>) {
+<div class="code-line" data-title="Это элемент React?" data-desc="Все элементы React — объекты, но не все объекты — элементы React. Отличает их служебный маркер $$typeof со значением Symbol.for(&quot;react.element&quot;). Символ нельзя подделать через JSON — исторически это защита от инъекций поддельных элементов." data-pass1="&lt;div&gt;Hi!&lt;/div&gt;.$$typeof === Symbol.for(&quot;react.element&quot;) → true" data-pass2="{ children: &quot;Hi!&quot; }.$$typeof === undefined → false&#10;// пропсы — обычный объект, идём в ветку else">    <span class="kw">if</span> (jsx.<span class="attr">$$typeof</span> === Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>)) {</div>
+<div class="code-line" data-title="type — строка: DOM-элемент" data-desc="&quot;div&quot;, &quot;span&quot;, &quot;h1&quot; — встроенные элементы. Вызывать их как функцию нечего: элемент возвращается как есть, но пропсы обходятся рекурсивно — внутри children могут прятаться серверные компоненты." data-pass1="typeof &quot;div&quot; === &quot;string&quot; → true&#10;return { ...element, props: await renderJSXToClientJSX({ children: &quot;Hi!&quot; }) }" data-pass2="// сюда второй проход не заходит: пропсы — не элемент React">      <span class="kw">if</span> (<span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"string"</span>) {
+        <span class="kw">return</span> { ...jsx, <span class="attr">props</span>: <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>(jsx.props) };
       }</div>
 
-<div class="code-line" data-title="type — функция: свой компонент" data-desc="&lt;Footer /&gt;, &lt;Like /&gt; — пользовательские компоненты. Алгоритм вызывает Component(props) и запускает рекурсию на том, что компонент вернул. И вот главное: перед вызовом стоит await — на сервере компонент может быть async и внутри ждать базу, файл или внешний API.">      <span class="kw">if</span> (typeof jsx.type === <span class="str">"function"</span>) {
+<div class="code-line" data-title="type — функция: свой компонент" data-desc="&lt;Footer /&gt;, &lt;Like /&gt; — пользовательские компоненты. Алгоритм вызывает Component(props) и запускает рекурсию на том, что компонент вернул. Перед вызовом стоит await: на сервере компонент может быть async и внутри ждать базу, файл или внешний API." data-pass1="typeof &quot;div&quot; === &quot;function&quot; → false&#10;// &lt;div&gt; — встроенный тег, эта ветка не срабатывает" data-pass2="// а если бы это был &lt;Greeting /&gt;:&#10;const returnedJsx = await Greeting(props) → &lt;div&gt;Hi!&lt;/div&gt;">      <span class="kw">if</span> (<span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"function"</span>) {
         <span class="kw">const</span> Component = jsx.type;
         <span class="kw">const</span> props = jsx.props;
-        <span class="kw">const</span> returnedJsx = <span class="kw">await</span> Component(props);
-        <span class="kw">return await</span> renderJSXToClientJSX(returnedJsx);
+        <span class="kw">const</span> returnedJsx = <span class="kw">await</span> <span class="fn">Component</span>(props);
+        <span class="kw">return await</span> <span class="fn">renderJSXToClientJSX</span>(returnedJsx);
       }</div>
 
-      <span class="kw">throw new</span> Error(<span class="str">"Not implemented."</span>);
-<div class="code-line" data-title="Не элемент: обход пропсов" data-desc="Произвольный объект — обычно сами пропсы или данные внутри них. Обходим каждое значение через Object.entries и Promise.all. Так разворачиваются компоненты, переданные пропсами (паттерн render props): ни один вложенный JSX не останется необработанным, где бы он ни прятался.">    } <span class="kw">else</span> {
-      <span class="kw">return</span> Object.fromEntries(
-        <span class="kw">await</span> Promise.all(
-          Object.entries(jsx).map(<span class="kw">async</span> ([propName, value]) =&gt; [
+      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Not implemented."</span>);
+<div class="code-line" data-title="Не элемент: обход пропсов" data-desc="Произвольный объект — обычно сами пропсы или данные внутри них. Обходим каждое значение через Object.entries и Promise.all. Так разворачиваются компоненты, переданные пропсами: ни один вложенный JSX не останется необработанным." data-pass1="// на первом проходе сюда не заходим: &lt;div&gt;Hi!&lt;/div&gt; — элемент React" data-pass2="Object.entries({ children: &quot;Hi!&quot; })&#10;  → [[&quot;children&quot;, await renderJSXToClientJSX(&quot;Hi!&quot;)]]&#10;  → { children: &quot;Hi!&quot; }">    } <span class="kw">else</span> {
+      <span class="kw">return</span> Object.<span class="fn">fromEntries</span>(
+        <span class="kw">await</span> Promise.<span class="fn">all</span>(
+          Object.<span class="fn">entries</span>(jsx).<span class="fn">map</span>(<span class="kw">async</span> ([propName, value]) =&gt; [
             propName,
-            <span class="kw">await</span> renderJSXToClientJSX(value),
+            <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>(value),
           ])
         )
       );
     }</div>
   }
 
-  <span class="kw">throw new</span> Error(<span class="str">"Not implemented."</span>);
+  <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Not implemented."</span>);
 }</pre>
                         </div>
 
-                        <div>
+                        <!-- Пояснение ветки: по центру колонки, без рамки. Пример
+                             показывается для двух проходов рекурсии. -->
+                        <div class="branch-side">
                             <div class="info-panel code-note" id="rsr-note">
-                                <h3>Большое дерево if/else</h3>
+                                <h3>Набор условий</h3>
                                 <p>
                                     Рекурсивный обход JSX: примитивы — как есть, массивы —
                                     по детям, элементы React — по типу, всё остальное —
-                                    по значениям пропсов. Нажмите на ветку, чтобы разобрать её.
+                                    по значениям пропсов. Нажмите на ветку.
                                 </p>
                             </div>
 
-                            <!-- Прогон примера: видно, как ветки срабатывают по шагам. -->
-                            <div class="stepper">
-                                <div class="stepper-head">
-                                    <p class="stepper-counter">шаг 1 из 5</p>
-                                    <div class="stepper-dots"></div>
+                            <div class="pass-box" hidden>
+                                <div class="pass-head">
+                                    <span class="pass-tag" data-pass-tag>проход 1 · &lt;div&gt;Hi!&lt;/div&gt;</span>
                                 </div>
-                                <div class="stepper-body"></div>
-                                <div class="stepper-btns">
-                                    <button class="stepper-btn" type="button" data-step-prev>← назад</button>
-                                    <button class="stepper-btn" type="button" data-step-next>дальше →</button>
-                                </div>
-
-                                <template data-step>
-                                    <h4>Вход: JSX страницы</h4>
-                                    <pre>await turnServerComponentsIntoTreeOfElements(
-  &lt;Page /&gt;
-)
-
-// Page — серверный компонент:
-const Page = async () =&gt; &lt;div&gt;{await getGreeting()}&lt;/div&gt;</pre>
-                                    <p>Объект, у которого <code>$$typeof</code> — элемент React, а <code>type</code> — функция.</p>
-                                </template>
-
-                                <template data-step>
-                                    <h4>Ветка «type — функция»</h4>
-                                    <pre>const returnedJsx = await Component(props)
-// await ждёт getGreeting() → "Hi!"
-// вернулось: &lt;div&gt;Hi!&lt;/div&gt;</pre>
-                                    <p>Компонент вызван на сервере, данные разрешены — рекурсия идёт на результат.</p>
-                                </template>
-
-                                <template data-step>
-                                    <h4>Ветка «type — строка»</h4>
-                                    <pre>{
-  $$typeof: Symbol(react.element),
-  type: "div",
-  props: await renderJSXToClientJSX({ children: "Hi!" })
-}</pre>
-                                    <p>DOM-элемент остаётся как есть, но его пропсы обходятся рекурсивно.</p>
-                                </template>
-
-                                <template data-step>
-                                    <h4>Ветка «не элемент»: пропсы</h4>
-                                    <pre>Object.entries({ children: "Hi!" })
-  → [["children", await renderJSXToClientJSX("Hi!")]]</pre>
-                                    <p>Пропсы — обычный объект: обходим значения, чтобы развернуть вложенный JSX.</p>
-                                </template>
-
-                                <template data-step>
-                                    <h4>Базовый случай: примитив</h4>
-                                    <pre>renderJSXToClientJSX("Hi!") → "Hi!"
-
-// итог обхода:
-{ $$typeof: Symbol(react.element),
-  type: "div", props: { children: "Hi!" } }</pre>
-                                    <p>Рекурсия закончилась. Дерево готово к сериализации — промисов в нём больше нет.</p>
-                                </template>
+                                <pre data-pass-code></pre>
+                                <button class="pass-btn" type="button" data-pass-toggle>
+                                    Вызываем функцию рекурсивно → проход 2 с { children: "Hi!" }
+                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <!-- SLIDE: примитивы и массивы -->
-            <section class="slide" data-slide="6">
-                <div class="content-slide">
-                    <h2 class="gradient-text">Обработка входа: примитивы и массивы</h2>
-                    <p class="slide-lead">
-                        Базовые случаи рекурсии — те условия выхода, без которых
-                        рекурсивный алгоритм не работает.
-                    </p>
-
-                    <div class="branches">
-                        <div class="branch">
-                            <code>string / number / boolean / null</code>
-                            <span class="branch-arrow">→</span>
-                            <p>
-                                Вернуть как есть. React понимает эти значения и на сервере,
-                                и на клиенте, и они сериализуемы — в отличие от функций
-                                и символов. В <code>&lt;div&gt;hi!&lt;/div&gt;</code> дочернее
-                                «hi!» — просто строка, и должно остаться строкой.
-                            </p>
-                        </div>
-                        <div class="branch is-accent">
-                            <code>Array.isArray(jsx)</code>
-                            <span class="branch-arrow">→</span>
-                            <p>
-                                <code>Promise.all(jsx.map(...))</code> — обработать каждый
-                                элемент рекурсивно и конкурентно. Если внутри массива
-                                несколько серверных компонентов делают независимые запросы,
-                                они выполняются параллельно, а не по очереди.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="cards-2" style="margin-top: 22px;">
-                        <div class="tcard">
-                            <span class="tcard-tag">пример</span>
-                            <h3>Дочерний текст</h3>
-                            <pre>&lt;div&gt;hi!&lt;/div&gt;
-// children: "hi!" → "hi!"</pre>
-                        </div>
-                        <div class="tcard">
-                            <span class="tcard-tag">пример</span>
-                            <h3>Массив детей — и фрагменты заодно</h3>
-                            <pre>[&lt;div /&gt;, &lt;h1 /&gt;, &lt;span /&gt;, &lt;Footer /&gt;]
-
-&lt;&gt;…&lt;/&gt; // фрагмент представляет детей массивом</pre>
-                        </div>
-                    </div>
-
-                    <blockquote class="book-quote" style="margin-top: 24px;">
-                        «Идея состоит в том, чтобы возвращать типы объектов, которые React
-                        может понимать на стороне клиента и на стороне сервера. React может
-                        понимать и отображать строки, числа и логические значения как
-                        на стороне клиента, так и на стороне сервера, поэтому мы оставим
-                        их как есть.»
-                        <cite>Раздел «Под капотом», стр. 303</cite>
-                    </blockquote>
-
-                    <p class="today-note">
-                        <b>Сегодня:</b> правила не изменились — React 19 одинаково рендерит
-                        строки, числа и массивы детей на сервере и клиенте, а конкурентная
-                        обработка через <code>Promise.all</code> осталась стандартным приёмом.
-                        В настоящем Flight-формате примитивы сериализуются нативно, без
-                        ручного обхода, но логика «вернуть как есть» сохранена.
-                    </p>
-                </div>
-            </section>
-
-            <!-- SLIDE: объекты — элемент React или пропсы -->
-            <section class="slide" data-slide="7">
-                <div class="content-slide">
-                    <h2 class="gradient-text">Объекты: элемент React или просто пропсы?</h2>
-                    <p class="slide-lead">
-                        Все элементы React — объекты, но не все объекты — элементы React.
-                        Критерий один: <code>jsx.$$typeof === Symbol.for("react.element")</code>.
-                    </p>
-
-                    <div class="branches">
-                        <div class="branch is-accent">
-                            <code>typeof jsx.type === "string"</code>
-                            <span class="branch-arrow">→</span>
-                            <p>
-                                Встроенный DOM-элемент (<code>"div"</code>, <code>"span"</code>):
-                                вернуть как есть, но рекурсивно обработать пропсы — внутри
-                                <code>children</code> могут прятаться серверные компоненты.
-                            </p>
-                        </div>
-                        <div class="branch is-accent">
-                            <code>typeof jsx.type === "function"</code>
-                            <span class="branch-arrow">→</span>
-                            <p>
-                                Пользовательский компонент (<code>&lt;Footer /&gt;</code>):
-                                вызвать функцию с пропсами и запустить рекурсию на результате —
-                                пока не встретится базовый случай.
-                            </p>
-                        </div>
-                        <div class="branch">
-                            <code>иначе — произвольный объект</code>
-                            <span class="branch-arrow">→</span>
-                            <p>
-                                Обойти каждое значение пропсов рекурсивно. Так «бесплатно»
-                                поддерживается паттерн render props: компонент, переданный
-                                пропсом, тоже развернётся.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="cards-2" style="margin-top: 22px;">
-                        <blockquote class="book-quote">
-                            «Как мы узнаем, что объект является элементом React? У него есть
-                            свойство <code>$$typeof</code> со значением символа — в частности,
-                            <code>Symbol.for("react.element")</code>. Поэтому мы проверяем,
-                            имеет ли объект такую пару ключ/значение, и если да,
-                            то обрабатываем его как элемент React.»
-                            <cite>Раздел «Под капотом», стр. 304</cite>
-                        </blockquote>
-                        <blockquote class="book-quote">
-                            «Мы делаем это потому, что элементы React могут иметь оба типа.
-                            Строки используются для встроенных элементов DOM, таких как
-                            <code>"div"</code>, <code>"span"</code> и т. д. Функции применяются
-                            для пользовательских компонентов, таких как
-                            <code>&lt;Footer /&gt;</code>.»
-                            <cite>Раздел «Под капотом», стр. 304–305</cite>
-                        </blockquote>
-                    </div>
-
-                    <p class="today-note">
-                        <b>Сегодня:</b> <code>$$typeof</code> — по-прежнему стабильная
-                        внутренняя конвенция React 19 (в том числе как защита от инъекций),
-                        дихотомия «строка — хост-элемент, функция — компонент» тоже.
-                        Добавились новые типы (ссылки на серверные действия, lazy-обёртки),
-                        а сам обход в продакшене выполняет Flight-рендерер React —
-                        руками такой код писать не нужно.
-                    </p>
-                </div>
-            </section>
-
-            <!-- SLIDE: await Component(props) -->
-            <section class="slide" data-slide="8">
-                <div class="content-slide">
-                    <h2 class="gradient-text">Главная суперсила: await Component(props)</h2>
-
-                    <div class="cards-2">
-                        <div class="tcard is-dashed">
-                            <span class="tcard-tag">клиентский React</span>
-                            <h3>Компонент не может быть async</h3>
-                            <pre>// нельзя
-async function MyComponent() {
-  const data = await fetch(...);
-  return &lt;View data={data} /&gt;;
-}</pre>
-                            <p>
-                                Рендерер ждёт синхронный результат, поэтому данные
-                                подтягиваются после первого рендера — через
-                                <code>useEffect</code>, <code>Suspense</code>, <code>use()</code>.
-                            </p>
-                        </div>
-                        <div class="tcard">
-                            <span class="tcard-tag">на сервере</span>
-                            <h3>Можно просто ждать</h3>
-                            <pre>const Component = jsx.type;
-const returnedJsx = await Component(props);
-return await renderJSXToClientJSX(returnedJsx);</pre>
-                            <p>
-                                Одно слово <code>await</code> перед вызовом — и серверный
-                                компонент может обращаться к базе, файловой системе
-                                или внешнему API прямо в теле.
-                            </p>
-                        </div>
-                    </div>
-
-                    <p class="slide-lead" style="margin-top: 26px;">
-                        Итог работы рендерера: дерево элементов, в котором нет «висящих»
-                        промисов и незагруженных данных — все зависимости разрешены
-                        до сериализации. Это принципиальное отличие от клиентской модели.
-                    </p>
-
-                    <blockquote class="book-quote" style="margin-top: 22px;">
-                        «Обратили внимание на <code>await</code> перед вызовом функционального
-                        компонента? Поскольку это выполняется на стороне сервера, мы можем
-                        асинхронно ожидать функциональный компонент в случае, если это
-                        серверный компонент! В этом и заключается волшебство серверных
-                        компонентов: мы можем асинхронно ожидать их на стороне сервера,
-                        и они вернут элемент React, который мы затем сможем передать
-                        в <code>renderToString</code> или поток, чтобы преобразовать его
-                        в направляемую клиенту строку или поток строк.»
-                        <cite>Раздел «Под капотом», стр. 305</cite>
-                    </blockquote>
-
-                    <p class="today-note">
-                        <b>Сегодня:</b> асинхронные серверные компоненты — официальный
-                        паттерн React 19 и Next.js App Router
-                        (<code>async function Page()</code> с <code>await db.query()</code>).
-                        React 19 добавил хук <code>use()</code> для чтения промисов на клиенте,
-                        а «ждать всё до конца» превратилось в конкурентную модель:
-                        стриминг + границы <code>Suspense</code> отправляют готовые части
-                        сразу, не блокируя остальное.
-                    </p>
                 </div>
             </section>
 
             <!-- SLIDE: сериализация — зачем -->
             <section class="slide" data-slide="9">
                 <div class="content-slide">
-                    <h2 class="gradient-text">Сериализация: элементы React → HTML-строки</h2>
+                    <h2 class="gradient-text">Сериализация</h2>
                     <p class="slide-lead">
                         Элемент React — ещё не DOM-узел, а инструкция, каким должен быть DOM.
                         Сериализация превращает эти инструкции в разметку, пригодную
                         для передачи по сети.
                     </p>
+
+                    <!-- Конвейер сериализации: элемент → renderToString → строка.
+                         По наведению на движок всплывает вопрос, по клику
+                         открывается разбор с JSON.stringify / JSON.parse. -->
+                    <div class="ser-flow">
+                        <div class="ser-card">
+                            <span class="ser-tag">на входе — элемент</span>
+                            <pre>{
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">"div"</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> }
+}</pre>
+                        </div>
+
+                        <div class="ser-arrow"><span></span></div>
+
+                        <button class="ser-engine" type="button" data-ser-toggle>
+                            <span class="ser-engine-name">renderToString()</span>
+                            <span class="ser-engine-sub">нажмите, чтобы заглянуть внутрь</span>
+                            <span class="ser-q">Но разве <b>Symbol</b> можно сериализовать?</span>
+                        </button>
+
+                        <div class="ser-arrow"><span></span></div>
+
+                        <div class="ser-card">
+                            <span class="ser-tag">на выходе — строка</span>
+                            <pre><span class="str">"&lt;div&gt;Hi!&lt;/div&gt;"</span></pre>
+                        </div>
+                    </div>
+
+                    <!-- Разбор: как символ переживает поездку по сети. -->
+                    <div class="ser-lab" hidden>
+                        <div class="ser-lab-cols">
+                            <div class="code-box is-win is-small">
+                                <div class="win-bar"><i></i><i></i><i></i><em>сериализация: Symbol → строка</em></div>
+<pre>JSON.<span class="fn">stringify</span>(element, (key, value) =&gt; {
+  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> <span class="str">"react.element"</span>;
+  <span class="kw">return</span> value;
+});</pre>
+                            </div>
+                            <div class="code-box is-win is-small">
+                                <div class="win-bar"><i></i><i></i><i></i><em>десериализация: строка → Symbol</em></div>
+<pre>JSON.<span class="fn">parse</span>(text, (key, value) =&gt; {
+  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>);
+  <span class="kw">return</span> value;
+});</pre>
+                        </div>
+
+                        <div class="ser-steps">
+                            <div class="ser-step">
+                                <span class="ser-step-tag">1 · наш элемент</span>
+                                <pre>{ <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">"div"</span>, <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> } }</pre>
+                            </div>
+                            <div class="ser-step">
+                                <span class="ser-step-tag">2 · попадает в parse</span>
+                                <pre><span class="str">'{"$$typeof":"react.element",
+  "type":"div","props":{"children":"Hi!"}}'</span></pre>
+                            </div>
+                            <div class="ser-step">
+                                <span class="ser-step-tag">3 · получает клиент</span>
+                                <pre>{ <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">"div"</span>, <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> } }</pre>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="cards-3">
                         <div class="tcard">
@@ -649,16 +471,20 @@ return await renderJSXToClientJSX(returnedJsx);</pre>
                             </p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="cards-2" style="margin-top: 24px;">
-                        <div class="tcard">
-                            <span class="tcard-tag">пример</span>
-                            <pre>const htmlString =
-  ReactDOMServer.renderToString(element);
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
 
-// → "&lt;h1&gt;Hello, world&lt;/h1&gt;"</pre>
-                        </div>
-                        <blockquote class="book-quote">
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
                             «Сериализация элементов React является фундаментальным аспектом
                             обеспечения правильного и эффективного отображения вашего
                             приложения при начальной загрузке, поскольку каждый вывод,
@@ -667,117 +493,77 @@ return await renderJSXToClientJSX(returnedJsx);</pre>
                             данные.»
                             <cite>Раздел «Сериализация», стр. 306</cite>
                         </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
                     </div>
-
-                    <p class="today-note">
-                        <b>Сегодня:</b> все три выгоды усилились — стриминговая отдача
-                        (<code>renderToReadableStream</code> + <code>Suspense</code>) шлёт HTML
-                        порциями, React 19 лучше диагностирует hydration mismatch,
-                        а гидратация стала частичной и приоритизированной. Терминология
-                        уточнилась: рендеринг в HTML (для первой отрисовки) и сериализация
-                        RSC payload / Flight (для передачи дерева) сегодня разделяют.
-                    </p>
                 </div>
             </section>
 
-            <!-- SLIDE: Symbol и replacer/reviver -->
-            <section class="slide" data-slide="10">
-                <div class="content-slide">
-                    <h2 class="gradient-text">JSON.stringify не умеет сериализовать Symbol</h2>
-
-                    <div class="code-slide">
-                        <div class="code-box">
-<pre><span class="cm">// сериализация: Symbol → строка</span>
-JSON.stringify(element, (key, value) =&gt; {
-  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> <span class="str">"react.element"</span>;
-  <span class="kw">return</span> value;
-});
-
-<span class="cm">// десериализация: строка → Symbol</span>
-JSON.parse(text, (key, value) =&gt; {
-  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> Symbol.for(<span class="str">"react.element"</span>);
-  <span class="kw">return</span> value;
-});</pre>
-                            <p class="code-hint">
-                                «И это всё! Теперь мы можем сериализовать и десериализовать
-                                элементы React»
-                            </p>
-                        </div>
-
-                        <div>
-                            <div class="tcard is-dashed">
-                                <h3>В чём проблема</h3>
-                                <p>
-                                    Элементы React — не обычные объекты: их опознаёт поле
-                                    <code>$$typeof</code>, а его значение — <code>Symbol</code>.
-                                    Символы не сериализуются: <code>JSON.stringify</code>
-                                    просто теряет такое свойство, и клиентский React
-                                    не распознает элементы.
-                                </p>
-                            </div>
-                            <blockquote class="book-quote" style="margin-top: 20px;">
-                                «Несмотря на то что нам нужно сериализовать компоненты
-                                в строки, мы не можем просто использовать
-                                <code>JSON.stringify</code>, т. к. элементы React не являются
-                                обычными объектами JavaScript. Это объекты со специальным
-                                свойством <code>$$typeof</code>, которое React использует
-                                для их идентификации, и значением этих свойств является
-                                символ. Символы не могут быть сериализованы и отправлены
-                                по сети, поэтому нам нужно сделать что-то ещё.»
-                                <cite>Раздел «Сериализация», стр. 307</cite>
-                            </blockquote>
-                        </div>
-                    </div>
-
-                    <p class="today-note">
-                        <b>Сегодня:</b> идея верна, реализация — учебная. Формально второй
-                        аргумент <code>JSON.parse</code> называется <code>reviver</code>
-                        (<code>replacer</code> — у <code>stringify</code>). В React 19
-                        и Next.js дерево передаётся не через JSON, а стриминговым форматом
-                        Flight: он умеет промисы, Symbol-маркеры, циклические ссылки,
-                        ссылки на модули, серверные действия и BigInt — для JSON это
-                        было бы слишком.
-                    </p>
-                </div>
-            </section>
-
-            <!-- SLIDE: мягкая навигация -->
+            <!-- SLIDE: навигация -->
             <section class="slide" data-slide="11">
                 <div class="content-slide">
                     <h2 class="gradient-text">Навигация: мягкие переходы вместо перезагрузки</h2>
+                    <p class="slide-lead">
+                        Нажмите «Перейти» в каждой колонке — разница видна по тому,
+                        что обновляется, и по счётчику справа.
+                    </p>
 
-                    <div class="cards-2">
-                        <div class="tcard is-dashed">
-                            <span class="tcard-tag">старый мир</span>
-                            <h3>Полностраничная навигация</h3>
-                            <pre>&lt;a href&#61;"/bio"&gt;Bio&lt;/a&gt;
-// браузер запрашивает страницу целиком
-// и сбрасывает всё состояние</pre>
-                            <p>
-                                Как в мире PHP: сервер рендерит страницу заново, браузер
-                                перерисовывает всё — отсюда «ощущение медлительности».
+                    <div class="nav-demos">
+                        <div class="nav-demo is-old" data-nav-demo data-ms="1240">
+                            <div class="nav-demo-head">
+                                <span class="tcard-tag">старый мир</span>
+                                <h3>Полностраничная навигация</h3>
+                                <span class="nav-ms" data-nav-ms>0 мс</span>
+                            </div>
+
+                            <div class="nav-screen">
+                                <div class="nav-part nav-head">шапка</div>
+                                <div class="nav-part nav-body">
+                                    контент
+                                    <span class="nav-state" data-nav-state>в поле: «привет»</span>
+                                </div>
+                                <div class="nav-part nav-foot">подвал</div>
+                                <span class="nav-flash"></span>
+                            </div>
+
+                            <p class="nav-demo-note">
+                                Браузер запрашивает страницу целиком: обновляется всё, включая
+                                шапку и подвал, а введённые данные и скролл сбрасываются.
                             </p>
+                            <button class="pass-btn" type="button" data-nav-run>Перейти на /bio</button>
                         </div>
-                        <div class="tcard">
-                            <span class="tcard-tag">мир RSC</span>
-                            <h3>Мягкий переход</h3>
-                            <pre>клик → запрос дерева JSX для маршрута
-     → React перерисовывает страницу
-     → состояние сохраняется</pre>
-                            <p>
-                                Полной перезагрузки нет: введённые данные, скролл
-                                и состояние клиентских компонентов остаются на месте.
+
+                        <div class="nav-demo is-new" data-nav-demo data-ms="130">
+                            <div class="nav-demo-head">
+                                <span class="tcard-tag">мир RSC</span>
+                                <h3>Мягкий переход</h3>
+                                <span class="nav-ms" data-nav-ms>0 мс</span>
+                            </div>
+
+                            <div class="nav-screen">
+                                <div class="nav-part nav-head">шапка</div>
+                                <div class="nav-part nav-body">
+                                    контент
+                                    <span class="nav-state" data-nav-state>в поле: «привет»</span>
+                                </div>
+                                <div class="nav-part nav-foot">подвал</div>
+                            </div>
+
+                            <p class="nav-demo-note">
+                                Клик перехватывается, сервер отдаёт дерево JSX для маршрута:
+                                перерисовывается только контент, состояние остаётся на месте.
                             </p>
+                            <button class="pass-btn" type="button" data-nav-run>Перейти на /bio</button>
                         </div>
                     </div>
 
-                    <div class="code-slide" style="margin-top: 26px;">
-                        <div class="code-box">
+                    <div class="code-slide" style="margin-top: 24px;">
+                        <div class="code-box is-win is-small">
+                            <div class="win-bar"><i></i><i></i><i></i><em>client.js</em></div>
 <pre><span class="cm">// один слушатель на window — делегирование событий</span>
-window.addEventListener(<span class="str">"click"</span>, (event) =&gt; {
-  <span class="kw">if</span> (event.target.tagName !== <span class="str">"A"</span>) <span class="kw">return</span>;
-  event.preventDefault();
-  navigate(event.target.href);
+window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (event) =&gt; {
+  <span class="kw">if</span> (event.target.<span class="attr">tagName</span> !== <span class="str">"A"</span>) <span class="kw">return</span>;
+  event.<span class="fn">preventDefault</span>();
+  <span class="fn">navigate</span>(event.target.href);
 });</pre>
                         </div>
                         <div class="tcard">
@@ -791,25 +577,30 @@ window.addEventListener(<span class="str">"click"</span>, (event) =&gt; {
                             </p>
                         </div>
                     </div>
+                </div>
 
-                    <blockquote class="book-quote" style="margin-top: 24px;">
-                        «Но мы можем добиться большего: с помощью RSC мы можем реализовать
-                        мягкую навигацию, при которой состояние сохраняется между переходами
-                        по маршруту. Мы делаем это, отправляя серверу URL, по которому хотим
-                        перейти, и сервер отправляет нам обратно дерево JSX для этой страницы.
-                        Затем React в браузере повторно отображает страницу с новым деревом
-                        JSX, и у нас будет новая страница без обновления всей страницы.»
-                        <cite>Раздел «Навигация», стр. 308</cite>
-                    </blockquote>
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
 
-                    <p class="today-note">
-                        <b>Сегодня:</b> мягкая навигация — стандарт: в Next.js App Router
-                        её делают <code>&lt;Link&gt;</code> и <code>useRouter</code>,
-                        в React Router v7 и TanStack Start — их аналоги. Делегирование
-                        по-прежнему валидно, а рядом появились Navigation API
-                        и View Transitions API. В продакшене добавляются предзагрузка
-                        соседних маршрутов, кэш и дедупликация запросов.
-                    </p>
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Но мы можем добиться большего: с помощью RSC мы можем реализовать
+                            мягкую навигацию, при которой состояние сохраняется между переходами
+                            по маршруту. Мы делаем это, отправляя серверу URL, по которому хотим
+                            перейти, и сервер отправляет нам обратно дерево JSX для этой страницы.
+                            Затем React в браузере повторно отображает страницу с новым деревом
+                            JSX, и у нас будет новая страница без обновления всей страницы.»
+                            <cite>Раздел «Навигация», стр. 308</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
                 </div>
             </section>
 

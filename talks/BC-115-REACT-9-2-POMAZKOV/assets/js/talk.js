@@ -1,70 +1,126 @@
 // talk.js — поведение контентных слайдов ЭТОГО доклада («Серверный рендеринг»).
 // Общий движок (клавиши, масштаб, кликабельные строки кода → панель пояснения)
 // живёт в deck.js и правится только в шаблоне. Здесь то, чего в нём нет:
-// выдвижной ящик с цитатой автора и пошаговый прогон примера.
+// выдвижные ящики с цитатами автора и примеры к ветке функции.
 
 (function () {
   // ---------- Цитата автора: ящик выезжает снизу слайда ----------
-  const caller = document.querySelector('.quote-caller');
-  const drawer = document.querySelector('.quote-drawer');
+  // Ящиков несколько (по одному на слайд с цитатой), поэтому пары
+  // «аватарка → ящик» ищем внутри каждого слайда отдельно.
+  const drawers = [...document.querySelectorAll('.quote-drawer')];
+  const closeDrawers = () => drawers.forEach((d) => d.classList.remove('open'));
 
-  if (caller && drawer) {
-    const close = () => drawer.classList.remove('open');
+  document.querySelectorAll('.slide').forEach((slide) => {
+    const caller = slide.querySelector('.quote-caller');
+    const drawer = slide.querySelector('.quote-drawer');
+    if (!caller || !drawer) return;
 
     caller.addEventListener('click', (e) => {
       e.stopPropagation();
-      drawer.classList.toggle('open');
+      const wasOpen = drawer.classList.contains('open');
+      closeDrawers();
+      if (!wasOpen) drawer.classList.add('open');
     });
     drawer.addEventListener('click', (e) => {
-      if (e.target.closest('.quote-close')) close();
+      if (e.target.closest('.quote-close')) closeDrawers();
       e.stopPropagation();
     });
-    // Уходим со слайда или жмём Esc — ящик не должен оставаться открытым.
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') close();
-    });
-  }
+  });
 
-  // ---------- Пошаговый прогон примера ----------
-  // Шаги описаны в разметке (<template data-step>), чтобы текст жил в HTML,
-  // а не в скрипте: править содержание слайда проще там же, где он собран.
-  document.querySelectorAll('.stepper').forEach((stepper) => {
-    const steps = [...stepper.querySelectorAll('template[data-step]')];
-    if (steps.length === 0) return;
+  // Уходим со слайда или жмём Esc — ящик не должен оставаться открытым.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') closeDrawers();
+  });
 
-    const body = stepper.querySelector('.stepper-body');
-    const dots = stepper.querySelector('.stepper-dots');
-    const counter = stepper.querySelector('.stepper-counter');
-    const prev = stepper.querySelector('[data-step-prev]');
-    const next = stepper.querySelector('[data-step-next]');
-    let current = 0;
+  // ---------- Ветка функции: пример в два прохода рекурсии ----------
+  // Тексты примеров лежат на самой строке кода (data-pass1 / data-pass2):
+  // содержание слайда правится в HTML, а не в скрипте.
+  document.querySelectorAll('.branch-side').forEach((side) => {
+    const box = side.querySelector('.pass-box');
+    const tag = side.querySelector('[data-pass-tag]');
+    const code = side.querySelector('[data-pass-code]');
+    const toggle = side.querySelector('[data-pass-toggle]');
+    const slide = side.closest('.slide');
+    if (!box || !slide || !tag || !code || !toggle) return;
 
-    dots.innerHTML = steps.map(() => '<i></i>').join('');
-    const marks = [...dots.querySelectorAll('i')];
+    let line = null;
+    let second = false;
 
-    function show(index) {
-      current = Math.max(0, Math.min(index, steps.length - 1));
-      body.innerHTML = steps[current].innerHTML;
-      marks.forEach((m, i) => m.classList.toggle('is-on', i === current));
-      counter.textContent = `шаг ${current + 1} из ${steps.length}`;
-      prev.disabled = current === 0;
-      next.disabled = current === steps.length - 1;
-      // Мягкое появление: шаг меняется заметно, но без рывка.
-      body.style.opacity = '0';
-      requestAnimationFrame(() => {
-        body.style.transition = 'opacity 0.25s ease';
-        body.style.opacity = '1';
-      });
+    function render() {
+      const text = line && (second ? line.dataset.pass2 : line.dataset.pass1);
+      box.hidden = !text;
+      if (!text) return;
+      tag.textContent = second ? 'проход 2 · { children: "Hi!" }' : 'проход 1 · <div>Hi!</div>';
+      code.textContent = text;
+      toggle.hidden = second || !line.dataset.pass2;
     }
 
-    prev.addEventListener('click', (e) => {
-      e.stopPropagation();
-      show(current - 1);
+    slide.querySelectorAll('.code-line').forEach((el) => {
+      el.addEventListener('click', () => {
+        line = el;
+        second = false;
+        render();
+      });
     });
-    next.addEventListener('click', (e) => {
+    toggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      show(current + 1);
+      second = true;
+      render();
     });
-    show(0);
+  });
+
+  // ---------- Сериализация: разбор внутри renderToString ----------
+  document.querySelectorAll('[data-ser-toggle]').forEach((btn) => {
+    const lab = btn.closest('.content-slide')?.querySelector('.ser-lab');
+    if (!lab) return;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      lab.hidden = !lab.hidden;
+      btn.querySelector('.ser-engine-sub').textContent = lab.hidden
+        ? 'нажмите, чтобы заглянуть внутрь'
+        : 'нажмите, чтобы свернуть';
+    });
+  });
+
+  // ---------- Навигация: два перехода со счётчиком времени ----------
+  // Счётчик считает реальное время анимации до заявленного значения: у полной
+  // перезагрузки оно на порядок больше, и это видно рядом, кадр в кадр.
+  document.querySelectorAll('[data-nav-demo]').forEach((demo) => {
+    const run = demo.querySelector('[data-nav-run]');
+    const out = demo.querySelector('[data-nav-ms]');
+    const state = demo.querySelector('[data-nav-state]');
+    const target = Number(demo.dataset.ms || 500);
+    const isOld = demo.classList.contains('is-old');
+    if (!run || !out) return;
+
+    let playing = false
+    run.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (playing) return;
+      playing = true;
+      demo.classList.add('is-running');
+      demo.classList.remove('is-done');
+      if (isOld && state) state.textContent = 'поле очищено';
+
+      // Длительность показа привязана к анимации: 1.2s у перезагрузки, 0.55s у RSC.
+      const duration = isOld ? 1200 : 550;
+      const started = performance.now();
+      const tick = (now) => {
+        const done = Math.min(1, (now - started) / duration);
+        out.textContent = `${Math.round(target * done)} мс`;
+        if (done < 1) return requestAnimationFrame(tick);
+        demo.classList.remove('is-running');
+        demo.classList.add('is-done');
+        if (isOld && state) state.textContent = 'состояние сброшено';
+        else if (state) state.textContent = 'в поле: «привет»';
+        playing = false;
+      };
+      requestAnimationFrame(tick);
+    });
+  });
+
+  // Ссылка в подсказке термина не должна попутно выбирать строку кода.
+  document.querySelectorAll('.term-pop a').forEach((a) => {
+    a.addEventListener('click', (e) => e.stopPropagation());
   });
 })();

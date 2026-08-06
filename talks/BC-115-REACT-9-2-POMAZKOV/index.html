@@ -644,7 +644,7 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
             <!-- SLIDE: navigate() и root -->
             <section class="slide" data-slide="12">
                 <div class="content-slide">
-                    <h2 class="gradient-text">navigate(): fetch → десериализация → root.render()</h2>
+                    <h2 class="gradient-text">Как реализовать мягкую навигацию в RSC?</h2>
 
                     <div class="code-slide is-wide interactive-block" data-target="navigate-note">
                         <div class="code-box">
@@ -677,23 +677,30 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
                         </div>
                     </div>
 
-                    <blockquote class="book-quote" style="margin-top: 24px;">
-                        «Мы получаем корень от React при первоначальной гидратации страницы
-                        и можем использовать этот <code>root</code> для отображения в него
-                        новых элементов. Вот так работает React "под капотом". Мы просто
-                        применяем тот же API, который React использует внутри. Это хорошо:
-                        значит, мы не делаем ничего особенного или хакерского, мы просто
-                        используем общедоступный API React.»
-                        <cite>Раздел «Навигация», стр. 309</cite>
-                    </blockquote>
+                </div>
 
-                    <p class="today-note">
-                        <b>Сегодня:</b> <code>hydrateRoot</code> и <code>root.render()</code> —
-                        актуальные API React 19. В реальных приложениях навигацией управляет
-                        фреймворк: <code>&lt;Link prefetch&gt;</code>, <code>router.push</code>,
-                        Router Cache и инкрементальные обновления RSC payload вместо ручного
-                        <code>fetch</code>.
-                    </p>
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Мы получаем корень от React при первоначальной гидратации страницы
+                            и можем использовать этот <code>root</code> для отображения в него
+                            новых элементов. Вот так работает React "под капотом". Мы просто
+                            применяем тот же API, который React использует внутри. Это хорошо:
+                            значит, мы не делаем ничего особенного или хакерского, мы просто
+                            используем общедоступный API React.»
+                            <cite>Раздел «Навигация», стр. 309</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
                 </div>
             </section>
 

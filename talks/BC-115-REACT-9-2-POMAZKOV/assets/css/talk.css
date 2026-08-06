@@ -88,6 +88,7 @@
 /* Лид читается как подзаголовок, поэтому стоит вплотную под заголовком
    вверху слайда (авто-отступ у h2 здесь не нужен). */
 .content-slide:has(.pipeline-block) > h2,
+.content-slide:has(.nav-demos) > h2,
 .content-slide:has(.ser-flow) > h2 {
     margin-bottom: 0;
 }
@@ -456,6 +457,23 @@
 .quote-close:hover {
     color: #fff;
     border-color: #fff;
+}
+
+/* Ящик с кодом: цитата слева, листинг справа — вместе они читаются как
+   «что обещает автор» и «чем это сделано». */
+.quote-drawer.has-code .quote-drawer-inner {
+    max-width: 1720px;
+}
+.quote-drawer.has-code blockquote {
+    flex: 1 1 0;
+    font-size: 19px;
+}
+.quote-code {
+    flex: 0 0 620px;
+    align-self: stretch;
+}
+.quote-code pre {
+    font-size: 15px;
 }
 
 /* ===== Слайды с кодом: код слева, пояснение справа ===== */
@@ -1314,11 +1332,19 @@
 
 /* ===== Слайд «Навигация»: две демонстрации перехода ===== */
 
+/* Демонстрации центрированы в остатке высоты: лид прижат к заголовку,
+   а свободное место делится поровну сверху и снизу. */
 .nav-demos {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 26px;
-    margin-top: 24px;
+    margin: auto 0;
+    padding-top: 24px;
+}
+/* Хвостовой автоотступ забрал бы себе часть свободного места, и блок встал бы
+   выше центра: здесь центрирует сам .nav-demos. */
+.content-slide:has(.nav-demos)::after {
+    margin-top: 0;
 }
 .nav-demo {
     display: flex;

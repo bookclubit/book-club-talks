@@ -221,8 +221,9 @@
     100% { left: calc(100% - 10px); opacity: 0; }
 }
 
-/* Зоны ответственности: видны только при наведении на конвейер — схема
-   в покое остаётся чистой, границы процессов показываются по требованию. */
+/* Зоны ответственности: в покое схема чистая, рамка появляется при наведении
+   на узел — и только та, которой этот узел принадлежит. У «Дерева элементов»
+   их две: им первый процесс заканчивается, а второй начинается. */
 .zone {
     z-index: 1;
     align-self: stretch;
@@ -234,7 +235,14 @@
     opacity: 0;
     transition: opacity 0.3s ease, box-shadow 0.3s ease;
 }
-.pipeline:hover .zone {
+/* Зоны стоят в разметке ПЕРЕД узлами, поэтому связь «узел под курсором →
+   его зона» описывается через :has() у конвейера, а не соседним селектором. */
+.pipeline:has(.n1:hover) .zone-rsc,
+.pipeline:has(.a1:hover) .zone-rsc,
+.pipeline:has(.n2:hover) .zone-rsc,
+.pipeline:has(.n2:hover) .zone-ssr,
+.pipeline:has(.a2:hover) .zone-ssr,
+.pipeline:has(.n3:hover) .zone-ssr {
     opacity: 1;
     box-shadow: 0 0 34px rgba(255, 255, 255, 0.05);
 }

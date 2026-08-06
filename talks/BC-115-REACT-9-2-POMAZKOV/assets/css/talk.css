@@ -85,6 +85,25 @@
 
 /* ===== Слайд 1: конвейер RSR → SSR ===== */
 
+/* Лид читается как подзаголовок, поэтому стоит вплотную под заголовком
+   вверху слайда (авто-отступ у h2 здесь не нужен). */
+.content-slide:has(.pipeline-block) > h2 {
+    margin-bottom: 0;
+}
+
+/* Схема вне потока и центрирована по слайду: высота шапки на неё не влияет.
+   Контейнер — сам слайд (position: absolute; inset: 0), отступы 100px
+   повторяют горизонтальные поля .content-slide. z-index поднимает всю схему
+   вместе с подсказками узлов над аватаром автора внизу слайда. */
+.pipeline-block {
+    position: absolute;
+    left: 100px;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
 .pipeline {
     position: relative;
     display: grid;
@@ -93,7 +112,7 @@
        названием был выше соседей и схема выглядела рваной. */
     align-items: stretch;
     gap: 0 18px;
-    margin: 64px 0 0;
+    margin: 0;
     min-height: 300px;
 }
 /* Все элементы конвейера — в одной строке, колонки задаём явно: при
@@ -130,11 +149,14 @@
 .pnode.n2 { animation-delay: 1.2s; }
 .pnode.n3 { animation-delay: 2.4s; }
 .pnode.n4 { animation-delay: 3.6s; }
+/* Узел под курсором поднимается над соседями — его подсказка перекрывает их,
+   а не наоборот (над аватаром автора схему держит z-index у .pipeline-block). */
 .pnode:hover {
     border-color: #fff;
     background: #151515;
     transform: translateY(-3px);
     animation-play-state: paused;
+    z-index: 8;
 }
 .pnode-title {
     font-size: 27px;
@@ -199,7 +221,8 @@
     100% { left: calc(100% - 10px); opacity: 0; }
 }
 
-/* Зоны ответственности: появляются при наведении на конвейер. */
+/* Зоны ответственности: видны только при наведении на конвейер — схема
+   в покое остаётся чистой, границы процессов показываются по требованию. */
 .zone {
     z-index: 1;
     align-self: stretch;
@@ -208,9 +231,11 @@
     border-radius: 26px;
     position: relative;
     pointer-events: none;
-    transition: box-shadow 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
 }
 .pipeline:hover .zone {
+    opacity: 1;
     box-shadow: 0 0 34px rgba(255, 255, 255, 0.05);
 }
 .zone span {
@@ -292,7 +317,12 @@
     line-height: 1.55;
     color: #a1a1aa;
 }
+/* Подпись под схемой тоже вне потока: иначе она сдвигала бы центр схемы. */
 .pipeline-hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
     margin: 74px 0 0;
     font-size: 15px;
     color: #52525b;

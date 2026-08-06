@@ -1106,7 +1106,9 @@
 
 .ser-flow {
     display: grid;
-    grid-template-columns: 1fr 130px 340px 130px 1fr;
+    /* Крайние колонки — 1fr, но по содержимому: код и стрелки должны
+       уместиться в 1720px полей слайда, иначе схема вылезает за край. */
+    grid-template-columns: 1fr 110px 340px 110px 1fr;
     align-items: center;
     gap: 0 20px;
     /* Схема — единственное, что осталось под карточками, поэтому свободную
@@ -1133,8 +1135,8 @@
 .ser-card pre {
     margin: 0;
     font-family: var(--font-mono);
-    font-size: 21px;
-    line-height: 1.55;
+    font-size: 22px;
+    line-height: 1.6;
     color: #d4d4d8;
 }
 .ser-arrow {
@@ -1186,11 +1188,11 @@
 }
 .ser-engine-name {
     font-family: var(--font-mono);
-    font-size: 25px;
+    font-size: 26px;
     color: #fff;
 }
 .ser-engine-sub {
-    font-size: 15px;
+    font-size: 16px;
     color: #71717a;
 }
 .ser-q {

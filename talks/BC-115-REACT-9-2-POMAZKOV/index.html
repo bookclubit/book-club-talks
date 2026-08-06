@@ -547,7 +547,7 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
             <!-- SLIDE: навигация -->
             <section class="slide" data-slide="11">
                 <div class="content-slide">
-                    <h2 class="gradient-text">Навигация: мягкие переходы вместо перезагрузки</h2>
+                    <h2 class="gradient-text">Две навигации</h2>
                     <p class="slide-lead">
                         Нажмите «Перейти» в каждой колонке — разница видна по тому,
                         что обновляется, и по счётчику справа.
@@ -605,21 +605,19 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                     <div class="code-slide" style="margin-top: 24px;">
                         <div class="code-box is-win is-small">
                             <div class="win-bar"><i></i><i></i><i></i><em>client.js</em></div>
-<pre><span class="cm">// один слушатель на window — делегирование событий</span>
-window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (event) =&gt; {
+<pre>window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (event) =&gt; {
   <span class="kw">if</span> (event.target.<span class="attr">tagName</span> !== <span class="str">"A"</span>) <span class="kw">return</span>;
   event.<span class="fn">preventDefault</span>();
   <span class="fn">navigate</span>(event.target.href);
 });</pre>
                         </div>
                         <div class="tcard">
-                            <h3>Почему делегирование</h3>
+                            <h3>Как это работает</h3>
                             <p>
-                                Вешать обработчик на каждую <code>&lt;a&gt;</code> дорого
-                                по памяти и медленно при большом числе ссылок: «большое
-                                количество слушателей может замедлить работу». Один слушатель
-                                на <code>window</code> проверяет цель клика и решает,
-                                перехватывать ли переход.
+                                Клик попадает на window. Если это ссылка — вызываем
+                                <code>navigate()</code> с новым URL. Тот отправляет на сервер
+                                специальный заголовок <code>jsx-only: true</code>, получает
+                                дерево JSX, десериализует его и рисует страницу без перезагрузки.
                             </p>
                         </div>
                     </div>

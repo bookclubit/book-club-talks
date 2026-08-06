@@ -439,7 +439,7 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                                 <p class="rec-ask"><span class="rec-label">результат</span>Одно дерево элементов вместо трёх вызовов</p>
                                 <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val is-block">{ $$typeof: Symbol(react.element), type: "div",
   props: { children: "Hi!" } }</span></p>
-                                <p class="rec-note">Элемент, его пропсы и строка внутри свернулись в один объект. Ни функций, ни компонентов в нём не осталось — только данные: такое дерево можно сериализовать и отдать в renderToString.</p>
+                                <p class="rec-note">Элемент, его пропсы и строка внутри свернулись в один объект. Ни функций, ни компонентов в нём не осталось — только данные. Само по себе это ещё не строка: дерево лежит в памяти сервера, а дальше его либо сериализуют и отправляют клиенту, либо отдают в renderToString и получают HTML.</p>
                             </article>
                         </div>
                     </div>

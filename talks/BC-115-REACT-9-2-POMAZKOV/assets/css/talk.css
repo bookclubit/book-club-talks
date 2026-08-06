@@ -1821,7 +1821,9 @@
    выглядит как движение одного и того же кода, а не подмена блока. */
 .split-left {
     grid-area: 1 / 1;
-    align-self: start;
+    /* Листинг стоит по центру высоты: до клика он один на слайде, а после
+       — вровень с серединой обеих частей справа. */
+    align-self: center;
     transform: translateX(calc(50% + 20px));
     transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1838,20 +1840,21 @@
     flex-direction: column;
     gap: 20px;
 }
-/* Части появляются вслед за листингом: сначала серверная, следом клиентская. */
+/* Части появляются вслед за листингом: сначала серверная, следом клиентская.
+   Рамку и подсветку каждой даёт то же окно кода, что и исходному листингу, —
+   разделение читается как «был один файл, стало два». */
 .split-part {
     position: relative;
-    border: 1px dashed rgba(255, 255, 255, 0.75);
-    border-radius: 16px;
-    background: #060606;
-    padding: 18px 22px 20px;
-    font-family: var(--font-mono);
-    font-size: 16px;
-    line-height: 1.55;
-    color: #a1a1aa;
     opacity: 0;
     transform: translateX(28px);
-    transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.25s ease;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.split-part .code-box {
+    font-size: 16px;
+    line-height: 1.55;
+}
+.split-part.is-client .code-box {
+    transition: border-color 0.25s ease;
 }
 .split.is-split .split-part {
     opacity: 1;
@@ -1873,17 +1876,18 @@
     font-size: 14px;
     color: #71717a;
 }
-.split-part.is-client:hover {
+.split-part.is-client:hover .code-box {
     border-color: #fff;
 }
 /* Подпись к клиентской части: всплывает под блоком и места в раскладке
-   не занимает — иначе колонка прыгала бы под курсором. */
+   не занимает — иначе колонка прыгала бы под курсором. z-index держит её
+   над аватаром автора внизу слайда (у него z-index: 6). */
 .split-note {
     position: absolute;
     left: 0;
     right: 0;
     top: calc(100% + 12px);
-    z-index: 14;
+    z-index: 40;
     padding: 14px 18px;
     border: 1px solid #3f3f46;
     border-radius: 14px;

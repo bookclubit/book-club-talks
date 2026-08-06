@@ -928,8 +928,9 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
                             <div class="split-out">
                                 <div class="split-part is-server">
                                     <span class="split-part-tag">серверный компонент</span>
-<pre><span class="cm">// ServerCounter.js</span>
-<span class="kw">function</span> <span class="fn">ServerCounter</span>() {
+                                    <div class="code-box is-win">
+                                        <div class="win-bar"><i></i><i></i><i></i><em>ServerCounter.js</em></div>
+<pre><span class="kw">function</span> <span class="fn">ServerCounter</span>() {
   <span class="kw">return</span> (
     <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>
       <span class="punc">&lt;</span><span class="tag">h1</span><span class="punc">&gt;</span>Hi friends, look at my nice counter!<span class="punc">&lt;/</span><span class="tag">h1</span><span class="punc">&gt;</span>
@@ -938,12 +939,14 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
     <span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
   );
 }</pre>
+                                    </div>
                                 </div>
 
                                 <div class="split-part is-client">
                                     <span class="split-part-tag">клиентский компонент</span>
-<pre><span class="cm">// InteractiveClientPart.js</span>
-<span class="str">"use client"</span>;
+                                    <div class="code-box is-win">
+                                        <div class="win-bar"><i></i><i></i><i></i><em>InteractiveClientPart.js</em></div>
+<pre><span class="str">"use client"</span>;
 
 <span class="kw">function</span> <span class="fn">InteractiveClientPart</span>() {
   <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
@@ -954,6 +957,7 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
     <span class="punc">&lt;/&gt;</span>
   );
 }</pre>
+                                    </div>
                                     <span class="split-note">
                                         только эта часть приложения на самом деле будет
                                         доступна нашим пользователям как часть пакета JavaScript

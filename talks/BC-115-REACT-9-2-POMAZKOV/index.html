@@ -452,7 +452,7 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                     <h2 class="gradient-text">Сериализация</h2>
                     <p class="slide-lead">
                         Элемент React — ещё не DOM-узел, а инструкция, каким должен быть DOM.
-                        Сериализация превращает эти инструкции в разметку, пригодную
+                        Сериализация превращает эти инструкции в строку, пригодную
                         для передачи по сети.
                     </p>
 
@@ -486,9 +486,10 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                         </div>
                     </div>
 
-                    <!-- Конвейер сериализации: элемент → renderToString → строка.
-                         По наведению на движок всплывает вопрос, по клику
-                         открывается разбор с JSON.stringify / JSON.parse. -->
+                    <!-- Конвейер сериализации: элемент → JSON-строка. Это не про
+                         renderToString: тот отдаёт HTML, а здесь дерево элементов
+                         превращается в строку для передачи по сети. По наведению
+                         на движок всплывает вопрос, по клику открывается разбор. -->
                     <div class="ser-flow">
                         <div class="ser-card">
                             <pre>{
@@ -501,7 +502,7 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                         <div class="ser-arrow"><span></span></div>
 
                         <button class="ser-engine" type="button" data-ser-open>
-                            <span class="ser-engine-name">renderToString()</span>
+                            <span class="ser-engine-name">сериализация</span>
                             <span class="ser-engine-sub">нажмите, чтобы заглянуть внутрь</span>
                             <span class="ser-q">Но разве <b>Symbol</b> можно сериализовать?</span>
                         </button>
@@ -509,13 +510,15 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                         <div class="ser-arrow"><span></span></div>
 
                         <div class="ser-card">
-                            <pre><span class="str">"&lt;div&gt;Hi!&lt;/div&gt;"</span></pre>
+                            <pre><span class="str">'{"$$typeof":"react.element",
+  "type":"div",
+  "props":{"children":"Hi!"}}'</span></pre>
                         </div>
                     </div>
                 </div>
 
-                <!-- Разбор внутри renderToString: открывается только по клику
-                     на движок, поэтому и живёт в модальном окне. -->
+                <!-- Разбор сериализации: открывается только по клику на движок,
+                     поэтому и живёт в модальном окне. -->
                 <div class="ser-modal" hidden>
                     <div class="ser-modal-veil" data-ser-close></div>
                     <div class="ser-modal-win" role="dialog" aria-label="Symbol и сериализация">

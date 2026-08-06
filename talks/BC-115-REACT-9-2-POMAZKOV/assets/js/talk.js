@@ -182,6 +182,163 @@
     });
   });
 
+  // ---------- Обмен клиент ↔ сервер: запрос, ответ, режим jsx-only ----------
+  // Галочка меняет не картинку, а содержимое ответа: с ней сервер отдаёт
+  // дерево, без неё — HTML-страницу. Тексты обеих веток лежат в разметке
+  // (.wire-variant), скрипт гоняет пакеты и переключает текущую ветку.
+  document.querySelectorAll('[data-wire]').forEach((wire) => {
+    const track = wire.querySelector('.wire-track');
+    const req = wire.querySelector('[data-wire-req]');
+    const res = wire.querySelector('[data-wire-res]');
+    const server = wire.querySelector('[data-wire-server]');
+    const flag = wire.querySelector('[data-wire-flag]');
+    const run = wire.querySelector('[data-wire-run]');
+    const variants = [...wire.querySelectorAll('[data-wire-variant]')];
+    const slide = wire.closest('.slide');
+    if (!track || !req || !res || !server || !flag || !run || !slide) return;
+
+    let timers = [];
+    const clear = () => {
+      timers.forEach(clearTimeout);
+      timers = [];
+    };
+    const after = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+    const mode = () => (flag.checked ? 'jsx' : 'html');
+
+    function sync() {
+      wire.classList.toggle('is-jsx', flag.checked);
+      res.textContent = flag.checked ? 'дерево JSX · строка' : 'HTML-страница';
+      variants.forEach((v) => v.classList.toggle('is-on', v.dataset.wireVariant === mode()));
+    }
+
+    function reset() {
+      clear();
+      wire.classList.remove('is-req', 'is-res', 'is-done');
+      server.classList.remove('is-busy');
+      run.disabled = false;
+    }
+
+    function play() {
+      clear();
+      wire.classList.remove('is-req', 'is-res', 'is-done');
+      server.classList.remove('is-busy');
+      run.disabled = true;
+
+      // Пакет летит на всю дорожку за вычетом собственной ширины: обе величины
+      // известны только после раскладки, поэтому дистанция считается здесь.
+      wire.style.setProperty('--wire-dist', `${track.clientWidth - req.offsetWidth}px`);
+
+      // Перезапуск анимации после снятия класса требует нового кадра.
+      requestAnimationFrame(() => wire.classList.add('is-req'));
+
+      after(900, () => {
+        wire.classList.remove('is-req');
+        server.classList.add('is-busy');
+      });
+      after(1400, () => {
+        server.classList.remove('is-busy');
+        wire.classList.add('is-res');
+      });
+      after(2300, () => {
+        wire.classList.remove('is-res');
+        wire.classList.add('is-done');
+        run.disabled = false;
+      });
+    }
+
+    flag.addEventListener('change', () => {
+      sync();
+      reset();
+    });
+    run.addEventListener('click', (e) => {
+      e.stopPropagation();
+      play();
+    });
+
+    // Ушли со слайда — обмен начинается сначала.
+    new MutationObserver(() => {
+      if (!slide.classList.contains('active')) reset();
+    }).observe(slide, { attributes: true, attributeFilter: ['class'] });
+
+    sync();
+  });
+
+  // ---------- «Может ли компонент быть серверным?»: разбор в два клика ----------
+  // Клик по коду открывает следующую причину: строка краснеет, справа выезжает
+  // карточка. Причин две, третий клик начинает сначала — на выступлении разбор
+  // часто показывают дважды. Тексты причин лежат в разметке (.ask-card).
+  document.querySelectorAll('[data-ask]').forEach((ask) => {
+    const code = ask.querySelector('[data-ask-code]');
+    const hint = ask.querySelector('[data-ask-hint]');
+    const lines = [...ask.querySelectorAll('[data-ask-line]')];
+    const cards = [...ask.querySelectorAll('[data-ask-card]')];
+    const slide = ask.closest('.slide');
+    if (!code || !lines.length || !slide) return;
+
+    const hints = [
+      'Нажмите на код — разберём по причинам',
+      'Причина не одна: нажмите ещё раз',
+      'Ответ: нет, только клиентским. Нажмите, чтобы начать сначала',
+    ];
+
+    let step = 0;
+
+    function render() {
+      lines.forEach((line) => {
+        const n = Number(line.dataset.askLine);
+        line.classList.toggle('is-bad', n <= step);
+        line.classList.toggle('is-current', n === step);
+      });
+      cards.forEach((card) => {
+        card.classList.toggle('is-on', Number(card.dataset.askCard) <= step);
+      });
+      ask.classList.toggle('is-done', step === lines.length);
+      if (hint) hint.textContent = hints[Math.min(step, hints.length - 1)];
+    }
+
+    function go(delta) {
+      const target = step + delta;
+      if (target < 0 || target > lines.length) return false;
+      step = target;
+      render();
+      return true;
+    }
+
+    code.addEventListener('click', (e) => {
+      e.stopPropagation();
+      step = step >= lines.length ? 0 : step + 1;
+      render();
+    });
+
+    // Стрелки открывают причины и только потом листают слайды: с пульта
+    // докладчику доступны именно они. Перехват — по той же причине, что
+    // и в разборе рекурсии: обработчик дека висит на document.
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (!slide.classList.contains('active')) return;
+        const moved =
+          (e.key === 'ArrowRight' && go(1)) || (e.key === 'ArrowLeft' && go(-1));
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+
+    // Ушли со слайда — разбор начинается сначала.
+    new MutationObserver(() => {
+      if (!slide.classList.contains('active') && step !== 0) {
+        step = 0;
+        render();
+      }
+    }).observe(slide, { attributes: true, attributeFilter: ['class'] });
+
+    render();
+  });
+
   // ---------- Термин в коде: пояснение показывает панель справа ----------
   // Отдельного всплывающего окна у термина нет: под курсором он занимает ту же
   // панель, что и клик по строке кода, а прежнее её содержимое возвращается,

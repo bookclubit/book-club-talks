@@ -708,58 +708,105 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
             <section class="slide" data-slide="13">
                 <div class="content-slide">
                     <h2 class="gradient-text">Серверная сторона: заголовок «jsx-only»</h2>
-                    <p class="slide-lead">
-                        Один и тот же маршрут <code>app.get("*")</code> обслуживает два
-                        сценария и различает их по наличию заголовка.
-                    </p>
+                    <!-- Лид здесь div, а не p: внутри подсказки лежит pre, и парсер
+                         закрыл бы абзац перед ним, выбросив листинг на слайд. -->
+                    <div class="slide-lead">
+                        Один и тот же маршрут
+                        <!-- Наведение показывает сам обработчик: разговор идёт про
+                             его ветвление, а держать листинг на слайде незачем. -->
+                        <span class="route-hint" tabindex="0">app.get("*")
+                            <span class="route-pop" role="tooltip">
+                                <span class="route-pop-title">server.js</span>
+<pre>app.<span class="fn">get</span>(<span class="str">"*"</span>, <span class="kw">async</span> (req, res) =&gt; {
+  <span class="kw">const</span> rscTree = <span class="kw">await</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(
+    &lt;Router url={req.url} /&gt;
+  );
 
-                    <div class="cards-2">
-                        <div class="tcard">
-                            <span class="tcard-tag">заголовка нет</span>
-                            <h3>Первая загрузка</h3>
-                            <pre>rscTree → renderToString → HTML-шаблон
-&lt;!DOCTYPE html&gt; … &lt;div id="root"&gt;…&lt;/div&gt;
-&lt;script src&#61;"/static/js/main.js"&gt;</pre>
-                            <p>Полный конвейер: дерево, разметка, каркас страницы и бандл.</p>
-                        </div>
-                        <div class="tcard">
-                            <span class="tcard-tag">jsx-only: true</span>
-                            <h3>Мягкая навигация</h3>
-                            <pre>res.end(JSON.stringify(rscTree, replacer))
-// без HTML-обёртки и без renderToString</pre>
-                            <p>
-                                Этап HTML пропускается: у клиента уже есть работающее
-                                приложение, ему нужно только новое дерево.
-                            </p>
-                        </div>
+  <span class="kw">if</span> (req.headers[<span class="str">"jsx-only"</span>]) {
+    res.<span class="fn">end</span>(JSON.<span class="fn">stringify</span>(rscTree, replacer));
+  } <span class="kw">else</span> {
+    res.<span class="fn">end</span>(<span class="fn">renderHTML</span>(<span class="fn">renderToString</span>(rscTree)));
+  }
+});</pre>
+                            </span>
+                        </span>
+                        обслуживает два сценария и различает их по наличию заголовка.
                     </div>
 
-                    <div class="tcard is-dashed" style="margin-top: 24px;">
-                        <h3>Почему строка, а не объект</h3>
-                        <p>
-                            Ответ отправляется строкой, потому что на клиенте вызывается
-                            <code>JSON.parse</code>, а он ожидает строку. Отправь сервер
-                            готовый объект — пришлось бы лишний раз сериализовать
-                            и разбирать. Это особенность API, а не архитектурный выбор.
-                        </p>
+                    <!-- Обмен клиент ↔ сервер одной схемой: галочка jsx-only меняет
+                         не картинку, а то, что сервер кладёт в ответ. Содержание
+                         обеих веток — в разметке (.wire-variant), скрипт только
+                         гоняет пакеты и переключает текущую. -->
+                    <div class="wire" data-wire>
+                        <div class="wire-lane">
+                            <div class="wire-node">
+                                <span class="wire-node-tag">браузер</span>
+                                <span class="wire-node-name">Клиент</span>
+                            </div>
+
+                            <div class="wire-track">
+                                <span class="wire-packet is-req" data-wire-req>GET /bio</span>
+                                <span class="wire-packet is-res" data-wire-res></span>
+                            </div>
+
+                            <div class="wire-node is-server" data-wire-server>
+                                <span class="wire-node-tag">express</span>
+                                <span class="wire-node-name">Сервер</span>
+                            </div>
+                        </div>
+
+                        <div class="wire-controls">
+                            <label class="wire-flag">
+                                <input type="checkbox" data-wire-flag>
+                                <span class="wire-flag-box"></span>
+                                <span class="wire-flag-name">jsx-only: true</span>
+                            </label>
+                            <button class="pass-btn" type="button" data-wire-run>Отправить запрос</button>
+                        </div>
+
+                        <div class="wire-out" data-wire-out>
+                            <div class="wire-variant is-on" data-wire-variant="html">
+                                <span class="wire-variant-tag">заголовка нет · первая загрузка</span>
+                                <pre>rscTree → <span class="fn">renderToString</span> → HTML-шаблон
+<span class="str">&lt;!DOCTYPE html&gt; … &lt;div id="root"&gt;…&lt;/div&gt;
+&lt;script src&#61;"/static/js/main.js"&gt;</span></pre>
+                                <p>Полный конвейер: дерево, разметка, каркас страницы и бандл.</p>
+                            </div>
+
+                            <div class="wire-variant" data-wire-variant="jsx">
+                                <span class="wire-variant-tag">jsx-only: true · мягкая навигация</span>
+                                <pre>res.<span class="fn">end</span>(JSON.<span class="fn">stringify</span>(rscTree, replacer))
+<span class="cm">// без HTML-обёртки и без renderToString</span></pre>
+                                <p>
+                                    Этап HTML пропускается: у клиента уже есть работающее
+                                    приложение, ему нужно только новое дерево.
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <blockquote class="book-quote" style="margin-top: 22px;">
-                        «Вы обратили внимание, что при наличии этого заголовка мы отправляем
-                        не JSON, а просто строку? Делаем мы так потому, что нам нужно
-                        выполнить <code>JSON.parse</code> на стороне клиента,
-                        а <code>JSON.parse</code> ожидает строку, а не объект JSON.
-                        Это всего лишь особенность API, но это не так уж и плохо.»
-                        <cite>Раздел «Навигация», стр. 310</cite>
-                    </blockquote>
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
 
-                    <p class="today-note">
-                        <b>Сегодня:</b> согласование по заголовкам живо и масштабировано —
-                        Next.js различает запросы по <code>RSC: 1</code>,
-                        <code>Next-Router-Prefetch</code>, <code>Next-Router-State-Tree</code>.
-                        Формат ответа — не JSON-строка, а стриминговый Flight-поток:
-                        он эффективнее на больших страницах и умеет <code>Suspense</code>.
-                    </p>
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Вы обратили внимание, что при наличии этого заголовка мы отправляем
+                            не JSON, а просто строку? Делаем мы так потому, что нам нужно
+                            выполнить <code>JSON.parse</code> на стороне клиента,
+                            а <code>JSON.parse</code> ожидает строку, а не объект JSON.
+                            Это всего лишь особенность API, но это не так уж и плохо.»
+                            <cite>Раздел «Навигация», стр. 310</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
                 </div>
             </section>
 
@@ -768,61 +815,79 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
                 <div class="content-slide">
                     <h2 class="gradient-text">Не всё может быть серверным: пример Counter</h2>
 
-                    <div class="code-slide">
-                        <div class="code-box">
-<pre><span class="kw">function</span> Counter() {
-  <span class="kw">const</span> [count, setCount] = useState(<span class="str">0</span>);
+                    <!-- Разбор в два клика: строка кода краснеет, справа появляется
+                         причина. Причины лежат в разметке (.ask-card) — править их
+                         здесь, а не в talk.js: скрипт лишь открывает следующую. -->
+                    <div class="ask" data-ask>
+                        <p class="ask-q">Может ли этот компонент быть серверным?</p>
+
+                        <div class="ask-grid">
+                            <div class="code-box is-win ask-code" data-ask-code>
+                                <div class="win-bar"><i></i><i></i><i></i><em>Counter.js</em></div>
+<pre><span class="kw">function</span> <span class="fn">Counter</span>() {
+<span class="ask-line" data-ask-line="1">  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);</span>
 
   <span class="kw">return</span> (
-    &lt;div&gt;
-      &lt;p&gt;Count: {count}&lt;/p&gt;
-      &lt;button onClick={() =&gt; setCount(count + <span class="str">1</span>)}&gt;+&lt;/button&gt;
-    &lt;/div&gt;
+    <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>Count: {count}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+<span class="ask-line" data-ask-line="2">      <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setCount</span>(count + <span class="num">1</span>)}<span class="punc">&gt;</span>+<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span></span>
+    <span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
   );
 }</pre>
+                            </div>
+
+                            <div class="ask-side">
+                                <article class="ask-card" data-ask-card="1">
+                                    <span class="ask-card-tag">причина 1</span>
+                                    <h3>useState — API только клиента</h3>
+                                    <p>
+                                        Сервер не знает начальное значение <code>count</code>
+                                        для конкретного пользователя, а «состояние» в серверной
+                                        среде разделяется многими клиентами — это путаница данных
+                                        и риск раскрыть чужое. Вдобавок <code>setState</code> —
+                                        функция, а функции не сериализуемы.
+                                    </p>
+                                </article>
+                                <article class="ask-card" data-ask-card="2">
+                                    <span class="ask-card-tag">причина 2</span>
+                                    <h3>onClick — серверы не интерактивны</h3>
+                                    <p>
+                                        «Нельзя щёлкнуть по запущенному процессу на сервере»,
+                                        поэтому обработчик события в серверном компоненте —
+                                        невозможное состояние. Пропсы серверных компонентов
+                                        должны быть сериализуемы, а функция — нет.
+                                    </p>
+                                </article>
+                            </div>
                         </div>
 
-                        <div>
-                            <div class="tcard is-dashed">
-                                <h3>useState — API только клиента</h3>
-                                <p>
-                                    Сервер не знает начальное значение <code>count</code>
-                                    для конкретного пользователя, а «состояние» в серверной
-                                    среде разделяется многими клиентами — это путаница данных
-                                    и риск раскрыть чужое. Вдобавок <code>setState</code> —
-                                    функция, а функции не сериализуемы.
-                                </p>
-                            </div>
-                            <div class="tcard is-dashed" style="margin-top: 18px;">
-                                <h3>onClick — серверы не интерактивны</h3>
-                                <p>
-                                    «Нельзя щёлкнуть по запущенному процессу на сервере»,
-                                    поэтому обработчик события в серверном компоненте —
-                                    невозможное состояние. Пропсы серверных компонентов
-                                    должны быть сериализуемы, а функция — нет.
-                                </p>
-                            </div>
-                        </div>
+                        <p class="ask-hint" data-ask-hint>Нажмите на код — разберём по причинам</p>
                     </div>
+                </div>
 
-                    <blockquote class="book-quote" style="margin-top: 24px;">
-                        «Этот компонент никогда не сможет быть серверным по двум причинам.
-                        Он использует <code>useState</code>, который является API только
-                        клиентской части. … Этот компонент использует <code>onClick</code>,
-                        который имеет смысл только для API клиентской части. Это связано
-                        с тем, что серверы не интерактивны: вы не можете щёлкнуть
-                        по запущенному процессу на сервере, поэтому <code>onClick</code>
-                        в серверных компонентах — это что-то вроде невозможного состояния.»
-                        <cite>Раздел «Внесение обновлений», стр. 311–312</cite>
-                    </blockquote>
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
 
-                    <p class="today-note">
-                        <b>Сегодня:</b> ограничения закреплены в документации React 19 —
-                        <code>useState</code>, <code>useEffect</code> и обработчики событий
-                        в серверных компонентах недоступны. Легальный обход для «поведения» —
-                        серверные действия (<code>"use server"</code>): функция не передаётся
-                        значением, а превращается в ссылку на серверный endpoint.
-                    </p>
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Этот компонент никогда не сможет быть серверным по двум причинам.
+                            Он использует <code>useState</code>, который является API только
+                            клиентской части. … Этот компонент использует <code>onClick</code>,
+                            который имеет смысл только для API клиентской части. Это связано
+                            с тем, что серверы не интерактивны: вы не можете щёлкнуть
+                            по запущенному процессу на сервере, поэтому <code>onClick</code>
+                            в серверных компонентах — это что-то вроде невозможного состояния.»
+                            <cite>Раздел «Внесение обновлений», стр. 311–312</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
                 </div>
             </section>
 
@@ -906,73 +971,184 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
             <!-- SLIDE: "use client" и два графа модулей -->
             <section class="slide" data-slide="16">
                 <div class="content-slide">
-                    <h2 class="gradient-text">«use client» и два графа модулей</h2>
-
-                    <div class="graphs">
-                        <div class="graph">
-                            <h3>Серверный граф</h3>
-                            <ul>
-                                <li>никогда не попадает в клиентский пакет;</li>
-                                <li>выполняется только на сервере;</li>
-                                <li>рендерит и детей клиентских компонентов, если те серверные.</li>
-                            </ul>
-                        </div>
-                        <div class="graph-link">
-                            ссылка<br>на модуль<br>→
-                        </div>
-                        <div class="graph is-client">
-                            <h3>Клиентский граф</h3>
-                            <ul>
-                                <li>всё, что помечено <code>"use client"</code>;</li>
-                                <li>бандлится целиком или по частям с ленивой загрузкой;</li>
-                                <li>детали зависят от фреймворка поверх RSC.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="code-slide" style="margin-top: 24px;">
-                        <div class="code-box">
-<pre><span class="cm">// вместо клиентского компонента сервер ставит заполнитель</span>
-type: {
-  $$typeof: Symbol(react.module.reference),
-  name: <span class="str">"default"</span>,
-  filePath: <span class="str">"./src/ClientPart.js"</span>,
-  id: <span class="str">"client-part-1234"</span>
-}</pre>
-                            <p class="code-hint">
-                                «Когда вы дойдёте до этой точки в дереве, настанет время
-                                использовать вот этот конкретный модуль»
-                            </p>
-                        </div>
-                        <div class="tcard">
-                            <h3>Дыры, которые заполняет клиент</h3>
-                            <p>
-                                Сервер отрисовывает целое дерево и оставляет только «дыры» —
-                                ссылки на клиентские модули. Клиентский React находит их
-                                и подставляет реальные модули из бандла. Серверные компоненты
-                                при этом можно оборачивать в <code>Suspense</code>:
-                                фреймворк отдаёт их по мере готовности данных.
-                            </p>
-                        </div>
-                    </div>
-
-                    <blockquote class="book-quote" style="margin-top: 22px;">
-                        «Компонент <code>InteractiveClientPart</code> является клиентским
-                        компонентом, поэтому он не отображается на сервере. Вместо этого
-                        сервер отображает заполнитель для клиентского компонента, который
-                        является ссылкой на конкретный модуль, созданный компоновщиком
-                        клиентского пакета.»
-                        <cite>Раздел «Что "под капотом"?», стр. 313–314</cite>
-                    </blockquote>
-
-                    <p class="today-note">
-                        <b>Сегодня:</b> директивы <code>"use client"</code>
-                        и <code>"use server"</code> документированы в React 19; ссылки
-                        на модули существуют именно так и передаются во Flight-потоке
-                        с идентификаторами сборщика (Turbopack, webpack, Vite).
-                        Предзагрузка и приоритизация клиентских модулей — стандартная
-                        практика.
+                    <h2 class="gradient-text">Как React понимает, где клиентский компонент?</h2>
+                    <p class="slide-lead">
+                        Три состояния одного дерева: что написал разработчик, что собрал
+                        сервер и что получилось в браузере. Наведите на любой узел —
+                        покажется, чем он является на этом шаге.
                     </p>
+
+                    <!-- Три стадии одного дерева. Узлы одинаковые, меняется только
+                         клиентский: модуль → ссылка на модуль → настоящий модуль
+                         из бандла. Пояснения живут в подсказках узлов (.mg-pop). -->
+                    <div class="mgraph">
+                        <div class="mg-stage">
+                            <span class="mg-stage-tag">1 · модули разработчика</span>
+                            <div class="mg-tree">
+                                <div class="mg-node is-server">
+                                    <span class="mg-node-name">App</span>
+                                    <span class="mg-node-kind">серверный</span>
+                                    <span class="mg-pop">
+                                        Обычная функция: выполняется на сервере, её код
+                                        в клиентский бандл не попадает вообще.
+                                    </span>
+                                </div>
+                                <div class="mg-kids">
+                                    <div class="mg-node is-server">
+                                        <span class="mg-node-name">ProductInfo</span>
+                                        <span class="mg-node-kind">серверный</span>
+                                        <span class="mg-pop">
+                                            Директивы нет — компонент остаётся серверным
+                                            по умолчанию и живёт в серверном графе.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-server">
+                                        <span class="mg-node-name">Reviews</span>
+                                        <span class="mg-node-kind">серверный</span>
+                                        <span class="mg-pop">
+                                            Может ходить в базу и читать файлы: ключи и запросы
+                                            остаются на сервере, наружу уедет только результат.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-client">
+                                        <span class="mg-node-name">AddToCart</span>
+                                        <span class="mg-node-dir" tabindex="0">"use client"
+                                            <span class="mg-pop is-dir">
+                                                <b>Граница графов</b>
+                                                Строка в начале файла — метка для сборщика:
+                                                этот модуль и всё, что он импортирует, уходят
+                                                в клиентский граф и попадают в бандл. Компонент
+                                                получает право на состояние и обработчики
+                                                событий — и обязанность быть скачанным.
+                                            </span>
+                                        </span>
+                                        <span class="mg-node-kind">клиентский</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mg-arrow">
+                            <span class="mg-arrow-label">рендеринг на сервере</span>
+                            <span class="mg-arrow-line"></span>
+                        </div>
+
+                        <div class="mg-stage">
+                            <span class="mg-stage-tag">2 · дерево с сервера</span>
+                            <div class="mg-tree">
+                                <div class="mg-node is-done">
+                                    <span class="mg-node-name">&lt;div&gt;…</span>
+                                    <span class="mg-node-kind">элементы</span>
+                                    <span class="mg-pop">
+                                        App уже выполнен: вместо компонента в дереве лежат
+                                        готовые элементы — данные, а не функции.
+                                    </span>
+                                </div>
+                                <div class="mg-kids">
+                                    <div class="mg-node is-done">
+                                        <span class="mg-node-name">&lt;section&gt;…</span>
+                                        <span class="mg-node-kind">элементы</span>
+                                        <span class="mg-pop">
+                                            То же и здесь: серверный компонент выполнился,
+                                            от него остался результат.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-done">
+                                        <span class="mg-node-name">&lt;ul&gt;…</span>
+                                        <span class="mg-node-kind">элементы</span>
+                                        <span class="mg-pop">
+                                            Отзывы уже прочитаны из базы: клиент получит
+                                            разметку, а не запрос.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-ref">
+                                        <span class="mg-node-name">ссылка на модуль</span>
+                                        <span class="mg-node-kind">заполнитель</span>
+                                        <span class="mg-pop is-code">
+                                            <b>Вместо компонента — адрес модуля</b>
+<pre>type: {
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.module.reference</span>),
+  <span class="attr">name</span>: <span class="str">"default"</span>,
+  <span class="attr">filePath</span>: <span class="str">"./src/AddToCart.js"</span>,
+  <span class="attr">id</span>: <span class="str">"add-to-cart-1234"</span>
+}</pre>
+                                            Сервер не выполняет клиентский компонент — он
+                                            оставляет «дыру» с адресом модуля от сборщика:
+                                            «дойдёшь до этой точки — возьми вот этот модуль».
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mg-arrow">
+                            <span class="mg-arrow-label">бандл в браузере</span>
+                            <span class="mg-arrow-line"></span>
+                        </div>
+
+                        <div class="mg-stage">
+                            <span class="mg-stage-tag">3 · в браузере</span>
+                            <div class="mg-tree">
+                                <div class="mg-node is-done">
+                                    <span class="mg-node-name">&lt;div&gt;…</span>
+                                    <span class="mg-node-kind">разметка</span>
+                                    <span class="mg-pop">
+                                        Пришло готовым: браузеру нечего пересчитывать,
+                                        кода этого компонента у него нет.
+                                    </span>
+                                </div>
+                                <div class="mg-kids">
+                                    <div class="mg-node is-done">
+                                        <span class="mg-node-name">&lt;section&gt;…</span>
+                                        <span class="mg-node-kind">разметка</span>
+                                        <span class="mg-pop">
+                                            Тоже пришло готовым — в бандле этих строк нет.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-done">
+                                        <span class="mg-node-name">&lt;ul&gt;…</span>
+                                        <span class="mg-node-kind">разметка</span>
+                                        <span class="mg-pop">
+                                            Список отзывов уже отрисован сервером.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-client is-filled">
+                                        <span class="mg-node-name">AddToCart</span>
+                                        <span class="mg-node-kind">модуль из бандла</span>
+                                        <span class="mg-pop">
+                                            <b>Дыра заполнена</b>
+                                            Клиентский React находит ссылку, берёт модуль
+                                            по её id из бандла и подставляет настоящий
+                                            компонент — с состоянием и обработчиками.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Компонент <code>InteractiveClientPart</code> является клиентским
+                            компонентом, поэтому он не отображается на сервере. Вместо этого
+                            сервер отображает заполнитель для клиентского компонента, который
+                            является ссылкой на конкретный модуль, созданный компоновщиком
+                            клиентского пакета.»
+                            <cite>Раздел «Что "под капотом"?», стр. 313–314</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
                 </div>
             </section>
 
@@ -1013,23 +1189,30 @@ type: {
                         </div>
                     </div>
 
-                    <blockquote class="book-quote" style="margin-top: 24px;">
-                        «Существует распространённое заблуждение, будто серверные компоненты
-                        выполняются только на сервере, а клиентские — только на клиенте.
-                        Это не совсем так. … Во время серверного рендеринга клиентские
-                        компоненты выполняются на сервере и выводят объекты, представляющие
-                        элементы React. Затем эти элементы преобразуются в строку HTML
-                        и отправляются клиенту, где браузер отображает HTML-разметку.»
-                        <cite>Раздел «Нюансы», стр. 316–317</cite>
-                    </blockquote>
+                </div>
 
-                    <p class="today-note">
-                        <b>Сегодня:</b> модель каноническая и в 2026-м. Отсюда практика:
-                        не трогать <code>window</code> и <code>localStorage</code> в теле
-                        клиентского компонента (только в <code>useEffect</code>), помнить
-                        о двойном рендере при работе с датами и случайными числами.
-                        Исключения вроде отключённого SSR — конфигурация, а не правило.
-                    </p>
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Существует распространённое заблуждение, будто серверные компоненты
+                            выполняются только на сервере, а клиентские — только на клиенте.
+                            Это не совсем так. … Во время серверного рендеринга клиентские
+                            компоненты выполняются на сервере и выводят объекты, представляющие
+                            элементы React. Затем эти элементы преобразуются в строку HTML
+                            и отправляются клиенту, где браузер отображает HTML-разметку.»
+                            <cite>Раздел «Нюансы», стр. 316–317</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
                 </div>
             </section>
 

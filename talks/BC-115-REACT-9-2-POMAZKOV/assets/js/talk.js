@@ -32,41 +32,86 @@
     if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') closeDrawers();
   });
 
-  // ---------- Ветка функции: пример в два прохода рекурсии ----------
-  // Тексты примеров лежат на самой строке кода (data-pass1 / data-pass2):
-  // содержание слайда правится в HTML, а не в скрипте.
-  document.querySelectorAll('.branch-side').forEach((side) => {
-    const box = side.querySelector('.pass-box');
-    const tag = side.querySelector('[data-pass-tag]');
-    const code = side.querySelector('[data-pass-code]');
-    const toggle = side.querySelector('[data-pass-toggle]');
-    const slide = side.closest('.slide');
-    if (!box || !slide || !tag || !code || !toggle) return;
+  // ---------- Разбор вызова по шагам ----------
+  // Шаг за шагом проходим вызов функции: слева подсвечивается выполняемый
+  // участок кода, справа — что он дал и почему. Содержание шагов лежит
+  // в разметке (.rec-step), скрипт только переключает текущий.
+  document.querySelectorAll('[data-rec]').forEach((rec) => {
+    const steps = [...rec.querySelectorAll('.rec-step')];
+    const codeSteps = [...rec.querySelectorAll('.code-step')];
+    const frames = [...rec.querySelectorAll('.rec-frame')];
+    const body = rec.querySelector('[data-rec-body]');
+    const tag = rec.querySelector('[data-rec-tag]');
+    const count = rec.querySelector('[data-rec-count]');
+    const prev = rec.querySelector('[data-rec-prev]');
+    const next = rec.querySelector('[data-rec-next]');
+    const slide = rec.closest('.slide');
+    if (!steps.length || !body || !tag || !count || !prev || !next || !slide) return;
 
-    let line = null;
-    let second = false;
+    let index = 0;
 
     function render() {
-      const text = line && (second ? line.dataset.pass2 : line.dataset.pass1);
-      box.hidden = !text;
-      if (!text) return;
-      tag.textContent = second ? 'проход 2 · { children: "Hi!" }' : 'проход 1 · <div>Hi!</div>';
-      code.textContent = text;
-      toggle.hidden = second || !line.dataset.pass2;
+      const step = steps[index];
+      const marks = (step.dataset.hl || '').split(',').filter(Boolean);
+      const depth = Number(step.dataset.depth || 0);
+
+      body.replaceChildren(step.cloneNode(true));
+      tag.textContent = step.dataset.tag || '';
+      count.textContent = `шаг ${index + 1} / ${steps.length}`;
+
+      codeSteps.forEach((el) => el.classList.toggle('is-on', marks.includes(el.dataset.step)));
+      // Листинг длиннее окна, поэтому подсвеченный участок подтягиваем в вид.
+      const first = codeSteps.find((el) => marks.includes(el.dataset.step));
+      if (first) first.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+      frames.forEach((frame) => {
+        const level = Number(frame.dataset.frame);
+        frame.classList.toggle('is-active', level === depth);
+        frame.classList.toggle('is-open', level < depth);
+      });
+
+      prev.disabled = index === 0;
+      next.disabled = index === steps.length - 1;
+      next.textContent = index === steps.length - 1 ? 'Разбор окончен' : 'Следующий шаг →';
     }
 
-    slide.querySelectorAll('.code-line').forEach((el) => {
-      el.addEventListener('click', () => {
-        line = el;
-        second = false;
-        render();
-      });
-    });
-    toggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      second = true;
+    function go(delta) {
+      const target = index + delta;
+      if (target < 0 || target >= steps.length) return false;
+      index = target;
       render();
-    });
+      return true;
+    }
+
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+
+    // Стрелки листают шаги, и только когда шаги кончились — слайды. Слушатель
+    // на фазе перехвата: обработчик дека висит на document и иначе сменил бы
+    // слайд тем же нажатием.
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (!slide.classList.contains('active')) return;
+        const moved =
+          (e.key === 'ArrowRight' && go(1)) || (e.key === 'ArrowLeft' && go(-1));
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+
+    // Ушли со слайда — разбор начинается сначала.
+    new MutationObserver(() => {
+      if (!slide.classList.contains('active') && index !== 0) {
+        index = 0;
+        render();
+      }
+    }).observe(slide, { attributes: true, attributeFilter: ['class'] });
+
+    render();
   });
 
   // ---------- Сериализация: разбор внутри renderToString ----------

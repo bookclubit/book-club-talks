@@ -239,7 +239,7 @@
                         дерево, рендерит его в строку и отдаёт HTML.
                     </p>
 
-                    <div class="code-slide interactive-block" data-target="server-note">
+                    <div class="code-slide is-big interactive-block" data-target="server-note">
                         <div class="code-box is-small is-win">
                             <div class="win-bar"><i></i><i></i><i></i><em>server.js</em></div>
 <pre><span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">"express"</span>);
@@ -298,31 +298,35 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                 <div class="content-slide">
                     <h2 class="gradient-text">Что делает turnServerComponentsIntoTreeOfElements</h2>
                     <p class="slide-lead">
-                        По сути это набор условий: ничего сложного внутри нет — функция
-                        смотрит, что ей передали, и решает, как с этим быть.
-                        Нажмите на ветку, чтобы увидеть её на примере.
+                        По сути это набор условий: функция смотрит, что ей передали,
+                        и решает, как с этим быть. Пройдём вызов по шагам —
+                        для <code>&lt;div&gt;Hi!&lt;/div&gt;</code>.
                     </p>
 
-                    <div class="code-slide is-wide interactive-block" data-target="rsr-note">
+                    <!-- Разбор по шагам: слева подсвечивается выполняемый код,
+                         справа — результат шага. Шаги живут в разметке (.rec-step),
+                         скрипт лишь переключает текущий: править содержание —
+                         здесь, а не в talk.js. -->
+                    <div class="code-slide is-wide is-big" data-rec>
                         <div class="code-box is-small is-win">
                             <div class="win-bar"><i></i><i></i><i></i><em>renderJSXToClientJSX.js</em></div>
-<pre><span class="kw">async function</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(jsx) {
-<div class="code-line" data-title="Базовый случай: примитивы" data-desc="Строки, числа, логические значения и null возвращаются как есть. Это «листья» дерева: React понимает их и на сервере, и на клиенте, и они сериализуемы." data-pass1="renderJSXToClientJSX(&quot;Hi!&quot;) → &quot;Hi!&quot;" data-pass2="renderJSXToClientJSX(&quot;Hi!&quot;) → &quot;Hi!&quot;&#10;// рекурсия закончилась: примитив вернулся сам собой">  <span class="kw">if</span> (<span class="kw">typeof</span> jsx === <span class="str">"string"</span> || <span class="kw">typeof</span> jsx === <span class="str">"number"</span> ||
+<pre><div class="code-step" data-step="sig"><span class="kw">async function</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(jsx) {</div>
+<div class="code-step" data-step="prim">  <span class="kw">if</span> (<span class="kw">typeof</span> jsx === <span class="str">"string"</span> || <span class="kw">typeof</span> jsx === <span class="str">"number"</span> ||
       <span class="kw">typeof</span> jsx === <span class="str">"boolean"</span> || jsx == <span class="kw">null</span>) {
     <span class="kw">return</span> jsx;
   }</div>
 
-<div class="code-line" data-title="Массивы: рекурсия по детям" data-desc="Каждый элемент массива обрабатывается рекурсивно, а Promise.all запускает обработку конкурентно: независимые серверные компоненты грузят данные параллельно. Фрагменты React представляют детей массивом — значит, отдельный код для &lt;&gt;…&lt;/&gt; не нужен." data-pass1="// у &lt;div&gt;Hi!&lt;/div&gt; массива нет: children — строка&#10;Array.isArray(&quot;Hi!&quot;) → false" data-pass2="// если бы детей было несколько:&#10;await Promise.all([&quot;Hi!&quot;, &lt;b/&gt;].map(renderJSXToClientJSX))">  <span class="kw">if</span> (Array.<span class="fn">isArray</span>(jsx)) {
+<div class="code-step" data-step="arr">  <span class="kw">if</span> (Array.<span class="fn">isArray</span>(jsx)) {
     <span class="kw">return await</span> Promise.<span class="fn">all</span>(jsx.<span class="fn">map</span>(child =&gt; <span class="fn">renderJSXToClientJSX</span>(child)));
   }</div>
 
-  <span class="kw">if</span> (jsx != <span class="kw">null</span> &amp;&amp; <span class="kw">typeof</span> jsx === <span class="str">"object"</span>) {
-<div class="code-line" data-title="Это элемент React?" data-desc="Все элементы React — объекты, но не все объекты — элементы React. Отличает их служебный маркер $$typeof со значением Symbol.for(&quot;react.element&quot;). Символ нельзя подделать через JSON — исторически это защита от инъекций поддельных элементов." data-pass1="&lt;div&gt;Hi!&lt;/div&gt;.$$typeof === Symbol.for(&quot;react.element&quot;) → true" data-pass2="{ children: &quot;Hi!&quot; }.$$typeof === undefined → false&#10;// пропсы — обычный объект, идём в ветку else">    <span class="kw">if</span> (jsx.<span class="attr">$$typeof</span> === Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>)) {</div>
-<div class="code-line" data-title="type — строка: DOM-элемент" data-desc="&quot;div&quot;, &quot;span&quot;, &quot;h1&quot; — встроенные элементы. Вызывать их как функцию нечего: элемент возвращается как есть, но пропсы обходятся рекурсивно — внутри children могут прятаться серверные компоненты." data-pass1="typeof &quot;div&quot; === &quot;string&quot; → true&#10;return { ...element, props: await renderJSXToClientJSX({ children: &quot;Hi!&quot; }) }" data-pass2="// сюда второй проход не заходит: пропсы — не элемент React">      <span class="kw">if</span> (<span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"string"</span>) {
+<div class="code-step" data-step="obj">  <span class="kw">if</span> (jsx != <span class="kw">null</span> &amp;&amp; <span class="kw">typeof</span> jsx === <span class="str">"object"</span>) {</div>
+<div class="code-step" data-step="elem">    <span class="kw">if</span> (jsx.<span class="attr">$$typeof</span> === Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>)) {</div>
+<div class="code-step" data-step="str">      <span class="kw">if</span> (<span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"string"</span>) {
         <span class="kw">return</span> { ...jsx, <span class="attr">props</span>: <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>(jsx.props) };
       }</div>
 
-<div class="code-line" data-title="type — функция: свой компонент" data-desc="&lt;Footer /&gt;, &lt;Like /&gt; — пользовательские компоненты. Алгоритм вызывает Component(props) и запускает рекурсию на том, что компонент вернул. Перед вызовом стоит await: на сервере компонент может быть async и внутри ждать базу, файл или внешний API." data-pass1="typeof &quot;div&quot; === &quot;function&quot; → false&#10;// &lt;div&gt; — встроенный тег, эта ветка не срабатывает" data-pass2="// а если бы это был &lt;Greeting /&gt;:&#10;const returnedJsx = await Greeting(props) → &lt;div&gt;Hi!&lt;/div&gt;">      <span class="kw">if</span> (<span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"function"</span>) {
+<div class="code-step" data-step="func">      <span class="kw">if</span> (<span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"function"</span>) {
         <span class="kw">const</span> Component = jsx.type;
         <span class="kw">const</span> props = jsx.props;
         <span class="kw">const</span> returnedJsx = <span class="kw">await</span> <span class="fn">Component</span>(props);
@@ -330,7 +334,7 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
       }</div>
 
       <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Not implemented."</span>);
-<div class="code-line" data-title="Не элемент: обход пропсов" data-desc="Произвольный объект — обычно сами пропсы или данные внутри них. Обходим каждое значение через Object.entries и Promise.all. Так разворачиваются компоненты, переданные пропсами: ни один вложенный JSX не останется необработанным." data-pass1="// на первом проходе сюда не заходим: &lt;div&gt;Hi!&lt;/div&gt; — элемент React" data-pass2="Object.entries({ children: &quot;Hi!&quot; })&#10;  → [[&quot;children&quot;, await renderJSXToClientJSX(&quot;Hi!&quot;)]]&#10;  → { children: &quot;Hi!&quot; }">    } <span class="kw">else</span> {
+<div class="code-step" data-step="else">    } <span class="kw">else</span> {
       <span class="kw">return</span> Object.<span class="fn">fromEntries</span>(
         <span class="kw">await</span> Promise.<span class="fn">all</span>(
           Object.<span class="fn">entries</span>(jsx).<span class="fn">map</span>(<span class="kw">async</span> ([propName, value]) =&gt; [
@@ -346,27 +350,97 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
 }</pre>
                         </div>
 
-                        <!-- Пояснение ветки: по центру колонки, без рамки. Пример
-                             показывается для двух проходов рекурсии. -->
-                        <div class="branch-side">
-                            <div class="info-panel code-note" id="rsr-note">
-                                <h3>Набор условий</h3>
-                                <p>
-                                    Рекурсивный обход JSX: примитивы — как есть, массивы —
-                                    по детям, элементы React — по типу, всё остальное —
-                                    по значениям пропсов. Нажмите на ветку.
-                                </p>
+                        <div class="rec-side">
+                            <!-- Стек вызовов: глубина текущего шага. Кадры ниже
+                                 текущего ждут возврата, глубже — уже вернулись. -->
+                            <div class="rec-stack">
+                                <span class="rec-stack-label">стек вызовов</span>
+                                <span class="rec-frame" data-frame="1">&lt;div&gt;Hi!&lt;/div&gt;</span>
+                                <span class="rec-frame" data-frame="2">{ children: "Hi!" }</span>
+                                <span class="rec-frame" data-frame="3">"Hi!"</span>
                             </div>
 
-                            <div class="pass-box" hidden>
-                                <div class="pass-head">
-                                    <span class="pass-tag" data-pass-tag>проход 1 · &lt;div&gt;Hi!&lt;/div&gt;</span>
+                            <div class="rec-card">
+                                <div class="rec-head">
+                                    <span class="rec-tag" data-rec-tag></span>
+                                    <span class="rec-count" data-rec-count></span>
                                 </div>
-                                <pre data-pass-code></pre>
-                                <button class="pass-btn" type="button" data-pass-toggle>
-                                    Вызываем функцию рекурсивно → проход 2 с { children: "Hi!" }
-                                </button>
+                                <div class="rec-body" data-rec-body></div>
                             </div>
+
+                            <div class="rec-nav">
+                                <button class="rec-btn" type="button" data-rec-prev aria-label="Предыдущий шаг">←</button>
+                                <button class="rec-btn is-primary" type="button" data-rec-next>Следующий шаг →</button>
+                            </div>
+                        </div>
+
+                        <div class="rec-steps" hidden>
+                            <article class="rec-step" data-hl="sig" data-depth="0" data-tag="вызов">
+                                <pre><span class="kw">const</span> tree = <span class="kw">await</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(<span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>Hi!<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>);</pre>
+                                <p>Так функцию зовёт сервер. На входе — JSX, на выходе будет дерево элементов. Дальше идём по шагам: слева подсвечен код, который выполняется сейчас.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="prim,arr" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
+                                <pre><span class="kw">typeof</span> jsx === <span class="str">"string"</span> <span class="cm">→ false</span>
+Array.<span class="fn">isArray</span>(jsx) <span class="cm">→ false</span></pre>
+                                <p>Ни примитив, ни массив: пришёл объект элемента <span class="rec-code">{ $$typeof, type, props }</span>. Обе быстрые проверки мимо — идём дальше.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="obj,elem" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
+                                <pre><span class="kw">typeof</span> jsx === <span class="str">"object"</span> <span class="cm">→ true</span>
+jsx.<span class="attr">$$typeof</span> === Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>) <span class="cm">→ true</span></pre>
+                                <p>Объект — и со служебным маркером. Значит, перед нами настоящий элемент React, а не просто данные: символ через JSON не подделать.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="str" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
+                                <pre><span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"string"</span> <span class="cm">→ true ("div")</span>
+<span class="kw">return</span> { ...jsx, <span class="attr">props</span>: <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>({ <span class="attr">children</span>: <span class="str">"Hi!"</span> }) }</pre>
+                                <p>type — строка, то есть обычный DOM-тег: вызывать нечего. Сам элемент вернётся как есть, но пропсы нужно обойти — в них могут прятаться компоненты. Функция зовёт саму себя: это рекурсия, уходим на проход 2.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="prim,arr" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
+                                <pre><span class="kw">typeof</span> jsx === <span class="str">"string"</span> <span class="cm">→ false</span>
+Array.<span class="fn">isArray</span>(jsx) <span class="cm">→ false</span></pre>
+                                <p>Новый вызов — те же проверки сначала, но уже для пропсов. Снова не примитив и не массив.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="elem,else" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
+                                <pre>jsx.<span class="attr">$$typeof</span> <span class="cm">→ undefined</span>
+<span class="cm">// не элемент React → ветка else</span></pre>
+                                <p>Маркера нет: пропсы — обычный объект. Ветка элемента не срабатывает, управление уходит в else.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="else" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
+                                <pre>Object.<span class="fn">entries</span>({ <span class="attr">children</span>: <span class="str">"Hi!"</span> })
+  <span class="cm">→</span> [[<span class="str">"children"</span>, <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>(<span class="str">"Hi!"</span>)]]</pre>
+                                <p>Каждое значение пропсов обходится рекурсивно. Значение одно — строка «Hi!», и она уходит на проход 3.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="prim" data-depth="3" data-tag="проход 3 · jsx = &quot;Hi!&quot;">
+                                <pre><span class="kw">typeof</span> <span class="str">"Hi!"</span> === <span class="str">"string"</span> <span class="cm">→ true</span>
+<span class="kw">return</span> <span class="str">"Hi!"</span></pre>
+                                <p>Дно рекурсии: примитив возвращается сам собой. Глубже идти некуда — вызовы начинают разворачиваться обратно.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="else" data-depth="2" data-tag="возврат → проход 2">
+                                <pre>Object.<span class="fn">fromEntries</span>([[<span class="str">"children"</span>, <span class="str">"Hi!"</span>]])
+<span class="cm">→</span> { <span class="attr">children</span>: <span class="str">"Hi!"</span> }</pre>
+                                <p>Проход 3 вернул строку, и пропсы собираются обратно в объект — уже обойдёнными.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="str" data-depth="1" data-tag="возврат → проход 1">
+                                <pre>{ ...jsx, <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> } }</pre>
+                                <p>Первый вызов дождался своих пропсов и возвращает элемент с ними. Стек пуст — рекурсия закончилась.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="sig" data-depth="0" data-tag="что получилось">
+                                <pre>tree = {
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">"div"</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> }
+}</pre>
+                                <p>Три вызова — элемент, его пропсы и строка внутри — свернулись в одно дерево элементов. Ни функций, ни компонентов в нём не осталось, только данные: такое дерево можно сериализовать и отдать в renderToString.</p>
+                            </article>
                         </div>
                     </div>
                 </div>

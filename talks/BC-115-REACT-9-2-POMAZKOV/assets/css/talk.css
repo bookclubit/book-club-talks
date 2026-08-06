@@ -614,6 +614,19 @@
     background: #1f1f1f !important;
     color: #fff;
 }
+/* Участок кода в разборе по шагам: кликать его не нужно, поэтому в покое он
+   ничем не отмечен — подсвечивается только тот, который выполняется сейчас. */
+.code-box .code-step {
+    padding: 3px 22px;
+    margin: 0 -22px;
+    border-left: 3px solid transparent;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.code-box .code-step.is-on {
+    background: #1c1c1c;
+    border-left-color: #93c5fd;
+    color: #fff;
+}
 .code-note {
     border: none;
     background: none;
@@ -665,20 +678,22 @@
     border-bottom-color: #fff;
 }
 
-/* ===== Слайд «А что по коду?»: листинг server.js крупнее =====
-   Кода много, поэтому окно шире и выше остальных, шрифт — читаемый с зала,
-   а хвост листинга добирается прокруткой (полоса стилизована выше). */
+/* ===== Крупный листинг =====
+   Шрифт читается с зала, окно занимает почти всю высоту слайда, а хвост
+   листинга добирается прокруткой (полоса стилизована выше). */
+.code-slide.is-big .code-box.is-small {
+    font-size: 15px;
+    line-height: 1.5;
+}
+.code-slide.is-big .code-box.is-win pre {
+    max-height: 680px;
+}
+
+/* Слайд «А что по коду?»: под окно кода отдана бо́льшая доля ширины. */
 .code-slide[data-target="server-note"] {
     grid-template-columns: 66% 34%;
     /* Между рядами хватает малого зазора: 40px — это про колонки. */
     gap: 14px 40px;
-}
-.code-slide[data-target="server-note"] .code-box.is-small {
-    font-size: 15px;
-    line-height: 1.5;
-}
-.code-slide[data-target="server-note"] .code-box.is-win pre {
-    max-height: 680px;
 }
 /* Подпись — вторым рядом под окном кода, панель пояснения остаётся в первом:
    без явных строк подпись утащила бы панель на ряд ниже, за нижний край. */
@@ -881,31 +896,71 @@
     line-height: 1.5;
 }
 
-/* ===== Пояснение ветки: пример для двух проходов рекурсии ===== */
-.branch-side {
+/* ===== Разбор рекурсии по шагам =====
+   Слева подсвечивается выполняемый участок кода, справа — что он дал.
+   Шаги переключаются кнопками и стрелками (talk.js), их содержание лежит
+   в разметке: .rec-step в скрытом контейнере .rec-steps. */
+.rec-side {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 22px;
-    text-align: center;
 }
-.branch-side .code-note {
-    min-height: 0;
+.rec-steps {
+    display: none;
 }
-.branch-side .code-note p {
-    max-width: 460px;
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-.pass-box {
+
+/* Стек вызовов: отступ показывает глубину, подсветка — где мы сейчас. */
+.rec-stack {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    text-align: left;
+    gap: 6px;
 }
-.pass-tag {
-    display: inline-block;
+.rec-stack-label {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #3f3f46;
+    margin-bottom: 2px;
+}
+.rec-frame {
     align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #3f3f46;
+    border: 1px dashed #232323;
+    border-radius: 10px;
+    padding: 5px 12px;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.rec-frame[data-frame="2"] { margin-left: 28px; }
+.rec-frame[data-frame="3"] { margin-left: 56px; }
+.rec-frame.is-open {
+    color: #a1a1aa;
+    border-style: solid;
+    border-color: #3f3f46;
+}
+.rec-frame.is-active {
+    color: #fff;
+    border-style: solid;
+    border-color: #93c5fd;
+    background: rgba(96, 165, 250, 0.1);
+}
+
+.rec-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* Высота фиксирована по самому длинному шагу: иначе карточка прыгала бы
+       на каждом переключении, а вместе с ней и кнопки под ней. */
+    min-height: 430px;
+}
+.rec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+.rec-tag {
     font-family: var(--font-mono);
     font-size: 14px;
     color: #93c5fd;
@@ -914,10 +969,22 @@
     border-radius: 999px;
     padding: 4px 12px;
 }
-.pass-box pre {
+.rec-count {
+    flex-shrink: 0;
+    font-size: 14px;
+    color: #52525b;
+}
+.rec-body .rec-step {
+    animation: recStepIn 0.25s ease;
+}
+@keyframes recStepIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.rec-body pre {
     margin: 0;
     font-family: var(--font-mono);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
     color: #ededed;
     background: #060606;
@@ -925,6 +992,53 @@
     border-radius: 14px;
     padding: 16px 18px;
     white-space: pre-wrap;
+}
+.rec-body p {
+    margin: 16px 0 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #a1a1aa;
+}
+.rec-code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: #d4d4d8;
+}
+
+.rec-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+.rec-btn {
+    font: inherit;
+    font-size: 16px;
+    color: #ededed;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #3f3f46;
+    border-radius: 999px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+.rec-btn:hover:not(:disabled) {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+.rec-btn.is-primary {
+    background: #ededed;
+    border-color: #ededed;
+    color: #0a0a0a;
+}
+.rec-btn.is-primary:hover:not(:disabled) {
+    background: #fff;
+    border-color: #fff;
+    color: #0a0a0a;
+}
+.rec-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
 }
 /* Кнопка второго прохода: появляется, когда пример первого дочитан. */
 .pass-btn {

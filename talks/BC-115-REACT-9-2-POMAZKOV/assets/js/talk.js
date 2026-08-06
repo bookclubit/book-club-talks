@@ -119,8 +119,27 @@
     });
   });
 
-  // Ссылка в подсказке термина не должна попутно выбирать строку кода.
-  document.querySelectorAll('.term-pop a').forEach((a) => {
-    a.addEventListener('click', (e) => e.stopPropagation());
+  // ---------- Термин в коде: пояснение показывает панель справа ----------
+  // Отдельного всплывающего окна у термина нет: под курсором он занимает ту же
+  // панель, что и клик по строке кода, а прежнее её содержимое возвращается,
+  // когда курсор уходит. Клик по термину до строки кода не доходит — иначе
+  // панель тут же перебило бы пояснение строки.
+  document.querySelectorAll('.code-term').forEach((term) => {
+    const block = term.closest('.interactive-block');
+    const panel = block && document.getElementById(block.dataset.target);
+    if (!panel) return;
+
+    let saved = null;
+
+    term.addEventListener('mouseenter', () => {
+      if (saved === null) saved = panel.innerHTML;
+      panel.innerHTML = `<h3>${term.dataset.title}</h3><p>${term.dataset.desc}</p>`;
+    });
+    term.addEventListener('mouseleave', () => {
+      if (saved === null) return;
+      panel.innerHTML = saved;
+      saved = null;
+    });
+    term.addEventListener('click', (e) => e.stopPropagation());
   });
 })();

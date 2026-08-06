@@ -566,43 +566,52 @@
 .code-box.is-win pre {
     margin: 0;
     padding: 18px 22px;
-    overflow: auto;
+    /* По горизонтали листинг не прокручивается: строки подобраны по ширине
+       окна, а вынос подсветки строк за отступы не должен родить полосу. */
+    overflow-x: hidden;
+    overflow-y: auto;
     /* Слайд — 1080px: под заголовок, подзаголовок и отступы уходит около 300px,
        поэтому окно кода выше этого предела не растёт. */
     max-height: 720px;
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f46 transparent;
 }
-/* Кликабельная строка кода: класс code-line — крючок движка (deck.js). */
+/* Своя полоса прокрутки: тонкая и тёмная, чтобы не спорить с окном кода. */
+.code-box.is-win pre::-webkit-scrollbar {
+    width: 10px;
+}
+.code-box.is-win pre::-webkit-scrollbar-track {
+    background: transparent;
+}
+.code-box.is-win pre::-webkit-scrollbar-thumb {
+    background: #3f3f46;
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+}
+.code-box.is-win pre:hover::-webkit-scrollbar-thumb {
+    background: #71717a;
+    background-clip: content-box;
+}
+/* Кликабельная строка кода: класс code-line — крючок движка (deck.js).
+   В покое строка ничем не выделена — код читается как код; о том, что по
+   области можно кликнуть, говорит подсветка всей строки под курсором.
+   Отрицательные поля равны отступам <pre>, поэтому подсветка идёт от края
+   до края окна (горизонтальный вынос гасит overflow-x: hidden у <pre>). */
 .code-box .code-line {
-    border-radius: 8px;
-    padding: 3px 10px !important;
-    margin: 0 -10px !important;
-    border-left: 2px solid transparent;
+    padding: 3px 22px !important;
+    margin: 0 -22px !important;
     color: #ededed;
-}
-.code-box .code-line {
-    background: rgba(255, 255, 255, 0.03);
-    border-left-color: #3f3f46;
+    background: transparent;
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.code-box .code-line::after {
-    content: 'подробнее →';
-    float: right;
-    font-size: 12px;
-    color: #3f3f46;
-    transition: color 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 .code-box .code-line:hover {
     background: #1a1a1a !important;
-    border-left-color: #fff;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-}
-.code-box .code-line:hover::after {
-    color: #a1a1aa;
+    color: #fff;
 }
 .code-box .code-line.active {
     background: #1f1f1f !important;
-    border-left-color: #fff;
     color: #fff;
 }
 .code-note {
@@ -620,10 +629,81 @@
     font-size: 18px !important;
     line-height: 1.6 !important;
 }
+/* Подпись под окном кода: третий элемент сетки, поэтому колонку задаём явно —
+   иначе она встала бы под панель пояснения справа. */
 .code-hint {
-    margin: 18px 0 0;
-    font-size: 14px;
+    grid-column: 1;
+    margin: 14px 0 0;
+    font-size: 15px;
     color: #52525b;
+}
+/* Второстепенная приписка в панели пояснения (отсылка к другому слайду). */
+.code-note .note-aside {
+    display: block;
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #52525b;
+}
+.code-note em {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: #93c5fd;
+}
+.code-note a {
+    /* display: table — ссылка уходит на свою строку, но подчёркивание остаётся
+       по ширине текста (внутри <p> блочный элемент выглядел бы полосой). */
+    display: table;
+    margin-top: 16px;
+    font-size: 15px;
+    color: #fff;
+    border-bottom: 1px solid #3f3f46;
+    text-decoration: none;
+}
+.code-note a:hover {
+    border-bottom-color: #fff;
+}
+
+/* ===== Слайд «А что по коду?»: листинг server.js крупнее =====
+   Кода много, поэтому окно шире и выше остальных, шрифт — читаемый с зала,
+   а хвост листинга добирается прокруткой (полоса стилизована выше). */
+.code-slide[data-target="server-note"] {
+    grid-template-columns: 66% 34%;
+    /* Между рядами хватает малого зазора: 40px — это про колонки. */
+    gap: 14px 40px;
+}
+.code-slide[data-target="server-note"] .code-box.is-small {
+    font-size: 15px;
+    line-height: 1.5;
+}
+.code-slide[data-target="server-note"] .code-box.is-win pre {
+    max-height: 680px;
+}
+/* Подпись — вторым рядом под окном кода, панель пояснения остаётся в первом:
+   без явных строк подпись утащила бы панель на ряд ниже, за нижний край. */
+.code-slide[data-target="server-note"] .code-box {
+    grid-area: 1 / 1;
+}
+.code-slide[data-target="server-note"] .code-hint {
+    grid-area: 2 / 1;
+    margin: 0;
+}
+.code-slide[data-target="server-note"] .code-note {
+    grid-area: 1 / 2;
+    /* Высоту первого ряда задаёт окно кода, а не запас под текст панели. */
+    min-height: 0;
+}
+
+/* Термин в коде: под курсором его пояснение уезжает в панель справа. */
+.code-term {
+    border-bottom: 1px dashed #3f3f46;
+    cursor: help;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.code-term:hover {
+    border-bottom-color: currentColor;
+    background: rgba(96, 165, 250, 0.12);
 }
 
 /* ===== Универсальные блоки контента ===== */
@@ -799,73 +879,6 @@
     font-family: var(--font-mono);
     font-size: 13px;
     line-height: 1.5;
-}
-
-/* ===== Чип термина в коде =====
-   Подсвеченное имя функции: под курсором раскрывается пояснение, внизу
-   пояснения — ссылка на документацию (по ней и уходят за подробностями). */
-.term-chip {
-    position: relative;
-    display: inline-block;
-    padding: 1px 8px;
-    border: 1px solid #3f3f46;
-    border-radius: 7px;
-    background: rgba(96, 165, 250, 0.1);
-    color: #93c5fd;
-    cursor: help;
-    transition: border-color 0.2s ease, background 0.2s ease;
-}
-.term-chip:hover {
-    border-color: #93c5fd;
-    background: rgba(96, 165, 250, 0.18);
-}
-.term-pop {
-    position: absolute;
-    left: 0;
-    bottom: calc(100% + 12px);
-    width: 520px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 18px 20px;
-    background: #101010;
-    border: 1px solid #3f3f46;
-    border-radius: 14px;
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.9);
-    font-family: var(--font-sans);
-    color: #a1a1aa;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(6px);
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-    z-index: 9;
-}
-.term-chip:hover .term-pop {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-.term-pop b {
-    font-size: 17px;
-    color: #fff;
-}
-.term-pop span {
-    font-size: 15px;
-    line-height: 1.6;
-}
-.term-pop em {
-    font-style: normal;
-    color: #93c5fd;
-}
-.term-pop a {
-    align-self: flex-start;
-    font-size: 14px;
-    color: #fff;
-    border-bottom: 1px solid #3f3f46;
-    text-decoration: none;
-}
-.term-pop a:hover {
-    border-bottom-color: #fff;
 }
 
 /* ===== Пояснение ветки: пример для двух проходов рекурсии ===== */

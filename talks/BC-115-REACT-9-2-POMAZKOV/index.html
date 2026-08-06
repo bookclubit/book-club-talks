@@ -456,72 +456,6 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                         для передачи по сети.
                     </p>
 
-                    <!-- Конвейер сериализации: элемент → renderToString → строка.
-                         По наведению на движок всплывает вопрос, по клику
-                         открывается разбор с JSON.stringify / JSON.parse. -->
-                    <div class="ser-flow">
-                        <div class="ser-card">
-                            <span class="ser-tag">на входе — элемент</span>
-                            <pre>{
-  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
-  <span class="attr">type</span>: <span class="str">"div"</span>,
-  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> }
-}</pre>
-                        </div>
-
-                        <div class="ser-arrow"><span></span></div>
-
-                        <button class="ser-engine" type="button" data-ser-toggle>
-                            <span class="ser-engine-name">renderToString()</span>
-                            <span class="ser-engine-sub">нажмите, чтобы заглянуть внутрь</span>
-                            <span class="ser-q">Но разве <b>Symbol</b> можно сериализовать?</span>
-                        </button>
-
-                        <div class="ser-arrow"><span></span></div>
-
-                        <div class="ser-card">
-                            <span class="ser-tag">на выходе — строка</span>
-                            <pre><span class="str">"&lt;div&gt;Hi!&lt;/div&gt;"</span></pre>
-                        </div>
-                    </div>
-
-                    <!-- Разбор: как символ переживает поездку по сети. -->
-                    <div class="ser-lab" hidden>
-                        <div class="ser-lab-cols">
-                            <div class="code-box is-win is-small">
-                                <div class="win-bar"><i></i><i></i><i></i><em>сериализация: Symbol → строка</em></div>
-<pre>JSON.<span class="fn">stringify</span>(element, (key, value) =&gt; {
-  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> <span class="str">"react.element"</span>;
-  <span class="kw">return</span> value;
-});</pre>
-                            </div>
-                            <div class="code-box is-win is-small">
-                                <div class="win-bar"><i></i><i></i><i></i><em>десериализация: строка → Symbol</em></div>
-<pre>JSON.<span class="fn">parse</span>(text, (key, value) =&gt; {
-  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>);
-  <span class="kw">return</span> value;
-});</pre>
-                        </div>
-
-                        <div class="ser-steps">
-                            <div class="ser-step">
-                                <span class="ser-step-tag">1 · наш элемент</span>
-                                <pre>{ <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
-  <span class="attr">type</span>: <span class="str">"div"</span>, <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> } }</pre>
-                            </div>
-                            <div class="ser-step">
-                                <span class="ser-step-tag">2 · попадает в parse</span>
-                                <pre><span class="str">'{"$$typeof":"react.element",
-  "type":"div","props":{"children":"Hi!"}}'</span></pre>
-                            </div>
-                            <div class="ser-step">
-                                <span class="ser-step-tag">3 · получает клиент</span>
-                                <pre>{ <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
-  <span class="attr">type</span>: <span class="str">"div"</span>, <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> } }</pre>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="cards-3">
                         <div class="tcard">
                             <span class="tcard-tag">01</span>
@@ -549,6 +483,65 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
                                 React подключает обработчики событий и показывает динамику,
                                 а не рисует страницу заново.
                             </p>
+                        </div>
+                    </div>
+
+                    <!-- Конвейер сериализации: элемент → renderToString → строка.
+                         По наведению на движок всплывает вопрос, по клику
+                         открывается разбор с JSON.stringify / JSON.parse. -->
+                    <div class="ser-flow">
+                        <div class="ser-card">
+                            <pre>{
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">"div"</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> }
+}</pre>
+                        </div>
+
+                        <div class="ser-arrow"><span></span></div>
+
+                        <button class="ser-engine" type="button" data-ser-open>
+                            <span class="ser-engine-name">renderToString()</span>
+                            <span class="ser-engine-sub">нажмите, чтобы заглянуть внутрь</span>
+                            <span class="ser-q">Но разве <b>Symbol</b> можно сериализовать?</span>
+                        </button>
+
+                        <div class="ser-arrow"><span></span></div>
+
+                        <div class="ser-card">
+                            <pre><span class="str">"&lt;div&gt;Hi!&lt;/div&gt;"</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Разбор внутри renderToString: открывается только по клику
+                     на движок, поэтому и живёт в модальном окне. -->
+                <div class="ser-modal" hidden>
+                    <div class="ser-modal-veil" data-ser-close></div>
+                    <div class="ser-modal-win" role="dialog" aria-label="Symbol и сериализация">
+                        <div class="ser-modal-head">
+                            <h3>Но разве <b>Symbol</b> можно сериализовать?</h3>
+                            <button class="ser-modal-close" type="button" data-ser-close aria-label="Закрыть">✕</button>
+                        </div>
+                        <p class="ser-modal-lead">
+                            Нельзя: JSON символов не знает. Поэтому при сериализации маркер
+                            подменяют строкой, а при разборе на клиенте возвращают обратно.
+                        </p>
+                        <div class="ser-lab-cols">
+                            <div class="code-box is-win is-small">
+                                <div class="win-bar"><i></i><i></i><i></i><em>сериализация: Symbol → строка</em></div>
+<pre>JSON.<span class="fn">stringify</span>(element, (key, value) =&gt; {
+  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> <span class="str">"react.element"</span>;
+  <span class="kw">return</span> value;
+});</pre>
+                            </div>
+                            <div class="code-box is-win is-small">
+                                <div class="win-bar"><i></i><i></i><i></i><em>десериализация: строка → Symbol</em></div>
+<pre>JSON.<span class="fn">parse</span>(text, (key, value) =&gt; {
+  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>);
+  <span class="kw">return</span> value;
+});</pre>
+                            </div>
                         </div>
                     </div>
                 </div>

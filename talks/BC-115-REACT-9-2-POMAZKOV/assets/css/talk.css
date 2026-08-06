@@ -87,7 +87,8 @@
 
 /* Лид читается как подзаголовок, поэтому стоит вплотную под заголовком
    вверху слайда (авто-отступ у h2 здесь не нужен). */
-.content-slide:has(.pipeline-block) > h2 {
+.content-slide:has(.pipeline-block) > h2,
+.content-slide:has(.ser-flow) > h2 {
     margin-bottom: 0;
 }
 
@@ -1105,30 +1106,35 @@
 
 .ser-flow {
     display: grid;
-    grid-template-columns: 1fr 70px 260px 70px 1fr;
+    grid-template-columns: 1fr 130px 340px 130px 1fr;
     align-items: center;
-    gap: 0 14px;
-    margin: 26px 0 0;
+    gap: 0 20px;
+    /* Схема — единственное, что осталось под карточками, поэтому свободную
+       высоту делим пополам: вместе с margin-top: auto у .content-slide::after
+       она встаёт по центру остатка. */
+    margin: 34px 0 0;
 }
+.content-slide:has(.ser-flow) .ser-flow {
+    margin-top: auto;
+}
+/* Код прижат к стрелкам, а не к краям слайда: так конвейер читается целиком. */
+.ser-flow .ser-card:first-child {
+    justify-self: end;
+}
+.ser-flow .ser-card:last-child {
+    justify-self: start;
+}
+/* На входе и на выходе — только код: ни рамок, ни подписей. Что это за
+   значения, видно по самим значениям, а стрелки показывают направление. */
 .ser-card {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    border: 1px solid #232323;
-    border-radius: 16px;
-    background: #060606;
-    padding: 16px 18px;
-}
-.ser-tag {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: #52525b;
 }
 .ser-card pre {
     margin: 0;
     font-family: var(--font-mono);
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 21px;
+    line-height: 1.55;
     color: #d4d4d8;
 }
 .ser-arrow {
@@ -1164,8 +1170,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    padding: 20px 18px;
+    gap: 8px;
+    padding: 28px 22px;
     border: 1px solid #3f3f46;
     border-radius: 18px;
     background: #101010;
@@ -1180,11 +1186,11 @@
 }
 .ser-engine-name {
     font-family: var(--font-mono);
-    font-size: 19px;
+    font-size: 25px;
     color: #fff;
 }
 .ser-engine-sub {
-    font-size: 13px;
+    font-size: 15px;
     color: #71717a;
 }
 .ser-q {
@@ -1212,58 +1218,96 @@
     visibility: visible;
     transform: translateX(-50%) translateY(0);
 }
-/* Разбор: два окна кода и три шага примера. Появляется по клику. */
-.ser-lab {
-    margin-top: 20px;
+/* Разбор внутри renderToString: модальное окно поверх слайда. Открывается
+   только кликом по движку — на самом слайде эти два окна кода не живут.
+   display задан явно: без него атрибут hidden перебивался бы флексом. */
+.ser-modal {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+}
+.ser-modal[hidden] {
+    display: none;
+}
+.ser-modal-veil {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    animation: serVeilIn 0.25s ease;
+}
+.ser-modal-win {
+    position: relative;
+    width: 1400px;
+    max-width: calc(100% - 200px);
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    animation: serLabIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    gap: 18px;
+    padding: 40px 46px 46px;
+    border: 1px solid #3f3f46;
+    border-radius: 26px;
+    background: #0a0a0a;
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.9);
+    animation: serWinIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-@keyframes serLabIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes serVeilIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes serWinIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.ser-modal-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 26px;
+}
+.ser-modal-head h3 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+}
+.ser-modal-head h3 b {
+    color: #f0abfc;
+    font-weight: 600;
+}
+.ser-modal-close {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background: #0a0a0a;
+    color: #71717a;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.ser-modal-close:hover {
+    color: #fff;
+    border-color: #fff;
+}
+.ser-modal-lead {
+    margin: 0;
+    max-width: 1000px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: #a1a1aa;
 }
 .ser-lab-cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 20px;
 }
-.ser-steps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-}
-.ser-step {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    border: 1px solid #1f1f1f;
-    border-radius: 14px;
-    background: #060606;
-    padding: 14px 16px;
-    opacity: 0;
-}
-.ser-lab:not([hidden]) .ser-step {
-    animation: serStepIn 0.4s ease forwards;
-}
-.ser-lab:not([hidden]) .ser-step:nth-child(2) { animation-delay: 0.5s; }
-.ser-lab:not([hidden]) .ser-step:nth-child(3) { animation-delay: 1s; }
-@keyframes serStepIn {
-    from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-.ser-step-tag {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: #71717a;
-}
-.ser-step pre {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 12.5px;
+.ser-modal .code-box.is-small {
+    font-size: 15px;
     line-height: 1.5;
-    color: #d4d4d8;
 }
 
 /* ===== Слайд «Навигация»: две демонстрации перехода ===== */

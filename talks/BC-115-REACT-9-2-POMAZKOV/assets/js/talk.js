@@ -115,16 +115,34 @@
   });
 
   // ---------- Сериализация: разбор внутри renderToString ----------
-  document.querySelectorAll('[data-ser-toggle]').forEach((btn) => {
-    const lab = btn.closest('.content-slide')?.querySelector('.ser-lab');
-    if (!lab) return;
+  // Два окна кода живут в модальном окне: на слайде остаётся только схема,
+  // а разбор открывается кликом по движку и закрывается фоном, крестиком,
+  // Esc или уходом со слайда.
+  document.querySelectorAll('[data-ser-open]').forEach((btn) => {
+    const slide = btn.closest('.slide');
+    const modal = slide?.querySelector('.ser-modal');
+    if (!modal) return;
+
+    const close = () => {
+      modal.hidden = true;
+    };
+
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      lab.hidden = !lab.hidden;
-      btn.querySelector('.ser-engine-sub').textContent = lab.hidden
-        ? 'нажмите, чтобы заглянуть внутрь'
-        : 'нажмите, чтобы свернуть';
+      modal.hidden = false;
     });
+    modal.querySelectorAll('[data-ser-close]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        close();
+      });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') close();
+    });
+    new MutationObserver(() => {
+      if (!slide.classList.contains('active')) close();
+    }).observe(slide, { attributes: true, attributeFilter: ['class'] });
   });
 
   // ---------- Навигация: два перехода со счётчиком времени ----------

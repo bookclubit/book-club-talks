@@ -376,70 +376,70 @@ app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
 
                         <div class="rec-steps" hidden>
                             <article class="rec-step" data-hl="sig" data-depth="0" data-tag="вызов">
-                                <pre><span class="kw">const</span> tree = <span class="kw">await</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(<span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>Hi!<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>);</pre>
-                                <p>Так функцию зовёт сервер. На входе — JSX, на выходе будет дерево элементов. Дальше идём по шагам: слева подсвечен код, который выполняется сейчас.</p>
+                                <p class="rec-ask"><span class="rec-label">что происходит</span>Сервер зовёт функцию и ждёт дерево элементов</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span>на входе <span class="rec-val">&lt;div&gt;Hi!&lt;/div&gt;</span></p>
+                                <p class="rec-note">Дальше идём по шагам: слева подсвечен код, который выполняется сейчас, здесь — что он проверяет и с каким ответом.</p>
                             </article>
 
                             <article class="rec-step" data-hl="prim,arr" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
-                                <pre><span class="kw">typeof</span> jsx === <span class="str">"string"</span> <span class="cm">→ false</span>
-Array.<span class="fn">isArray</span>(jsx) <span class="cm">→ false</span></pre>
-                                <p>Ни примитив, ни массив: пришёл объект элемента <span class="rec-code">{ $$typeof, type, props }</span>. Обе быстрые проверки мимо — идём дальше.</p>
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это примитив или массив?</p>
+                                <p class="rec-ans is-no"><span class="rec-mark">нет</span>в jsx объект элемента <span class="rec-val">{ $$typeof, type, props }</span></p>
+                                <p class="rec-note">Строка, число, boolean и null вернулись бы сразу как есть, массив пошёл бы по детям. Ни то ни другое — идём дальше.</p>
                             </article>
 
                             <article class="rec-step" data-hl="obj,elem" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
-                                <pre><span class="kw">typeof</span> jsx === <span class="str">"object"</span> <span class="cm">→ true</span>
-jsx.<span class="attr">$$typeof</span> === Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>) <span class="cm">→ true</span></pre>
-                                <p>Объект — и со служебным маркером. Значит, перед нами настоящий элемент React, а не просто данные: символ через JSON не подделать.</p>
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это элемент React?</p>
+                                <p class="rec-ans is-yes"><span class="rec-mark">да</span>у объекта есть маркер <span class="rec-val">$$typeof</span></p>
+                                <p class="rec-note">Все элементы React — объекты, но не все объекты — элементы React. Отличает их символ <span class="rec-val">Symbol.for("react.element")</span>: через JSON его не подделать.</p>
                             </article>
 
                             <article class="rec-step" data-hl="str" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
-                                <pre><span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"string"</span> <span class="cm">→ true ("div")</span>
-<span class="kw">return</span> { ...jsx, <span class="attr">props</span>: <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>({ <span class="attr">children</span>: <span class="str">"Hi!"</span> }) }</pre>
-                                <p>type — строка, то есть обычный DOM-тег: вызывать нечего. Сам элемент вернётся как есть, но пропсы нужно обойти — в них могут прятаться компоненты. Функция зовёт саму себя: это рекурсия, уходим на проход 2.</p>
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Какой у элемента type — строка или функция?</p>
+                                <p class="rec-ans is-yes"><span class="rec-mark">строка</span><span class="rec-val">"div"</span> — обычный DOM-тег</p>
+                                <p class="rec-note">Вызывать нечего: сам элемент вернётся как есть. Но пропсы нужно обойти — в них могут прятаться компоненты, поэтому функция зовёт саму себя. Уходим на проход 2 с <span class="rec-val">{ children: "Hi!" }</span>.</p>
                             </article>
 
                             <article class="rec-step" data-hl="prim,arr" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
-                                <pre><span class="kw">typeof</span> jsx === <span class="str">"string"</span> <span class="cm">→ false</span>
-Array.<span class="fn">isArray</span>(jsx) <span class="cm">→ false</span></pre>
-                                <p>Новый вызов — те же проверки сначала, но уже для пропсов. Снова не примитив и не массив.</p>
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это примитив или массив?</p>
+                                <p class="rec-ans is-no"><span class="rec-mark">нет</span>в jsx теперь пропсы <span class="rec-val">{ children: "Hi!" }</span></p>
+                                <p class="rec-note">Новый вызов начинается с тех же двух проверок — функция не помнит, откуда её позвали, и разбирается с тем, что пришло.</p>
                             </article>
 
                             <article class="rec-step" data-hl="elem,else" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
-                                <pre>jsx.<span class="attr">$$typeof</span> <span class="cm">→ undefined</span>
-<span class="cm">// не элемент React → ветка else</span></pre>
-                                <p>Маркера нет: пропсы — обычный объект. Ветка элемента не срабатывает, управление уходит в else.</p>
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это элемент React?</p>
+                                <p class="rec-ans is-no"><span class="rec-mark">нет</span>маркера нет: <span class="rec-val">$$typeof → undefined</span></p>
+                                <p class="rec-note">Пропсы — обычный объект, ветка элемента не срабатывает. Управление уходит в else.</p>
                             </article>
 
                             <article class="rec-step" data-hl="else" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
-                                <pre>Object.<span class="fn">entries</span>({ <span class="attr">children</span>: <span class="str">"Hi!"</span> })
-  <span class="cm">→</span> [[<span class="str">"children"</span>, <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>(<span class="str">"Hi!"</span>)]]</pre>
-                                <p>Каждое значение пропсов обходится рекурсивно. Значение одно — строка «Hi!», и она уходит на проход 3.</p>
+                                <p class="rec-ask"><span class="rec-label">что происходит</span>Обходим каждое значение пропсов</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val">children: "Hi!"</span> уходит на проход 3</p>
+                                <p class="rec-note">Объект разбирается по парам «ключ — значение», и на каждое значение функция зовётся снова. Значение здесь одно — строка «Hi!».</p>
                             </article>
 
                             <article class="rec-step" data-hl="prim" data-depth="3" data-tag="проход 3 · jsx = &quot;Hi!&quot;">
-                                <pre><span class="kw">typeof</span> <span class="str">"Hi!"</span> === <span class="str">"string"</span> <span class="cm">→ true</span>
-<span class="kw">return</span> <span class="str">"Hi!"</span></pre>
-                                <p>Дно рекурсии: примитив возвращается сам собой. Глубже идти некуда — вызовы начинают разворачиваться обратно.</p>
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это примитив?</p>
+                                <p class="rec-ans is-yes"><span class="rec-mark">да</span><span class="rec-val">"Hi!"</span> — строка</p>
+                                <p class="rec-note">Дно рекурсии: примитив возвращается сам собой. Глубже идти некуда — вызовы начинают разворачиваться обратно.</p>
                             </article>
 
                             <article class="rec-step" data-hl="else" data-depth="2" data-tag="возврат → проход 2">
-                                <pre>Object.<span class="fn">fromEntries</span>([[<span class="str">"children"</span>, <span class="str">"Hi!"</span>]])
-<span class="cm">→</span> { <span class="attr">children</span>: <span class="str">"Hi!"</span> }</pre>
-                                <p>Проход 3 вернул строку, и пропсы собираются обратно в объект — уже обойдёнными.</p>
+                                <p class="rec-ask"><span class="rec-label">что вернулось</span>Пропсы собрались обратно</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val">{ children: "Hi!" }</span></p>
+                                <p class="rec-note">Пары складываются в объект — уже с обойдёнными значениями. Проход 2 отработал и возвращает результат тому, кто его позвал.</p>
                             </article>
 
                             <article class="rec-step" data-hl="str" data-depth="1" data-tag="возврат → проход 1">
-                                <pre>{ ...jsx, <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> } }</pre>
-                                <p>Первый вызов дождался своих пропсов и возвращает элемент с ними. Стек пуст — рекурсия закончилась.</p>
+                                <p class="rec-ask"><span class="rec-label">что вернулось</span>Элемент получил обойдённые пропсы</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val">{ ...jsx, props: { children: "Hi!" } }</span></p>
+                                <p class="rec-note">Первый вызов дождался своих пропсов и возвращает элемент с ними. Стек пуст — рекурсия закончилась.</p>
                             </article>
 
                             <article class="rec-step" data-hl="sig" data-depth="0" data-tag="что получилось">
-                                <pre>tree = {
-  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
-  <span class="attr">type</span>: <span class="str">"div"</span>,
-  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> }
-}</pre>
-                                <p>Три вызова — элемент, его пропсы и строка внутри — свернулись в одно дерево элементов. Ни функций, ни компонентов в нём не осталось, только данные: такое дерево можно сериализовать и отдать в renderToString.</p>
+                                <p class="rec-ask"><span class="rec-label">результат</span>Одно дерево элементов вместо трёх вызовов</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val is-block">{ $$typeof: Symbol(react.element), type: "div",
+  props: { children: "Hi!" } }</span></p>
+                                <p class="rec-note">Элемент, его пропсы и строка внутри свернулись в один объект. Ни функций, ни компонентов в нём не осталось — только данные: такое дерево можно сериализовать и отдать в renderToString.</p>
                             </article>
                         </div>
                     </div>

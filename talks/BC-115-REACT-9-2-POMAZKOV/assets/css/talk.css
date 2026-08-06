@@ -1792,6 +1792,123 @@
     color: #52525b;
 }
 
+/* ===== Слайд «Разделяй и властвуй»: код расходится на две части =====
+   До клика на слайде один листинг — тот же, что на предыдущем слайде. Клик
+   уводит его в левую колонку, а справа проявляются серверная и клиентская
+   части. Переключает классы talk.js, вся анимация — здесь. */
+
+.content-slide:has(.split) > h2 {
+    margin-bottom: 0;
+}
+.content-slide:has(.split)::after {
+    margin-top: 0;
+}
+/* Нижний отступ поднимает схему над аватаром автора: подпись клиентской части
+   всплывает под блоком и иначе легла бы прямо на него. */
+.split {
+    margin: auto 0;
+    padding: 26px 0 90px;
+    cursor: pointer;
+}
+.split-stage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+/* Обе части лежат в своих колонках сетки, а «до клика» листинг просто сдвинут
+   на полшага вправо — так он оказывается по центру слайда, и разделение
+   выглядит как движение одного и того же кода, а не подмена блока. */
+.split-left {
+    grid-area: 1 / 1;
+    align-self: start;
+    transform: translateX(calc(50% + 20px));
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.split.is-split .split-left {
+    transform: translateX(0);
+}
+.split-source {
+    font-size: 19px;
+    line-height: 1.65;
+}
+.split-out {
+    grid-area: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+/* Части появляются вслед за листингом: сначала серверная, следом клиентская. */
+.split-part {
+    position: relative;
+    border: 1px dashed rgba(255, 255, 255, 0.75);
+    border-radius: 16px;
+    background: #060606;
+    padding: 18px 22px 20px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    line-height: 1.55;
+    color: #a1a1aa;
+    opacity: 0;
+    transform: translateX(28px);
+    transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.25s ease;
+}
+.split.is-split .split-part {
+    opacity: 1;
+    transform: translateX(0);
+}
+.split.is-split .split-part.is-server {
+    transition-delay: 0.35s;
+}
+.split.is-split .split-part.is-client {
+    transition-delay: 0.5s;
+}
+.split-part pre {
+    margin: 0;
+}
+.split-part-tag {
+    display: block;
+    margin-bottom: 10px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: #71717a;
+}
+.split-part.is-client:hover {
+    border-color: #fff;
+}
+/* Подпись к клиентской части: всплывает под блоком и места в раскладке
+   не занимает — иначе колонка прыгала бы под курсором. */
+.split-note {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 12px);
+    z-index: 14;
+    padding: 14px 18px;
+    border: 1px solid #3f3f46;
+    border-radius: 14px;
+    background: #0a0a0a;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    color: #d4d4d8;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+.split.is-split .split-part.is-client:hover .split-note {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.split-hint {
+    margin: 20px 0 0;
+    font-size: 15px;
+    color: #52525b;
+}
+
 /* ===== Слайд «use client»: три состояния одного дерева =====
    Модули разработчика → дерево с сервера → дерево в браузере. Узлы одинаковые,
    меняется только клиентский; что именно в нём лежит, рассказывают подсказки

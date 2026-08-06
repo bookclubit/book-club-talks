@@ -894,77 +894,99 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
             <!-- SLIDE: разделение на серверную и клиентскую части -->
             <section class="slide" data-slide="15">
                 <div class="content-slide">
-                    <h2 class="gradient-text">Разделяй и властвуй: ServerCounter + клиентская часть</h2>
+                    <h2 class="gradient-text">Как нам использовать возможности RSC с этим компонентом?</h2>
+                    <p class="slide-lead">
+                        Никак — пока компонент один. Чтобы возможности серверных компонентов
+                        заработали, код нужно разделить на две части: серверную и клиентскую.
+                    </p>
 
-                    <div class="code-slide is-wide">
-                        <div class="code-box is-small">
-<pre><span class="cm">// ServerCounter.js — серверный компонент</span>
-<span class="kw">function</span> ServerCounter() {
+                    <!-- Слайд открывается кодом с предыдущего слайда: клик разводит его
+                         на две части — листинг уезжает влево, справа появляются серверный
+                         и клиентский компоненты. Классы переключает talk.js. -->
+                    <div class="split" data-split>
+                        <div class="split-stage">
+                            <!-- Листинг и подсказка едут влево вместе: до клика они
+                                 стоят по центру слайда, после — в левой колонке. -->
+                            <div class="split-left">
+                            <div class="code-box is-win split-source" data-split-source>
+                                <div class="win-bar"><i></i><i></i><i></i><em>Counter.js</em></div>
+<pre><span class="kw">function</span> <span class="fn">Counter</span>() {
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+
   <span class="kw">return</span> (
-    &lt;div&gt;
-      &lt;h1&gt;Hi friends, look at my nice counter!&lt;/h1&gt;
-      &lt;p&gt;About me: I like to count things…&lt;/p&gt;
-      &lt;InteractiveClientPart /&gt;
-    &lt;/div&gt;
-  );
-}
-
-<span class="cm">// InteractiveClientPart.js</span>
-<span class="str">"use client"</span>;
-
-<span class="kw">function</span> InteractiveClientPart() {
-  <span class="kw">const</span> [count, setCount] = useState(<span class="str">0</span>);
-  <span class="kw">return</span> (
-    &lt;&gt;
-      &lt;p&gt;Count: {count}&lt;/p&gt;
-      &lt;button onClick={() =&gt; setCount(count + <span class="str">1</span>)}&gt;+&lt;/button&gt;
-    &lt;/&gt;
+    <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>Count: {count}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setCount</span>(count + <span class="num">1</span>)}<span class="punc">&gt;</span>+<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span>
+    <span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
   );
 }</pre>
-                        </div>
-
-                        <div>
-                            <div class="tcard">
-                                <h3>В бандл уезжает только интерактивное</h3>
-                                <p>
-                                    Заголовок, абзац и разметка остаются на сервере
-                                    и в клиентский JavaScript не попадают вообще.
-                                    Пользователь скачивает крошечный фрагмент — счётчик
-                                    и кнопку.
-                                </p>
                             </div>
-                            <div class="cards-2" style="margin-top: 18px; grid-template-columns: 1fr 1fr;">
-                                <div class="tcard">
-                                    <span class="tcard-tag">сеть</span>
-                                    <p>Меньше данных — быстрее первая загрузка, особенно на медленном соединении.</p>
+
+                            <p class="split-hint" data-split-hint>Нажмите — разделим компонент на части</p>
+                            </div>
+
+                            <div class="split-out">
+                                <div class="split-part is-server">
+                                    <span class="split-part-tag">серверный компонент</span>
+<pre><span class="cm">// ServerCounter.js</span>
+<span class="kw">function</span> <span class="fn">ServerCounter</span>() {
+  <span class="kw">return</span> (
+    <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">h1</span><span class="punc">&gt;</span>Hi friends, look at my nice counter!<span class="punc">&lt;/</span><span class="tag">h1</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>About me: I like to count things…<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">InteractiveClientPart</span> <span class="punc">/&gt;</span>
+    <span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+  );
+}</pre>
                                 </div>
-                                <div class="tcard">
-                                    <span class="tcard-tag">процессор</span>
-                                    <p>Меньше JS парсить и выполнять — быстрее интерактивность, меньше расход батареи.</p>
+
+                                <div class="split-part is-client">
+                                    <span class="split-part-tag">клиентский компонент</span>
+<pre><span class="cm">// InteractiveClientPart.js</span>
+<span class="str">"use client"</span>;
+
+<span class="kw">function</span> <span class="fn">InteractiveClientPart</span>() {
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+  <span class="kw">return</span> (
+    <span class="punc">&lt;&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>Count: {count}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setCount</span>(count + <span class="num">1</span>)}<span class="punc">&gt;</span>+<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span>
+    <span class="punc">&lt;/&gt;</span>
+  );
+}</pre>
+                                    <span class="split-note">
+                                        только эта часть приложения на самом деле будет
+                                        доступна нашим пользователям как часть пакета JavaScript
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <blockquote class="book-quote" style="margin-top: 22px;">
-                        «Мы только что выделили крошечную часть нашего приложения, которая
-                        должна быть интерактивной, и только эта часть приложения на самом
-                        деле будет доступна нашим пользователям как часть пакета JavaScript,
-                        а остальное — нет. Как следствие, мы отправляем по сети пакеты
-                        JavaScript значительно меньшего размера, что означает более быструю
-                        загрузку и более высокую производительность для наших пользователей
-                        как с точки зрения ресурсов процессора, так и с точки зрения сети.»
-                        <cite>Раздел «Внесение обновлений», стр. 312–313</cite>
-                    </blockquote>
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
 
-                    <p class="today-note">
-                        <b>Сегодня:</b> «максимум на сервере, минимум на клиенте» —
-                        официальная рекомендация: в Next.js компоненты серверные
-                        по умолчанию, клиентскими их делает <code>"use client"</code>.
-                        React Compiler уменьшает клиентский код автоматической мемоизацией,
-                        но физическое исключение серверного кода из бандла даёт больший
-                        эффект, чем любая оптимизация.
-                    </p>
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Мы только что выделили крошечную часть нашего приложения, которая
+                            должна быть интерактивной, и только эта часть приложения на самом
+                            деле будет доступна нашим пользователям как часть пакета JavaScript,
+                            а остальное — нет. Как следствие, мы отправляем по сети пакеты
+                            JavaScript значительно меньшего размера, что означает более быструю
+                            загрузку и более высокую производительность для наших пользователей
+                            как с точки зрения ресурсов процессора, так и с точки зрения сети.»
+                            <cite>Раздел «Внесение обновлений», стр. 312–313</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
                 </div>
             </section>
 

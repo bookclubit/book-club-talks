@@ -339,6 +339,48 @@
     render();
   });
 
+  // ---------- Разделение компонента: код уезжает влево, части встают справа ----------
+  // Слайд открывается кодом с предыдущего слайда — разговор продолжается с того
+  // же места. Клик разводит его на серверную и клиентскую части; повторный клик
+  // собирает обратно, чтобы показать разделение ещё раз.
+  document.querySelectorAll('[data-split]').forEach((split) => {
+    const hint = split.querySelector('[data-split-hint]');
+    const slide = split.closest('.slide');
+    if (!slide) return;
+
+    const hints = ['Нажмите — разделим компонент на части', 'Наведите на клиентскую часть'];
+
+    function render(on) {
+      split.classList.toggle('is-split', on);
+      if (hint) hint.textContent = hints[on ? 1 : 0];
+    }
+
+    split.addEventListener('click', (e) => {
+      e.stopPropagation();
+      render(!split.classList.contains('is-split'));
+    });
+
+    // Стрелка вправо сначала разделяет код и только потом листает слайд.
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (!slide.classList.contains('active')) return;
+        const on = split.classList.contains('is-split');
+        if (e.key === 'ArrowRight' && !on) render(true);
+        else if (e.key === 'ArrowLeft' && on) render(false);
+        else return;
+        e.preventDefault();
+        e.stopPropagation();
+      },
+      true
+    );
+
+    // Ушли со слайда — код снова целый.
+    new MutationObserver(() => {
+      if (!slide.classList.contains('active')) render(false);
+    }).observe(slide, { attributes: true, attributeFilter: ['class'] });
+  });
+
   // ---------- Термин в коде: пояснение показывает панель справа ----------
   // Отдельного всплывающего окна у термина нет: под курсором он занимает ту же
   // панель, что и клик по строке кода, а прежнее её содержимое возвращается,

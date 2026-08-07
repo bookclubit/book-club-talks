@@ -135,9 +135,16 @@
                     .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 22px; line-height: 1.55; color: var(--text-main); max-width: 1520px; }
                     .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
                     .cs-callout { margin-top: 36px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1520px; }
-                    .cs-qlist { counter-reset: q; list-style: none; margin: 36px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 24px; }
-                    .cs-qlist li { display: flex; gap: 24px; align-items: flex-start; font-size: 23px; line-height: 1.5; color: var(--text-main); max-width: 1520px; }
-                    .cs-qlist li::before { counter-increment: q; content: '0' counter(q); font-family: var(--font-mono); font-size: 16px; color: #71717a; letter-spacing: 0.1em; padding-top: 6px; flex-shrink: 0; }
+                    .cs-qa { counter-reset: q; margin-top: 36px; display: flex; flex-direction: column; gap: 14px; }
+                    .cs-qa details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+                    .cs-qa summary { cursor: pointer; list-style: none; display: flex; gap: 22px; align-items: baseline; padding: 20px 28px; font-size: 22px; line-height: 1.4; color: var(--text-main); }
+                    .cs-qa summary::-webkit-details-marker { display: none; }
+                    .cs-qa summary::before { counter-increment: q; content: '0' counter(q); font-family: var(--font-mono); font-size: 15px; color: #71717a; letter-spacing: 0.1em; flex-shrink: 0; }
+                    .cs-qa summary::after { content: '+'; margin-left: auto; color: #71717a; font-size: 26px; line-height: 1; flex-shrink: 0; }
+                    .cs-qa details[open] summary::after { content: '−'; }
+                    .cs-qa details[open] summary { border-bottom: 1px solid var(--border); }
+                    .cs-qa .cs-qa-a { margin: 0; padding: 18px 28px 22px 79px; font-size: 19px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-qa b, .cs-qa .cs-qa-a b { color: #fff; font-weight: 600; }
                 </style>
                 <div class="cs">
                     <div class="badge">Глава 9 · Где мы оказались</div>
@@ -146,11 +153,11 @@
                     <div class="cs-cards c3">
                         <div class="cs-card">
                             <h3>Предсказуемая производительность</h3>
-                            <p>Компоненты выполняются на <b>наших</b> серверах, мощность которых мы контролируем, — а не на незнакомых устройствах пользователей.</p>
+                            <p>Компоненты выполняются на <b>наших</b> серверах, мощность которых мы контролируем, — а не на незнакомых устройствах пользователей. И это не «лёгкая разметка»: markdown, подсветка синтаксиса, запросы к БД — <b>тяжёлая работа и её зависимости остаются на сервере</b>, клиенту едет готовый результат. Неинтерактивный ≠ обезличенный: RSC рендерятся на каждый запрос и могут читать куки и сессию.</p>
                         </div>
                         <div class="cs-card">
                             <h3>Безопасность по умолчанию</h3>
-                            <p>Секреты и токены остаются в защищённой серверной среде — код серверных компонентов никогда не попадает в браузер.</p>
+                            <p>Секреты у бэкенда были всегда — разница в том, <b>кто охраняет границу</b>. В SPA + API её держит дисциплина: не заимпортить случайно серверное во фронт. Здесь секреты и запросы к БД живут в одном дереве с UI, но <b>границу проверяет компилятор</b>: серверный код физически не попадает в бандл.</p>
                         </div>
                         <div class="cs-card">
                             <h3>Меньше JavaScript у клиента</h3>
@@ -162,9 +169,9 @@
 
             <section class="slide" data-slide="5">
                 <div class="cs">
-                    <div class="badge">Направления развития</div>
-                    <h2 class="gradient-text">Над чем работает команда React</h2>
-                    <p class="cs-lead">RSC будут развиваться и совершенствоваться: команда дорабатывает реализацию, устраняет проблемы и расширяет набор функций. Две главные области:</p>
+                    <div class="badge">2023 · Что обещала книга</div>
+                    <h2 class="gradient-text">Планы на момент написания книги</h2>
+                    <p class="cs-lead">Книга зафиксировала момент: RSC — «горячая» тема, реализация сырая, React 19 ещё не вышел, прод-путь фактически один — Next.js. Команда React обещала два фронта работы:</p>
                     <div class="cs-cards c2">
                         <div class="cs-card">
                             <h3>Лучшая интеграция с упаковщиками</h3>
@@ -175,28 +182,30 @@
                             <p>Вокруг новой архитектуры будут появляться <b>инструменты, библиотеки и фреймворки</b> — внедрять RSC в проекты станет проще, а выгоду от производительности получит больше команд.</p>
                         </div>
                     </div>
-                    <div class="cs-callout">Книга писалась, когда RSC были «горячей» темой, — детали могли измениться. Самая свежая информация — на <b>react.dev</b> и в каналах сообщества React.</div>
+                    <div class="cs-callout">И большой прогноз: меньше JavaScript у клиента, упрощённое получение данных, лучший UX — а по мере распространения RSC «станут важным инструментом». <b>Мы в августе 2026-го — можем выставить оценки.</b></div>
                 </div>
             </section>
 
             <section class="slide" data-slide="6">
                 <div class="cs">
-                    <div class="badge">Прогноз</div>
-                    <h2 class="gradient-text">Значительный шаг вперёд для экосистемы</h2>
-                    <ul class="cs-list">
-                        <li><span><b>Повышенная производительность</b> — меньше JavaScript у клиента, вычисления на предсказуемом железе.</span></li>
-                        <li><span><b>Упрощённое получение данных</b> — асинхронные компоненты читают данные там, где данные живут: на сервере.</span></li>
-                        <li><span><b>Улучшенный пользовательский опыт</b> — быстрая первая загрузка без отказа от интерактивности SPA.</span></li>
-                        <li><span>По мере распространения RSC станут <b>важным инструментом</b> для создания современных, эффективных приложений React.</span></li>
-                    </ul>
-                    <div class="cs-callout">С глубоким пониманием того, как RSC работают «под капотом», можно смело изучать и экспериментировать с ними в собственных проектах.</div>
+                    <div class="badge">Август 2026 · Сверяем часы</div>
+                    <h2 class="gradient-text">Что сбылось, а что разочаровало</h2>
+                    <table class="cs-table">
+                        <tr><th>Обещание книги</th><th>Август 2026</th></tr>
+                        <tr><td>Упаковщики нового поколения</td><td>Сбылось: Turbopack стабилен в Next.js, официальный @vitejs/plugin-rsc, поддержка в Parcel — RSC больше не привязаны к одному инструменту</td></tr>
+                        <tr><td>Поддержка экосистемы</td><td>Сбылось с оговоркой: App Router впервые обогнал Pages Router (State of JS 2025); React Router и Remix v3 везут RSC, есть Waku и TanStack — но «полный прод» всё ещё в первую очередь Next.js</td></tr>
+                        <tr><td>Меньше JavaScript у клиента</td><td>Подтверждено практикой: команды отчитываются о сокращении бандла на 40–60 % (условные 400–600 КБ → 150–250 КБ)</td></tr>
+                        <tr><td>«Станут важным инструментом»</td><td>Сбылось: React 19 (конец 2024) внёс RSC и server actions в стабильное ядро; RSC — рекомендуемый способ строить новые React-приложения</td></tr>
+                    </table>
+                    <div class="cs-callout"><b>Что разочаровало:</b> ментальная сложность «двух миров» так и осталась главной жалобой; часть экосистемы (CSS-in-JS, context-зависимые библиотеки) не переехала; несколько лет RSC ≈ Next.js. <b>Новые фронты:</b> React Compiler (автомемоизация), «use cache» и Partial Prerendering в Next.js, стабилизация RSC в React Router и Vite.</div>
                 </div>
             </section>
 
             <section class="slide" data-slide="7">
                 <div class="cs">
-                    <div class="badge">Итоги главы 9</div>
-                    <h2 class="gradient-text">Стоит запомнить только это</h2>
+                    <div class="badge">Рекап перед обсуждением</div>
+                    <h2 class="gradient-text">Вся глава — в пяти строках</h2>
+                    <p class="cs-lead">Этот доклад закрывает главу 9 — дальше вопросы из книги по всем её темам. Освежим четыре прошлых доклада одним слайдом.</p>
                     <ul class="cs-list">
                         <li><span><b>RSC — новый тип компонентов:</b> выполняются на сервере, исключены из клиентского пакета, могут запускаться во время сборки и быть асинхронными.</span></li>
                         <li><span><b>Два взаимодополняющих процесса:</b> RSC-рендеринг превращает компоненты в дерево элементов, серверный рендеринг — дерево в HTML.</span></li>
@@ -211,13 +220,29 @@
                 <div class="cs">
                     <div class="badge">Проверьте ваши знания</div>
                     <h2 class="gradient-text">Пять вопросов для обсуждения</h2>
-                    <ol class="cs-qlist">
-                        <li><span>Что является <b>главной ценностью</b> серверных компонентов React?</span></li>
-                        <li><span>Могут ли клиентские компоненты <b>импортировать</b> серверные? Почему?</span></li>
-                        <li><span>Каковы <b>компромиссы</b> между серверными компонентами и традиционным клиентским подходом?</span></li>
-                        <li><span>Что такое <b>ссылки на модули</b> и как React обрабатывает их во время согласования?</span></li>
-                        <li><span>Как server actions делают приложения React <b>более доступными</b>?</span></li>
-                    </ol>
+                    <p class="cs-lead">Вопросы из книги. Сначала обсуждаем — потом клик по вопросу раскрывает тезисный ответ.</p>
+                    <div class="cs-qa">
+                        <details>
+                            <summary>Что является <b>главной ценностью</b> серверных компонентов React?</summary>
+                            <p class="cs-qa-a">Код компонента <b>не едет клиенту</b>: тяжёлая работа и её зависимости выполняются на сервере, в бандле остаётся только интерактив. Плюс прямой доступ к данным и секретам — без отдельного API-слоя.</p>
+                        </details>
+                        <details>
+                            <summary>Могут ли клиентские компоненты <b>импортировать</b> серверные? Почему?</summary>
+                            <p class="cs-qa-a">Импортировать — нет: компоновщик смотрит на import, и серверный код (вплоть до node:fs) уехал бы в клиентский пакет. Но <b>принять готовый серверный компонент через children/пропсы — можно</b>: в пакет при этом ничего не добавляется.</p>
+                        </details>
+                        <details>
+                            <summary>Каковы <b>компромиссы</b> между серверными компонентами и традиционным клиентским подходом?</summary>
+                            <p class="cs-qa-a">Выигрыш: меньше JS, быстрее первый экран, данные и секреты на сервере. Плата: <b>два типа компонентов и граница между ними</b> (интеллектуальные затраты), обязательный сервер или сборка, упаковщик нового поколения; интерактив всё равно требует клиентских компонентов.</p>
+                        </details>
+                        <details>
+                            <summary>Что такое <b>ссылки на модули</b> и как React обрабатывает их во время согласования?</summary>
+                            <p class="cs-qa-a">Вместо клиентского компонента сервер кладёт в дерево заполнитель — объект с <b>$$typeof: react.module.reference</b> и ID модуля. При согласовании React на клиенте подменяет ссылку реальным модулем из клиентского пакета и рендерит его — так «дыры» в серверном дереве заполняются интерактивом.</p>
+                        </details>
+                        <details>
+                            <summary>Как server actions делают приложения React <b>более доступными</b>?</summary>
+                            <p class="cs-qa-a">Форма с action работает <b>до загрузки JavaScript</b>: до гидратации сабмит уходит нативным браузерным POST (прогрессивное улучшение). Слабые сети, слабые устройства, отключённый JS — критичные сценарии вроде логина остаются рабочими.</p>
+                        </details>
+                    </div>
                 </div>
             </section>
 

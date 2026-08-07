@@ -97,9 +97,213 @@
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <!-- ===== CONTENT SLIDES ===== -->
+            <section class="slide" data-slide="3">
+                <style>
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card ul { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; font-size: 18px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-card b, .cs-list b, .cs-callout b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 36px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 22px; line-height: 1.55; color: var(--text-main); max-width: 1520px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-callout { margin-top: 36px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1520px; }
+                    .cs-code { background: #0b0b0c; border: 1px solid var(--border); border-radius: 14px; padding: 22px 28px; margin-top: 36px; overflow-x: auto; }
+                    .cs-code pre { margin: 0; font-family: var(--font-mono); font-size: 17px; line-height: 1.65; color: var(--text-muted); }
+                    .cs-code .k { color: #fff; font-weight: 600; }
+                    .cs-code .c { color: #52525b; }
+                    .cs-card .cs-code { margin-top: 18px; padding: 16px 20px; }
+                    .cs-card .cs-code pre { font-size: 15px; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 9 · Контекст</div>
+                    <h2 class="gradient-text">Кто где выполняется: шесть фактов</h2>
+                    <p class="cs-lead">Прошлые доклады показали, как RSC-рендерер превращает серверные компоненты в дерево элементов и шлёт его клиенту. Прежде чем говорить о правилах — зафиксируем границы выполнения.</p>
+                    <ul class="cs-list">
+                        <li><span><b>Серверные компоненты выполняются на сервере</b> и выводят объекты — элементы React.</span></li>
+                        <li><span><b>Клиентские компоненты тоже выполняются на сервере</b> — при первом рендере, выводя такие же объекты.</span></li>
+                        <li><span>На сервере живёт <b>один большой объект</b> со всеми элементами — из обоих типов компонентов.</span></li>
+                        <li><span>Этот объект <b>сериализуется в строку</b> и отправляется клиенту.</span></li>
+                        <li><span>С этого момента <b>серверные компоненты никогда не выполняются на клиенте</b>.</span></li>
+                        <li><span>С этого момента <b>клиентские компоненты выполняются только на клиенте</b>.</span></li>
+                    </ul>
+                    <div class="cs-callout">Распространённое заблуждение: «клиентские компоненты выполняются только на клиенте». Нет — при серверном рендеринге они вызываются на сервере и приезжают в браузер уже как HTML.</div>
+                </div>
+            </section>
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Правило 1</div>
+                    <h2 class="gradient-text">Главное — сериализуемость</h2>
+                    <p class="cs-lead">Сервер должен сериализовать пропсы и отправить их клиенту по сети. Поэтому пропсы серверных компонентов не могут быть функциями или другими несериализуемыми значениями.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Так нельзя</h3>
+                            <div class="cs-code"><pre><span class="c">// Серверный компонент</span>
+function ServerComponent() {
+  return &lt;ClientComponent <span class="k">onClick={() =&gt; alert("hi")}</span> /&gt;;
+}
+<span class="c">// Ошибка: функция не сериализуется</span></pre></div>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Как обойти</h3>
+                            <p>Инкапсулировать <b>onClick</b> внутри самого клиентского компонента: обработчик рождается там, где он выполняется, — и через сеть его передавать не нужно.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Побочный эффект: паттерн <b>render props</b> из главы 5 — передача функции рендеринга через пропсы — для серверных компонентов фактически устарел.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Правило 2</div>
+                    <h2 class="gradient-text">Отсутствие эффективных хуков</h2>
+                    <p class="cs-lead">Серверная среда принципиально другая: она не интерактивна, у неё нет DOM и нет окна вывода. Поэтому хуки состояния и эффектов в серверных компонентах не поддерживаются.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <h3>Нельзя</h3>
+                            <p><b>useState, useReducer, useEffect</b> — всё, что зависит от состояния, эффектов или API браузера, на сервере не имеет смысла.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Можно</h3>
+                            <p>Хуки, не зависящие от состояния и браузера. Например, <b>useRef</b> отлично работает в серверных компонентах.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Фреймворки строже</h3>
+                            <p>В Next.js статический анализатор запрещает <b>все</b> хуки в серверных компонентах — но это правило фреймворка, а не React.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Возможно, скудный выбор хуков — не так уж плохо: он склоняет нас к более безопасной работе с компонентами.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Правило 3</div>
+                    <h2 class="gradient-text">Состояние — на самом деле не состояние</h2>
+                    <p class="cs-lead">Отношения сервера с клиентами — широковещательные: один сервер обслуживает многих. Состояние на сервере принципиально отличается от состояния на клиенте.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Клиент: один на один</h3>
+                            <p>До RSC состояние было локализовано в текущем приложении: <b>один клиент — одно состояние</b>. useState живёт в браузере конкретного пользователя.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Сервер: один для всех</h3>
+                            <p>«Состояние» на сервере используется <b>несколькими клиентами совместно</b>. Высок риск перепутать данные между клиентами — вплоть до раскрытия конфиденциальной информации.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Вдобавок диспетчер <b>setState</b> — это функция, а функции не сериализуются. Вывод: всё, что требует useState или useReducer, — это клиентский компонент.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Правило 4</div>
+                    <h2 class="gradient-text">Клиентский компонент не может импортировать серверный</h2>
+                    <p class="cs-lead">Клиентские компоненты выполняются и на сервере, и в браузере. А серверный компонент может тянуть за собой то, чего в браузере просто нет.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Так нельзя</h3>
+                            <div class="cs-code"><pre><span class="k">"use client"</span>;
+<span class="k">import</span> { ServerComponent } <span class="k">from</span> "./ServerComponent";
+
+function ClientComponent() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Check out my server component!&lt;/h1&gt;
+      &lt;ServerComponent /&gt;
+    &lt;/div&gt;
+  );
+}</pre></div>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Почему упадёт</h3>
+                            <div class="cs-code"><pre><span class="k">import</span> { readFile } <span class="k">from</span> <span class="k">"node:fs/promises"</span>;
+
+<span class="k">export</span> async function ServerComponent() {
+  const content = await readFile("./some-file.txt", "utf-8");
+  return &lt;div&gt;{content}&lt;/div&gt;;
+}</pre></div>
+                            <p style="margin-top: 16px;">В браузере нет <b>node:fs/promises</b> — импорт в клиентский код закончится ошибкой на клиенте.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Правило 4 · Лазейка</div>
+                    <h2 class="gradient-text">…но может принять его через пропсы</h2>
+                    <p class="cs-lead">Запрет касается только импорта: компоновщик смотрит на инструкции import, а не на состав пропсов. Композиция через children — легальна и идиоматична.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Клиентский компонент — «рамка»</h3>
+                            <div class="cs-code"><pre><span class="k">"use client"</span>;
+
+function ClientComponent({ <span class="k">children</span> }) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Check out my server component!&lt;/h1&gt;
+      {<span class="k">children</span>}
+    &lt;/div&gt;
+  );
+}</pre></div>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Родитель-сервер собирает обоих</h3>
+                            <div class="cs-code"><pre><span class="k">import</span> { ServerComponent } <span class="k">from</span> "./ServerComponent";
+
+async function TheParentOfBoth() {
+  return (
+    &lt;ClientComponent&gt;
+      <span class="k">&lt;ServerComponent /&gt;</span>
+    &lt;/ClientComponent&gt;
+  );
+}</pre></div>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Смысл запрета — не пустить серверный код в клиентский пакет. Передача готового серверного компонента пропсом в пакет ничего не добавляет — поэтому она разрешена.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="9">
+                <div class="cs">
+                    <div class="badge">Правило 5</div>
+                    <h2 class="gradient-text">Клиентские компоненты не так уж плохи</h2>
+                    <ul class="cs-list">
+                        <li><span>До появления RSC <b>все</b> компоненты React были клиентскими — весь существующий код уже написан на них, и это нормально.</span></li>
+                        <li><span>Клиентские компоненты — «хлеб и масло» React: они по-прежнему основа приложений и самый распространённый тип компонентов.</span></li>
+                        <li><span>Серверные компоненты — <b>дополнение, а не замена</b>. Воспринимать их как «превосходную замену клиентским» — ошибка.</span></li>
+                        <li><span>Выделяйте в клиентскую часть <b>ровно ту крошечную долю приложения, которой нужна интерактивность</b>, — остальное безопасно рендерится на сервере и не попадает в JS-пакет.</span></li>
+                    </ul>
+                    <div class="cs-callout">Меньше кода в пакете — быстрее загрузка и меньше работы для процессора и сети. Ради этого всё и затевалось.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10">
+                <div class="cs">
+                    <div class="badge">Главные выводы</div>
+                    <h2 class="gradient-text">Если запомнить только это</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Сериализуемость превыше всего:</b> пропсы серверных компонентов едут по сети — функции и прочее несериализуемое не пройдёт.</span></li>
+                        <li><span><b>Эффективных хуков нет:</b> useState и useEffect — только на клиенте; useRef и хуки без состояния — можно.</span></li>
+                        <li><span><b>Состояние сервера — общее для всех клиентов:</b> нужен useState — значит, это клиентский компонент.</span></li>
+                        <li><span><b>Импортировать серверный компонент из клиентского нельзя,</b> а передать его через children — можно и нужно.</span></li>
+                        <li><span><b>Клиентские компоненты никуда не уходят:</b> RSC — дополнение к ним, а не замена.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+<section class="slide" data-slide="11" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

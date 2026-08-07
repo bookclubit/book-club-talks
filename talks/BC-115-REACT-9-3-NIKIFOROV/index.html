@@ -214,11 +214,34 @@ function ServerComponent() {
                             <li><span>И чисто технически: <b>setState — функция</b>, а функции не сериализуются — диспетчер состояния даже нельзя отправить клиенту.</span></li>
                         </ul>
                     </div>
-                    <div class="cs-callout">Поэтому useState и useReducer в серверных компонентах запрещены не вредности ради: настоящего компонентного состояния на сервере не существует. Всё, чему нужно состояние, — клиентский компонент.</div>
+                    <div class="cs-callout">Поэтому useState и useReducer в серверных компонентах запрещены: всё, чему нужно состояние, — клиентский компонент. «А что, если очень хочется стейт на сервере?» — следующий слайд.</div>
                 </div>
             </section>
 
             <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Правило 3 · А что, если всё-таки?</div>
+                    <h2 class="gradient-text">Стейт на сервере сделать можно. Почему не сделали?</h2>
+                    <p class="cs-lead">Технически ничто не мешает: держи живой инстанс компонента в памяти на каждую вкладку и пуши ре-рендеры по вебсокету. Такие системы существуют — просто это другой продукт с другой ценой.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <h3>Как это выглядит в теории</h3>
+                            <p>Инстанс компонента живёт на сервере между рендерами + постоянный канал к клиенту для пуша обновлений + ответ на вопрос «чей это useState». Именно так работают <b>Phoenix LiveView</b> (Elixir) и <b>Blazor Server</b> (.NET) — компонентный стейт на сервере, каждое взаимодействие летает по вебсокету.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Цена</h3>
+                            <p>Каждый клик — <b>сетевой round-trip</b>; память сервера — на каждую открытую вкладку; sticky sessions и потеря стейта при падении сервера; обрыв связи — <b>мёртвый UI</b>; уборка брошенных сессий. Масштабирование меряется не запросами, а живыми соединениями.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Почему React отказался</h3>
+                            <p>LiveView вывозит рантайм BEAM — миллионы дешёвых изолированных процессов; у Node такого нет. Позиция React: RSC рассчитаны на <b>stateless запрос → ответ</b>, а состояние живёт там, где взаимодействие. Долгоживущее — это данные: БД/Redis → пропсы → server actions.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Кто всё же так делает: на чистом React — <b>эксперименты с RSC по вебсокету</b> (стейтфул-сервер шлёт JSX сообщениями). Прагматичный вариант в проде — <b>sync-движки и реактивные бэкенды</b> (Convex, ElectricSQL, Zero): стейт на сервере, пуш по вебсокету, но рендер остаётся клиентским.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
                 <div class="cs">
                     <div class="badge">Правило 4</div>
                     <h2 class="gradient-text">Клиентский компонент не может импортировать серверный</h2>
@@ -253,7 +276,7 @@ function ClientComponent() {
                 </div>
             </section>
 
-            <section class="slide" data-slide="8">
+            <section class="slide" data-slide="9">
                 <div class="cs">
                     <div class="badge">Правило 4 · Лазейка</div>
                     <h2 class="gradient-text">…но может принять его через пропсы</h2>
@@ -289,7 +312,7 @@ async function TheParentOfBoth() {
                 </div>
             </section>
 
-            <section class="slide" data-slide="9">
+            <section class="slide" data-slide="10">
                 <div class="cs">
                     <div class="badge">Правило 5 · Ради чего всё это</div>
                     <h2 class="gradient-text">Клиентские компоненты не так уж плохи</h2>
@@ -306,7 +329,7 @@ async function TheParentOfBoth() {
                 </div>
             </section>
 
-            <section class="slide" data-slide="10">
+            <section class="slide" data-slide="11">
                 <div class="cs">
                     <div class="badge">Главные выводы</div>
                     <h2 class="gradient-text">Стоит запомнить только это</h2>
@@ -320,7 +343,7 @@ async function TheParentOfBoth() {
                 </div>
             </section>
 
-<section class="slide" data-slide="11" data-chrome="whatnext">
+<section class="slide" data-slide="12" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

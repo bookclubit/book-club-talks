@@ -99,6 +99,25 @@
 
             <!-- ===== CONTENT SLIDES ===== -->
             <section class="slide" data-slide="3">
+                <div class="cs">
+                    <div class="badge">Глава 9 · Откуда растут RSC</div>
+                    <h2 class="gradient-text">Два родителя: MPA и SPA</h2>
+                    <p class="cs-lead">Прежде чем говорить о будущем — вспомним, из чего RSC собраны. Веб десятилетиями качался между двумя крайностями, и у каждой были веские причины существовать.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>MPA — multi-page application</h3>
+                            <p>«Многостраничник» эпохи PHP и Rails: каждый клик — запрос на сервер, в ответ — новая HTML-страница. <b>Сильные стороны:</b> быстрый первый экран, SEO из коробки, работает без JavaScript, данные всегда свежие с сервера. <b>Слабость:</b> любое действие — перезагрузка всей страницы, состояние (скролл, черновик, музыка) теряется.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>SPA — single-page application</h3>
+                            <p>«Одностраничник» эпохи React: HTML приходит один раз, дальше всё рисует JavaScript в браузере. <b>Сильные стороны:</b> мгновенные переходы без перезагрузки, богатая интерактивность, состояние живёт между экранами. <b>Слабость:</b> весь код приложения едет клиенту — первый экран ждёт бандла, слабые устройства и SEO страдают, данные ходят через отдельный API.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Оба паттерна честно решали задачи своего времени — просто оптимизировали разное: MPA — <b>доставку контента</b>, SPA — <b>интерактивность</b>. RSC — попытка не выбирать: HTML и данные с сервера как в MPA, мягкая навигация и живой интерактив как в SPA.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="4">
                 <style>
                     .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
                     .cs .badge { align-self: flex-start; margin-bottom: 28px; }
@@ -141,7 +160,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="4">
+            <section class="slide" data-slide="5">
                 <div class="cs">
                     <div class="badge">Направления развития</div>
                     <h2 class="gradient-text">Над чем работает команда React</h2>
@@ -160,7 +179,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="5">
+            <section class="slide" data-slide="6">
                 <div class="cs">
                     <div class="badge">Прогноз</div>
                     <h2 class="gradient-text">Значительный шаг вперёд для экосистемы</h2>
@@ -174,7 +193,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="6">
+            <section class="slide" data-slide="7">
                 <div class="cs">
                     <div class="badge">Итоги главы 9</div>
                     <h2 class="gradient-text">Стоит запомнить только это</h2>
@@ -188,7 +207,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="7">
+            <section class="slide" data-slide="8">
                 <div class="cs">
                     <div class="badge">Проверьте ваши знания</div>
                     <h2 class="gradient-text">Пять вопросов для обсуждения</h2>
@@ -202,7 +221,7 @@
                 </div>
             </section>
 
-<section class="slide" data-slide="8" data-chrome="whatnext">
+<section class="slide" data-slide="9" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

@@ -103,10 +103,10 @@
 
             <!-- ===== КОНТЕНТНЫЕ СЛАЙДЫ ДОКЛАДА ===== -->
 
-            <!-- SLIDE: RSR vs SSR — два независимых процесса -->
+            <!-- SLIDE: RSC-рендеринг vs SSR — два независимых процесса -->
             <section class="slide" data-slide="3">
                 <div class="content-slide">
-                    <h2 class="gradient-text">RSR vs SSR</h2>
+                    <h2 class="gradient-text">RSC-рендеринг vs SSR</h2>
                     <p class="slide-lead">
                         Два отдельных процесса: один превращает компоненты в дерево элементов,
                         другой — дерево в HTML. Наведите на узел, чтобы увидеть,
@@ -117,7 +117,7 @@
                          с лидом остаются наверху и на её положение не влияют. -->
                     <div class="pipeline-block">
                         <div class="pipeline">
-                        <div class="zone zone-rsc"><span>RSR — рендеринг серверных компонентов</span></div>
+                        <div class="zone zone-rsc"><span>RSC — рендеринг серверных компонентов</span></div>
                         <div class="zone zone-ssr"><span>SSR — серверный рендеринг</span></div>
 
                         <div class="pnode n1">
@@ -197,7 +197,7 @@
                     </div>
 
                     <p class="pipeline-hint">
-                        Голубая рамка — RSR, янтарная — SSR. Дерево элементов принадлежит
+                        Голубая рамка — RSC-рендеринг, янтарная — SSR. Дерево элементов принадлежит
                         обеим зонам: им заканчивается первый процесс и начинается второй
                     </p>
                     </div>
@@ -253,7 +253,7 @@
 <div class="code-line" data-title="Раздача клиентского бандла" data-desc="Статика отдаётся из build: там лежит собранный клиентский JavaScript. Именно он позже подключится к серверной разметке при гидратации — сервер отдаёт HTML, а браузер добирает интерактивность из этого файла.">app.<span class="fn">use</span>(express.<span class="fn">static</span>(path.<span class="fn">join</span>(__dirname, <span class="str">"build"</span>)));</div>
 
 <div class="code-line" data-title="Один маршрут на всё приложение" data-desc="app.get(&quot;*&quot;) — обработчик любого пути: маршрутизацию берёт на себя React-дерево, а не express. Обработчик асинхронный, потому что сборка дерева умеет ждать данные: внутри будет await.">app.<span class="fn">get</span>(<span class="str">"*"</span>, <span class="kw">async</span> (req, res) =&gt; {</div>
-<div class="code-line" data-title="RSR: компоненты → дерево элементов" data-desc="На сервере дерево JSX преобразуется в дерево элементов.<span class='note-aside'>Подробнее работу этой функции рассмотрим на следующем слайде.</span>">  <span class="kw">const</span> rscTree = <span class="kw">await</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(<span class="punc">&lt;</span><span class="tag">App</span> <span class="punc">/&gt;</span>);</div>
+<div class="code-line" data-title="RSC: компоненты → дерево элементов" data-desc="На сервере дерево JSX преобразуется в дерево элементов.<span class='note-aside'>Подробнее работу этой функции рассмотрим на следующем слайде.</span>">  <span class="kw">const</span> rscTree = <span class="kw">await</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(<span class="punc">&lt;</span><span class="tag">App</span> <span class="punc">/&gt;</span>);</div>
 
 <div class="code-line" data-title="SSR: дерево → HTML-строка" data-desc="Второй процесс. renderToString проходит по готовому дереву элементов и склеивает HTML. Ему уже не нужно ничего ждать: все асинхронные компоненты разрешены на предыдущем шаге. В продакшене здесь чаще стриминг.">  <span class="kw">const</span> html = ReactDOMServer.<span class="fn code-term" data-title="Стриминг вместо строки" data-desc="renderToString собирает весь HTML в память и отдаёт целиком. Стриминговые API отдают разметку порциями, по мере готовности: <em>renderToPipeableStream</em> — для Node.js, <em>renderToReadableStream</em> — для сред с Web Streams (Deno, воркеры, edge). Вместе с Suspense это даёт первую отрисовку до того, как готовы все данные.<a href='https://react.dev/reference/react-dom/server/renderToPipeableStream' target='_blank' rel='noreferrer'>Документация React ↗</a>">renderToString</span>(rscTree);</div>
 

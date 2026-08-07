@@ -97,9 +97,182 @@
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <!-- ===== CONTENT SLIDES ===== -->
+            <section class="slide" data-slide="3">
+                <style>
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card ul { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; font-size: 18px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-card b, .cs-list b, .cs-callout b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 36px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 22px; line-height: 1.55; color: var(--text-main); max-width: 1520px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-callout { margin-top: 36px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1520px; }
+                    .cs-code { background: #0b0b0c; border: 1px solid var(--border); border-radius: 14px; padding: 22px 28px; margin-top: 36px; overflow-x: auto; }
+                    .cs-code pre { margin: 0; font-family: var(--font-mono); font-size: 17px; line-height: 1.65; color: var(--text-muted); }
+                    .cs-code .k { color: #fff; font-weight: 600; }
+                    .cs-code .c { color: #52525b; }
+                    .cs-card .cs-code { margin-top: 18px; padding: 16px 20px; }
+                    .cs-card .cs-code pre { font-size: 15px; }
+                    .cs-cols { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; margin-top: 36px; align-items: start; }
+                    .cs-cols .cs-code { margin-top: 0; }
+                    .cs-cols .cs-list { margin-top: 0; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 9 · Серверные действия</div>
+                    <h2 class="gradient-text">«use server»: функции сервера, вызываемые с клиента</h2>
+                    <p class="cs-lead">Серверные компоненты — не единственная новинка. В паре с ними работает директива «use server», превращающая обычную функцию в серверное действие (server action).</p>
+                    <div class="cs-cols">
+                        <ul class="cs-list">
+                            <li><span>Любая <b>асинхронная функция</b> может начинаться с «use server» — сигнал React и компоновщику: вызывать можно с клиента, выполнять — только на сервере.</span></li>
+                            <li><span>Вызов действия на клиенте — это <b>сетевой запрос</b> с сериализованной копией всех аргументов.</span></li>
+                            <li><span>Возвращаемое значение <b>сериализуется и приходит обратно</b> клиенту.</span></li>
+                        </ul>
+                        <div class="cs-code"><pre>async function requestUsername(formData) {
+  <span class="k">"use server"</span>;
+  const username = formData.get("username");
+  <span class="c">// выполняется только на сервере</span>
+}</pre></div>
+                    </div>
+                    <div class="cs-callout">Знакомая логика: «use client» помечает границу клиентского пакета, «use server» — границу серверных функций. Две директивы — два направления через сеть.</div>
+                </div>
+            </section>
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Синтаксис</div>
+                    <h2 class="gradient-text">Пометить функцию — или сразу весь файл</h2>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Директива в теле функции</h3>
+                            <div class="cs-code"><pre>async function requestUsername(formData) {
+  <span class="k">"use server"</span>;
+  <span class="c">// ...</span>
+}</pre></div>
+                            <p style="margin-top: 16px;">Точечно: серверным действием становится одна конкретная функция.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Директива в начале файла</h3>
+                            <div class="cs-code"><pre><span class="k">"use server"</span>; <span class="c">// первая строка файла</span>
+
+<span class="k">export</span> async function likePost(id) { <span class="c">/* ... */</span> }
+<span class="k">export</span> async function follow(userId) { <span class="c">/* ... */</span> }</pre></div>
+                            <p style="margin-top: 16px;">Весь экспорт файла — серверные действия. Их можно использовать где угодно, <b>включая импорт в клиентский код</b>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Формы и мутации</div>
+                    <h2 class="gradient-text">Форма, которая работает до загрузки JavaScript</h2>
+                    <p class="cs-lead">React даёт первоклассные примитивы для форм: серверное действие передаётся прямо в action, и при отправке формы происходит сетевой запрос к серверной функции.</p>
+                    <div class="cs-cols">
+                        <div class="cs-code"><pre><span class="c">// App.js</span>
+async function requestUsername(formData) {
+  <span class="k">"use server"</span>;
+  const username = formData.get("username");
+  <span class="c">// ...</span>
+}
+
+<span class="k">export default</span> function App() {
+  return (
+    &lt;form <span class="k">action={requestUsername}</span>&gt;
+      &lt;input type="text" name="username" /&gt;
+      &lt;button type="submit"&gt;Request&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</pre></div>
+                        <ul class="cs-list">
+                            <li><span>При вызове действия из формы React сам передаст её <b>FormData</b> первым аргументом.</span></li>
+                            <li><span>Это <b>прогрессивное улучшение</b>: форму можно отправить ещё до того, как загрузился JS-пакет.</span></li>
+                            <li><span>Никакого ручного fetch, onSubmit и preventDefault — мутация описывается одной функцией.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">За пределами форм</div>
+                    <h2 class="gradient-text">Действие + useTransition: лайк без формы</h2>
+                    <p class="cs-lead">Серверные действия можно вызывать из любого места клиентского кода. Вызов в переходе даёт индикатор загрузки, оптимистичные обновления и обработку ошибок.</p>
+                    <div class="cs-cols">
+                        <div class="cs-code"><pre><span class="k">"use client"</span>;
+<span class="k">import</span> incrementLike <span class="k">from</span> "./actions";
+<span class="k">import</span> { useState, useTransition } <span class="k">from</span> "react";
+
+function LikeButton() {
+  const [<span class="k">isPending</span>, startTransition] = useTransition();
+  const [likeCount, setLikeCount] = useState(0);
+
+  const onClick = () =&gt; {
+    <span class="k">startTransition</span>(async () =&gt; {
+      <span class="c">// ждём promise, чтобы прочитать результат</span>
+      const currentCount = <span class="k">await incrementLike()</span>;
+      setLikeCount(currentCount);
+    });
+  };
+
+  return (
+    &lt;&gt;
+      &lt;p&gt;Total Likes: {likeCount}&lt;/p&gt;
+      &lt;button onClick={onClick} disabled={<span class="k">isPending</span>}&gt;Like&lt;/button&gt;
+    &lt;/&gt;
+  );
+}</pre></div>
+                        <ul class="cs-list">
+                            <li><span><b>startTransition</b> оборачивает вызов действия — пока запрос летит на сервер, isPending истинно и кнопка выключена.</span></li>
+                            <li><span>Возвращаемое значение действия — <b>обычный promise</b>: await — и результат у нас.</span></li>
+                            <li><span>Тот же механизм открывает дорогу <b>оптимистичным обновлениям</b> и обработке непредвиденных ошибок.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Осторожно</div>
+                    <h2 class="gradient-text">Это открытые конечные точки сервера</h2>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Помним про безопасность</h3>
+                            <p>Серверные действия — <b>открытые endpoint'ы</b>: их можно вызвать из любого места клиентского кода. Относиться к ним стоит так же строго, как к любому публичному API — с проверкой прав и валидацией входа.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Это API для фреймворков</h3>
+                            <p>В ванильном React работа с директивами громоздка и требует немалой настройки. На практике серверные действия предназначены для <b>библиотек и фреймворков</b> — Next.js и подобных.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Тем не менее это мощная функция, открывающая множество интересных вариантов использования — от форм до произвольных мутаций.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Главные выводы</div>
+                    <h2 class="gradient-text">Если запомнить только это</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Серверное действие</b> — асинхронная функция с «use server»: вызывается с клиента, выполняется на сервере.</span></li>
+                        <li><span>Аргументы и результат <b>сериализуются и ездят по сети</b> — как пропсы у серверных компонентов.</span></li>
+                        <li><span>В формах действие передаётся в <b>action</b>, React сам подставляет FormData — и форма работает даже до загрузки JS.</span></li>
+                        <li><span>Вне форм действия дружат с <b>useTransition</b>: индикаторы загрузки, оптимистичные обновления, обработка ошибок.</span></li>
+                        <li><span>Это <b>открытые endpoint'ы</b> и API уровня фреймворков — использовать через Next.js и аналоги, не забывая о безопасности.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+<section class="slide" data-slide="9" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

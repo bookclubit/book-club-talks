@@ -1185,33 +1185,159 @@ window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>
                     <p class="slide-lead">
                         «Выполнить компонент» — значит вызвать его функцию с пропсами
                         и получить элемент React. Не «стать интерактивным в браузере»,
-                        а просто вызвать функцию.
+                        а просто вызвать функцию. Наведите на блок — покажется, что
+                        лежит в памяти на этом шаге.
                     </p>
 
-                    <div class="checklist">
-                        <div class="check">
-                            <span class="check-mark">✓</span>
-                            <p>Серверные компоненты выполняются на сервере → объекты элементов.</p>
+                    <!-- Путь одного рендера слева направо: обе половины дерева
+                         выполняются на сервере → один объект → строка → браузер.
+                         Отличие серверных компонентов от клиентских проявляется
+                         только в последней колонке — там по наведению всплывает
+                         рамка вокруг обоих блоков (.xf-frame). Высоты блоков
+                         фиксированы: по ним посчитаны координаты линий в SVG. -->
+                    <div class="xflow">
+                        <div class="xf-col is-first">
+                            <span class="xf-tag"><b>1 · на сервере</b>выполняются, возвращают элементы</span>
+                            <div class="xf-body">
+                                <div class="xf-box is-server">
+                                    <span class="xf-box-name">Серверный компонент</span>
+                                    <span class="xf-box-note">вызвали функцию — получили объект</span>
+                                    <div class="xf-pop">
+                                        <b>ProductInfo() вернул объект</b>
+<pre>{
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">'section'</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: [ … ] }
+}</pre>
+                                        Ни разметки, ни HTML — обычный объект в памяти,
+                                        описание того, что нужно нарисовать.
+                                    </div>
+                                </div>
+                                <div class="xf-box is-client">
+                                    <span class="xf-box-name">Клиентский компонент</span>
+                                    <span class="xf-box-note">здесь же и точно так же</span>
+                                    <div class="xf-pop">
+                                        <b>AddToCart() вернул такой же объект</b>
+<pre>{
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">'button'</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">'В корзину'</span> }
+}</pre>
+                                        Это следующий проход — рендеринг HTML: там, где
+                                        в дереве стояла ссылка на модуль, подставляется
+                                        сам компонент и вызывается. <code>useState</code>
+                                        вернёт начальное значение, <code>onClick</code>
+                                        просто ляжет в props — нажимать пока некому.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="check">
-                            <span class="check-mark">✓</span>
-                            <p>Клиентские компоненты выполняются на сервере → тоже объекты элементов.</p>
+
+                        <div class="xf-arrow" aria-hidden="true">
+                            <svg class="xf-conn" width="88" height="424" viewBox="0 0 88 424"
+                                 fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M0 95H44V212h34"></path>
+                                <path d="M0 329H44V212"></path>
+                                <path d="M72 206l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
                         </div>
-                        <div class="check">
-                            <span class="check-mark">✓</span>
-                            <p>На сервере получается единый большой объект всех элементов — и клиентских, и серверных.</p>
+
+                        <div class="xf-col">
+                            <span class="xf-tag"><b>2 · на сервере</b>элементы сходятся в одно дерево</span>
+                            <div class="xf-body">
+                                <div class="xf-box is-mixed">
+                                    <span class="xf-box-name">Один большой объект</span>
+                                    <span class="xf-box-note">все элементы React — и клиентские, и серверные</span>
+                                    <div class="xf-pop">
+                                        <b>Одно дерево на всё приложение</b>
+<pre>{
+  <span class="attr">type</span>: <span class="str">'div'</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: [
+    { <span class="attr">type</span>: <span class="str">'section'</span>, … },  <span class="cm">// серверный</span>
+    { <span class="attr">type</span>: <span class="str">'button'</span>,  … }   <span class="cm">// клиентский</span>
+  ] }
+}</pre>
+                                        По объекту не видно, кто его породил: элементы
+                                        обоих видов лежат в одном дереве вперемешку.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="check">
-                            <span class="check-mark">✓</span>
-                            <p>Этот объект превращается в строку и отправляется клиенту.</p>
+
+                        <div class="xf-arrow" aria-hidden="true">
+                            <svg class="xf-conn" width="88" height="424" viewBox="0 0 88 424"
+                                 fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M0 212h78"></path>
+                                <path d="M72 206l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
                         </div>
-                        <div class="check is-no">
-                            <span class="check-mark">✕</span>
-                            <p>Серверные компоненты никогда не выполняются на клиенте — их код туда не попадает.</p>
+
+                        <div class="xf-col">
+                            <span class="xf-tag"><b>3 · передача</b>дерево уезжает строкой</span>
+                            <div class="xf-body">
+                                <div class="xf-box is-wire">
+                                    <span class="xf-box-name">Строка</span>
+                                    <span class="xf-box-note">объект превращается в строку и отправляется клиенту</span>
+                                    <div class="xf-pop">
+                                        <b>То же дерево, только текстом</b>
+<pre><span class="str">"&lt;div&gt;&lt;section&gt;
+  &lt;h2&gt;Ноутбук&lt;/h2&gt;&lt;p&gt;128 900 ₽&lt;/p&gt;
+&lt;/section&gt;
+&lt;button&gt;В корзину&lt;/button&gt;&lt;/div&gt;"</span></pre>
+                                        Браузер показывает её сразу — ещё до того, как
+                                        скачается хоть один килобайт JavaScript. Рядом
+                                        едет payload со ссылками на клиентские модули.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="check">
-                            <span class="check-mark">✓</span>
-                            <p>Клиентские компоненты с этого момента выполняются исключительно на клиенте.</p>
+
+                        <div class="xf-arrow" aria-hidden="true">
+                            <svg class="xf-conn" width="88" height="424" viewBox="0 0 88 424"
+                                 fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M0 212h44V95h34"></path>
+                                <path d="M44 212v117h34"></path>
+                                <path d="M72 89l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M72 323l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+
+                        <div class="xf-col is-last">
+                            <span class="xf-tag"><b>4 · в браузере</b>дальше работает одна половина</span>
+                            <div class="xf-body is-boundary">
+                                <span class="xf-frame" aria-hidden="true"></span>
+                                <div class="xf-box is-server is-dead">
+                                    <span class="xf-box-name">Серверные компоненты</span>
+                                    <span class="xf-box-note">никогда не выполняются на клиенте</span>
+                                    <div class="xf-pop">
+                                        <b>В браузере от них только это</b>
+<pre>&lt;<span class="tag">section</span>&gt;
+  &lt;<span class="tag">h2</span>&gt;Ноутбук&lt;/<span class="tag">h2</span>&gt;
+  &lt;<span class="tag">p</span>&gt;128 900 ₽&lt;/<span class="tag">p</span>&gt;
+&lt;/<span class="tag">section</span>&gt;</pre>
+                                        Просто разметка. Кода <code>ProductInfo</code>
+                                        в бандле нет — пересчитать её браузеру нечем.
+                                    </div>
+                                </div>
+                                <div class="xf-box is-client is-live">
+                                    <span class="xf-box-name">Клиентские компоненты</span>
+                                    <span class="xf-box-note">выполняются исключительно на клиенте</span>
+                                    <div class="xf-pop">
+                                        <b>А этот оживает</b>
+<pre><span class="fn">hydrateRoot</span>(root, tree)
+<span class="cm">// AddToCart() вызывается снова —</span>
+<span class="cm">// теперь с настоящими useState и onClick</span></pre>
+                                        Модуль берётся из бандла, функция вызывается ещё
+                                        раз — уже в браузере. Все следующие перерисовки
+                                        происходят только здесь.
+                                    </div>
+                                </div>
+                                <span class="xf-frame-note">
+                                    Вот граница, где проявляется отличие серверных
+                                    компонентов от клиентских: до неё выполнялись оба,
+                                    после — только клиентские.
+                                </span>
+                            </div>
                         </div>
                     </div>
 

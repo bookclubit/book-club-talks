@@ -511,41 +511,57 @@
    как у «хром»-слайдов дека, чтобы код везде читался одинаково. */
 .code-box .cm,
 .pnode-pop .cm,
+.mg-pop .cm,
+.xf-pop .cm,
 .tcard .cm {
     color: #52525b; /* комментарий */
 }
 .code-box .kw,
 .pnode-pop .kw,
+.mg-pop .kw,
+.xf-pop .kw,
 .tcard .kw {
     color: #f87171; /* ключевое слово */
 }
 .code-box .str,
 .pnode-pop .str,
+.mg-pop .str,
+.xf-pop .str,
 .tcard .str {
     color: #34d399; /* строка */
 }
 .code-box .fn,
 .pnode-pop .fn,
+.mg-pop .fn,
+.xf-pop .fn,
 .tcard .fn {
     color: #60a5fa; /* функция и метод */
 }
 .code-box .tag,
 .pnode-pop .tag,
+.mg-pop .tag,
+.xf-pop .tag,
 .tcard .tag {
     color: #e879f9; /* JSX-тег или компонент */
 }
 .code-box .attr,
 .pnode-pop .attr,
+.mg-pop .attr,
+.xf-pop .attr,
 .tcard .attr {
     color: #fbbf24; /* пропс, ключ объекта */
 }
 .code-box .num,
 .pnode-pop .num,
+.mg-pop .num,
+.xf-pop .num,
 .tcard .num {
     color: #f0abfc; /* число, символ */
 }
 .code-box .punc,
 .pnode-pop .punc,
+.mg-pop .punc,
+.xf-pop .punc,
 .tcard .punc {
     color: #71717a; /* угловые скобки JSX */
 }
@@ -830,47 +846,6 @@
 }
 .branch.is-accent code {
     color: #fff;
-}
-
-/* Чек-лист утверждений: галочка/крест — где выполняется компонент. */
-.checklist {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px 60px;
-    margin: auto 0;
-    padding-top: 30px;
-}
-.check {
-    display: flex;
-    gap: 18px;
-    align-items: flex-start;
-    border-bottom: 1px solid #1a1a1a;
-    padding-bottom: 18px;
-}
-.check-mark {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1px solid #3f3f46;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    color: #fff;
-}
-.check.is-no .check-mark {
-    border-style: dashed;
-    color: #71717a;
-}
-.check p {
-    margin: 0;
-    font-size: 21px;
-    line-height: 1.5;
-    color: #d4d4d8;
-}
-.check.is-no p {
-    color: #a1a1aa;
 }
 
 /* ===== Разбор рекурсии по шагам =====
@@ -2137,12 +2112,248 @@
     transform: translateY(-50%) rotate(45deg);
 }
 
-/* ===== Слайд «Нюансы»: лид прижат к заголовку =====
-   Список утверждений центрируется в остатке высоты сам (margin: auto 0),
-   поэтому хвостовой автоотступ слайда здесь лишний. */
-.content-slide:has(.checklist) > h2 {
+/* ===== Слайд «Нюансы»: горизонтальный путь одного рендера =====
+   Четыре колонки слева направо: обе половины дерева выполняются на сервере →
+   один объект элементов → строка для клиента → браузер. Отличие серверных
+   компонентов от клиентских проявляется только в последней колонке, поэтому
+   рамка вокруг пары блоков (.xf-frame) всплывает именно там.
+   Высоты фиксированные: 190px блок + 44px промежуток = 424px тело колонки,
+   по этим же координатам нарисованы линии в SVG-соединителях разметки —
+   меняешь высоту здесь, правишь пути там. */
+
+.xflow {
+    display: grid;
+    /* 364·4 + 88·3 = 1720 — ровно ширина слайда за вычетом полей */
+    grid-template-columns: 364px 88px 364px 88px 364px 88px 364px;
+    margin: auto 0;
+    padding-top: 14px;
+}
+.xf-col {
+    display: flex;
+    flex-direction: column;
+}
+/* Подпись колонки: высота фиксирована, чтобы тела всех колонок начинались
+   на одной линии — иначе стрелки разъедутся с блоками. */
+.xf-tag {
+    height: 48px;
+    /* отступ с запасом: под ним ещё проходит рамка границы (.xf-frame) */
+    margin-bottom: 30px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.45;
+    color: #52525b;
+}
+.xf-tag b {
+    display: block;
+    font-weight: 400;
+    color: #a1a1aa;
+}
+.xf-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 44px;
+    height: 424px;
+}
+.xf-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    height: 190px;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    background: #0d0d0d;
+    padding: 22px 26px;
+    cursor: help;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+/* Блок под курсором поднимается над соседями: его подсказка перекрывает их. */
+.xf-box:hover {
+    z-index: 6;
+}
+.xf-box-name {
+    font-size: 23px;
+    line-height: 1.25;
+    color: #ededed;
+}
+.xf-box-note {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #71717a;
+}
+/* Те же цвета, что и на соседних слайдах: серверный — голубой,
+   клиентский — янтарный. */
+.xf-box.is-server {
+    border-color: rgba(56, 189, 248, 0.4);
+    background: rgba(56, 189, 248, 0.05);
+}
+.xf-box.is-server:hover {
+    border-color: rgba(56, 189, 248, 0.75);
+    background: rgba(56, 189, 248, 0.1);
+}
+.xf-box.is-server .xf-box-note {
+    color: #7dd3fc;
+}
+.xf-box.is-client {
+    border-color: rgba(251, 191, 36, 0.45);
+    background: rgba(251, 191, 36, 0.05);
+}
+.xf-box.is-client:hover {
+    border-color: rgba(251, 191, 36, 0.8);
+    background: rgba(251, 191, 36, 0.1);
+}
+.xf-box.is-client .xf-box-note {
+    color: #fcd34d;
+}
+/* Середина — ничья: в объекте перемешаны элементы обоих видов. */
+.xf-box.is-mixed {
+    border-color: #3f3f46;
+    background: linear-gradient(115deg, rgba(56, 189, 248, 0.09), rgba(251, 191, 36, 0.09));
+}
+.xf-box.is-mixed:hover {
+    border-color: #71717a;
+}
+/* Строка — уже не дерево объектов, а текст: пунктир и моноширинный заголовок. */
+.xf-box.is-wire {
+    border-style: dashed;
+    border-color: #52525b;
+}
+.xf-box.is-wire:hover {
+    border-color: #a1a1aa;
+    background: #121212;
+}
+.xf-box.is-wire .xf-box-name {
+    font-family: var(--font-mono);
+}
+/* В браузере серверный компонент — уже не компонент: приглушаем. */
+.xf-box.is-dead {
+    border-style: dashed;
+    background: rgba(56, 189, 248, 0.03);
+}
+.xf-box.is-dead .xf-box-name {
+    color: #a1a1aa;
+}
+/* Подсказка блока: всплывает над схемой и не занимает места в раскладке. */
+.xf-pop {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 14px);
+    z-index: 12;
+    width: 440px;
+    transform: translate(-50%, -6px);
+    padding: 16px 18px;
+    border: 1px solid #3f3f46;
+    border-radius: 16px;
+    background: #0a0a0a;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+.xf-box:hover > .xf-pop {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+/* Крайние колонки — с парой блоков: подсказка встаёт сбоку и улетает
+   к середине схемы. Вверх ей мешает лид слайда, вниз — нижнее поле,
+   а по вертикали она закрыла бы блок-напарник, который как раз и надо
+   видеть рядом (в первой колонке — что оба выполняются, в последней —
+   рамку границы с подписью). */
+.xf-col.is-first .xf-pop {
+    left: calc(100% + 20px);
+    top: 50%;
+    bottom: auto;
+    transform: translate(-6px, -50%);
+}
+.xf-col.is-last .xf-pop {
+    left: auto;
+    right: calc(100% + 20px);
+    top: 50%;
+    bottom: auto;
+    transform: translate(6px, -50%);
+}
+.xf-col.is-first .xf-box:hover > .xf-pop,
+.xf-col.is-last .xf-box:hover > .xf-pop {
+    transform: translate(0, -50%);
+}
+.xf-pop b {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #fff;
+}
+.xf-pop pre {
+    margin: 0 0 10px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+    color: #d4d4d8;
+    background: #060606;
+    border: 1px solid #1f1f1f;
+    border-radius: 10px;
+    padding: 12px 14px;
+}
+.xf-pop code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #d4d4d8;
+}
+/* Соединители между колонками — inline-SVG в разметке, цвет ведёт CSS. */
+.xf-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 78px; /* высота .xf-tag + её нижний отступ */
+    color: #3f3f46;
+}
+.xf-conn {
+    display: block;
+}
+/* Граница серверного и клиентского: рамка вокруг пары блоков и подпись под
+   ней появляются при наведении на любой из двух. */
+.xf-frame {
+    position: absolute;
+    inset: -20px -22px;
+    /* 2px и подсветка: тонкий пунктир на проекторе не читается */
+    border: 2px dashed #d4d4d8;
+    border-radius: 24px;
+    box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.03);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.xf-frame-note {
+    position: absolute;
+    top: calc(100% + 34px);
+    left: 50%;
+    width: 460px;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #d4d4d8;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.xf-body.is-boundary:has(.xf-box:hover) .xf-frame,
+.xf-body.is-boundary:has(.xf-box:hover) .xf-frame-note {
+    opacity: 1;
+}
+
+/* Лид прижат к заголовку: схема центрируется в остатке высоты сама
+   (margin: auto 0), поэтому хвостовой автоотступ слайда здесь лишний. */
+.content-slide:has(.xflow) > h2 {
     margin-bottom: 0;
 }
-.content-slide:has(.checklist)::after {
+.content-slide:has(.xflow)::after {
     margin-top: 0;
 }

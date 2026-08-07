@@ -123,6 +123,7 @@
                     .cs-code .c { color: #52525b; }
                     .cs-card .cs-code { margin-top: 18px; padding: 16px 20px; }
                     .cs-card .cs-code pre { font-size: 15px; }
+                    .cs-callout code { font-family: var(--font-mono); font-size: 17px; color: #fff; background: rgba(255,255,255,0.07); border-radius: 6px; padding: 2px 8px; white-space: nowrap; }
                 </style>
                 <div class="cs">
                     <div class="badge">Глава 9 · Контекст</div>
@@ -159,7 +160,7 @@ function ServerComponent() {
                             <p>Инкапсулировать <b>onClick</b> внутри самого клиентского компонента: обработчик рождается там, где он выполняется, — и через сеть его передавать не нужно.</p>
                         </div>
                     </div>
-                    <div class="cs-callout">Побочный эффект: паттерн <b>render props</b> из главы 5 — передача функции рендеринга через пропсы — для серверных компонентов фактически устарел.</div>
+                    <div class="cs-callout">Побочный эффект: умирает паттерн <b>render props</b> из главы 5 — когда компоненту вместо готовой разметки передают <b>функцию, которая её рисует</b>: <code>&lt;List renderItem={(item) =&gt; &lt;li&gt;{item.name}&lt;/li&gt;} /&gt;</code>. Пропс-функция не переживёт сериализацию — для серверных компонентов паттерн фактически устарел.</div>
                 </div>
             </section>
 

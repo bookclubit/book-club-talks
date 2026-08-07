@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Будущее серверных компонентов React — React. К вершинам мастерства</title>
+    <meta name="description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Будущее серверных компонентов React — React. К вершинам мастерства">
+    <meta property="og:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta property="og:image" content="https://bc-115-react-9-5-nikiforov.pages.dev/assets/cover/fluent-react.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Будущее серверных компонентов React — React. К вершинам мастерства">
+    <meta name="twitter:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta name="twitter:image" content="https://bc-115-react-9-5-nikiforov.pages.dev/assets/cover/fluent-react.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 9</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Серверные компоненты React</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Будущее серверных компонентов React</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    <img class="book-cover" src="assets/cover/fluent-react.webp" alt="React. К вершинам мастерства">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    React. К вершинам мастерства
+                                </a>
+                                <p class="book-subtitle">
+                                    Fluent React: Build Fast, Performant, and Intuitive Web Applications
+                                </p>
+                                <p class="book-desc-ru">
+                                    Глубокое погружение во внутреннее устройство React: JSX и продвинутые паттерны, виртуальный DOM и реконциляция, серверный рендеринг, конкурентный режим и серверные компоненты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://tej.as/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                                    <div class="author-info">
+                                        <div class="author-name">Теджас Кумар</div>
+                                        <div class="author-link-text">tej.as ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/Frich22" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/nikiforov-artem.webp" alt="Артём Никифоров">
+                                <div class="author-info">
+                                    <div class="author-name">Артём Никифоров</div>
+                                    <div class="author-link-text">t.me/Frich22 ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== CONTENT SLIDES ===== -->
+            <section class="slide" data-slide="3">
+                <div class="cs">
+                    <div class="badge">Глава 9 · Откуда растут RSC</div>
+                    <h2 class="gradient-text">Два родителя: MPA и SPA</h2>
+                    <p class="cs-lead">Прежде чем говорить о будущем — вспомним, из чего RSC собраны. Веб десятилетиями качался между двумя крайностями, и у каждой были веские причины существовать.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>MPA — multi-page application</h3>
+                            <p>«Многостраничник» эпохи PHP и Rails: каждый клик — запрос на сервер, в ответ — новая HTML-страница. <b>Сильные стороны:</b> быстрый первый экран, SEO из коробки, работает без JavaScript, данные всегда свежие с сервера. <b>Слабость:</b> любое действие — перезагрузка всей страницы, состояние (скролл, черновик, музыка) теряется.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>SPA — single-page application</h3>
+                            <p>«Одностраничник» эпохи React: HTML приходит один раз, дальше всё рисует JavaScript в браузере. <b>Сильные стороны:</b> мгновенные переходы без перезагрузки, богатая интерактивность, состояние живёт между экранами. <b>Слабость:</b> весь код приложения едет клиенту — первый экран ждёт бандла, слабые устройства и SEO страдают, данные ходят через отдельный API.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Оба паттерна честно решали задачи своего времени — просто оптимизировали разное: MPA — <b>доставку контента</b>, SPA — <b>интерактивность</b>. RSC — попытка не выбирать: HTML и данные с сервера как в MPA, мягкая навигация и живой интерактив как в SPA.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="4">
+                <style>
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card b, .cs-list b, .cs-callout b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 36px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 22px; line-height: 1.55; color: var(--text-main); max-width: 1520px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-callout { margin-top: 36px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1520px; }
+                    .cs-qa { counter-reset: q; margin-top: 36px; display: flex; flex-direction: column; gap: 14px; }
+                    .cs-qa details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+                    .cs-qa summary { cursor: pointer; list-style: none; display: flex; gap: 22px; align-items: baseline; padding: 20px 28px; font-size: 22px; line-height: 1.4; color: var(--text-main); }
+                    .cs-qa summary::-webkit-details-marker { display: none; }
+                    .cs-qa summary::before { counter-increment: q; content: '0' counter(q); font-family: var(--font-mono); font-size: 15px; color: #71717a; letter-spacing: 0.1em; flex-shrink: 0; }
+                    .cs-qa summary::after { content: '+'; margin-left: auto; color: #71717a; font-size: 26px; line-height: 1; flex-shrink: 0; }
+                    .cs-qa details[open] summary::after { content: '−'; }
+                    .cs-qa details[open] summary { border-bottom: 1px solid var(--border); }
+                    .cs-qa .cs-qa-a { margin: 0; padding: 18px 28px 22px 79px; font-size: 19px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-qa b, .cs-qa .cs-qa-a b { color: #fff; font-weight: 600; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 9 · Где мы оказались</div>
+                    <h2 class="gradient-text">RSC: лучшее от MPA и SPA в одной архитектуре</h2>
+                    <p class="cs-lead">Мы прошли всю главу: преимущества, рендеринг, правила, server actions. Итог — архитектура, которая сочетает многостраничные приложения с серверным рендерингом и удобство одностраничных, не жертвуя ни производительностью, ни сопровождаемостью.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <h3>Предсказуемая производительность</h3>
+                            <p>Компоненты выполняются на <b>наших</b> серверах, мощность которых мы контролируем, — а не на незнакомых устройствах пользователей. И это не «лёгкая разметка»: markdown, подсветка синтаксиса, запросы к БД — <b>тяжёлая работа и её зависимости остаются на сервере</b>, клиенту едет готовый результат. Неинтерактивный ≠ обезличенный: RSC рендерятся на каждый запрос и могут читать куки и сессию.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Безопасность по умолчанию</h3>
+                            <p>Секреты у бэкенда были всегда — разница в том, <b>кто охраняет границу</b>. В SPA + API её держит дисциплина: не заимпортить случайно серверное во фронт. Здесь секреты и запросы к БД живут в одном дереве с UI, но <b>границу проверяет компилятор</b>: серверный код физически не попадает в бандл.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Меньше JavaScript у клиента</h3>
+                            <p>Серверные компоненты исключаются из клиентского пакета и могут быть <b>асинхронными</b> — данные ждём на сервере, а не в браузере.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">2023 · Что обещала книга</div>
+                    <h2 class="gradient-text">Планы на момент написания книги</h2>
+                    <p class="cs-lead">Книга зафиксировала момент: RSC — «горячая» тема, реализация сырая, React 19 ещё не вышел, прод-путь фактически один — Next.js. Команда React обещала два фронта работы:</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Лучшая интеграция с упаковщиками</h3>
+                            <p>Сотрудничество с разработчиками <b>Webpack, Rollup</b> и других инструментов. RSC требуют упаковщика «нового поколения» — умеющего строить раздельные графы модулей для сервера и клиента. Чем лучше поддержка, тем проще создавать RSC-совместимые платформы и приложения.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Поддержка экосистемы</h3>
+                            <p>Вокруг новой архитектуры будут появляться <b>инструменты, библиотеки и фреймворки</b> — внедрять RSC в проекты станет проще, а выгоду от производительности получит больше команд.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">И большой прогноз: меньше JavaScript у клиента, упрощённое получение данных, лучший UX — а по мере распространения RSC «станут важным инструментом». <b>Мы в августе 2026-го — можем выставить оценки.</b></div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Август 2026 · Сверяем часы</div>
+                    <h2 class="gradient-text">Что сбылось, а что разочаровало</h2>
+                    <table class="cs-table">
+                        <tr><th>Обещание книги</th><th>Август 2026</th></tr>
+                        <tr><td>Упаковщики нового поколения</td><td>Сбылось: Turbopack стабилен в Next.js, официальный @vitejs/plugin-rsc, поддержка в Parcel — RSC больше не привязаны к одному инструменту</td></tr>
+                        <tr><td>Поддержка экосистемы</td><td>Сбылось с оговоркой: App Router впервые обогнал Pages Router (State of JS 2025); React Router и Remix v3 везут RSC, есть Waku и TanStack — но «полный прод» всё ещё в первую очередь Next.js</td></tr>
+                        <tr><td>Меньше JavaScript у клиента</td><td>Подтверждено практикой: команды отчитываются о сокращении бандла на 40–60 % (условные 400–600 КБ → 150–250 КБ)</td></tr>
+                        <tr><td>«Станут важным инструментом»</td><td>Сбылось: React 19 (конец 2024) внёс RSC и server actions в стабильное ядро; RSC — рекомендуемый способ строить новые React-приложения</td></tr>
+                    </table>
+                    <div class="cs-callout"><b>Что разочаровало:</b> ментальная сложность «двух миров» так и осталась главной жалобой; часть экосистемы (CSS-in-JS, context-зависимые библиотеки) не переехала; несколько лет RSC ≈ Next.js. <b>Новые фронты:</b> React Compiler (автомемоизация), «use cache» и Partial Prerendering в Next.js, стабилизация RSC в React Router и Vite.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Рекап перед обсуждением</div>
+                    <h2 class="gradient-text">Вся глава — в пяти строках</h2>
+                    <p class="cs-lead">Этот доклад закрывает главу 9 — дальше вопросы из книги по всем её темам. Освежим четыре прошлых доклада одним слайдом.</p>
+                    <ul class="cs-list">
+                        <li><span><b>RSC — новый тип компонентов:</b> выполняются на сервере, исключены из клиентского пакета, могут запускаться во время сборки и быть асинхронными.</span></li>
+                        <li><span><b>Два взаимодополняющих процесса:</b> RSC-рендеринг превращает компоненты в дерево элементов, серверный рендеринг — дерево в HTML.</span></li>
+                        <li><span><b>Правила простые:</b> сериализуемые пропсы, никаких хуков состояния и эффектов, импорт серверного из клиентского запрещён — но композиция через children разрешена.</span></li>
+                        <li><span><b>Server actions</b> («use server») замыкают круг: мутации с клиента без ручных endpoint'ов, формы работают до загрузки JS.</span></li>
+                        <li><span><b>Это не замена клиентским компонентам,</b> а дополнение: интерактивные части остаются на клиенте.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Проверьте ваши знания</div>
+                    <h2 class="gradient-text">Пять вопросов для обсуждения</h2>
+                    <p class="cs-lead">Вопросы из книги. Сначала обсуждаем — потом клик по вопросу раскрывает тезисный ответ.</p>
+                    <div class="cs-qa">
+                        <details>
+                            <summary>Что является <b>главной ценностью</b> серверных компонентов React?</summary>
+                            <p class="cs-qa-a">Код компонента <b>не едет клиенту</b>: тяжёлая работа и её зависимости выполняются на сервере, в бандле остаётся только интерактив. Плюс прямой доступ к данным и секретам — без отдельного API-слоя.</p>
+                        </details>
+                        <details>
+                            <summary>Могут ли клиентские компоненты <b>импортировать</b> серверные? Почему?</summary>
+                            <p class="cs-qa-a">Импортировать — нет: компоновщик смотрит на import, и серверный код (вплоть до node:fs) уехал бы в клиентский пакет. Но <b>принять готовый серверный компонент через children/пропсы — можно</b>: в пакет при этом ничего не добавляется.</p>
+                        </details>
+                        <details>
+                            <summary>Каковы <b>компромиссы</b> между серверными компонентами и традиционным клиентским подходом?</summary>
+                            <p class="cs-qa-a">Выигрыш: меньше JS, быстрее первый экран, данные и секреты на сервере. Плата: <b>два типа компонентов и граница между ними</b> (интеллектуальные затраты), обязательный сервер или сборка, упаковщик нового поколения; интерактив всё равно требует клиентских компонентов.</p>
+                        </details>
+                        <details>
+                            <summary>Что такое <b>ссылки на модули</b> и как React обрабатывает их во время согласования?</summary>
+                            <p class="cs-qa-a">Вместо клиентского компонента сервер кладёт в дерево заполнитель — объект с <b>$$typeof: react.module.reference</b> и ID модуля. При согласовании React на клиенте подменяет ссылку реальным модулем из клиентского пакета и рендерит его — так «дыры» в серверном дереве заполняются интерактивом.</p>
+                        </details>
+                        <details>
+                            <summary>Как server actions делают приложения React <b>более доступными</b>?</summary>
+                            <p class="cs-qa-a">Форма с action работает <b>до загрузки JavaScript</b>: до гидратации сабмит уходит нативным браузерным POST (прогрессивное улучшение). Слабые сети, слабые устройства, отключённый JS — критичные сценарии вроде логина остаются рабочими.</p>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+<section class="slide" data-slide="9" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Преимущества</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-2-pomazkov.pages.dev" target="_blank" rel="noreferrer">Серверный рендеринг</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-3-nikiforov.pages.dev" target="_blank" rel="noreferrer">Правила работы серверных компонентов</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Серверные действия</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-5-nikiforov.pages.dev" target="_blank" rel="noreferrer">Будущее серверных компонентов React</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+
+</body>
+</html>

@@ -117,6 +117,10 @@
                     .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 22px; line-height: 1.55; color: var(--text-main); max-width: 1520px; }
                     .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
                     .cs-callout { margin-top: 36px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1520px; }
+                    .cs-table { width: 100%; border-collapse: collapse; margin-top: 36px; }
+                    .cs-table th { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em; color: #71717a; text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); font-weight: 600; }
+                    .cs-table td { font-size: 20px; color: var(--text-muted); padding: 16px 20px; border-bottom: 1px solid #1c1c1c; line-height: 1.45; }
+                    .cs-table td:first-child { color: #fff; font-weight: 600; }
                     .cs-code { background: #0b0b0c; border: 1px solid var(--border); border-radius: 14px; padding: 22px 28px; margin-top: 36px; overflow-x: auto; }
                     .cs-code pre { margin: 0; font-family: var(--font-mono); font-size: 17px; line-height: 1.65; color: var(--text-muted); }
                     .cs-code .k { color: #fff; font-weight: 600; }
@@ -287,22 +291,25 @@ async function TheParentOfBoth() {
 
             <section class="slide" data-slide="9">
                 <div class="cs">
-                    <div class="badge">Правило 5</div>
+                    <div class="badge">Правило 5 · Ради чего всё это</div>
                     <h2 class="gradient-text">Клиентские компоненты не так уж плохи</h2>
-                    <ul class="cs-list">
-                        <li><span>До появления RSC <b>все</b> компоненты React были клиентскими — весь существующий код уже написан на них, и это нормально.</span></li>
-                        <li><span>Клиентские компоненты — «хлеб и масло» React: они по-прежнему основа приложений и самый распространённый тип компонентов.</span></li>
-                        <li><span>Серверные компоненты — <b>дополнение, а не замена</b>. Воспринимать их как «превосходную замену клиентским» — ошибка.</span></li>
-                        <li><span>Выделяйте в клиентскую часть <b>ровно ту крошечную долю приложения, которой нужна интерактивность</b>, — остальное безопасно рендерится на сервере и не попадает в JS-пакет.</span></li>
-                    </ul>
-                    <div class="cs-callout">Меньше кода в пакете — быстрее загрузка и меньше работы для процессора и сети. Ради этого всё и затевалось.</div>
+                    <p class="cs-lead">RSC появились не ради моды: в типичном SPA бо́льшая часть компонентов не интерактивна — шапки, статьи, списки, — но всё равно едет в пакет, гидрируется и требует отдельного API для данных. Серверные компоненты — дополнение, а не замена: идиоматика проста — всё серверное по умолчанию, «use client» вешаем на листья с интерактивом.</p>
+                    <table class="cs-table">
+                        <tr><th>Работа</th><th>Компонент</th><th>Почему</th></tr>
+                        <tr><td>Данные: БД, файлы, CMS</td><td>Серверный</td><td>Читаем там, где данные лежат, — без API-слоя и водопада «fetch → спиннер → fetch»</td></tr>
+                        <tr><td>Секреты и токены</td><td>Серверный</td><td>Код не покидает сервер — утечь нечему</td></tr>
+                        <tr><td>Статичная разметка</td><td>Серверный</td><td>Ноль байт в JS-пакете, ноль гидратации</td></tr>
+                        <tr><td>Состояние и обработчики событий</td><td>Клиентский</td><td>useState и onClick живут только в браузере</td></tr>
+                        <tr><td>Эффекты и браузерные API</td><td>Клиентский</td><td>useEffect, window, localStorage — на сервере их нет</td></tr>
+                    </table>
+                    <div class="cs-callout">Профит за всю эту сложность: <b>в пакет уезжает только интерактив</b> — быстрее загрузка, меньше работы процессору и сети, данные без лишнего API-слоя. Подробно о преимуществах — доклад 9.1 Антона.</div>
                 </div>
             </section>
 
             <section class="slide" data-slide="10">
                 <div class="cs">
                     <div class="badge">Главные выводы</div>
-                    <h2 class="gradient-text">Если запомнить только это</h2>
+                    <h2 class="gradient-text">Стоит запомнить только это</h2>
                     <ul class="cs-list">
                         <li><span><b>Сериализуемость превыше всего:</b> пропсы серверных компонентов едут по сети — функции и прочее несериализуемое не пройдёт.</span></li>
                         <li><span><b>Эффективных хуков нет:</b> useState и useEffect — только на клиенте; useRef и хуки без состояния — можно.</span></li>

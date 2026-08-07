@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Преимущества — React. К вершинам мастерства</title>
+    <meta name="description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Преимущества — React. К вершинам мастерства">
+    <meta property="og:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta property="og:image" content="https://bc-115-react-9-1-pomazkov.pages.dev/assets/cover/fluent-react.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Преимущества — React. К вершинам мастерства">
+    <meta name="twitter:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta name="twitter:image" content="https://bc-115-react-9-1-pomazkov.pages.dev/assets/cover/fluent-react.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 9</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Серверные компоненты React</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Преимущества</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    <img class="book-cover" src="assets/cover/fluent-react.webp" alt="React. К вершинам мастерства">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    React. К вершинам мастерства
+                                </a>
+                                <p class="book-subtitle">
+                                    Fluent React: Build Fast, Performant, and Intuitive Web Applications
+                                </p>
+                                <p class="book-desc-ru">
+                                    Глубокое погружение во внутреннее устройство React: JSX и продвинутые паттерны, виртуальный DOM и реконциляция, серверный рендеринг, конкурентный режим и серверные компоненты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://tej.as/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                                    <div class="author-info">
+                                        <div class="author-name">Теджас Кумар</div>
+                                        <div class="author-link-text">tej.as ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/kunjutone" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
+                                <div class="author-info">
+                                    <div class="author-name">Антон Помазков</div>
+                                    <div class="author-link-text">t.me/kunjutone ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <section class="slide" data-slide="3" data-chrome="agenda">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Программа вечера</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Преимущества</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-2-pomazkov.pages.dev" target="_blank" rel="noreferrer">Серверный рендеринг</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-3-nikiforov.pages.dev" target="_blank" rel="noreferrer">Правила работы серверных компонентов</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Серверные действия</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-5-nikiforov.pages.dev" target="_blank" rel="noreferrer">Будущее серверных компонентов React</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ===== КОНТЕНТНЫЕ СЛАЙДЫ ДОКЛАДА ===== -->
+
+            <!-- SLIDE 5: предыдущая глава — зачем нужен фреймворк -->
+            <section class="slide" data-slide="5">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Предыдущая глава: Зачем нужен фреймворк?</h2>
+
+                    <div class="pillars-wrap">
+                    <div class="pillars-container">
+                        <div class="pillar-card pillar-1">
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M12 3l9 5-9 5-9-5 9-5z"></path>
+                                    <path d="M3 13l9 5 9-5"></path>
+                                </svg>
+                            </span>
+                            <h3>Абстрагирование</h3>
+                            <p class="pillar-desc">
+                                Фреймворк скрывает сложные детали: маршрутизацию, гидратацию,
+                                сборку, кэширование. Разработчик сосредотачивается
+                                на бизнес-логике.
+                            </p>
+                        </div>
+
+                        <div class="pillar-card pillar-2">
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M4 6h16M4 12h16M4 18h10"></path>
+                                    <path d="M18.5 17l2 2 3-3.5"></path>
+                                </svg>
+                            </span>
+                            <h3>Соглашения</h3>
+                            <p class="pillar-desc">
+                                Единые правила структуры файлов, именования и потоков данных
+                                ускоряют командную работу и снижают когнитивную нагрузку.
+                            </p>
+                        </div>
+
+                        <div class="pillar-card pillar-3">
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <rect x="3" y="3" width="8" height="8" rx="2"></rect>
+                                    <rect x="13" y="3" width="8" height="8" rx="2"></rect>
+                                    <rect x="3" y="13" width="8" height="8" rx="2"></rect>
+                                    <rect x="13" y="13" width="8" height="8" rx="2"></rect>
+                                </svg>
+                            </span>
+                            <h3>Комплексные решения</h3>
+                            <p class="pillar-desc">
+                                Фреймворк даёт готовый набор инструментов: рендеринг,
+                                маршрутизацию, оптимизацию ассетов, работу с данными.
+                            </p>
+                        </div>
+
+                        <div class="pillar-card pillar-4">
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M13 2L5 14h6l-1 8 8-12h-6l1-8z"></path>
+                                </svg>
+                            </span>
+                            <h3>Производительность</h3>
+                            <p class="pillar-desc">
+                                Правильно выбранный фреймворк положительно влияет
+                                на скорость загрузки и отклика приложения.
+                            </p>
+                        </div>
+
+                        <div class="pillar-card pillar-5 dashed-card">
+                            <span class="new-badge">сегодня</span>
+                            <span class="pillar-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                    <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                    <path d="M7 7h.01M7 17h.01"></path>
+                                </svg>
+                            </span>
+                            <h3>Серверные компоненты React (RSC)</h3>
+                            <p class="pillar-desc">
+                                В прошлой главе их лишь немного упомянули — сегодня разберём
+                                подробнее: что это за компоненты, где они выполняются
+                                и что попадает в клиентский бандл.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="pillar-hint">Нажмите на блок — он раскроется, остальные свернутся до иконок</p>
+                    </div>
+
+                    <div class="marquee-space">
+                    <!-- Лента фреймворков: едет сама, под курсором замирает, логотип
+                         увеличивается и раздвигает соседей, название — в подсказке.
+                         Набор здесь один: talk.js клонирует его столько раз, сколько
+                         нужно, чтобы лента шла без разрыва (сдвиг на половину трека). -->
+                    <div class="marquee">
+                        <div class="marquee-track" data-marquee>
+                            <a class="marquee-item" data-brand="next-js" href="https://nextjs.org/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/next-js.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">Next.js</span>
+                            </a>
+                            <a class="marquee-item" data-brand="remix" href="https://remix.run/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/remix.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">Remix</span>
+                            </a>
+                            <a class="marquee-item" data-brand="react-router" href="https://reactrouter.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/react-router.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">React Router</span>
+                            </a>
+                            <a class="marquee-item" data-brand="tanstack-start" href="https://tanstack.com/start" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/tanstack-start.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">TanStack Start</span>
+                            </a>
+                            <a class="marquee-item" data-brand="astro" href="https://astro.build/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/astro.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">Astro</span>
+                            </a>
+                            <a class="marquee-item" data-brand="waku" href="https://waku.gg/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/waku.svg" alt="" width="97" height="30">
+                                <span class="marquee-name">Waku</span>
+                            </a>
+                            <a class="marquee-item" data-brand="gatsby" href="https://www.gatsbyjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/gatsby.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">Gatsby</span>
+                            </a>
+                            <a class="marquee-item" data-brand="redwoodjs" href="https://redwoodjs.com/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/redwoodjs.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">RedwoodJS</span>
+                            </a>
+                            <a class="marquee-item" data-brand="vike" href="https://vike.dev/" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/vike.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">Vike</span>
+                            </a>
+                            <a class="marquee-item" data-brand="expo-router" href="https://expo.dev/router" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1">
+                                <img class="marquee-logo" src="assets/logos/expo-router.svg" alt="" width="38" height="38">
+                                <span class="marquee-name">Expo Router</span>
+                            </a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: особенности RSC -->
+            <section class="slide" data-slide="6">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Особенности RSC</h2>
+
+                    <div class="features">
+                        <div class="feature">
+                            <span class="feature-num">1</span>
+                            <h3>«Запускаются» на сервере</h3>
+                            <p>
+                                Функция компонента вызывается и выполняется в серверной
+                                среде — во время сборки или при запросе. В браузере она
+                                не выполняется никогда.
+                            </p>
+
+                            <!-- Анимация: сверху падают компоненты. Серверные остаются
+                                 на сервере (там они и выполняются), клиентские проходят
+                                 сквозь него и оживают в браузере. Только CSS. -->
+                            <div class="stage stage-run" aria-hidden="true">
+                                <span class="drop d1"><b>Greeting()</b><i>серверный</i></span>
+                                <span class="drop d2 is-client"><b>Counter()</b><i>клиентский</i></span>
+                                <span class="drop d3"><b>Sidebar()</b><i>серверный</i></span>
+                                <span class="drop d4 is-client"><b>Search()</b><i>клиентский</i></span>
+
+                                <span class="layer is-server">
+                                    <svg class="layer-icon" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                        <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                        <path d="M7 7h.01M7 17h.01"></path>
+                                    </svg>
+                                    <span class="layer-name">сервер — здесь выполняются</span>
+                                </span>
+
+                                <span class="layer is-client">
+                                    <svg class="layer-icon" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                                        <path d="M9 20h6M12 16v4"></path>
+                                    </svg>
+                                    <span class="layer-name">браузер</span>
+                                    <span class="burst b1"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                                    <span class="burst b2"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="feature">
+                            <span class="feature-num">2</span>
+                            <h3>Исключаются из клиентского пакета JavaScript</h3>
+                            <p>
+                                JS-код RSC не попадает в клиентский бандл — пользователь
+                                скачивает только результат его работы.
+                            </p>
+
+                            <!-- Анимация: на сервере собирают бандл. Клиентские модули
+                                 падают в коробку, серверные ложатся рядом и остаются;
+                                 собранная коробка уезжает в браузер. -->
+                            <div class="stage stage-pack" aria-hidden="true">
+                                <span class="pack-drop p1 is-client">Counter.jsx</span>
+                                <span class="pack-drop p2">Greeting.jsx</span>
+                                <span class="pack-drop p3 is-client">Search.jsx</span>
+                                <span class="pack-drop p4">Sidebar.jsx</span>
+
+                                <span class="pack-rail"></span>
+
+                                <span class="pack-side is-server">
+                                    <svg class="layer-icon" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                        <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                        <path d="M7 7h.01M7 17h.01"></path>
+                                    </svg>
+                                    <span class="layer-name">сервер</span>
+                                </span>
+
+                                <span class="pack-side is-client">
+                                    <svg class="layer-icon" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                                        <path d="M9 20h6M12 16v4"></path>
+                                    </svg>
+                                    <span class="layer-name">браузер</span>
+                                </span>
+
+                                <span class="pack-box"><b>bundle.js</b><i>только клиентские</i></span>
+                                <span class="pack-stay">серверные остаются на сервере</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: старт во время сборки -->
+            <section class="slide" data-slide="7">
+                <div class="content-slide lead-top">
+                    <h2 class="gradient-text">Преимущество RSC над клиентскими</h2>
+                    <p class="slide-lead">
+                        Серверные компоненты могут стартовать
+                        <span class="term">во время сборки (build time)<span class="term-pop">
+                            <b>Build time</b> — этап сборки приложения: код выполняется один
+                            раз, ещё до того как страницу запросил первый пользователь.
+                            Результат «вшивается» в готовую разметку, поэтому на запрос
+                            ничего пересчитывать не нужно. Противоположность —
+                            <code>request time</code>, когда компонент выполняется
+                            на каждый запрос.
+                        </span></span>
+                        — и тогда им доступны операции, которых в браузере просто нет.
+                    </p>
+
+                    <div class="build-grid">
+                        <div class="build-card">
+                            <span class="build-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M3 7.5A2 2 0 0 1 5 5.5h4l2 2.5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-11z"></path>
+                                </svg>
+                            </span>
+                            <span class="build-card-num">01</span>
+                            <h3>Чтение из файловой системы</h3>
+                            <p>
+                                Импорт Markdown-файлов, локальных JSON, конфигураций.
+                                В браузере прямой доступ к файловой системе невозможен
+                                или сильно ограничен — на сервере при сборке это
+                                естественная операция.
+                            </p>
+                            <pre><span class="k">import</span> fs <span class="k">from</span> <span class="s">"node:fs/promises"</span>;
+
+<span class="k">const</span> <span class="f">Post</span> = <span class="k">async</span> () =&gt; {
+  <span class="k">const</span> md = <span class="k">await</span> fs.<span class="f">readFile</span>(
+    <span class="s">"posts/hello.md"</span>, <span class="s">"utf8"</span>
+  );
+  <span class="k">return</span> <span class="p">&lt;</span><span class="t">article</span><span class="p">&gt;</span>{md}<span class="p">&lt;/</span><span class="t">article</span><span class="p">&gt;</span>;
+};</pre>
+                        </div>
+
+                        <div class="build-card">
+                            <span class="build-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <path d="M12 3v12"></path>
+                                    <path d="M7.5 10.5L12 15l4.5-4.5"></path>
+                                    <path d="M4 18.5h16"></path>
+                                </svg>
+                            </span>
+                            <span class="build-card-num">02</span>
+                            <h3>Извлечение статического содержимого</h3>
+                            <p>
+                                Данные из CMS, статических API, внешних источников —
+                                на этапе сборки. Контент «фиксируется» заранее, и его
+                                не приходится запрашивать при каждом обращении
+                                пользователя.
+                            </p>
+                            <pre><span class="k">const</span> <span class="f">Posts</span> = <span class="k">async</span> () =&gt; {
+  <span class="k">const</span> posts = <span class="k">await</span> <span class="f">fetch</span>(
+    <span class="s">"https://cms.example/api/posts"</span>
+  ).<span class="f">then</span>((r) =&gt; r.<span class="f">json</span>());
+
+  <span class="k">return</span> <span class="p">&lt;</span><span class="t">List</span> <span class="a">items</span>={posts} <span class="p">/&gt;</span>;
+};</pre>
+                        </div>
+
+                        <div class="build-card">
+                            <span class="build-icon">
+                                <svg class="flat-icon-lg" viewBox="0 0 24 24">
+                                    <ellipse cx="12" cy="6" rx="7.5" ry="3"></ellipse>
+                                    <path d="M4.5 6v12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V6"></path>
+                                    <path d="M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3"></path>
+                                </svg>
+                            </span>
+                            <span class="build-card-num">03</span>
+                            <h3>Доступ к уровню данных</h3>
+                            <p>
+                                Серверные компоненты обращаются напрямую к базам данных,
+                                внутренним сервисам и ORM-слою. Для простых операций
+                                чтения отдельный API-слой становится не нужен.
+                            </p>
+                            <pre><span class="k">import</span> { db } <span class="k">from</span> <span class="s">"./db"</span>;
+
+<span class="k">const</span> <span class="f">Users</span> = <span class="k">async</span> () =&gt; {
+  <span class="k">const</span> users = <span class="k">await</span> db
+    .<span class="f">select</span>().<span class="f">from</span>(usersTable);
+
+  <span class="k">return</span> <span class="p">&lt;</span><span class="t">Table</span> <span class="a">rows</span>={users} <span class="p">/&gt;</span>;
+};</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: как работает RSC (таймлайн этапов + пояснение) -->
+            <section class="slide" data-slide="8">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Как работает RSC?</h2>
+
+                    <div class="chain-slide">
+                        <!-- Таймлайн этапов: точки на линии, пройденное закрашено,
+                             активный этап — с ободком. Заполнение линии до активной
+                             точки ставит talk.js (переменная --tl-fill). -->
+                        <ol class="tl" data-timeline>
+                            <li class="tl-item">
+                                <button class="tl-step is-active" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">01</span>
+                                    <span class="tl-title">Создаём RSC</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">02</span>
+                                    <span class="tl-title">Вызываем RSC на сервере</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">03</span>
+                                    <span class="tl-title">RSC возвращает элемент React</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">04</span>
+                                    <span class="tl-title">Сериализуем RSC в payload</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">05</span>
+                                    <span class="tl-title">Отправляем payload по сети</span>
+                                </button>
+                            </li>
+                            <li class="tl-item">
+                                <button class="tl-step" type="button">
+                                    <span class="tl-dot"></span>
+                                    <span class="tl-num">06</span>
+                                    <span class="tl-title">Клиент рендерит результат</span>
+                                </button>
+                            </li>
+                        </ol>
+
+                        <div class="chain-panels">
+                            <div class="chain-panel is-active">
+                                <span class="chain-of">Этап 01 из 06</span>
+                                <h3>Создаём RSC</h3>
+                                <p>
+                                    RSC — это особый тип
+                                    <span class="term">компонента React<span class="term-pop">
+                                        Компонент React — это обычная JavaScript-функция,
+                                        которая принимает пропсы и возвращает элемент React:
+                                        описание того, каким должен быть UI. Не HTML-строку
+                                        и не DOM-узел. JSX внутри компилируется в вызовы
+                                        <code>React.createElement</code>.
+                                    </span></span>, который выполняется только на сервере.
+                                </p>
+                                <pre><span class="c">// минимальный серверный компонент</span>
+<span class="k">const</span> <span class="f">Greeting</span> = <span class="k">async</span> () =&gt; {
+  <span class="k">return</span> <span class="p">&lt;</span><span class="t">div</span><span class="p">&gt;</span>Hi!<span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>;
+};</pre>
+                            </div>
+
+                            <div class="chain-panel">
+                                <span class="chain-of">Этап 02 из 06</span>
+                                <h3>Вызываем RSC на сервере</h3>
+                                <p>
+                                    Функция компонента вызывается и выполняется в серверной
+                                    среде — во время сборки (build time) или при запросе
+                                    (request time). В браузере она не выполняется никогда.
+                                </p>
+                                <pre><span class="c">// на сервере, с await: компонент может быть асинхронным</span>
+<span class="k">const</span> element = <span class="k">await</span> <span class="f">Greeting</span>();</pre>
+                            </div>
+
+                            <div class="chain-panel">
+                                <span class="chain-of">Этап 03 из 06</span>
+                                <h3>RSC возвращает элемент React</h3>
+                                <p>
+                                    Серверный компонент возвращает
+                                    <span class="term">элемент React<span class="term-pop">
+                                        Элемент — это JSON-подобный объект, у которого есть
+                                        свойства: <code>$$typeof</code>, <code>type</code>
+                                        (<code>'div'</code>, <code>'span'</code> или ссылка
+                                        на другой компонент), <code>props</code> вместе
+                                        с <code>children</code> и вложенными элементами.
+                                    </span></span> — ровно то же, что и клиентский компонент.
+                                </p>
+                                <pre><span class="c">// что вернул наш Greeting</span>
+{
+  <span class="a">$$typeof</span>: <span class="f">Symbol</span>(<span class="s">react.element</span>),
+  <span class="a">type</span>: <span class="s">"div"</span>,
+  <span class="a">props</span>: { <span class="a">children</span>: <span class="s">"Hi!"</span> }
+}</pre>
+                            </div>
+
+                            <div class="chain-panel">
+                                <span class="chain-of">Этап 04 из 06</span>
+                                <h3>Сериализуем RSC в payload</h3>
+                                <p>
+                                    Дерево элементов — обычный объект, поэтому его можно
+                                    превратить в поток для передачи. Мешает только
+                                    <code>$$typeof</code>: его значение — <code>Symbol</code>,
+                                    а символы не сериализуются, поэтому маркер заменяют
+                                    строкой.
+                                </p>
+                                <pre><span class="c">// сериализованный элемент</span>
+<span class="s">'{"$$typeof":"react.element",
+  "type":"div",
+  "props":{"children":"Hi!"}}'</span></pre>
+                            </div>
+
+                            <div class="chain-panel">
+                                <span class="chain-of">Этап 05 из 06</span>
+                                <h3>Отправляем payload по сети</h3>
+                                <p>
+                                    Клиент получает результат работы компонента, а не его код:
+                                    сам компонент, его импорты и зависимости остаются
+                                    на сервере и в бандл не попадают.
+                                </p>
+                                <pre><span class="c">// ответ сервера — поток, а не бандл</span>
+res.<span class="f">end</span>(serializedTree);</pre>
+                            </div>
+
+                            <div class="chain-panel">
+                                <span class="chain-of">Этап 06 из 06</span>
+                                <h3>Клиент рендерит результат RSC</h3>
+                                <p>
+                                    React на клиенте восстанавливает дерево (символ-маркер
+                                    возвращается на место) и рендерит его. Клиентские
+                                    компоненты при этом остаются привычными — с хуками,
+                                    состоянием и обработчиками событий.
+                                </p>
+                                <pre><span class="c">// на клиенте</span>
+<span class="k">const</span> element = JSON.<span class="f">parse</span>(payload, reviver);
+root.<span class="f">render</span>(element);</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: преимущества RSC (раскрываются на весь слайд) -->
+            <section class="slide" data-slide="9">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Преимущества RSC</h2>
+
+                    <div class="adv-grid">
+                        <button class="adv-card" type="button" data-adv="adv-1">
+                            <span class="adv-head">
+                                <!-- Спидометр: стрелка ходит по шкале — «предсказуемая скорость». -->
+                                <span class="adv-icon">
+                                    <svg viewBox="0 0 48 48">
+                                        <path d="M9 35a15 15 0 0 1 30 0"></path>
+                                        <line class="gauge-needle" x1="24" y1="35" x2="24" y2="17"></line>
+                                        <circle cx="24" cy="35" r="2.4"></circle>
+                                    </svg>
+                                </span>
+                                <span class="adv-num">01</span>
+                            </span>
+                            <h3>Предсказуемая производительность</h3>
+                            <p>Выполняются на контролируемых серверных мощностях, а не на чужих устройствах.</p>
+                            <span class="adv-more">подробнее →</span>
+                        </button>
+
+                        <button class="adv-card" type="button" data-adv="adv-2">
+                            <span class="adv-head">
+                                <!-- Щит с замком: дуга замка «защёлкивается». -->
+                                <span class="adv-icon">
+                                    <svg viewBox="0 0 48 48">
+                                        <path class="shield" d="M24 6l14 5v12c0 9-5.8 15.4-14 18-8.2-2.6-14-9-14-18V11l14-5z"></path>
+                                        <path class="lock-arc" d="M19.5 25v-3.5a4.5 4.5 0 0 1 9 0V25"></path>
+                                        <rect class="lock-body" x="17.5" y="25" width="13" height="9.5" rx="2"></rect>
+                                    </svg>
+                                </span>
+                                <span class="adv-num">02</span>
+                            </span>
+                            <h3>Безопасность</h3>
+                            <p>Выполняются в защищённых серверных средах — без утечки токенов и ключей.</p>
+                            <span class="adv-more">подробнее →</span>
+                        </button>
+
+                        <button class="adv-card" type="button" data-adv="adv-3">
+                            <span class="adv-head">
+                                <!-- Часы: стрелки идут — сервер ждёт завершения. -->
+                                <span class="adv-icon">
+                                    <svg viewBox="0 0 48 48">
+                                        <circle cx="24" cy="24" r="15"></circle>
+                                        <line class="hand-min" x1="24" y1="24" x2="24" y2="12.5"></line>
+                                        <line class="hand-hour" x1="24" y1="24" x2="31.5" y2="24"></line>
+                                        <circle class="spin-dot" cx="24" cy="24" r="1.6"></circle>
+                                    </svg>
+                                </span>
+                                <span class="adv-num">03</span>
+                            </span>
+                            <h3>Асинхронность</h3>
+                            <p>Могут быть асинхронными: сервер дождётся завершения и только потом ответит.</p>
+                            <span class="adv-more">подробнее →</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Преимущество №1 -->
+                <div class="adv-overlay" id="adv-1">
+                    <header>
+                        <div>
+                            <p class="adv-eyebrow">Преимущество 01</p>
+                            <h3>Предсказуемая производительность</h3>
+                        </div>
+                        <button class="adv-close" type="button" aria-label="Закрыть">✕</button>
+                    </header>
+                    <div class="adv-rows is-centered">
+                        <div class="adv-cols-2 is-big">
+                            <div class="adv-point">
+                                <h4>Предсказуемость</h4>
+                                <ul>
+                                    <li>код можно профилировать и оптимизировать;</li>
+                                    <li>можно гарантировать уровень сервиса (SLA);</li>
+                                    <li>нет деградации на слабых устройствах;</li>
+                                    <li>масштабирование планируется заранее.</li>
+                                </ul>
+                            </div>
+                            <div class="adv-point">
+                                <h4>Мощности, которые мы контролируем</h4>
+                                <ul>
+                                    <li>сколько CPU и RAM;</li>
+                                    <li>какая версия Node.js или среды выполнения;</li>
+                                    <li>какие ограничения и квоты заданы;</li>
+                                    <li>как масштабируется нагрузка.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="adv-point is-callout is-wide">
+                            <span class="adv-bang" aria-hidden="true">!</span>
+                            <div>
+                                <h4>Не считаем на чужих устройствах</h4>
+                                <p>
+                                    Парк устройств разнороден: от мощных десктопов до старых
+                                    смартфонов с медленным CPU и малой памятью. Тяжёлый код
+                                    на клиенте — это вычисления, которые мы не контролируем.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Преимущество №2 -->
+                <div class="adv-overlay" id="adv-2">
+                    <header>
+                        <div>
+                            <p class="adv-eyebrow">Преимущество 02</p>
+                            <h3>Безопасность серверных сред и защита секретов</h3>
+                        </div>
+                        <button class="adv-close" type="button" aria-label="Закрыть">✕</button>
+                    </header>
+                    <div class="adv-rows">
+                        <div class="adv-cols-3">
+                            <div class="adv-point">
+                                <span class="point-head">
+                                    <span class="point-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <rect x="3" y="4" width="18" height="6" rx="2"></rect>
+                                            <rect x="3" y="14" width="18" height="6" rx="2"></rect>
+                                            <path d="M7 7h.01M7 17h.01"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="point-num">01</span>
+                                </span>
+                                <h4>Защищённые серверные среды</h4>
+                                <p>
+                                    Дата-центры, приватные сети, переменные окружения,
+                                    секреты в CI/CD — среда, доступ к которой контролируем
+                                    мы, а не конечный пользователь.
+                                </p>
+                            </div>
+                            <div class="adv-point">
+                                <span class="point-head">
+                                    <span class="point-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <circle cx="8" cy="12" r="4"></circle>
+                                            <path d="M12 12h9M17 12v4M20 12v3"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="point-num">02</span>
+                                </span>
+                                <h4>Безопасные операции</h4>
+                                <ul>
+                                    <li>обращение к базам данных с учётными данными;</li>
+                                    <li>вызовы внутренних API с секретными ключами;</li>
+                                    <li>проверка прав доступа;</li>
+                                    <li>работа с платёжными системами и токенами.</li>
+                                </ul>
+                            </div>
+                            <div class="adv-point">
+                                <span class="point-head">
+                                    <span class="point-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"></path>
+                                            <circle cx="12" cy="12" r="2.5"></circle>
+                                            <path d="M4 20L20 4"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="point-num">03</span>
+                                </span>
+                                <h4>Секреты не утекают в браузер</h4>
+                                <p>На клиенте те же операции означали бы, что любой может:</p>
+                                <ul>
+                                    <li>посмотреть исходный код бандла;</li>
+                                    <li>перехватить сетевые запросы;</li>
+                                    <li>извлечь токены и ключи.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="adv-point is-callout is-wide">
+                            <span class="adv-bang" aria-hidden="true">!</span>
+                            <div>
+                                <h4>Важное ограничение</h4>
+                                <p>
+                                    Преимущество работает, пока секрет не передан клиенту сами.
+                                    Отдали секретное значение пропсом в клиентский компонент
+                                    (<b>'use client'</b>) — оно сериализуется и уедет в браузер.
+                                    Правило: секреты живут только внутри серверных компонентов.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Преимущество №3 -->
+                <div class="adv-overlay" id="adv-3">
+                    <header>
+                        <div>
+                            <p class="adv-eyebrow">Преимущество 03</p>
+                            <h3>Асинхронность серверных компонентов</h3>
+                        </div>
+                        <button class="adv-close" type="button" aria-label="Закрыть">✕</button>
+                    </header>
+                    <p class="adv-lead">
+                        В клиентском React компонент не может быть async-функцией:
+                        React ждёт синхронный возврат JSX, а данные приходят через
+                        хуки (useEffect, Suspense, use()). У серверных компонентов
+                        этого ограничения нет — можно объявить <b>async</b>
+                        и напрямую <b>await</b>-ить загрузку.
+                    </p>
+                    <div class="adv-rows is-centered">
+                        <div class="adv-cols-2 is-big">
+                            <div class="adv-point">
+                                <h4>Почему так можно</h4>
+                                <p>Сервер контролирует момент отправки ответа, поэтому он может:</p>
+                                <ul>
+                                    <li>начать выполнение асинхронного компонента;</li>
+                                    <li>дождаться разрешения всех промисов;</li>
+                                    <li>и только потом сериализовать результат и ответить.</li>
+                                </ul>
+                            </div>
+                            <div class="adv-point">
+                                <h4>В браузере это дороже</h4>
+                                <p>
+                                    Там React не может «заблокировать» рендеринг в ожидании
+                                    данных без сложных механизмов. На сервере ожидание —
+                                    просто задержка ответа, которую мы полностью
+                                    контролируем.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Преимущества</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-2-pomazkov.pages.dev" target="_blank" rel="noreferrer">Серверный рендеринг</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-3-nikiforov.pages.dev" target="_blank" rel="noreferrer">Правила работы серверных компонентов</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Серверные действия</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-5-nikiforov.pages.dev" target="_blank" rel="noreferrer">Будущее серверных компонентов React</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов этого доклада -->
+    <script src="assets/js/talk.js"></script>
+
+</body>
+</html>

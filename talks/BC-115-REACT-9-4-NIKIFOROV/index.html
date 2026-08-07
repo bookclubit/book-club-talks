@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Серверные действия — React. К вершинам мастерства</title>
+    <meta name="description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Серверные действия — React. К вершинам мастерства">
+    <meta property="og:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta property="og:image" content="https://bc-115-react-9-4-nikiforov.pages.dev/assets/cover/fluent-react.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Серверные действия — React. К вершинам мастерства">
+    <meta name="twitter:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta name="twitter:image" content="https://bc-115-react-9-4-nikiforov.pages.dev/assets/cover/fluent-react.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 9</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Серверные компоненты React</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Серверные действия</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    <img class="book-cover" src="assets/cover/fluent-react.webp" alt="React. К вершинам мастерства">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    React. К вершинам мастерства
+                                </a>
+                                <p class="book-subtitle">
+                                    Fluent React: Build Fast, Performant, and Intuitive Web Applications
+                                </p>
+                                <p class="book-desc-ru">
+                                    Глубокое погружение во внутреннее устройство React: JSX и продвинутые паттерны, виртуальный DOM и реконциляция, серверный рендеринг, конкурентный режим и серверные компоненты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://tej.as/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                                    <div class="author-info">
+                                        <div class="author-name">Теджас Кумар</div>
+                                        <div class="author-link-text">tej.as ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/Frich22" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/nikiforov-artem.webp" alt="Артём Никифоров">
+                                <div class="author-info">
+                                    <div class="author-name">Артём Никифоров</div>
+                                    <div class="author-link-text">t.me/Frich22 ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== CONTENT SLIDES ===== -->
+            <section class="slide" data-slide="3">
+                <style>
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card ul { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; font-size: 18px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-card b, .cs-list b, .cs-callout b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 36px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 22px; line-height: 1.55; color: var(--text-main); max-width: 1520px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-callout { margin-top: 36px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1520px; }
+                    .cs-code { background: #0b0b0c; border: 1px solid var(--border); border-radius: 14px; padding: 22px 28px; margin-top: 36px; overflow-x: auto; }
+                    .cs-code pre { margin: 0; font-family: var(--font-mono); font-size: 17px; line-height: 1.65; color: var(--text-muted); }
+                    .cs-code .k { color: #fff; font-weight: 600; }
+                    .cs-code .c { color: #52525b; }
+                    .cs-card .cs-code { margin-top: 18px; padding: 16px 20px; }
+                    .cs-card .cs-code pre { font-size: 15px; }
+                    .cs-table { width: 100%; border-collapse: collapse; margin-top: 36px; }
+                    .cs-table th { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em; color: #71717a; text-align: left; padding: 14px 20px; border-bottom: 1px solid var(--border); font-weight: 600; }
+                    .cs-table td { font-size: 20px; color: var(--text-muted); padding: 16px 20px; border-bottom: 1px solid #1c1c1c; line-height: 1.45; }
+                    .cs-table td:first-child { color: #fff; font-weight: 600; }
+                    .cs-cols { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; margin-top: 36px; align-items: start; }
+                    .cs-cols .cs-code { margin-top: 0; }
+                    .cs-cols .cs-list { margin-top: 0; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 9 · Server Actions</div>
+                    <h2 class="gradient-text">«use server»: функции сервера, вызываемые с клиента</h2>
+                    <p class="cs-lead">Серверные компоненты — не единственная новинка. В паре с ними работает директива «use server», превращающая обычную функцию в server action (в переводе книги — «серверное действие»).</p>
+                    <div class="cs-cols">
+                        <ul class="cs-list">
+                            <li><span>Любая <b>асинхронная функция</b> может начинаться с «use server» — сигнал React и компоновщику: вызывать можно с клиента, выполнять — только на сервере.</span></li>
+                            <li><span>Вызов server action на клиенте — это <b>сетевой запрос</b> с сериализованной копией всех аргументов.</span></li>
+                            <li><span>Возвращаемое значение <b>сериализуется и приходит обратно</b> клиенту.</span></li>
+                        </ul>
+                        <div class="cs-code"><pre>async function requestUsername(formData) {
+  <span class="k">"use server"</span>;
+  const username = formData.get("username");
+  <span class="c">// выполняется только на сервере</span>
+}</pre></div>
+                    </div>
+                    <div class="cs-callout">Зачем две директивы? <b>Дефолт в мире RSC — серверный:</b> модуль без директив живёт в серверном графе. «use client» — дверь <b>с сервера на клиент</b> («отсюда начинается клиентский пакет»), «use server» — дверь <b>с клиента на сервер</b> («эту функцию можно дёрнуть снаружи»). Они не симметричны: первая помечает модули, вторая — функции-endpoint'ы.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Как это работает</div>
+                    <h2 class="gradient-text">Стоп. Нам же говорили: функции не сериализуются?</h2>
+                    <p class="cs-lead">Так и есть — и правило не нарушено: по сети едет не функция, а ссылка на неё. Та же механика, что module reference у клиентских компонентов из доклада 9.2 — только в обратную сторону.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <span class="cs-num">01</span>
+                            <h3>Тело остаётся на сервере</h3>
+                            <p>Компоновщик видит «use server» и <b>не кладёт код функции в клиентский пакет</b>. Вместо него клиент получает ссылку: ID модуля + имя функции.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">02</span>
+                            <h3>Импорт превращается в стаб</h3>
+                            <p>Поэтому клиентский компонент <b>может импортировать server action</b> и звать её как обычную async-функцию — под капотом импортируется не код, а «адрес».</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">03</span>
+                            <h3>Вызов — это POST</h3>
+                            <p>Стаб отправляет на сервер запрос: ID функции + сериализованные аргументы. Сервер находит функцию по ID, выполняет и возвращает сериализованный результат.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Красивая симметрия с правилами из 9.3: серверный <b>компонент</b> импортировать в клиентский код нельзя (утащит код в пакет), а server <b>action</b> — можно (уедет только адрес). И по той же причине гидратация — работа клиента: HTML не может привезти функции-обработчики.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Синтаксис</div>
+                    <h2 class="gradient-text">Пометить функцию — или сразу весь файл</h2>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Директива в теле функции</h3>
+                            <div class="cs-code"><pre>async function requestUsername(formData) {
+  <span class="k">"use server"</span>;
+  <span class="c">// ...</span>
+}</pre></div>
+                            <p style="margin-top: 16px;">Точечно: в server action превращается одна конкретная функция.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Директива в начале файла</h3>
+                            <div class="cs-code"><pre><span class="k">"use server"</span>; <span class="c">// первая строка файла</span>
+
+<span class="k">export</span> async function likePost(id) { <span class="c">/* ... */</span> }
+<span class="k">export</span> async function follow(userId) { <span class="c">/* ... */</span> }</pre></div>
+                            <p style="margin-top: 16px;">Весь экспорт файла — server actions. Их можно использовать где угодно, <b>включая импорт в клиентский код</b>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Формы и мутации</div>
+                    <h2 class="gradient-text">Форма, которая работает до загрузки JavaScript</h2>
+                    <p class="cs-lead">React даёт первоклассные примитивы для форм: server action передаётся прямо в action, и при отправке формы происходит сетевой запрос к серверной функции.</p>
+                    <div class="cs-cols">
+                        <div class="cs-code"><pre><span class="c">// App.js</span>
+async function requestUsername(formData) {
+  <span class="k">"use server"</span>;
+  const username = formData.get("username");
+  <span class="c">// ...</span>
+}
+
+<span class="k">export default</span> function App() {
+  return (
+    &lt;form <span class="k">action={requestUsername}</span>&gt;
+      &lt;input type="text" name="username" /&gt;
+      &lt;button type="submit"&gt;Request&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</pre></div>
+                        <ul class="cs-list">
+                            <li><span><b>Фаза 1 — приехал HTML.</b> Форма уже на экране и уже рабочая: отправку формы браузер умеет сам, без JavaScript. Фреймворк зашил в action URL с ID нашей функции — сабмит уйдёт обычным POST, сервер выполнит функцию и вернёт новую страницу.</span></li>
+                            <li><span><b>Фаза 2 — догрузился JS-бандл</b> (React + клиентские компоненты) и оживил страницу. Теперь отправку перехватывает React: тот же POST, но через fetch — без перезагрузки, с pending и оптимистичными обновлениями.</span></li>
+                            <li><span><b>Итог:</b> форма рабочая в обеих фазах. На быстрой сети разницы не видно; на слабой — логин и чекаут живут за секунды до того, как доедет бандл.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">За пределами форм</div>
+                    <h2 class="gradient-text">Server action + useTransition: лайк без формы</h2>
+                    <p class="cs-lead">Server actions можно вызывать из любого места клиентского кода. Вызов в переходе даёт индикатор загрузки, оптимистичные обновления и обработку ошибок.</p>
+                    <div class="cs-cols">
+                        <div class="cs-code"><pre><span class="k">"use client"</span>;
+<span class="k">import</span> incrementLike <span class="k">from</span> "./actions";
+<span class="k">import</span> { useState, useTransition } <span class="k">from</span> "react";
+
+function LikeButton() {
+  const [<span class="k">isPending</span>, startTransition] = useTransition();
+  const [likeCount, setLikeCount] = useState(0);
+
+  const onClick = () =&gt; {
+    <span class="k">startTransition</span>(async () =&gt; {
+      <span class="c">// ждём promise, чтобы прочитать результат</span>
+      const currentCount = <span class="k">await incrementLike()</span>;
+      setLikeCount(currentCount);
+    });
+  };
+
+  return (
+    &lt;&gt;
+      &lt;p&gt;Total Likes: {likeCount}&lt;/p&gt;
+      &lt;button onClick={onClick} disabled={<span class="k">isPending</span>}&gt;Like&lt;/button&gt;
+    &lt;/&gt;
+  );
+}</pre></div>
+                        <ul class="cs-list">
+                            <li><span><b>Напомню про useTransition</b> (глава 7): startTransition помечает обновление как несрочное — «делай в фоне, интерфейс не замораживай». С async-функцией внутри он ещё и следит за ней: пока она не завершилась, <b>isPending === true</b>.</span></li>
+                            <li><span>Здесь это даёт бесплатный индикатор запроса: кнопка выключена, пока летит POST, — <b>без единого useState под загрузку</b>. Сам вызов — обычный await: результат читаем и кладём в состояние.</span></li>
+                            <li><span>Слабое место кода: счётчик обновится <b>только после ответа сервера</b> — на медленной сети лайк «залипает».</span></li>
+                            <li><span><b>Причём тут оптимистичный UI:</b> поверх той же транзиции работает useOptimistic — показываем «+1» мгновенно, не дожидаясь сервера; если экшен упал, React сам откатит значение.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Осторожно</div>
+                    <h2 class="gradient-text">Это открытые конечные точки сервера</h2>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Помним про безопасность</h3>
+                            <p>Открытые — не по выбору, а <b>по факту</b>: раз браузер должен уметь вызвать функцию, компоновщик генерирует для неё публичный HTTP-endpoint. Импорт выглядит приватным, но дёрнуть endpoint можно curl'ом напрямую — с любыми аргументами, минуя вашу форму и UI. Поэтому внутри — <b>проверка прав и валидация входа</b>, как в любом публичном API.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Это API для фреймворков</h3>
+                            <p>В ванильном React работа с директивами громоздка и требует немалой настройки. На практике server actions предназначены для <b>библиотек и фреймворков</b> — Next.js и подобных.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Тем не менее это мощная функция, открывающая множество интересных вариантов использования — от форм до произвольных мутаций.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="9">
+                <div class="cs">
+                    <div class="badge">Кейсы</div>
+                    <h2 class="gradient-text">Когда это нужно: типовые флоу</h2>
+                    <p class="cs-lead">Книга отвечает «как», но не «когда». Вот что server actions заменяют в повседневной работе — и чем обвязывается UX в React 19.</p>
+                    <table class="cs-table">
+                        <tr><th>Сценарий</th><th>Раньше (SPA)</th><th>Теперь</th></tr>
+                        <tr><td>Мутация данных: создать, обновить, удалить</td><td>Транспорт пишем сами: роут + формат JSON на бэке, fetch по URL-строке на клиенте, типы синхронизируем руками, кэш инвалидируем сами</td><td>Сетевой запрос тот же, но транспорт генерирует компоновщик: импортируешь функцию и вызываешь её — с типами; revalidatePath сам перерисовывает данные. RPC вместо REST</td></tr>
+                        <tr><td>Форма с ошибками и pending</td><td>onSubmit, preventDefault, useState на ошибки и загрузку</td><td>useActionState: состояние формы приходит из результата экшена, pending бесплатно</td></tr>
+                        <tr><td>Мгновенный отклик UI</td><td>Руками копить «оптимистичное» состояние и откатывать</td><td>useOptimistic поверх server action — откат при ошибке автоматом</td></tr>
+                        <tr><td>Логин и чекаут на слабой сети</td><td>Кнопка мертва, пока не доехал бандл</td><td>Нативный POST до гидратации — критичный путь живой сразу</td></tr>
+                    </table>
+                    <div class="cs-callout">Типовой флоу в Next.js сегодня: <b>&lt;form action={serverAction}&gt; → мутация БД в экшене → revalidatePath / redirect → RSC перерисовывает страницу с новыми данными</b>. Клиентского кода — ноль строк.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10">
+                <div class="cs">
+                    <div class="badge">Главные выводы</div>
+                    <h2 class="gradient-text">Стоит запомнить только это</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Server action</b> — асинхронная функция с «use server»: вызывается с клиента, выполняется на сервере.</span></li>
+                        <li><span>Аргументы и результат <b>сериализуются и ездят по сети</b> — как пропсы у серверных компонентов.</span></li>
+                        <li><span>В формах server action передаётся в <b>action</b>, React сам подставляет FormData — и форма работает даже до загрузки JS.</span></li>
+                        <li><span>Вне форм server actions дружат с <b>useTransition</b>: индикаторы загрузки, оптимистичные обновления, обработка ошибок.</span></li>
+                        <li><span>Это <b>открытые endpoint'ы</b> и API уровня фреймворков — использовать через Next.js и аналоги, не забывая о безопасности.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+<section class="slide" data-slide="11" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Преимущества</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-2-pomazkov.pages.dev" target="_blank" rel="noreferrer">Серверный рендеринг</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-3-nikiforov.pages.dev" target="_blank" rel="noreferrer">Правила работы серверных компонентов</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Серверные действия</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-5-nikiforov.pages.dev" target="_blank" rel="noreferrer">Будущее серверных компонентов React</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+
+</body>
+</html>

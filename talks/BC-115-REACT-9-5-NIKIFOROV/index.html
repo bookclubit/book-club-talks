@@ -97,9 +97,112 @@
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <!-- ===== CONTENT SLIDES ===== -->
+            <section class="slide" data-slide="3">
+                <style>
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card b, .cs-list b, .cs-callout b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 36px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 22px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 22px; line-height: 1.55; color: var(--text-main); max-width: 1520px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-callout { margin-top: 36px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1520px; }
+                    .cs-qlist { counter-reset: q; list-style: none; margin: 36px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 24px; }
+                    .cs-qlist li { display: flex; gap: 24px; align-items: flex-start; font-size: 23px; line-height: 1.5; color: var(--text-main); max-width: 1520px; }
+                    .cs-qlist li::before { counter-increment: q; content: '0' counter(q); font-family: var(--font-mono); font-size: 16px; color: #71717a; letter-spacing: 0.1em; padding-top: 6px; flex-shrink: 0; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 9 · Где мы оказались</div>
+                    <h2 class="gradient-text">RSC: лучшее от MPA и SPA в одной архитектуре</h2>
+                    <p class="cs-lead">Мы прошли всю главу: преимущества, рендеринг, правила, серверные действия. Итог — архитектура, которая сочетает многостраничные приложения с серверным рендерингом и удобство одностраничных, не жертвуя ни производительностью, ни сопровождаемостью.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <h3>Предсказуемая производительность</h3>
+                            <p>Компоненты выполняются на <b>наших</b> серверах, мощность которых мы контролируем, — а не на незнакомых устройствах пользователей.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Безопасность по умолчанию</h3>
+                            <p>Секреты и токены остаются в защищённой серверной среде — код серверных компонентов никогда не попадает в браузер.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Меньше JavaScript у клиента</h3>
+                            <p>Серверные компоненты исключаются из клиентского пакета и могут быть <b>асинхронными</b> — данные ждём на сервере, а не в браузере.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Направления развития</div>
+                    <h2 class="gradient-text">Над чем работает команда React</h2>
+                    <p class="cs-lead">RSC будут развиваться и совершенствоваться: команда дорабатывает реализацию, устраняет проблемы и расширяет набор функций. Две главные области:</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Лучшая интеграция с упаковщиками</h3>
+                            <p>Сотрудничество с разработчиками <b>Webpack, Rollup</b> и других инструментов. RSC требуют упаковщика «нового поколения» — умеющего строить раздельные графы модулей для сервера и клиента. Чем лучше поддержка, тем проще создавать RSC-совместимые платформы и приложения.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Поддержка экосистемы</h3>
+                            <p>Вокруг новой архитектуры будут появляться <b>инструменты, библиотеки и фреймворки</b> — внедрять RSC в проекты станет проще, а выгоду от производительности получит больше команд.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Книга писалась, когда RSC были «горячей» темой, — детали могли измениться. Самая свежая информация — на <b>react.dev</b> и в каналах сообщества React.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Прогноз</div>
+                    <h2 class="gradient-text">Значительный шаг вперёд для экосистемы</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Повышенная производительность</b> — меньше JavaScript у клиента, вычисления на предсказуемом железе.</span></li>
+                        <li><span><b>Упрощённое получение данных</b> — асинхронные компоненты читают данные там, где данные живут: на сервере.</span></li>
+                        <li><span><b>Улучшенный пользовательский опыт</b> — быстрая первая загрузка без отказа от интерактивности SPA.</span></li>
+                        <li><span>По мере распространения RSC станут <b>важным инструментом</b> для создания современных, эффективных приложений React.</span></li>
+                    </ul>
+                    <div class="cs-callout">С глубоким пониманием того, как RSC работают «под капотом», можно смело изучать и экспериментировать с ними в собственных проектах.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Итоги главы 9</div>
+                    <h2 class="gradient-text">Если запомнить только это</h2>
+                    <ul class="cs-list">
+                        <li><span><b>RSC — новый тип компонентов:</b> выполняются на сервере, исключены из клиентского пакета, могут запускаться во время сборки и быть асинхронными.</span></li>
+                        <li><span><b>Два взаимодополняющих процесса:</b> RSC-рендеринг превращает компоненты в дерево элементов, серверный рендеринг — дерево в HTML.</span></li>
+                        <li><span><b>Правила простые:</b> сериализуемые пропсы, никаких хуков состояния и эффектов, импорт серверного из клиентского запрещён — но композиция через children разрешена.</span></li>
+                        <li><span><b>Серверные действия</b> («use server») замыкают круг: мутации с клиента без ручных endpoint'ов, формы работают до загрузки JS.</span></li>
+                        <li><span><b>Это не замена клиентским компонентам,</b> а дополнение: интерактивные части остаются на клиенте.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Проверьте ваши знания</div>
+                    <h2 class="gradient-text">Пять вопросов для обсуждения</h2>
+                    <ol class="cs-qlist">
+                        <li><span>Что является <b>главной ценностью</b> серверных компонентов React?</span></li>
+                        <li><span>Могут ли клиентские компоненты <b>импортировать</b> серверные? Почему?</span></li>
+                        <li><span>Каковы <b>компромиссы</b> между серверными компонентами и традиционным клиентским подходом?</span></li>
+                        <li><span>Что такое <b>ссылки на модули</b> и как React обрабатывает их во время согласования?</span></li>
+                        <li><span>Как серверные действия делают приложения React <b>более доступными</b>?</span></li>
+                    </ol>
+                </div>
+            </section>
+
+<section class="slide" data-slide="8" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

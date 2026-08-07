@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Серверный рендеринг — React. К вершинам мастерства</title>
+    <meta name="description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Серверный рендеринг — React. К вершинам мастерства">
+    <meta property="og:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta property="og:image" content="https://bc-115-react-9-2-pomazkov.pages.dev/assets/cover/fluent-react.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Серверный рендеринг — React. К вершинам мастерства">
+    <meta name="twitter:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta name="twitter:image" content="https://bc-115-react-9-2-pomazkov.pages.dev/assets/cover/fluent-react.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 9</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Серверные компоненты React</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Серверный рендеринг</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    <img class="book-cover" src="assets/cover/fluent-react.webp" alt="React. К вершинам мастерства">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    React. К вершинам мастерства
+                                </a>
+                                <p class="book-subtitle">
+                                    Fluent React: Build Fast, Performant, and Intuitive Web Applications
+                                </p>
+                                <p class="book-desc-ru">
+                                    Глубокое погружение во внутреннее устройство React: JSX и продвинутые паттерны, виртуальный DOM и реконциляция, серверный рендеринг, конкурентный режим и серверные компоненты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://tej.as/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                                    <div class="author-info">
+                                        <div class="author-name">Теджас Кумар</div>
+                                        <div class="author-link-text">tej.as ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/kunjutone" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
+                                <div class="author-info">
+                                    <div class="author-name">Антон Помазков</div>
+                                    <div class="author-link-text">t.me/kunjutone ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+
+            <!-- ===== КОНТЕНТНЫЕ СЛАЙДЫ ДОКЛАДА ===== -->
+
+            <!-- SLIDE: RSR vs SSR — два независимых процесса -->
+            <section class="slide" data-slide="3">
+                <div class="content-slide">
+                    <h2 class="gradient-text">RSR vs SSR</h2>
+                    <p class="slide-lead">
+                        Два отдельных процесса: один превращает компоненты в дерево элементов,
+                        другой — дерево в HTML. Наведите на узел, чтобы увидеть,
+                        как он выглядит на примере <code>&lt;div&gt;Hi!&lt;/div&gt;</code>.
+                    </p>
+
+                    <!-- Схема вынесена из потока и центрируется по слайду: заголовок
+                         с лидом остаются наверху и на её положение не влияют. -->
+                    <div class="pipeline-block">
+                        <div class="pipeline">
+                        <div class="zone zone-rsc"><span>RSR — рендеринг серверных компонентов</span></div>
+                        <div class="zone zone-ssr"><span>SSR — серверный рендеринг</span></div>
+
+                        <div class="pnode n1">
+                            <span class="pnode-title">Серверные компоненты</span>
+                            <span class="pnode-sub">async function</span>
+                            <div class="pnode-pop">
+                                <b>Что это</b>
+                                <pre><span class="kw">const</span> <span class="fn">App</span> = <span class="kw">async</span> () =&gt; {
+  <span class="kw">return</span> <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>Hi!<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>;
+};</pre>
+                                <p>
+                                    Обычная функция, которую можно ожидать через await.
+                                    Её код остаётся на сервере и в бандл не попадает.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="parrow a1">
+                            <div class="parrow-line"></div>
+                            <span class="parrow-label">RSC-рендеринг</span>
+                        </div>
+
+                        <div class="pnode n2">
+                            <span class="pnode-title">Дерево элементов React</span>
+                            <span class="pnode-sub">объект JavaScript</span>
+                            <div class="pnode-pop">
+                                <b>Что это</b>
+                                <pre>{
+  <span class="attr">$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">"div"</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> }
+}</pre>
+                                <p>
+                                    Не HTML и не DOM, а описание того, каким должен быть DOM.
+                                    Это данные — их можно инспектировать и сериализовать.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="parrow a2">
+                            <div class="parrow-line"></div>
+                            <span class="parrow-label">серверный рендеринг</span>
+                        </div>
+
+                        <div class="pnode n3">
+                            <span class="pnode-title">HTML-поток</span>
+                            <span class="pnode-sub">строка / stream</span>
+                            <div class="pnode-pop">
+                                <b>Что это</b>
+                                <pre>ReactDOMServer.<span class="fn">renderToString</span>(tree)
+<span class="cm">// → "&lt;div&gt;Hi!&lt;/div&gt;"</span></pre>
+                                <p>
+                                    Разметка, которую можно отдать по сети сразу — до того,
+                                    как браузер скачает и выполнит JavaScript.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="parrow a3">
+                            <div class="parrow-line"></div>
+                            <span class="parrow-label">по сети</span>
+                        </div>
+
+                        <div class="pnode n4">
+                            <span class="pnode-title">Клиент</span>
+                            <span class="pnode-sub">DOM + гидратация</span>
+                            <div class="pnode-pop">
+                                <b>Что это</b>
+                                <pre><span class="punc">&lt;</span><span class="tag">div</span> <span class="attr">id</span>=<span class="str">"root"</span><span class="punc">&gt;&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>Hi!<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+<span class="fn">hydrateRoot</span>(document, <span class="punc">&lt;</span><span class="tag">App</span> <span class="punc">/&gt;</span>)</pre>
+                                <p>
+                                    Браузер показывает готовую разметку, а React подключает
+                                    к ней обработчики событий и динамику.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="pipeline-hint">
+                        Голубая рамка — RSR, янтарная — SSR. Дерево элементов принадлежит
+                        обеим зонам: им заканчивается первый процесс и начинается второй
+                    </p>
+                    </div>
+                </div>
+
+                <!-- Автор с цитатой: аватар по центру внизу, стрелка зовёт нажать. -->
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «По сути, серверные компоненты и серверный рендеринг можно
+                            рассматривать как два отдельных независимых процесса, где один
+                            процесс заботится исключительно о рендеринге компонентов
+                            на сервере и генерировании дерева элементов React, а другой
+                            процесс — серверный рендеринг — использует это дерево элементов
+                            React и преобразует его в HTML-разметку, которая может быть
+                            передана клиентам по сети.»
+                            <cite>Раздел «Серверный рендеринг», стр. 299</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: server.js — что по коду -->
+            <section class="slide" data-slide="4">
+                <div class="content-slide">
+                    <h2 class="gradient-text">А что по коду?</h2>
+                    <p class="slide-lead">
+                        Обычный express-сервер: раздаёт бандл, на любой маршрут собирает
+                        дерево, рендерит его в строку и отдаёт HTML.
+                    </p>
+
+                    <div class="code-slide is-big interactive-block" data-target="server-note">
+                        <div class="code-box is-small is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>server.js</em></div>
+<pre><span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">"express"</span>);
+<span class="kw">const</span> path = <span class="fn">require</span>(<span class="str">"path"</span>);
+<span class="kw">const</span> React = <span class="fn">require</span>(<span class="str">"react"</span>);
+<span class="kw">const</span> ReactDOMServer = <span class="fn">require</span>(<span class="str">"react-dom/server"</span>);
+<span class="kw">const</span> App = <span class="fn">require</span>(<span class="str">"./src/App"</span>);
+
+<span class="kw">const</span> app = <span class="fn">express</span>();
+
+<div class="code-line" data-title="Раздача клиентского бандла" data-desc="Статика отдаётся из build: там лежит собранный клиентский JavaScript. Именно он позже подключится к серверной разметке при гидратации — сервер отдаёт HTML, а браузер добирает интерактивность из этого файла.">app.<span class="fn">use</span>(express.<span class="fn">static</span>(path.<span class="fn">join</span>(__dirname, <span class="str">"build"</span>)));</div>
+
+<div class="code-line" data-title="Один маршрут на всё приложение" data-desc="app.get(&quot;*&quot;) — обработчик любого пути: маршрутизацию берёт на себя React-дерево, а не express. Обработчик асинхронный, потому что сборка дерева умеет ждать данные: внутри будет await.">app.<span class="fn">get</span>(<span class="str">"*"</span>, <span class="kw">async</span> (req, res) =&gt; {</div>
+<div class="code-line" data-title="RSR: компоненты → дерево элементов" data-desc="На сервере дерево JSX преобразуется в дерево элементов.<span class='note-aside'>Подробнее работу этой функции рассмотрим на следующем слайде.</span>">  <span class="kw">const</span> rscTree = <span class="kw">await</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(<span class="punc">&lt;</span><span class="tag">App</span> <span class="punc">/&gt;</span>);</div>
+
+<div class="code-line" data-title="SSR: дерево → HTML-строка" data-desc="Второй процесс. renderToString проходит по готовому дереву элементов и склеивает HTML. Ему уже не нужно ничего ждать: все асинхронные компоненты разрешены на предыдущем шаге. В продакшене здесь чаще стриминг.">  <span class="kw">const</span> html = ReactDOMServer.<span class="fn code-term" data-title="Стриминг вместо строки" data-desc="renderToString собирает весь HTML в память и отдаёт целиком. Стриминговые API отдают разметку порциями, по мере готовности: <em>renderToPipeableStream</em> — для Node.js, <em>renderToReadableStream</em> — для сред с Web Streams (Deno, воркеры, edge). Вместе с Suspense это даёт первую отрисовку до того, как готовы все данные.<a href='https://react.dev/reference/react-dom/server/renderToPipeableStream' target='_blank' rel='noreferrer'>Документация React ↗</a>">renderToString</span>(rscTree);</div>
+
+<div class="code-line is-block" data-title="Что уходит на клиент" data-desc="Ответ собирается строкой: каркас документа, готовая разметка внутри #root и тег script с клиентским бандлом. Пользователь видит контент сразу — до загрузки JavaScript; узел #root потом получит hydrateRoot, и React привяжется к существующему DOM вместо повторной отрисовки, а скрипт включит интерактивность и мягкую навигацию.">  res.<span class="fn">send</span>(`
+    <span class="punc">&lt;!DOCTYPE html&gt;</span>
+    <span class="punc">&lt;</span><span class="tag">html</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">head</span><span class="punc">&gt;</span>
+        <span class="punc">&lt;</span><span class="tag">title</span><span class="punc">&gt;</span>My React App<span class="punc">&lt;/</span><span class="tag">title</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;/</span><span class="tag">head</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">body</span><span class="punc">&gt;</span>
+        <span class="punc">&lt;</span><span class="tag">div</span> <span class="attr">id</span>=<span class="str">"root"</span><span class="punc">&gt;</span>${html}<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+        <span class="punc">&lt;</span><span class="tag">script</span> <span class="attr">src</span>&#61;<span class="str">"/static/js/main.js"</span><span class="punc">&gt;&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;/</span><span class="tag">body</span><span class="punc">&gt;</span>
+    <span class="punc">&lt;/</span><span class="tag">html</span><span class="punc">&gt;</span>
+  `);</div>
+});
+
+app.<span class="fn">listen</span>(<span class="num">3000</span>, () =&gt; {
+  console.<span class="fn">log</span>(<span class="str">"Server listening on port 3000"</span>);
+});</pre>
+                        </div>
+
+                        <p class="code-hint">
+                            Подсвеченные области кликабельны — справа появится пояснение.
+                        </p>
+
+                        <div class="info-panel code-note" id="server-note">
+                            <h3>Два процесса в пяти строках</h3>
+                            <p>
+                                Вся глава — про две строки в середине обработчика:
+                                сначала компоненты превращаются в дерево элементов,
+                                затем дерево — в HTML. Нажмите на подсвеченную
+                                область, чтобы разобрать её отдельно.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: turnServerComponentsIntoTreeOfElements -->
+            <section class="slide" data-slide="5">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Что делает turnServerComponentsIntoTreeOfElements</h2>
+                    <p class="slide-lead">
+                        По сути это набор условий: функция смотрит, что ей передали,
+                        и решает, как с этим быть. Пройдём вызов по шагам —
+                        для <code>&lt;div&gt;Hi!&lt;/div&gt;</code>.
+                    </p>
+
+                    <!-- Разбор по шагам: слева подсвечивается выполняемый код,
+                         справа — результат шага. Шаги живут в разметке (.rec-step),
+                         скрипт лишь переключает текущий: править содержание —
+                         здесь, а не в talk.js. -->
+                    <div class="code-slide is-wide is-big" data-rec>
+                        <div class="code-box is-small is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>renderJSXToClientJSX.js</em></div>
+<pre><div class="code-step" data-step="sig"><span class="kw">async function</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(jsx) {</div>
+<div class="code-step" data-step="prim">  <span class="kw">if</span> (<span class="kw">typeof</span> jsx === <span class="str">"string"</span> || <span class="kw">typeof</span> jsx === <span class="str">"number"</span> ||
+      <span class="kw">typeof</span> jsx === <span class="str">"boolean"</span> || jsx == <span class="kw">null</span>) {
+    <span class="kw">return</span> jsx;
+  }</div>
+
+<div class="code-step" data-step="arr">  <span class="kw">if</span> (Array.<span class="fn">isArray</span>(jsx)) {
+    <span class="kw">return await</span> Promise.<span class="fn">all</span>(jsx.<span class="fn">map</span>(child =&gt; <span class="fn">renderJSXToClientJSX</span>(child)));
+  }</div>
+
+<div class="code-step" data-step="obj">  <span class="kw">if</span> (jsx != <span class="kw">null</span> &amp;&amp; <span class="kw">typeof</span> jsx === <span class="str">"object"</span>) {</div>
+<div class="code-step" data-step="elem">    <span class="kw">if</span> (jsx.<span class="attr">$$typeof</span> === Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>)) {</div>
+<div class="code-step" data-step="str">      <span class="kw">if</span> (<span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"string"</span>) {
+        <span class="kw">return</span> { ...jsx, <span class="attr">props</span>: <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>(jsx.props) };
+      }</div>
+
+<div class="code-step" data-step="func">      <span class="kw">if</span> (<span class="kw">typeof</span> jsx.<span class="attr">type</span> === <span class="str">"function"</span>) {
+        <span class="kw">const</span> Component = jsx.type;
+        <span class="kw">const</span> props = jsx.props;
+        <span class="kw">const</span> returnedJsx = <span class="kw">await</span> <span class="fn">Component</span>(props);
+        <span class="kw">return await</span> <span class="fn">renderJSXToClientJSX</span>(returnedJsx);
+      }</div>
+
+      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Not implemented."</span>);
+<div class="code-step" data-step="else">    } <span class="kw">else</span> {
+      <span class="kw">return</span> Object.<span class="fn">fromEntries</span>(
+        <span class="kw">await</span> Promise.<span class="fn">all</span>(
+          Object.<span class="fn">entries</span>(jsx).<span class="fn">map</span>(<span class="kw">async</span> ([propName, value]) =&gt; [
+            propName,
+            <span class="kw">await</span> <span class="fn">renderJSXToClientJSX</span>(value),
+          ])
+        )
+      );
+    }</div>
+  }
+
+  <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Not implemented."</span>);
+}</pre>
+                        </div>
+
+                        <div class="rec-side">
+                            <!-- Стек вызовов: глубина текущего шага. Кадры ниже
+                                 текущего ждут возврата, глубже — уже вернулись. -->
+                            <div class="rec-stack">
+                                <span class="rec-stack-label">стек вызовов</span>
+                                <span class="rec-frame" data-frame="1">&lt;div&gt;Hi!&lt;/div&gt;</span>
+                                <span class="rec-frame" data-frame="2">{ children: "Hi!" }</span>
+                                <span class="rec-frame" data-frame="3">"Hi!"</span>
+                            </div>
+
+                            <div class="rec-card">
+                                <div class="rec-head">
+                                    <span class="rec-tag" data-rec-tag></span>
+                                    <span class="rec-count" data-rec-count></span>
+                                </div>
+                                <div class="rec-body" data-rec-body></div>
+                            </div>
+
+                            <div class="rec-nav">
+                                <button class="rec-btn" type="button" data-rec-prev aria-label="Предыдущий шаг">←</button>
+                                <button class="rec-btn is-primary" type="button" data-rec-next>Следующий шаг →</button>
+                            </div>
+                        </div>
+
+                        <div class="rec-steps" hidden>
+                            <article class="rec-step" data-hl="sig" data-depth="0" data-tag="вызов">
+                                <p class="rec-ask"><span class="rec-label">что происходит</span>Сервер зовёт функцию и ждёт дерево элементов</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span>на входе <span class="rec-val">&lt;div&gt;Hi!&lt;/div&gt;</span></p>
+                                <p class="rec-note">Дальше идём по шагам: слева подсвечен код, который выполняется сейчас, здесь — что он проверяет и с каким ответом.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="prim,arr" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это примитив или массив?</p>
+                                <p class="rec-ans is-no"><span class="rec-mark">нет</span>в jsx объект элемента <span class="rec-val">{ $$typeof, type, props }</span></p>
+                                <p class="rec-note">Строка, число, boolean и null вернулись бы сразу как есть, массив пошёл бы по детям. Ни то ни другое — идём дальше.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="obj,elem" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это элемент React?</p>
+                                <p class="rec-ans is-yes"><span class="rec-mark">да</span>у объекта есть маркер <span class="rec-val">$$typeof</span></p>
+                                <p class="rec-note">Все элементы React — объекты, но не все объекты — элементы React. Отличает их символ <span class="rec-val">Symbol.for("react.element")</span>: через JSON его не подделать.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="str" data-depth="1" data-tag="проход 1 · jsx = &lt;div&gt;Hi!&lt;/div&gt;">
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Какой у элемента type — строка или функция?</p>
+                                <p class="rec-ans is-yes"><span class="rec-mark">строка</span><span class="rec-val">"div"</span> — обычный DOM-тег</p>
+                                <p class="rec-note">Вызывать нечего: сам элемент вернётся как есть. Но пропсы нужно обойти — в них могут прятаться компоненты, поэтому функция зовёт саму себя. Уходим на проход 2 с <span class="rec-val">{ children: "Hi!" }</span>.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="prim,arr" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это примитив или массив?</p>
+                                <p class="rec-ans is-no"><span class="rec-mark">нет</span>в jsx теперь пропсы <span class="rec-val">{ children: "Hi!" }</span></p>
+                                <p class="rec-note">Новый вызов начинается с тех же двух проверок — функция не помнит, откуда её позвали, и разбирается с тем, что пришло.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="elem,else" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это элемент React?</p>
+                                <p class="rec-ans is-no"><span class="rec-mark">нет</span>маркера нет: <span class="rec-val">$$typeof → undefined</span></p>
+                                <p class="rec-note">Пропсы — обычный объект, ветка элемента не срабатывает. Управление уходит в else.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="else" data-depth="2" data-tag="проход 2 · jsx = { children: &quot;Hi!&quot; }">
+                                <p class="rec-ask"><span class="rec-label">что происходит</span>Обходим каждое значение пропсов</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val">children: "Hi!"</span> уходит на проход 3</p>
+                                <p class="rec-note">Объект разбирается по парам «ключ — значение», и на каждое значение функция зовётся снова. Значение здесь одно — строка «Hi!».</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="prim" data-depth="3" data-tag="проход 3 · jsx = &quot;Hi!&quot;">
+                                <p class="rec-ask"><span class="rec-label">проверяем</span>Это примитив?</p>
+                                <p class="rec-ans is-yes"><span class="rec-mark">да</span><span class="rec-val">"Hi!"</span> — строка</p>
+                                <p class="rec-note">Дно рекурсии: примитив возвращается сам собой. Глубже идти некуда — вызовы начинают разворачиваться обратно.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="else" data-depth="2" data-tag="возврат → проход 2">
+                                <p class="rec-ask"><span class="rec-label">что вернулось</span>Пропсы собрались обратно</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val">{ children: "Hi!" }</span></p>
+                                <p class="rec-note">Пары складываются в объект — уже с обойдёнными значениями. Проход 2 отработал и возвращает результат тому, кто его позвал.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="str" data-depth="1" data-tag="возврат → проход 1">
+                                <p class="rec-ask"><span class="rec-label">что вернулось</span>Элемент получил обойдённые пропсы</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val">{ ...jsx, props: { children: "Hi!" } }</span></p>
+                                <p class="rec-note">Первый вызов дождался своих пропсов и возвращает элемент с ними. Стек пуст — рекурсия закончилась.</p>
+                            </article>
+
+                            <article class="rec-step" data-hl="sig" data-depth="0" data-tag="что получилось">
+                                <p class="rec-ask"><span class="rec-label">результат</span>Одно дерево элементов вместо трёх вызовов</p>
+                                <p class="rec-ans is-do"><span class="rec-mark">→</span><span class="rec-val is-block">{ $$typeof: Symbol(react.element), type: "div",
+  props: { children: "Hi!" } }</span></p>
+                                <p class="rec-note">Элемент, его пропсы и строка внутри свернулись в один объект. Ни функций, ни компонентов в нём не осталось — только данные. Само по себе это ещё не строка: дерево лежит в памяти сервера, а дальше его либо сериализуют и отправляют клиенту, либо отдают в renderToString и получают HTML.</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: сериализация — зачем -->
+            <section class="slide" data-slide="9">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Сериализация</h2>
+                    <p class="slide-lead">
+                        Элемент React — ещё не DOM-узел, а инструкция, каким должен быть DOM.
+                        Сериализация превращает эти инструкции в строку, пригодную
+                        для передачи по сети.
+                    </p>
+
+                    <!-- Конвейер сериализации: элемент → JSON-строка. Это не про
+                         renderToString: тот отдаёт HTML, а здесь дерево элементов
+                         превращается в строку для передачи по сети. По наведению
+                         на движок всплывает вопрос, по клику открывается разбор. -->
+                    <div class="ser-flow">
+                        <div class="ser-card">
+                            <pre>{
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">"div"</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">"Hi!"</span> }
+}</pre>
+                        </div>
+
+                        <div class="ser-arrow"><span></span></div>
+
+                        <button class="ser-engine" type="button" data-ser-open>
+                            <span class="ser-engine-name">сериализация</span>
+                            <span class="ser-engine-sub">нажмите, чтобы заглянуть внутрь</span>
+                            <span class="ser-q">Но разве <b>Symbol</b> можно сериализовать?</span>
+                        </button>
+
+                        <div class="ser-arrow"><span></span></div>
+
+                        <div class="ser-card">
+                            <pre><span class="str">'{"$$typeof":"react.element",
+  "type":"div",
+  "props":{"children":"Hi!"}}'</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Разбор сериализации: открывается только по клику на движок,
+                     поэтому и живёт в модальном окне. -->
+                <div class="ser-modal" hidden>
+                    <div class="ser-modal-veil" data-ser-close></div>
+                    <div class="ser-modal-win" role="dialog" aria-label="Symbol и сериализация">
+                        <div class="ser-modal-head">
+                            <h3>Но разве <b>Symbol</b> можно сериализовать?</h3>
+                            <button class="ser-modal-close" type="button" data-ser-close aria-label="Закрыть">✕</button>
+                        </div>
+                        <p class="ser-modal-lead">
+                            Нельзя: JSON символов не знает. Поэтому при сериализации маркер
+                            подменяют строкой, а при разборе на клиенте возвращают обратно.
+                        </p>
+                        <div class="ser-lab-cols">
+                            <div class="code-box is-win is-small">
+                                <div class="win-bar"><i></i><i></i><i></i><em>сериализация: Symbol → строка</em></div>
+<pre>JSON.<span class="fn">stringify</span>(element, (key, value) =&gt; {
+  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> <span class="str">"react.element"</span>;
+  <span class="kw">return</span> value;
+});</pre>
+                            </div>
+                            <div class="code-box is-win is-small">
+                                <div class="win-bar"><i></i><i></i><i></i><em>десериализация: строка → Symbol</em></div>
+<pre>JSON.<span class="fn">parse</span>(text, (key, value) =&gt; {
+  <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> Symbol.<span class="fn">for</span>(<span class="str">"react.element"</span>);
+  <span class="kw">return</span> value;
+});</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Сериализация элементов React является фундаментальным аспектом
+                            обеспечения правильного и эффективного отображения вашего
+                            приложения при начальной загрузке, поскольку каждый вывод,
+                            отображаемый сервером, должен соответствовать клиентскому,
+                            чтобы React мог корректно согласовывать и дифференцировать
+                            данные.»
+                            <cite>Раздел «Сериализация», стр. 306</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: навигация -->
+            <section class="slide" data-slide="11">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Навигация: мягкие переходы вместо перезагрузки</h2>
+                    <p class="slide-lead">
+                        Нажмите «Перейти» в каждой колонке — разница видна по тому,
+                        что обновляется, и по счётчику справа.
+                    </p>
+
+                    <div class="nav-demos">
+                        <div class="nav-demo is-old" data-nav-demo data-ms="1240">
+                            <div class="nav-demo-head">
+                                <span class="tcard-tag">старый мир</span>
+                                <h3>Полностраничная навигация</h3>
+                                <span class="nav-ms" data-nav-ms>0 мс</span>
+                            </div>
+
+                            <div class="nav-screen">
+                                <div class="nav-part nav-head">шапка</div>
+                                <div class="nav-part nav-body">
+                                    контент
+                                    <span class="nav-state" data-nav-state>в поле: «привет»</span>
+                                </div>
+                                <div class="nav-part nav-foot">подвал</div>
+                                <span class="nav-flash"></span>
+                            </div>
+
+                            <p class="nav-demo-note">
+                                Браузер запрашивает страницу целиком: обновляется всё, включая
+                                шапку и подвал, а введённые данные и скролл сбрасываются.
+                            </p>
+                            <button class="pass-btn" type="button" data-nav-run>Перейти на /bio</button>
+                        </div>
+
+                        <div class="nav-demo is-new" data-nav-demo data-ms="130">
+                            <div class="nav-demo-head">
+                                <span class="tcard-tag">мир RSC</span>
+                                <h3>Мягкий переход</h3>
+                                <span class="nav-ms" data-nav-ms>0 мс</span>
+                            </div>
+
+                            <div class="nav-screen">
+                                <div class="nav-part nav-head">шапка</div>
+                                <div class="nav-part nav-body">
+                                    контент
+                                    <span class="nav-state" data-nav-state>в поле: «привет»</span>
+                                </div>
+                                <div class="nav-part nav-foot">подвал</div>
+                            </div>
+
+                            <p class="nav-demo-note">
+                                Клик перехватывается, сервер отдаёт дерево JSX для маршрута:
+                                перерисовывается только контент, состояние остаётся на месте.
+                            </p>
+                            <button class="pass-btn" type="button" data-nav-run>Перейти на /bio</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <!-- Код перехвата клика живёт в ящике с автором: на слайде он
+                     отвлекал от демонстраций, а рядом с цитатой читается как
+                     её продолжение — «как именно клик перехватывается». -->
+                <div class="quote-drawer has-code">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Но мы можем добиться большего: с помощью RSC мы можем реализовать
+                            мягкую навигацию, при которой состояние сохраняется между переходами
+                            по маршруту. Мы делаем это, отправляя серверу URL, по которому хотим
+                            перейти, и сервер отправляет нам обратно дерево JSX для этой страницы.
+                            Затем React в браузере повторно отображает страницу с новым деревом
+                            JSX, и у нас будет новая страница без обновления всей страницы.»
+                            <cite>Раздел «Навигация», стр. 308</cite>
+                        </blockquote>
+                        <div class="code-box is-win is-small quote-code">
+                            <div class="win-bar"><i></i><i></i><i></i><em>client.js</em></div>
+<pre><span class="cm">// один слушатель на window — делегирование событий</span>
+window.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (event) =&gt; {
+  <span class="kw">if</span> (event.target.<span class="attr">tagName</span> !== <span class="str">"A"</span>) <span class="kw">return</span>;
+  event.<span class="fn">preventDefault</span>();
+  <span class="fn">navigate</span>(event.target.href);
+});</pre>
+                        </div>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: navigate() и root -->
+            <section class="slide" data-slide="12">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Как реализовать мягкую навигацию в RSC?</h2>
+
+                    <div class="code-slide is-wide interactive-block" data-target="navigate-note">
+                        <div class="code-box">
+<pre><span class="cm">// клиент</span>
+<div class="code-line" data-title="Шаг 1. Запрос только дерева" data-desc="Заголовок jsx-only сообщает серверу: полная HTML-страница не нужна, отдай дерево JSX для этого маршрута. Экономится и работа сервера, и объём передачи — каркас страницы у клиента уже есть."><span class="kw">async function</span> navigate(url) {
+  <span class="kw">const</span> response = <span class="kw">await</span> fetch(url, {
+    headers: { <span class="str">"jsx-only"</span>: <span class="kw">true</span> },
+  });</div>
+
+<div class="code-line" data-title="Шаг 2. Десериализация с reviver" data-desc="Ответ парсится с функцией-reviver, которая возвращает Symbol.for(&quot;react.element&quot;) для ключа $$typeof — зеркально сериализации на сервере. Только после этого объект снова становится настоящим элементом React.">  <span class="kw">const</span> element = JSON.parse(<span class="kw">await</span> response.text(), (key, value) =&gt; {
+    <span class="kw">if</span> (key === <span class="str">"$$typeof"</span>) <span class="kw">return</span> Symbol.for(<span class="str">"react.element"</span>);
+    <span class="kw">return</span> value;
+  });</div>
+
+<div class="code-line" data-title="Шаг 3. Перерисовка корня" data-desc="root.render(element) отдаёт новое дерево React, и тот обновляет UI без перезагрузки страницы. Никакой магии: это тот же публичный API, которым пользуется сам React.">  root.render(element);
+}</div>
+
+<span class="cm">// корень получаем при первоначальной гидратации</span>
+<div class="code-line" data-title="Откуда берётся root" data-desc="hydrateRoot из react-dom/client привязывает React-дерево к уже существующей серверной разметке и возвращает объект root с методом render. Тот же root потом используется для всех последующих обновлений — включая мягкую навигацию."><span class="kw">const</span> root = hydrateRoot(document, &lt;App /&gt;);</div></pre>
+                        </div>
+
+                        <div class="info-panel code-note" id="navigate-note">
+                            <h3>Публичный API, а не хак</h3>
+                            <p>
+                                Вся «магия» навигации собрана из официальных API:
+                                <code>fetch</code>, <code>JSON.parse</code> с reviver
+                                и <code>root.render()</code>. Нажмите на шаг, чтобы
+                                разобрать его отдельно.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Мы получаем корень от React при первоначальной гидратации страницы
+                            и можем использовать этот <code>root</code> для отображения в него
+                            новых элементов. Вот так работает React "под капотом". Мы просто
+                            применяем тот же API, который React использует внутри. Это хорошо:
+                            значит, мы не делаем ничего особенного или хакерского, мы просто
+                            используем общедоступный API React.»
+                            <cite>Раздел «Навигация», стр. 309</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: заголовок jsx-only на сервере -->
+            <section class="slide" data-slide="13">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Серверная сторона: заголовок «jsx-only»</h2>
+                    <!-- Лид здесь div, а не p: внутри подсказки лежит pre, и парсер
+                         закрыл бы абзац перед ним, выбросив листинг на слайд. -->
+                    <div class="slide-lead">
+                        Один и тот же маршрут
+                        <!-- Наведение показывает сам обработчик: разговор идёт про
+                             его ветвление, а держать листинг на слайде незачем. -->
+                        <span class="route-hint" tabindex="0">app.get("*")
+                            <span class="route-pop" role="tooltip">
+                                <span class="route-pop-title">server.js</span>
+<pre>app.<span class="fn">get</span>(<span class="str">"*"</span>, <span class="kw">async</span> (req, res) =&gt; {
+  <span class="kw">const</span> rscTree = <span class="kw">await</span> <span class="fn">turnServerComponentsIntoTreeOfElements</span>(
+    &lt;Router url={req.url} /&gt;
+  );
+
+  <span class="kw">if</span> (req.headers[<span class="str">"jsx-only"</span>]) {
+    res.<span class="fn">end</span>(JSON.<span class="fn">stringify</span>(rscTree, replacer));
+  } <span class="kw">else</span> {
+    res.<span class="fn">end</span>(<span class="fn">renderHTML</span>(<span class="fn">renderToString</span>(rscTree)));
+  }
+});</pre>
+                            </span>
+                        </span>
+                        обслуживает два сценария и различает их по наличию заголовка.
+                    </div>
+
+                    <!-- Обмен клиент ↔ сервер одной схемой: галочка jsx-only меняет
+                         не картинку, а то, что сервер кладёт в ответ. Содержание
+                         обеих веток — в разметке (.wire-variant), скрипт только
+                         гоняет пакеты и переключает текущую. -->
+                    <div class="wire" data-wire>
+                        <div class="wire-lane">
+                            <div class="wire-node">
+                                <span class="wire-node-tag">браузер</span>
+                                <span class="wire-node-name">Клиент</span>
+                            </div>
+
+                            <div class="wire-track">
+                                <span class="wire-packet is-req" data-wire-req>GET /bio</span>
+                                <span class="wire-packet is-res" data-wire-res></span>
+                            </div>
+
+                            <div class="wire-node is-server" data-wire-server>
+                                <span class="wire-node-tag">express</span>
+                                <span class="wire-node-name">Сервер</span>
+                            </div>
+                        </div>
+
+                        <div class="wire-controls">
+                            <label class="wire-flag">
+                                <input type="checkbox" data-wire-flag>
+                                <span class="wire-flag-box"></span>
+                                <span class="wire-flag-name">jsx-only: true</span>
+                            </label>
+                            <button class="pass-btn" type="button" data-wire-run>Отправить запрос</button>
+                        </div>
+
+                        <div class="wire-out" data-wire-out>
+                            <div class="wire-variant is-on" data-wire-variant="html">
+                                <span class="wire-variant-tag">заголовка нет · первая загрузка</span>
+                                <pre>rscTree → <span class="fn">renderToString</span> → HTML-шаблон
+<span class="str">&lt;!DOCTYPE html&gt; … &lt;div id="root"&gt;…&lt;/div&gt;
+&lt;script src&#61;"/static/js/main.js"&gt;</span></pre>
+                                <p>Полный конвейер: дерево, разметка, каркас страницы и бандл.</p>
+                            </div>
+
+                            <div class="wire-variant" data-wire-variant="jsx">
+                                <span class="wire-variant-tag">jsx-only: true · мягкая навигация</span>
+                                <pre>res.<span class="fn">end</span>(JSON.<span class="fn">stringify</span>(rscTree, replacer))
+<span class="cm">// без HTML-обёртки и без renderToString</span></pre>
+                                <p>
+                                    Этап HTML пропускается: у клиента уже есть работающее
+                                    приложение, ему нужно только новое дерево.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Вы обратили внимание, что при наличии этого заголовка мы отправляем
+                            не JSON, а просто строку? Делаем мы так потому, что нам нужно
+                            выполнить <code>JSON.parse</code> на стороне клиента,
+                            а <code>JSON.parse</code> ожидает строку, а не объект JSON.
+                            Это всего лишь особенность API, но это не так уж и плохо.»
+                            <cite>Раздел «Навигация», стр. 310</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Counter не может быть серверным -->
+            <section class="slide" data-slide="14">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Не всё может быть серверным: пример Counter</h2>
+
+                    <!-- Разбор в два клика: строка кода краснеет, справа появляется
+                         причина. Причины лежат в разметке (.ask-card) — править их
+                         здесь, а не в talk.js: скрипт лишь открывает следующую. -->
+                    <div class="ask" data-ask>
+                        <p class="ask-q">Может ли этот компонент быть серверным?</p>
+
+                        <div class="ask-grid">
+                            <div class="code-box is-win ask-code" data-ask-code>
+                                <div class="win-bar"><i></i><i></i><i></i><em>Counter.js</em></div>
+<pre><span class="kw">function</span> <span class="fn">Counter</span>() {
+<span class="ask-line" data-ask-line="1">  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);</span>
+
+  <span class="kw">return</span> (
+    <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>Count: {count}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+<span class="ask-line" data-ask-line="2">      <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setCount</span>(count + <span class="num">1</span>)}<span class="punc">&gt;</span>+<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span></span>
+    <span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+  );
+}</pre>
+                            </div>
+
+                            <div class="ask-side">
+                                <article class="ask-card" data-ask-card="1">
+                                    <span class="ask-card-tag">причина 1</span>
+                                    <h3>useState — API только клиента</h3>
+                                    <p>
+                                        Сервер не знает начальное значение <code>count</code>
+                                        для конкретного пользователя, а «состояние» в серверной
+                                        среде разделяется многими клиентами — это путаница данных
+                                        и риск раскрыть чужое. Вдобавок <code>setState</code> —
+                                        функция, а функции не сериализуемы.
+                                    </p>
+                                </article>
+                                <article class="ask-card" data-ask-card="2">
+                                    <span class="ask-card-tag">причина 2</span>
+                                    <h3>onClick — серверы не интерактивны</h3>
+                                    <p>
+                                        «Нельзя щёлкнуть по запущенному процессу на сервере»,
+                                        поэтому обработчик события в серверном компоненте —
+                                        невозможное состояние. Пропсы серверных компонентов
+                                        должны быть сериализуемы, а функция — нет.
+                                    </p>
+                                </article>
+                            </div>
+                        </div>
+
+                        <p class="ask-hint" data-ask-hint>Нажмите на код — разберём по причинам</p>
+                    </div>
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Этот компонент никогда не сможет быть серверным по двум причинам.
+                            Он использует <code>useState</code>, который является API только
+                            клиентской части. … Этот компонент использует <code>onClick</code>,
+                            который имеет смысл только для API клиентской части. Это связано
+                            с тем, что серверы не интерактивны: вы не можете щёлкнуть
+                            по запущенному процессу на сервере, поэтому <code>onClick</code>
+                            в серверных компонентах — это что-то вроде невозможного состояния.»
+                            <cite>Раздел «Внесение обновлений», стр. 311–312</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: разделение на серверную и клиентскую части -->
+            <section class="slide" data-slide="15">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Как нам использовать возможности RSC с этим компонентом?</h2>
+                    <p class="slide-lead">
+                        Никак — пока компонент один. Чтобы возможности серверных компонентов
+                        заработали, код нужно разделить на две части: серверную и клиентскую.
+                    </p>
+
+                    <!-- Слайд открывается кодом с предыдущего слайда: клик разводит его
+                         на две части — листинг уезжает влево, справа появляются серверный
+                         и клиентский компоненты. Классы переключает talk.js. -->
+                    <div class="split" data-split>
+                        <div class="split-stage">
+                            <!-- Листинг и подсказка едут влево вместе: до клика они
+                                 стоят по центру слайда, после — в левой колонке. -->
+                            <div class="split-left">
+                            <div class="code-box is-win split-source" data-split-source>
+                                <div class="win-bar"><i></i><i></i><i></i><em>Counter.js</em></div>
+<pre><span class="kw">function</span> <span class="fn">Counter</span>() {
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+
+  <span class="kw">return</span> (
+    <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>Count: {count}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setCount</span>(count + <span class="num">1</span>)}<span class="punc">&gt;</span>+<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span>
+    <span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+  );
+}</pre>
+                            </div>
+
+                            <p class="split-hint" data-split-hint>Нажмите — разделим компонент на части</p>
+                            </div>
+
+                            <div class="split-out">
+                                <div class="split-part is-server">
+                                    <span class="split-part-tag">серверный компонент</span>
+                                    <div class="code-box is-win">
+                                        <div class="win-bar"><i></i><i></i><i></i><em>ServerCounter.js</em></div>
+<pre><span class="kw">function</span> <span class="fn">ServerCounter</span>() {
+  <span class="kw">return</span> (
+    <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">h1</span><span class="punc">&gt;</span>Hi friends, look at my nice counter!<span class="punc">&lt;/</span><span class="tag">h1</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>About me: I like to count things…<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">InteractiveClientPart</span> <span class="punc">/&gt;</span>
+    <span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+  );
+}</pre>
+                                    </div>
+                                </div>
+
+                                <div class="split-part is-client">
+                                    <span class="split-part-tag">клиентский компонент</span>
+                                    <div class="code-box is-win">
+                                        <div class="win-bar"><i></i><i></i><i></i><em>InteractiveClientPart.js</em></div>
+<pre><span class="str">"use client"</span>;
+
+<span class="kw">function</span> <span class="fn">InteractiveClientPart</span>() {
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+  <span class="kw">return</span> (
+    <span class="punc">&lt;&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>Count: {count}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setCount</span>(count + <span class="num">1</span>)}<span class="punc">&gt;</span>+<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span>
+    <span class="punc">&lt;/&gt;</span>
+  );
+}</pre>
+                                    </div>
+                                    <span class="split-note">
+                                        только эта часть приложения на самом деле будет
+                                        доступна нашим пользователям как часть пакета JavaScript
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Мы только что выделили крошечную часть нашего приложения, которая
+                            должна быть интерактивной, и только эта часть приложения на самом
+                            деле будет доступна нашим пользователям как часть пакета JavaScript,
+                            а остальное — нет. Как следствие, мы отправляем по сети пакеты
+                            JavaScript значительно меньшего размера, что означает более быструю
+                            загрузку и более высокую производительность для наших пользователей
+                            как с точки зрения ресурсов процессора, так и с точки зрения сети.»
+                            <cite>Раздел «Внесение обновлений», стр. 312–313</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: "use client" и два графа модулей -->
+            <section class="slide" data-slide="16">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Как React понимает, где клиентский компонент?</h2>
+                    <p class="slide-lead">
+                        Три состояния одного дерева: что написал разработчик, что собрал
+                        сервер и что получилось в браузере. Наведите на любой узел —
+                        покажется, чем он является на этом шаге.
+                    </p>
+
+                    <!-- Три стадии одного дерева. Узлы одинаковые, меняется только
+                         клиентский: модуль → ссылка на модуль → настоящий модуль
+                         из бандла. Пояснения живут в подсказках узлов (.mg-pop). -->
+                    <div class="mgraph">
+                        <div class="mg-stage">
+                            <span class="mg-stage-tag">1 · модули разработчика</span>
+                            <div class="mg-tree">
+                                <div class="mg-node is-server">
+                                    <span class="mg-node-name">App</span>
+                                    <span class="mg-node-kind">серверный</span>
+                                    <span class="mg-pop">
+                                        Обычная функция: выполняется на сервере, её код
+                                        в клиентский бандл не попадает вообще.
+                                    </span>
+                                </div>
+                                <div class="mg-kids">
+                                    <div class="mg-node is-server">
+                                        <span class="mg-node-name">ProductInfo</span>
+                                        <span class="mg-node-kind">серверный</span>
+                                        <span class="mg-pop">
+                                            Директивы нет — компонент остаётся серверным
+                                            по умолчанию и живёт в серверном графе.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-server">
+                                        <span class="mg-node-name">Reviews</span>
+                                        <span class="mg-node-kind">серверный</span>
+                                        <span class="mg-pop">
+                                            Может ходить в базу и читать файлы: ключи и запросы
+                                            остаются на сервере, наружу уедет только результат.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-client">
+                                        <span class="mg-node-name">AddToCart</span>
+                                        <span class="mg-node-dir" tabindex="0">"use client"
+                                            <span class="mg-pop is-dir">
+                                                <b>Граница графов</b>
+                                                Строка в начале файла — метка для сборщика:
+                                                этот модуль и всё, что он импортирует, уходят
+                                                в клиентский граф и попадают в бандл. Компонент
+                                                получает право на состояние и обработчики
+                                                событий — и обязанность быть скачанным.
+                                            </span>
+                                        </span>
+                                        <span class="mg-node-kind">клиентский</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mg-arrow">
+                            <span class="mg-arrow-label">рендеринг на сервере</span>
+                            <span class="mg-arrow-line"></span>
+                        </div>
+
+                        <div class="mg-stage">
+                            <span class="mg-stage-tag">2 · дерево с сервера</span>
+                            <div class="mg-tree">
+                                <div class="mg-node is-done">
+                                    <span class="mg-node-name">&lt;div&gt;…</span>
+                                    <span class="mg-node-kind">элементы</span>
+                                    <span class="mg-pop">
+                                        App уже выполнен: вместо компонента в дереве лежат
+                                        готовые элементы — данные, а не функции.
+                                    </span>
+                                </div>
+                                <div class="mg-kids">
+                                    <div class="mg-node is-done">
+                                        <span class="mg-node-name">&lt;section&gt;…</span>
+                                        <span class="mg-node-kind">элементы</span>
+                                        <span class="mg-pop">
+                                            То же и здесь: серверный компонент выполнился,
+                                            от него остался результат.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-done">
+                                        <span class="mg-node-name">&lt;ul&gt;…</span>
+                                        <span class="mg-node-kind">элементы</span>
+                                        <span class="mg-pop">
+                                            Отзывы уже прочитаны из базы: клиент получит
+                                            разметку, а не запрос.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-ref">
+                                        <span class="mg-node-name">ссылка на модуль</span>
+                                        <span class="mg-node-kind">заполнитель</span>
+                                        <span class="mg-pop is-code">
+                                            <b>Вместо компонента — адрес модуля</b>
+<pre>type: {
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.module.reference</span>),
+  <span class="attr">name</span>: <span class="str">"default"</span>,
+  <span class="attr">filePath</span>: <span class="str">"./src/AddToCart.js"</span>,
+  <span class="attr">id</span>: <span class="str">"add-to-cart-1234"</span>
+}</pre>
+                                            Сервер не выполняет клиентский компонент — он
+                                            оставляет «дыру» с адресом модуля от сборщика:
+                                            «дойдёшь до этой точки — возьми вот этот модуль».
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mg-arrow">
+                            <span class="mg-arrow-label">бандл в браузере</span>
+                            <span class="mg-arrow-line"></span>
+                        </div>
+
+                        <div class="mg-stage">
+                            <span class="mg-stage-tag">3 · в браузере</span>
+                            <div class="mg-tree">
+                                <div class="mg-node is-done">
+                                    <span class="mg-node-name">&lt;div&gt;…</span>
+                                    <span class="mg-node-kind">разметка</span>
+                                    <span class="mg-pop">
+                                        Пришло готовым: браузеру нечего пересчитывать,
+                                        кода этого компонента у него нет.
+                                    </span>
+                                </div>
+                                <div class="mg-kids">
+                                    <div class="mg-node is-done">
+                                        <span class="mg-node-name">&lt;section&gt;…</span>
+                                        <span class="mg-node-kind">разметка</span>
+                                        <span class="mg-pop">
+                                            Тоже пришло готовым — в бандле этих строк нет.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-done">
+                                        <span class="mg-node-name">&lt;ul&gt;…</span>
+                                        <span class="mg-node-kind">разметка</span>
+                                        <span class="mg-pop">
+                                            Список отзывов уже отрисован сервером.
+                                        </span>
+                                    </div>
+                                    <div class="mg-node is-client is-filled">
+                                        <span class="mg-node-name">AddToCart</span>
+                                        <span class="mg-node-kind">модуль из бандла</span>
+                                        <span class="mg-pop">
+                                            <b>Дыра заполнена</b>
+                                            Клиентский React находит ссылку, берёт модуль
+                                            по её id из бандла и подставляет настоящий
+                                            компонент — с состоянием и обработчиками.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Компонент <code>InteractiveClientPart</code> является клиентским
+                            компонентом, поэтому он не отображается на сервере. Вместо этого
+                            сервер отображает заполнитель для клиентского компонента, который
+                            является ссылкой на конкретный модуль, созданный компоновщиком
+                            клиентского пакета.»
+                            <cite>Раздел «Что "под капотом"?», стр. 313–314</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: нюанс — клиентские компоненты выполняются и на сервере -->
+            <section class="slide" data-slide="17">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Клиентские компоненты тоже выполняются на сервере</h2>
+                    <p class="slide-lead">
+                        «Выполнить компонент» — значит вызвать его функцию с пропсами
+                        и получить элемент React. Не «стать интерактивным в браузере»,
+                        а просто вызвать функцию. Наведите на блок — покажется, что
+                        лежит в памяти на этом шаге.
+                    </p>
+
+                    <!-- Путь одного рендера слева направо: обе половины дерева
+                         выполняются на сервере → один объект → строка → браузер.
+                         Отличие серверных компонентов от клиентских проявляется
+                         только в последней колонке — там по наведению всплывает
+                         рамка вокруг обоих блоков (.xf-frame). Высоты блоков
+                         фиксированы: по ним посчитаны координаты линий в SVG. -->
+                    <div class="xflow">
+                        <div class="xf-col is-first">
+                            <span class="xf-tag"><b>1 · на сервере</b>выполняются, возвращают элементы</span>
+                            <div class="xf-body">
+                                <div class="xf-box is-server">
+                                    <span class="xf-box-name">Серверный компонент</span>
+                                    <span class="xf-box-note">вызвали функцию — получили объект</span>
+                                    <div class="xf-pop">
+                                        <b>ProductInfo() вернул объект</b>
+<pre>{
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">'section'</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: [ … ] }
+}</pre>
+                                        Ни разметки, ни HTML — обычный объект в памяти,
+                                        описание того, что нужно нарисовать.
+                                    </div>
+                                </div>
+                                <div class="xf-box is-client">
+                                    <span class="xf-box-name">Клиентский компонент</span>
+                                    <span class="xf-box-note">здесь же и точно так же</span>
+                                    <div class="xf-pop">
+                                        <b>AddToCart() вернул такой же объект</b>
+<pre>{
+  <span class="attr">$$typeof</span>: <span class="fn">Symbol</span>(<span class="num">react.element</span>),
+  <span class="attr">type</span>: <span class="str">'button'</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: <span class="str">'В корзину'</span> }
+}</pre>
+                                        Это следующий проход — рендеринг HTML: там, где
+                                        в дереве стояла ссылка на модуль, подставляется
+                                        сам компонент и вызывается. <code>useState</code>
+                                        вернёт начальное значение, <code>onClick</code>
+                                        просто ляжет в props — нажимать пока некому.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xf-arrow" aria-hidden="true">
+                            <svg class="xf-conn" width="88" height="424" viewBox="0 0 88 424"
+                                 fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M0 95H44V212h34"></path>
+                                <path d="M0 329H44V212"></path>
+                                <path d="M72 206l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+
+                        <div class="xf-col">
+                            <span class="xf-tag"><b>2 · на сервере</b>элементы сходятся в одно дерево</span>
+                            <div class="xf-body">
+                                <div class="xf-box is-mixed">
+                                    <span class="xf-box-name">Один большой объект</span>
+                                    <span class="xf-box-note">все элементы React — и клиентские, и серверные</span>
+                                    <div class="xf-pop">
+                                        <b>Одно дерево на всё приложение</b>
+<pre>{
+  <span class="attr">type</span>: <span class="str">'div'</span>,
+  <span class="attr">props</span>: { <span class="attr">children</span>: [
+    { <span class="attr">type</span>: <span class="str">'section'</span>, … },  <span class="cm">// серверный</span>
+    { <span class="attr">type</span>: <span class="str">'button'</span>,  … }   <span class="cm">// клиентский</span>
+  ] }
+}</pre>
+                                        По объекту не видно, кто его породил: элементы
+                                        обоих видов лежат в одном дереве вперемешку.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xf-arrow" aria-hidden="true">
+                            <svg class="xf-conn" width="88" height="424" viewBox="0 0 88 424"
+                                 fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M0 212h78"></path>
+                                <path d="M72 206l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+
+                        <div class="xf-col">
+                            <span class="xf-tag"><b>3 · передача</b>дерево уезжает строкой</span>
+                            <div class="xf-body">
+                                <div class="xf-box is-wire">
+                                    <span class="xf-box-name">Строка</span>
+                                    <span class="xf-box-note">объект превращается в строку и отправляется клиенту</span>
+                                    <div class="xf-pop">
+                                        <b>То же дерево, только текстом</b>
+<pre><span class="str">"&lt;div&gt;&lt;section&gt;
+  &lt;h2&gt;Ноутбук&lt;/h2&gt;&lt;p&gt;128 900 ₽&lt;/p&gt;
+&lt;/section&gt;
+&lt;button&gt;В корзину&lt;/button&gt;&lt;/div&gt;"</span></pre>
+                                        Браузер показывает её сразу — ещё до того, как
+                                        скачается хоть один килобайт JavaScript. Рядом
+                                        едет payload со ссылками на клиентские модули.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xf-arrow" aria-hidden="true">
+                            <svg class="xf-conn" width="88" height="424" viewBox="0 0 88 424"
+                                 fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M0 212h44V95h34"></path>
+                                <path d="M44 212v117h34"></path>
+                                <path d="M72 89l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M72 323l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+
+                        <div class="xf-col is-last">
+                            <span class="xf-tag"><b>4 · в браузере</b>дальше работает одна половина</span>
+                            <div class="xf-body is-boundary">
+                                <span class="xf-frame" aria-hidden="true"></span>
+                                <div class="xf-box is-server is-dead">
+                                    <span class="xf-box-name">Серверные компоненты</span>
+                                    <span class="xf-box-note">никогда не выполняются на клиенте</span>
+                                    <div class="xf-pop">
+                                        <b>В браузере от них только это</b>
+<pre>&lt;<span class="tag">section</span>&gt;
+  &lt;<span class="tag">h2</span>&gt;Ноутбук&lt;/<span class="tag">h2</span>&gt;
+  &lt;<span class="tag">p</span>&gt;128 900 ₽&lt;/<span class="tag">p</span>&gt;
+&lt;/<span class="tag">section</span>&gt;</pre>
+                                        Просто разметка. Кода <code>ProductInfo</code>
+                                        в бандле нет — пересчитать её браузеру нечем.
+                                    </div>
+                                </div>
+                                <div class="xf-box is-client is-live">
+                                    <span class="xf-box-name">Клиентские компоненты</span>
+                                    <span class="xf-box-note">выполняются исключительно на клиенте</span>
+                                    <div class="xf-pop">
+                                        <b>А этот оживает</b>
+<pre><span class="fn">hydrateRoot</span>(root, tree)
+<span class="cm">// AddToCart() вызывается снова —</span>
+<span class="cm">// теперь с настоящими useState и onClick</span></pre>
+                                        Модуль берётся из бандла, функция вызывается ещё
+                                        раз — уже в браузере. Все следующие перерисовки
+                                        происходят только здесь.
+                                    </div>
+                                </div>
+                                <span class="xf-frame-note">
+                                    Вот граница, где проявляется отличие серверных
+                                    компонентов от клиентских: до неё выполнялись оба,
+                                    после — только клиентские.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button class="quote-caller" type="button" aria-label="Цитата автора">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                    <span class="quote-caller-name">Теджас Кумар</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                        <blockquote>
+                            «Существует распространённое заблуждение, будто серверные компоненты
+                            выполняются только на сервере, а клиентские — только на клиенте.
+                            Это не совсем так. … Во время серверного рендеринга клиентские
+                            компоненты выполняются на сервере и выводят объекты, представляющие
+                            элементы React. Затем эти элементы преобразуются в строку HTML
+                            и отправляются клиенту, где браузер отображает HTML-разметку.»
+                            <cite>Раздел «Нюансы», стр. 316–317</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="18" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Преимущества</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-115-react-9-2-pomazkov.pages.dev" target="_blank" rel="noreferrer">Серверный рендеринг</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-3-nikiforov.pages.dev" target="_blank" rel="noreferrer">Правила работы серверных компонентов</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Серверные действия</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-115-react-9-5-nikiforov.pages.dev" target="_blank" rel="noreferrer">Будущее серверных компонентов React</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов этого доклада -->
+    <script src="assets/js/talk.js"></script>
+
+</body>
+</html>

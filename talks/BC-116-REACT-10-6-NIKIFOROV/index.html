@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Общие шаблоны — React. К вершинам мастерства</title>
+    <meta name="description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Общие шаблоны — React. К вершинам мастерства">
+    <meta property="og:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta property="og:image" content="https://bc-116-react-10-6-nikiforov.pages.dev/assets/cover/fluent-react.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Общие шаблоны — React. К вершинам мастерства">
+    <meta name="twitter:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta name="twitter:image" content="https://bc-116-react-10-6-nikiforov.pages.dev/assets/cover/fluent-react.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 10</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Альтернативы React</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Общие шаблоны</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    <img class="book-cover" src="assets/cover/fluent-react.webp" alt="React. К вершинам мастерства">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    React. К вершинам мастерства
+                                </a>
+                                <p class="book-subtitle">
+                                    Fluent React: Build Fast, Performant, and Intuitive Web Applications
+                                </p>
+                                <p class="book-desc-ru">
+                                    Глубокое погружение во внутреннее устройство React: JSX и продвинутые паттерны, виртуальный DOM и реконциляция, серверный рендеринг, конкурентный режим и серверные компоненты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://tej.as/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                                    <div class="author-info">
+                                        <div class="author-name">Теджас Кумар</div>
+                                        <div class="author-link-text">tej.as ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/Frich22" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/nikiforov-artem.webp" alt="Артём Никифоров">
+                                <div class="author-info">
+                                    <div class="author-name">Артём Никифоров</div>
+                                    <div class="author-link-text">t.me/Frich22 ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+
+<section class="slide" data-slide="4" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="2" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Vue.js</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Angular</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Svelte</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Solid</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Qwik</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Общие шаблоны</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">React не значит реактивный</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Будущее React</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+
+</body>
+</html>

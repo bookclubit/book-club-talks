@@ -635,7 +635,12 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     --tl-speaker: 18px;
 
     display: grid;
-    grid-template-columns: repeat(var(--tl-cols, 1), minmax(0, 1fr));
+    /* Колонки шириной по содержимому и центром под заголовком слайда. Равные
+       доли (1fr) разъезжали список по краям: короткие названия тем прижимались
+       к левому краю своей доли, между колонками зияла пустота, а весь текст
+       уходил левее заголовка. */
+    grid-template-columns: repeat(var(--tl-cols, 1), minmax(0, max-content));
+    justify-content: center;
     gap: 56px;
     width: 100%;
     max-width: 850px;
@@ -646,24 +651,27 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .timeline-next-columns[data-cols='2'] {
     --tl-cols: 2;
     --tl-rail: 48px;
-    --tl-gap: 28px;
-    --tl-title: 24px;
-    --tl-title-active: 32px;
-    --tl-title-done: 24px;
-    --tl-avatar: 28px;
-    --tl-speaker: 16px;
+    --tl-gap: 30px;
+    --tl-title: 28px;
+    --tl-title-active: 38px;
+    --tl-title-done: 28px;
+    --tl-avatar: 30px;
+    --tl-speaker: 17px;
+    /* Колонки прижаты друг к другу по содержимому, поэтому промежуток задаёт
+       воздух между ними сам — без него две колонки читались бы как одна. */
+    gap: 120px;
     max-width: 1540px;
 }
 .timeline-next-columns[data-cols='3'] {
     --tl-cols: 3;
     --tl-rail: 44px;
-    --tl-gap: 22px;
-    --tl-title: 20px;
-    --tl-title-active: 26px;
-    --tl-title-done: 20px;
-    --tl-avatar: 24px;
-    --tl-speaker: 14px;
-    gap: 44px;
+    --tl-gap: 24px;
+    --tl-title: 22px;
+    --tl-title-active: 28px;
+    --tl-title-done: 22px;
+    --tl-avatar: 26px;
+    --tl-speaker: 15px;
+    gap: 80px;
     max-width: 1700px;
 }
 /* Длинная колонка (девять тем и больше) — ещё компактнее, иначе уедет за экран. */

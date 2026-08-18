@@ -359,6 +359,28 @@ export function readProgram(args, chapterTopics, topicIdx) {
   return { items, currentIdx };
 }
 
+/**
+ * Темы, объединённые в один доклад. Спикер иногда берёт две-три соседние темы
+ * главы и рассказывает их вместе: в chapter.json у них общий `talk_group`
+ * (id ведущей темы). Для доклада это одна тема — с названием через запятую
+ * и на титульном слайде, и в программе вечера.
+ */
+export function mergeTalkTopics(topics) {
+  const out = [];
+  const byKey = new Map();
+  for (const topic of topics) {
+    const key = String(topic.talk_group ?? '').trim() || topic.id;
+    const merged = byKey.get(key);
+    if (merged) merged.title = `${merged.title}, ${topic.title}`;
+    else {
+      const created = { ...topic };
+      byKey.set(key, created);
+      out.push(created);
+    }
+  }
+  return out;
+}
+
 // главы книги в book-club-data: books/<folder>/chapters/<slug>/chapter.json
 // В index.json главы лежат объектами {slug, order, title, topics} (реестр v2).
 function loadChapters(DATA, folder, entries) {
@@ -455,8 +477,8 @@ async function main() {
     const chapters = loadChapters(DATA, bookEntry.folder, bookEntry.chapters ?? []);
     if (chapters.length === 0) fail(`У книги ${bookEntry.folder} нет глав в book-club-data.`);
     chapter = await pick(rl, 'Глава', chapters, (c) => `Глава ${c.order} — ${c.title}`);
-    const topic = await pick(rl, 'Тема доклада', chapter.topics, (t) => t.title);
-    topicIdx = chapter.topics.indexOf(topic);
+    const topic = await pick(rl, 'Тема доклада', mergeTalkTopics(chapter.topics), (t) => t.title);
+    topicIdx = mergeTalkTopics(chapter.topics).indexOf(topic);
     speaker = await pick(rl, 'Спикер', speakers, (s) => s.name);
     stream = (await rl.question('\nНомер стрима (например 112): ')).trim();
     seq = (await rl.question('Суффикс имени папки (Enter — пропустить, нужен редко): ')).trim();
@@ -469,11 +491,13 @@ async function main() {
     if (chapters.length === 0) fail(`У книги ${bookEntry.folder} нет глав в book-club-data.`);
     chapter = chapters.find((c) => c.slug === args.chapter || String(c.order) === String(args.chapter));
     if (!chapter) fail(`Глава "${args.chapter}" не найдена. Есть: ${chapters.map((c) => `${c.order} (${c.slug})`).join(', ')}`);
-    // topic по индексу (1-based), id или точному названию
+    // topic по индексу (1-based), id или точному названию — среди докладов
+    // главы: объединённые темы это один доклад с названием через запятую.
+    const talks = mergeTalkTopics(chapter.topics);
     if (/^\d+$/.test(String(args.topic))) topicIdx = Number(args.topic) - 1;
-    else topicIdx = chapter.topics.findIndex((t) => t.id === args.topic || t.title === args.topic);
-    if (topicIdx < 0 || topicIdx >= chapter.topics.length)
-      fail(`Тема "${args.topic}" не найдена. Темы главы: ${chapter.topics.map((t, i) => `${i + 1}) ${t.title}`).join('; ')}`);
+    else topicIdx = talks.findIndex((t) => t.id === args.topic || t.title === args.topic);
+    if (topicIdx < 0 || topicIdx >= talks.length)
+      fail(`Тема "${args.topic}" не найдена. Темы главы: ${talks.map((t, i) => `${i + 1}) ${t.title}`).join('; ')}`);
     speaker = speakers.find((s) => s.id === args.speaker);
     if (!speaker) fail(`Спикер "${args.speaker}" не найден. Доступны: ${speakers.map((s) => s.id).join(', ')}`);
     stream = String(args.stream || '').trim();
@@ -491,19 +515,23 @@ async function main() {
   if (chapter.order === undefined || chapter.order === null || String(chapter.order).trim() === '')
     fail(`У главы "${chapter.slug}" книги ${bookEntry.folder} пустое поле "order" в chapter.json — укажите номер главы (нужен для бейджа «Глава N» и имени папки).`);
 
-  const topic = chapter.topics[topicIdx];
+  const talks = mergeTalkTopics(chapter.topics);
+  const topic = talks[topicIdx];
   const topicTitle = topic.title;
   if (!String(topicTitle ?? '').trim())
     fail(`У темы №${topicIdx + 1} главы "${chapter.slug}" книги ${bookEntry.folder} пустое поле "title" в chapter.json — заполните название темы доклада.`);
   // Программа вечера: снимок из CMS (со спикерами и ссылками на доклады)
   // или, если его нет, просто темы главы.
-  const program = readProgram(args, chapter.topics, topicIdx);
+  const program = readProgram(args, talks, topicIdx);
   const surname = String(speaker.id).split('-')[0].toUpperCase();
 
   // Имя папки: BC-<стрим>-<CODE>-<глава>-<номер темы>-<ФАМИЛИЯ>. Номер темы —
   // её порядок в главе: без него два доклада одного спикера по одной главе
   // получали одну папку и один адрес (и второй доклад затирал первый).
-  const parts = ['BC', stream, code, chapter.order, topicIdx + 1, surname];
+  // У объединённых тем номер берётся по ведущей теме группы — так же его
+  // считает CMS, когда заранее сообщает спикеру адрес слайдов.
+  const topicNo = chapter.topics.findIndex((t) => t.id === topic.id) + 1 || topicIdx + 1;
+  const parts = ['BC', stream, code, chapter.order, topicNo, surname];
   if (seq) parts.push(seq);
   const folder = parts.join('-');
   const project = folder.toLowerCase();
@@ -524,7 +552,7 @@ async function main() {
   // а не поздно в CI на шаге wrangler.
   const nameError = cfProjectNameError(project);
   if (nameError)
-    fail(`${nameError}.\n  Проверьте составные части имени: стрим "${stream}", код книги "${code}", номер главы "${chapter.order}", номер темы "${topicIdx + 1}", фамилию "${surname}"${seq ? `, суффикс "${seq}"` : ''}.`);
+    fail(`${nameError}.\n  Проверьте составные части имени: стрим "${stream}", код книги "${code}", номер главы "${chapter.order}", номер темы "${topicNo}", фамилию "${surname}"${seq ? `, суффикс "${seq}"` : ''}.`);
   const domain = `https://${project}.pages.dev`;
   const relPath = `talks/${folder}`;
   const target = join(ROOT, 'talks', folder);

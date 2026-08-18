@@ -635,11 +635,11 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     --tl-speaker: 18px;
 
     display: grid;
-    /* Колонки шириной по содержимому и центром под заголовком слайда. Равные
-       доли (1fr) разъезжали список по краям: короткие названия тем прижимались
-       к левому краю своей доли, между колонками зияла пустота, а весь текст
-       уходил левее заголовка. */
-    grid-template-columns: repeat(var(--tl-cols, 1), minmax(0, max-content));
+    /* Равные доли: граница между треками приходится ровно на середину слайда,
+       а содержимое колонок жмётся к ней (см. .timeline-column ниже). Так пустой
+       коридор между колонками лежит по центру слайда, даже когда в одной
+       колонке названия тем вдвое длиннее, чем в другой. */
+    grid-template-columns: repeat(var(--tl-cols, 1), minmax(0, 1fr));
     justify-content: center;
     gap: 56px;
     width: 100%;
@@ -688,6 +688,19 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     flex-direction: column;
     gap: 18px;
     min-width: 0;
+    /* Колонка шириной по содержимому — и прижата к середине слайда: левая
+       правым краем, правая левым, средняя (три колонки) стоит по центру своей
+       доли. Растянутые на всю долю колонки уводили коридор между темами
+       влево — доля-то одинаковая, а текста в ней разное количество. */
+    width: max-content;
+    max-width: 100%;
+    justify-self: center;
+}
+.timeline-column:first-child:not(:only-child) {
+    justify-self: end;
+}
+.timeline-column:last-child:not(:only-child) {
+    justify-self: start;
 }
 /* Заголовок колонки — глава, темы которой в ней собраны. Место под две строки
    держим всегда: иначе колонка с длинным названием главы опускала бы свой

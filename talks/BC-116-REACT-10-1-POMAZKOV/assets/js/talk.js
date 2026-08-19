@@ -100,14 +100,16 @@
         });
     }
 
-    /* ===== Слайд «Как реактивность решает React»: цикл обновления =====
-       Шаги подсвечиваются по очереди, на шаге «перерендер» вспыхивает рамка
-       всего компонента — единица обновления в React именно компонент. */
+    /* ===== Слайд «Как реактивность решает React»: код и цикл обновления =====
+       Одна кнопка ведёт обе колонки: шаг справа загорается вместе со строкой
+       кода слева, которая на этом шаге и работает. На шаге «перерендер»
+       вспыхивает рамка компонента — единица обновления в React именно он. */
     function initReactCycle() {
         var root = document.getElementById('reactCycle');
         if (!root) return;
 
         var steps = root.querySelectorAll('.cycle-step');
+        var codeLines = root.querySelectorAll('.cyc-line');
         var component = root.querySelector('[data-role="component"]');
         var value = root.querySelector('[data-role="count"]');
         var button = root.querySelector('[data-role="click"]');
@@ -121,6 +123,16 @@
             steps.forEach(function (s) {
                 s.classList.remove('is-on', 'is-done');
             });
+            codeLines.forEach(function (l) {
+                l.classList.remove('is-on');
+            });
+        }
+
+        /* Строка кода ищется по номеру шага, а не по позиции в листинге:
+           порядок цикла (клик → перерендер → сверка → патч) не совпадает
+           с порядком строк в файле. */
+        function lineOfStep(step) {
+            return root.querySelector('.cyc-line[data-cycle="' + step + '"]');
         }
 
         button.addEventListener('click', function () {
@@ -138,6 +150,12 @@
                             }
                         });
                         step.classList.add('is-on');
+
+                        codeLines.forEach(function (l) {
+                            l.classList.remove('is-on');
+                        });
+                        var line = lineOfStep(step.dataset.step);
+                        if (line) line.classList.add('is-on');
 
                         // Шаг 2 — перерендер: тело функции выполняется заново.
                         if (i === 1) flash(component, 'is-rerender', 600);
@@ -213,39 +231,104 @@
         });
     }
 
-    /* ===== Слайд «Proxy перехватывает всё»: ловушки =====
-       У каждой операции — своя ловушка и своя приписка о том, умел ли так Vue 2:
-       именно в этом разница между defineProperty и Proxy. */
+    /* ===== Слайд «Proxy перехватывает всё»: Vue 3 против Vue 2 =====
+       Обе панели показывают ОДИН и тот же объект после ОДНОЙ и той же операции:
+       слева — каким его видит Proxy, справа — каким его видит defineProperty.
+       Разница в том, узнал ли фреймворк об изменении, а не в самом объекте,
+       поэтому у каждого свойства своя пометка, а не общая на панель.
+
+       Каждая кнопка применяется к исходному состоянию, а не к результату
+       предыдущей: иначе после «удалить title» половина операций осталась бы
+       без своего свойства и демонстрация ломалась бы. */
+    var PROXY_BASE = [
+        { key: 'count', value: '0' },
+        { key: 'title', value: "'Vue'" },
+        { key: 'arr', value: '[1, 2]' }
+    ];
+
+    // Пометка свойства: подпись и класс строки. Пустая пометка — свойство
+    // в этой операции не участвует.
+    var PROXY_MARKS = {
+        read: { cls: 'is-read', text: 'прочитано' },
+        ok: { cls: 'is-ok', text: 'Vue узнал' },
+        no: { cls: 'is-no', text: 'Vue не узнал' }
+    };
+
     var PROXY_OPS = {
         read: {
-            trap: "get(target, 'count')",
-            note: 'Чтение записывает зависимость: эффект, который сейчас выполняется, подписывается на <em>count</em>.',
-            vue2: '<span>Vue 2</span> тоже это умел',
-            vue2Fail: false
+            props: PROXY_BASE,
+            v3: {
+                trap: "get(target, 'count')",
+                ok: true,
+                verdict: 'Чтение записывает зависимость: эффект подписался на count',
+                marks: { count: 'read' }
+            },
+            v2: {
+                trap: 'геттер свойства count',
+                ok: true,
+                verdict: 'То же самое: у count есть свой геттер',
+                marks: { count: 'read' }
+            }
         },
         write: {
-            trap: "set(target, 'count', 1)",
-            note: 'Значение изменилось — Vue уведомляет все эффекты, которые читали <em>count</em>.',
-            vue2: '<span>Vue 2</span> тоже это умел',
-            vue2Fail: false
+            props: [{ key: 'count', value: '1' }, PROXY_BASE[1], PROXY_BASE[2]],
+            v3: {
+                trap: "set(target, 'count', 1)",
+                ok: true,
+                verdict: 'Значение изменилось — обновятся все эффекты, читавшие count',
+                marks: { count: 'ok' }
+            },
+            v2: {
+                trap: 'сеттер свойства count',
+                ok: true,
+                verdict: 'То же самое: сеттер размечен при инициализации',
+                marks: { count: 'ok' }
+            }
         },
         add: {
-            trap: "set(target, 'newProp', 'hi')",
-            note: 'Новое свойство перехватывается той же ловушкой: разметка заранее не нужна.',
-            vue2: '<span>Vue 2 не видел</span> — требовался Vue.set()',
-            vue2Fail: true
+            props: PROXY_BASE.concat([{ key: 'newProp', value: "'hi'" }]),
+            v3: {
+                trap: "set(target, 'newProp', 'hi')",
+                ok: true,
+                verdict: 'Новое свойство ловит та же ловушка — размечать заранее не нужно',
+                marks: { newProp: 'ok' }
+            },
+            v2: {
+                trap: 'ловушки нет',
+                ok: false,
+                verdict: 'Свойство появилось, но без геттера и сеттера: нужен Vue.set()',
+                marks: { newProp: 'no' }
+            }
         },
         delete: {
-            trap: "deleteProperty(target, 'title')",
-            note: 'Удаление — отдельная ловушка: интерфейс узнаёт и об исчезновении свойства.',
-            vue2: '<span>Vue 2 не видел</span> — требовался Vue.delete()',
-            vue2Fail: true
+            props: [PROXY_BASE[0], { key: 'title', value: "'Vue'", gone: true }, PROXY_BASE[2]],
+            v3: {
+                trap: "deleteProperty(target, 'title')",
+                ok: true,
+                verdict: 'Удаление — своя ловушка: интерфейс узнаёт и об исчезновении',
+                marks: { title: 'ok' }
+            },
+            v2: {
+                trap: 'ловушки нет',
+                ok: false,
+                verdict: 'Об удалении сообщить некому: нужен Vue.delete()',
+                marks: { title: 'no' }
+            }
         },
         array: {
-            trap: "set(target.arr, '0', 5)",
-            note: 'Запись по индексу — обычная операция set у прокси массива. Хаки с методами массива больше не нужны.',
-            vue2: '<span>Vue 2 не видел</span> — индексы не имели сеттеров',
-            vue2Fail: true
+            props: [PROXY_BASE[0], PROXY_BASE[1], { key: 'arr', value: '[5, 2]' }],
+            v3: {
+                trap: "set(target.arr, '0', 5)",
+                ok: true,
+                verdict: 'Прокси массива ловит запись по индексу как обычный set',
+                marks: { arr: 'ok' }
+            },
+            v2: {
+                trap: 'ловушки нет',
+                ok: false,
+                verdict: 'У индексов массива своих сеттеров нет — запись прошла мимо',
+                marks: { arr: 'no' }
+            }
         }
     };
 
@@ -253,12 +336,44 @@
         var root = document.getElementById('proxyDemo');
         if (!root) return;
 
-        var film = root.querySelector('[data-role="film"]');
-        var trap = root.querySelector('[data-role="trap"]');
-        var note = root.querySelector('[data-role="note"]');
-        var vue2 = root.querySelector('[data-role="vue2"]');
-        var buttons = root.querySelectorAll('[data-op]');
+        var panels = {};
+        root.querySelectorAll('.vs-panel').forEach(function (panel) {
+            panels[panel.dataset.side] = {
+                el: panel,
+                obj: panel.querySelector('[data-role="obj"]'),
+                trap: panel.querySelector('[data-role="trap"]'),
+                verdict: panel.querySelector('[data-role="verdict"]')
+            };
+        });
 
+        function renderObject(box, props, marks) {
+            var html = '<span class="vs-brace">{</span>';
+            props.forEach(function (p) {
+                var mark = PROXY_MARKS[marks[p.key]];
+                html +=
+                    '<span class="vs-prop' +
+                    (mark ? ' ' + mark.cls : '') +
+                    (p.gone ? ' is-gone' : '') +
+                    '"><b>' + p.key + ':</b><i>' + p.value + '</i>' +
+                    (mark ? '<em>' + mark.text + '</em>' : '') +
+                    '</span>';
+            });
+            html += '<span class="vs-brace">}</span>';
+            box.innerHTML = html;
+        }
+
+        function show(side, data, props) {
+            var panel = panels[side];
+            renderObject(panel.obj, props, data.marks);
+            panel.trap.textContent = data.trap;
+            panel.trap.classList.toggle('is-none', !data.ok);
+            panel.verdict.textContent = data.verdict;
+            panel.verdict.classList.toggle('is-ok', data.ok);
+            panel.verdict.classList.toggle('is-no', !data.ok);
+            flash(panel.el, 'is-hit', 700);
+        }
+
+        var buttons = root.querySelectorAll('[data-op]');
         buttons.forEach(function (btn) {
             btn.addEventListener('click', function () {
                 var op = PROXY_OPS[btn.dataset.op];
@@ -268,13 +383,14 @@
                     b.classList.toggle('is-on', b === btn);
                 });
 
-                trap.textContent = op.trap;
-                note.innerHTML = op.note;
-                vue2.innerHTML = op.vue2;
-                vue2.classList.toggle('is-no', op.vue2Fail);
-                flash(film, 'is-hit', 700);
+                show('v3', op.v3, op.props);
+                show('v2', op.v2, op.props);
             });
         });
+
+        // Стартовое состояние: объект как есть, без пометок и приговоров.
+        renderObject(panels.v3.obj, PROXY_BASE, {});
+        renderObject(panels.v2.obj, PROXY_BASE, {});
     }
 
     /* ===== Слайд «Vapor Mode»: два пути обновления ===== */

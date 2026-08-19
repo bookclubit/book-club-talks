@@ -5,6 +5,15 @@
  * (scripts/rebuild-talk.mjs) этот файл не трогает.
  */
 
+/* Спрайт иконок (логотипы фреймворков, соцсети) сам по себе не рисуется —
+   из него берут <symbol> через <use>. */
+.icon-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
 /* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css
    нет, а без него width: 100% с padding вылезает за контейнер слайда. */
 .content-slide,
@@ -44,6 +53,110 @@
     content: '';
     margin-top: auto;
 }
+/* Слайды «Что такое X»: заголовок и опознавательные знаки фреймворка в одну
+   строку — логотип со ссылкой на сайт и карточка создателя со ссылками.
+   Заголовок перестаёт быть прямым потомком .content-slide, поэтому правила
+   отступов шапки продублированы для строки. */
+.slide-head-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+    flex-shrink: 0;
+}
+.slide-head-row > h2 {
+    font-size: 52px;
+    margin: 0;
+    line-height: 1.1;
+}
+.content-slide > .slide-head-row + .slide-lead {
+    margin-top: 14px;
+}
+.content-slide > .slide-head-row + *:not(.slide-lead) {
+    margin-top: auto !important;
+}
+.fw-id {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    padding-top: 2px;
+}
+.fw-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #71717a;
+    transition: color 0.2s ease;
+}
+.fw-logo:hover {
+    color: #fff;
+}
+.fw-mark {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+}
+.fw-person {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #080808;
+    padding: 10px 18px 10px 12px;
+}
+.fw-photo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.fw-person-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.fw-person-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ededed;
+    white-space: nowrap;
+}
+.fw-person-role {
+    font-size: 13px;
+    color: #71717a;
+    white-space: nowrap;
+}
+/* Соцсети — плоские белые значки: цвет один на все, различает только форма. */
+.fw-socials {
+    display: flex;
+    gap: 8px;
+    margin-left: 8px;
+}
+.fw-socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    color: #fff;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+.fw-socials a:hover {
+    opacity: 1;
+    background: #1a1a1a;
+}
+.fw-socials svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
 .slide-lead {
     font-size: 21px;
     line-height: 1.55;
@@ -51,6 +164,67 @@
     margin: 0;
     max-width: 1300px;
 }
+/* Шапка «заголовок + лид + список»: список должен стоять вплотную к лиду,
+   поэтому они завёрнуты в общий блок — иначе список ловил бы margin-top: auto
+   от правила «первый блок после шапки». */
+.content-slide > h2 + .lead-block {
+    margin-top: 14px !important;
+}
+.content-slide > .lead-block + * {
+    margin-top: auto !important;
+}
+.lead-list {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.lead-list li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.lead-list li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #52525b;
+}
+.lead-list li b {
+    color: #ededed;
+    font-weight: 600;
+}
+/* Главная мысль слайда — широкой полосой под примером, во всю ширину.
+   Единый приём для всех контентных слайдов: пример сверху, вывод под ним. */
+.wide-accent {
+    margin: 30px 0 0;
+    padding: 18px 26px;
+    border-left: 3px solid #3f3f46;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    font-size: 20px;
+    line-height: 1.55;
+    color: #d4d4d8;
+    flex-shrink: 0;
+}
+.wide-accent.is-strong {
+    border-left-color: #fff;
+    font-size: 23px;
+    color: #ededed;
+}
+.wide-accent b {
+    color: #fff;
+    font-weight: 600;
+}
+
 .slide-lead b,
 .today-note b {
     color: #ededed;
@@ -166,11 +340,6 @@
     font-size: 19px;
     line-height: 1.6;
     color: var(--text-muted);
-}
-.demo-aside-accent {
-    padding-left: 20px;
-    border-left: 2px solid #3f3f46;
-    color: #d4d4d8 !important;
 }
 
 /* ===== Слайд 3: электронная таблица ===== */
@@ -380,17 +549,24 @@
 }
 
 /* ===== Слайд 5: цикл обновления React ===== */
-.cycle {
+/* Код слева, шаги цикла справа: клик по «Клик» ведёт обе колонки разом —
+   подсвечивается и шаг, и строка кода, которая на этом шаге работает. */
+.react-cycle {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
-    gap: 50px;
-    align-items: center;
-    margin: 36px 0 0;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 44px;
+    align-items: start;
+    margin: 32px 0 0;
+}
+.react-cycle-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 .cycle-steps {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
 }
 .cycle-step {
     display: grid;
@@ -400,7 +576,7 @@
     border: 1px solid #232323;
     border-radius: 14px;
     background: #080808;
-    padding: 14px 22px;
+    padding: 12px 20px;
     transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
     opacity: 0.75;
 }
@@ -432,30 +608,25 @@
     color: #fff;
 }
 .cycle-step b {
-    font-size: 22px;
+    font-size: 20px;
     color: #fff;
 }
 .cycle-step > span:last-child {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.45;
     color: #71717a;
 }
-.cycle-stage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 22px;
-}
+/* Живой компонент под шагами — строкой: слайд и так высокий из-за листинга. */
 .cycle-component {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 16px;
+    justify-content: space-between;
+    gap: 18px;
     width: 100%;
     border: 1px solid #3f3f46;
-    border-radius: 20px;
+    border-radius: 18px;
     background: #0b0b0b;
-    padding: 30px 26px;
+    padding: 16px 24px;
 }
 /* Перерендер — вспышка всей рамки компонента: единица обновления в React
    именно компонент, и это должно быть видно глазом. */
@@ -479,24 +650,27 @@
     color: #52525b;
 }
 .cycle-component-value {
-    font-size: 26px;
+    font-size: 22px;
     color: #d4d4d8;
 }
 .cycle-component-value b {
     font-family: var(--font-mono);
-    font-size: 34px;
+    font-size: 30px;
     color: #fff;
 }
-.cycle-caption {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.5;
-    text-align: center;
-    color: #71717a;
+/* Строка кода, привязанная к шагу цикла: подсвечивается не по клику, а по
+   ходу анимации, поэтому свой класс — курсор и hover тут не нужны. */
+.code-box .cyc-line {
+    display: block;
+    padding: 3px 22px !important;
+    margin: 0 -22px !important;
+    border-left: 3px solid transparent;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
-.cycle-caption b {
-    color: #f87171;
-    font-weight: 600;
+.code-box .cyc-line.is-on {
+    background: #12181f !important;
+    border-left-color: #93c5fd;
+    color: #fff;
 }
 
 /* ===== Слайды с кодом: код и пояснение рядом ===== */
@@ -719,6 +893,45 @@
 .fact-card p b {
     color: #ededed;
 }
+/* Под идеей подхода — что именно им пользуются: имя со ссылкой на документацию
+   и одна строка о назначении. */
+.fact-list {
+    margin: 2px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.fact-list li {
+    position: relative;
+    padding-left: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #71717a;
+}
+.fact-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #3f3f46;
+}
+.fact-list a {
+    font-family: var(--font-mono);
+    font-size: 0.94em;
+    color: #93c5fd;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(147, 197, 253, 0.35);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.fact-list a:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+}
 
 /* ===== История фреймворка: горизонтальный таймлайн ===== */
 .story-line {
@@ -884,123 +1097,255 @@
     color: #ededed;
 }
 
-/* ===== Слайд 12: плёнка Proxy ===== */
-.proxy-demo {
+/* ===== Слайд «Proxy перехватывает всё»: Vue 3 и Vue 2 рядом =====
+   Панели одинаковы по разметке: сравнивать их глазом можно, только если
+   объект в обеих нарисован одинаково и различаются лишь пометки свойств. */
+.vs-demo {
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    margin: 36px 0 0;
+    gap: 26px;
+    margin: 30px 0 0;
 }
-.proxy-ops {
+.vs-ops {
     display: flex;
-    gap: 14px;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
 }
-.proxy-ops .demo-btn {
+.vs-ops .demo-btn {
     font-family: var(--font-mono);
     font-size: 15px;
 }
-.proxy-stage {
+.vs-panels {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 28px;
 }
-/* Плёнка вокруг объекта: полупрозрачная рамка со своим фоном — видно, что
-   объект внутри не изменился, а обращения идут через обёртку. */
-.proxy-film {
-    position: relative;
-    border: 1px solid #3f3f46;
-    border-radius: 24px;
-    background: rgba(147, 197, 253, 0.05);
-    padding: 40px 34px 34px;
-    transition: border-color 0.25s ease, background 0.25s ease;
-}
-.proxy-film-label {
-    position: absolute;
-    top: -13px;
-    left: 26px;
-    padding: 2px 12px;
-    border: 1px solid #3f3f46;
-    border-radius: 999px;
-    background: #000;
-    font-family: var(--font-mono);
-    font-size: 14px;
-    color: #93c5fd;
-}
-.proxy-target {
+.vs-panel {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    gap: 16px;
     border: 1px solid #232323;
-    border-radius: 16px;
-    background: #0b0b0b;
-    padding: 30px 24px;
+    border-radius: 20px;
+    background: #080808;
+    padding: 24px 28px;
+    transition: border-color 0.3s ease;
 }
-.proxy-target span {
-    font-family: var(--font-mono);
-    font-size: 24px;
-    color: #fff;
+.vs-panel.is-hit {
+    border-color: #3f3f46;
 }
-.proxy-target em {
-    font-style: normal;
-    font-size: 14px;
-    color: #52525b;
-}
-/* Импульс по плёнке — «операция перехвачена». */
-.proxy-pulse {
-    position: absolute;
-    inset: -1px;
-    border-radius: 24px;
-    border: 1px solid transparent;
-    pointer-events: none;
-}
-.proxy-film.is-hit .proxy-pulse {
-    animation: proxyPulse 0.7s ease;
-}
-@keyframes proxyPulse {
-    0% {
-        border-color: #93c5fd;
-        box-shadow: 0 0 30px rgba(147, 197, 253, 0.28);
-    }
-    100% {
-        border-color: transparent;
-        box-shadow: 0 0 0 rgba(147, 197, 253, 0);
-    }
-}
-.proxy-out {
+.vs-head {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 14px;
 }
-.proxy-trap {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 26px;
-    color: #fff;
-}
-.proxy-note {
-    margin: 0;
-    font-size: 18px;
-    line-height: 1.6;
-    color: var(--text-muted);
-    min-height: 86px;
-}
-.proxy-vue2 {
-    margin: 0;
-    font-size: 16px;
-    color: #52525b;
-}
-.proxy-vue2 span {
+.vs-badge {
+    font-size: 14px;
     font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a1a1aa;
+    border: 1px solid #3f3f46;
+    border-radius: 999px;
+    padding: 4px 14px;
+    white-space: nowrap;
+}
+.vs-panel.is-v3 .vs-badge {
+    color: #4fc08d;
+    border-color: rgba(79, 192, 141, 0.5);
+}
+.vs-how {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #71717a;
+}
+.vs-obj {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 17px;
     color: #a1a1aa;
 }
-.proxy-vue2.is-no span {
+.vs-brace {
+    color: #52525b;
+}
+.vs-prop {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 20px;
+    padding: 7px 12px;
+    border-left: 2px solid transparent;
+    border-radius: 8px;
+    transition: background 0.25s ease, border-color 0.25s ease;
+}
+.vs-prop b {
+    font-weight: 400;
+    color: #ededed;
+}
+.vs-prop i {
+    font-style: normal;
+    color: #93c5fd;
+}
+/* Приписка справа — обычным шрифтом: это не код, а вывод о коде. */
+.vs-prop em {
+    margin-left: auto;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: #71717a;
+}
+.vs-prop.is-read {
+    background: #0f1620;
+    border-left-color: #93c5fd;
+}
+.vs-prop.is-read em {
+    color: #93c5fd;
+}
+.vs-prop.is-ok {
+    background: #0c1712;
+    border-left-color: #34d399;
+}
+.vs-prop.is-ok em {
+    color: #34d399;
+}
+.vs-prop.is-no {
+    background: #1a0f0f;
+    border-left-color: #f87171;
+}
+.vs-prop.is-no em {
+    color: #f87171;
+}
+.vs-prop.is-gone b,
+.vs-prop.is-gone i {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+.vs-trap {
+    margin: 0;
+    padding: 10px 14px;
+    border: 1px dashed #232323;
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #ededed;
+}
+.vs-trap.is-none {
+    color: #52525b;
+}
+.vs-verdict {
+    margin: 0;
+    min-height: 48px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #71717a;
+}
+.vs-verdict.is-ok {
+    color: #34d399;
+}
+.vs-verdict.is-no {
     color: #f87171;
 }
 
-/* ===== Слайд 14: два пути обновления (Vapor Mode) ===== */
+/* ===== Слайд «Vue в 2026»: два слоя =====
+   Строка слоя читается слева направо как предложение: что это — что на что
+   заменили — что от этого стало лучше. */
+.layers {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin: 34px 0 0;
+}
+.layer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 40px;
+    border: 1px solid #232323;
+    border-radius: 20px;
+    background: #080808;
+    padding: 40px 44px;
+}
+.layer-what {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.layer-no {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #3f3f46;
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: #a1a1aa;
+}
+.layer-what-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.layer-what-text b {
+    font-size: 30px;
+    color: #fff;
+}
+.layer-what-text span {
+    font-size: 17px;
+    line-height: 1.45;
+    color: #71717a;
+}
+.layer-swap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+.layer-old {
+    font-size: 17px;
+    color: #52525b;
+    text-decoration: line-through;
+    text-decoration-color: #3f3f46;
+}
+.layer-old em {
+    color: #52525b;
+}
+.layer-arrow {
+    font-size: 26px;
+    color: #52525b;
+}
+.layer-new {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 25px;
+    font-weight: 600;
+    color: #fff;
+}
+.layer-new em {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: #71717a;
+}
+.layer-gain {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.layer-gain b {
+    font-size: 19px;
+    color: #ededed;
+}
+.layer-gain span {
+    font-size: 16px;
+    line-height: 1.45;
+    color: #71717a;
+}
+
 .vapor-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);

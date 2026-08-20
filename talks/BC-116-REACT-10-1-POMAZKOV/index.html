@@ -305,6 +305,12 @@
                 <div class="content-slide">
                     <h2 class="gradient-text">Как реактивность решает React</h2>
 
+                    <ul class="uses">
+                        <li><b>useState</b>состояние компонента и функция, которая просит перерисовать</li>
+                        <li><b>Virtual DOM</b>описание интерфейса в памяти — чтобы было с чем сравнивать</li>
+                        <li><b>Reconciliation</b>сверка двух деревьев: ищем минимальное изменение для DOM</li>
+                    </ul>
+
                     <div class="react-cycle-wrap" id="reactCycle">
                         <div class="cycle-top">
                             <div class="cycle-component" data-role="component">
@@ -491,6 +497,12 @@
                         записывает зависимость, запись уведомляет об изменении.
                     </p>
 
+                    <ul class="uses">
+                        <li><b>Object.defineProperty</b>подменяет свойство парой геттер/сеттер</li>
+                        <li><b>track</b>на чтении запоминает, кто зависит от свойства</li>
+                        <li><b>trigger</b>на записи уведомляет всех, кто запомнился</li>
+                    </ul>
+
                     <div class="code-slide interactive-block" data-target="vue2Note">
                         <div class="code-box is-win">
                             <div class="win-bar"><i></i><i></i><i></i><em>vue2-reactivity.js</em></div>
@@ -539,6 +551,12 @@
                         каждое свойство обёрнуто в «наручники» геттера и сеттера.
                         Три случая, когда наручников не оказывается.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>Object.defineProperty</b>ставится по одному свойству и только при инициализации</li>
+                        <li><b>Vue.set и Vue.delete</b>обёртки, чтобы добавить или удалить свойство «через Vue»</li>
+                        <li><b>рекурсивный обход</b>вложенные объекты размечаются целиком, сразу и до конца</li>
+                    </ul>
 
                     <div class="break-grid" id="vue2Demo">
                         <div class="props-box">
@@ -592,6 +610,12 @@
                         объект целиком и перехватывает любые операции — чтение, запись, добавление, удаление.
                     </p>
 
+                    <ul class="uses">
+                        <li><b>Proxy</b>посредник, который стоит перед объектом целиком</li>
+                        <li><b>ловушки get, set, deleteProperty</b>перехватывают любую операцию, включая новые свойства</li>
+                        <li><b>track и trigger</b>те же, что в Vue 2: подписка на чтении, уведомление на записи</li>
+                    </ul>
+
                     <div class="code-slide is-wide interactive-block" data-target="vue3Note">
                         <div class="code-box is-win">
                             <div class="win-bar"><i></i><i></i><i></i><em>vue3-reactivity.js</em></div>
@@ -639,6 +663,11 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         Vue 3 с <em>Proxy</em> и Vue 2 с геттерами и сеттерами.
                     </p>
 
+                    <ul class="uses">
+                        <li><b>Proxy</b>одна обёртка на весь объект — Vue 3</li>
+                        <li><b>Object.defineProperty</b>пара геттер/сеттер на каждое свойство — Vue 2</li>
+                    </ul>
+
                     <div class="vs-demo" id="proxyDemo">
                         <div class="vs-ops">
                             <button class="demo-btn" type="button" data-op="read">state.count</button>
@@ -679,64 +708,8 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                 </div>
             </section>
 
-            <!-- SLIDE: Vue 3.6 — два слоя, два обновления -->
-            <section class="slide" data-slide="13">
-                <div class="content-slide">
-                    <h2 class="gradient-text">Vue 2026</h2>
-                    <p class="slide-lead">
-                        Внутри Vue две независимые части, и в версии 3.6 (релиз-кандидат)
-                        обновилась каждая — по отдельности.
-                    </p>
-
-                    <div class="layers">
-                        <div class="layer">
-                            <div class="layer-what">
-                                <span class="layer-no">1</span>
-                                <div class="layer-what-text">
-                                    <b>Реактивность</b>
-                                    <span>что от чего зависит: <em>ref</em>, <em>computed</em>, <em>watch</em></span>
-                                </div>
-                            </div>
-                            <div class="layer-swap">
-                                <span class="layer-old">движок <em>@vue/reactivity</em></span>
-                                <span class="layer-arrow" aria-hidden="true">→</span>
-                                <span class="layer-new">Alien Signals<em>библиотека Johnson Chu</em></span>
-                            </div>
-                            <div class="layer-gain">
-                                <b>Меньше памяти, быстрее пересчёт</b>
-                                <span>работает у всех по умолчанию — код приложения менять не нужно</span>
-                            </div>
-                        </div>
-
-                        <div class="layer">
-                            <div class="layer-what">
-                                <span class="layer-no">2</span>
-                                <div class="layer-what-text">
-                                    <b>Рендеринг</b>
-                                    <span>как изменение доезжает до DOM</span>
-                                </div>
-                            </div>
-                            <div class="layer-swap">
-                                <span class="layer-old">Virtual DOM</span>
-                                <span class="layer-arrow" aria-hidden="true">→</span>
-                                <span class="layer-new">Vapor Mode<em>прямая компиляция в DOM-код</em></span>
-                            </div>
-                            <div class="layer-gain">
-                                <b>Прямые обновления DOM, бандл меньше 10 КБ</b>
-                                <span>включается вручную: <em>&lt;script setup vapor&gt;</em></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p class="wide-accent is-strong">
-                        Проще говоря: <b>Alien Signals</b> быстрее считает, что нужно обновить,
-                        а <b>Vapor Mode</b> быстрее это обновляет.
-                    </p>
-                </div>
-            </section>
-
             <!-- SLIDE: Vue 2026 — слой реактивности (Alien Signals) -->
-            <section class="slide" data-slide="14">
+            <section class="slide" data-slide="13">
                 <div class="content-slide">
                     <h2 class="gradient-text">Vue 2026 · реактивность</h2>
                     <p class="slide-lead">
@@ -744,6 +717,12 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         Публичный API не изменился ни на строку — меняется только то,
                         как Vue внутри проводит изменение по графу зависимостей.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>Alien Signals</b>движок графа: связи двусвязным списком вместо коллекций</li>
+                        <li><b>ref, computed, watch</b>публичный API — он не меняется ни на строку</li>
+                        <li><b>push-pull</b>запись помечает зависимых, чтение пересчитывает</li>
+                    </ul>
 
                     <div class="fw-cols is-compact">
                         <a class="fw-brand" href="https://github.com/stackblitz/alien-signals" target="_blank" rel="noreferrer">
@@ -830,7 +809,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Vue 2026 — слой рендеринга (Vapor Mode) -->
-            <section class="slide" data-slide="15">
+            <section class="slide" data-slide="14">
                 <div class="content-slide">
                     <h2 class="gradient-text">Vue 2026 · рендеринг</h2>
                     <p class="slide-lead">
@@ -838,6 +817,12 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         сразу пишет код, который меняет нужный узел DOM. Включается атрибутом
                         <em>vapor</em> в теге <em>&lt;script setup&gt;</em>.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>Vapor Mode</b>режим компиляции без виртуального DOM</li>
+                        <li><b>компилятор шаблонов</b>связывает выражение с конкретным узлом DOM</li>
+                        <li><b>атрибут vapor</b>включает режим для одного компонента, не для всего приложения</li>
+                    </ul>
 
                     <div class="vapor-grid interactive-block" data-target="vaporNote">
                         <div class="lanes" id="vaporLanes">
@@ -907,7 +892,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Angular — что это и история -->
-            <section class="slide" data-slide="16">
+            <section class="slide" data-slide="15">
                 <div class="content-slide">
                     <h2 class="gradient-text">Angular</h2>
                     <p class="slide-lead">
@@ -970,13 +955,19 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Angular — Zone.js -->
-            <section class="slide" data-slide="17">
+            <section class="slide" data-slide="16">
                 <div class="content-slide">
                     <h2 class="gradient-text">Angular: обнаружение изменений на Zone.js</h2>
                     <p class="slide-lead">
                         Angular не следит за данными. Он держит список привязок шаблона,
                         а Zone.js подсказывает момент, когда их пора перепроверить.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>Привязка (binding)</b>заводится на каждое выражение шаблона и помнит прошлое значение</li>
+                        <li><b>Zone.js</b>библиотека: патчит асинхронные операции и сообщает, когда проверять</li>
+                        <li><b>Change Detector</b>у каждого компонента свой — сверяет свои привязки</li>
+                    </ul>
 
                     <div class="ng-grid interactive-block" data-target="zoneNote" id="zoneCd">
                         <div class="ng-code">
@@ -996,16 +987,6 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
 <div class="code-line" data-cd="3" data-title="3 · Change Detector" data-desc="Обычное присваивание: никакого уведомления Angular не получает. Поэтому после клика он идёт по дереву компонентов сверху вниз и просит каждый Change Detector перепроверить свои привязки — включая те компоненты, которые точно не менялись.">    <span class="kw">this</span>.count++;</div>
   }
 }</pre>
-                            </div>
-
-                            <div class="info-panel code-note" id="zoneNote">
-                                <h3>Почему проверяется всё дерево</h3>
-                                <p>
-                                    Angular не знает, что именно изменилось: он знает только,
-                                    что закончилась асинхронная операция. Единственный надёжный
-                                    способ не пропустить изменение — перепроверить привязки
-                                    у всех компонентов.
-                                </p>
                             </div>
                         </div>
 
@@ -1060,22 +1041,33 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         </div>
                     </div>
 
-                    <p class="today-note">
-                        Отсюда ручные оптимизации: <b>ChangeDetectionStrategy.OnPush</b>,
-                        <em>ChangeDetectorRef</em>, <em>NgZone.runOutsideAngular</em>.
-                        Плюс сам Zone.js весит и попадает в бандл.
-                    </p>
+                    <div class="info-panel wide-note" id="zoneNote">
+                        <h3>Почему проверяется всё дерево</h3>
+                        <p>
+                            Angular не знает, что именно изменилось: он знает только,
+                            что закончилась асинхронная операция. Единственный надёжный
+                            способ не пропустить изменение — перепроверить привязки
+                            у всех компонентов.
+                        </p>
+                    </div>
+
                 </div>
             </section>
 
             <!-- SLIDE: Angular 2026 — сигналы и zoneless -->
-            <section class="slide" data-slide="18">
+            <section class="slide" data-slide="17">
                 <div class="content-slide">
                     <h2 class="gradient-text">Angular 2026</h2>
                     <p class="slide-lead">
                         Сигнал сам знает, кто его читает. Значит, спрашивать «а вдруг что-то
                         изменилось» больше не надо — и Zone.js становится не нужен.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>Signal API</b>signal, computed, effect: значение со списком своих читателей</li>
+                        <li><b>zoneless</b>от Zone.js отказались — он не подключается вовсе</li>
+                        <li><b>provideZonelessChangeDetection()</b>этим режим и включается при старте приложения</li>
+                    </ul>
 
                     <div class="ng-grid interactive-block" data-target="signalNote" id="signalCd">
                         <div class="ng-code">
@@ -1099,15 +1091,6 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
 
 <div class="code-line" data-cd="4" data-title="4 · Проверка только помеченных" data-desc="Без Zone.js Angular не перепроверяет дерево целиком: он берёт помеченные компоненты и обновляет их. Zone.js больше не нужен ни для чего — и уходит из бандла вместе со своими ~130 КБ."><span class="cm">// zoneless: Zone.js не подключается вовсе</span>
 <span class="fn">bootstrapApplication</span>(App, { providers: [<span class="fn">provideZonelessChangeDetection</span>()] });</div></pre>
-                            </div>
-
-                            <div class="info-panel code-note" id="signalNote">
-                                <h3>Откуда Angular знает, что обновлять</h3>
-                                <p>
-                                    Список читателей ведёт само значение. Прочитали сигнал —
-                                    записались в список; изменили — прошлись по списку.
-                                    Дерево компонентов при этом не обходится ни разу.
-                                </p>
                             </div>
                         </div>
 
@@ -1162,16 +1145,20 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         </div>
                     </div>
 
-                    <p class="today-note">
-                        Нет <em>ChangeDetectorRef</em>, нет <em>NgZone</em>, нет Zone.js — и бандл
-                        меньше примерно на <b>130 КБ</b>. Реактивность стала предсказуемой:
-                        видно, что от чего зависит.
-                    </p>
+                    <div class="info-panel wide-note" id="signalNote">
+                        <h3>Откуда Angular знает, что обновлять</h3>
+                        <p>
+                            Список читателей ведёт само значение. Прочитали сигнал —
+                            записались в список; изменили — прошлись по списку.
+                            Дерево компонентов при этом не обходится ни разу.
+                        </p>
+                    </div>
+
                 </div>
             </section>
 
             <!-- SLIDE: Svelte — что это и история -->
-            <section class="slide" data-slide="19">
+            <section class="slide" data-slide="18">
                 <div class="content-slide">
                     <h2 class="gradient-text">Svelte</h2>
                     <p class="slide-lead">
@@ -1233,7 +1220,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Svelte 4 — как работает $: -->
-            <section class="slide" data-slide="20">
+            <section class="slide" data-slide="19">
                 <div class="content-slide">
                     <h2 class="gradient-text">Svelte 4: как работает <span class="mono-h2">$:</span></h2>
                     <p class="slide-lead">
@@ -1241,6 +1228,12 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         он делает один раз при сборке: читает файл, находит присваивания
                         и сам дописывает вызовы обновления.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>компилятор Svelte</b>читает файл при сборке, а не следит за ним в браузере</li>
+                        <li><b>$:</b>метка реактивного выражения — его зависимости берутся из текста</li>
+                        <li><b>$$invalidate</b>вызов, который компилятор дописывает за вас после присваивания</li>
+                    </ul>
 
                     <div class="compile-grid interactive-block" data-target="svelte4Note" id="svelteCompile">
                         <div class="code-box is-win">
@@ -1306,7 +1299,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Svelte 4 — где ломается $: -->
-            <section class="slide" data-slide="21">
+            <section class="slide" data-slide="20">
                 <div class="content-slide">
                     <h2 class="gradient-text">Svelte 4: где ломается <span class="mono-h2">$:</span></h2>
                     <p class="slide-lead">
@@ -1314,6 +1307,11 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         Стоит вынести его за границу <em>.svelte</em> — и дописывать
                         <em>$$invalidate</em> становится некуда.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>статический анализ</b>зависимости выводятся из текста файла, а не из выполнения</li>
+                        <li><b>граница .svelte</b>за неё компилятор не выходит — обычный .js он не разбирает</li>
+                    </ul>
 
                     <div class="break-grid" id="svelte4Demo">
                         <div class="code-swap">
@@ -1379,7 +1377,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Svelte 5 — руны -->
-            <section class="slide" data-slide="22">
+            <section class="slide" data-slide="21">
                 <div class="content-slide">
                     <h2 class="gradient-text">Svelte 5: руны</h2>
                     <p class="slide-lead">
@@ -1387,6 +1385,12 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         её в сигнал, а зависимости собираются во время выполнения — по факту
                         чтения, а не по тексту файла.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>$state, $derived, $effect</b>явные вызовы вместо неявных правил</li>
+                        <li><b>.svelte.ts</b>обычный файл, который тоже проходит через компилятор рун</li>
+                        <li><b>сбор зависимостей в рантайме</b>подписка получается из факта чтения</li>
+                    </ul>
 
                     <div class="compile-grid interactive-block" data-target="runesNote" id="runesDemo">
                         <div class="code-box is-win">
@@ -1445,7 +1449,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Solid — что это и история -->
-            <section class="slide" data-slide="23">
+            <section class="slide" data-slide="22">
                 <div class="content-slide">
                     <h2 class="gradient-text">Solid</h2>
                     <p class="slide-lead">
@@ -1506,13 +1510,19 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Solid — сигналы и мелкозернистость -->
-            <section class="slide" data-slide="24">
+            <section class="slide" data-slide="23">
                 <div class="content-slide">
                     <h2 class="gradient-text">Solid: сигнал как пара [getter, setter]</h2>
                     <p class="slide-lead">
                         Компонент выполняется <b>один раз</b>. Дальше живут только сигналы —
                         и обновляют ровно те DOM-узлы, которые их читают.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>createSignal</b>пара [getter, setter]: читать и писать — разные функции</li>
+                        <li><b>createMemo и createEffect</b>производное значение и эффект, оба подписываются сами</li>
+                        <li><b>компиляция JSX</b>сразу в создание DOM-узлов, без виртуального дерева</li>
+                    </ul>
 
                     <div class="compile-grid interactive-block" data-target="solidNote">
                         <div class="code-box is-win">
@@ -1580,7 +1590,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Qwik — что это и история -->
-            <section class="slide" data-slide="25">
+            <section class="slide" data-slide="24">
                 <div class="content-slide">
                     <h2 class="gradient-text">Qwik</h2>
                     <p class="slide-lead">
@@ -1637,7 +1647,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Qwik — возобновляемость -->
-            <section class="slide" data-slide="26">
+            <section class="slide" data-slide="25">
                 <div class="content-slide">
                     <h2 class="gradient-text">Qwik: интерактивность без ожидания</h2>
                     <p class="slide-lead">
@@ -1645,6 +1655,12 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                         что сервер уже посчитал. Qwik её не делает: и состояние, и адрес каждого
                         обработчика он кладёт прямо в HTML.
                     </p>
+
+                    <ul class="uses">
+                        <li><b>component$ и onClick$</b>границы, по которым компилятор режет код на чанки</li>
+                        <li><b>сериализация состояния</b>состояние и подписки уезжают в HTML вместе с разметкой</li>
+                        <li><b>загрузчик ~1.6 КБ</b>ловит событие и подгружает нужный чанк — больше ничего</li>
+                    </ul>
 
                     <div class="qwik-grid interactive-block" data-target="qwikNote">
                         <div class="qwik-code">
@@ -1728,7 +1744,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: сводная история реактивности -->
-            <section class="slide" data-slide="27">
+            <section class="slide" data-slide="26">
                 <div class="content-slide">
                     <h2 class="gradient-text">Как развивалась реактивность</h2>
                     <p class="slide-lead">
@@ -1778,66 +1794,88 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                 </div>
             </section>
 
-            <!-- SLIDE: вывод 2026 -->
-            <section class="slide" data-slide="28">
+            <!-- SLIDE: тренды реактивности, август 2026 -->
+            <section class="slide" data-slide="27">
                 <div class="content-slide">
-                    <h2 class="gradient-text">Куда всё идёт</h2>
+                    <h2 class="gradient-text">Куда всё идёт · август 2026</h2>
                     <p class="slide-lead">
-                        Главный вывод 2026 года: индустрия сходится к <b>сигнальной модели</b>
-                        реактивности и уходит от виртуального DOM. Vue, Angular, Svelte — все
-                        пришли к сигналам. Qwik добавляет к этому возобновляемость.
+                        Спор о том, <b>как узнать про изменение</b>, закончился: победили сигналы.
+                        Новый спор — про загрузку.
                     </p>
 
-                    <div class="final-grid">
-                        <div class="chart">
-                            <p class="section-label">Время до интерактивности и размер приложения</p>
-                            <svg viewBox="0 0 520 260" role="img" aria-label="График: у React время до интерактивности растёт с размером приложения, у Qwik остаётся постоянным">
-                                <line class="axis" x1="46" y1="14" x2="46" y2="214"></line>
-                                <line class="axis" x1="46" y1="214" x2="500" y2="214"></line>
-                                <path class="curve is-react" d="M46 198 C 160 186, 250 140, 340 96 S 450 40, 500 26"></path>
-                                <path class="curve is-qwik" d="M46 190 L 500 184"></path>
-                                <circle class="dot is-react" cx="500" cy="26" r="4"></circle>
-                                <circle class="dot is-qwik" cx="500" cy="184" r="4"></circle>
-                                <text class="lbl is-react" x="492" y="16" text-anchor="end">React: растёт вместе с бандлом</text>
-                                <text class="lbl is-qwik" x="492" y="174" text-anchor="end">Qwik: ~1.6 КБ всегда</text>
-                                <text class="ax-title" x="10" y="112" transform="rotate(-90 14 112)">до интерактивности</text>
-                                <text class="ax-title" x="272" y="240" text-anchor="middle">размер приложения</text>
-                            </svg>
+                    <div class="trend-grid">
+                        <div class="trend-chart">
+                            <p class="section-label">Чем пользуются разработчики и на чём это работает</p>
+                            <div class="tbar">
+                                <span class="tbar-name"><span class="era-mark is-react" aria-hidden="true"></span>React</span>
+                                <span class="tbar-track"><i style="width: 69.9%"></i></span>
+                                <span class="tbar-val">69,9%</span>
+                                <span class="tbar-tag">компилятор, Virtual DOM</span>
+                            </div>
+                            <div class="tbar is-signal">
+                                <span class="tbar-name"><svg class="era-mark" aria-hidden="true"><use href="#fw-vue"></use></svg>Vue</span>
+                                <span class="tbar-track"><i style="width: 44.8%"></i></span>
+                                <span class="tbar-val">44,8%</span>
+                                <span class="tbar-tag">сигналы с 3.6</span>
+                            </div>
+                            <div class="tbar is-signal">
+                                <span class="tbar-name"><svg class="era-mark" aria-hidden="true"><use href="#fw-svelte"></use></svg>Svelte</span>
+                                <span class="tbar-track"><i style="width: 25.8%"></i></span>
+                                <span class="tbar-val">25,8%</span>
+                                <span class="tbar-tag">руны</span>
+                            </div>
+                            <div class="tbar is-signal">
+                                <span class="tbar-name"><svg class="era-mark" aria-hidden="true"><use href="#fw-angular"></use></svg>Angular</span>
+                                <span class="tbar-track"><i style="width: 22.1%"></i></span>
+                                <span class="tbar-val">22,1%</span>
+                                <span class="tbar-tag">сигналы, zoneless</span>
+                            </div>
+                            <div class="tbar is-signal">
+                                <span class="tbar-name"><svg class="era-mark" aria-hidden="true"><use href="#fw-solid"></use></svg>Solid</span>
+                                <span class="tbar-track"><i style="width: 10%"></i></span>
+                                <span class="tbar-val">10%</span>
+                                <span class="tbar-tag">сигналы с рождения</span>
+                            </div>
+                            <div class="trend-legend">
+                                <span class="trend-key is-signal">сигналы</span>
+                                <span class="trend-key">другой путь</span>
+                            </div>
                         </div>
 
-                        <div class="final-points">
-                            <div class="final-point">
-                                <span class="final-mark">1</span>
-                                <p>
-                                    <b>Сигналы победили.</b> Точное знание «что от чего зависит»
-                                    оказалось дешевле, чем сравнение деревьев.
-                                </p>
+                        <div class="trend-stats">
+                            <div class="stat">
+                                <b>5 из 6</b>
+                                <span>фреймворков этой главы обновляют интерфейс <b>по сигналам</b>.
+                                Шестой — React: он поставил на компилятор, а не на сигналы</span>
                             </div>
-                            <div class="final-point">
-                                <span class="final-mark">2</span>
-                                <p>
-                                    <b>Virtual DOM — не обязателен.</b> Vapor Mode, Svelte, Solid
-                                    и Qwik обновляют DOM напрямую.
-                                </p>
+                            <div class="stat">
+                                <b>Stage&nbsp;1</b>
+                                <span><a href="https://github.com/tc39/proposal-signals" target="_blank" rel="noreferrer">proposal-signals</a>
+                                в TC39: сигналы предложены в сам язык. В дизайне участвовали авторы
+                                Angular, Ember, MobX, Preact, Qwik, RxJS, Solid, Svelte и Vue</span>
                             </div>
-                            <div class="final-point">
-                                <span class="final-mark">3</span>
-                                <p>
-                                    <b>Дальше — загрузка.</b> Когда обновления стали точечными,
-                                    узким местом стало время до интерактивности: здесь и появляется
-                                    возобновляемость.
-                                </p>
+                            <div class="stat is-accent">
+                                <b>Загрузка</b>
+                                <span>следующее узкое место. Обновления стали точечными — осталось
+                                перестать выполнять всё приложение заново ради интерактивности</span>
                             </div>
-                            <p class="final-kicker">
-                                Будущее — сигналы и возобновляемость
-                            </p>
                         </div>
                     </div>
+
+                    <p class="wide-accent is-strong">
+                        Реактивность перестала быть отличием фреймворков и стала общим местом —
+                        настолько, что её пытаются занести в стандарт языка.
+                        <b>Соревнование переехало на время до интерактивности.</b>
+                    </p>
+
+                    <p class="trend-source">
+                        Доли — State of JavaScript 2025 (сколько респондентов пользовались фреймворком).
+                        Статус предложения — tc39/proposal-signals.
+                    </p>
                 </div>
             </section>
 
-
-            <section class="slide" data-slide="29" data-chrome="whatnext">
+            <section class="slide" data-slide="28" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

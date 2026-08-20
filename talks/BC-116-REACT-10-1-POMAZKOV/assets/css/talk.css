@@ -53,50 +53,89 @@
     content: '';
     margin-top: auto;
 }
-/* Слайды «Что такое X»: заголовок и опознавательные знаки фреймворка в одну
-   строку — логотип со ссылкой на сайт и карточка создателя со ссылками.
-   Заголовок перестаёт быть прямым потомком .content-slide, поэтому правила
-   отступов шапки продублированы для строки. */
-.slide-head-row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 40px;
-    flex-shrink: 0;
+/* Слайды о фреймворке: под описанием — две колонки, слева логотип со ссылкой
+   на сайт, справа создатель со ссылками на его профили. Ниже идёт основная
+   демонстрация слайда. */
+.fw-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    margin: 34px 0 0;
 }
-.slide-head-row > h2 {
-    font-size: 52px;
-    margin: 0;
-    line-height: 1.1;
-}
-.content-slide > .slide-head-row + .slide-lead {
-    margin-top: 14px;
-}
-.content-slide > .slide-head-row + *:not(.slide-lead) {
-    margin-top: auto !important;
-}
-.fw-id {
+.fw-brand {
     display: flex;
     align-items: center;
     gap: 26px;
-    padding-top: 2px;
-}
-.fw-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    border: 1px solid #232323;
+    border-radius: 20px;
+    background: #080808;
+    padding: 26px 32px;
     text-decoration: none;
-    font-size: 15px;
-    color: #71717a;
-    transition: color 0.2s ease;
+    transition: border-color 0.2s ease;
 }
-.fw-logo:hover {
+.fw-brand:hover {
+    border-color: #3f3f46;
+}
+.fw-brand-mark {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+}
+/* Пиксельный значок: сглаживание превратило бы клетки в кашу. */
+.fw-brand-mark.is-pixel {
+    width: 58px;
+    height: 42px;
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+}
+.fw-cols.is-compact {
+    gap: 24px;
+    margin-top: 26px;
+}
+.fw-cols.is-compact .fw-brand {
+    gap: 20px;
+    padding: 16px 24px;
+}
+.fw-cols.is-compact .fw-brand-mark {
+    width: 46px;
+    height: 46px;
+}
+.fw-cols.is-compact .fw-brand-mark.is-pixel {
+    width: 46px;
+    height: 34px;
+}
+.fw-cols.is-compact .fw-brand-text b {
+    font-size: 21px;
+}
+.fw-cols.is-compact .fw-brand-text em {
+    font-size: 13px;
+}
+.fw-cols.is-compact .fw-person {
+    padding: 14px 20px 14px 14px;
+}
+.fw-cols.is-compact .fw-photo {
+    width: 48px;
+    height: 48px;
+}
+.fw-cols.is-compact .fw-person-name {
+    font-size: 17px;
+}
+.fw-cols.is-compact .fw-person-role {
+    font-size: 13px;
+}
+.fw-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.fw-brand-text b {
+    font-size: 27px;
     color: #fff;
 }
-.fw-mark {
-    width: 38px;
-    height: 38px;
-    flex-shrink: 0;
+.fw-brand-text em {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: #71717a;
 }
 .fw-person {
     display: flex;
@@ -155,6 +194,30 @@
     width: 16px;
     height: 16px;
     fill: currentColor;
+}
+.fw-cols .fw-person {
+    gap: 18px;
+    padding: 22px 28px 22px 22px;
+    border-radius: 20px;
+}
+.fw-cols .fw-photo {
+    width: 68px;
+    height: 68px;
+}
+.fw-cols .fw-person-name {
+    font-size: 20px;
+}
+.fw-cols .fw-person-role {
+    font-size: 15px;
+}
+.fw-cols .fw-socials a {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+}
+.fw-cols .fw-socials svg {
+    width: 18px;
+    height: 18px;
 }
 
 .slide-lead {
@@ -278,10 +341,30 @@
     cursor: pointer;
     transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
+.demo-btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+.demo-btn:disabled:hover {
+    border-color: #3f3f46;
+    background: #101010;
+    color: #ededed;
+}
 .demo-btn:hover {
     border-color: #fff;
     background: #1a1a1a;
     color: #fff;
+}
+.demo-btn.is-lead {
+    border-color: #fff;
+    background: #fff;
+    color: #000;
+    font-size: 18px;
+    padding: 14px 34px;
+}
+.demo-btn.is-lead:hover {
+    background: #ededed;
+    color: #000;
 }
 .demo-btn.is-round {
     width: 44px;
@@ -316,6 +399,10 @@
 .demo-log.is-ok {
     color: #34d399;
 }
+/* Не поломка, но и не победа: цена подхода. */
+.demo-log.is-note {
+    color: #f5c451;
+}
 
 /* Общая раскладка «демо слева — текст справа». */
 .demo-block {
@@ -324,11 +411,6 @@
     gap: 56px;
     align-items: center;
     margin: 34px 0 0;
-}
-.demo-block.is-code-left {
-    grid-template-columns: minmax(0, 1.17fr) minmax(0, 1fr);
-    gap: 44px;
-    align-items: start;
 }
 .demo-aside {
     display: flex;
@@ -551,6 +633,19 @@
 /* ===== Слайд 5: цикл обновления React ===== */
 /* Код слева, шаги цикла справа: клик по «Клик» ведёт обе колонки разом —
    подсвечивается и шаг, и строка кода, которая на этом шаге работает. */
+.react-cycle-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.cycle-top {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.cycle-top .cycle-component {
+    flex: 1;
+}
 .react-cycle {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
@@ -569,6 +664,7 @@
     gap: 10px;
 }
 .cycle-step {
+    cursor: pointer;
     display: grid;
     grid-template-columns: 46px 1fr;
     grid-template-rows: auto auto;
@@ -583,6 +679,10 @@
 .cycle-step.is-on {
     border-color: #93c5fd;
     background: #0f1620;
+    opacity: 1;
+}
+.cycle-step:hover {
+    border-color: #3f3f46;
     opacity: 1;
 }
 .cycle-step.is-done {
@@ -662,10 +762,14 @@
    ходу анимации, поэтому свой класс — курсор и hover тут не нужны. */
 .code-box .cyc-line {
     display: block;
+    cursor: pointer;
     padding: 3px 22px !important;
     margin: 0 -22px !important;
     border-left: 3px solid transparent;
     transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.code-box .cyc-line:hover {
+    background: #131313;
 }
 .code-box .cyc-line.is-on {
     background: #12181f !important;
@@ -698,6 +802,10 @@
 .code-box.is-small {
     font-size: 13px;
     line-height: 1.45;
+}
+.ng-code .code-box {
+    font-size: 16px;
+    line-height: 1.48;
 }
 /* ===== Подсветка синтаксиса =====
    Разметка ручная (highlight.js тянуть нельзя — доклад автономен), палитра —
@@ -846,13 +954,6 @@
     line-height: 1.5;
     color: #71717a;
 }
-.two-code {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 36px;
-    align-items: start;
-    margin: 34px 0 0;
-}
 
 /* ===== Карточки-факты (три в ряд) ===== */
 .cards-3 {
@@ -878,6 +979,28 @@
 .fact-card.is-accent {
     border-color: #3f3f46;
     background: #0d0d0d;
+}
+.fact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    color: #93c5fd;
+}
+.fact-card.is-accent .fact-icon {
+    color: #fff;
+}
+.fact-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 .fact-card h3 {
     margin: 0;
@@ -993,7 +1116,69 @@
     color: #71717a;
 }
 
-/* ===== Слайд 10: «наручники» Vue 2 ===== */
+/* ===== Слайд «Vue 2: где ломается» =====
+   Слева объект, справа три проблемы кнопками: нажал — увидел, что стало
+   с объектом. Разбор в любом порядке, поэтому состояние всегда пересобирается
+   с нуля, а не накапливается. */
+.break-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+    margin: 34px 0 0;
+}
+.pains {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.pain-card {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 18px;
+    align-items: start;
+    width: 100%;
+    text-align: left;
+    border: 1px solid #232323;
+    border-radius: 16px;
+    background: #080808;
+    padding: 20px 24px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.pain-card:hover {
+    border-color: #3f3f46;
+}
+.pain-card.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+}
+.pain-card.is-on .pain-mark {
+    border-color: #93c5fd;
+    color: #fff;
+}
+.pain-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.pain-text b {
+    font-size: 21px;
+    color: #ededed;
+}
+/* Строка кода внутри карточки — то самое действие, которое ломает реактивность. */
+.pain-text em {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #93c5fd;
+}
+.pain-text > span {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #71717a;
+}
+
 .props-box {
     border: 1px solid #232323;
     border-radius: 18px;
@@ -1003,12 +1188,12 @@
 .props-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 16px;
+    gap: 10px;
+    margin: 16px 0 20px;
 }
 .prop-row {
     display: grid;
-    grid-template-columns: 34px 1fr auto;
+    grid-template-columns: 34px max-content minmax(0, 1fr) auto;
     align-items: center;
     gap: 14px;
     border: 1px solid #232323;
@@ -1020,6 +1205,23 @@
     font-family: var(--font-mono);
     font-size: 22px;
     color: #fff;
+}
+.prop-row i {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-style: normal;
+    color: #93c5fd;
+}
+/* Вложенное свойство — со сдвигом и мельче: видно, что обход идёт вглубь. */
+.prop-row.is-nested {
+    margin-left: 28px;
+    padding: 10px 18px;
+}
+.prop-row.is-nested b {
+    font-size: 17px;
+}
+.prop-row.is-nested i {
+    font-size: 15px;
 }
 .prop-state {
     font-size: 15px;
@@ -1346,12 +1548,103 @@
     color: #71717a;
 }
 
+/* Код слева, граф зависимостей справа: код не меняется, меняется то, как
+   изменение идёт по графу — поэтому они должны быть видны одновременно. */
+.signal-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    gap: 44px;
+    align-items: start;
+    margin: 30px 0 0;
+}
+.signal-side {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.graph {
+    display: flex;
+    flex-direction: column;
+}
+.gnode {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #232323;
+    border-radius: 14px;
+    background: #080808;
+    padding: 14px 22px;
+    transition: border-color 0.3s ease, background 0.3s ease, opacity 0.3s ease;
+}
+.gnode-kind {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #52525b;
+}
+.gnode b {
+    font-size: 19px;
+    color: #ededed;
+}
+.gnode i {
+    font-family: var(--font-mono);
+    font-size: 21px;
+    font-style: normal;
+    color: #93c5fd;
+}
+.gnode.is-source {
+    border-color: #3f3f46;
+}
+/* Помечено «может устареть»: значение ещё старое, считать пока не начали. */
+.gnode.is-dirty {
+    border-color: #f5c451;
+    background: #191408;
+}
+.gnode.is-dirty i {
+    color: #f5c451;
+}
+/* Пересчитано по требованию. */
+.gnode.is-fresh {
+    border-color: #34d399;
+    background: #0c1a15;
+}
+.gnode.is-fresh i {
+    color: #34d399;
+}
+.gwire {
+    position: relative;
+    height: 26px;
+    margin-left: 46px;
+    width: 1px;
+    background: #2a2a2a;
+}
+.gwire::after {
+    content: '';
+    position: absolute;
+    left: -3px;
+    bottom: 0;
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+    border-top: 6px solid #2a2a2a;
+}
+
 .vapor-grid {
     display: grid;
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     gap: 44px;
     align-items: start;
     margin: 32px 0 0;
+}
+.vapor-code {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+/* Панель пояснения на этом слайде идёт под кодом, а не второй колонкой сетки. */
+.vapor-code .code-note {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
 }
 .lanes {
     display: flex;
@@ -1370,7 +1663,7 @@
 .lane-steps {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 28px;
     margin-top: 14px;
     flex-wrap: wrap;
 }
@@ -1387,7 +1680,7 @@
 .lane-step + .lane-step::before {
     content: '→';
     position: absolute;
-    left: -19px;
+    left: -21px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 14px;
@@ -1417,7 +1710,7 @@
 .bench-row {
     display: flex;
     gap: 22px;
-    margin: 30px 0 0;
+    margin: 8px 0 0;
 }
 .bench {
     display: flex;
@@ -1437,23 +1730,97 @@
     font-size: 15px;
     color: #71717a;
 }
-.bench.is-quote {
-    justify-content: center;
-    border-style: dashed;
-    background: none;
+
+/* ===== Слайды Angular: код и пояснение слева, шаги и дерево справа =====
+   Шаг, строка кода и подсветка дерева — одно и то же событие, показанное
+   с трёх сторон, поэтому все три колонки должны быть видны разом. */
+.ng-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+    margin: 28px 0 0;
 }
-.bench.is-quote span {
-    font-size: 19px;
-    color: #d4d4d8;
+.ng-code {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.ng-code .code-note {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+}
+.ng-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.cd-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.cd-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto auto;
+    gap: 0 16px;
+    align-items: center;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #080808;
+    padding: 10px 18px;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+}
+.cd-step:hover {
+    border-color: #3f3f46;
+    opacity: 1;
+}
+.cd-step.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+    opacity: 1;
+}
+.cd-step.is-done {
+    opacity: 0.8;
+}
+.cd-step .cycle-num {
+    grid-row: 1 / span 2;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+}
+.cd-step.is-on .cycle-num {
+    border-color: #93c5fd;
+    color: #fff;
+}
+.cd-step b {
+    font-size: 18px;
+    color: #fff;
+}
+.cd-step > span:last-child {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #71717a;
+}
+/* Строка кода, привязанная к шагу: подсветка идёт от анимации, а рамка
+   слева повторяет отметку активного шага. */
+.code-box .code-line.is-cd {
+    background: #12181f !important;
+    color: #fff;
+    box-shadow: inset 3px 0 0 #93c5fd;
 }
 
-/* ===== Слайды 16–17: дерево компонентов ===== */
 .tree-demo {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 .tree {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 34px;
@@ -1463,6 +1830,8 @@
     padding: 26px 22px;
 }
 .tree-level {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: center;
     gap: 14px;
@@ -1477,15 +1846,18 @@
     color: #a1a1aa;
     transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
-/* Связь с уровнем выше — короткая вертикальная черта. */
-.tree-level + .tree-level .tree-node::before {
-    content: '';
+.tree-wires {
     position: absolute;
-    left: 50%;
-    top: -34px;
-    width: 1px;
-    height: 34px;
-    background: #232323;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+.tree-wires path {
+    fill: none;
+    stroke: #2a2a2a;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
 }
 .tree-node.is-target {
     border-color: #3f3f46;
@@ -1508,6 +1880,92 @@
 }
 
 /* ===== Слайд 19: как ломается магия Svelte 4 ===== */
+/* ===== Слайды Svelte =====
+   Слева исходник, справа то, во что он превращается: обе колонки читаются
+   как одна строка «было → стало», поэтому сетка, а не два блока подряд. */
+.compile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 36px;
+    align-items: start;
+    margin: 28px 0 0;
+}
+.compile-side {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.compile-side .code-note {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+}
+/* Кусок результата компиляции: до сборки его нет, потом он проявляется. */
+.out-line {
+    display: block;
+    opacity: 0.12;
+    filter: blur(2px);
+    transition: opacity 0.4s ease, filter 0.4s ease, background 0.3s ease;
+}
+.out-line.is-shown {
+    opacity: 1;
+    filter: none;
+}
+.out-line.is-lit {
+    background: #12181f;
+    box-shadow: inset 3px 0 0 #93c5fd;
+}
+
+/* Листинг, который подменяется кнопкой: «вынесли в файл» должно быть видно
+   в самом коде, а не только в подписи. */
+.code-swap .code-box.is-broken {
+    border-color: #3f2020;
+}
+
+/* Руны списком — те же пояснения, что у строк кода, но с другой стороны. */
+.runes-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.rune {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: left;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #080808;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.rune:hover {
+    border-color: #3f3f46;
+}
+.rune.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+}
+.rune b {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: #93c5fd;
+}
+.rune span {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #71717a;
+}
+/* На слайде про руны цепочка не рвётся — красить её в тревожный цвет нечем. */
+.break-demo.is-fixed .break-arrow-line {
+    background: #34d399;
+}
+.break-demo.is-fixed .break-arrow em {
+    color: #34d399;
+}
+
 .break-demo {
     display: flex;
     flex-direction: column;
@@ -1650,6 +2108,24 @@
 }
 
 /* ===== Слайд 24: таймлайн загрузки ===== */
+.qwik-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 36px;
+    align-items: start;
+    margin: 26px 0 0;
+}
+.qwik-code,
+.qwik-side {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.qwik-side .code-note {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+}
 .boot {
     display: flex;
     flex-direction: column;
@@ -1666,8 +2142,8 @@
 }
 .boot-steps {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: stretch;
+    gap: 28px;
     margin-top: 12px;
     flex-wrap: wrap;
 }
@@ -1684,7 +2160,7 @@
 .boot-step + .boot-step::before {
     content: '→';
     position: absolute;
-    left: -19px;
+    left: -21px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 14px;
@@ -1717,76 +2193,104 @@
     color: #34d399;
 }
 
-/* ===== Слайд 25: сводная таблица ===== */
-.cmp-wrap {
+/* ===== Слайд «Как развивалась реактивность» =====
+   Строка — фреймворк, столбец — эпоха. Вехи стоят каждая в своей эпохе,
+   поэтому по вертикали читается «кто когда до этого дошёл», а по горизонтали —
+   путь одного фреймворка. Позиции задаются классами r1…r6 и c1…c6: пустых
+   ячеек в разметке нет, в сетку попадают только сами вехи. */
+.era-grid {
+    display: grid;
+    grid-template-columns: 132px repeat(6, minmax(0, 1fr));
+    grid-template-rows: auto repeat(6, minmax(0, 1fr));
+    gap: 12px;
     margin: 30px 0 0;
+    align-items: stretch;
+    /* Строки — доли высоты: без нижней границы лента жалась к заголовку
+       и половина слайда оставалась пустой. */
+    min-height: 780px;
 }
-.cmp-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 17px;
-}
-.cmp-table th,
-.cmp-table td {
-    text-align: left;
-    padding: 11px 16px;
-    border-bottom: 1px solid #1a1a1a;
-    vertical-align: middle;
-}
-.cmp-table thead th {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+.era-head {
+    grid-row: 1;
+    align-self: end;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #232323;
+    font-family: var(--font-mono);
+    font-size: 14px;
     color: #52525b;
-    border-bottom-color: #2a2a2a;
 }
-.cmp-table tbody th {
+.era-name {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 19px;
     font-weight: 600;
-    color: #fff;
-    white-space: nowrap;
+    color: #ededed;
 }
-.cmp-table td {
-    color: var(--text-muted);
+.era-mark {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
 }
-.cmp-table tbody tr:hover td,
-.cmp-table tbody tr:hover th {
-    background: #0d0d0d;
+/* У React логотипа в спрайте нет — ставим нейтральную точку в его цвете. */
+.era-mark.is-react {
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background: #61dafb;
 }
-.cmp-table tbody tr.is-highlight th {
-    color: #fff;
+/* Линия эпохи под вехами: показывает, что путь непрерывный. */
+.era-track {
+    grid-column: 2 / -1;
+    align-self: center;
+    height: 1px;
+    background: #202020;
 }
-.cmp-table tbody tr.is-highlight {
-    background: #0b0b0b;
+.era-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #0a0a0a;
+    padding: 10px 14px;
+    position: relative;
+    z-index: 1;
 }
-.cmp-table .is-yes {
-    color: #f87171;
+.era-item b {
     font-family: var(--font-mono);
-    font-size: 15px;
-}
-.cmp-table .is-no {
-    color: #34d399;
-    font-family: var(--font-mono);
-    font-size: 15px;
-}
-.pill {
-    display: inline-block;
-    margin-right: 8px;
-    padding: 3px 10px;
-    border-radius: 999px;
-    border: 1px solid #2a2a2a;
     font-size: 13px;
+    color: #71717a;
+}
+.era-item span {
+    font-size: 15px;
+    line-height: 1.35;
     color: #a1a1aa;
 }
-.pill.is-fine {
-    border-color: #2c4a3c;
-    color: #34d399;
+.era-item.is-now {
+    border-color: #3f3f46;
+    background: #101010;
 }
-.pill.is-coarse {
-    border-color: #4a2c2c;
-    color: #f87171;
+.era-item.is-now b {
+    color: #fff;
 }
+.era-item.is-now span {
+    color: #ededed;
+}
+.c1 { grid-column: 2; }
+.c2 { grid-column: 3; }
+.c3 { grid-column: 4; }
+.c4 { grid-column: 5; }
+.c5 { grid-column: 6; }
+.c6 { grid-column: 7; }
+.r1 { grid-row: 2; }
+.r2 { grid-row: 3; }
+.r3 { grid-row: 4; }
+.r4 { grid-row: 5; }
+.r5 { grid-row: 6; }
+.r6 { grid-row: 7; }
 
 /* ===== Слайд 26: вывод ===== */
 .final-grid {

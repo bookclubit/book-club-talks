@@ -246,9 +246,16 @@
 .content-slide > .uses + * {
     margin-top: auto !important;
 }
+.content-slide > .uses + .interactive-block,
+.content-slide > .slide-lead + .interactive-block {
+    margin-top: 0 !important;
+}
 /* Карточка инструмента: значок и имя видны всегда, объяснение приезжает
    на наведении, клик уводит в официальную документацию. Поповер снизу —
    сверху он налезал бы на лид и мог уехать за край слайда. */
+.content-slide > .uses {
+    padding-bottom: 24px;
+}
 .uses {
     position: relative;
     z-index: 5;
@@ -947,8 +954,8 @@
     line-height: 1.45;
 }
 .ng-code .code-box {
-    font-size: 16px;
-    line-height: 1.48;
+    font-size: 15px;
+    line-height: 1.5;
 }
 /* ===== Подсветка синтаксиса =====
    Разметка ручная (highlight.js тянуть нельзя — доклад автономен), палитра —
@@ -1052,6 +1059,11 @@
 /* Панель пояснения — правая колонка первой строки. Место в сетке задаём явно:
    при автоматическом размещении панель уезжала строкой ниже, и слайд
    становился выше 1080px. */
+.code-note:empty,
+.wide-note:empty {
+    display: none;
+    min-height: 0;
+}
 .code-note {
     grid-column: 2;
     grid-row: 1;
@@ -1061,13 +1073,13 @@
     min-height: 300px;
 }
 .code-note h3 {
-    font-size: 26px !important;
-    margin-bottom: 14px !important;
+    font-size: 22px !important;
+    margin-bottom: 12px !important;
     color: #fff;
 }
 .code-note p {
-    font-size: 18px !important;
-    line-height: 1.6 !important;
+    font-size: 16px !important;
+    line-height: 1.55 !important;
 }
 .code-note b {
     color: #ededed;
@@ -1094,18 +1106,15 @@
     background: linear-gradient(90deg, rgba(147, 197, 253, 0.09), rgba(255, 255, 255, 0));
     flex-shrink: 0;
 }
-.wide-note:empty {
-    display: none;
-}
 .wide-note h3 {
     margin: 0 0 8px;
-    font-size: 24px;
+    font-size: 22px;
     color: #fff;
 }
 .wide-note p {
     margin: 0;
-    font-size: 18px;
-    line-height: 1.55;
+    font-size: 17px;
+    line-height: 1.5;
     color: #d4d4d8;
 }
 
@@ -1936,7 +1945,7 @@
 .compile-side {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 14px;
 }
 .compile-side .code-note {
     grid-column: auto;
@@ -2275,14 +2284,6 @@
     height: 22px;
     flex-shrink: 0;
 }
-/* У React логотипа в спрайте нет — ставим нейтральную точку в его цвете. */
-.era-mark.is-react {
-    width: 12px;
-    height: 12px;
-    margin: 0 5px;
-    border-radius: 50%;
-    background: #61dafb;
-}
 /* Линия эпохи под вехами: показывает, что путь непрерывный. */
 .era-track {
     grid-column: 2 / -1;
@@ -2342,7 +2343,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
     gap: 36px;
-    align-items: start;
+    align-items: stretch;
     margin: 30px 0 0;
 }
 .split-side {
@@ -2359,6 +2360,11 @@
     border-color: #3f2f2f;
     background: #0a0808;
 }
+/* Единственная карточка — по центру своей колонки: иначе она болталась
+   бы вверху, а справа зияла пустота. */
+.split-side.is-alone .conv {
+    margin: auto 0;
+}
 .split-side .section-label {
     margin-bottom: 6px;
 }
@@ -2371,13 +2377,6 @@
 .conv-mark {
     width: 30px;
     height: 30px;
-}
-.conv-mark.is-react {
-    width: 14px;
-    height: 14px;
-    margin: 0 6px;
-    border-radius: 50%;
-    background: #61dafb;
 }
 .conv b {
     font-size: 24px;

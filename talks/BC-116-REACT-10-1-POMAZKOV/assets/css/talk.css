@@ -246,7 +246,12 @@
 .content-slide > .uses + * {
     margin-top: auto !important;
 }
+/* Карточка инструмента: значок и имя видны всегда, объяснение приезжает
+   на наведении, клик уводит в официальную документацию. Поповер снизу —
+   сверху он налезал бы на лид и мог уехать за край слайда. */
 .uses {
+    position: relative;
+    z-index: 5;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
@@ -255,22 +260,122 @@
     list-style: none;
     flex-shrink: 0;
 }
-.uses li {
-    flex: 1 1 260px;
+.use {
+    position: relative;
+}
+.use-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     border: 1px solid #1e1e1e;
     border-radius: 12px;
-    background: #080808;
-    padding: 12px 18px;
-    font-size: 15px;
-    line-height: 1.4;
-    color: #71717a;
+    background: #0a0a0a;
+    padding: 9px 16px 9px 9px;
+    text-decoration: none;
+    transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s ease;
 }
-.uses li b {
-    display: block;
-    margin-bottom: 3px;
+.use:hover .use-card {
+    border-color: #93c5fd;
+    background: #0f1620;
+    transform: translateY(-2px);
+}
+.use-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #121212;
+    color: #71717a;
+    transition: color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+}
+.use:hover .use-icon {
+    color: #93c5fd;
+    background: #142033;
+    transform: scale(1.08) rotate(-6deg);
+}
+.use-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.use-name {
     font-family: var(--font-mono);
     font-size: 15px;
-    font-weight: 500;
+    color: #d4d4d8;
+    transition: color 0.22s ease;
+}
+.use:hover .use-name {
+    color: #fff;
+}
+.use-go {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    color: #2f2f33;
+    transition: color 0.22s ease, transform 0.22s ease;
+}
+.use:hover .use-go {
+    color: #93c5fd;
+    transform: translate(2px, -2px);
+}
+.use-pop {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 320px;
+    padding: 14px 18px;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    background: #0d0d0d;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a1a1aa;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.use:hover .use-pop {
+    opacity: 1;
+    transform: translateY(0);
+}
+.use-pop::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 24px;
+    width: 9px;
+    height: 9px;
+    border-left: 1px solid #2a2a2a;
+    border-top: 1px solid #2a2a2a;
+    background: #0d0d0d;
+    transform: rotate(45deg);
+}
+/* У крайней справа карточки поповер прижимается правым краем — иначе уезжает. */
+.use:last-child .use-pop {
+    left: auto;
+    right: 0;
+}
+.use:last-child .use-pop::before {
+    left: auto;
+    right: 24px;
+}
+.use-pop em {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--font-sans);
+    font-size: 13px;
     color: #93c5fd;
 }
 
@@ -676,14 +781,6 @@
     flex-direction: column;
     gap: 24px;
 }
-.cycle-top {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-.cycle-top .cycle-component {
-    flex: 1;
-}
 .react-cycle {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
@@ -754,21 +851,43 @@
     line-height: 1.45;
     color: #71717a;
 }
-/* Живой компонент под шагами — строкой: слайд и так высокий из-за листинга. */
-.cycle-component {
-    display: flex;
+/* Нулевой шаг — сам компонент: та же карточка, что у остальных шагов,
+   только с кнопкой справа. Цикл начинается с клика по нему. */
+.cycle-step.is-live {
+    grid-template-columns: 46px minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    width: 100%;
-    border: 1px solid #3f3f46;
-    border-radius: 18px;
+    opacity: 1;
+    border-color: #3f3f46;
     background: #0b0b0b;
-    padding: 16px 24px;
+    cursor: default;
+}
+.cycle-step.is-live:hover {
+    border-color: #3f3f46;
+}
+.cycle-step.is-live b {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: #52525b;
+}
+.cycle-step.is-live .live-value {
+    grid-column: 2;
+    font-size: 19px;
+    color: #d4d4d8;
+}
+.cycle-step.is-live .live-value i {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-style: normal;
+    color: #fff;
+}
+.cycle-step.is-live .demo-btn {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
 }
 /* Перерендер — вспышка всей рамки компонента: единица обновления в React
    именно компонент, и это должно быть видно глазом. */
-.cycle-component.is-rerender {
+.cycle-step.is-live.is-rerender {
     animation: rerenderFlash 0.55s ease;
 }
 @keyframes rerenderFlash {
@@ -781,20 +900,6 @@
         border-color: #f87171;
         background: #1a0f0f;
     }
-}
-.cycle-component-label {
-    font-family: var(--font-mono);
-    font-size: 15px;
-    color: #52525b;
-}
-.cycle-component-value {
-    font-size: 22px;
-    color: #d4d4d8;
-}
-.cycle-component-value b {
-    font-family: var(--font-mono);
-    font-size: 30px;
-    color: #fff;
 }
 /* Строка кода, привязанная к шагу цикла: подсвечивается не по клику, а по
    ходу анимации, поэтому свой класс — курсор и hover тут не нужны. */
@@ -945,8 +1050,8 @@
     color: #fff;
 }
 /* Панель пояснения — правая колонка первой строки. Место в сетке задаём явно:
-   у подписи .code-hint своя колонка, и при автоматическом размещении панель
-   уезжала строкой ниже — слайд становился выше 1080px. */
+   при автоматическом размещении панель уезжала строкой ниже, и слайд
+   становился выше 1080px. */
 .code-note {
     grid-column: 2;
     grid-row: 1;
@@ -989,6 +1094,9 @@
     background: linear-gradient(90deg, rgba(147, 197, 253, 0.09), rgba(255, 255, 255, 0));
     flex-shrink: 0;
 }
+.wide-note:empty {
+    display: none;
+}
 .wide-note h3 {
     margin: 0 0 8px;
     font-size: 24px;
@@ -1001,12 +1109,6 @@
     color: #d4d4d8;
 }
 
-.code-hint {
-    grid-column: 1;
-    margin: 14px 0 0;
-    font-size: 15px;
-    color: #52525b;
-}
 /* Приписка внутри окна кода (под листингом). */
 .two-code-note {
     margin: 0;
@@ -1671,29 +1773,6 @@
     color: #71717a;
     max-width: 380px;
 }
-.bench-row {
-    display: flex;
-    gap: 22px;
-    margin: 8px 0 0;
-}
-.bench {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    border: 1px solid #232323;
-    border-radius: 16px;
-    background: #080808;
-    padding: 18px 26px;
-}
-.bench b {
-    font-family: var(--font-mono);
-    font-size: 30px;
-    color: #fff;
-}
-.bench span {
-    font-size: 15px;
-    color: #71717a;
-}
 
 /* ===== Слайды Angular: код и пояснение слева, шаги и дерево справа =====
    Шаг, строка кода и подсветка дерева — одно и то же событие, показанное
@@ -2256,136 +2335,69 @@
 .r5 { grid-row: 6; }
 .r6 { grid-row: 7; }
 
-/* ===== Итоговый слайд: тренды реактивности =====
-   Слева — кто чем пользуется, справа — три цифры, которые из этого следуют.
-   Полоса окрашена по модели реактивности, поэтому «сигналы победили» читается
-   прямо с диаграммы, без отдельной подписи под каждой строкой. */
-.trend-grid {
+/* ===== Итоговый слайд: кто перешёл на сигналы =====
+   Слева шестеро с годом перехода, справа один-единственный, кто пошёл иначе.
+   Счёт «шесть против одного» читается с расстояния, без подписей и цифр. */
+.split {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-    gap: 44px;
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: 36px;
     align-items: start;
     margin: 30px 0 0;
 }
-.trend-chart {
+.split-side {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 20px;
+    border: 1px solid #232323;
+    border-radius: 20px;
+    background: #080808;
+    padding: 36px 38px;
 }
-.tbar {
+.split-side.is-alone {
+    border-style: dashed;
+    border-color: #3f2f2f;
+    background: #0a0808;
+}
+.split-side .section-label {
+    margin-bottom: 6px;
+}
+.conv {
     display: grid;
-    grid-template-columns: 130px minmax(0, 1fr) 66px 210px;
+    grid-template-columns: 32px 124px 66px minmax(0, 1fr);
     align-items: center;
     gap: 16px;
 }
-.tbar-name {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 19px;
-    font-weight: 600;
-    color: #ededed;
-}
-.tbar-track {
+.conv-mark {
+    width: 30px;
     height: 30px;
-    border-radius: 8px;
-    background: #101010;
-    overflow: hidden;
 }
-.tbar-track i {
-    display: block;
-    height: 100%;
-    border-radius: 8px;
-    background: #3f3f46;
+.conv-mark.is-react {
+    width: 14px;
+    height: 14px;
+    margin: 0 6px;
+    border-radius: 50%;
+    background: #61dafb;
 }
-.tbar.is-signal .tbar-track i {
-    background: linear-gradient(90deg, #1f6f52, #34d399);
+.conv b {
+    font-size: 24px;
+    color: #fff;
 }
-.tbar-val {
+.conv-year {
     font-family: var(--font-mono);
     font-size: 18px;
-    color: #fff;
-    text-align: right;
+    color: #52525b;
 }
-.tbar-tag {
-    font-size: 15px;
-    color: #71717a;
+.conv-what {
+    font-size: 17px;
+    line-height: 1.4;
+    color: #a1a1aa;
 }
-.tbar.is-signal .tbar-tag {
-    color: #34d399;
+/* Одинокая карточка справа — в столбик: колонок для неё всё равно нет. */
+.conv.is-alone {
+    grid-template-columns: 32px 124px 66px;
+    row-gap: 14px;
 }
-.trend-legend {
-    display: flex;
-    gap: 24px;
-    margin-top: 6px;
-    padding-left: 146px;
+.conv.is-alone .conv-what {
+    grid-column: 1 / -1;
 }
-.trend-key {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: #71717a;
-}
-.trend-key::before {
-    content: '';
-    width: 14px;
-    height: 10px;
-    border-radius: 3px;
-    background: #3f3f46;
-}
-.trend-key.is-signal::before {
-    background: #34d399;
-}
-
-.trend-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.stat {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    border: 1px solid #232323;
-    border-radius: 18px;
-    background: #080808;
-    padding: 22px 26px;
-}
-.stat.is-accent {
-    border-color: #3f3f46;
-    background: #0d0d0d;
-}
-.stat > b {
-    font-family: var(--font-mono);
-    font-size: 34px;
-    line-height: 1;
-    color: #fff;
-}
-.stat > span {
-    font-size: 16px;
-    line-height: 1.5;
-    color: #71717a;
-}
-.stat > span b {
-    color: #ededed;
-    font-weight: 600;
-}
-.stat a {
-    color: #93c5fd;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(147, 197, 253, 0.35);
-}
-.stat a:hover {
-    color: #fff;
-    border-bottom-color: #fff;
-}
-/* Откуда цифры: доклад ссылается на источник, а не просит верить на слово. */
-.trend-source {
-    margin: 18px 0 0;
-    font-size: 13px;
-    line-height: 1.5;
-    color: #3f3f46;
-    flex-shrink: 0;
-}
-

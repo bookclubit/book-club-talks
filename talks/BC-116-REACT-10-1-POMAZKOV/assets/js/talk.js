@@ -111,7 +111,8 @@
         var root = document.getElementById('reactCycle');
         if (!root) return;
 
-        var steps = root.querySelectorAll('.cycle-step');
+        // Нулевой шаг — сам компонент, в прогоне цикла он не участвует.
+        var steps = root.querySelectorAll('.cycle-step[data-step]');
         var codeLines = root.querySelectorAll('.cyc-line');
         var component = root.querySelector('[data-role="component"]');
         var value = root.querySelector('[data-role="count"]');

@@ -97,9 +97,255 @@
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <section class="slide" data-slide="3">
+                <style>
+                    /* ===== Контентные слайды спикера (вне «хром»-маркеров) ===== */
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card p + p { margin-top: 12px; }
+                    .cs-card b, .cs-list b, .cs-callout b, .cs-table b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 32px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 21px; line-height: 1.55; color: var(--text-main); max-width: 1560px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-list.tight { gap: 14px; }
+                    .cs-list.tight li { font-size: 19px; }
+                    .cs-callout { margin-top: 32px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1600px; }
+                    .cs-callout.quote { font-style: italic; }
+                    /* Таблица «сверяем часы»: у прошлого дека класс был, а стилей — нет. */
+                    .cs-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 19px; line-height: 1.5; }
+                    .cs-table th { text-align: left; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #71717a; font-weight: 500; padding: 0 24px 14px 0; border-bottom: 1px solid var(--border); }
+                    .cs-table td { padding: 16px 24px 16px 0; border-bottom: 1px solid #1c1c1c; color: var(--text-muted); vertical-align: top; }
+                    .cs-table td:first-child { color: var(--text-main); font-weight: 500; width: 33%; }
+                    .cs-table tr:last-child td { border-bottom: none; }
+                    /* Вердикт прогноза книги. */
+                    /* В таблице метка встаёт над текстом строки, иначе она разрывает первую фразу. */
+                    .cs-table td .cs-tag { display: block; width: fit-content; margin: 0 0 8px 0; }
+                    .cs-tag { display: inline-block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.09em; padding: 3px 12px; border-radius: 9999px; border: 1px solid var(--border); color: #a1a1aa; margin-right: 10px; font-weight: 500; }
+                    .cs-tag.ok { border-color: #14532d; background: rgba(34,197,94,0.10); color: #4ade80; }
+                    .cs-tag.part { border-color: #713f12; background: rgba(234,179,8,0.10); color: #facc15; }
+                    .cs-tag.no { border-color: #7f1d1d; background: rgba(239,68,68,0.10); color: #f87171; }
+                    /* Код: те же токены подсветки (.s-kw/.s-str/.s-com/.s-var), что и у «хрома». */
+                    .cs-code-grid { display: grid; gap: 24px; margin-top: 30px; }
+                    .cs-code-grid.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-code { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+                    .cs-code-head { padding: 13px 22px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); display: flex; align-items: center; gap: 10px; }
+                    .cs-code-head .cs-dot { width: 9px; height: 9px; border-radius: 50%; background: #333; flex-shrink: 0; }
+                    .cs-code-head .cs-code-note { margin-left: auto; font-size: 13px; color: #52525b; text-transform: uppercase; letter-spacing: 0.08em; }
+                    .cs-code pre { margin: 0; padding: 20px 26px; font-family: var(--font-mono); font-size: 17px; line-height: 1.62; color: #a1a1aa; overflow: auto; }
+                    .cs-code pre mark { background: rgba(255,255,255,0.10); color: #fff; padding: 1px 4px; border-radius: 4px; }
+                    .cs-two { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 34px; margin-top: 30px; align-items: start; }
+                    .cs-two .cs-code-grid, .cs-two .cs-cards { margin-top: 0; }
+                    .cs-two .cs-list { margin-top: 0; }
+                    .cs-qa { counter-reset: q; margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+                    .cs-qa details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+                    .cs-qa summary { cursor: pointer; list-style: none; display: flex; gap: 22px; align-items: baseline; padding: 18px 28px; font-size: 21px; line-height: 1.4; color: var(--text-main); }
+                    .cs-qa summary::-webkit-details-marker { display: none; }
+                    .cs-qa summary > span { flex: 1; }
+                    .cs-qa summary::before { counter-increment: q; content: '0' counter(q); font-family: var(--font-mono); font-size: 15px; color: #71717a; letter-spacing: 0.1em; flex-shrink: 0; }
+                    .cs-qa summary::after { content: '+'; margin-left: auto; color: #71717a; font-size: 26px; line-height: 1; flex-shrink: 0; }
+                    .cs-qa details[open] summary::after { content: '−'; }
+                    .cs-qa details[open] summary { border-bottom: 1px solid var(--border); }
+                    .cs-qa .cs-qa-a { margin: 0; padding: 16px 28px 20px 79px; font-size: 19px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-qa b { color: #fff; font-weight: 600; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 10 · Слово, которое все понимают по-разному</div>
+                    <h2 class="gradient-text">Что вообще значит «реактивный»</h2>
+                    <p class="cs-lead">Термин «реактивный» описывает в программировании слишком многое. Чаще всего — системы, которые <b>автоматически обновляются в ответ на изменения в данных</b>: изменения распространяются по системе сами. Поэтому Vue.js и Svelte называют реактивными. React — при всём своём названии — традиционной модели реактивности не следует.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Традиционная реактивность</h3>
+                            <p>Зависимости между вычислениями <b>отслеживаются автоматически по мере выполнения кода</b>. Когда реактивная зависимость меняется, все вычисления, которые от неё зависят, выполняются повторно — сами.</p>
+                            <p>Обычно это делается через <b>привязку данных, отслеживание значений, сигналы и временные интервалы</b>.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Сигнал — reactivity 101</h3>
+                            <p>Сигнал — реактивный примитив для создания реактивных значений. <b>При чтении</b> читатель, получающий сигнал, на него подписывается. <b>При записи</b> нового значения все подписчики получают уведомление.</p>
+                            <p>По сути это знакомый шаблон <b>pub/sub</b>: подписчик подписывается на издателя, издатель рассылает уведомления.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">React идёт другим путём. Вместо автоматического отслеживания зависимостей и распространения изменений он вводит <b>более явный механизм обновления состояния — хук useState</b>. При изменении состояния React не отображает обновление немедленно, а <b>планирует повторный рендеринг</b>, во время которого вся функция компонента запускается снова с новым состоянием.</div>
+                </div>
+            </section>
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Один и тот же счётчик · две модели</div>
+                    <h2 class="gradient-text">Крупнозернистая против мелкозернистой</h2>
+                    <p class="cs-lead">Тот же счётчик в React и в Solid — платформе с реактивной моделью. Код почти совпадает, а происходящее внутри противоположно.</p>
+                    <div class="cs-code-grid c2">
+                        <div class="cs-code">
+                            <div class="cs-code-head"><span class="cs-dot"></span>Counter.jsx · React<span class="cs-code-note">крупнозернистая</span></div>
+<pre><span class="s-kw">import</span> React, { useState } <span class="s-kw">from</span> <span class="s-str">"react"</span>;
+
+<span class="s-kw">function</span> <span class="s-var">Counter</span>() {
+  <span class="s-kw">const</span> [count, setCount] = <mark>useState(0)</mark>;
+
+  <span class="s-kw">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;{<mark>count</mark>}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <div class="cs-code">
+                            <div class="cs-code-head"><span class="cs-dot"></span>Counter.jsx · Solid<span class="cs-code-note">мелкозернистая</span></div>
+<pre><span class="s-kw">import</span> { createSignal } <span class="s-kw">from</span> <span class="s-str">"solid"</span>;
+
+<span class="s-kw">function</span> <span class="s-var">Counter</span>() {
+  <span class="s-kw">const</span> [count, setCount] = <mark>createSignal(0)</mark>;
+
+  <span class="s-kw">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;{<mark>count()</mark>}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count() + 1)}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                    </div>
+                    <div class="cs-callout"><b>React:</b> вызывается <span class="s-var">setCount</span> — и функция <span class="s-var">Counter</span> вызывается повторно целиком, включая сам хук <span class="s-var">useState</span>. <b>Solid:</b> вызывая <span class="s-var">count()</span> внутри <span class="s-var">&lt;p&gt;</span>, мы неявно подписали <b>этот кусок JSX</b> на реактивное значение; <span class="s-var">setCount</span> уведомляет подписчиков, и <b>функция Counter больше никогда не вызывается</b> — обновляются только детализированные реактивные значения.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Формула, которую все цитируют</div>
+                    <h2 class="gradient-text">v = f(s) описывает как раз нереактивность</h2>
+                    <p class="cs-lead">React часто отождествляют с выражением <b>v = f(s)</b> — представление является функцией своего состояния. Само это выражение и описывает нереактивный характер React: представление <b>является</b> функцией состояния, но не обновляется автоматически при его изменении. Оно обновляется, когда функция <b>повторно выполняется</b> с новым состоянием.</p>
+                    <ul class="cs-list">
+                        <li><span>Состояние компонента или его пропсы изменяются — <b>явно</b>, через вызов сеттера.</span></li>
+                        <li><span>React повторно отображает компонент, <b>создавая новое поддерево виртуального DOM</b>.</span></li>
+                        <li><span>Сравнивает новое поддерево со старым и <b>вычисляет минимальный набор фактических мутаций</b>.</span></li>
+                        <li><span>Применяет эти мутации к реальному DOM — здесь начинается согласование.</span></li>
+                    </ul>
+                    <div class="cs-callout quote">Если React очеловечить, он сказал бы: «Расскажите мне, какое состояние вы ожидаете, и я позабочусь об этом».</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Пример из книги · зависимые значения</div>
+                    <h2 class="gradient-text">Производное значение: считается само или пересчитывается?</h2>
+                    <p class="cs-lead">Компонент показывает список элементов и их количество. В реактивной системе количество обновляется автоматически при каждом изменении списка.</p>
+                    <div class="cs-code-grid c2">
+                        <div class="cs-code">
+                            <div class="cs-code-head"><span class="cs-dot"></span>ItemList.svelte<span class="cs-code-note">реактивная инструкция</span></div>
+<pre>&lt;script&gt;
+  <span class="s-kw">let</span> items = [<span class="s-str">'Apple'</span>, <span class="s-str">'Banana'</span>, <span class="s-str">'Cherry'</span>];
+  <mark>$: count = items.length;</mark>
+&lt;/script&gt;
+
+&lt;p&gt;{count} items:&lt;/p&gt;
+&lt;ul&gt;
+  {#each items <span class="s-kw">as</span> item (item)}
+    &lt;li&gt;{item}&lt;/li&gt;
+  {/each}
+&lt;/ul&gt;</pre>
+                        </div>
+                        <div class="cs-code">
+                            <div class="cs-code-head"><span class="cs-dot"></span>ItemList.jsx · React<span class="cs-code-note">значение на этапе рендеринга</span></div>
+<pre><span class="s-kw">function</span> <span class="s-var">ItemList</span>() {
+  <span class="s-kw">const</span> [items, setItems] = useState([<span class="s-str">"Apple"</span>, <span class="s-str">"Banana"</span>]);
+  <mark><span class="s-kw">const</span> count = items.length;</mark>
+
+  <span class="s-com">// ... где-то происходит обновление items ...</span>
+
+  <span class="s-kw">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;{count} items:&lt;/p&gt;
+      &lt;ul&gt;{items.map((i) =&gt; &lt;li key={i}&gt;{i}&lt;/li&gt;)}&lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                    </div>
+                    <div class="cs-callout"><b>Svelte:</b> <span class="s-var">$:</span> объявляет реактивную инструкцию — всякий раз, когда меняется <span class="s-var">items</span>, <span class="s-var">count</span> пересчитывается сам. <b>React:</b> <span class="s-var">count</span> — не реактивное значение, а <b>значение, полученное из текущего состояния на этапе рендеринга</b>. Чтобы оно обновилось, нужно вызвать <span class="s-var">setItems</span> и инициировать повторный рендеринг: <b>count пересчитывается не потому, что «реагирует», а потому что функция ItemList активирована повторно</b>.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Что React покупает этим обменом</div>
+                    <h2 class="gradient-text">Явность вместо автоматизма</h2>
+                    <p class="cs-lead">Модель явного задания состояния и повторной визуализации — не недоработка, а выбор. Взамен автоматического распространения изменений она даёт три вещи.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <h3>Предсказуемость</h3>
+                            <p>Изменения не разбегаются по системе сами. Разработчик <b>явно описывает, каким должен быть UI для данного состояния</b>, и упрощает себе анализ состояния приложения в любой момент времени.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Атомарность и батчинг</h3>
+                            <p>Обновление состояния и результирующее обновление интерфейса <b>связаны в рамках одной атомарной операции</b>. Отсюда же — пакетное обновление состояния: несколько сеттеров дают один рендер.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Контроль</h3>
+                            <p><span class="s-var">state</span> и <span class="s-var">props</span> как единственный источник отображения дают <b>чёткую модель того, как изменения распространяются по приложению</b>, а виртуальный DOM эффективно управляет обновлениями реального.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Плата за это ровно та, о которой говорит название доклада: компоненты React <b>не реагируют автоматически на изменения в данных</b>. React даёт команду применить необходимые обновления путём <b>повторного выполнения функций</b>, а не обновляет соответствующие значения на месте.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Вывод книги</div>
+                    <h2 class="gradient-text">В конечном счёте это спор о семантике</h2>
+                    <p class="cs-lead">Книга не пытается закрыть вопрос лозунгом — она показывает, что ответ зависит от определения.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Реактивность = автоматическое распространение изменений</h3>
+                            <p>Тогда <b>нет, React не является реактивным</b>. Он не отслеживает зависимости сам и не рассылает изменения по системе — он перезапускает функции.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Реактивность = способность реагировать на изменения состояния предсказуемо и контролируемо</h3>
+                            <p>Тогда <b>да, React безусловно можно считать реактивным</b> — и именно эта трактовка объясняет, почему он оказался невероятно эффективным для сложных интерфейсов.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Главное, что стоит унести: <b>универсального подхода к управлению состоянием и реактивностью не существует</b>. У каждого инструмента свои сильные стороны и недостатки; понимание различий помогает выбрать подходящий и писать более эффективный код независимо от платформы.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="9">
+                <div class="cs">
+                    <div class="badge">Август 2026 · Сверяем часы</div>
+                    <h2 class="gradient-text">Изменился ли ответ за два года</h2>
+                    <p class="cs-lead">Книга писалась до React 19 и до стабильного компилятора. Проверим, устояли ли её утверждения.</p>
+                    <table class="cs-table">
+                        <tr><th>Утверждение книги</th><th>Август 2026</th></tr>
+                        <tr><td><span class="cs-tag ok">в силе</span> Реактивность React — крупнозернистая: перезапускается вся функция компонента</td><td>Модель не изменилась. React по-прежнему <b>pull-based</b>: сеттер планирует рендер, функция запускается заново, дальше согласование виртуального DOM</td></tr>
+                        <tr><td><span class="cs-tag part">снято частично</span> Мелкозернистость достижима, но «нужно помнить про memo»</td><td><b>React Compiler v1.0</b> (стабилен с 7 октября 2025) расставляет мемоизацию сам, на основе анализа и эвристик. <span class="s-var">useMemo</span>, <span class="s-var">useCallback</span> и <span class="s-var">memo</span> остались <b>аварийным люком</b> для точного контроля, а не повседневной обязанностью</td></tr>
+                        <tr><td><span class="cs-tag ok">в силе</span> Сигналы — не путь React</td><td><b>Angular 20, Vue 4, Solid</b> сделали сигналы основным API. <b>TC39 proposal-signals</b> — <b>Stage 1</b>, среди авторов Angular, Vue, Solid, Preact, Ember, Qwik, MobX; React выбрал компилятор</td></tr>
+                        <tr><td><span class="cs-tag part">развилось</span> Явный контроль над тем, что и когда рендерится</td><td>React 19.2 добавил <span class="s-var">&lt;Activity&gt;</span> (видимый / скрытый / приостановленный UI), <span class="s-var">useEffectEvent</span>, <span class="s-var">cacheSignal</span> и частичный пререндеринг — <b>больше контроля внутри той же нереактивной модели</b></td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10">
+                <div class="cs">
+                    <div class="badge">Что забрать с собой</div>
+                    <h2 class="gradient-text">React не значит реактивный — в четырёх строках</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Реактивность — это автоотслеживание зависимостей.</b> Чтение подписывает, запись уведомляет. React так не работает: он требует явного вызова сеттера.</span></li>
+                        <li><span><b>v = f(s) — про нереактивность.</b> Представление есть функция состояния, но обновляется не само, а повторным выполнением функции с новым состоянием.</span></li>
+                        <li><span><b>Крупнозернистая против мелкозернистой.</b> React перезапускает функцию компонента целиком; сигнальные платформы обновляют только те узлы, которые читали значение.</span></li>
+                        <li><span><b>Спор о семантике, а не о качестве.</b> «Автораспространение изменений» — нет; «предсказуемая и контролируемая реакция на изменение состояния» — да. Модель React даёт превосходный баланс между контролем и удобством работы.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+
+<section class="slide" data-slide="11" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

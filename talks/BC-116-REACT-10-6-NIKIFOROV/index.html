@@ -97,9 +97,173 @@
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <section class="slide" data-slide="3">
+                <style>
+                    /* ===== Контентные слайды спикера (вне «хром»-маркеров) ===== */
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card p + p { margin-top: 12px; }
+                    .cs-card b, .cs-list b, .cs-callout b, .cs-table b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 32px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 21px; line-height: 1.55; color: var(--text-main); max-width: 1560px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-list.tight { gap: 14px; }
+                    .cs-list.tight li { font-size: 19px; }
+                    .cs-callout { margin-top: 32px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1600px; }
+                    .cs-callout.quote { font-style: italic; }
+                    /* Таблица «сверяем часы»: у прошлого дека класс был, а стилей — нет. */
+                    .cs-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 19px; line-height: 1.5; }
+                    .cs-table th { text-align: left; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #71717a; font-weight: 500; padding: 0 24px 14px 0; border-bottom: 1px solid var(--border); }
+                    .cs-table td { padding: 16px 24px 16px 0; border-bottom: 1px solid #1c1c1c; color: var(--text-muted); vertical-align: top; }
+                    .cs-table td:first-child { color: var(--text-main); font-weight: 500; width: 33%; }
+                    .cs-table tr:last-child td { border-bottom: none; }
+                    /* Вердикт прогноза книги. */
+                    /* В таблице метка встаёт над текстом строки, иначе она разрывает первую фразу. */
+                    .cs-table td .cs-tag { display: block; width: fit-content; margin: 0 0 8px 0; }
+                    .cs-tag { display: inline-block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.09em; padding: 3px 12px; border-radius: 9999px; border: 1px solid var(--border); color: #a1a1aa; margin-right: 10px; font-weight: 500; }
+                    .cs-tag.ok { border-color: #14532d; background: rgba(34,197,94,0.10); color: #4ade80; }
+                    .cs-tag.part { border-color: #713f12; background: rgba(234,179,8,0.10); color: #facc15; }
+                    .cs-tag.no { border-color: #7f1d1d; background: rgba(239,68,68,0.10); color: #f87171; }
+                    /* Код: те же токены подсветки (.s-kw/.s-str/.s-com/.s-var), что и у «хрома». */
+                    .cs-code-grid { display: grid; gap: 24px; margin-top: 30px; }
+                    .cs-code-grid.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-code { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+                    .cs-code-head { padding: 13px 22px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); display: flex; align-items: center; gap: 10px; }
+                    .cs-code-head .cs-dot { width: 9px; height: 9px; border-radius: 50%; background: #333; flex-shrink: 0; }
+                    .cs-code-head .cs-code-note { margin-left: auto; font-size: 13px; color: #52525b; text-transform: uppercase; letter-spacing: 0.08em; }
+                    .cs-code pre { margin: 0; padding: 20px 26px; font-family: var(--font-mono); font-size: 17px; line-height: 1.62; color: #a1a1aa; overflow: auto; }
+                    .cs-code pre mark { background: rgba(255,255,255,0.10); color: #fff; padding: 1px 4px; border-radius: 4px; }
+                    .cs-two { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 34px; margin-top: 30px; align-items: start; }
+                    .cs-two .cs-code-grid, .cs-two .cs-cards { margin-top: 0; }
+                    .cs-two .cs-list { margin-top: 0; }
+                    .cs-qa { counter-reset: q; margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+                    .cs-qa details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+                    .cs-qa summary { cursor: pointer; list-style: none; display: flex; gap: 22px; align-items: baseline; padding: 18px 28px; font-size: 21px; line-height: 1.4; color: var(--text-main); }
+                    .cs-qa summary::-webkit-details-marker { display: none; }
+                    .cs-qa summary > span { flex: 1; }
+                    .cs-qa summary::before { counter-increment: q; content: '0' counter(q); font-family: var(--font-mono); font-size: 15px; color: #71717a; letter-spacing: 0.1em; flex-shrink: 0; }
+                    .cs-qa summary::after { content: '+'; margin-left: auto; color: #71717a; font-size: 26px; line-height: 1; flex-shrink: 0; }
+                    .cs-qa details[open] summary::after { content: '−'; }
+                    .cs-qa details[open] summary { border-bottom: 1px solid var(--border); }
+                    .cs-qa .cs-qa-a { margin: 0; padding: 16px 28px 20px 79px; font-size: 19px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-qa b { color: #fff; font-weight: 600; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 10 · Шаг назад</div>
+                    <h2 class="gradient-text">Пять инструментов — одна анатомия</h2>
+                    <p class="cs-lead">Пять предыдущих докладов разбирали Vue, Angular, Svelte, Solid и Qwik по отдельности — каждый со своей философией и своей моделью реактивности. Здесь книга делает шаг назад: если смотреть не на различия, а на совпадения, то React и все четыре альтернативы устроены на удивление одинаково. Пять общих черт, которые отражают их общую цель.</p>
+                    <ul class="cs-list">
+                        <li><span><b>Архитектура, основанная на компонентах</b> — интерфейс разбит на части, каждая отвечает за свой кусок.</span></li>
+                        <li><span><b>Декларативный синтаксис</b> — описываем, как UI должен выглядеть, а не как его собрать.</span></li>
+                        <li><span><b>Механизм обновлений</b> — реакция на изменение состояния и приведение DOM в соответствие.</span></li>
+                        <li><span><b>Методы жизненного цикла</b> — точки входа на создание, обновление и удаление из DOM.</span></li>
+                        <li><span><b>Экосистема и инструменты</b> — ES6, модули, сборщики, TypeScript, devtools.</span></li>
+                    </ul>
+                    <div class="cs-callout">Цель у всех одна: <b>эффективно обновить интерфейс в ответ на изменение состояния</b>, спрятав от разработчика сложные манипуляции с DOM и дав ему сосредоточиться на логике приложения. Различаются только маршруты к этой цели.</div>
+                </div>
+            </section>
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Черты 1 и 2</div>
+                    <h2 class="gradient-text">Компоненты и декларативность</h2>
+                    <p class="cs-lead">Две первые общие черты настолько вросли в привычки, что уже не выглядят выбором — а это именно выбор, и десять лет назад он был неочевиден.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <span class="cs-num">01 · АРХИТЕКТУРА НА КОМПОНЕНТАХ</span>
+                            <h3>Интерфейс как набор независимых частей</h3>
+                            <p>Интерфейс разбит на отдельные части — компоненты, каждый отвечает за определённый участок UI. Компонент <b>инкапсулирует своё состояние и логику</b>, а из компонентов собираются сложные интерфейсы.</p>
+                            <p>Что даёт такая модульность: <b>повторное использование кода, разделение задач, обслуживаемость</b>. Во всех пяти платформах компоненты могут быть функциями, и их можно компоновать, расширять или декорировать, получая более сложные компоненты.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">02 · ДЕКЛАРАТИВНЫЙ СИНТАКСИС</span>
+                            <h3>«Как должно выглядеть», а не «что сделать с DOM»</h3>
+                            <p>Разработчик определяет, <b>как должен выглядеть интерфейс для данного состояния</b>, а фреймворк заботится о приведении UI в соответствие с этим состоянием. Это позволяет отказаться от императивных манипуляций с DOM — утомительных и подверженных ошибкам.</p>
+                            <p>Языки шаблонов при этом разные: <b>JSX</b> — React, Qwik, Solid; <b>синтаксис шаблонов на основе HTML</b> — Angular; <b>собственный язык, в основе которого лежит HTML</b> — Svelte.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Черта 3 · Различие внутри общей черты</div>
+                    <h2 class="gradient-text">Обновления: одна цель, четыре механизма</h2>
+                    <p class="cs-lead">Механизм реакции на изменение состояния есть у всех — но именно здесь общая черта расходится на разные инженерные решения.</p>
+                    <table class="cs-table">
+                        <tr><th>Инструмент</th><th>Как узнаёт об изменении</th><th>Как доносит до DOM</th></tr>
+                        <tr><td>React</td><td>Явный вызов сеттера состояния, повторный запуск функции компонента</td><td>Алгоритм изменений в <b>виртуальном DOM</b> — минимальный набор мутаций</td></tr>
+                        <tr><td>Vue</td><td>Реактивные объекты: чтение подписывает, запись уведомляет</td><td>Тоже <b>виртуальный DOM</b> и его сравнение</td></tr>
+                        <tr><td>Svelte</td><td>Зависимости размечены <b>компилятором на этапе сборки</b></td><td>Компилируется в <b>императивный код</b>, который обновляет DOM напрямую</td></tr>
+                        <tr><td>Angular</td><td><b>Обнаружение изменений в зонах</b> и наблюдаемые объекты</td><td>Обход дерева компонентов и точечное обновление</td></tr>
+                        <tr><td>Solid, Qwik</td><td><b>Сигналы</b>: подписка возникает в момент чтения значения</td><td>Обновляется только тот узел, который читал сигнал</td></tr>
+                    </table>
+                    <div class="cs-callout quote">Прогноз книги дословно: «Скорее всего, в дальнейшем React будет использовать vDOM, а все остальные — различные сигналы».</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Черты 4 и 5</div>
+                    <h2 class="gradient-text">Жизненный цикл и экосистема</h2>
+                    <p class="cs-lead">Две оставшиеся черты — про то, что вокруг компонента: когда фреймворк даёт нам слово и на каком инструментарии всё это живёт.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <span class="cs-num">04 · МЕТОДЫ ЖИЗНЕННОГО ЦИКЛА</span>
+                            <h3>Точки входа на этапах жизни компонента</h3>
+                            <p>React, Angular, Solid и Svelte дают методы или хуки — функции, вызываемые на разных этапах жизненного цикла компонента: <b>первое создание, обновление, удаление из DOM</b>.</p>
+                            <p>Зачем они нужны: <b>запуск побочных эффектов, очистка ресурсов, внесение обновлений на основе изменений в пропсах</b>. Названия разные (<span class="s-var">useEffect</span>, <span class="s-var">ngOnDestroy</span>, <span class="s-var">onMount</span>, <span class="s-var">onCleanup</span>) — назначение одно.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">05 · ЭКОСИСТЕМА И ИНСТРУМЕНТЫ</span>
+                            <h3>Общий фундамент современного JavaScript</h3>
+                            <p>Каждая платформа поддерживается богатой экосистемой инструментов, библиотек и ресурсов. Все работают с <b>синтаксисом ES6, модулями и средствами сборки</b>, и у всех <b>отличная поддержка TypeScript</b> — типобезопасный код доступен везде.</p>
+                            <p>Большинство также поставляется с <b>продвинутыми инструментами для опытных разработчиков</b> — отладка и профилирование приложений. React DevTools и Angular DevTools для популярных браузеров — отличные примеры.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Такой общий набор функций и концепций — не совпадение, а свидетельство того, что <b>веб-разработка эволюционировала в сторону модульных, декларативных и реактивных парадигм</b>.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Август 2026 · Сверяем часы</div>
+                    <h2 class="gradient-text">Прогноз про vDOM и сигналы</h2>
+                    <p class="cs-lead">Книга рискнула одной строчкой предсказать раскол по механизму обновлений. Спустя два года можно выставить оценку.</p>
+                    <table class="cs-table">
+                        <tr><th>Прогноз книги</th><th>Что видим сейчас</th></tr>
+                        <tr><td><span class="cs-tag ok">сбылось</span> «React будет использовать vDOM»</td><td>Виртуальный DOM и согласование остались на месте. Ставку на производительность React сделал не на сигналы, а на <b>React Compiler</b> — v1.0 стабилен с 7 октября 2025 (React Conf); последний стабильный React — <b>19.2.6</b> (май 2026)</td></tr>
+                        <tr><td><span class="cs-tag ok">сбылось</span> «а все остальные — различные сигналы»</td><td><b>Angular 20, Vue 4, Solid</b> — сигналы как основной примитив реактивности; <b>Svelte 5</b> — руны. Ровно тот раскол, который книга описала одной фразой</td></tr>
+                        <tr><td><span class="cs-tag part">частично</span> Общий примитив на уровне языка</td><td><b>TC39 proposal-signals</b> всё ещё <b>Stage 1</b>. За предложением стоят авторы и мейнтейнеры Angular, Vue, Solid, Preact, Ember, Qwik, MobX — <b>React в этом списке нет</b></td></tr>
+                    </table>
+                    <div class="cs-callout">Пять общих черт из книги никуда не делись — они стали ещё общее. А вот шестой общей чертой <b>единая модель реактивности так и не стала</b>. Именно об этом расколе — два следующих доклада.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Что забрать с собой</div>
+                    <h2 class="gradient-text">Общие шаблоны — в четырёх строках</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Различаются философией, совпадают анатомией.</b> Компоненты, декларативность, механизм обновлений, жизненный цикл, современный JS-инструментарий — этот набор есть у всех пяти.</span></li>
+                        <li><span><b>Спор идёт ровно в одной точке — «как узнать об изменении».</b> Явный сеттер и повторный запуск функции против автоматического отслеживания зависимостей. Всё остальное — детали реализации.</span></li>
+                        <li><span><b>Знание одного инструмента переносится на другие.</b> Принципы и компромиссы, разобранные на React в предыдущих девяти главах, применимы и к этим экосистемам — меняется словарь, не модель.</span></li>
+                        <li><span><b>Это расширяет выбор, а не отменяет его.</b> Универсального подхода нет: понимание общих черт даёт больше инструментов для решения задач в наших проектах.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+
+<section class="slide" data-slide="9" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

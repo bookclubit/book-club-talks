@@ -186,15 +186,9 @@
             <section class="slide" data-slide="4">
                 <div class="content-slide">
                     <h2 class="gradient-text">Что такое реактивность?</h2>
-                    <div class="lead-block">
-                        <p class="slide-lead">
-                            Способность системы обновляться сама в ответ на изменение данных.
-                        </p>
-                        <ul class="lead-list">
-                            <li><b>Для пользователя</b> — мгновенная реакция интерфейса на его действия</li>
-                            <li><b>Для фреймворка</b> — автоматическое обновление интерфейса по изменению состояния</li>
-                        </ul>
-                    </div>
+                    <p class="slide-lead">
+                        Способность системы обновляться сама в ответ на изменение данных.
+                    </p>
 
                     <div class="demo-block">
                         <div class="sheet" id="sheetDemo">
@@ -243,67 +237,15 @@
 
                     <p class="wide-accent">
                         Никто не вызывает «пересчитай таблицу» руками — связи между ячейками
-                        описаны один раз, дальше система следит сама. В веб-фреймворках
-                        реактивность решает ту же задачу — <b>связывает данные и интерфейс</b>.
-                    </p>
-                </div>
-            </section>
-
-            <!-- SLIDE: каскад состояний -->
-            <section class="slide" data-slide="5">
-                <div class="content-slide">
-                    <h2 class="gradient-text">Суть реактивного программирования</h2>
-                    <p class="slide-lead">
-                        Изменение одного состояния приводит к каскадному изменению других.
-                        Меняем <code>count</code> — и всё, что от него зависит, обновляется само.
-                    </p>
-
-                    <div class="cascade" id="cascadeDemo">
-                        <div class="cascade-source">
-                            <p class="section-label">Состояние</p>
-                            <div class="cascade-value">
-                                <button class="demo-btn is-round" type="button" data-count="-1">−</button>
-                                <b data-cascade="count">3</b>
-                                <button class="demo-btn is-round" type="button" data-count="1">+</button>
-                            </div>
-                            <span class="cascade-name">count</span>
-                        </div>
-
-                        <div class="cascade-fan" aria-hidden="true">
-                            <svg viewBox="0 0 130 220" preserveAspectRatio="none">
-                                <path class="ray" d="M0 110 C 62 110, 68 32, 130 32"></path>
-                                <path class="ray" d="M0 110 H 130"></path>
-                                <path class="ray" d="M0 110 C 62 110, 68 188, 130 188"></path>
-                            </svg>
-                        </div>
-
-                        <div class="cascade-deps">
-                            <div class="cascade-dep" data-dep="text">
-                                <span class="cascade-dep-kind">Текст на экране</span>
-                                <span class="cascade-dep-value">Нажато <b data-cascade="count">3</b> раз</span>
-                            </div>
-                            <div class="cascade-dep" data-dep="computed">
-                                <span class="cascade-dep-kind">Вычисляемое значение</span>
-                                <span class="cascade-dep-value">count × 2 = <b data-cascade="doubled">6</b></span>
-                            </div>
-                            <div class="cascade-dep" data-dep="style">
-                                <span class="cascade-dep-kind">Стиль</span>
-                                <span class="cascade-dep-value">
-                                    <span class="cascade-bar"><i data-cascade="bar" style="width: 30%"></i></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p class="wide-accent is-strong">
-                        Вопрос, на который каждый фреймворк отвечает по-своему: <b>как узнать,
-                        что именно зависит от изменившегося значения</b> — и как обновить только это.
+                        описаны один раз, дальше система следит сама.
+                        <span class="dotted">В веб-фреймворках реактивность решает ту же задачу —
+                        <b>связывает данные и интерфейс</b>.</span>
                     </p>
                 </div>
             </section>
 
             <!-- SLIDE: React — цикл обновления и его цена (код + анимация) -->
-            <section class="slide" data-slide="6">
+            <section class="slide" data-slide="5">
                 <div class="content-slide">
                     <h2 class="gradient-text">Как реактивность решает React</h2>
 
@@ -385,14 +327,15 @@
                     </div>
 
                     <p class="wide-accent">
-                        React пересоздаёт <b>всё</b> виртуальное дерево компонента, даже если
-                        изменилась одна цифра: единица обновления — компонент, а не значение.
+                        <span class="dotted">React пересоздаёт <b>всё</b> виртуальное дерево
+                        компонента, даже если изменилась одна цифра</span>: единица обновления —
+                        компонент, а не значение.
                     </p>
                 </div>
             </section>
 
             <!-- SLIDE: React — ключевые понятия -->
-            <section class="slide" data-slide="7">
+            <section class="slide" data-slide="6">
                 <div class="content-slide">
                     <h2 class="gradient-text">Развитие реактивности в React</h2>
                     <p class="slide-lead">
@@ -439,7 +382,7 @@
             </section>
 
             <!-- SLIDE: Vue.js — что это и история -->
-            <section class="slide" data-slide="8">
+            <section class="slide" data-slide="7">
                 <div class="content-slide">
                     <h2 class="gradient-text">Vue.js</h2>
                     <p class="slide-lead">
@@ -506,7 +449,7 @@
             </section>
 
             <!-- SLIDE: Vue 2 — Object.defineProperty -->
-            <section class="slide" data-slide="9">
+            <section class="slide" data-slide="8">
                 <div class="content-slide">
                     <h2 class="gradient-text">Vue 2: реактивность через Object.defineProperty</h2>
                     <p class="slide-lead">
@@ -577,7 +520,7 @@
             </section>
 
             <!-- SLIDE: Vue 2 — где ломается -->
-            <section class="slide" data-slide="10">
+            <section class="slide" data-slide="9">
                 <div class="content-slide">
                     <h2 class="gradient-text">Vue 2: где ломается</h2>
                     <p class="slide-lead">
@@ -629,7 +572,7 @@
             </section>
 
             <!-- SLIDE: Vue 3 — Proxy -->
-            <section class="slide" data-slide="11">
+            <section class="slide" data-slide="10">
                 <div class="content-slide">
                     <h2 class="gradient-text">Vue 3: реактивность через Proxy</h2>
                     <p class="slide-lead">
@@ -703,7 +646,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Vue 3 — Proxy против defineProperty -->
-            <section class="slide" data-slide="12">
+            <section class="slide" data-slide="11">
                 <div class="content-slide">
                     <h2 class="gradient-text">Proxy перехватывает всё</h2>
                     <p class="slide-lead">
@@ -752,7 +695,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Vue 2026 — слой реактивности (Alien Signals) -->
-            <section class="slide" data-slide="13">
+            <section class="slide" data-slide="12">
                 <div class="content-slide">
                     <h2 class="gradient-text">Vue 2026 · реактивность</h2>
                     <p class="slide-lead">
@@ -873,7 +816,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Vue 2026 — слой рендеринга (Vapor Mode) -->
-            <section class="slide" data-slide="14">
+            <section class="slide" data-slide="13">
                 <div class="content-slide">
                     <h2 class="gradient-text">Vue 2026 · рендеринг</h2>
                     <p class="slide-lead">
@@ -958,7 +901,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Angular — что это и история -->
-            <section class="slide" data-slide="15">
+            <section class="slide" data-slide="14">
                 <div class="content-slide">
                     <h2 class="gradient-text">Angular</h2>
                     <p class="slide-lead">
@@ -1021,7 +964,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Angular — Zone.js -->
-            <section class="slide" data-slide="16">
+            <section class="slide" data-slide="15">
                 <div class="content-slide">
                     <h2 class="gradient-text">Angular: обнаружение изменений на Zone.js</h2>
                     <p class="slide-lead">
@@ -1134,7 +1077,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Angular 2026 — сигналы и zoneless -->
-            <section class="slide" data-slide="17">
+            <section class="slide" data-slide="16">
                 <div class="content-slide">
                     <h2 class="gradient-text">Angular 2026</h2>
                     <p class="slide-lead">
@@ -1258,7 +1201,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Svelte — что это и история -->
-            <section class="slide" data-slide="18">
+            <section class="slide" data-slide="17">
                 <div class="content-slide">
                     <h2 class="gradient-text">Svelte</h2>
                     <p class="slide-lead">
@@ -1320,7 +1263,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Svelte 4 — как работает $: -->
-            <section class="slide" data-slide="19">
+            <section class="slide" data-slide="18">
                 <div class="content-slide">
                     <h2 class="gradient-text">Svelte 4: как работает <span class="mono-h2">$:</span></h2>
                     <p class="slide-lead">
@@ -1413,7 +1356,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Svelte 4 — где ломается $: -->
-            <section class="slide" data-slide="20">
+            <section class="slide" data-slide="19">
                 <div class="content-slide">
                     <h2 class="gradient-text">Svelte 4: где ломается <span class="mono-h2">$:</span></h2>
                     <p class="slide-lead">
@@ -1486,7 +1429,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Svelte 5 — руны -->
-            <section class="slide" data-slide="21">
+            <section class="slide" data-slide="20">
                 <div class="content-slide">
                     <h2 class="gradient-text">Svelte 5: руны</h2>
                     <p class="slide-lead">
@@ -1579,7 +1522,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Solid — что это и история -->
-            <section class="slide" data-slide="22">
+            <section class="slide" data-slide="21">
                 <div class="content-slide">
                     <h2 class="gradient-text">Solid</h2>
                     <p class="slide-lead">
@@ -1636,7 +1579,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Solid — сигналы и мелкозернистость -->
-            <section class="slide" data-slide="23">
+            <section class="slide" data-slide="22">
                 <div class="content-slide">
                     <h2 class="gradient-text">Solid: сигнал как пара [getter, setter]</h2>
                     <p class="slide-lead">
@@ -1737,7 +1680,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Qwik — что это и история -->
-            <section class="slide" data-slide="24">
+            <section class="slide" data-slide="23">
                 <div class="content-slide">
                     <h2 class="gradient-text">Qwik</h2>
                     <p class="slide-lead">
@@ -1794,7 +1737,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: Qwik — возобновляемость -->
-            <section class="slide" data-slide="25">
+            <section class="slide" data-slide="24">
                 <div class="content-slide">
                     <h2 class="gradient-text">Qwik: интерактивность без ожидания</h2>
                     <p class="slide-lead">
@@ -1879,7 +1822,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: сводная история реактивности -->
-            <section class="slide" data-slide="26">
+            <section class="slide" data-slide="25">
                 <div class="content-slide">
                     <h2 class="gradient-text">Как развивалась реактивность</h2>
                     <div class="era-grid">
@@ -1926,7 +1869,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
             </section>
 
             <!-- SLIDE: кто перешёл на сигналы -->
-            <section class="slide" data-slide="27">
+            <section class="slide" data-slide="26">
                 <div class="content-slide">
                     <h2 class="gradient-text">Куда всё идёт · август 2026</h2>
                     <p class="slide-lead">
@@ -1994,7 +1937,7 @@ state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже �
                 </div>
             </section>
 
-            <section class="slide" data-slide="28" data-chrome="whatnext">
+            <section class="slide" data-slide="27" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

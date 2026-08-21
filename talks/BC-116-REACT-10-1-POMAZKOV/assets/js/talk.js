@@ -62,44 +62,6 @@
         });
     }
 
-    /* ===== Слайд «Суть реактивного программирования»: каскад ===== */
-    function initCascade() {
-        var root = document.getElementById('cascadeDemo');
-        if (!root) return;
-
-        var count = 3;
-        var out = {
-            count: root.querySelectorAll('[data-cascade="count"]'),
-            doubled: root.querySelector('[data-cascade="doubled"]'),
-            bar: root.querySelector('[data-cascade="bar"]')
-        };
-
-        function render() {
-            out.count.forEach(function (node) {
-                node.textContent = count;
-            });
-            out.doubled.textContent = count * 2;
-            out.bar.style.width = Math.min(100, count * 10) + '%';
-
-            root.classList.add('is-live');
-            root.querySelectorAll('.cascade-dep').forEach(function (dep, i) {
-                setTimeout(function () {
-                    flash(dep, 'is-hit', 700);
-                }, i * 90);
-            });
-            setTimeout(function () {
-                root.classList.remove('is-live');
-            }, 700);
-        }
-
-        root.querySelectorAll('[data-count]').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                count = Math.max(0, count + Number(btn.dataset.count));
-                render();
-            });
-        });
-    }
-
     /* ===== Слайд «Как реактивность решает React»: код и цикл обновления =====
        Два способа пройти цикл. Кнопка «Клик» прогоняет все четыре шага сама;
        клик по строке кода (или по шагу) останавливает прогон и показывает
@@ -974,7 +936,6 @@
 
     function init() {
         initSheet();
-        initCascade();
         initReactCycle();
         initVue2();
         initProxy();

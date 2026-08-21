@@ -227,15 +227,6 @@
     margin: 0;
     max-width: 1300px;
 }
-/* Шапка «заголовок + лид + список»: список должен стоять вплотную к лиду,
-   поэтому они завёрнуты в общий блок — иначе список ловил бы margin-top: auto
-   от правила «первый блок после шапки». */
-.content-slide > h2 + .lead-block {
-    margin-top: 14px !important;
-}
-.content-slide > .lead-block + * {
-    margin-top: auto !important;
-}
 /* Перед примером — из чего он собран: инструмент и зачем он нужен.
    Стоит вплотную под шапкой, поэтому автоотступ «первого блока» переезжает
    на следующий за строкой элемент. */
@@ -385,36 +376,6 @@
     font-size: 13px;
     color: #93c5fd;
 }
-
-.lead-list {
-    margin: 12px 0 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.lead-list li {
-    position: relative;
-    padding-left: 22px;
-    font-size: 20px;
-    line-height: 1.5;
-    color: var(--text-muted);
-}
-.lead-list li::before {
-    content: '';
-    position: absolute;
-    left: 4px;
-    top: 12px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #52525b;
-}
-.lead-list li b {
-    color: #ededed;
-    font-weight: 600;
-}
 /* Главная мысль слайда — широкой полосой под примером, во всю ширину.
    Единый приём для всех контентных слайдов: пример сверху, вывод под ним. */
 .wide-accent {
@@ -436,6 +397,13 @@
 .wide-accent b {
     color: #fff;
     font-weight: 600;
+}
+.dotted {
+    text-decoration: underline dotted;
+    text-decoration-color: #a1a1aa;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 7px;
+    color: #ededed;
 }
 
 .slide-lead b,
@@ -668,119 +636,6 @@
     }
 }
 
-/* ===== Слайд 4: каскад состояний ===== */
-.cascade {
-    display: grid;
-    grid-template-columns: auto 130px 1fr;
-    align-items: center;
-    gap: 0 10px;
-    margin: 40px 0 0;
-}
-.cascade-source {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    border: 1px solid #3f3f46;
-    border-radius: 20px;
-    background: #0b0b0b;
-    padding: 26px 30px;
-}
-.cascade-value {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-.cascade-value b {
-    min-width: 62px;
-    font-family: var(--font-mono);
-    font-size: 46px;
-    color: #fff;
-    text-align: center;
-}
-.cascade-name {
-    font-family: var(--font-mono);
-    font-size: 15px;
-    color: #52525b;
-}
-/* Веер связей от состояния к зависимостям: три кривые из одной точки. */
-.cascade-fan {
-    display: flex;
-    align-items: center;
-}
-.cascade-fan svg {
-    width: 130px;
-    height: 220px;
-}
-.cascade-fan .ray {
-    fill: none;
-    stroke: #2a2a2a;
-    stroke-width: 1.5;
-    transition: stroke 0.2s ease;
-}
-.cascade.is-live .cascade-fan .ray {
-    stroke: #93c5fd;
-}
-.cascade-deps {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.cascade-dep {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    border: 1px solid #232323;
-    border-radius: 14px;
-    background: #0b0b0b;
-    padding: 16px 22px;
-    transition: border-color 0.3s ease, background 0.3s ease;
-}
-.cascade-dep.is-hit {
-    animation: depFlash 0.7s ease;
-}
-@keyframes depFlash {
-    0% {
-        border-color: #93c5fd;
-        background: #0f1620;
-    }
-    100% {
-        border-color: #232323;
-        background: #0b0b0b;
-    }
-}
-.cascade-dep-kind {
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #52525b;
-}
-.cascade-dep-value {
-    font-size: 22px;
-    color: #d4d4d8;
-}
-.cascade-dep-value b {
-    font-family: var(--font-mono);
-    color: #fff;
-}
-.cascade-bar {
-    display: block;
-    width: 100%;
-    max-width: 420px;
-    height: 12px;
-    border-radius: 999px;
-    background: #1a1a1a;
-    overflow: hidden;
-}
-.cascade-bar i {
-    display: block;
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #3f3f46, #d4d4d8);
-    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* ===== Слайд 5: цикл обновления React ===== */
 /* Код слева, шаги цикла справа: клик по «Клик» ведёт обе колонки разом —
    подсвечивается и шаг, и строка кода, которая на этом шаге работает. */
 .react-cycle-wrap {

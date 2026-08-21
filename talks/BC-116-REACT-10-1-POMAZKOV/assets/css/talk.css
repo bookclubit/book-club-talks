@@ -2247,11 +2247,24 @@
     line-height: 1.4;
     color: #a1a1aa;
 }
-/* Одинокая карточка справа — в столбик: колонок для неё всё равно нет. */
 .conv.is-alone {
-    grid-template-columns: 32px 124px 66px;
-    row-gap: 14px;
+    grid-template-columns: 40px max-content minmax(0, 1fr);
+    gap: 18px;
+    row-gap: 18px;
+}
+.conv.is-alone .conv-mark {
+    width: 38px;
+    height: 38px;
+}
+.conv.is-alone b {
+    font-size: 30px;
+}
+.conv.is-alone .conv-year {
+    justify-self: start;
+    font-size: 20px;
 }
 .conv.is-alone .conv-what {
     grid-column: 1 / -1;
+    font-size: 19px;
+    line-height: 1.5;
 }

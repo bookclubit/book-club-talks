@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js, Angular, Svelte, Solid, Qwik — React. К вершинам мастерства</title>
+    <meta name="description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Vue.js, Angular, Svelte, Solid, Qwik — React. К вершинам мастерства">
+    <meta property="og:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta property="og:image" content="https://bc-116-react-10-1-pomazkov.pages.dev/assets/cover/fluent-react.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vue.js, Angular, Svelte, Solid, Qwik — React. К вершинам мастерства">
+    <meta name="twitter:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta name="twitter:image" content="https://bc-116-react-10-1-pomazkov.pages.dev/assets/cover/fluent-react.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
+
+</head>
+<body>
+    <!-- Иконки: логотипы фреймворков (фирменные цвета) и соцсети (белые, плоские) -->
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="gAngular" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#E40035"></stop>
+                <stop offset="1" stop-color="#9C2AA0"></stop>
+            </linearGradient>
+            <linearGradient id="gSolid" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#94C7EC"></stop>
+                <stop offset="1" stop-color="#4F88C6"></stop>
+            </linearGradient>
+        </defs>
+        <symbol id="fw-vue" viewBox="0 0 24 24"><path fill="#4FC08D" d="M24,1.61H14.06L12,5.16,9.94,1.61H0L12,22.39ZM12,14.08,5.16,2.23H9.59L12,6.41l2.41-4.18h4.43Z"/></symbol>
+        <symbol id="fw-angular" viewBox="0 0 24 24"><path fill="url(#gAngular)" d="M16.712 17.711H7.288l-1.204 2.916L12 24l5.916-3.373-1.204-2.916ZM14.692 0l7.832 16.855.814-12.856L14.692 0ZM9.308 0 .662 3.999l.814 12.856L9.308 0Zm-.405 13.93h6.198L12 6.396 8.903 13.93Z"/></symbol>
+        <symbol id="fw-svelte" viewBox="0 0 24 24"><path fill="#FF3E00" d="M10.354 21.125a4.44 4.44 0 0 1-4.765-1.767 4.109 4.109 0 0 1-.703-3.107 3.898 3.898 0 0 1 .134-.522l.105-.321.287.21a7.21 7.21 0 0 0 2.186 1.092l.208.063-.02.208a1.253 1.253 0 0 0 .226.83 1.337 1.337 0 0 0 1.435.533 1.231 1.231 0 0 0 .343-.15l5.59-3.562a1.164 1.164 0 0 0 .524-.778 1.242 1.242 0 0 0-.211-.937 1.338 1.338 0 0 0-1.435-.533 1.23 1.23 0 0 0-.343.15l-2.133 1.36a4.078 4.078 0 0 1-1.135.499 4.44 4.44 0 0 1-4.765-1.766 4.108 4.108 0 0 1-.702-3.108 3.855 3.855 0 0 1 1.742-2.582l5.589-3.563a4.072 4.072 0 0 1 1.135-.499 4.44 4.44 0 0 1 4.765 1.767 4.109 4.109 0 0 1 .703 3.107 3.943 3.943 0 0 1-.134.522l-.105.321-.286-.21a7.204 7.204 0 0 0-2.187-1.093l-.208-.063.02-.207a1.255 1.255 0 0 0-.226-.831 1.337 1.337 0 0 0-1.435-.532 1.231 1.231 0 0 0-.343.15L8.62 9.368a1.162 1.162 0 0 0-.524.778 1.24 1.24 0 0 0 .211.937 1.338 1.338 0 0 0 1.435.533 1.235 1.235 0 0 0 .344-.151l2.132-1.36a4.067 4.067 0 0 1 1.135-.498 4.44 4.44 0 0 1 4.765 1.766 4.108 4.108 0 0 1 .702 3.108 3.857 3.857 0 0 1-1.742 2.583l-5.589 3.562a4.072 4.072 0 0 1-1.135.499m10.358-17.95C18.484-.015 14.082-.96 10.9 1.068L5.31 4.63a6.412 6.412 0 0 0-2.896 4.295 6.753 6.753 0 0 0 .666 4.336 6.43 6.43 0 0 0-.96 2.396 6.833 6.833 0 0 0 1.168 5.167c2.229 3.19 6.63 4.135 9.812 2.108l5.59-3.562a6.41 6.41 0 0 0 2.896-4.295 6.756 6.756 0 0 0-.665-4.336 6.429 6.429 0 0 0 .958-2.396 6.831 6.831 0 0 0-1.167-5.168Z"/></symbol>
+        <symbol id="fw-solid" viewBox="0 0 24 24"><path fill="url(#gSolid)" d="M11.558.788A9.082 9.082 0 0 0 9.776.99l-.453.15c-.906.303-1.656.755-2.1 1.348l-.301.452-2.035 3.528c.426-.387.974-.698 1.643-.894h.001l.613-.154h.001a8.82 8.82 0 0 1 1.777-.206c2.916-.053 6.033 1.148 8.423 2.36 2.317 1.175 3.888 2.32 3.987 2.39L24 5.518c-.082-.06-1.66-1.21-3.991-2.386-2.393-1.206-5.521-2.396-8.45-2.343zM8.924 5.366a8.634 8.634 0 0 0-1.745.203l-.606.151c-1.278.376-2.095 1.16-2.43 2.108-.334.948-.188 2.065.487 3.116.33.43.747.813 1.216 1.147L12.328 10h.001a6.943 6.943 0 0 1 6.013 1.013l2.844-.963c-.17-.124-1.663-1.2-3.91-2.34-2.379-1.206-5.479-2.396-8.352-2.344zm5.435 4.497a6.791 6.791 0 0 0-1.984.283L2.94 13.189 0 18.334l9.276-2.992a6.945 6.945 0 0 1 7.408 2.314v.001c.695.903.89 1.906.66 2.808l2.572-4.63c.595-1.041.45-2.225-.302-3.429a6.792 6.792 0 0 0-5.255-2.543zm-3.031 5.341a6.787 6.787 0 0 0-2.006.283L.008 18.492c.175.131 2.02 1.498 4.687 2.768 2.797 1.332 6.37 2.467 9.468 1.712l.454-.152h.002c1.278-.376 2.134-1.162 2.487-2.09.353-.93.207-2.004-.541-2.978a6.791 6.791 0 0 0-5.237-2.548z"/></symbol>
+        <symbol id="fw-qwik" viewBox="0 0 24 24"><path fill="#AC7EF4" d="M7.5469 0a2.957 2.957 0 0 0-2.5606 1.4785L.5332 9.1915a2.957 2.957 0 0 0 0 2.957l4.4531 7.7128A2.955 2.955 0 0 0 7.547 21.338H12l8.5938 2.6484c.2409.0742.4512-.1782.3359-.4023l-1.916-3.7227 4.4531-7.7129a2.957 2.957 0 0 0 0-2.957l-4.4531-7.7129A2.957 2.957 0 0 0 16.453 0zm0 .7656L17.7324 10.67l-1.8965 1.8985.5782 7.5332L6.2676 10.67l2.371-2.373z"/></symbol>
+        <symbol id="fw-alien" viewBox="0 0 11 8"><g fill="#A78BFA"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="5" y="2" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="8" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="5" y="3" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="9" y="3" width="1" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="5" y="4" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="7" y="4" width="1" height="1"/><rect x="8" y="4" width="1" height="1"/><rect x="9" y="4" width="1" height="1"/><rect x="10" y="4" width="1" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="1" height="1"/><rect x="3" y="5" width="1" height="1"/><rect x="4" y="5" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="7" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="1" height="1"/><rect x="4" y="7" width="1" height="1"/><rect x="6" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/></g></symbol>
+        <symbol id="fw-preact" viewBox="0 0 24 24"><path fill="#673AB8" d="M 12,10.406 A 1.594,1.594 0 0 0 10.406,12 1.594,1.594 0 0 0 12,13.594 1.594,1.594 0 0 0 13.594,12 1.594,1.594 0 0 0 12,10.406 Z m 5.499,-4.33 a 2.998,2.998 0 0 1 0.643,0.054 1.668,1.668 0 0 1 0.48,0.172 1.085,1.085 0 0 1 0.29,0.235 1.032,1.032 0 0 1 0.185,0.315 1.454,1.454 0 0 1 0.084,0.452 c 0.007,0.195 -0.015,0.398 -0.058,0.603 -0.054,0.261 -0.14,0.521 -0.244,0.778 -0.137,0.334 -0.304,0.66 -0.49,0.978 -0.245,0.417 -0.52,0.818 -0.817,1.207 -0.145,0.191 -0.3,0.376 -0.455,0.561 -0.22,-0.238 -0.443,-0.472 -0.673,-0.7 a 23.61,23.61 0 0 0 -2.05,-1.797 l -0.23,0.296 0.23,-0.296 -0.018,-0.014 -0.461,0.592 0.018,0.014 a 22.864,22.864 0 0 1 1.984,1.74 c 0.241,0.237 0.475,0.48 0.703,0.73 -0.099,0.108 -0.194,0.22 -0.296,0.326 -0.099,0.104 -0.2,0.207 -0.301,0.308 l 0.53,0.53 c 0.106,-0.105 0.21,-0.212 0.313,-0.32 0.085,-0.088 0.164,-0.182 0.248,-0.272 0.065,0.078 0.135,0.152 0.198,0.231 a 13.317,13.317 0 0 1 0.909,1.262 c 0.211,0.336 0.404,0.681 0.564,1.036 a 5.23,5.23 0 0 1 0.293,0.806 3.019,3.019 0 0 1 0.102,0.637 c 0.008,0.178 -0.007,0.351 -0.05,0.508 -0.034,0.123 -0.087,0.239 -0.157,0.338 h -10e-4 c -0.068,0.098 -0.157,0.186 -0.26,0.256 -0.121,0.083 -0.264,0.146 -0.418,0.191 -0.188,0.054 -0.39,0.081 -0.6,0.09 -0.266,0.01 -0.538,-0.01 -0.814,-0.05 -0.357,-0.051 -0.713,-0.134 -1.067,-0.238 -0.464,-0.137 -0.92,-0.307 -1.369,-0.5 h -0.001 c -0.584,-0.253 -1.153,-0.543 -1.71,-0.86 L 12.708,16.26 c 0.578,-0.377 1.144,-0.77 1.686,-1.194 l -0.21,-0.27 0.211,0.27 0.018,-0.015 -0.463,-0.59 -0.017,0.014 c -0.695,0.542 -1.418,1.047 -2.168,1.505 A 18.53,18.53 0 0 1 9.938,16.963 C 9.465,17.182 8.984,17.378 8.494,17.539 A 8.68,8.68 0 0 1 7.352,17.835 C 7.066,17.887 6.781,17.921 6.499,17.925 6.277,17.928 6.061,17.912 5.856,17.87 5.681,17.834 5.518,17.778 5.376,17.698 5.265,17.635 5.166,17.556 5.086,17.464 5.007,17.373 4.944,17.265 4.901,17.149 4.85,17.012 4.823,16.857 4.817,16.696 a 2.54,2.54 0 0 1 0.058,-0.603 c 0.055,-0.261 0.14,-0.52 0.245,-0.777 a 7.704,7.704 0 0 1 0.49,-0.978 12.09,12.09 0 0 1 1.271,-1.767 c 0.232,0.251 0.469,0.497 0.712,0.737 a 23.645,23.645 0 0 0 2.02,1.765 l 0.461,-0.591 A 22.9,22.9 0 0 1 8.119,12.773 C 7.865,12.523 7.618,12.267 7.378,12.004 7.477,11.896 7.573,11.785 7.673,11.679 7.776,11.572 7.879,11.466 7.983,11.362 l -0.53,-0.53 C 7.345,10.94 7.238,11.05 7.132,11.16 7.047,11.249 6.967,11.343 6.884,11.433 6.829,11.367 6.77,11.305 6.715,11.238 6.386,10.832 6.077,10.411 5.799,9.975 5.585,9.637 5.391,9.292 5.228,8.935 5.102,8.66 4.995,8.38 4.92,8.097 4.863,7.882 4.826,7.669 4.818,7.46 A 1.67,1.67 0 0 1 4.868,6.953 C 4.902,6.829 4.955,6.714 5.025,6.614 H 5.026 C 5.094,6.516 5.184,6.428 5.286,6.358 A 1.446,1.446 0 0 1 5.705,6.168 C 5.892,6.113 6.094,6.086 6.304,6.078 a 4.545,4.545 0 0 1 0.814,0.048 7.708,7.708 0 0 1 1.067,0.24 12.092,12.092 0 0 1 1.369,0.5 17.248,17.248 0 0 1 1.736,0.874 24.003,24.003 0 0 0 -1.694,1.202 l 0.462,0.59 c 0.683,-0.534 1.393,-1.031 2.13,-1.484 0.594,-0.363 1.203,-0.697 1.83,-0.99 0.474,-0.222 0.956,-0.42 1.448,-0.583 A 8.816,8.816 0 0 1 16.612,6.172 C 16.91,6.116 17.207,6.08 17.499,6.076 Z m -0.01,-0.75 -0.001,0 C 17.142,5.331 16.804,5.373 16.474,5.434 A 9.546,9.546 0 0 0 15.229,5.763 14.202,14.202 0 0 0 13.7,6.379 C 13.117,6.651 12.554,6.961 12.004,7.289 11.883,7.216 11.761,7.144 11.637,7.074 11.06,6.745 10.466,6.442 9.852,6.177 9.38,5.974 8.897,5.792 8.397,5.646 8.017,5.534 7.625,5.442 7.225,5.384 6.916,5.34 6.599,5.316 6.275,5.329 6.021,5.339 5.759,5.372 5.499,5.446 5.281,5.51 5.063,5.602 4.863,5.74 A 1.774,1.774 0 0 0 4.146,6.754 C 4.078,7.001 4.059,7.251 4.069,7.491 a 3.728,3.728 0 0 0 0.127,0.798 6.016,6.016 0 0 0 0.351,0.959 9.548,9.548 0 0 0 0.62,1.128 14.203,14.203 0 0 0 0.967,1.335 c 0.08,0.098 0.166,0.19 0.248,0.286 C 6.193,12.219 6.007,12.443 5.83,12.676 5.519,13.084 5.226,13.51 4.963,13.958 A 8.44,8.44 0 0 0 4.425,15.033 5.28,5.28 0 0 0 4.142,15.941 C 4.089,16.19 4.059,16.453 4.069,16.723 a 2.182,2.182 0 0 0 0.13,0.688 v 10e-4 a 1.775,1.775 0 0 0 0.81,0.94 2.403,2.403 0 0 0 0.697,0.253 3.699,3.699 0 0 0 0.805,0.07 5.97,5.97 0 0 0 0.977,-0.102 l 10e-4,-0.001 a 9.412,9.412 0 0 0 1.24,-0.32 c 0.523,-0.173 1.031,-0.38 1.526,-0.61 0.599,-0.278 1.178,-0.593 1.742,-0.93 0.121,0.072 0.243,0.144 0.366,0.214 a 17.99,17.99 0 0 0 1.785,0.898 12.832,12.832 0 0 0 1.455,0.53 c 0.38,0.112 0.772,0.204 1.172,0.262 a 5.284,5.284 0 0 0 0.95,0.056 c 0.254,-0.01 0.516,-0.044 0.776,-0.118 0.218,-0.063 0.436,-0.156 0.636,-0.294 a 1.775,1.775 0 0 0 0.717,-1.014 c 0.068,-0.248 0.087,-0.497 0.077,-0.736 -0.011,-0.277 -0.06,-0.544 -0.127,-0.799 -0.085,-0.322 -0.202,-0.629 -0.335,-0.923 -0.178,-0.393 -0.387,-0.767 -0.612,-1.127 -0.294,-0.466 -0.618,-0.908 -0.959,-1.333 -0.09,-0.111 -0.188,-0.216 -0.28,-0.324 0.189,-0.222 0.374,-0.447 0.552,-0.679 0.311,-0.409 0.604,-0.835 0.867,-1.283 A 8.441,8.441 0 0 0 19.575,8.967 5.277,5.277 0 0 0 19.858,8.06 C 19.911,7.81 19.941,7.547 19.931,7.277 19.924,7.051 19.886,6.817 19.801,6.589 V 6.588 a 1.775,1.775 0 0 0 -0.81,-0.94 C 18.767,5.522 18.529,5.444 18.294,5.396 A 3.7,3.7 0 0 0 17.489,5.326 Z M 12,0 22.392,6 V 18 L 12,24 1.607,18 V 6 Z"/></symbol>
+        <symbol id="fw-react" viewBox="0 0 24 24"><path fill="#61DAFB" d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></symbol>
+        <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+        <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></symbol>
+    </svg>
+
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 10</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Альтернативы React</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Vue.js, Angular, Svelte, Solid, Qwik</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    <img class="book-cover" src="assets/cover/fluent-react.webp" alt="React. К вершинам мастерства">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    React. К вершинам мастерства
+                                </a>
+                                <p class="book-subtitle">
+                                    Fluent React: Build Fast, Performant, and Intuitive Web Applications
+                                </p>
+                                <p class="book-desc-ru">
+                                    Глубокое погружение во внутреннее устройство React: JSX и продвинутые паттерны, виртуальный DOM и реконциляция, серверный рендеринг, конкурентный режим и серверные компоненты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://tej.as/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                                    <div class="author-info">
+                                        <div class="author-name">Теджас Кумар</div>
+                                        <div class="author-link-text">tej.as ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/kunjutone" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
+                                <div class="author-info">
+                                    <div class="author-name">Антон Помазков</div>
+                                    <div class="author-link-text">t.me/kunjutone ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <section class="slide" data-slide="3" data-chrome="agenda">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Программа вечера</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-116-react-10-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Vue.js, Angular, Svelte, Solid, Qwik</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-116-react-10-6-nikiforov.pages.dev" target="_blank" rel="noreferrer">Общие шаблоны</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-116-react-10-7-nikiforov.pages.dev" target="_blank" rel="noreferrer">React не значит реактивный</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-116-react-10-8-nikiforov.pages.dev" target="_blank" rel="noreferrer">Будущее React</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ===== КОНТЕНТНЫЕ СЛАЙДЫ ДОКЛАДА ===== -->
+
+            <!-- SLIDE: что такое реактивность — аналогия с таблицей -->
+            <section class="slide" data-slide="4">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Что такое реактивность?</h2>
+                    <p class="slide-lead">
+                        Способность системы обновляться сама в ответ на изменение данных.
+                    </p>
+
+                    <div class="demo-block">
+                        <div class="sheet" id="sheetDemo">
+                            <div class="sheet-row sheet-head">
+                                <span></span><span>A</span><span>B</span>
+                            </div>
+                            <div class="sheet-row">
+                                <span class="sheet-idx">1</span>
+                                <span class="sheet-cell is-input">
+                                    <button class="sheet-step" type="button" data-step="-1" aria-label="Меньше">−</button>
+                                    <b data-cell="a1">2</b>
+                                    <button class="sheet-step" type="button" data-step="1" aria-label="Больше">+</button>
+                                </span>
+                                <span class="sheet-cell is-formula" data-formula="b1">
+                                    <em>= A1 * 10</em>
+                                    <b data-cell="b1">20</b>
+                                </span>
+                            </div>
+                            <div class="sheet-row">
+                                <span class="sheet-idx">2</span>
+                                <span class="sheet-cell is-static"><b>5</b></span>
+                                <span class="sheet-cell is-formula" data-formula="b2">
+                                    <em>= A1 + A2</em>
+                                    <b data-cell="b2">7</b>
+                                </span>
+                            </div>
+                            <div class="sheet-row">
+                                <span class="sheet-idx">3</span>
+                                <span class="sheet-cell is-label">итог</span>
+                                <span class="sheet-cell is-formula is-total" data-formula="b3">
+                                    <em>= B1 + B2</em>
+                                    <b data-cell="b3">27</b>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="demo-aside">
+                            <p class="section-label">Электронная таблица</p>
+                            <p>
+                                Меняем A1 — и все формулы, которые на неё ссылаются,
+                                пересчитываются сами. Причём каскадом: B3 зависит не от A1
+                                напрямую, а от B1 и B2.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        Никто не вызывает «пересчитай таблицу» руками — связи между ячейками
+                        описаны один раз, дальше система следит сама.
+                        <span class="dotted">В веб-фреймворках реактивность решает ту же задачу —
+                        <b>связывает данные и интерфейс</b>.</span>
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE: React — цикл обновления и его цена (код + анимация) -->
+            <section class="slide" data-slide="5">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Как реактивность решает React</h2>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://react.dev/reference/react/useState" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3"/></svg></span>
+                                <span class="use-name">useState</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">состояние компонента и функция, которая просит перерисовать<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://react.dev/learn/render-and-commit" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+                                <span class="use-name">Virtual DOM</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">описание интерфейса в памяти — чтобы было с чем сравнивать<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://react.dev/learn/preserving-and-resetting-state" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
+                                <span class="use-name">Reconciliation</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">сверка двух деревьев: ищем минимальное изменение для DOM<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="react-cycle" id="reactCycle">
+                        <div class="code-box is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>Counter.jsx</em></div>
+<pre><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">function</span> <span class="fn">Counter</span>() {
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+
+<div class="cyc-line" data-cycle="2">  console.<span class="fn">log</span>(<span class="str">'Компонент перерендеривается!'</span>);</div>
+<div class="cyc-line" data-cycle="3">  <span class="kw">return</span> (
+    <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span></div>
+<div class="cyc-line" data-cycle="4">      <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>Счёт: {count}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span></div>
+<div class="cyc-line" data-cycle="1">      <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setCount</span>(count + <span class="num">1</span>)}<span class="punc">&gt;</span>
+        Увеличить
+      <span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span></div>
+    <span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+  );
+}</pre>
+                        </div>
+
+                        <div class="cycle-steps">
+                            <div class="cycle-step is-live" data-role="component">
+                                <span class="cycle-num">0</span>
+                                <b>&lt;Counter /&gt;</b>
+                                <span class="live-value">Счёт: <i data-role="count">0</i></span>
+                                <button class="demo-btn" type="button" data-role="click">Клик</button>
+                            </div>
+                            <div class="cycle-step" data-step="1">
+                                <span class="cycle-num">1</span>
+                                <b>setState</b>
+                                <span>Состояние живёт в компоненте. Меняем его — React помечает компонент «грязным»</span>
+                            </div>
+                            <div class="cycle-step" data-step="2">
+                                <span class="cycle-num">2</span>
+                                <b>Перерендер</b>
+                                <span>Функция компонента выполняется заново и создаёт новый Virtual DOM</span>
+                            </div>
+                            <div class="cycle-step" data-step="3">
+                                <span class="cycle-num">3</span>
+                                <b>Сверка</b>
+                                <span>Reconciliation: новое виртуальное дерево сравнивается с предыдущим</span>
+                            </div>
+                            <div class="cycle-step" data-step="4">
+                                <span class="cycle-num">4</span>
+                                <b>Патч DOM</b>
+                                <span>В реальный DOM уходит минимальный набор изменений — одна цифра</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        <span class="dotted">React пересоздаёт <b>всё</b> виртуальное дерево
+                        компонента, даже если изменилась одна цифра</span>: единица обновления —
+                        компонент, а не значение.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE: React — ключевые понятия -->
+            <section class="slide" data-slide="6">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Развитие реактивности в React</h2>
+                    <p class="slide-lead">
+                        Что окружает эту модель — и как она меняется к 2026 году.
+                    </p>
+
+                    <div class="cards-3">
+                        <div class="fact-card">
+                            <span class="fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"></circle><line x1="12" y1="22" x2="12" y2="8"></line><path d="M5 12H2a10 10 0 0 0 20 0h-3"></path></svg></span>
+                            <p class="section-label">Хуки</p>
+                            <h3>Состояние и эффекты</h3>
+                            <p>Всё, что компонент помнит и делает помимо разметки, объявляется вызовом функции прямо в его теле.</p>
+                            <ul class="fact-list">
+                                <li><a href="https://react.dev/reference/react/useState" target="_blank" rel="noreferrer">useState</a> — состояние компонента</li>
+                                <li><a href="https://react.dev/reference/react/useEffect" target="_blank" rel="noreferrer">useEffect</a> — побочные эффекты: подписки, запросы, таймеры</li>
+                                <li><a href="https://react.dev/reference/react/useMemo" target="_blank" rel="noreferrer">useMemo</a>, <a href="https://react.dev/reference/react/useCallback" target="_blank" rel="noreferrer">useCallback</a> — мемоизация: не пересчитывать то, что не изменилось</li>
+                            </ul>
+                        </div>
+                        <div class="fact-card">
+                            <span class="fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
+                            <p class="section-label">React 18+</p>
+                            <h3>Конкурентный рендеринг</h3>
+                            <p>Рендеринг можно <b>прервать</b> ради более приоритетной задачи: ввод в поле не ждёт, пока отрисуется тяжёлый список.</p>
+                            <ul class="fact-list">
+                                <li><a href="https://react.dev/reference/react/useTransition" target="_blank" rel="noreferrer">useTransition</a>, <a href="https://react.dev/reference/react/startTransition" target="_blank" rel="noreferrer">startTransition</a> — помечают обновление неспешным</li>
+                                <li><a href="https://react.dev/reference/react/useDeferredValue" target="_blank" rel="noreferrer">useDeferredValue</a> — показывает прежнее значение, пока считается новое</li>
+                                <li><a href="https://react.dev/reference/react/Suspense" target="_blank" rel="noreferrer">Suspense</a> — запасной интерфейс, пока грузятся данные или код</li>
+                            </ul>
+                        </div>
+                        <div class="fact-card is-accent">
+                            <span class="fact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg></span>
+                            <p class="section-label">React 19+ · 2026</p>
+                            <h3>Компилятор</h3>
+                            <p>Мемоизацию берёт на себя сборка: модель прежняя, ручной работы меньше.</p>
+                            <ul class="fact-list">
+                                <li><a href="https://react.dev/learn/react-compiler" target="_blank" rel="noreferrer">React Compiler</a> — расставляет мемоизацию сам</li>
+                                <li><a href="https://react.dev/learn/react-compiler/installation" target="_blank" rel="noreferrer">babel-plugin-react-compiler</a> — подключение к сборке</li>
+                                <li><a href="https://www.npmjs.com/package/eslint-plugin-react-hooks" target="_blank" rel="noreferrer">eslint-plugin-react-hooks</a> — показывает код, который компилятор не смог оптимизировать</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SLIDE: Vue.js — что это и история -->
+            <section class="slide" data-slide="7">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Vue.js</h2>
+                    <p class="slide-lead">
+                        Прогрессивный JavaScript-фреймворк для создания интерфейсов. Эван Ю работал
+                        в Google над AngularJS: Vue вдохновлялся Angular, но хотел быть легче и проще.
+                    </p>
+
+                    <div class="fw-cols">
+                        <a class="fw-brand" href="https://vuejs.org" target="_blank" rel="noreferrer">
+                            <svg class="fw-brand-mark" aria-hidden="true"><use href="#fw-vue"></use></svg>
+                            <span class="fw-brand-text">
+                                <b>Vue.js</b>
+                                <em>vuejs.org ↗</em>
+                            </span>
+                        </a>
+                        <div class="fw-person">
+                            <img class="fw-photo" src="assets/creators/evan-you.webp" alt="Эван Ю · Evan You">
+                            <div class="fw-person-text">
+                                <span class="fw-person-name">Эван Ю · Evan You</span>
+                                <span class="fw-person-role">создатель Vue и Vite</span>
+                            </div>
+                            <div class="fw-socials">
+                                <a href="https://github.com/yyx990803" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><svg aria-hidden="true"><use href="#i-github"></use></svg></a>
+                                <a href="https://www.linkedin.com/in/evanyou/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg aria-hidden="true"><use href="#i-linkedin"></use></svg></a>
+                                <a href="https://x.com/evanyou" target="_blank" rel="noreferrer" aria-label="X (Twitter)" title="X (Twitter)"><svg aria-hidden="true"><use href="#i-x"></use></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-line">
+                        <div class="story-item">
+                            <span class="story-year">2012–2013</span>
+                            <b>Pet-проект</b>
+                            <span>Эван Ю не нашёл готового решения для быстрого прототипирования сложных интерфейсов — и написал своё</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">27 июля 2013</span>
+                            <b>Первый коммит</b>
+                            <span>Начало публичной истории Vue на GitHub</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2014–2015</span>
+                            <b>Релиз и рост</b>
+                            <span>Официальный релиз, а следом — быстрый набор популярности</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">сентябрь 2016</span>
+                            <b>Vue 2</b>
+                            <span>Реактивность на <em>Object.defineProperty</em></span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">сентябрь 2020</span>
+                            <b>Vue 3</b>
+                            <span>Прокси-реактивность вместо геттеров и сеттеров</span>
+                        </div>
+                        <div class="story-item is-now">
+                            <span class="story-year">2026</span>
+                            <b>Vue 3.6</b>
+                            <span>Vapor Mode и Alien Signals</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SLIDE: Vue 2 — Object.defineProperty -->
+            <section class="slide" data-slide="8">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Vue 2: реактивность через Object.defineProperty</h2>
+                    <p class="slide-lead">
+                        Каждое свойство объекта превращается в пару геттер/сеттер: чтение
+                        записывает зависимость, запись уведомляет об изменении.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3"/></svg></span>
+                                <span class="use-name">Object.defineProperty</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">подменяет свойство парой геттер/сеттер<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://v2.vuejs.org/v2/guide/reactivity.html" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+                                <span class="use-name">track</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">на чтении запоминает, кто зависит от свойства<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://v2.vuejs.org/v2/guide/reactivity.html" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+                                <span class="use-name">trigger</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">на записи уведомляет всех, кто запомнился<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="code-slide interactive-block" data-target="vue2Note">
+                        <div class="code-box is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>vue2-reactivity.js</em></div>
+<pre><span class="cm">// Упрощённая реализация Vue 2</span>
+<span class="kw">function</span> <span class="fn">defineReactive</span>(obj, key, val) {
+  Object.<span class="fn">defineProperty</span>(obj, key, {
+<div class="code-line" data-title="Чтение = запись зависимости" data-desc="Геттер вызывается в момент, когда шаблон или computed читает свойство. Именно тогда Vue понимает: этот эффект зависит от этого свойства — и запоминает связь.">    <span class="fn">get</span>() {
+      <span class="fn">track</span>(key); <span class="cm">// отслеживаем, что свойство прочитано</span>
+      <span class="kw">return</span> val;
+    },</div>
+<div class="code-line" data-title="Запись = уведомление" data-desc="Сеттер сравнивает новое значение со старым и, если оно изменилось, дёргает trigger: перерисовываются только те эффекты, которые ранее прочитали это свойство.">    <span class="fn">set</span>(newVal) {
+      <span class="kw">if</span> (newVal !== val) {
+        val = newVal;
+        <span class="fn">trigger</span>(key); <span class="cm">// уведомляем об изменении</span>
+      }
+    }</div>
+  });
+}
+
+<div class="code-line" data-title="Свойство должно существовать заранее" data-desc="Реактивность появляется у свойства только в момент defineReactive. Всё, чего не было в data при инициализации, останется обычным полем: Vue 2 о нём просто не знает."><span class="kw">const</span> data = { count: <span class="num">0</span> };
+<span class="fn">defineReactive</span>(data, <span class="str">'count'</span>, <span class="num">0</span>);</div></pre>
+                        </div>
+
+                        <div class="info-panel code-note" id="vue2Note">
+                            <h3>Точный, но заранее размеченный</h3>
+                            <p>
+                                Vue 2 знает про зависимости больше React: обновляется не компонент,
+                                а конкретные эффекты. Но перехват ставится <b>по одному свойству</b> —
+                                и всё, что не разметили заранее, выпадает из реактивности.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Vue 2 — где ломается -->
+            <section class="slide" data-slide="9">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Vue 2: где ломается</h2>
+                    <p class="slide-lead">
+                        Реактивным становится только то, что размечено при инициализации:
+                        каждое свойство обёрнуто в «наручники» геттера и сеттера.
+                    </p>
+
+                    <div class="break-grid" id="vue2Demo">
+                        <div class="props-box">
+                            <p class="section-label">data</p>
+                            <div class="props-list" data-role="list"></div>
+                            <p class="demo-log" data-role="log">
+                                Vue разметил 3 свойства: у каждого свой геттер и сеттер.
+                            </p>
+                            <div class="demo-bar">
+                                <button class="demo-btn" type="button" data-role="fix" disabled>Обёртка Vue</button>
+                                <button class="demo-btn" type="button" data-role="reset">Сначала</button>
+                            </div>
+                        </div>
+
+                        <div class="pains">
+                            <button class="pain-card" type="button" data-pain="add">
+                                <span class="pain-mark">1</span>
+                                <span class="pain-text">
+                                    <b>Новое свойство</b>
+                                    <em>data.price = 100</em>
+                                    <span>Свойства не было в <em>data</em> при инициализации — размечать было нечего</span>
+                                </span>
+                            </button>
+                            <button class="pain-card" type="button" data-pain="array">
+                                <span class="pain-mark">2</span>
+                                <span class="pain-text">
+                                    <b>Запись по индексу</b>
+                                    <em>data.arr[0] = 5</em>
+                                    <span>Наручники стоят на самом <em>arr</em>, а не на его элементах</span>
+                                </span>
+                            </button>
+                            <button class="pain-card" type="button" data-pain="deep">
+                                <span class="pain-mark">3</span>
+                                <span class="pain-text">
+                                    <b>Вложенные объекты</b>
+                                    <em>data.user = { … }</em>
+                                    <span>Пара геттер/сеттер нужна каждому вложенному свойству — обход стоит времени</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Vue 3 — Proxy -->
+            <section class="slide" data-slide="10">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Vue 3: реактивность через Proxy</h2>
+                    <p class="slide-lead">
+                        <em>Object.defineProperty</em> заменили на ES6 <em>Proxy</em>: он оборачивает
+                        объект целиком и перехватывает любые операции — чтение, запись, добавление, удаление.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Proxy" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+                                <span class="use-name">Proxy</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">посредник, который стоит перед объектом целиком<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://vuejs.org/guide/extras/reactivity-in-depth.html" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+                                <span class="use-name">track</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">на чтении подписывает того, кто читает<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://vuejs.org/guide/extras/reactivity-in-depth.html" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+                                <span class="use-name">trigger</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">на записи уведомляет подписавшихся<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="code-slide is-wide interactive-block" data-target="vue3Note">
+                        <div class="code-box is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>vue3-reactivity.js</em></div>
+<pre><span class="cm">// Упрощённая реализация Vue 3</span>
+<span class="kw">function</span> <span class="fn">reactive</span>(obj) {
+<div class="code-line" data-title="Плёнка вокруг объекта" data-desc="Proxy не меняет сам объект: он встаёт перед ним посредником. Разметка по свойствам больше не нужна — перехватывается любое обращение, включая те свойства, которых ещё нет.">  <span class="kw">return</span> <span class="kw">new</span> <span class="fn">Proxy</span>(obj, {</div>
+<div class="code-line" data-title="Ловушка get" data-desc="Срабатывает на любое чтение, в том числе вложенных объектов: Vue 3 оборачивает их лениво, при первом обращении, — поэтому инициализация большого состояния не стоит ничего.">    <span class="fn">get</span>(target, key) {
+      <span class="fn">track</span>(target, key); <span class="cm">// отслеживаем зависимость</span>
+      <span class="kw">return</span> target[key];
+    },</div>
+<div class="code-line" data-title="Ловушка set" data-desc="Одна ловушка на все записи: и на изменение существующего свойства, и на добавление нового, и на запись по индексу массива. Vue.set() больше не нужен.">    <span class="fn">set</span>(target, key, value) {
+      target[key] = value;
+      <span class="fn">trigger</span>(target, key); <span class="cm">// уведомляем об изменении</span>
+      <span class="kw">return</span> <span class="kw">true</span>;
+    }</div>
+  });
+}
+
+<span class="kw">const</span> state = <span class="fn">reactive</span>({ count: <span class="num">0</span> });
+state.count = <span class="num">1</span>;        <span class="cm">// работает!</span>
+state.newProp = <span class="str">'hello'</span>; <span class="cm">// тоже работает — Proxy перехватывает</span></pre>
+                        </div>
+
+                        <div class="info-panel code-note" id="vue3Note">
+                            <h3>Что дал Proxy</h3>
+                            <p>
+                                Отслеживаются <b>добавление и удаление</b> свойств, массивы работают
+                                без хаков, производительность выше — обёртка ставится одна на объект,
+                                а не по одной на каждое свойство.
+                            </p>
+                            <p class="note-aside">
+                                Цена — <em>Proxy</em> есть только в ES6+: поддержку IE11 Vue 3 потерял.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Vue 3 — Proxy против defineProperty -->
+            <section class="slide" data-slide="11">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Proxy перехватывает всё</h2>
+                    <p class="slide-lead">
+                        Одна и та же операция над состоянием — и то, что о ней узнаёт
+                        Vue 3 с <em>Proxy</em> и Vue 2 с геттерами и сеттерами.
+                    </p>
+
+                    <div class="vs-demo" id="proxyDemo">
+                        <div class="vs-ops">
+                            <button class="demo-btn" type="button" data-op="read">state.count</button>
+                            <button class="demo-btn" type="button" data-op="write">state.count = 1</button>
+                            <button class="demo-btn" type="button" data-op="add">state.newProp = 'hi'</button>
+                            <button class="demo-btn" type="button" data-op="delete">delete state.title</button>
+                            <button class="demo-btn" type="button" data-op="array">state.arr[0] = 5</button>
+                        </div>
+
+                        <div class="vs-panels">
+                            <div class="vs-panel is-v3" data-side="v3">
+                                <div class="vs-head">
+                                    <span class="vs-badge">Vue 3</span>
+                                    <span class="vs-how">одна обёртка <em>Proxy</em> на весь объект</span>
+                                </div>
+                                <div class="vs-obj" data-role="obj"></div>
+                                <p class="vs-trap" data-role="trap">—</p>
+                                <p class="vs-verdict" data-role="verdict">Ловушка одна на все операции с объектом</p>
+                            </div>
+
+                            <div class="vs-panel is-v2" data-side="v2">
+                                <div class="vs-head">
+                                    <span class="vs-badge">Vue 2</span>
+                                    <span class="vs-how"><em>defineProperty</em> на каждое свойство</span>
+                                </div>
+                                <div class="vs-obj" data-role="obj"></div>
+                                <p class="vs-trap" data-role="trap">—</p>
+                                <p class="vs-verdict" data-role="verdict">Реактивны только свойства, размеченные при инициализации</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        Vue 2 размечал свойства по одному — новых, удалённых и записанных
+                        по индексу он просто не видел. <b>Proxy стоит перед объектом целиком</b>,
+                        поэтому <em>Vue.set()</em> и <em>Vue.delete()</em> больше не нужны.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE: Vue 2026 — слой реактивности (Alien Signals) -->
+            <section class="slide" data-slide="12">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Vue 2026 · реактивность</h2>
+                    <p class="slide-lead">
+                        Слой «кто от кого зависит» переписан на библиотеку Alien Signals.
+                        Публичный API не изменился ни на строку — меняется только то,
+                        как Vue внутри проводит изменение по графу зависимостей.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://github.com/stackblitz/alien-signals" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span>
+                                <span class="use-name">Alien Signals</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">движок графа: связи двусвязным списком вместо коллекций<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://vuejs.org/api/reactivity-core.html" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+                                <span class="use-name">ref, computed, watch</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">публичный API — он не меняется ни на строку<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://vuejs.org/guide/extras/reactivity-in-depth.html" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                                <span class="use-name">push-pull</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">запись помечает зависимых, чтение пересчитывает<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="fw-cols is-compact">
+                        <a class="fw-brand" href="https://github.com/stackblitz/alien-signals" target="_blank" rel="noreferrer">
+                            <svg class="fw-brand-mark is-pixel" aria-hidden="true"><use href="#fw-alien"></use></svg>
+                            <span class="fw-brand-text">
+                                <b>Alien Signals</b>
+                                <em>github.com/stackblitz/alien-signals ↗</em>
+                            </span>
+                        </a>
+                        <div class="fw-person">
+                            <img class="fw-photo" src="assets/creators/johnson-chu.webp" alt="Johnson Chu">
+                            <div class="fw-person-text">
+                                <span class="fw-person-name">Johnson Chu</span>
+                                <span class="fw-person-role">автор Alien Signals и Vue Language Tools</span>
+                            </div>
+                            <div class="fw-socials">
+                                <a href="https://github.com/johnsoncodehk" target="_blank" rel="noreferrer" aria-label="github"><svg aria-hidden="true"><use href="#i-github"></use></svg></a>
+                                <a href="https://x.com/johnsoncodehk" target="_blank" rel="noreferrer" aria-label="x"><svg aria-hidden="true"><use href="#i-x"></use></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="signal-grid" id="alienDemo">
+                        <div class="code-box is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>Counter.vue</em></div>
+<pre><span class="punc">&lt;</span><span class="tag">script</span> <span class="attr">setup</span><span class="punc">&gt;</span>
+<span class="kw">import</span> { ref, computed, watch } <span class="kw">from</span> <span class="str">'vue'</span>
+
+<span class="cm">// источник — обычный ref</span>
+<span class="kw">const</span> count = <span class="fn">ref</span>(<span class="num">1</span>)
+
+<span class="cm">// производные — считаются от него</span>
+<span class="kw">const</span> doubled = <span class="fn">computed</span>(() =&gt; count.value * <span class="num">2</span>)
+<span class="kw">const</span> total   = <span class="fn">computed</span>(() =&gt; doubled.value + <span class="num">10</span>)
+
+<span class="fn">watch</span>(total, v =&gt; console.<span class="fn">log</span>(v))
+<span class="punc">&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span>
+
+<span class="punc">&lt;</span><span class="tag">template</span><span class="punc">&gt;</span>
+  <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>{{ total }}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span>
+<span class="punc">&lt;/</span><span class="tag">template</span><span class="punc">&gt;</span></pre>
+                            <p class="two-code-note">
+                                Этот файл в Vue 3.6 не меняется. Alien Signals живёт под
+                                <em>ref</em> и <em>computed</em>, а не вместо них.
+                            </p>
+                        </div>
+
+                        <div class="signal-side">
+                            <div class="graph">
+                                <div class="gnode is-source" data-node="count">
+                                    <span class="gnode-kind">ref</span>
+                                    <b>count</b>
+                                    <i data-val="count">1</i>
+                                </div>
+                                <span class="gwire" aria-hidden="true"></span>
+                                <div class="gnode" data-node="doubled">
+                                    <span class="gnode-kind">computed</span>
+                                    <b>doubled</b>
+                                    <i data-val="doubled">2</i>
+                                </div>
+                                <span class="gwire" aria-hidden="true"></span>
+                                <div class="gnode" data-node="total">
+                                    <span class="gnode-kind">computed</span>
+                                    <b>total</b>
+                                    <i data-val="total">12</i>
+                                </div>
+                                <span class="gwire" aria-hidden="true"></span>
+                                <div class="gnode is-effect" data-node="view">
+                                    <span class="gnode-kind">эффект</span>
+                                    <b>&lt;p&gt; на экране</b>
+                                    <i data-val="view">12</i>
+                                </div>
+                            </div>
+
+                            <div class="demo-bar">
+                                <button class="demo-btn is-lead" type="button" data-role="run">count++</button>
+                                <span class="demo-log" data-role="log">
+                                    Граф в покое: у каждого значения записано, кто на него смотрит.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Vue 2026 — слой рендеринга (Vapor Mode) -->
+            <section class="slide" data-slide="13">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Vue 2026 · рендеринг</h2>
+                    <p class="slide-lead">
+                        Vapor Mode — вторая половина: вместо виртуального дерева компилятор
+                        сразу пишет код, который меняет нужный узел DOM. Включается атрибутом
+                        <em>vapor</em> в теге <em>&lt;script setup&gt;</em>.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://github.com/vuejs/core-vapor" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                                <span class="use-name">Vapor Mode</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">режим компиляции без виртуального DOM<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://vuejs.org/guide/extras/rendering-mechanism.html" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></span>
+                                <span class="use-name">компилятор шаблонов</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">связывает выражение с конкретным узлом DOM<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="vapor-grid interactive-block" data-target="vaporNote">
+                        <div class="lanes" id="vaporLanes">
+                            <div class="lane" data-lane="vdom">
+                                <p class="section-label">Как было</p>
+                                <div class="lane-steps">
+                                    <span class="lane-step">изменение</span>
+                                    <span class="lane-step">Virtual DOM</span>
+                                    <span class="lane-step">diff</span>
+                                    <span class="lane-step">патч DOM</span>
+                                </div>
+                            </div>
+                            <div class="lane is-fast" data-lane="vapor">
+                                <p class="section-label">Vapor Mode</p>
+                                <div class="lane-steps">
+                                    <span class="lane-step">изменение</span>
+                                    <span class="lane-step">прямое обновление DOM</span>
+                                </div>
+                            </div>
+                            <div class="lanes-bar">
+                                <button class="demo-btn is-lead" type="button" data-role="run">count++</button>
+                                <span class="lanes-hint" data-role="hint">
+                                    Каждая реактивная зависимость связана напрямую с конкретным DOM-узлом
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="vapor-code">
+                            <div class="code-box is-win">
+                                <div class="win-bar"><i></i><i></i><i></i><em>Counter.vue</em></div>
+<pre><div class="code-line" data-title="Атрибут vapor" data-desc="Один атрибут переключает компилятор на другую стратегию сборки этого компонента. Соседние компоненты могут остаться на виртуальном DOM — режим выбирается по файлу, а не по приложению."><span class="punc">&lt;</span><span class="tag">script</span> <span class="attr">setup</span> <span class="attr">vapor</span><span class="punc">&gt;</span></div>
+<span class="kw">import</span> { ref, computed } <span class="kw">from</span> <span class="str">'vue'</span>
+
+<div class="code-line" data-title="Источник и производное" data-desc="Обычные ref и computed — те же, что в любом компоненте Vue. Vapor Mode не трогает слой реактивности: он меняет только то, что происходит после изменения."><span class="kw">const</span> count = <span class="fn">ref</span>(<span class="num">0</span>)
+<span class="kw">const</span> doubled = <span class="fn">computed</span>(() =&gt; count.value * <span class="num">2</span>)</div>
+<span class="punc">&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span>
+
+<span class="punc">&lt;</span><span class="tag">template</span><span class="punc">&gt;</span>
+<div class="code-line" data-title="Что генерирует компилятор" data-desc="На каждое выражение в шаблоне компилятор заводит ссылку на конкретный текстовый узел и функцию обновления вида node.textContent = value. Виртуального дерева этого компонента не существует вовсе — сравнивать нечего.">  <span class="punc">&lt;</span><span class="tag">p</span><span class="punc">&gt;</span>{{ count }} × 2 = {{ doubled }}<span class="punc">&lt;/</span><span class="tag">p</span><span class="punc">&gt;</span></div>
+<div class="code-line" data-title="Обработчик" data-desc="Обработчик тоже вешается напрямую на элемент при создании. Ни виртуальных props, ни повторного создания обработчика на каждый рендер — рендера как отдельного шага здесь нет.">  <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">@click</span>=<span class="str">"count++"</span><span class="punc">&gt;</span>Увеличить<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span></div>
+<span class="punc">&lt;/</span><span class="tag">template</span><span class="punc">&gt;</span></pre>
+                            </div>
+
+                            <div class="info-panel code-note" id="vaporNote">
+                                <h3>Компонент без виртуального дерева</h3>
+                                <p>
+                                    Обычный компонент Vue на каждое изменение строит новое
+                                    виртуальное дерево и сравнивает его с прошлым. В Vapor Mode
+                                    компилятор заранее знает, какое выражение живёт в каком узле,
+                                    и генерирует прямое присваивание.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Angular — что это и история -->
+            <section class="slide" data-slide="14">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Angular</h2>
+                    <p class="slide-lead">
+                        Платформа для разработки веб-приложений, написанная на TypeScript.
+                        Первую версию Мишко Хевери написал в Google. Запомните имя: в конце
+                        доклада оно встретится снова.
+                    </p>
+
+                    <div class="fw-cols">
+                        <a class="fw-brand" href="https://angular.dev" target="_blank" rel="noreferrer">
+                            <svg class="fw-brand-mark" aria-hidden="true"><use href="#fw-angular"></use></svg>
+                            <span class="fw-brand-text">
+                                <b>Angular</b>
+                                <em>angular.dev ↗</em>
+                            </span>
+                        </a>
+                        <div class="fw-person">
+                            <img class="fw-photo" src="assets/creators/misko-hevery.webp" alt="Мишко Хевери · Miško Hevery">
+                            <div class="fw-person-text">
+                                <span class="fw-person-name">Мишко Хевери · Miško Hevery</span>
+                                <span class="fw-person-role">создатель Angular и Qwik</span>
+                            </div>
+                            <div class="fw-socials">
+                                <a href="https://github.com/mhevery" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><svg aria-hidden="true"><use href="#i-github"></use></svg></a>
+                                <a href="https://www.linkedin.com/in/misko-hevery-3883b1/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg aria-hidden="true"><use href="#i-linkedin"></use></svg></a>
+                                <a href="https://x.com/mhevery" target="_blank" rel="noreferrer" aria-label="X (Twitter)" title="X (Twitter)"><svg aria-hidden="true"><use href="#i-x"></use></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-line">
+                        <div class="story-item">
+                            <span class="story-year">2009</span>
+                            <b>AngularJS</b>
+                            <span>Мишко Хевери и Адам Абронс пишут первую версию как личный проект</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2010–2015</span>
+                            <b>Годы популярности</b>
+                            <span>AngularJS — один из главных фреймворков эпохи</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">сентябрь 2016</span>
+                            <b>Angular 2+</b>
+                            <span>Полная перезапись на TypeScript, обнаружение изменений на Zone.js</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2022–2023</span>
+                            <b>Сигналы</b>
+                            <span>Появляются экспериментально — как параллельная модель реактивности</span>
+                        </div>
+                        <div class="story-item is-now">
+                            <span class="story-year">2025–2026</span>
+                            <b>Zoneless</b>
+                            <span>Переход без Zone.js: сигналы становятся основой</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SLIDE: Angular — Zone.js -->
+            <section class="slide" data-slide="15">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Angular: обнаружение изменений на Zone.js</h2>
+                    <p class="slide-lead">
+                        Angular не следит за данными. Он держит список привязок шаблона,
+                        а Zone.js подсказывает момент, когда их пора перепроверить.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://angular.dev/guide/templates/binding" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
+                                <span class="use-name">Привязка (binding)</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">заводится на каждое выражение шаблона и помнит прошлое значение<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://github.com/angular/angular/tree/main/packages/zone.js" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                                <span class="use-name">Zone.js</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">патчит асинхронные операции и сообщает, когда проверять<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://angular.dev/best-practices/skipping-subtrees" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
+                                <span class="use-name">Change Detector</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">у каждого компонента свой — сверяет свои привязки<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="ng-grid interactive-block" data-target="zoneNote" id="zoneCd">
+                        <div class="ng-code">
+                            <div class="code-box is-win">
+                                <div class="win-bar"><i></i><i></i><i></i><em>counter.component.ts</em></div>
+<pre><span class="attr">@Component</span>({
+  selector: <span class="str">'app-counter'</span>,
+  template: <span class="str">&#96;</span>
+<div class="code-line" data-cd="1" data-title="1 · Привязка (binding)" data-desc="Компилируя шаблон, Angular заводит на каждое выражение привязку и запоминает его прошлое значение. Именно эти пары «выражение → прошлое значение» он и будет перепроверять — за самой переменной count никто не следит.">    <span class="str">&lt;p&gt;{{ count }}&lt;/p&gt;</span></div>
+<div class="code-line" data-cd="2" data-title="2 · Zone.js" data-desc="Zone.js подменяет собой addEventListener, setTimeout, Promise и XHR. Обработчик клика выполняется внутри зоны, и как только он завершился, зона говорит Angular: «что-то могло измениться» — и запускает проверку.">    <span class="str">&lt;button (click)="increment()"&gt;+1&lt;/button&gt;</span></div>
+  <span class="str">&#96;</span>
+})
+<span class="kw">export class</span> <span class="fn">CounterComponent</span> {
+<div class="code-line" data-cd="4" data-title="4 · Сравнение" data-desc="Change Detector берёт новое значение выражения и сравнивает его с запомненным обычным ===. Отличается — пишем в DOM и запоминаем новое. Совпало — не делаем ничего, но сравнить всё равно пришлось.">  count = <span class="num">0</span>;</div>
+
+  <span class="fn">increment</span>() {
+<div class="code-line" data-cd="3" data-title="3 · Change Detector" data-desc="Обычное присваивание: никакого уведомления Angular не получает. Поэтому после клика он идёт по дереву компонентов сверху вниз и просит каждый Change Detector перепроверить свои привязки — включая те компоненты, которые точно не менялись.">    <span class="kw">this</span>.count++;</div>
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <div class="ng-side">
+                            <div class="cd-steps">
+                            <div class="cd-step" data-step="1">
+                                <span class="cycle-num">1</span>
+                                <b>Привязка</b>
+                                <span>На каждое выражение шаблона — своя привязка с прошлым значением</span>
+                            </div>
+                            <div class="cd-step" data-step="2">
+                                <span class="cycle-num">2</span>
+                                <b>Zone.js</b>
+                                <span>Патчит асинхронные операции и сообщает о конце обработчика</span>
+                            </div>
+                            <div class="cd-step" data-step="3">
+                                <span class="cycle-num">3</span>
+                                <b>Change Detector</b>
+                                <span>Обход дерева сверху вниз: у каждого компонента свой детектор</span>
+                            </div>
+                            <div class="cd-step" data-step="4">
+                                <span class="cycle-num">4</span>
+                                <b>Сравнение</b>
+                                <span>Новое значение против запомненного — отличается, пишем в DOM</span>
+                            </div>
+                            </div>
+
+                            <div class="tree-demo" id="zoneTree">
+                            <div class="tree is-zone" data-role="tree">
+                                <div class="tree-level">
+                                    <span class="tree-node" data-node="root">App</span>
+                                </div>
+                                <div class="tree-level">
+                                    <span class="tree-node" data-node="a" data-parent="root">Header</span>
+                                    <span class="tree-node" data-node="b" data-parent="root">List</span>
+                                    <span class="tree-node" data-node="c" data-parent="root">Sidebar</span>
+                                </div>
+                                <div class="tree-level">
+                                    <span class="tree-node" data-node="a1" data-parent="a">Logo</span>
+                                    <span class="tree-node is-target" data-node="b1" data-parent="b">Counter</span>
+                                    <span class="tree-node" data-node="b2" data-parent="b">Row</span>
+                                    <span class="tree-node" data-node="c1" data-parent="c">Filters</span>
+                                </div>
+                            </div>
+                                <div class="demo-bar">
+                                    <button class="demo-btn is-lead" type="button" data-role="run">Клик в Counter</button>
+                                    <span class="demo-log" data-role="log">
+                                        Проверяются все компоненты — Angular не знает, какой изменился
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-panel wide-note" id="zoneNote"></div>
+
+                </div>
+            </section>
+
+            <!-- SLIDE: Angular 2026 — сигналы и zoneless -->
+            <section class="slide" data-slide="16">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Angular 2026</h2>
+                    <p class="slide-lead">
+                        Сигнал сам знает, кто его читает. Значит, спрашивать «а вдруг что-то
+                        изменилось» больше не надо — и Zone.js становится не нужен.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://angular.dev/guide/signals" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                                <span class="use-name">Signal API</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">signal, computed, effect: значение со списком своих читателей<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://angular.dev/guide/zoneless" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></span>
+                                <span class="use-name">zoneless</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">от Zone.js отказались — он не подключается вовсе<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://angular.dev/api/core/provideZonelessChangeDetection" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+                                <span class="use-name">provideZonelessChangeDetection()</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">этим режим и включается при старте приложения<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="ng-grid interactive-block" data-target="signalNote" id="signalCd">
+                        <div class="ng-code">
+                            <div class="code-box is-win">
+                                <div class="win-bar"><i></i><i></i><i></i><em>counter.component.ts</em></div>
+<pre><span class="kw">import</span> { Component, signal, computed } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+
+<span class="attr">@Component</span>({
+  template: <span class="str">&#96;</span>
+<div class="code-line" data-cd="2" data-title="2 · Чтение регистрирует читателя" data-desc="count() в шаблоне — это вызов функции. В момент вызова сигнал запоминает, кто его прочитал: этот шаблон, этот компонент, это выражение. Список читателей ведёт сам сигнал, обходить дерево, чтобы его составить, не нужно.">    <span class="str">&lt;p&gt;Счёт: {{ count() }}&lt;/p&gt;</span>
+    <span class="str">&lt;p&gt;Удвоено: {{ doubled() }}&lt;/p&gt;</span></div>
+  <span class="str">&#96;</span>
+})
+<span class="kw">export class</span> <span class="fn">CounterComponent</span> {
+<div class="code-line" data-cd="1" data-title="1 · signal() — значение со списком читателей" data-desc="signal(0) хранит не только число, но и список тех, кто его прочитал. Это главное отличие от обычного поля класса: поле не знает о себе ничего, сигнал знает всех, кому он нужен.">  count = <span class="fn">signal</span>(<span class="num">0</span>);</div>
+<div class="code-line" data-cd="1" data-title="computed() — производный сигнал" data-desc="computed читает count(), поэтому попадает к нему в читатели, и сам ведёт список своих читателей. Так из сигналов складывается граф: видно, что от чего зависит, без единого обхода дерева компонентов.">  doubled = <span class="fn">computed</span>(() =&gt; <span class="kw">this</span>.<span class="fn">count</span>() * <span class="num">2</span>);</div>
+<div class="code-line" data-cd="3" data-title="3 · Запись помечает читателей" data-desc="update() меняет значение и проходит по списку читателей, помечая их «грязными». Это не пересчёт и не рендер — только пометка, и стоит она ровно столько, сколько читателей у сигнала.">  <span class="fn">increment</span>() {
+    <span class="kw">this</span>.count.<span class="fn">update</span>(v =&gt; v + <span class="num">1</span>);
+  }</div>
+}
+
+<div class="code-line" data-cd="4" data-title="4 · Проверка только помеченных" data-desc="Без Zone.js Angular не перепроверяет дерево целиком: он берёт помеченные компоненты и обновляет их. Zone.js больше не нужен ни для чего — и уходит из бандла вместе со своими ~130 КБ."><span class="cm">// zoneless: Zone.js не подключается вовсе</span>
+<span class="fn">bootstrapApplication</span>(App, { providers: [<span class="fn">provideZonelessChangeDetection</span>()] });</div></pre>
+                            </div>
+                        </div>
+
+                        <div class="ng-side">
+                            <div class="cd-steps">
+                            <div class="cd-step" data-step="1">
+                                <span class="cycle-num">1</span>
+                                <b>signal()</b>
+                                <span>Значение хранит список тех, кто его прочитал</span>
+                            </div>
+                            <div class="cd-step" data-step="2">
+                                <span class="cycle-num">2</span>
+                                <b>Чтение</b>
+                                <span>count() в шаблоне записывает компонент в читатели</span>
+                            </div>
+                            <div class="cd-step" data-step="3">
+                                <span class="cycle-num">3</span>
+                                <b>Запись</b>
+                                <span>update() помечает читателей — без пересчёта и без обхода</span>
+                            </div>
+                            <div class="cd-step" data-step="4">
+                                <span class="cycle-num">4</span>
+                                <b>Обновление</b>
+                                <span>Проверяются только помеченные компоненты, Zone.js не нужен</span>
+                            </div>
+                            </div>
+
+                            <div class="tree-demo" id="signalTree">
+                            <div class="tree is-signal" data-role="tree">
+                                <div class="tree-level">
+                                    <span class="tree-node" data-node="root">App</span>
+                                </div>
+                                <div class="tree-level">
+                                    <span class="tree-node" data-node="a" data-parent="root">Header</span>
+                                    <span class="tree-node" data-node="b" data-parent="root">List</span>
+                                    <span class="tree-node" data-node="c" data-parent="root">Sidebar</span>
+                                </div>
+                                <div class="tree-level">
+                                    <span class="tree-node" data-node="a1" data-parent="a">Logo</span>
+                                    <span class="tree-node is-target" data-node="b1" data-parent="b">Counter</span>
+                                    <span class="tree-node" data-node="b2" data-parent="b">Row</span>
+                                    <span class="tree-node" data-node="c1" data-parent="c">Filters</span>
+                                </div>
+                            </div>
+                                <div class="demo-bar">
+                                    <button class="demo-btn is-lead" type="button" data-role="run">Изменить сигнал</button>
+                                    <span class="demo-log" data-role="log">
+                                        Обновится только тот компонент, который читает сигнал
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-panel wide-note" id="signalNote">
+                        <h3>Откуда Angular знает, что обновлять</h3>
+                        <p>
+                            Список читателей ведёт само значение. Прочитали сигнал —
+                            записались в список; изменили — прошлись по списку.
+                            Дерево компонентов при этом не обходится ни разу.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SLIDE: Svelte — что это и история -->
+            <section class="slide" data-slide="17">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Svelte</h2>
+                    <p class="slide-lead">
+                        Не фреймворк, а <b>компилятор</b>: декларативные компоненты превращаются
+                        в эффективный императивный код на этапе сборки, а не интерпретируются
+                        в браузере.
+                    </p>
+
+                    <div class="fw-cols">
+                        <a class="fw-brand" href="https://svelte.dev" target="_blank" rel="noreferrer">
+                            <svg class="fw-brand-mark" aria-hidden="true"><use href="#fw-svelte"></use></svg>
+                            <span class="fw-brand-text">
+                                <b>Svelte</b>
+                                <em>svelte.dev ↗</em>
+                            </span>
+                        </a>
+                        <div class="fw-person">
+                            <img class="fw-photo" src="assets/creators/rich-harris.webp" alt="Рич Харрис · Rich Harris">
+                            <div class="fw-person-text">
+                                <span class="fw-person-name">Рич Харрис · Rich Harris</span>
+                                <span class="fw-person-role">создатель Svelte</span>
+                            </div>
+                            <div class="fw-socials">
+                                <a href="https://github.com/Rich-Harris" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><svg aria-hidden="true"><use href="#i-github"></use></svg></a>
+                                <a href="https://x.com/Rich_Harris" target="_blank" rel="noreferrer" aria-label="X (Twitter)" title="X (Twitter)"><svg aria-hidden="true"><use href="#i-x"></use></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-line">
+                        <div class="story-item">
+                            <span class="story-year">2013</span>
+                            <b>Ractive.js</b>
+                            <span>Предшественник Svelte — уже с идеей «умного» шаблона</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2016</span>
+                            <b>Первый релиз</b>
+                            <span>Компилятор вместо рантайма как главная ставка</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2019</span>
+                            <b>Svelte 3</b>
+                            <span>Упрощённый синтаксис и реактивность через <em>$:</em></span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2021</span>
+                            <b>Vercel</b>
+                            <span>Рич Харрис переходит в Vercel — работать над Svelte полный день</span>
+                        </div>
+                        <div class="story-item is-now">
+                            <span class="story-year">2023–2026</span>
+                            <b>Svelte 5</b>
+                            <span>Анонс рун, затем — новый стандарт</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SLIDE: Svelte 4 — как работает $: -->
+            <section class="slide" data-slide="18">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Svelte 4: как работает <span class="mono-h2">$:</span></h2>
+                    <p class="slide-lead">
+                        Svelte — компилятор. То, что другие фреймворки делают в браузере,
+                        он делает один раз при сборке: читает файл, находит присваивания
+                        и сам дописывает вызовы обновления.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://svelte.dev/docs/svelte/svelte-compiler" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></span>
+                                <span class="use-name">компилятор Svelte</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">читает файл при сборке, а не следит за ним в браузере<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://svelte.dev/docs/svelte/legacy-reactive-assignments" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                                <span class="use-name">$:</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">метка реактивного выражения — зависимости берутся из текста<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://svelte.dev/docs/svelte/svelte-compiler" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+                                <span class="use-name">$$invalidate</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">вызов, который компилятор дописывает после присваивания<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="compile-grid interactive-block" data-target="svelte4Note" id="svelteCompile">
+                        <div class="code-box is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>Counter.svelte — что пишете вы</em></div>
+<pre><span class="punc">&lt;</span><span class="tag">script</span><span class="punc">&gt;</span>
+<div class="code-line" data-out="1" data-title="Обычные переменные" data-desc="Ни ref, ни useState, ни signal — просто let. Никакой обёртки вокруг значения нет: следить за ним в браузере некому и нечем.">  <span class="kw">let</span> count = <span class="num">0</span>;
+  <span class="kw">let</span> doubleCount = <span class="num">0</span>;</div>
+
+<div class="code-line" data-out="3" data-title="$: — реактивное выражение" data-desc="Компилятор читает эту строку, видит справа count и запоминает: «этот блок зависит от count». Список зависимостей собран при сборке, из текста файла — во время выполнения его никто не пересчитывает.">  <span class="cm">// пересчитывается при изменении count</span>
+  $: doubleCount = count * <span class="num">2</span>;</div>
+
+<div class="code-line" data-out="2" data-title="Присваивание = сигнал" data-desc="Вот ключевой момент. Компилятор находит в тексте присваивание переменной и дописывает после него вызов $$invalidate. Именно поэтому в Svelte 4 работает обычное count += 1, а, например, arr.push(x) — нет: присваивания в тексте не было.">  <span class="kw">function</span> <span class="fn">increment</span>() {
+    count += <span class="num">1</span>;
+  }</div>
+<span class="punc">&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span>
+
+<div class="code-line" data-out="4" data-title="Шаблон — тоже потребитель" data-desc="Каждое выражение в разметке компилятор связывает с конкретным текстовым узлом. Когда $$invalidate помечает count изменённым, обновляется ровно этот узел — без виртуального дерева и без сравнения."><span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">on:click</span>={increment}<span class="punc">&gt;</span>
+  Нажато {count} раз (удвоено: {doubleCount})
+<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span></div></pre>
+                        </div>
+
+                        <div class="compile-side">
+                            <div class="code-box is-win is-small">
+                                <div class="win-bar"><i></i><i></i><i></i><em>Counter.js — что уезжает в браузер</em></div>
+<pre><span class="cm">// сгенерировано компилятором</span>
+<span class="kw">function</span> <span class="fn">instance</span>($$self, $$props, $$invalidate) {
+<div class="out-line" data-out="1">  <span class="kw">let</span> count = <span class="num">0</span>;
+  <span class="kw">let</span> doubleCount = <span class="num">0</span>;</div>
+<div class="out-line" data-out="2">
+  <span class="kw">function</span> <span class="fn">increment</span>() {
+    <span class="fn">$$invalidate</span>(<span class="num">0</span>, count += <span class="num">1</span>);
+  }</div>
+<div class="out-line" data-out="3">
+  $$self.$$.update = () =&gt; {
+    <span class="kw">if</span> ($$self.$$.dirty <span class="punc">&amp;</span> <span class="cm">/* count */</span> <span class="num">1</span>) {
+      <span class="fn">$$invalidate</span>(<span class="num">1</span>, doubleCount = count * <span class="num">2</span>);
+    }
+  };</div>
+<div class="out-line" data-out="4">
+  <span class="cm">// и обновление конкретного текстового узла</span>
+  <span class="fn">set_data</span>(t1, <span class="cm">/*count*/</span> ctx[<span class="num">0</span>]);</div>
+}</pre>
+                            </div>
+
+                            <div class="demo-bar">
+                                <button class="demo-btn is-lead" type="button" data-role="run">Скомпилировать</button>
+                                <span class="demo-log" data-role="log">
+                                    Справа пока пусто: результат появляется на этапе сборки
+                                </span>
+                            </div>
+
+                            <div class="info-panel code-note" id="svelte4Note"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Svelte 4 — где ломается $: -->
+            <section class="slide" data-slide="19">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Svelte 4: где ломается <span class="mono-h2">$:</span></h2>
+                    <p class="slide-lead">
+                        Всё держится на том, что компилятор видит присваивание в тексте файла.
+                        Стоит вынести его за границу <em>.svelte</em> — и дописывать
+                        <em>$$invalidate</em> становится некуда.
+                    </p>
+
+                    <div class="break-grid" id="svelte4Demo">
+                        <div class="code-swap">
+                            <div class="code-box is-win" data-view="inline">
+                                <div class="win-bar"><i></i><i></i><i></i><em>Counter.svelte</em></div>
+<pre><span class="punc">&lt;</span><span class="tag">script</span><span class="punc">&gt;</span>
+  <span class="kw">let</span> count = <span class="num">0</span>;
+  $: doubleCount = count * <span class="num">2</span>;
+
+  <span class="cm">// присваивание здесь — компилятор его видит</span>
+  <span class="kw">function</span> <span class="fn">increment</span>() {
+    count += <span class="num">1</span>;
+  }
+<span class="punc">&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span></pre>
+                            </div>
+
+                            <div class="code-box is-win is-broken" data-view="moved" hidden>
+                                <div class="win-bar"><i></i><i></i><i></i><em>Counter.svelte + utils.js</em></div>
+<pre><span class="punc">&lt;</span><span class="tag">script</span><span class="punc">&gt;</span>
+  <span class="kw">import</span> { increment } <span class="kw">from</span> <span class="str">'./utils.js'</span>;
+  <span class="kw">let</span> count = <span class="num">0</span>;
+  $: doubleCount = count * <span class="num">2</span>;
+<span class="punc">&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span>
+
+<span class="cm">// utils.js — обычный файл, компилятор Svelte его не трогает</span>
+<span class="kw">export function</span> <span class="fn">increment</span>(state) {
+  state.count += <span class="num">1</span>; <span class="cm">// $$invalidate дописать некуда</span>
+}</pre>
+                            </div>
+                        </div>
+
+                        <div class="break-demo">
+                            <div class="break-chain" data-role="chain">
+                                <span class="break-node">count += 1</span>
+                                <span class="break-arrow" data-role="arrow">
+                                    <span class="break-arrow-line"></span>
+                                    <em data-role="arrow-label">отслеживается</em>
+                                </span>
+                                <span class="break-node is-derived">doubleCount</span>
+                            </div>
+                            <div class="demo-bar">
+                                <button class="demo-btn is-lead" type="button" data-role="toggle">Вынести в файл</button>
+                            </div>
+                            <p class="demo-log" data-role="log">
+                                Код в <em>.svelte</em>: компилятор видит присваивание и связывает его с <em>$:</em>
+                            </p>
+
+                            <div class="pain-row">
+                                <span class="pain-mark">1</span>
+                                <p>Реактивность работает <b>только внутри</b> <em>.svelte</em>-файлов</p>
+                            </div>
+                            <div class="pain-row">
+                                <span class="pain-mark">2</span>
+                                <p>Не видно присваивания — не видно и зависимости: <em>arr.push()</em> тоже не сработает</p>
+                            </div>
+                            <div class="pain-row">
+                                <span class="pain-mark">3</span>
+                                <p>По коду не понять, что и когда обновляется: решение приняли за вас при сборке</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Svelte 5 — руны -->
+            <section class="slide" data-slide="20">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Svelte 5: руны</h2>
+                    <p class="slide-lead">
+                        Руна — явный вызов вместо неявного правила. Компилятор превращает
+                        её в сигнал, а зависимости собираются во время выполнения — по факту
+                        чтения, а не по тексту файла.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://svelte.dev/docs/svelte/what-are-runes" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                                <span class="use-name">$state, $derived, $effect</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">явные вызовы вместо неявных правил<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://svelte.dev/docs/svelte/$state#Passing-state-across-modules" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+                                <span class="use-name">.svelte.ts</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">обычный файл, который тоже проходит через компилятор рун<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://svelte.dev/docs/svelte/$effect" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+                                <span class="use-name">зависимости в рантайме</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">подписка получается из самого факта чтения<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="compile-grid interactive-block" data-target="runesNote" id="runesDemo">
+                        <div class="code-box is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>counter.svelte.ts — обычный файл, не компонент</em></div>
+<pre><div class="code-line" data-rune="state" data-title="$state — значение, за которым следят" data-desc="Компилятор превращает переменную в сигнал: чтение регистрирует того, кто читает, запись уведомляет всех записавшихся. Присваивание вы пишете обычное — count++ — но за ним теперь стоит сигнал, а не догадка компилятора о тексте файла."><span class="kw">let</span> count = <span class="fn">$state</span>(<span class="num">0</span>);</div>
+<div class="code-line" data-rune="derived" data-title="$derived — производное значение" data-desc="Считается лениво и только тогда, когда его читают. Зависимости не разбираются из текста: во время вычисления $derived запоминает, какие сигналы он прочитал на самом деле — включая те, что пришли из другого файла."><span class="kw">let</span> doubled = <span class="fn">$derived</span>(count * <span class="num">2</span>);</div>
+
+<div class="code-line" data-rune="effect" data-title="$effect — побочное действие" data-desc="Выполняется после того, как зависимости изменились, и сам подписывается на всё, что прочитал внутри. Отписка не нужна: сигналы знают своих читателей и убирают их сами."><span class="fn">$effect</span>(() =&gt; {
+  console.<span class="fn">log</span>(<span class="str">'счёт:'</span>, count, <span class="str">'удвоено:'</span>, doubled);
+});</div>
+
+<div class="code-line" data-rune="export" data-title="Состояние живёт вне компонента" data-desc="Файл с суффиксом .svelte.ts проходит через компилятор рун — и то же самое состояние можно импортировать в любой компонент. Раньше ради этого приходилось заводить store; теперь это просто переменная."><span class="kw">export function</span> <span class="fn">increment</span>() {
+  count++;
+}
+<span class="kw">export function</span> <span class="fn">getCount</span>() {
+  <span class="kw">return</span> count;
+}</div></pre>
+                        </div>
+
+                        <div class="compile-side">
+                            <div class="runes-list">
+                                <button class="rune" type="button" data-rune="state"><b>$state</b><span>значение, за которым следят</span></button>
+                                <button class="rune" type="button" data-rune="derived"><b>$derived</b><span>производное, считается лениво</span></button>
+                                <button class="rune" type="button" data-rune="effect"><b>$effect</b><span>побочное действие после изменения</span></button>
+                                <button class="rune" type="button" data-rune="export"><b>.svelte.ts</b><span>состояние вне компонента</span></button>
+                            </div>
+
+                            <div class="break-demo is-fixed" id="runesChain">
+                                <div class="break-chain" data-role="chain">
+                                    <span class="break-node">count++</span>
+                                    <span class="break-arrow" data-role="arrow">
+                                        <span class="break-arrow-line"></span>
+                                        <em data-role="arrow-label">отслеживается</em>
+                                    </span>
+                                    <span class="break-node is-derived">doubled</span>
+                                </div>
+                                <div class="demo-bar">
+                                    <button class="demo-btn is-lead" type="button" data-role="toggle">Вынести в файл</button>
+                                    <span class="demo-log is-ok" data-role="log">
+                                        Тот же сценарий, что ломал <em>$:</em> — здесь связь остаётся
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="info-panel code-note" id="runesNote">
+                                <h3>Что изменилось по сути</h3>
+                                <p>
+                                    Зависимости больше не выводятся из текста файла. Их собирает
+                                    сама программа во время работы: прочитал сигнал — попал
+                                    к нему в читатели. Ровно та же модель, что у Solid и Vue 3.6.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Solid — что это и история -->
+            <section class="slide" data-slide="21">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Solid</h2>
+                    <p class="slide-lead">
+                        Декларативная библиотека с <b>мелкозернистой</b> реактивностью. Синтаксис
+                        почти как у React, внутри — сигналы и компиляция в прямой DOM-код
+                        без виртуального DOM.
+                    </p>
+
+                    <div class="fw-cols">
+                        <a class="fw-brand" href="https://www.solidjs.com" target="_blank" rel="noreferrer">
+                            <svg class="fw-brand-mark" aria-hidden="true"><use href="#fw-solid"></use></svg>
+                            <span class="fw-brand-text">
+                                <b>Solid</b>
+                                <em>solidjs.com ↗</em>
+                            </span>
+                        </a>
+                        <div class="fw-person">
+                            <img class="fw-photo" src="assets/creators/ryan-carniato.webp" alt="Райан Карниато · Ryan Carniato">
+                            <div class="fw-person-text">
+                                <span class="fw-person-name">Райан Карниато · Ryan Carniato</span>
+                                <span class="fw-person-role">создатель Solid</span>
+                            </div>
+                            <div class="fw-socials">
+                                <a href="https://github.com/ryansolid" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><svg aria-hidden="true"><use href="#i-github"></use></svg></a>
+                                <a href="https://x.com/RyanCarniato" target="_blank" rel="noreferrer" aria-label="X (Twitter)" title="X (Twitter)"><svg aria-hidden="true"><use href="#i-x"></use></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-line">
+                        <div class="story-item">
+                            <span class="story-year">2018–2019</span>
+                            <b>Начало</b>
+                            <span>Райан Карниато начинает разработку Solid</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2020</span>
+                            <b>Первый релиз</b>
+                            <span>Публичная версия с сигналами в основе</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2021–2023</span>
+                            <b>Рост</b>
+                            <span>Популярность приходит через производительность</span>
+                        </div>
+                        <div class="story-item is-now">
+                            <span class="story-year">2026</span>
+                            <b>Эталон скорости</b>
+                            <span>Один из самых быстрых фреймворков — и образец для остальных</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SLIDE: Solid — сигналы и мелкозернистость -->
+            <section class="slide" data-slide="22">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Solid: сигнал как пара [getter, setter]</h2>
+                    <p class="slide-lead">
+                        Компонент выполняется <b>один раз</b>. Дальше живут только сигналы —
+                        и обновляют ровно те DOM-узлы, которые их читают.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://docs.solidjs.com/reference/basic-reactivity/create-signal" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3"/></svg></span>
+                                <span class="use-name">createSignal</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">пара [getter, setter]: читать и писать — разные функции<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://docs.solidjs.com/reference/basic-reactivity/create-memo" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></span>
+                                <span class="use-name">createMemo и createEffect</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">производное значение и эффект — подписываются сами<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://docs.solidjs.com/concepts/understanding-jsx" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></span>
+                                <span class="use-name">компиляция JSX</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">сразу в создание DOM-узлов, без виртуального дерева<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="compile-grid interactive-block" data-target="solidNote">
+                        <div class="code-box is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>Counter.jsx</em></div>
+<pre><span class="kw">import</span> { createSignal, createMemo, createEffect } <span class="kw">from</span> <span class="str">'solid-js'</span>;
+
+<span class="kw">function</span> <span class="fn">Counter</span>() {
+<div class="code-line" data-title="Сигнал — это пара функций" data-desc="createSignal возвращает не значение, а две функции: count() читает, setCount() пишет. Читать и писать — разные операции, поэтому изменить состояние случайно нельзя: присваивания count = 5 просто не существует.">  <span class="kw">const</span> [count, setCount] = <span class="fn">createSignal</span>(<span class="num">0</span>);</div>
+
+<div class="code-line" data-title="Производный сигнал" data-desc="createMemo вычисляется лениво и кэширует результат. Во время вычисления он читает count() — и тем самым записывается к нему в подписчики. Никакого списка зависимостей руками, как в useMemo, писать не нужно.">  <span class="kw">const</span> doubled = <span class="fn">createMemo</span>(() =&gt; <span class="fn">count</span>() * <span class="num">2</span>);</div>
+
+<div class="code-line" data-title="Эффект подписывается сам" data-desc="createEffect выполняется сразу, запоминает все сигналы, которые прочитал внутри, и повторяется при их изменении. Массива зависимостей нет — подписка получается из самого факта чтения.">  <span class="fn">createEffect</span>(() =&gt; {
+    console.<span class="fn">log</span>(<span class="str">'Счёт:'</span>, <span class="fn">count</span>());
+  });</div>
+
+  <span class="kw">return</span> (
+    <span class="punc">&lt;&gt;</span>
+<div class="code-line" data-title="JSX — это не разметка, а инструкции" data-desc="Компилятор Solid превращает JSX в создание настоящих DOM-узлов, а каждое выражение в фигурных скобках — в отдельный маленький эффект: «обновляй текст вот этого узла». Тело Counter при этом больше никогда не выполняется.">      <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>{<span class="fn">count</span>()}<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span>
+      <span class="punc">&lt;</span><span class="tag">div</span><span class="punc">&gt;</span>{<span class="fn">doubled</span>()}<span class="punc">&lt;/</span><span class="tag">div</span><span class="punc">&gt;</span></div>
+<div class="code-line" data-title="Запись уведомляет подписчиков" data-desc="setCount проходит по списку тех, кто читал count: это memo doubled и два эффекта, обновляющих текстовые узлы. Ни компонент, ни его дети при этом не выполняются заново — обновляются только два текста.">      <span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">onClick</span>={() =&gt; <span class="fn">setCount</span>(c =&gt; c + <span class="num">1</span>)}<span class="punc">&gt;</span>
+        Увеличить
+      <span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span></div>
+    <span class="punc">&lt;/&gt;</span>
+  );
+}</pre>
+                        </div>
+
+                        <div class="compile-side">
+                            <div class="grain" id="grainDemo">
+                                <div class="grain-panel" data-panel="react">
+                                    <p class="section-label">React</p>
+                                    <div class="grain-box" data-role="box">
+                                        <span class="grain-tag">&lt;Counter /&gt;</span>
+                                        <span class="grain-line">Счёт: <b data-role="count">0</b></span>
+                                        <span class="grain-line is-muted">Удвоено: <b data-role="doubled">0</b></span>
+                                    </div>
+                                    <button class="demo-btn" type="button" data-role="run">Увеличить</button>
+                                    <span class="grain-note">Перерендер всего компонента</span>
+                                </div>
+
+                                <div class="grain-panel is-solid" data-panel="solid">
+                                    <p class="section-label">Solid</p>
+                                    <div class="grain-box" data-role="box">
+                                        <span class="grain-tag">Counter — выполнен 1 раз</span>
+                                        <span class="grain-line">Счёт: <b data-role="count">0</b></span>
+                                        <span class="grain-line is-muted">Удвоено: <b data-role="doubled">0</b></span>
+                                    </div>
+                                    <button class="demo-btn" type="button" data-role="run">Увеличить</button>
+                                    <span class="grain-note">Обновились только два текстовых узла</span>
+                                </div>
+                            </div>
+
+                            <div class="info-panel code-note" id="solidNote">
+                                <h3>Компонент — это функция настройки</h3>
+                                <p>
+                                    В React функция компонента вызывается на каждое изменение.
+                                    В Solid она вызывается один раз: её задача — создать узлы
+                                    и подписки. Дальше работают только сигналы, а на частых
+                                    точечных обновлениях это даёт <b>50–70%</b> выигрыша.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Qwik — что это и история -->
+            <section class="slide" data-slide="23">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Qwik</h2>
+                    <p class="slide-lead">
+                        Фреймворк, построенный на <b>возобновляемости</b> (resumability): вместо
+                        гидратации приложение продолжает работу с того места, где остановился
+                        сервер. Автор — тот же, что придумал Angular.
+                    </p>
+
+                    <div class="fw-cols">
+                        <a class="fw-brand" href="https://qwik.dev" target="_blank" rel="noreferrer">
+                            <svg class="fw-brand-mark" aria-hidden="true"><use href="#fw-qwik"></use></svg>
+                            <span class="fw-brand-text">
+                                <b>Qwik</b>
+                                <em>qwik.dev ↗</em>
+                            </span>
+                        </a>
+                        <div class="fw-person">
+                            <img class="fw-photo" src="assets/creators/misko-hevery.webp" alt="Мишко Хевери · Miško Hevery">
+                            <div class="fw-person-text">
+                                <span class="fw-person-name">Мишко Хевери · Miško Hevery</span>
+                                <span class="fw-person-role">создатель Qwik и Angular</span>
+                            </div>
+                            <div class="fw-socials">
+                                <a href="https://github.com/mhevery" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><svg aria-hidden="true"><use href="#i-github"></use></svg></a>
+                                <a href="https://www.linkedin.com/in/misko-hevery-3883b1/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg aria-hidden="true"><use href="#i-linkedin"></use></svg></a>
+                                <a href="https://x.com/mhevery" target="_blank" rel="noreferrer" aria-label="X (Twitter)" title="X (Twitter)"><svg aria-hidden="true"><use href="#i-x"></use></svg></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-line">
+                        <div class="story-item">
+                            <span class="story-year">май 2021</span>
+                            <b>Анонс</b>
+                            <span>Хевери уходит из Google в Builder.io и представляет Qwik</span>
+                        </div>
+                        <div class="story-item">
+                            <span class="story-year">2022–2024</span>
+                            <b>Экосистема</b>
+                            <span>Qwik City, интеграции, серверные адаптеры</span>
+                        </div>
+                        <div class="story-item is-now">
+                            <span class="story-year">2026</span>
+                            <b>Qwik 1.19</b>
+                            <span>Улучшенная реактивность на сигналах</span>
+                        </div>
+                    </div>
+
+                    <p class="today-note">
+                        Автор Angular второй раз переосмысляет реактивность — и на этот раз спорит
+                        не с обновлением DOM, а с <b>самой загрузкой приложения</b>.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE: Qwik — возобновляемость -->
+            <section class="slide" data-slide="24">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Qwik: интерактивность без ожидания</h2>
+                    <p class="slide-lead">
+                        Гидратация — это повторный запуск всего приложения в браузере ради того,
+                        что сервер уже посчитал. Qwik её не делает.
+                    </p>
+
+                    <ul class="uses">
+                        <li class="use">
+                            <a class="use-card" href="https://qwik.dev/docs/advanced/dollar/" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></span>
+                                <span class="use-name">component$ и onClick$</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">границы, по которым компилятор режет код на чанки<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://qwik.dev/docs/concepts/resumable/" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>
+                                <span class="use-name">сериализация состояния</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">состояние и подписки уезжают в HTML вместе с разметкой<em>официальная документация ↗</em></span>
+                        </li>
+                        <li class="use">
+                            <a class="use-card" href="https://qwik.dev/docs/advanced/qwikloader/" target="_blank" rel="noreferrer">
+                                <span class="use-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                                <span class="use-name">загрузчик ~1.6 КБ</span>
+                                <svg class="use-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><polyline points="9 7 17 7 17 15"/></svg>
+                            </a>
+                            <span class="use-pop" role="tooltip">ловит событие и подгружает нужный чанк — больше ничего<em>официальная документация ↗</em></span>
+                        </li>
+                    </ul>
+
+                    <div class="qwik-grid interactive-block" data-target="qwikNote">
+                        <div class="code-box is-win">
+                            <div class="win-bar"><i></i><i></i><i></i><em>что пришло в браузер</em></div>
+<pre><div class="code-line" data-title="Адрес обработчика вместо обработчика" data-desc="В атрибуте записано, в каком файле лежит функция и какая она там по счёту. Самой функции в браузере ещё нет: единственный скрипт Qwik слушает события на document и загружает нужный чанк ровно в момент клика."><span class="punc">&lt;</span><span class="tag">button</span> <span class="attr">on:click</span>=<span class="str">"q-a8f2.js#s_0[0]"</span> <span class="attr">q:id</span>=<span class="str">"3"</span><span class="punc">&gt;</span>
+  Счёт: 0
+<span class="punc">&lt;/</span><span class="tag">button</span><span class="punc">&gt;</span></div>
+
+<div class="code-line" data-title="Состояние сериализовано в разметку" data-desc="Сервер закончил работу на этом состоянии — и записал его в HTML вместе со связями «какой узел на что подписан». Клиенту не нужно вычислять это заново: он продолжает с того же места. Это и есть возобновляемость."><span class="punc">&lt;</span><span class="tag">script</span> <span class="attr">type</span>=<span class="str">"qwik/json"</span><span class="punc">&gt;</span>
+  {<span class="str">"objs"</span>: [<span class="num">0</span>], <span class="str">"subs"</span>: [[<span class="str">"3"</span>, <span class="str">"count"</span>]]}
+<span class="punc">&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span></div>
+
+<div class="code-line" data-title="Один скрипт на всё приложение" data-desc="Это весь JavaScript, который выполняется при загрузке. Он не знает о компонентах ничего: поймать событие, прочитать адрес из атрибута, подгрузить чанк. Поэтому его размер не растёт вместе с приложением."><span class="punc">&lt;</span><span class="tag">script</span><span class="punc">&gt;</span> <span class="cm">/* загрузчик Qwik, ~1.6 КБ */</span> <span class="punc">&lt;/</span><span class="tag">script</span><span class="punc">&gt;</span></div></pre>
+                        </div>
+
+                        <div class="boot" id="bootDemo">
+                            <div class="boot-track" data-track="react">
+                                <p class="section-label">React · SSR + гидратация</p>
+                                <div class="boot-steps">
+                                    <span class="boot-step" data-boot="html">HTML</span>
+                                    <span class="boot-step" data-boot="js">весь JS</span>
+                                    <span class="boot-step" data-boot="hydrate">гидратация</span>
+                                    <span class="boot-step is-goal" data-boot="ready">интерактивно</span>
+                                </div>
+                                <span class="boot-wait" data-role="wait">всё это время кнопки не работают</span>
+                            </div>
+
+                            <div class="boot-track is-fast" data-track="qwik">
+                                <p class="section-label">Qwik · возобновляемость</p>
+                                <div class="boot-steps">
+                                    <span class="boot-step" data-boot="html">HTML + состояние</span>
+                                    <span class="boot-step is-goal" data-boot="ready">интерактивно</span>
+                                    <span class="boot-step is-lazy" data-boot="lazy">чанк по клику</span>
+                                </div>
+                                <span class="boot-wait is-none" data-role="wait">ждать нечего: ~1.6 КБ</span>
+                            </div>
+
+                            <div class="demo-bar">
+                                <button class="demo-btn is-lead" type="button" data-role="run">Открыть страницу</button>
+                                <span class="demo-log" data-role="log">
+                                    Обе дорожки стартуют вместе — смотрите, когда загорится «интерактивно»
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-panel wide-note" id="qwikNote"></div>
+                </div>
+            </section>
+
+            <!-- SLIDE: сводная история реактивности -->
+            <section class="slide" data-slide="25">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Как развивалась реактивность</h2>
+                    <div class="era-grid">
+                        <div class="era-corner"></div>
+                            <div class="era-head c1">2009–2013</div>
+                            <div class="era-head c2">2014–2016</div>
+                            <div class="era-head c3">2017–2019</div>
+                            <div class="era-head c4">2020–2022</div>
+                            <div class="era-head c5">2023–2024</div>
+                            <div class="era-head c6">2025–2026</div>
+                            <div class="era-track r1"></div>
+                            <div class="era-name r1"><svg class="era-mark" aria-hidden="true"><use href="#fw-react"></use></svg>React</div>
+                            <div class="era-item r1 c1"><b>2013</b><span>Virtual DOM и setState: сверка деревьев</span></div>
+                            <div class="era-item r1 c3"><b>2019</b><span>Хуки: useState, useEffect, useMemo</span></div>
+                            <div class="era-item r1 c4"><b>2022</b><span>Конкурентный рендеринг, Suspense</span></div>
+                            <div class="era-item r1 c6 is-now"><b>2025</b><span>React Compiler: мемоизация автоматом</span></div>
+                            <div class="era-track r2"></div>
+                            <div class="era-name r2"><svg class="era-mark" aria-hidden="true"><use href="#fw-vue"></use></svg>Vue</div>
+                            <div class="era-item r2 c2"><b>2014</b><span>Object.defineProperty: геттер и сеттер на свойство</span></div>
+                            <div class="era-item r2 c4"><b>2020</b><span>Proxy: обёртка на весь объект</span></div>
+                            <div class="era-item r2 c6 is-now"><b>2026</b><span>Alien Signals и Vapor Mode</span></div>
+                            <div class="era-track r3"></div>
+                            <div class="era-name r3"><svg class="era-mark" aria-hidden="true"><use href="#fw-angular"></use></svg>Angular</div>
+                            <div class="era-item r3 c1"><b>2010</b><span>AngularJS: грязная проверка $digest</span></div>
+                            <div class="era-item r3 c2"><b>2016</b><span>Zone.js: обход всего дерева компонентов</span></div>
+                            <div class="era-item r3 c5"><b>2023</b><span>Сигналы — сначала экспериментально</span></div>
+                            <div class="era-item r3 c6 is-now"><b>2026</b><span>Zoneless по умолчанию, Zone.js не нужен</span></div>
+                            <div class="era-track r4"></div>
+                            <div class="era-name r4"><svg class="era-mark" aria-hidden="true"><use href="#fw-svelte"></use></svg>Svelte</div>
+                            <div class="era-item r4 c2"><b>2016</b><span>Компилятор вместо рантайма</span></div>
+                            <div class="era-item r4 c3"><b>2019</b><span>$: — зависимости из текста файла</span></div>
+                            <div class="era-item r4 c5 is-now"><b>2024</b><span>Руны: $state и $derived — сигналы</span></div>
+                            <div class="era-track r5"></div>
+                            <div class="era-name r5"><svg class="era-mark" aria-hidden="true"><use href="#fw-solid"></use></svg>Solid</div>
+                            <div class="era-item r5 c4"><b>2020</b><span>createSignal: мелкозернистая реактивность</span></div>
+                            <div class="era-item r5 c6 is-now"><b>2026</b><span>Модель, которую повторили все остальные</span></div>
+                            <div class="era-track r6"></div>
+                            <div class="era-name r6"><svg class="era-mark" aria-hidden="true"><use href="#fw-qwik"></use></svg>Qwik</div>
+                            <div class="era-item r6 c4"><b>2021</b><span>Анонс: возобновляемость вместо гидратации</span></div>
+                            <div class="era-item r6 c5"><b>2023</b><span>Сигналы и сериализация состояния в HTML</span></div>
+                            <div class="era-item r6 c6 is-now"><b>2026</b><span>Qwik 1.19: ~1.6 КБ начального JS</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: кто перешёл на сигналы -->
+            <section class="slide" data-slide="26">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Куда всё идёт · август 2026</h2>
+                    <p class="slide-lead">
+                        За шесть лет на сигналы перешли все, кроме одного. Каждый пришёл
+                        своим путём и в свой год — но к одной и той же модели.
+                    </p>
+
+                    <div class="split">
+                        <div class="split-side">
+                            <p class="section-label">Перешли на сигналы</p>
+                            <div class="conv">
+                                <svg class="conv-mark" aria-hidden="true"><use href="#fw-solid"></use></svg>
+                                <b>Solid</b>
+                                <span class="conv-year">2020</span>
+                                <span class="conv-what">createSignal — с самого рождения</span>
+                            </div>
+                            <div class="conv">
+                                <svg class="conv-mark" aria-hidden="true"><use href="#fw-qwik"></use></svg>
+                                <b>Qwik</b>
+                                <span class="conv-year">2021</span>
+                                <span class="conv-what">useSignal и состояние прямо в HTML</span>
+                            </div>
+                            <div class="conv">
+                                <svg class="conv-mark" aria-hidden="true"><use href="#fw-preact"></use></svg>
+                                <b>Preact</b>
+                                <span class="conv-year">2022</span>
+                                <span class="conv-what">@preact/signals как отдельный пакет</span>
+                            </div>
+                            <div class="conv">
+                                <svg class="conv-mark" aria-hidden="true"><use href="#fw-angular"></use></svg>
+                                <b>Angular</b>
+                                <span class="conv-year">2023</span>
+                                <span class="conv-what">Signal API, с 2026 — zoneless по умолчанию</span>
+                            </div>
+                            <div class="conv">
+                                <svg class="conv-mark" aria-hidden="true"><use href="#fw-svelte"></use></svg>
+                                <b>Svelte</b>
+                                <span class="conv-year">2024</span>
+                                <span class="conv-what">руны $state и $derived вместо магии $:</span>
+                            </div>
+                            <div class="conv">
+                                <svg class="conv-mark" aria-hidden="true"><use href="#fw-vue"></use></svg>
+                                <b>Vue</b>
+                                <span class="conv-year">2026</span>
+                                <span class="conv-what">Alien Signals под теми же ref и computed</span>
+                            </div>
+                        </div>
+
+                        <div class="split-side is-alone">
+                            <p class="section-label">Пошёл другим путём</p>
+                            <div class="conv is-alone">
+                                <svg class="conv-mark" aria-hidden="true"><use href="#fw-react"></use></svg>
+                                <b>React</b>
+                                <span class="conv-year">2025</span>
+                                <span class="conv-what">React Compiler: мемоизацию расставляет сборка.
+                                Модель прежняя — обновляется весь компонент</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent is-strong">
+                        Реактивность перестала быть отличием фреймворков и стала общим местом.
+                        <b>Соревнование переехало на время до интерактивности.</b>
+                    </p>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="27" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Vue.js, Angular, Svelte, Solid, Qwik</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-116-react-10-6-nikiforov.pages.dev" target="_blank" rel="noreferrer">Общие шаблоны</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-116-react-10-7-nikiforov.pages.dev" target="_blank" rel="noreferrer">React не значит реактивный</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-116-react-10-8-nikiforov.pages.dev" target="_blank" rel="noreferrer">Будущее React</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов этого доклада -->
+    <script src="assets/js/talk.js"></script>
+
+</body>
+</html>

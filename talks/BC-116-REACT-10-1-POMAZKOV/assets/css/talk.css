@@ -1,0 +1,2270 @@
+/*
+ * talk.css — стили контентных слайдов ЭТОГО доклада («Vue.js», глава 10).
+ * Общий «хром» дека живёт в deck.css и правится только в шаблоне; всё, что
+ * относится к слайдам спикера, — здесь: пересборка «хром»-слайдов
+ * (scripts/rebuild-talk.mjs) этот файл не трогает.
+ */
+
+/* Спрайт иконок (логотипы фреймворков, соцсети) сам по себе не рисуется —
+   из него берут <symbol> через <use>. */
+.icon-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css
+   нет, а без него width: 100% с padding вылезает за контейнер слайда. */
+.content-slide,
+.content-slide *,
+.content-slide *::before,
+.content-slide *::after {
+    box-sizing: border-box;
+}
+
+/* ===== Каркас контентного слайда =====
+   Шапка (заголовок + лид) прижата к верху, всё остальное центрировано в
+   остатке высоты: автоотступы у первого блока после шапки и у хвостового
+   элемента делят свободное место поровну — сверху и снизу выходит одинаково. */
+.content-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 52px 100px;
+    box-sizing: border-box;
+}
+.content-slide > h2 {
+    font-size: 52px;
+    margin: 0;
+    line-height: 1.1;
+    flex-shrink: 0;
+}
+/* Лид читается как подзаголовок, поэтому стоит вплотную под заголовком. */
+.content-slide > h2 + .slide-lead {
+    margin-top: 14px;
+}
+.content-slide > .slide-lead + *,
+.content-slide > h2 + *:not(.slide-lead) {
+    margin-top: auto !important;
+}
+.content-slide::after {
+    content: '';
+    margin-top: auto;
+}
+/* Слайды о фреймворке: под описанием — две колонки, слева логотип со ссылкой
+   на сайт, справа создатель со ссылками на его профили. Ниже идёт основная
+   демонстрация слайда. */
+.fw-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    margin: 34px 0 0;
+}
+.fw-brand {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    border: 1px solid #232323;
+    border-radius: 24px;
+    background: #080808;
+    padding: 54px 40px;
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+}
+.fw-brand:hover {
+    border-color: #3f3f46;
+}
+.fw-brand-mark {
+    width: 92px;
+    height: 92px;
+    flex-shrink: 0;
+}
+/* Пиксельный значок: сглаживание превратило бы клетки в кашу. */
+.fw-brand-mark.is-pixel {
+    width: 58px;
+    height: 42px;
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+}
+.fw-cols.is-compact {
+    gap: 24px;
+    margin-top: 26px;
+}
+.fw-cols.is-compact .fw-brand {
+    gap: 20px;
+    padding: 16px 24px;
+}
+.fw-cols.is-compact .fw-brand-mark {
+    width: 46px;
+    height: 46px;
+}
+.fw-cols.is-compact .fw-brand-mark.is-pixel {
+    width: 46px;
+    height: 34px;
+}
+.fw-cols.is-compact .fw-brand-text b {
+    font-size: 21px;
+}
+.fw-cols.is-compact .fw-brand-text em {
+    font-size: 13px;
+}
+.fw-cols.is-compact .fw-person {
+    padding: 14px 20px 14px 14px;
+}
+.fw-cols.is-compact .fw-photo {
+    width: 48px;
+    height: 48px;
+}
+.fw-cols.is-compact .fw-person-name {
+    font-size: 17px;
+}
+.fw-cols.is-compact .fw-person-role {
+    font-size: 13px;
+}
+.fw-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.fw-brand-text b {
+    font-size: 34px;
+    color: #fff;
+}
+.fw-brand-text em {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    color: #71717a;
+}
+.fw-person {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #080808;
+    padding: 10px 18px 10px 12px;
+}
+.fw-photo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.fw-person-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.fw-person-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ededed;
+    white-space: nowrap;
+}
+.fw-person-role {
+    font-size: 13px;
+    color: #71717a;
+    white-space: nowrap;
+}
+/* Соцсети — плоские белые значки: цвет один на все, различает только форма. */
+.fw-socials {
+    display: flex;
+    gap: 8px;
+    margin-left: 8px;
+}
+.fw-socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    color: #fff;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+.fw-socials a:hover {
+    opacity: 1;
+    background: #1a1a1a;
+}
+.fw-socials svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+.fw-cols .fw-person {
+    gap: 24px;
+    padding: 46px 32px 46px 28px;
+    border-radius: 24px;
+}
+.fw-cols .fw-photo {
+    width: 96px;
+    height: 96px;
+}
+.fw-cols .fw-person-name {
+    font-size: 24px;
+}
+.fw-cols .fw-person-role {
+    font-size: 17px;
+}
+.fw-cols .fw-socials a {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+}
+.fw-cols .fw-socials svg {
+    width: 18px;
+    height: 18px;
+}
+
+.slide-lead {
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 1300px;
+}
+/* Перед примером — из чего он собран: инструмент и зачем он нужен.
+   Стоит вплотную под шапкой, поэтому автоотступ «первого блока» переезжает
+   на следующий за строкой элемент. */
+.content-slide > h2 + .uses,
+.content-slide > .slide-lead + .uses {
+    margin-top: 20px !important;
+}
+.content-slide > .uses + * {
+    margin-top: auto !important;
+}
+.content-slide > .uses + .interactive-block,
+.content-slide > .slide-lead + .interactive-block {
+    margin-top: 0 !important;
+}
+/* Карточка инструмента: значок и имя видны всегда, объяснение приезжает
+   на наведении, клик уводит в официальную документацию. Поповер снизу —
+   сверху он налезал бы на лид и мог уехать за край слайда. */
+.content-slide > .uses {
+    padding-bottom: 24px;
+}
+.uses {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex-shrink: 0;
+}
+.use {
+    position: relative;
+}
+.use-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #1e1e1e;
+    border-radius: 12px;
+    background: #0a0a0a;
+    padding: 9px 16px 9px 9px;
+    text-decoration: none;
+    transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+}
+.use:hover .use-card {
+    border-color: #93c5fd;
+    background: #0f1620;
+    transform: translateY(-2px);
+}
+.use-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #121212;
+    color: #71717a;
+    transition: color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+}
+.use:hover .use-icon {
+    color: #93c5fd;
+    background: #142033;
+    transform: scale(1.08) rotate(-6deg);
+}
+.use-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.use-name {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #d4d4d8;
+    transition: color 0.22s ease;
+}
+.use:hover .use-name {
+    color: #fff;
+}
+.use-go {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    color: #2f2f33;
+    transition: color 0.22s ease, transform 0.22s ease;
+}
+.use:hover .use-go {
+    color: #93c5fd;
+    transform: translate(2px, -2px);
+}
+.use-pop {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 320px;
+    padding: 14px 18px;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    background: #0d0d0d;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a1a1aa;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.use:hover .use-pop {
+    opacity: 1;
+    transform: translateY(0);
+}
+.use-pop::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 24px;
+    width: 9px;
+    height: 9px;
+    border-left: 1px solid #2a2a2a;
+    border-top: 1px solid #2a2a2a;
+    background: #0d0d0d;
+    transform: rotate(45deg);
+}
+/* У крайней справа карточки поповер прижимается правым краем — иначе уезжает. */
+.use:last-child .use-pop {
+    left: auto;
+    right: 0;
+}
+.use:last-child .use-pop::before {
+    left: auto;
+    right: 24px;
+}
+.use-pop em {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: #93c5fd;
+}
+/* Главная мысль слайда — широкой полосой под примером, во всю ширину.
+   Единый приём для всех контентных слайдов: пример сверху, вывод под ним. */
+.wide-accent {
+    margin: 30px 0 0;
+    padding: 18px 26px;
+    border-left: 3px solid #3f3f46;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    font-size: 20px;
+    line-height: 1.55;
+    color: #d4d4d8;
+    flex-shrink: 0;
+}
+.wide-accent.is-strong {
+    border-left-color: #fff;
+    font-size: 23px;
+    color: #ededed;
+}
+.wide-accent b {
+    color: #fff;
+    font-weight: 600;
+}
+.dotted {
+    text-decoration: underline dotted;
+    text-decoration-color: #a1a1aa;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 7px;
+    color: #ededed;
+}
+
+.slide-lead b,
+.today-note b {
+    color: #ededed;
+    font-weight: 600;
+}
+.section-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #71717a;
+    margin: 0;
+}
+/* Инлайновый код в тексте — тем же моно-шрифтом, что листинги. */
+.content-slide code,
+.content-slide em {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: #93c5fd;
+}
+.mono-h2 {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+}
+/* Вывод внизу слайда — мелкая строка за пунктиром. Автоотступ сверху уводит
+   её к нижнему краю: содержимое остаётся по центру между шапкой и выводом. */
+.content-slide > .today-note {
+    margin-top: auto;
+}
+.today-note {
+    margin: 26px 0 0;
+    padding-top: 18px;
+    border-top: 1px dashed #232323;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #71717a;
+    flex-shrink: 0;
+}
+
+/* ===== Кнопки демо ===== */
+.demo-btn {
+    border: 1px solid #3f3f46;
+    border-radius: 10px;
+    background: #101010;
+    color: #ededed;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 9px 18px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.demo-btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+.demo-btn:disabled:hover {
+    border-color: #3f3f46;
+    background: #101010;
+    color: #ededed;
+}
+.demo-btn:hover {
+    border-color: #fff;
+    background: #1a1a1a;
+    color: #fff;
+}
+.demo-btn.is-lead {
+    border-color: #fff;
+    background: #fff;
+    color: #000;
+    font-size: 18px;
+    padding: 14px 34px;
+}
+.demo-btn.is-lead:hover {
+    background: #ededed;
+    color: #000;
+}
+.demo-btn.is-round {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 1;
+}
+.demo-btn.is-on {
+    border-color: #fff;
+    background: #fff;
+    color: #000;
+}
+.demo-bar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+.demo-log {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #71717a;
+    transition: color 0.25s ease;
+}
+.demo-log.is-warn {
+    color: #f87171;
+}
+.demo-log.is-ok {
+    color: #34d399;
+}
+/* Не поломка, но и не победа: цена подхода. */
+.demo-log.is-note {
+    color: #f5c451;
+}
+
+/* Общая раскладка «демо слева — текст справа». */
+.demo-block {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+    margin: 34px 0 0;
+}
+.demo-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.demo-aside p {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+/* ===== Слайд 3: электронная таблица ===== */
+.sheet {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #060606;
+    padding: 22px;
+}
+.sheet-row {
+    display: grid;
+    grid-template-columns: 44px 1fr 1fr;
+    gap: 10px;
+    align-items: stretch;
+}
+.sheet-head span,
+.sheet-idx {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #52525b;
+}
+.sheet-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 62px;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #0b0b0b;
+    padding: 0 14px;
+}
+.sheet-cell b {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    color: #fff;
+}
+.sheet-cell em {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #52525b;
+}
+.sheet-cell.is-input {
+    border-color: #3f3f46;
+    background: #111;
+}
+.sheet-cell.is-label {
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #52525b;
+}
+.sheet-cell.is-formula {
+    justify-content: space-between;
+}
+.sheet-cell.is-total {
+    border-color: #3f3f46;
+}
+.sheet-step {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #3f3f46;
+    border-radius: 50%;
+    background: #050505;
+    color: #d4d4d8;
+    font-size: 17px;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.sheet-step:hover {
+    border-color: #fff;
+    color: #fff;
+}
+/* Пересчитанная ячейка коротко подсвечивается — видно, что каскад дошёл. */
+.sheet-cell.is-recalc {
+    animation: cellFlash 0.6s ease;
+}
+@keyframes cellFlash {
+    0% {
+        border-color: #93c5fd;
+        background: #0f1620;
+    }
+    100% {
+        border-color: #232323;
+        background: #0b0b0b;
+    }
+}
+
+/* Код слева, шаги цикла справа: клик по «Клик» ведёт обе колонки разом —
+   подсвечивается и шаг, и строка кода, которая на этом шаге работает. */
+.react-cycle-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.react-cycle {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 44px;
+    align-items: start;
+    margin: 32px 0 0;
+}
+.react-cycle-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.cycle-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.cycle-step {
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    grid-template-rows: auto auto;
+    gap: 2px 18px;
+    border: 1px solid #232323;
+    border-radius: 14px;
+    background: #080808;
+    padding: 12px 20px;
+    transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+    opacity: 0.75;
+}
+.cycle-step.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+    opacity: 1;
+}
+.cycle-step:hover {
+    border-color: #3f3f46;
+    opacity: 1;
+}
+.cycle-step.is-done {
+    opacity: 0.8;
+}
+.cycle-num {
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-self: center;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #3f3f46;
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #a1a1aa;
+}
+.cycle-step.is-on .cycle-num {
+    border-color: #93c5fd;
+    color: #fff;
+}
+.cycle-step b {
+    font-size: 20px;
+    color: #fff;
+}
+.cycle-step > span:last-child {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #71717a;
+}
+/* Нулевой шаг — сам компонент: та же карточка, что у остальных шагов,
+   только с кнопкой справа. Цикл начинается с клика по нему. */
+.cycle-step.is-live {
+    grid-template-columns: 46px minmax(0, 1fr) auto;
+    align-items: center;
+    opacity: 1;
+    border-color: #3f3f46;
+    background: #0b0b0b;
+    cursor: default;
+}
+.cycle-step.is-live:hover {
+    border-color: #3f3f46;
+}
+.cycle-step.is-live b {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: #52525b;
+}
+.cycle-step.is-live .live-value {
+    grid-column: 2;
+    font-size: 19px;
+    color: #d4d4d8;
+}
+.cycle-step.is-live .live-value i {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-style: normal;
+    color: #fff;
+}
+.cycle-step.is-live .demo-btn {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+}
+/* Перерендер — вспышка всей рамки компонента: единица обновления в React
+   именно компонент, и это должно быть видно глазом. */
+.cycle-step.is-live.is-rerender {
+    animation: rerenderFlash 0.55s ease;
+}
+@keyframes rerenderFlash {
+    0%,
+    100% {
+        border-color: #3f3f46;
+        background: #0b0b0b;
+    }
+    45% {
+        border-color: #f87171;
+        background: #1a0f0f;
+    }
+}
+/* Строка кода, привязанная к шагу цикла: подсвечивается не по клику, а по
+   ходу анимации, поэтому свой класс — курсор и hover тут не нужны. */
+.code-box .cyc-line {
+    display: block;
+    cursor: pointer;
+    padding: 3px 22px !important;
+    margin: 0 -22px !important;
+    border-left: 3px solid transparent;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.code-box .cyc-line:hover {
+    background: #131313;
+}
+.code-box .cyc-line.is-on {
+    background: #12181f !important;
+    border-left-color: #93c5fd;
+    color: #fff;
+}
+
+/* ===== Слайды с кодом: код и пояснение рядом ===== */
+.code-slide {
+    display: grid;
+    /* Доли, а не проценты: 58% + 42% + gap уезжали за правый край слайда. */
+    grid-template-columns: minmax(0, 1.38fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+    margin-top: 26px;
+}
+.code-slide.is-wide {
+    grid-template-columns: minmax(0, 1.78fr) minmax(0, 1fr);
+}
+.code-box {
+    border: 1px solid #2a2a2a;
+    border-radius: 18px;
+    background: #060606;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.55;
+    color: #a1a1aa;
+    overflow: hidden;
+}
+.code-box.is-small {
+    font-size: 13px;
+    line-height: 1.45;
+}
+.ng-code .code-box {
+    font-size: 15px;
+    line-height: 1.5;
+}
+/* ===== Подсветка синтаксиса =====
+   Разметка ручная (highlight.js тянуть нельзя — доклад автономен), палитра —
+   как у остальных докладов клуба, чтобы код везде читался одинаково. */
+.code-box .cm {
+    color: #52525b; /* комментарий */
+}
+.code-box .kw {
+    color: #f87171; /* ключевое слово */
+}
+.code-box .str {
+    color: #34d399; /* строка */
+}
+.code-box .fn {
+    color: #60a5fa; /* функция и метод */
+}
+.code-box .tag {
+    color: #e879f9; /* JSX-тег или компонент */
+}
+.code-box .attr {
+    color: #fbbf24; /* пропс, ключ объекта, декоратор */
+}
+.code-box .num {
+    color: #f0abfc; /* число */
+}
+.code-box .punc {
+    color: #71717a; /* угловые скобки */
+}
+/* ===== Окно кода в духе macOS ===== */
+.code-box.is-win {
+    padding: 0;
+}
+.win-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #101010;
+    border-bottom: 1px solid #1f1f1f;
+}
+.win-bar i {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3f3f46;
+    flex-shrink: 0;
+}
+.win-bar i:nth-child(1) { background: #ff5f57; }
+.win-bar i:nth-child(2) { background: #febc2e; }
+.win-bar i:nth-child(3) { background: #28c840; }
+.win-bar em {
+    margin-left: 10px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #71717a;
+}
+.code-box.is-win pre {
+    margin: 0;
+    padding: 18px 22px;
+    /* По горизонтали листинг не прокручивается: строки подобраны по ширине
+       окна, а вынос подсветки строк за отступы не должен родить полосу. */
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 680px;
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f46 transparent;
+}
+.code-box.is-win pre::-webkit-scrollbar {
+    width: 10px;
+}
+.code-box.is-win pre::-webkit-scrollbar-track {
+    background: transparent;
+}
+.code-box.is-win pre::-webkit-scrollbar-thumb {
+    background: #3f3f46;
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+}
+/* Кликабельная строка кода: класс code-line — крючок движка (deck.js).
+   В покое строка ничем не выделена — код читается как код; о том, что по
+   области можно кликнуть, говорит подсветка под курсором. Отрицательные поля
+   равны отступам <pre>, поэтому подсветка идёт от края до края окна. */
+.code-box .code-line {
+    padding: 3px 22px !important;
+    margin: 0 -22px !important;
+    color: #ededed;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.code-box .code-line:hover {
+    background: #1a1a1a !important;
+    color: #fff;
+}
+.code-box .code-line.active {
+    background: #1f1f1f !important;
+    color: #fff;
+}
+/* Панель пояснения — правая колонка первой строки. Место в сетке задаём явно:
+   при автоматическом размещении панель уезжала строкой ниже, и слайд
+   становился выше 1080px. */
+.code-note:empty,
+.wide-note:empty {
+    display: none;
+    min-height: 0;
+}
+.code-note {
+    grid-column: 2;
+    grid-row: 1;
+    border: none;
+    background: none;
+    padding: 6px 0 0 !important;
+    min-height: 300px;
+}
+.code-note h3 {
+    font-size: 22px !important;
+    margin-bottom: 12px !important;
+    color: #fff;
+}
+.code-note p {
+    font-size: 16px !important;
+    line-height: 1.55 !important;
+}
+.code-note b {
+    color: #ededed;
+}
+.code-note .note-aside {
+    display: block;
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #52525b;
+}
+/* Подпись под окном кода: третий элемент сетки, поэтому колонку задаём явно —
+   иначе она встала бы под панель пояснения справа. */
+/* Главная мысль слайда с кодом: широкой полосой под сеткой, а не колонкой
+   рядом. Остаётся целью для кликов по строкам кода — меняется только место. */
+.wide-note {
+    /* .info-panel в deck.css тянется на всю высоту и живёт с полем 60px —
+       для полосы под сеткой оба значения надо перебить. */
+    height: auto;
+    margin: 26px 0 0;
+    padding: 20px 30px !important;
+    border-left: 3px solid #93c5fd;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(147, 197, 253, 0.09), rgba(255, 255, 255, 0));
+    flex-shrink: 0;
+}
+.wide-note h3 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    color: #fff;
+}
+.wide-note p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #d4d4d8;
+}
+
+/* Приписка внутри окна кода (под листингом). */
+.two-code-note {
+    margin: 0;
+    padding: 14px 22px 18px;
+    border-top: 1px solid #1f1f1f;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    color: #71717a;
+}
+
+/* ===== Карточки-факты (три в ряд) ===== */
+.cards-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin: 40px 0 0;
+}
+.fact-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid #232323;
+    border-radius: 20px;
+    background: #080808;
+    padding: 30px 32px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.fact-card:hover {
+    border-color: #3f3f46;
+    transform: translateY(-3px);
+}
+.fact-card.is-accent {
+    border-color: #3f3f46;
+    background: #0d0d0d;
+}
+.fact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    color: #93c5fd;
+}
+.fact-card.is-accent .fact-icon {
+    color: #fff;
+}
+.fact-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.fact-card h3 {
+    margin: 0;
+    font-size: 28px;
+    color: #fff;
+}
+.fact-card p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+.fact-card p b {
+    color: #ededed;
+}
+/* Под идеей подхода — что именно им пользуются: имя со ссылкой на документацию
+   и одна строка о назначении. */
+.fact-list {
+    margin: 2px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.fact-list li {
+    position: relative;
+    padding-left: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #71717a;
+}
+.fact-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #3f3f46;
+}
+.fact-list a {
+    font-family: var(--font-mono);
+    font-size: 0.94em;
+    color: #93c5fd;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(147, 197, 253, 0.35);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.fact-list a:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+
+/* ===== История фреймворка: горизонтальный таймлайн ===== */
+.story-line {
+    /* Колонки по числу шагов: и пять, и шесть вех раскладываются поровну —
+       фиксированный repeat(6) оставлял пустую колонку и линию в никуда. */
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 22px;
+    margin: 44px 0 0;
+}
+.story-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 26px;
+    position: relative;
+}
+/* Линия времени — отрезок от точки до точки, поэтому за последней вехой
+   она не тянется. Вылет вправо равен зазору сетки. */
+.story-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 11px;
+    right: -22px;
+    top: 5px;
+    height: 1px;
+    background: #232323;
+}
+.story-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #3f3f46;
+}
+.story-item.is-now::before {
+    background: #fff;
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.1);
+}
+.story-year {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #52525b;
+}
+.story-item b {
+    font-size: 22px;
+    color: #d4d4d8;
+}
+.story-item.is-now b {
+    color: #fff;
+}
+.story-item > span:last-child {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #71717a;
+}
+
+/* ===== Слайд «Vue 2: где ломается» =====
+   Слева объект, справа три проблемы кнопками: нажал — увидел, что стало
+   с объектом. Разбор в любом порядке, поэтому состояние всегда пересобирается
+   с нуля, а не накапливается. */
+.break-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+    margin: 34px 0 0;
+}
+.pains {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.pain-card {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 18px;
+    align-items: start;
+    width: 100%;
+    text-align: left;
+    border: 1px solid #232323;
+    border-radius: 16px;
+    background: #080808;
+    padding: 20px 24px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.pain-card:hover {
+    border-color: #3f3f46;
+}
+.pain-card.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+}
+.pain-card.is-on .pain-mark {
+    border-color: #93c5fd;
+    color: #fff;
+}
+.pain-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.pain-text b {
+    font-size: 21px;
+    color: #ededed;
+}
+/* Строка кода внутри карточки — то самое действие, которое ломает реактивность. */
+.pain-text em {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #93c5fd;
+}
+.pain-text > span {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #71717a;
+}
+
+.props-box {
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #060606;
+    padding: 26px 30px;
+}
+.props-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0 20px;
+}
+.prop-row {
+    display: grid;
+    grid-template-columns: 34px max-content minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #0b0b0b;
+    padding: 14px 18px;
+}
+.prop-row b {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: #fff;
+}
+.prop-row i {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-style: normal;
+    color: #93c5fd;
+}
+/* Вложенное свойство — со сдвигом и мельче: видно, что обход идёт вглубь. */
+.prop-row.is-nested {
+    margin-left: 28px;
+    padding: 10px 18px;
+}
+.prop-row.is-nested b {
+    font-size: 17px;
+}
+.prop-row.is-nested i {
+    font-size: 15px;
+}
+.prop-state {
+    font-size: 15px;
+    color: #52525b;
+}
+.cuff {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #93c5fd;
+}
+.cuff svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+}
+/* Свойство без наручников: Vue 2 его не видит — рамка пунктиром, знак погашен. */
+.prop-row.is-blind {
+    border-style: dashed;
+    border-color: #3f2020;
+}
+.prop-row.is-blind .cuff {
+    color: #3f3f46;
+}
+.prop-row.is-blind .prop-state {
+    color: #f87171;
+}
+.prop-row.is-hit b {
+    animation: propFlash 0.7s ease;
+}
+@keyframes propFlash {
+    0% { color: #93c5fd; }
+    100% { color: #fff; }
+}
+.prop-row.is-blind.is-hit b {
+    animation: propFail 0.7s ease;
+}
+@keyframes propFail {
+    0% { color: #f87171; }
+    100% { color: #52525b; }
+}
+/* Список проблем справа от демо. */
+.pain-row {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 16px;
+    align-items: start;
+    margin-top: 18px;
+}
+.pain-row:first-child {
+    margin-top: 0;
+}
+.pain-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #3f3f46;
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #a1a1aa;
+}
+.pain-row p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+.pain-row p b {
+    color: #ededed;
+}
+
+/* ===== Слайд «Proxy перехватывает всё»: Vue 3 и Vue 2 рядом =====
+   Панели одинаковы по разметке: сравнивать их глазом можно, только если
+   объект в обеих нарисован одинаково и различаются лишь пометки свойств. */
+.vs-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    margin: 30px 0 0;
+}
+.vs-ops {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+.vs-ops .demo-btn {
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.vs-panels {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 28px;
+}
+.vs-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid #232323;
+    border-radius: 20px;
+    background: #080808;
+    padding: 24px 28px;
+    transition: border-color 0.3s ease;
+}
+.vs-panel.is-hit {
+    border-color: #3f3f46;
+}
+.vs-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.vs-badge {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a1a1aa;
+    border: 1px solid #3f3f46;
+    border-radius: 999px;
+    padding: 4px 14px;
+    white-space: nowrap;
+}
+.vs-panel.is-v3 .vs-badge {
+    color: #4fc08d;
+    border-color: rgba(79, 192, 141, 0.5);
+}
+.vs-how {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #71717a;
+}
+.vs-obj {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: #a1a1aa;
+}
+.vs-brace {
+    color: #52525b;
+}
+.vs-prop {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 20px;
+    padding: 7px 12px;
+    border-left: 2px solid transparent;
+    border-radius: 8px;
+    transition: background 0.25s ease, border-color 0.25s ease;
+}
+.vs-prop b {
+    font-weight: 400;
+    color: #ededed;
+}
+.vs-prop i {
+    font-style: normal;
+    color: #93c5fd;
+}
+/* Приписка справа — обычным шрифтом: это не код, а вывод о коде. */
+.vs-prop em {
+    margin-left: auto;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: #71717a;
+}
+.vs-prop.is-read {
+    background: #0f1620;
+    border-left-color: #93c5fd;
+}
+.vs-prop.is-read em {
+    color: #93c5fd;
+}
+.vs-prop.is-ok {
+    background: #0c1712;
+    border-left-color: #34d399;
+}
+.vs-prop.is-ok em {
+    color: #34d399;
+}
+.vs-prop.is-no {
+    background: #1a0f0f;
+    border-left-color: #f87171;
+}
+.vs-prop.is-no em {
+    color: #f87171;
+}
+.vs-prop.is-gone b,
+.vs-prop.is-gone i {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+.vs-trap {
+    margin: 0;
+    padding: 10px 14px;
+    border: 1px dashed #232323;
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #ededed;
+}
+.vs-trap.is-none {
+    color: #52525b;
+}
+.vs-verdict {
+    margin: 0;
+    min-height: 48px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #71717a;
+}
+.vs-verdict.is-ok {
+    color: #34d399;
+}
+.vs-verdict.is-no {
+    color: #f87171;
+}
+
+/* Код слева, граф зависимостей справа: код не меняется, меняется то, как
+   изменение идёт по графу — поэтому они должны быть видны одновременно. */
+.signal-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    gap: 44px;
+    align-items: start;
+    margin: 30px 0 0;
+}
+.signal-side {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.graph {
+    display: flex;
+    flex-direction: column;
+}
+.gnode {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #232323;
+    border-radius: 14px;
+    background: #080808;
+    padding: 14px 22px;
+    transition: border-color 0.3s ease, background 0.3s ease, opacity 0.3s ease;
+}
+.gnode-kind {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #52525b;
+}
+.gnode b {
+    font-size: 19px;
+    color: #ededed;
+}
+.gnode i {
+    font-family: var(--font-mono);
+    font-size: 21px;
+    font-style: normal;
+    color: #93c5fd;
+}
+.gnode.is-source {
+    border-color: #3f3f46;
+}
+/* Помечено «может устареть»: значение ещё старое, считать пока не начали. */
+.gnode.is-dirty {
+    border-color: #f5c451;
+    background: #191408;
+}
+.gnode.is-dirty i {
+    color: #f5c451;
+}
+/* Пересчитано по требованию. */
+.gnode.is-fresh {
+    border-color: #34d399;
+    background: #0c1a15;
+}
+.gnode.is-fresh i {
+    color: #34d399;
+}
+.gwire {
+    position: relative;
+    height: 26px;
+    margin-left: 46px;
+    width: 1px;
+    background: #2a2a2a;
+}
+.gwire::after {
+    content: '';
+    position: absolute;
+    left: -3px;
+    bottom: 0;
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+    border-top: 6px solid #2a2a2a;
+}
+
+.vapor-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 44px;
+    align-items: start;
+    margin: 32px 0 0;
+}
+.vapor-code {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+/* Панель пояснения на этом слайде идёт под кодом, а не второй колонкой сетки. */
+.vapor-code .code-note {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+}
+.lanes {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+.lane {
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #080808;
+    padding: 20px 24px;
+}
+.lane.is-fast {
+    border-color: #3f3f46;
+}
+.lane-steps {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+.lane-step {
+    position: relative;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    background: #0b0b0b;
+    padding: 10px 14px;
+    font-size: 15px;
+    color: #a1a1aa;
+    transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+}
+.lane-step + .lane-step::before {
+    content: '→';
+    position: absolute;
+    left: -21px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #3f3f46;
+}
+.lane-step.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+    color: #fff;
+}
+.lane.is-fast .lane-step.is-on {
+    border-color: #34d399;
+    background: #0c1a15;
+}
+.lanes-bar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+.lanes-hint {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #71717a;
+    max-width: 380px;
+}
+
+/* ===== Слайды Angular: код и пояснение слева, шаги и дерево справа =====
+   Шаг, строка кода и подсветка дерева — одно и то же событие, показанное
+   с трёх сторон, поэтому все три колонки должны быть видны разом. */
+.ng-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+    margin: 28px 0 0;
+}
+.ng-code {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.ng-code .code-note {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+}
+.ng-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.cd-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.cd-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto auto;
+    gap: 0 16px;
+    align-items: center;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #080808;
+    padding: 10px 18px;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+}
+.cd-step:hover {
+    border-color: #3f3f46;
+    opacity: 1;
+}
+.cd-step.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+    opacity: 1;
+}
+.cd-step.is-done {
+    opacity: 0.8;
+}
+.cd-step .cycle-num {
+    grid-row: 1 / span 2;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+}
+.cd-step.is-on .cycle-num {
+    border-color: #93c5fd;
+    color: #fff;
+}
+.cd-step b {
+    font-size: 18px;
+    color: #fff;
+}
+.cd-step > span:last-child {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #71717a;
+}
+/* Строка кода, привязанная к шагу: подсветка идёт от анимации, а рамка
+   слева повторяет отметку активного шага. */
+.code-box .code-line.is-cd {
+    background: #12181f !important;
+    color: #fff;
+    box-shadow: inset 3px 0 0 #93c5fd;
+}
+
+.tree-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.tree {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #060606;
+    padding: 26px 22px;
+}
+.tree-level {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+.tree-node {
+    position: relative;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    background: #0b0b0b;
+    padding: 10px 16px;
+    font-size: 15px;
+    color: #a1a1aa;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.tree-wires {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+.tree-wires path {
+    fill: none;
+    stroke: #2a2a2a;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+}
+.tree-node.is-target {
+    border-color: #3f3f46;
+    color: #ededed;
+}
+/* Zone.js: проверка идёт по всем узлам — красная волна. */
+.tree.is-zone .tree-node.is-check {
+    border-color: #f87171;
+    background: #180d0d;
+    color: #fff;
+}
+/* Сигналы: обновляется ровно один компонент — зелёная отметка. */
+.tree.is-signal .tree-node.is-check {
+    border-color: #34d399;
+    background: #0c1a15;
+    color: #fff;
+}
+.tree-demo .demo-bar {
+    margin-top: 16px;
+}
+
+/* ===== Слайд 19: как ломается магия Svelte 4 ===== */
+/* ===== Слайды Svelte =====
+   Слева исходник, справа то, во что он превращается: обе колонки читаются
+   как одна строка «было → стало», поэтому сетка, а не два блока подряд. */
+.compile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 36px;
+    align-items: start;
+    margin: 28px 0 0;
+}
+.compile-side {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.compile-side .code-note {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+}
+/* Кусок результата компиляции: до сборки его нет, потом он проявляется. */
+.out-line {
+    display: block;
+    opacity: 0.12;
+    filter: blur(2px);
+    transition: opacity 0.4s ease, filter 0.4s ease, background 0.3s ease;
+}
+.out-line.is-shown {
+    opacity: 1;
+    filter: none;
+}
+.out-line.is-lit {
+    background: #12181f;
+    box-shadow: inset 3px 0 0 #93c5fd;
+}
+
+/* Листинг, который подменяется кнопкой: «вынесли в файл» должно быть видно
+   в самом коде, а не только в подписи. */
+.code-swap .code-box.is-broken {
+    border-color: #3f2020;
+}
+
+/* Руны списком — те же пояснения, что у строк кода, но с другой стороны. */
+.runes-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.rune {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: left;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #080808;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.rune:hover {
+    border-color: #3f3f46;
+}
+.rune.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+}
+.rune b {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: #93c5fd;
+}
+.rune span {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #71717a;
+}
+/* На слайде про руны цепочка не рвётся — красить её в тревожный цвет нечем. */
+.break-demo.is-fixed .break-arrow-line {
+    background: #34d399;
+}
+.break-demo.is-fixed .break-arrow em {
+    color: #34d399;
+}
+
+.break-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.break-chain {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #060606;
+    padding: 26px 24px;
+}
+.break-node {
+    border: 1px solid #3f3f46;
+    border-radius: 12px;
+    background: #0b0b0b;
+    padding: 14px 18px;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: #fff;
+    white-space: nowrap;
+}
+.break-node.is-derived {
+    border-style: dashed;
+}
+.break-arrow {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+.break-arrow-line {
+    position: relative;
+    width: 100%;
+    height: 1px;
+    background: #34d399;
+    transition: background 0.25s ease;
+}
+.break-arrow-line::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -4px;
+    border: 4px solid transparent;
+    border-left-color: #34d399;
+    transition: border-left-color 0.25s ease;
+}
+.break-arrow em {
+    font-style: normal;
+    font-size: 14px;
+    color: #34d399;
+}
+/* Реактивность потеряна: линия рвётся пунктиром и краснеет. */
+.break-arrow.is-broken .break-arrow-line {
+    background: repeating-linear-gradient(90deg, #f87171 0 8px, transparent 8px 16px);
+}
+.break-arrow.is-broken .break-arrow-line::after {
+    border-left-color: #f87171;
+}
+.break-arrow.is-broken em {
+    color: #f87171;
+}
+.break-demo .pain-row {
+    margin-top: 14px;
+}
+.break-demo .demo-bar {
+    margin-top: 16px;
+}
+
+/* ===== Слайд 22: крупно- против мелкозернистых обновлений ===== */
+.grain {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+.grain-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #060606;
+    padding: 22px 24px;
+}
+.grain-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    background: #0b0b0b;
+    padding: 20px;
+}
+/* React: вспыхивает вся рамка компонента. */
+.grain-panel:not(.is-solid) .grain-box.is-run {
+    animation: rerenderFlash 0.6s ease;
+}
+.grain-tag {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #52525b;
+}
+.grain-line {
+    font-size: 20px;
+    color: #d4d4d8;
+}
+.grain-line.is-muted {
+    color: #71717a;
+}
+.grain-line b {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    color: #fff;
+}
+/* Solid: вспыхивает только изменившееся значение. */
+.grain-line b.is-run {
+    animation: valueFlash 0.6s ease;
+}
+@keyframes valueFlash {
+    0% {
+        color: #34d399;
+        text-shadow: 0 0 18px rgba(52, 211, 153, 0.5);
+    }
+    100% {
+        color: #fff;
+        text-shadow: none;
+    }
+}
+.grain-note {
+    font-size: 15px;
+    color: #71717a;
+}
+.grain-panel.is-solid {
+    border-color: #3f3f46;
+}
+
+/* ===== Слайд 24: таймлайн загрузки ===== */
+.qwik-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 36px;
+    align-items: start;
+    margin: 26px 0 0;
+}
+.qwik-code,
+.qwik-side {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.qwik-side .code-note {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 0;
+}
+.boot {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.boot-track {
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #080808;
+    padding: 18px 22px;
+}
+.boot-track.is-fast {
+    border-color: #3f3f46;
+}
+.boot-steps {
+    display: flex;
+    align-items: stretch;
+    gap: 28px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+.boot-step {
+    position: relative;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    background: #0b0b0b;
+    padding: 9px 14px;
+    font-size: 15px;
+    color: #71717a;
+    transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+}
+.boot-step + .boot-step::before {
+    content: '→';
+    position: absolute;
+    left: -21px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #3f3f46;
+}
+.boot-step.is-on {
+    border-color: #93c5fd;
+    background: #0f1620;
+    color: #fff;
+}
+.boot-step.is-goal.is-on {
+    border-color: #34d399;
+    background: #0c1a15;
+}
+.boot-step.is-lazy {
+    border-style: dashed;
+}
+.boot-wait {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 15px;
+    color: #f87171;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.boot-wait.is-shown {
+    opacity: 1;
+}
+.boot-wait.is-none {
+    color: #34d399;
+}
+
+/* ===== Слайд «Как развивалась реактивность» =====
+   Строка — фреймворк, столбец — эпоха. Вехи стоят каждая в своей эпохе,
+   поэтому по вертикали читается «кто когда до этого дошёл», а по горизонтали —
+   путь одного фреймворка. Позиции задаются классами r1…r6 и c1…c6: пустых
+   ячеек в разметке нет, в сетку попадают только сами вехи. */
+.era-grid {
+    display: grid;
+    grid-template-columns: 132px repeat(6, minmax(0, 1fr));
+    grid-template-rows: auto repeat(6, minmax(0, 1fr));
+    gap: 12px;
+    margin: 30px 0 0;
+    align-items: stretch;
+    /* Строки — доли высоты: без нижней границы лента жалась к заголовку
+       и половина слайда оставалась пустой. */
+    min-height: 780px;
+}
+.era-head {
+    grid-row: 1;
+    align-self: end;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #232323;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #52525b;
+}
+.era-name {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 19px;
+    font-weight: 600;
+    color: #ededed;
+}
+.era-mark {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+/* Линия эпохи под вехами: показывает, что путь непрерывный. */
+.era-track {
+    grid-column: 2 / -1;
+    align-self: center;
+    height: 1px;
+    background: #202020;
+}
+.era-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #0a0a0a;
+    padding: 10px 14px;
+    position: relative;
+    z-index: 1;
+}
+.era-item b {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #71717a;
+}
+.era-item span {
+    font-size: 15px;
+    line-height: 1.35;
+    color: #a1a1aa;
+}
+.era-item.is-now {
+    border-color: #3f3f46;
+    background: #101010;
+}
+.era-item.is-now b {
+    color: #fff;
+}
+.era-item.is-now span {
+    color: #ededed;
+}
+.c1 { grid-column: 2; }
+.c2 { grid-column: 3; }
+.c3 { grid-column: 4; }
+.c4 { grid-column: 5; }
+.c5 { grid-column: 6; }
+.c6 { grid-column: 7; }
+.r1 { grid-row: 2; }
+.r2 { grid-row: 3; }
+.r3 { grid-row: 4; }
+.r4 { grid-row: 5; }
+.r5 { grid-row: 6; }
+.r6 { grid-row: 7; }
+
+/* ===== Итоговый слайд: кто перешёл на сигналы =====
+   Слева шестеро с годом перехода, справа один-единственный, кто пошёл иначе.
+   Счёт «шесть против одного» читается с расстояния, без подписей и цифр. */
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: 36px;
+    align-items: stretch;
+    margin: 30px 0 0;
+}
+.split-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid #232323;
+    border-radius: 20px;
+    background: #080808;
+    padding: 36px 38px;
+}
+.split-side.is-alone {
+    border-style: dashed;
+    border-color: #3f2f2f;
+    background: #0a0808;
+}
+/* Единственная карточка — по центру своей колонки: иначе она болталась
+   бы вверху, а справа зияла пустота. */
+.split-side.is-alone .conv {
+    margin: auto 0;
+}
+.split-side .section-label {
+    margin-bottom: 6px;
+}
+.conv {
+    display: grid;
+    grid-template-columns: 32px 124px 66px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+}
+.conv-mark {
+    width: 30px;
+    height: 30px;
+}
+.conv b {
+    font-size: 24px;
+    color: #fff;
+}
+.conv-year {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: #52525b;
+}
+.conv-what {
+    font-size: 17px;
+    line-height: 1.4;
+    color: #a1a1aa;
+}
+.conv.is-alone {
+    grid-template-columns: 40px max-content minmax(0, 1fr);
+    gap: 18px;
+    row-gap: 18px;
+}
+.conv.is-alone .conv-mark {
+    width: 38px;
+    height: 38px;
+}
+.conv.is-alone b {
+    font-size: 30px;
+}
+.conv.is-alone .conv-year {
+    justify-self: start;
+    font-size: 20px;
+}
+.conv.is-alone .conv-what {
+    grid-column: 1 / -1;
+    font-size: 19px;
+    line-height: 1.5;
+}

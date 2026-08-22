@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Будущее React — React. К вершинам мастерства</title>
+    <meta name="description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Будущее React — React. К вершинам мастерства">
+    <meta property="og:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta property="og:image" content="https://bc-116-react-10-8-nikiforov.pages.dev/assets/cover/fluent-react.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Будущее React — React. К вершинам мастерства">
+    <meta name="twitter:description" content="Fluent React: Build Fast, Performant, and Intuitive Web Applications">
+    <meta name="twitter:image" content="https://bc-116-react-10-8-nikiforov.pages.dev/assets/cover/fluent-react.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 10</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Альтернативы React</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Будущее React</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    <img class="book-cover" src="assets/cover/fluent-react.webp" alt="React. К вершинам мастерства">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.oreilly.com/library/view/fluent-react/9781098138707/" target="_blank">
+                                    React. К вершинам мастерства
+                                </a>
+                                <p class="book-subtitle">
+                                    Fluent React: Build Fast, Performant, and Intuitive Web Applications
+                                </p>
+                                <p class="book-desc-ru">
+                                    Глубокое погружение во внутреннее устройство React: JSX и продвинутые паттерны, виртуальный DOM и реконциляция, серверный рендеринг, конкурентный режим и серверные компоненты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://tej.as/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/tejas-kumar.webp" alt="Теджас Кумар">
+                                    <div class="author-info">
+                                        <div class="author-name">Теджас Кумар</div>
+                                        <div class="author-link-text">tej.as ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/Frich22" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/nikiforov-artem.webp" alt="Артём Никифоров">
+                                <div class="author-info">
+                                    <div class="author-name">Артём Никифоров</div>
+                                    <div class="author-link-text">t.me/Frich22 ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="3">
+                <style>
+                    /* ===== Контентные слайды спикера (вне «хром»-маркеров) ===== */
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1460px; margin: 0; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card p + p { margin-top: 12px; }
+                    .cs-card b, .cs-list b, .cs-callout b, .cs-table b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 32px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 21px; line-height: 1.55; color: var(--text-main); max-width: 1560px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-list.tight { gap: 14px; }
+                    .cs-list.tight li { font-size: 19px; }
+                    .cs-callout { margin-top: 32px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1600px; }
+                    .cs-callout.quote { font-style: italic; }
+                    /* Таблица «сверяем часы»: у прошлого дека класс был, а стилей — нет. */
+                    .cs-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 19px; line-height: 1.5; }
+                    .cs-table th { text-align: left; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #71717a; font-weight: 500; padding: 0 24px 14px 0; border-bottom: 1px solid var(--border); }
+                    .cs-table td { padding: 16px 24px 16px 0; border-bottom: 1px solid #1c1c1c; color: var(--text-muted); vertical-align: top; }
+                    .cs-table td:first-child { color: var(--text-main); font-weight: 500; width: 33%; }
+                    .cs-table tr:last-child td { border-bottom: none; }
+                    /* Вердикт прогноза книги. */
+                    /* В таблице метка встаёт над текстом строки, иначе она разрывает первую фразу. */
+                    .cs-table td .cs-tag { display: block; width: fit-content; margin: 0 0 8px 0; }
+                    .cs-tag { display: inline-block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.09em; padding: 3px 12px; border-radius: 9999px; border: 1px solid var(--border); color: #a1a1aa; margin-right: 10px; font-weight: 500; }
+                    .cs-tag.ok { border-color: #14532d; background: rgba(34,197,94,0.10); color: #4ade80; }
+                    .cs-tag.part { border-color: #713f12; background: rgba(234,179,8,0.10); color: #facc15; }
+                    .cs-tag.no { border-color: #7f1d1d; background: rgba(239,68,68,0.10); color: #f87171; }
+                    /* Код: те же токены подсветки (.s-kw/.s-str/.s-com/.s-var), что и у «хрома». */
+                    .cs-code-grid { display: grid; gap: 24px; margin-top: 30px; }
+                    .cs-code-grid.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-code { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+                    .cs-code-head { padding: 13px 22px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 15px; color: var(--text-muted); display: flex; align-items: center; gap: 10px; }
+                    .cs-code-head .cs-dot { width: 9px; height: 9px; border-radius: 50%; background: #333; flex-shrink: 0; }
+                    .cs-code-head .cs-code-note { margin-left: auto; font-size: 13px; color: #52525b; text-transform: uppercase; letter-spacing: 0.08em; }
+                    .cs-code pre { margin: 0; padding: 20px 26px; font-family: var(--font-mono); font-size: 17px; line-height: 1.62; color: #a1a1aa; overflow: auto; }
+                    .cs-code pre mark { background: rgba(255,255,255,0.10); color: #fff; padding: 1px 4px; border-radius: 4px; }
+                    .cs-two { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 34px; margin-top: 30px; align-items: start; }
+                    .cs-two .cs-code-grid, .cs-two .cs-cards { margin-top: 0; }
+                    .cs-two .cs-list { margin-top: 0; }
+                    .cs-qa { counter-reset: q; margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+                    .cs-qa details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+                    .cs-qa summary { cursor: pointer; list-style: none; display: flex; gap: 22px; align-items: baseline; padding: 18px 28px; font-size: 21px; line-height: 1.4; color: var(--text-main); }
+                    .cs-qa summary::-webkit-details-marker { display: none; }
+                    .cs-qa summary > span { flex: 1; }
+                    .cs-qa summary::before { counter-increment: q; content: '0' counter(q); font-family: var(--font-mono); font-size: 15px; color: #71717a; letter-spacing: 0.1em; flex-shrink: 0; }
+                    .cs-qa summary::after { content: '+'; margin-left: auto; color: #71717a; font-size: 26px; line-height: 1; flex-shrink: 0; }
+                    .cs-qa details[open] summary::after { content: '−'; }
+                    .cs-qa details[open] summary { border-bottom: 1px solid var(--border); }
+                    .cs-qa .cs-qa-a { margin: 0; padding: 16px 28px 20px 79px; font-size: 19px; line-height: 1.55; color: var(--text-muted); }
+                    .cs-qa b { color: #fff; font-weight: 600; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Глава 10 · Финал</div>
+                    <h2 class="gradient-text">Примет ли React сигналы?</h2>
+                    <p class="cs-lead">Реактивные примитивы вроде сигналов разошлись по всей интерфейсной экосистеме — логично предположить, что React в конечном итоге примет аналогичный «сигнальный» подход. Однако команда React заявила, что <b>«не в восторге» от сигналов</b>, и выбирает альтернативную технологию, чтобы добиться тех же преимуществ в производительности, которые обеспечивают сигналы.</p>
+                    <ul class="cs-list">
+                        <li><span>Сначала <b>подытожим на примере</b>, как React обновляет интерфейс — и где он теряет производительность.</span></li>
+                        <li><span>Посмотрим на <b>ручное решение через memo</b> и на его цену.</span></li>
+                        <li><span>Разберём <b>философию команды React</b>: почему сигналы для них — деталь реализации.</span></li>
+                        <li><span>Познакомимся с <b>React Forget</b> — компилятором, который должен решить задачу за нас.</span></li>
+                        <li><span>И честно взвесим <b>Forget против сигналов</b> — вместе со скепсисом автора книги.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Шаг 1 · Где React теряет производительность</div>
+                    <h2 class="gradient-text">Грубая реактивность на очень замысловатом примере</h2>
+                    <div class="cs-two">
+                        <div class="cs-code">
+                            <div class="cs-code-head"><span class="cs-dot"></span>Counter.jsx<span class="cs-code-note">поведение по умолчанию</span></div>
+<pre><span class="s-kw">import</span> React, { useState } <span class="s-kw">from</span> <span class="s-str">"react"</span>;
+<span class="s-kw">import</span> { ComponentWithExpensiveChildren }
+  <span class="s-kw">from</span> <span class="s-str">"./ExpensiveComponent"</span>;
+
+<span class="s-kw">function</span> <span class="s-var">Counter</span>() {
+  <span class="s-kw">const</span> [count, setCount] = useState(0);
+
+  <span class="s-kw">function</span> <span class="s-var">increment</span>() {
+    setCount(count + 1);
+  }
+
+  <span class="s-kw">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;{count}&lt;/p&gt;
+      &lt;button onClick={increment}&gt;Increment&lt;/button&gt;
+      <mark>&lt;ComponentWithExpensiveChildren /&gt;</mark>
+    &lt;/div&gt;
+  );
+}</pre>
+                        </div>
+                        <div>
+                            <ul class="cs-list tight">
+                                <li><span>В компоненте три дочерних элемента: <span class="s-var">&lt;p&gt;</span> со значением счётчика, <span class="s-var">&lt;button&gt;</span>, который его увеличивает, и <span class="s-var">&lt;ComponentWithExpensiveChildren&gt;</span> — он отображает дорогостоящие дочерние элементы с большим количеством вычислений.</span></li>
+                                <li><span>Нажимаем кнопку. Функция <span class="s-var">Counter</span> вызывается заново — <b>вместе со всеми её дочерними элементами</b>. Это поведение React по умолчанию.</span></li>
+                                <li><span>Значит, <span class="s-var">ComponentWithExpensiveChildren</span> <b>отрисовывается повторно, хотя в этом нет необходимости</b>: его пропсы и состояние не изменились.</span></li>
+                            </ul>
+                            <div class="cs-callout">Такая <b>грубая реактивность делает React менее производительным, чем он мог бы быть</b>.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Шаг 2 · Ручное решение</div>
+                    <h2 class="gradient-text">memo работает — пока мы про него помним</h2>
+                    <p class="cs-lead">Исправить это довольно легко: включаем <span class="s-var">memo</span> в нужное время и в нужном месте.</p>
+                    <div class="cs-two">
+                        <div class="cs-code">
+                            <div class="cs-code-head"><span class="cs-dot"></span>Counter.jsx<span class="cs-code-note">с мемоизацией</span></div>
+<pre><span class="s-kw">import</span> React, { useState, <mark>memo</mark> } <span class="s-kw">from</span> <span class="s-str">"react"</span>;
+
+<span class="s-kw">function</span> <span class="s-var">Counter</span>() {
+  <span class="s-kw">const</span> [count, setCount] = useState(0);
+
+  <span class="s-kw">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;{count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;+1&lt;/button&gt;
+      <mark>&lt;MemoizedComponentWithExpensiveChildren /&gt;</mark>
+    &lt;/div&gt;
+  );
+}
+
+<span class="s-kw">const</span> MemoizedComponentWithExpensiveChildren = <mark>memo</mark>(
+  ComponentWithExpensiveChildren
+);</pre>
+                        </div>
+                        <div>
+                            <div class="cs-cards">
+                                <div class="cs-card">
+                                    <h3>Что получилось</h3>
+                                    <p>В этом случае обеспечивается <b>такая же детализированная реактивность, как при использовании сигналов</b>: дорогим поддеревом React больше не занимается, пока его пропсы не изменились.</p>
+                                </div>
+                                <div class="cs-card">
+                                    <h3>Чего это стоит</h3>
+                                    <p>Это работает <b>до тех пор, пока мы не забываем</b> использовать <span class="s-var">memo</span> везде, где нам нужно. И потому <b>это не так удобно, как сигналы</b>: мемоизация — обязанность разработчика, а не свойство модели.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Шаг 3 · Почему не сигналы</div>
+                    <h2 class="gradient-text">Философия команды React</h2>
+                    <p class="cs-lead">Многим кажется, что сигналы легко решили бы эту проблему. Но команда React в Meta считает, что <b>сигналы, как и memo, могут быть деталями реализации, о которых обычным разработчикам задумываться не следует</b>. Они прислушиваются к первоначальному ценностному предложению React.</p>
+                    <div class="cs-callout quote">«Описывайте свой пользовательский интерфейс декларативно и дайте React сделать всё остальное».</div>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Лучший способ — когда думать не надо</h3>
+                            <p>Команда React считает, что лучший способ — это когда <b>разработчики не заботятся о сигналах, memo или каких-либо деталях</b>, а фреймворк должен быть в состоянии сам найти оптимальный способ визуализации интерфейса.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Значит, задачу решает инструмент</h3>
+                            <p>С этой целью команда работает над новым программным обеспечением, предназначенным именно для этого. <b>Речь идёт о React Forget.</b></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Шаг 4 · React Forget</div>
+                    <h2 class="gradient-text">Линтер с включённым флагом --fix</h2>
+                    <p class="cs-lead">Forget — это набор инструментов для React, похожий на линтер с включённым <span class="s-var">--fix</span>. Он применяет <b>правила React</b>, а затем автоматически преобразует код React в оптимальный, <b>интеллектуально запоминая значения, которые не будут меняться на протяжении жизненного цикла приложения</b> — такие как ComponentWithExpensiveChildren.</p>
+                    <div class="cs-callout">Подход похож на тот, что использует Svelte — но <b>Svelte компилирует в императивный код, а Forget компилирует в более производительный React</b>. Виртуальный DOM и согласование остаются на месте.</div>
+                    <p class="cs-lead" style="margin-top: 30px;">Именно благодаря правилам компилятор может предсказать неизменные значения и сохранить их в памяти за нас. Каковы эти правила?</p>
+                    <ul class="cs-list tight">
+                        <li><span>Компоненты React <b>предполагаются чистыми функциями</b>; некоторые хуки и пользовательские обработчики событий чистыми быть не обязаны.</span></li>
+                        <li><span><b>Запрещено:</b> изменять переменные и объекты, которые не были созданы в функции заново; читать свойства, которые могут измениться.</span></li>
+                        <li><span><b>Разрешено:</b> читать свойства или состояние; генерировать ошибки; мутировать вновь созданные объекты и привязки.</span></li>
+                        <li><span><b>Исключение:</b> отложенная (ленивая) инициализация — здесь мутация с целью инициализации допускается.</span></li>
+                        <li><span>Объекты и замыкания, созданные во время рендеринга, <b>не должны изменяться после его завершения</b> — кроме изменяемых объектов, сохранённых в состоянии.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Шаг 5 · Честный скепсис автора</div>
+                    <h2 class="gradient-text">Forget против сигналов</h2>
+                    <p class="cs-lead">На момент написания книги Forget был закрытым: он проходил <b>оценку в Meta и превосходил ожидания по использованию в Instagram и WhatsApp</b>, а команда рассматривала возможность выпустить его как open source. Судить о компромиссах авторитетно было сложно — но предположить можно.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Почему сигналы всё равно могут выигрывать</h3>
+                            <p>Даже если Forget запомнит всё, что не меняется, <b>сигналы живут в параллельной вселенной за пределами иерархии компонентов</b>. Поэтому при обновлении React всё равно придётся <b>пройти по всему дереву компонентов</b> и сравнить старые и новые пропсы каждого, чтобы определить, кто нуждается в повторном рендеринге.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Как это происходит у «сигнальных»</h3>
+                            <p>В сигнальных фреймворках <b>обновляются только реагирующие части интерфейса — без необходимости обхода дерева</b>. Отсюда предварительный вывод: даже с компилятором Forget React <b>всё ещё может работать медленнее</b> библиотек, где сигналы используются по умолчанию.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout quote">Заключение книги дословно: «...но пока рано говорить об этом».</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="9">
+                <div class="cs">
+                    <div class="badge">Август 2026 · Сверяем часы</div>
+                    <h2 class="gradient-text">Forget вырос в React Compiler</h2>
+                    <p class="cs-lead">Это тот раздел книги, где проверка временем самая интересная: почти всё, что было «в оценке в Meta», уже случилось.</p>
+                    <table class="cs-table">
+                        <tr><th>Что обещала книга</th><th>Что произошло</th></tr>
+                        <tr><td><span class="cs-tag ok">сбылось</span> Возможный выпуск Forget в open source «в ближайшем будущем»</td><td>Forget вышел под именем <b>React Compiler</b>: бета — октябрь 2024, <b>стабильная v1.0 — 7 октября 2025</b> (React Conf). Открыт, обкатан на приложениях Meta, работает и в React, и в React Native</td></tr>
+                        <tr><td><span class="cs-tag ok">сбылось</span> «Правила React» как условие работы компилятора</td><td>Правила стали проверяемыми: они въехали в <b>eslint-plugin-react-hooks</b> вместе с правилами самого компилятора. Ручные <span class="s-var">useMemo</span>, <span class="s-var">useCallback</span> и <span class="s-var">memo</span> компилятор <b>сохраняет</b> — «раз вы их написали, значит, была причина»</td></tr>
+                        <tr><td><span class="cs-tag ok">сбылось</span> Разработчик не должен думать о memo</td><td>Компилятор мемоизирует по анализу и эвристикам, <b>в большинстве случаев не хуже, чем сделал бы человек</b>. Для нового кода рекомендуется полагаться на компилятор, а <span class="s-var">useMemo</span>/<span class="s-var">useCallback</span> оставить как escape hatch для точного контроля</td></tr>
+                        <tr><td><span class="cs-tag ok">сбылось</span> React не пойдёт по пути сигналов</td><td>Так и есть: <b>TC39 proposal-signals — Stage 1</b>, за ним Angular, Vue, Solid, Preact, Ember, Qwik, MobX. React выбрал компилятор и остался при vDOM</td></tr>
+                        <tr><td><span class="cs-tag part">частично</span> «Даже с Forget React может быть медленнее сигнальных»</td><td>Скепсис не опровергнут: модель осталась <b>pull-based</b>, обход дерева и сравнение пропсов никуда не ушли. Компилятор снял <b>издержки ручной мемоизации</b>, а не архитектурную разницу</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10">
+                <div class="cs">
+                    <div class="badge">Будущее, о котором книга ещё не знала</div>
+                    <h2 class="gradient-text">Куда React пошёл, кроме компилятора</h2>
+                    <p class="cs-lead">Книга закрылась на Forget. За два года «будущее React» оказалось шире одного компилятора — и всё в том же направлении: не менять модель реактивности, а сокращать её издержки.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <span class="cs-num">КОНЕЦ 2024</span>
+                            <h3>React 19</h3>
+                            <p>Серверные компоненты и server actions — <b>в стабильном ядре</b>. Работа переносится на сервер: клиенту едет меньше JavaScript. Это глава 9, которую мы уже разобрали.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">ОКТЯБРЬ 2025</span>
+                            <h3>React 19.2</h3>
+                            <p><span class="s-var">&lt;Activity mode&gt;</span> — участки UI как видимые, скрытые или приостановленные; <span class="s-var">useEffectEvent</span> — событийная логика отдельно от реактивных эффектов; <span class="s-var">cacheSignal</span>; частичный пререндеринг; улучшенный трекинг производительности.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">МАЙ 2026</span>
+                            <h3>React 19.2.6</h3>
+                            <p>Текущий стабильный релиз. React Compiler <b>поддерживает 19.2 стабильно</b> — компилятор и рантайм наконец идут в одном такте.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Общая линия: <b>модель не меняется, меняется цена её работы</b> — компилятор убирает ручную мемоизацию, конкурентный рендеринг расставляет приоритеты, серверные компоненты уносят работу с клиента.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="11">
+                <div class="cs">
+                    <div class="badge">Проверьте ваши знания</div>
+                    <h2 class="gradient-text">Пять вопросов главы 10</h2>
+                    <p class="cs-lead">Вопросы из книги — по всей главе. Сначала обсуждаем, потом клик по вопросу раскрывает тезисный ответ.</p>
+                    <div class="cs-qa">
+                        <details>
+                            <summary><span>Чем <b>отличается модель реактивности</b> в React, Vue, Svelte, Solid и Angular? Как это влияет на производительность и опыт разработки?</span></summary>
+                            <p class="cs-qa-a">React — явный сеттер и повторный запуск функции компонента, дальше diff виртуального DOM (крупнозернисто). Vue — реактивные объекты плюс vDOM. Svelte — зависимости размечает компилятор, на выходе императивный код, обновляющий DOM напрямую. Solid — сигналы, компонент выполняется один раз, обновляются только читавшие узлы. Angular — обнаружение изменений в зонах и наблюдаемые объекты. <b>Производительность:</b> мелкозернистые модели не обходят дерево, React платит обходом и сравнением. <b>Опыт разработки:</b> React даёт предсказуемость и атомарность обновлений, сигнальные — меньше ручной оптимизации.</p>
+                        </details>
+                        <details>
+                            <summary><span>Опишите <b>уникальный подход Qwik</b> к максимизации производительности. Чем он отличается от остальных?</span></summary>
+                            <p class="cs-qa-a"><b>Возобновляемость</b> вместо гидратации: состояние приложения сериализуется в HTML, и браузер <b>продолжает</b> работу с того места, где остановился сервер, вместо повторного выполнения кода на клиенте. Плюс приоритетная загрузка: JavaScript подтягивается по мере необходимости — по взаимодействию. Остальные платформы сначала гидратируют дерево целиком.</p>
+                        </details>
+                        <details>
+                            <summary><span>Каковы <b>сильные и слабые стороны</b> каждой библиотеки из главы? Как это влияет на выбор под конкретный проект?</span></summary>
+                            <p class="cs-qa-a">Vue — мягкая кривая обучения и ненавязчивая реактивность; Angular — цельный «всё в комплекте» фреймворк с высокой ценой входа; Svelte — минимум рантайма, свой язык; Solid — самая точная реактивность при JSX-синтаксисе; Qwik — лучший первый экран, но <b>самая молодая экосистема</b> (это единственный недостаток, который книга называет прямо). React — крупнозернистая модель, зато крупнейшая экосистема и найм. Выбор — про команду, экосистему и профиль нагрузки, а не про «кто быстрее в бенчмарке».</p>
+                        </details>
+                        <details>
+                            <summary><span>React <b>не является реактивным</b> в традиционном смысле. Объясните это, сравнив с push-моделью Vue или Svelte.</span></summary>
+                            <p class="cs-qa-a">В push-модели запись значения <b>сама</b> уведомляет подписчиков — изменение распространяется по системе. React работает <b>pull</b>: сеттер лишь планирует рендер, дальше функция компонента выполняется заново целиком и React сравнивает результат с прежним деревом. Формула <b>v = f(s)</b> это и фиксирует: представление есть функция состояния, но обновляется не само, а при повторном выполнении функции.</p>
+                        </details>
+                        <details>
+                            <summary><span>Что такое <b>React Forget</b>? Как он работает и как соотносится с сигналами?</span></summary>
+                            <p class="cs-qa-a">Набор инструментов, похожий на линтер с <span class="s-var">--fix</span>: применяет правила React и автоматически мемоизирует значения, которые не меняются за жизнь приложения, — компилируя React в <b>более производительный React</b> (в отличие от Svelte, компилирующего в императивный код). С сигналами не конкурирует по механике: сигналы живут вне иерархии компонентов и не требуют обхода дерева, а React обход сохраняет. <b>Сегодня это React Compiler v1.0</b> — стабилен с октября 2025.</p>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="12">
+                <div class="cs">
+                    <div class="badge">Обзор главы · Посадим наш самолёт</div>
+                    <h2 class="gradient-text">Глава 10 — в пяти строках</h2>
+                    <p class="cs-lead">Этот доклад закрывает главу об альтернативах. Дальше — заключительная глава, где книга собирает всю картину целиком.</p>
+                    <ul class="cs-list">
+                        <li><span><b>Пять альтернатив по отдельности:</b> Vue, Angular, Svelte, Solid и Qwik — каждая со своей философией, своими реактивными примитивами и своими компромиссами.</span></li>
+                        <li><span><b>Общие шаблоны:</b> компонентная архитектура, декларативный синтаксис, механизм обновлений, методы жизненного цикла и современный JS-инструментарий — у всех.</span></li>
+                        <li><span><b>React не реактивен в традиционном смысле:</b> грубый подход «изменение состояния → повторный рендеринг» вместо детализированной модели Vue и Svelte.</span></li>
+                        <li><span><b>Будущее React — не сигналы, а компилятор:</b> Forget автоматически оптимизирует код, запоминая неизменные значения; сегодня это стабильный React Compiler.</span></li>
+                        <li><span><b>Вывод для практики:</b> универсального подхода нет — понимание различий помогает выбирать инструмент и писать более эффективный код на любом из них.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+
+<section class="slide" data-slide="13" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="2" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Vue.js</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-2-pomazkov.pages.dev" target="_blank" rel="noreferrer">Angular</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">Svelte</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-4-pomazkov.pages.dev" target="_blank" rel="noreferrer">Solid</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-5-pomazkov.pages.dev" target="_blank" rel="noreferrer">Qwik</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-6-nikiforov.pages.dev" target="_blank" rel="noreferrer">Общие шаблоны</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-7-nikiforov.pages.dev" target="_blank" rel="noreferrer">React не значит реактивный</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-116-react-10-8-nikiforov.pages.dev" target="_blank" rel="noreferrer">Будущее React</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+
+</body>
+</html>

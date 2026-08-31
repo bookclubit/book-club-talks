@@ -1,0 +1,922 @@
+/*
+ * talk.css — стили контентных слайдов ЭТОГО доклада
+ * («Подходы к работе над информационными системами», глава 1).
+ * Общий «хром» дека живёт в deck.css и правится только в шаблоне; всё, что
+ * относится к слайдам спикера, — здесь: пересборка «хром»-слайдов
+ * (scripts/rebuild-talk.mjs) этот файл не трогает.
+ */
+
+/* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css
+   нет, а без него width: 100% с padding вылезает за контейнер слайда. */
+.content-slide,
+.content-slide *,
+.content-slide *::before,
+.content-slide *::after {
+    box-sizing: border-box;
+}
+
+/* ===== Каркас контентного слайда =====
+   Шапка (заголовок + лид) прижата к верху, всё остальное центрировано в
+   остатке высоты: автоотступы у первого блока после шапки и у хвостового
+   элемента делят свободное место поровну. */
+.content-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 52px 100px;
+}
+.content-slide > h2 {
+    font-size: 52px;
+    margin: 0;
+    line-height: 1.1;
+    flex-shrink: 0;
+}
+.content-slide > h2 + .slide-lead {
+    margin-top: 14px;
+}
+.content-slide > .slide-lead + *,
+.content-slide > h2 + *:not(.slide-lead) {
+    margin-top: auto !important;
+}
+.content-slide::after {
+    content: '';
+    margin-top: auto;
+}
+.slide-lead {
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 1400px;
+}
+.slide-lead b {
+    color: #ededed;
+    font-weight: 600;
+}
+.section-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #71717a;
+    margin: 0;
+}
+/* Инлайновый термин — тем же моно-шрифтом, что листинги. */
+.content-slide code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: #93c5fd;
+}
+
+/* Вывод внизу слайда — широкая строка за левой чертой. */
+.wide-accent {
+    margin: 30px 0 0;
+    padding: 18px 26px;
+    border-left: 3px solid #3f3f46;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    font-size: 20px;
+    line-height: 1.55;
+    color: #d4d4d8;
+    flex-shrink: 0;
+}
+.wide-accent.is-strong {
+    border-left-color: #fff;
+    font-size: 23px;
+    color: #ededed;
+}
+.wide-accent b {
+    color: #fff;
+    font-weight: 600;
+}
+.dotted {
+    text-decoration: underline dotted;
+    text-decoration-color: #a1a1aa;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 7px;
+    color: #ededed;
+}
+
+/* Цитата из книги — одинаковая на всех слайдах, со ссылкой на раздел. */
+.book-quote {
+    border-left: 2px solid #3f3f46;
+    padding: 4px 0 4px 22px;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #d4d4d8;
+}
+.book-quote cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 14px;
+    color: #71717a;
+    font-family: var(--font-mono);
+}
+
+/* ===== «Скажи своими словами» =====
+   Устное пояснение к слайду: на экране только узкая кнопка, текст выезжает
+   над ней. Панель вне потока — открытая подсказка не двигает слайд. */
+.say {
+    position: relative;
+    align-self: flex-start;
+    margin-top: 18px;
+    flex-shrink: 0;
+}
+.say-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 18px;
+    border-radius: 9999px;
+    border: 1px dashed #3f3f46;
+    background: #080808;
+    color: #71717a;
+    font: inherit;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.say-btn:hover,
+.say.is-open .say-btn {
+    color: #ededed;
+    border-color: #a1a1aa;
+}
+.say-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.say-panel {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 0;
+    width: 1080px;
+    padding: 22px 26px;
+    border: 1px solid #3f3f46;
+    border-radius: 16px;
+    background: #0a0a0a;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+    font-size: 19px;
+    line-height: 1.6;
+    color: #d4d4d8;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    z-index: 20;
+}
+.say.is-open .say-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* ===== Аккордеон (об авторе, вопросы преподавателя) ===== */
+.acc {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.acc-item {
+    border: 1px solid #232323;
+    border-radius: 16px;
+    background: #080808;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.acc-item:hover {
+    border-color: #3f3f46;
+}
+.acc-item.is-open {
+    border-color: #3f3f46;
+    background: #0a0a0a;
+}
+.acc-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 18px 24px;
+    background: none;
+    border: none;
+    color: #ededed;
+    font: inherit;
+    font-size: 21px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+}
+.acc-mark {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #3f3f46;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #71717a;
+    transition: transform 0.3s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.acc-mark svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.acc-item.is-open .acc-mark {
+    transform: rotate(180deg);
+    color: #fff;
+    border-color: #fff;
+}
+.acc-head b {
+    flex: 1 1 auto;
+    font-weight: 500;
+}
+/* Раскрытие без магических max-height: строка грида растёт с 0fr до 1fr. */
+.acc-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.acc-item.is-open .acc-body {
+    grid-template-rows: 1fr;
+}
+.acc-inner {
+    overflow: hidden;
+}
+.acc-body ul {
+    margin: 0;
+    padding: 0 28px 22px 70px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.acc-body li {
+    position: relative;
+    font-size: 18px;
+    line-height: 1.55;
+    color: #a1a1aa;
+}
+.acc-body li::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 13px;
+    width: 8px;
+    height: 1px;
+    background: #52525b;
+}
+.acc-body li b,
+.acc-body p b {
+    color: #ededed;
+    font-weight: 600;
+}
+.acc-body p {
+    margin: 0;
+    padding: 0 28px 22px 70px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #a1a1aa;
+}
+.acc-body .acc-quote {
+    margin: 0 28px 22px 70px;
+    padding: 2px 0 2px 18px;
+    border-left: 2px solid #3f3f46;
+    font-size: 17px;
+    line-height: 1.55;
+    color: #d4d4d8;
+}
+.acc-body .acc-quote cite {
+    display: block;
+    margin-top: 6px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #71717a;
+}
+
+/* ===== Слайд «Об авторе» ===== */
+.author-hero {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+}
+.author-photo {
+    width: 340px;
+    height: 340px;
+    border-radius: 24px;
+    object-fit: cover;
+    border: 1px solid #3f3f46;
+    display: block;
+}
+.author-name {
+    margin: 22px 0 4px;
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+}
+.author-role {
+    margin: 0 0 18px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #71717a;
+}
+.author-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.author-links a {
+    font-size: 15px;
+    color: #a1a1aa;
+    text-decoration: none;
+    font-family: var(--font-mono);
+    transition: color 0.2s ease;
+}
+.author-links a:hover {
+    color: #fff;
+}
+.author-intro {
+    margin: 0 0 20px;
+    font-size: 20px;
+    line-height: 1.6;
+    color: #d4d4d8;
+}
+.author-intro b {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ===== Цитата автора: ящик выезжает снизу слайда ===== */
+.quote-caller {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    z-index: 6;
+}
+.quote-caller-arrow {
+    width: 22px;
+    height: 22px;
+    stroke: #fff;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: callerArrow 1.6s ease-in-out infinite;
+}
+@keyframes callerArrow {
+    0%, 100% { opacity: 0.25; transform: translateY(4px); }
+    50% { opacity: 1; transform: translateY(-2px); }
+}
+/* У Алана Кея нет локальной фотографии, а внешние картинки доклад не тянет
+   (автономность) — вместо аватарки монограмма в том же круге. */
+.quote-mono {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 1px solid #3f3f46;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #a1a1aa;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.quote-caller:hover .quote-mono {
+    border-color: #fff;
+    color: #fff;
+    transform: scale(1.04);
+}
+.quote-caller-name {
+    font-size: 15px;
+    color: #a1a1aa;
+}
+.quote-caller:hover .quote-caller-name {
+    color: #fff;
+}
+.quote-drawer {
+    position: absolute;
+    /* Спрятан не только сдвигом: сцена масштабируется, и под ней остаётся
+       свободное место — сдвинутый ящик было видно на узком экране. */
+    visibility: hidden;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #0a0a0a;
+    border-top: 1px solid #3f3f46;
+    border-radius: 24px 24px 0 0;
+    padding: 40px 100px 44px;
+    box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.9);
+    transform: translateY(100%);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s;
+    z-index: 7;
+}
+.quote-drawer.open {
+    transform: translateY(0);
+    visibility: visible;
+}
+.quote-drawer-inner {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+.quote-drawer .quote-mono {
+    width: 64px;
+    height: 64px;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+.quote-drawer blockquote {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.6;
+    color: #ededed;
+}
+.quote-drawer cite {
+    display: block;
+    margin-top: 12px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #71717a;
+}
+.quote-close {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background: #0a0a0a;
+    color: #a1a1aa;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.quote-close:hover {
+    color: #fff;
+    border-color: #fff;
+}
+
+/* ===== Слайд «Данные, а не вычисления» ===== */
+.vs-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 28px;
+}
+.vs-card {
+    border: 1px solid #232323;
+    border-radius: 20px;
+    background: #080808;
+    padding: 24px 28px;
+}
+.vs-card.is-on {
+    border-color: #3f3f46;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+}
+.vs-card h3 {
+    margin: 0 0 10px;
+    font-size: 26px;
+    font-weight: 600;
+    color: #a1a1aa;
+}
+.vs-card.is-on h3 {
+    color: #fff;
+}
+.vs-card p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: #a1a1aa;
+}
+.bricks {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 24px;
+}
+.brick {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #080808;
+    padding: 20px 24px;
+}
+.brick-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.brick-top svg {
+    width: 24px;
+    height: 24px;
+    stroke: #a1a1aa;
+    stroke-width: 1.6;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.brick-top b {
+    font-size: 21px;
+    font-weight: 600;
+    color: #fff;
+}
+.brick p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+
+/* ===== Слайд «Спойлер» ===== */
+.spoiler {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+}
+.spoiler-card {
+    border: 1px solid #3f3f46;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    padding: 32px 36px;
+}
+.spoiler-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #52525b;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: #a1a1aa;
+    margin-bottom: 16px;
+}
+.spoiler-card h3 {
+    margin: 0 0 14px;
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+}
+.spoiler-card p {
+    margin: 0 0 12px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: #a1a1aa;
+}
+.spoiler-card p:last-child {
+    margin-bottom: 0;
+}
+.spoiler-card b {
+    color: #ededed;
+    font-weight: 600;
+}
+
+/* ===== Слайд «Нет одного правильного инструмента» ===== */
+/* Сцена размечена в пикселях: доклад живёт на сцене фиксированных 1920×1080,
+   поэтому инструмент точно встаёт на границу категорий, а не «примерно
+   посередине». */
+.blur-scene {
+    position: relative;
+    width: 1720px;
+    height: 330px;
+    margin: 0 auto;
+}
+.blur-zone {
+    position: absolute;
+    top: 0;
+    height: 330px;
+    width: 960px;
+    border: 1px dashed #3f3f46;
+}
+.blur-zone.is-left {
+    left: 0;
+    border-right: none;
+    border-radius: 28px 0 0 28px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+}
+.blur-zone.is-right {
+    right: 0;
+    border-left: none;
+    border-radius: 0 28px 28px 0;
+    background: linear-gradient(270deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+}
+.blur-zone span {
+    position: absolute;
+    top: 26px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #71717a;
+}
+.blur-zone em {
+    position: absolute;
+    bottom: 26px;
+    font-style: normal;
+    font-size: 16px;
+    color: #52525b;
+}
+.blur-zone.is-left span,
+.blur-zone.is-left em { left: 36px; }
+.blur-zone.is-right span,
+.blur-zone.is-right em { right: 36px; }
+.blur-tool {
+    position: absolute;
+    left: 580px;
+    width: 560px;
+    padding: 18px 26px;
+    border: 1px solid #3f3f46;
+    border-radius: 18px;
+    background: #0a0a0a;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+}
+.blur-tool.is-first { top: 58px; }
+.blur-tool.is-second { top: 190px; }
+.blur-tool b {
+    display: block;
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 6px;
+}
+.blur-tool span {
+    display: block;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+
+/* ===== Схемы на фиксированной сцене (архитектура, рассинхрон) ===== */
+.scene {
+    position: relative;
+    width: 1720px;
+    margin: 0 auto;
+}
+.scene-wires {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.scene-wires path {
+    stroke: #3f3f46;
+    stroke-width: 2;
+    fill: none;
+}
+.scene-wires text {
+    fill: #52525b;
+    font-family: var(--font-sans);
+    font-size: 15px;
+}
+.node {
+    position: absolute;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #0a0a0a;
+    padding: 16px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+}
+.node b {
+    font-size: 22px;
+    color: #fff;
+    font-weight: 600;
+}
+.node span {
+    font-size: 16px;
+    line-height: 1.45;
+    color: #a1a1aa;
+}
+.node em {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #52525b;
+}
+.node.is-hub {
+    border-color: #fff;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+}
+.node.is-hub b { font-size: 26px; }
+/* Цвет закреплён за ролью компонента и повторяется на всех схемах доклада. */
+.node.c-db { border-color: #1e3a5f; }
+.node.c-db b { color: #60a5fa; }
+.node.c-cache { border-color: #5f1e1e; }
+.node.c-cache b { color: #f87171; }
+.node.c-search { border-color: #1e5f34; }
+.node.c-search b { color: #4ade80; }
+.node.c-queue { border-color: #5f4a1e; }
+.node.c-queue b { color: #fbbf24; }
+
+/* ===== Слайд «Компоненты нужно связать»: демонстрация рассинхрона ===== */
+.sync-value {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 19px;
+    color: #ededed;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: #111;
+    border: 1px solid #232323;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+.sync-value.is-fresh {
+    color: #4ade80;
+    border-color: #1e5f34;
+}
+.sync-value.is-stale {
+    color: #f87171;
+    border-color: #5f1e1e;
+}
+.sync-bar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 24px;
+}
+.sync-btn {
+    padding: 13px 26px;
+    border-radius: 9999px;
+    border: 1px solid #3f3f46;
+    background: #0a0a0a;
+    color: #ededed;
+    font: inherit;
+    font-size: 17px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+}
+.sync-btn:hover {
+    border-color: #fff;
+    color: #fff;
+}
+.sync-hint {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+.sync-hint b {
+    color: #ededed;
+    font-weight: 600;
+}
+
+/* ===== Цепочка рассуждения ===== */
+.chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 14px 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.chain li {
+    display: flex;
+    align-items: center;
+    padding: 13px 20px;
+    border: 1px solid #232323;
+    border-radius: 14px;
+    background: #080808;
+    font-size: 18px;
+    line-height: 1.4;
+    color: #a1a1aa;
+}
+.chain li::after {
+    content: '→';
+    margin: 0 10px 0 18px;
+    color: #52525b;
+    font-size: 20px;
+}
+.chain li:last-child {
+    border-color: #fff;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    color: #fff;
+    font-weight: 600;
+}
+.chain li:last-child::after {
+    content: '';
+    margin: 0;
+}
+
+/* ===== Слайд «Разработчик = архитектор» ===== */
+.big-quote {
+    margin: 0;
+    padding: 28px 40px;
+    border-left: 3px solid #fff;
+    border-radius: 0 18px 18px 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0));
+    font-size: 34px;
+    line-height: 1.4;
+    color: #fff;
+}
+.big-quote cite {
+    display: block;
+    margin-top: 14px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #71717a;
+}
+.q-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin: 26px 0 0;
+    padding: 0;
+    list-style: none;
+}
+.q-list li {
+    border: 1px solid #232323;
+    border-radius: 16px;
+    background: #080808;
+    padding: 18px 20px;
+    font-size: 17px;
+    line-height: 1.45;
+    color: #a1a1aa;
+}
+.q-list li b {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #71717a;
+    font-weight: 600;
+}
+
+/* ===== Слайд «Итог» ===== */
+.sum-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 28px;
+    margin-top: 26px;
+}
+.sum-card {
+    border: 1px solid #3f3f46;
+    border-radius: 20px;
+    background: #0a0a0a;
+    padding: 24px 30px;
+}
+.sum-card b {
+    display: block;
+    font-size: 26px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.sum-card span {
+    font-size: 18px;
+    line-height: 1.55;
+    color: #a1a1aa;
+}
+
+/* ===== Слайд с вопросами преподавателя ===== */
+.qa .acc-head {
+    font-size: 20px;
+}
+.qa .acc-num {
+    flex-shrink: 0;
+    width: 26px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: #52525b;
+}
+.qa .acc-body p {
+    padding-left: 96px;
+}

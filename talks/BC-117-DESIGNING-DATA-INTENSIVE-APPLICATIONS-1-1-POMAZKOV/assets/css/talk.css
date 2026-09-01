@@ -464,23 +464,6 @@
     0%, 100% { opacity: 0.25; transform: translateY(4px); }
     50% { opacity: 1; transform: translateY(-2px); }
 }
-/* У Алана Кея нет локальной фотографии, а внешние картинки доклад не тянет
-   (автономность) — вместо аватарки монограмма в том же круге. */
-.quote-mono {
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    border: 1px solid #3f3f46;
-    background: #0a0a0a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: #a1a1aa;
-    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
 .quote-caller img {
     width: 54px;
     height: 54px;
@@ -500,11 +483,6 @@
     object-fit: cover;
     border: 1px solid #3f3f46;
     flex-shrink: 0;
-}
-.quote-caller:hover .quote-mono {
-    border-color: #fff;
-    color: #fff;
-    transform: scale(1.04);
 }
 .quote-caller-name {
     font-size: 15px;
@@ -540,12 +518,6 @@
     align-items: flex-start;
     max-width: 1500px;
     margin: 0 auto;
-}
-.quote-drawer .quote-mono {
-    width: 64px;
-    height: 64px;
-    font-size: 22px;
-    flex-shrink: 0;
 }
 .quote-drawer blockquote {
     margin: 0;
@@ -825,9 +797,22 @@
     border-color: #fff;
     transform: translateY(-1px);
 }
-.tool svg {
+/* Официальные логотипы лежат локально в assets/logos (см. комментарий
+   в index.html). Логотип Kafka одноцветно-чёрный — на тёмном слайде его
+   выворачиваем в белый. У Redis официальный знак — это шрифтовое
+   начертание названия, поэтому подписи рядом с ним нет. */
+.tool-mark {
     width: 26px;
     height: 26px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+.tool-mark.is-invert {
+    filter: invert(1);
+}
+.tool-word {
+    height: 24px;
+    width: auto;
     flex-shrink: 0;
 }
 .tool .tool-go {

@@ -351,18 +351,18 @@
                     <svg class="quote-caller-arrow" viewBox="0 0 24 24">
                         <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
                     </svg>
-                    <span class="quote-mono" aria-hidden="true">АК</span>
+                    <img src="assets/authors/alan-kay.webp" alt="Алан Кей">
                     <span class="quote-caller-name">Алан Кей</span>
                 </button>
 
                 <div class="quote-drawer">
                     <div class="quote-drawer-inner">
-                        <span class="quote-mono" aria-hidden="true">АК</span>
+                        <img src="assets/authors/alan-kay.webp" alt="Алан Кей">
                         <blockquote>
                             «Интернет настолько хорош, что большинство людей считает его природным ресурсом,
                             таким как Тихий океан, а не чем-то сотворённым руками человека. Когда в последний раз
                             в технологии подобного масштаба не было ни одной ошибки?»
-                            <cite>Алан Кей, из интервью Dr. Dobb’s Journal (2012) · эпиграф к главе 1</cite>
+                            <cite>Алан Кей, из интервью Dr. Dobb’s Journal (2012) · эпиграф к главе 1<br>фото: Marcin Wichary, CC BY 2.0</cite>
                         </blockquote>
                         <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
                     </div>
@@ -420,13 +420,18 @@
                         <b>границы между категориями постепенно размываются</b>.
                     </p>
 
+                    <!-- Логотипы в assets/logos/ — официальные, лежат локально ради автономности:
+                         postgresql.svg — Daniel Lundin, лицензия BSD;
+                         redis.svg — Redis Ltd, общественное достояние;
+                         kafka.svg — Apache Software Foundation, Apache License 2.0.
+                         Источник всех трёх — Wikimedia Commons. -->
                     <div class="venn-slide" data-venn>
                         <div class="venn" data-venn-stage>
                             <div class="venn-circle c-db" data-circle="db">
                                 <span class="venn-cap">База данных</span>
                                 <span class="pop-host">
                                     <a class="tool" href="https://www.postgresql.org/" target="_blank" rel="noreferrer">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#60a5fa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"></path><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"></path></svg>
+                                        <img class="tool-mark" src="assets/logos/postgresql.svg" alt="">
                                         PostgreSQL<span class="tool-go">↗</span>
                                     </a>
                                     <span class="pop is-center" role="tooltip"><b>PostgreSQL</b> — реляционная СУБД с открытым исходным кодом. Транзакции, надёжное хранение на диске, JSON, полнотекстовый поиск. Классический «источник правды» приложения.</span>
@@ -437,8 +442,7 @@
                                 <span class="venn-cap">Кэш</span>
                                 <span class="pop-host">
                                     <a class="tool" href="https://redis.io/" target="_blank" rel="noreferrer">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#f87171" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l10-4 10 4-10 4z"></path><path d="M2 12l10 4 10-4"></path><path d="M2 17l10 4 10-4"></path></svg>
-                                        Redis<span class="tool-go">↗</span>
+                                        <img class="tool-word" src="assets/logos/redis.svg" alt="Redis"><span class="tool-go">↗</span>
                                     </a>
                                     <span class="pop is-center" role="tooltip"><b>Redis</b> — хранилище структур данных в памяти: строки, списки, множества, потоки. Отвечает за микросекунды, поэтому чаще всего стоит перед базой как кэш.</span>
                                 </span>
@@ -448,7 +452,7 @@
                                 <span class="venn-cap">Очередь сообщений</span>
                                 <span class="pop-host">
                                     <a class="tool" href="https://kafka.apache.org/" target="_blank" rel="noreferrer">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fbbf24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.5"></circle><circle cx="17" cy="6" r="2.5"></circle><circle cx="17" cy="18" r="2.5"></circle><path d="M8.2 10.8 14.8 7.2M8.2 13.2l6.6 3.6"></path></svg>
+                                        <img class="tool-mark is-invert" src="assets/logos/kafka.svg" alt="">
                                         Apache Kafka<span class="tool-go">↗</span>
                                     </a>
                                     <span class="pop is-center" role="tooltip"><b>Apache Kafka</b> — распределённый журнал событий: сообщения пишутся на диск в порядке поступления и раздаются множеству независимых потребителей.</span>

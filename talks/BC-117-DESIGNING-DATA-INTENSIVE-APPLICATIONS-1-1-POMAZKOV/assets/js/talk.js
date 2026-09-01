@@ -18,12 +18,19 @@
   // они не помещаются в высоту слайда.
   document.querySelectorAll('.acc').forEach((acc) => {
     const items = [...acc.querySelectorAll('.acc-item')];
-    const closeAll = () => items.forEach((i) => i.classList.remove('is-open'));
+    const closeAll = () =>
+      items.forEach((i) => i.classList.remove('is-open', 'is-done'));
 
     items.forEach((item) => {
       const head = item.querySelector('.acc-head');
-      if (!head) return;
+      const body = item.querySelector('.acc-body');
+      if (!head || !body) return;
       head.setAttribute('aria-expanded', 'false');
+
+      body.addEventListener('transitionend', (e) => {
+        if (e.propertyName !== 'grid-template-rows') return;
+        item.classList.toggle('is-done', item.classList.contains('is-open'));
+      });
       head.addEventListener('click', (e) => {
         e.stopPropagation();
         const wasOpen = item.classList.contains('is-open');
@@ -40,18 +47,19 @@
     if (slide) onLeave(slide, closeAll);
   });
 
-  // ---------- «Скажи своими словами» ----------
-  // Устное пояснение к слайду: на экране кнопка, текст выезжает над ней.
-  const says = [...document.querySelectorAll('.say')];
-  const closeSays = () => says.forEach((s) => s.classList.remove('is-open'));
-  says.forEach((say) => {
-    const btn = say.querySelector('.say-btn');
+  // ---------- Подпись спикера ----------
+  // Аватарка с именем в правом верхнем углу; по клику под ней раскрывается
+  // устное пояснение к слайду.
+  const mes = [...document.querySelectorAll('.me')];
+  const closeMes = () => mes.forEach((m) => m.classList.remove('is-open'));
+  mes.forEach((me) => {
+    const btn = me.querySelector('.me-btn');
     if (!btn) return;
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const wasOpen = say.classList.contains('is-open');
-      closeSays();
-      if (!wasOpen) say.classList.add('is-open');
+      const wasOpen = me.classList.contains('is-open');
+      closeMes();
+      if (!wasOpen) me.classList.add('is-open');
     });
   });
 
@@ -82,10 +90,10 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       closeDrawers();
-      closeSays();
+      closeMes();
     }
   });
-  document.addEventListener('click', () => closeSays());
+  document.addEventListener('click', () => closeMes());
 
   // ---------- Рассинхрон: PostgreSQL обновился, Redis остался старым ----------
   // Три состояния: согласие → запись мимо кэша → инвалидация кэша кодом

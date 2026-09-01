@@ -116,50 +116,47 @@
     font-family: var(--font-mono);
 }
 
-/* ===== «Скажи своими словами» =====
-   Устное пояснение к слайду: на экране только узкая кнопка, текст выезжает
-   над ней. Панель вне потока — открытая подсказка не двигает слайд. */
-.say {
-    position: relative;
-    align-self: flex-start;
-    margin-top: 18px;
-    flex-shrink: 0;
-}
-.say-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 18px;
-    border-radius: 9999px;
-    border: 1px dashed #3f3f46;
-    background: #080808;
-    color: #71717a;
-    font: inherit;
-    font-size: 14px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
-}
-.say-btn:hover,
-.say.is-open .say-btn {
-    color: #ededed;
-    border-color: #a1a1aa;
-}
-.say-btn svg {
-    width: 16px;
-    height: 16px;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-.say-panel {
+/* ===== Подпись спикера: аватарка с именем в правом верхнем углу =====
+   Автор доклада виден на каждом слайде, а по клику под подписью раскрывается
+   устное пояснение к слайду. Блок вне потока и позиционируется по .slide,
+   поэтому раскладку слайда он не двигает. */
+.me {
     position: absolute;
-    bottom: calc(100% + 12px);
-    left: 0;
-    width: 1080px;
+    top: 44px;
+    right: 100px;
+    z-index: 15;
+}
+.me-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 20px 7px 7px;
+    border-radius: 9999px;
+    border: 1px solid #232323;
+    background: #080808;
+    color: #a1a1aa;
+    font: inherit;
+    font-size: 17px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.me-btn img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #3f3f46;
+}
+.me-btn:hover,
+.me.is-open .me-btn {
+    border-color: #3f3f46;
+    color: #fff;
+}
+.me-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 900px;
     padding: 22px 26px;
     border: 1px solid #3f3f46;
     border-radius: 16px;
@@ -168,13 +165,13 @@
     font-size: 19px;
     line-height: 1.6;
     color: #d4d4d8;
+    text-align: left;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(10px);
+    transform: translateY(-10px);
     transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
-    z-index: 20;
 }
-.say.is-open .say-panel {
+.me.is-open .me-panel {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -256,6 +253,10 @@
 .acc-inner {
     overflow: hidden;
 }
+/* Всплывашки внутри раскрытого пункта иначе обрезались бы по его границе. */
+.acc-item.is-done .acc-inner {
+    overflow: visible;
+}
 .acc-body ul {
     margin: 0;
     padding: 0 28px 22px 70px;
@@ -291,6 +292,81 @@
     line-height: 1.6;
     color: #a1a1aa;
 }
+/* Обложка слева на всю высоту блока, пункты справа. Высота задана явно:
+   иначе колонка с текстом оказывалась ниже обложки, и contain ужимал её
+   до трети размера. Ширина держит пропорции обложки (248×351). */
+.acc-book {
+    display: grid;
+    grid-template-columns: 187px minmax(0, 1fr);
+    gap: 30px;
+    align-items: stretch;
+    min-height: 264px;
+    margin: 0 28px 22px 70px;
+}
+.acc-book img {
+    width: 187px;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+.acc-book-text > p {
+    margin: 0 0 16px;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #d4d4d8;
+}
+.acc-book-text > p b {
+    color: #fff;
+    font-weight: 600;
+}
+.acc-book-text > ul {
+    padding: 0;
+}
+
+/* Всплывающее пояснение к термину: висит над ссылкой, показывается по наведению. */
+.pop-host {
+    position: relative;
+}
+.pop-link {
+    color: #93c5fd;
+    text-decoration: none;
+    border-bottom: 1px dashed #3f3f46;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.pop-link:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+.pop {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: -16px;
+    width: 470px;
+    padding: 14px 18px;
+    border: 1px solid #3f3f46;
+    border-radius: 14px;
+    background: #0a0a0a;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+    font-size: 16px;
+    line-height: 1.5;
+    color: #d4d4d8;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 30;
+}
+.pop b {
+    color: #fff;
+    font-weight: 600;
+}
+.pop-host:hover .pop {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 .acc-body .acc-quote {
     margin: 0 28px 22px 70px;
     padding: 2px 0 2px 18px;
@@ -350,16 +426,6 @@
 .author-hero .author-links a:hover {
     color: #fff;
 }
-.author-hero .author-intro {
-    margin: 0 0 20px;
-    font-size: 20px;
-    line-height: 1.6;
-    color: #d4d4d8;
-}
-.author-hero .author-intro b {
-    color: #fff;
-    font-weight: 600;
-}
 
 /* ===== Цитата автора: ящик выезжает снизу слайда ===== */
 .quote-caller {
@@ -408,6 +474,26 @@
     letter-spacing: 0.04em;
     color: #a1a1aa;
     transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.quote-caller img {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #3f3f46;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.quote-caller:hover img {
+    border-color: #fff;
+    transform: scale(1.04);
+}
+.quote-drawer-inner > img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #3f3f46;
+    flex-shrink: 0;
 }
 .quote-caller:hover .quote-mono {
     border-color: #fff;

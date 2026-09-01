@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body>
@@ -97,9 +99,1043 @@
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+            <!-- SLIDE: что такое масштабируемость -->
+            <section class="slide" data-slide="3">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Что такое масштабируемость</h2>
+                    <p class="slide-lead">
+                        Сегодня магазином пользуются 10 000 человек, через год — 100 000.
+                        <b>Масштабируемость — способность системы справляться с возросшей нагрузкой.</b>
+                        Это не галочка «есть или нет», а разговор о том, что мы будем делать, когда система
+                        перестанет справляться.
+                    </p>
+
+                    <div class="two is-left-wide">
+                        <div>
+                            <p class="section-label" style="margin-bottom: 14px;">Тот же магазин через год</p>
+                            <div class="grow">
+                                <div class="grow-row">
+                                    <span class="grow-name">Пользователей одновременно</span>
+                                    <span class="grow-from">10 000</span>
+                                    <span class="grow-arrow">→</span>
+                                    <span class="grow-to">100 000</span>
+                                </div>
+                                <div class="grow-row">
+                                    <span class="grow-name">Записей в базе данных</span>
+                                    <span class="grow-from">1 млн</span>
+                                    <span class="grow-arrow">→</span>
+                                    <span class="grow-to">10 млн</span>
+                                </div>
+                                <div class="grow-row">
+                                    <span class="grow-name">Запросов в секунду</span>
+                                    <span class="grow-from">1 000</span>
+                                    <span class="grow-arrow">→</span>
+                                    <span class="grow-to">10 000</span>
+                                </div>
+                            </div>
+                            <blockquote class="book-quote" style="margin-top: 22px;">
+                                Система продолжит работать нормально — или начнёт тормозить и падать?
+                                И во сколько нам обойдётся ответ «нормально»?
+                                <cite>раздел 1.3 «Масштабируемость»</cite>
+                            </blockquote>
+                        </div>
+
+                        <div class="qs">
+                            <div class="q is-bad">
+                                <span class="q-mark" aria-hidden="true">✕</span>
+                                <p class="q-text">
+                                    «Эта система масштабируемая»
+                                    <span>Так говорить нельзя: масштабируемость не бывает свойством системы самой по себе — она всегда про конкретную нагрузку.</span>
+                                </p>
+                            </div>
+                            <div class="q is-good">
+                                <span class="q-mark" aria-hidden="true">✓</span>
+                                <p class="q-text">
+                                    Что произойдёт с системой, если такой-то параметр нагрузки вырастет в десять раз?
+                                    <span>Сначала называем параметр, потом обсуждаем последствия.</span>
+                                </p>
+                            </div>
+                            <div class="q is-good">
+                                <span class="q-mark" aria-hidden="true">✓</span>
+                                <p class="q-text">
+                                    Сколько ресурсов придётся добавить, чтобы производительность осталась прежней?
+                                    <span>Ответ «докупим в десять раз больше серверов» тоже считается ответом — просто дорогим.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        Система может отлично держать миллион мелких запросов и падать на десятке тяжёлых,
+                        каждый из которых перемалывает гигабайты. Поэтому <b>«масштабируемая» без указания
+                        нагрузки — пустое слово</b>.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Главное, что стоит унести с этого слайда: спор «масштабируемая система или нет» — бессмысленный.
+                        Одна и та же система прекрасно держит миллион мелких запросов и умирает на десятке тяжёлых.
+                        Поэтому Клеппман переформулирует вопрос: назовите конкретный параметр нагрузки, скажите,
+                        во сколько раз он вырастет, — и тогда можно обсуждать, что будет с системой и сколько это будет стоить.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: краткая идея автора — порядок рассуждения -->
+            <section class="slide" data-slide="4">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Краткая идея автора</h2>
+                    <p class="slide-lead">
+                        Клеппман не даёт рецепта «сделай так — и будет масштабируемо». Он даёт
+                        <b>порядок рассуждения</b>, и весь раздел построен по нему.
+                    </p>
+
+                    <ul class="chain is-stepped" data-chain>
+                        <li data-note="Пользователей стало больше, данных стало больше, запросов стало больше. Система, которая вчера работала нормально, начинает тормозить. <b>Рост — это не только рост трафика</b>: расти могут объём данных и сложность связей между ними.">Система перестаёт справляться</li>
+                        <li data-note="Нагрузку нужно описать <b>числами — параметрами нагрузки</b>. Что именно за числа, зависит от системы: запросы в секунду, соотношение чтений и записей, количество одновременно активных пользователей, доля попаданий в кэш. Пока нагрузка не описана, разговор о масштабировании беспредметен.">описать нагрузку</li>
+                        <li data-note="Производительность — это <b>насколько хорошо система справляется с этой работой</b>. В пакетной обработке смотрят на пропускную способность, в онлайн-системах — на время отклика, причём не среднее, а по процентилям.">описать производительность</li>
+                        <li data-note="И только теперь выбираем: расти вверх (машина мощнее) или вширь (машин больше), что делать с состоянием, где кэшировать и что можно потерять. <b>Архитектура вырастает из нагрузки</b>, а не наоборот.">выбрать стратегию масштабирования и архитектуру</li>
+                    </ul>
+
+                    <p class="chain-note is-idle" data-chain-note>Наведите на звено — расскажу подробнее</p>
+
+                    <div class="demo-bar">
+                        <button class="demo-btn" type="button" data-chain-btn>Следующее звено →</button>
+                        <p class="demo-hint" data-chain-hint>Цепочка из четырёх звеньев</p>
+                    </div>
+
+                    <div class="tiles" style="margin-top: 28px;">
+                        <div class="tile">
+                            <b>Нагрузка</b>
+                            <p>Параметры нагрузки и то, как их выбирают. Разбираем на примере Twitter — там разница между «правильным» и «неправильным» параметром видна лучше всего.</p>
+                            <em>дальше в докладе</em>
+                        </div>
+                        <div class="tile">
+                            <b>Производительность</b>
+                            <p>Пропускная способность и время отклика, почему среднее обманывает и зачем нужны процентили — вплоть до хвоста в 0,1 % запросов.</p>
+                            <em>дальше в докладе</em>
+                        </div>
+                        <div class="tile">
+                            <b>Масштабирование</b>
+                            <p>Вертикально или горизонтально, что делать с состоянием и почему универсальной масштабируемой архитектуры не существует.</p>
+                            <em>дальше в докладе</em>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Это карта всего доклада. Порядок здесь не случайный: нельзя выбирать архитектуру, пока не описана
+                        производительность, и нельзя говорить о производительности, пока не описана нагрузка.
+                        Большинство споров про «а давайте возьмём Kafka» начинаются сразу с четвёртого шага — и поэтому
+                        заканчиваются ничем.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: параметры нагрузки -->
+            <section class="slide" data-slide="5">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Шаг первый: описать нагрузку</h2>
+                    <p class="slide-lead">
+                        Нагрузку описывают числами — <b>параметрами нагрузки</b>. Какие именно числа важны,
+                        зависит от архитектуры: для одной системы это запросы в секунду, для другой —
+                        соотношение чтений и записей или число одновременно активных пользователей.
+                    </p>
+
+                    <div class="tiles is-4">
+                        <div class="tile is-accent">
+                            <b>Параметр нагрузки</b>
+                            <p>Число, которое описывает, сколько работы система должна выполнять. Обычно их несколько.</p>
+                            <ul>
+                                <li>запросов в секунду</li>
+                                <li>операций чтения и записи</li>
+                                <li>одновременных пользователей</li>
+                                <li>объём данных</li>
+                                <li>доля попаданий в кэш</li>
+                            </ul>
+                            <em>раздел 1.3.1</em>
+                        </div>
+                        <div class="tile">
+                            <b>Видеосервис</b>
+                            <ul>
+                                <li>просмотров в секунду</li>
+                                <li>загрузок видео</li>
+                                <li><b>объём переданных данных</b></li>
+                                <li>активных пользователей</li>
+                            </ul>
+                            <em>трафик важнее запросов</em>
+                        </div>
+                        <div class="tile">
+                            <b>База данных</b>
+                            <ul>
+                                <li>запросов в секунду</li>
+                                <li><b>соотношение чтений и записей</b></li>
+                                <li>размер запроса</li>
+                                <li>объём хранимых данных</li>
+                            </ul>
+                            <em>соотношение важнее объёма</em>
+                        </div>
+                        <div class="tile">
+                            <b>Чат</b>
+                            <ul>
+                                <li>активных пользователей</li>
+                                <li>сообщений в секунду</li>
+                                <li><b>сколько адресатов у сообщения</b></li>
+                            </ul>
+                            <em>доставка важнее отправки</em>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        Сначала описываем нагрузку — и только потом смотрим, как система при ней себя ведёт.
+                        <b>Выбрать не тот параметр — значит промахнуться мимо реальной проблемы</b>, и следующий
+                        слайд ровно про такой промах.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Обратите внимание: почти нигде главным параметром не оказывается «сколько запросов в секунду».
+                        У видеосервиса это отданные гигабайты, у базы — соотношение чтений и записей, у чата — сколько людей
+                        должны получить одно сообщение. Правильно выбранный параметр сразу показывает, где система сломается,
+                        а неправильный успокаивает до самого падения.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: Twitter в числах и fan-out -->
+            <section class="slide" data-slide="6">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Пример из книги: Twitter</h2>
+                    <p class="slide-lead">
+                        Числа Twitter из книги. Кажется, что главная нагрузка здесь — публикация твитов.
+                        На самом деле нет.
+                    </p>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <b>4 600 /с</b>
+                            <span>твитов в среднем</span>
+                        </div>
+                        <div class="stat is-hot">
+                            <b>12 000+ /с</b>
+                            <span>твитов в пике</span>
+                        </div>
+                        <div class="stat is-cool">
+                            <b>300 000 /с</b>
+                            <span>запросов на просмотр домашней ленты</span>
+                        </div>
+                    </div>
+
+                    <div class="fig" style="margin-top: 30px;">
+                        <svg width="1420" height="310" viewBox="0 0 1100 240" role="img" aria-label="Один твит превращается в запись в ленту каждого подписчика">
+                            <defs>
+                                <marker id="ar-fan" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                                    <path d="M0 0 L9 4.5 L0 9 z" fill="#3f3f46"></path>
+                                </marker>
+                            </defs>
+                            <rect class="f-box is-hub" x="1" y="86" width="250" height="68" rx="16"></rect>
+                            <text class="t-name" x="126" y="115" text-anchor="middle">Один твит</text>
+                            <text class="t-sub" x="126" y="139" text-anchor="middle">одна операция записи</text>
+
+                            <path class="f-line" d="M251 120 H 400 V 24 H 556" marker-end="url(#ar-fan)"></path>
+                            <path class="f-line" d="M251 120 H 400 V 72 H 556" marker-end="url(#ar-fan)"></path>
+                            <path class="f-line" d="M251 120 H 556" marker-end="url(#ar-fan)"></path>
+                            <path class="f-line" d="M251 120 H 400 V 168 H 556" marker-end="url(#ar-fan)"></path>
+                            <path class="f-line is-dim" d="M251 120 H 400 V 216 H 556"></path>
+                            <text class="t-edge" x="330" y="106" text-anchor="middle">fan-out</text>
+
+                            <rect class="f-box c-feed" x="560" y="6" width="280" height="36" rx="10"></rect>
+                            <text class="t-sub" x="580" y="30">Лента подписчика</text>
+                            <rect class="f-box c-feed" x="560" y="54" width="280" height="36" rx="10"></rect>
+                            <text class="t-sub" x="580" y="78">Лента подписчика</text>
+                            <rect class="f-box c-feed" x="560" y="102" width="280" height="36" rx="10"></rect>
+                            <text class="t-sub" x="580" y="126">Лента подписчика</text>
+                            <rect class="f-box c-feed" x="560" y="150" width="280" height="36" rx="10"></rect>
+                            <text class="t-sub" x="580" y="174">Лента подписчика</text>
+                            <text class="t-sub" x="580" y="222">…и ещё десятки таких же</text>
+
+                            <text class="t-num" x="880" y="112">× 75</text>
+                            <text class="t-sub" x="880" y="138">подписчиков у среднего</text>
+                            <text class="t-sub" x="880" y="158">пользователя</text>
+                        </svg>
+                    </div>
+
+                    <p class="wide-accent">
+                        12 000 записей в секунду современная система переварит. Проблема в другом:
+                        <b>один твит нужно доставить всем подписчикам автора</b> — операция размножается на выходе.
+                        Это разветвление и называют fan-out.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Смотрите на числа: 4 600 твитов в секунду против 300 000 чтений ленты. Разница почти в семьдесят раз —
+                        и уже это подсказывает, где будет больно. Но настоящий параметр нагрузки Twitter — не количество твитов,
+                        а количество подписчиков у того, кто пишет. Один твит — это не одна операция, а столько операций,
+                        сколько у автора подписчиков.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: два подхода к сборке ленты -->
+            <section class="slide" data-slide="7">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Два способа собрать ленту</h2>
+                    <p class="slide-lead">
+                        Одну и ту же ленту можно построить двумя способами, и вся разница — в том,
+                        <b>когда выполняется работа</b>: в момент чтения или в момент записи.
+                    </p>
+
+                    <div class="ways-demo" data-ways>
+                        <div class="ways">
+                            <div class="way">
+                                <div class="way-head">
+                                    <span class="way-num">подход 01</span>
+                                    <b>Собирать при чтении</b>
+                                </div>
+                                <p>
+                                    Твит просто сохраняется. Когда пользователь открывает ленту, система находит всех,
+                                    на кого он подписан, берёт их свежие твиты и сливает в один список по времени.
+                                </p>
+                                <div class="fig">
+                                    <svg width="760" height="180" viewBox="0 0 760 180" role="img" aria-label="Лента собирается из твитов всех подписок в момент чтения">
+                                        <defs>
+                                            <marker id="ar-w1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                                                <path d="M0 0 L9 4.5 L0 9 z" fill="#3f3f46"></path>
+                                            </marker>
+                                        </defs>
+                                        <rect class="f-box" x="1" y="10" width="150" height="40" rx="10"></rect>
+                                        <text class="t-sub" x="76" y="35" text-anchor="middle">твиты Ани</text>
+                                        <rect class="f-box" x="1" y="70" width="150" height="40" rx="10"></rect>
+                                        <text class="t-sub" x="76" y="95" text-anchor="middle">твиты Бориса</text>
+                                        <rect class="f-box" x="1" y="130" width="150" height="40" rx="10"></rect>
+                                        <text class="t-sub" x="76" y="155" text-anchor="middle">твиты Васи</text>
+
+                                        <path class="f-line is-fat" d="M151 30 H 200 V 90 H 246" marker-end="url(#ar-w1)"></path>
+                                        <path class="f-line is-fat" d="M151 90 H 246" marker-end="url(#ar-w1)"></path>
+                                        <path class="f-line is-fat" d="M151 150 H 200 V 90 H 246" marker-end="url(#ar-w1)"></path>
+
+                                        <rect class="f-box is-hub" x="250" y="58" width="240" height="64" rx="14"></rect>
+                                        <text class="t-name" x="370" y="85" text-anchor="middle">Слияние по времени</text>
+                                        <text class="t-sub" x="370" y="108" text-anchor="middle">на каждое открытие ленты</text>
+
+                                        <path class="f-line" d="M490 90 H 566" marker-end="url(#ar-w1)"></path>
+                                        <rect class="f-box c-feed" x="570" y="58" width="188" height="64" rx="14"></rect>
+                                        <text class="t-name" x="664" y="96" text-anchor="middle">Лента</text>
+                                    </svg>
+                                </div>
+                                <div class="way-cost">
+                                    <div class="cost is-cheap for-write">
+                                        <em>публикация</em>
+                                        <b>дёшево</b>
+                                        <span>одна запись в общее хранилище</span>
+                                    </div>
+                                    <div class="cost is-pricey for-read">
+                                        <em>чтение ленты</em>
+                                        <b>дорого</b>
+                                        <span>сборка из всех подписок заново</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="way">
+                                <div class="way-head">
+                                    <span class="way-num">подход 02</span>
+                                    <b>Готовить при записи</b>
+                                </div>
+                                <p>
+                                    В момент публикации система смотрит, кто подписан на автора, и кладёт твит
+                                    в персональную ленту каждого подписчика. Открытие ленты — чтение готового списка.
+                                </p>
+                                <div class="fig">
+                                    <svg width="760" height="180" viewBox="0 0 760 180" role="img" aria-label="Твит раскладывается по готовым лентам подписчиков в момент записи">
+                                        <defs>
+                                            <marker id="ar-w2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                                                <path d="M0 0 L9 4.5 L0 9 z" fill="#3f3f46"></path>
+                                            </marker>
+                                        </defs>
+                                        <rect class="f-box" x="1" y="58" width="150" height="64" rx="14"></rect>
+                                        <text class="t-name" x="76" y="96" text-anchor="middle">Твит</text>
+
+                                        <path class="f-line" d="M151 90 H 226" marker-end="url(#ar-w2)"></path>
+                                        <rect class="f-box is-hub" x="230" y="58" width="240" height="64" rx="14"></rect>
+                                        <text class="t-name" x="350" y="85" text-anchor="middle">Разложить по лентам</text>
+                                        <text class="t-sub" x="350" y="108" text-anchor="middle">один раз, при публикации</text>
+
+                                        <path class="f-line is-fat" d="M470 90 H 520 V 30 H 566" marker-end="url(#ar-w2)"></path>
+                                        <path class="f-line is-fat" d="M470 90 H 566" marker-end="url(#ar-w2)"></path>
+                                        <path class="f-line is-fat" d="M470 90 H 520 V 150 H 566" marker-end="url(#ar-w2)"></path>
+
+                                        <rect class="f-box c-feed" x="570" y="10" width="188" height="40" rx="10"></rect>
+                                        <text class="t-sub" x="664" y="35" text-anchor="middle">лента Ани</text>
+                                        <rect class="f-box c-feed" x="570" y="70" width="188" height="40" rx="10"></rect>
+                                        <text class="t-sub" x="664" y="95" text-anchor="middle">лента Бориса</text>
+                                        <rect class="f-box c-feed" x="570" y="130" width="188" height="40" rx="10"></rect>
+                                        <text class="t-sub" x="664" y="155" text-anchor="middle">лента Васи</text>
+                                    </svg>
+                                </div>
+                                <div class="way-cost">
+                                    <div class="cost is-pricey for-write">
+                                        <em>публикация</em>
+                                        <b>дорого</b>
+                                        <span>запись в ленту каждого подписчика</span>
+                                    </div>
+                                    <div class="cost is-cheap for-read">
+                                        <em>чтение ленты</em>
+                                        <b>дёшево</b>
+                                        <span>список уже готов, просто отдать</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-bar">
+                            <button class="demo-btn" type="button" data-way-act="write">Публикация твита</button>
+                            <button class="demo-btn" type="button" data-way-act="read">Открытие ленты</button>
+                            <p class="demo-hint" data-way-hint>Выберите действие — покажу, кто за него платит в каждом подходе.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Работа никуда не исчезает — её можно только передвинуть. В первом подходе мы платим на каждом чтении,
+                        во втором — один раз на записи. Twitter начал с первого, упёрся в производительность и переехал на второй.
+                        Почему именно так — на следующем слайде, там всё решают два числа.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: почему выгоднее готовить ленту заранее -->
+            <section class="slide" data-slide="8">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Почему выгоднее платить при записи</h2>
+                    <p class="slide-lead">
+                        Потому что у Twitter <b>записей несоизмеримо меньше, чем чтений</b> — и это свойство
+                        нагрузки выгодно использовать.
+                    </p>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <b>4 600 /с</b>
+                            <span>твитов публикуется</span>
+                        </div>
+                        <div class="stat">
+                            <b>× 75</b>
+                            <span>подписчиков у среднего пользователя</span>
+                        </div>
+                        <div class="stat is-hot">
+                            <b>≈ 345 000 /с</b>
+                            <span>записей в ленты подписчиков</span>
+                        </div>
+                    </div>
+
+                    <div class="two" style="margin-top: 28px;">
+                        <div class="tile is-accent">
+                            <b>345 тысяч записей в секунду — это много?</b>
+                            <p>
+                                Много. Но взамен исчезает работа на чтении: 300 000 запросов ленты в секунду
+                                превращаются в 300 000 выборок готового списка. Один раз посчитать при записи
+                                дешевле, чем пересчитывать на каждом из чтений.
+                            </p>
+                            <em>подход 02 из предыдущего слайда</em>
+                        </div>
+                        <div class="tile">
+                            <b>Принцип</b>
+                            <p>
+                                <b>Перенести работу с чтения на запись.</b> Он работает ровно потому, что таково
+                                свойство этой нагрузки: чтений в десятки раз больше, чем записей. Поменяйте
+                                соотношение — и выгодным станет обратное.
+                            </p>
+                            <em>приём общего назначения, а не рецепт для соцсетей</em>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        Вот зачем нужен был шаг «описать нагрузку»: <b>решение принимает не архитектурный вкус,
+                        а соотношение чисел</b> — 4 600 записей против 300 000 чтений.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Здесь важно не запомнить «Twitter делает fan-out при записи», а увидеть логику. Мы посмотрели на два
+                        числа — сколько пишут и сколько читают — и выбрали подход, который переносит работу туда, где её меньше.
+                        Это переиспользуемый приём: посмотрите на своё соотношение чтений и записей, и ответ может оказаться обратным.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: знаменитости ломают схему, гибридный подход -->
+            <section class="slide" data-slide="9">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Пока не появляется знаменитость</h2>
+                    <p class="slide-lead">
+                        У среднего пользователя 75 подписчиков. У знаменитости — 30 миллионов, и один её твит
+                        превращается в <b>30 миллионов записей</b>, которые Twitter хотел доставлять примерно
+                        за пять секунд.
+                    </p>
+
+                    <div class="two is-left-wide">
+                        <div class="fig">
+                            <svg width="980" height="300" viewBox="0 0 980 300" role="img" aria-label="Твиты обычных пользователей раскладываются по лентам, твиты знаменитостей подмешиваются при чтении">
+                                <defs>
+                                    <marker id="ar-mix" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                                        <path d="M0 0 L9 4.5 L0 9 z" fill="#3f3f46"></path>
+                                    </marker>
+                                </defs>
+                                <rect class="f-box" x="1" y="120" width="200" height="64" rx="14"></rect>
+                                <text class="t-name" x="101" y="158" text-anchor="middle">Новый твит</text>
+
+                                <path class="f-line" d="M201 152 H 246" marker-end="url(#ar-mix)"></path>
+                                <rect class="f-box is-hub" x="250" y="110" width="250" height="84" rx="16"></rect>
+                                <text class="t-name" x="375" y="146" text-anchor="middle">Сколько у автора</text>
+                                <text class="t-name" x="375" y="172" text-anchor="middle">подписчиков?</text>
+
+                                <path class="f-line" d="M500 152 H 530 V 56 H 566" marker-end="url(#ar-mix)"></path>
+                                <path class="f-line" d="M500 152 H 530 V 248 H 566" marker-end="url(#ar-mix)"></path>
+
+                                <rect class="f-box c-feed" x="570" y="14" width="408" height="84" rx="16"></rect>
+                                <text class="t-name" x="596" y="48">Обычные пользователи</text>
+                                <text class="t-sub" x="596" y="74">push: раскладываем по лентам сразу</text>
+
+                                <rect class="f-box c-hot" x="570" y="206" width="408" height="84" rx="16"></rect>
+                                <text class="t-name" x="596" y="240">Знаменитости</text>
+                                <text class="t-sub" x="596" y="266">pull: ленты не трогаем, дочитываем при чтении</text>
+                            </svg>
+                        </div>
+
+                        <div class="tiles is-1">
+                            <div class="tile is-accent">
+                                <b>Гибрид</b>
+                                <p>
+                                    Твиты обычных пользователей заранее раскладываются по лентам подписчиков.
+                                    Твиты знаменитостей — нет: когда пользователь открывает ленту, система отдельно
+                                    забирает их и подмешивает в уже готовый список.
+                                </p>
+                                <em>подход 02 для всех + подход 01 для немногих</em>
+                            </div>
+                            <div class="tile">
+                                <b>Почему так</b>
+                                <ul>
+                                    <li>30 млн записей на один твит — <b>и всё за пять секунд</b></li>
+                                    <li>знаменитостей мало, а их читают все</li>
+                                    <li>слить два списка при чтении дешевле, чем размножить твит по 30 млн лент</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent is-strong">
+                        Среднее число подписчиков прячет крайние случаи. <b>Архитектуру определяет распределение
+                        параметра нагрузки, а не его среднее</b> — поэтому в итоге в Twitter живут оба подхода сразу.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Это мой любимый момент раздела. Мы честно посчитали среднее — 75 подписчиков — и построили под него
+                        архитектуру. А потом пришёл пользователь с тридцатью миллионами подписчиков и сломал её одним твитом.
+                        Вывод простой: считая нагрузку, всегда спрашивайте, как выглядит хвост распределения, а не только середина.
+                        И «нет универсального решения» здесь буквально: правильным оказался гибрид.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: производительность, throughput и время отклика -->
+            <section class="slide" data-slide="10">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Шаг второй: описать производительность</h2>
+                    <p class="slide-lead">
+                        Нагрузка — это <b>сколько работы</b> система должна сделать. Производительность —
+                        <b>насколько хорошо</b> она с этой работой справляется. Отсюда те самые два вопроса: что будет,
+                        если нагрузка вырастет, а ресурсы останутся прежними, и сколько ресурсов нужно, чтобы ничего не изменилось.
+                    </p>
+
+                    <div class="two">
+                        <div class="tile">
+                            <b>Пакетная обработка</b>
+                            <p>
+                                Ночной пересчёт отчётов, Hadoop. Пользователь не ждёт у экрана, поэтому важна
+                                <b>пропускная способность</b>: сколько записей система обрабатывает в секунду
+                                и за сколько отработает всё задание целиком.
+                            </p>
+                            <em>throughput</em>
+                        </div>
+                        <div class="tile">
+                            <b>Онлайн-системы</b>
+                            <p>
+                                Магазин, соцсеть, банковское приложение, публичный API. Здесь важно
+                                <b>время отклика</b>: сколько прошло от отправки запроса до получения ответа —
+                                то есть сколько ждал живой человек.
+                            </p>
+                            <em>response time</em>
+                        </div>
+                    </div>
+
+                    <p class="section-label" style="margin-top: 30px;">Из чего складывается время отклика</p>
+                    <div class="rt" style="margin-top: 14px;">
+                        <div class="rt-seg is-queue">
+                            <em>latency</em>
+                            <b>Ожидание в очереди</b>
+                            <span>запрос уже пришёл, но им ещё не занялись</span>
+                        </div>
+                        <div class="rt-seg is-service">
+                            <em>service time</em>
+                            <b>Обработка</b>
+                            <span>то самое время, которое видно в логах сервера</span>
+                        </div>
+                        <div class="rt-seg">
+                            <em>network</em>
+                            <b>Сеть и передача ответа</b>
+                            <span>дорога до сервера и обратно к клиенту</span>
+                        </div>
+                    </div>
+                    <p class="rt-total">
+                        <b>Response time</b>
+                        <span>— всё это вместе, то есть ровно то, что видит клиент.</span>
+                    </p>
+
+                    <p class="wide-accent">
+                        Поэтому <b>время отклика может быть огромным, даже когда обработка мгновенная</b> — запрос
+                        просто стоял в очереди. Мерить надо у клиента, а не внутри сервера.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Latency и response time часто путают, а это разные вещи. Latency — сколько запрос ждал, пока им займутся.
+                        Response time — всё время, которое видел клиент: очередь, обработка, сеть. Именно поэтому график
+                        «сервер отвечает за 30 мс» из логов может мирно соседствовать с жалобами пользователей на пятисекундные
+                        подвисания.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: среднее обманывает, процентили -->
+            <section class="slide" data-slide="11">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Одно среднее число ничего не описывает</h2>
+                    <p class="slide-lead">
+                        99 запросов по 10 мс и один на 10 секунд дают «в среднем 110 мс» — число, которого не видел
+                        ни один пользователь. Поэтому время отклика описывают <b>распределением и процентилями</b>.
+                    </p>
+
+                    <div class="perc" data-perc>
+                        <div class="perc-plot">
+                            <div class="perc-bars" data-perc-bars>
+                                <span class="perc-grid" data-perc-grid="100"><b>100 мс</b></span>
+                                <span class="perc-grid" data-perc-grid="1000"><b>1 с</b></span>
+                                <span class="perc-grid" data-perc-grid="10000"><b>10 с</b></span>
+                            </div>
+                            <span class="perc-mark is-p50" data-perc-mark="p50"><b>p50</b></span>
+                            <span class="perc-mark is-p95" data-perc-mark="p95"><b>p95</b></span>
+                            <span class="perc-mark is-p99" data-perc-mark="p99"><b>p99</b></span>
+                            <div class="perc-axis">
+                                <span data-perc-axis="left">1-й запрос</span>
+                                <span data-perc-axis="right">100-й запрос</span>
+                            </div>
+                        </div>
+                        <div class="perc-side">
+                            <div class="perc-val is-avg is-on" data-perc-val="avg"><em>среднее</em><b>—</b></div>
+                            <div class="perc-val is-p50" data-perc-val="p50"><em>p50 · медиана</em><b>—</b></div>
+                            <div class="perc-val is-p95" data-perc-val="p95"><em>p95</em><b>—</b></div>
+                            <div class="perc-val is-p99" data-perc-val="p99"><em>p99</em><b>—</b></div>
+                        </div>
+                    </div>
+
+                    <div class="demo-bar">
+                        <button class="demo-btn" type="button" data-perc-btn>Отсортировать по времени →</button>
+                        <p class="demo-hint" data-perc-hint></p>
+                    </div>
+
+                    <p class="wide-accent">
+                        Хвост — не мелочь: при 10 млн запросов <b>1 % — это 100 000 медленных ответов</b>, и достаются они
+                        чаще самым активным клиентам, у которых больше всего данных. В Amazon считали, что лишние 100 мс
+                        времени отклика — это около −1 % продаж.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Прокликайте демонстрацию слева направо — она про то, как из кучи чисел получается понятная картина.
+                        Сначала запросы как пришли, потом отсортированные, потом медиана, потом хвост. И обратите внимание на
+                        среднее: оно всё время стоит рядом и всё время врёт. p99 — это не «редкий случай», а вполне конкретные
+                        сто тысяч человек в день, причём чаще всего — ваши самые нагруженные клиенты.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: откуда берётся хвост -->
+            <section class="slide" data-slide="12">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Откуда берётся хвост</h2>
+                    <p class="slide-lead">
+                        Медленный запрос редко медленный сам по себе — чаще он просто <b>стоял в очереди за чужим</b>.
+                    </p>
+
+                    <div class="two">
+                        <div class="tile is-accent">
+                            <b>Блокировка головы очереди</b>
+                            <div class="fig" style="margin: 6px 0;">
+                                <svg width="600" height="150" viewBox="0 0 600 150" role="img" aria-label="Быстрые запросы C и D ждут, пока обработается медленный запрос B">
+                                    <rect class="f-box" x="1" y="20" width="80" height="56" rx="10"></rect>
+                                    <text class="t-name" x="41" y="55" text-anchor="middle">A</text>
+                                    <rect class="f-box c-hot" x="89" y="20" width="320" height="56" rx="10"></rect>
+                                    <text class="t-name t-hot" x="249" y="55" text-anchor="middle">B — 900 мс</text>
+                                    <rect class="f-box" x="417" y="20" width="80" height="56" rx="10"></rect>
+                                    <text class="t-name" x="457" y="55" text-anchor="middle">C</text>
+                                    <rect class="f-box" x="505" y="20" width="80" height="56" rx="10"></rect>
+                                    <text class="t-name" x="545" y="55" text-anchor="middle">D</text>
+                                    <path class="f-line" d="M1 96 H 592"></path>
+                                    <text class="t-sub" x="1" y="122">время обработки одним потоком</text>
+                                    <text class="t-sub t-hot" x="592" y="122" text-anchor="end">C и D ждут ≈ 940 мс</text>
+                                </svg>
+                            </div>
+                            <p>
+                                A, C и D — по 40 мс каждый. Но обрабатываются они по очереди, и всё, что встало
+                                за медленным B, ждёт вместе с ним. <b>Один тяжёлый запрос делает медленными
+                                несколько лёгких</b> — и все они попадают в хвост.
+                            </p>
+                        </div>
+
+                        <div class="tile">
+                            <b>Нагрузочный тест, который врёт</b>
+                            <p>
+                                Обычный тестовый клиент устроен так: отправил запрос → дождался ответа →
+                                отправил следующий. Выглядит логично, но <b>пока система тормозит, такой клиент
+                                перестаёт слать нагрузку</b> — очередь искусственно укорачивается.
+                            </p>
+                            <ul>
+                                <li>в системе одновременно оказывается меньше запросов, чем в реальности</li>
+                                <li>очередей почти нет — значит, нет и хвоста</li>
+                                <li>система выглядит быстрее, чем есть на самом деле</li>
+                            </ul>
+                            <p>
+                                Генератор нагрузки должен слать запросы <b>независимо от того, ответили ли
+                                на предыдущие</b>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        Отсюда правило: <b>время отклика измеряют на стороне клиента</b>. Внутреннее время работы
+                        сервера ничего не знает про очередь, которая выстроилась перед ним.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Два практических вывода. Первый: если в хвосте плохо, ищите не «медленный код», а очереди —
+                        чаще всего один тяжёлый запрос портит жизнь десятку лёгких. Второй: не верьте нагрузочному тесту,
+                        который ждёт ответа перед отправкой следующего запроса. Он моделирует вежливого пользователя,
+                        а в проде вежливых нет.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: усиление хвоста и измерение процентилей -->
+            <section class="slide" data-slide="13">
+                <div class="content-slide">
+                    <h2 class="gradient-text">В распределённых системах хвост усиливается</h2>
+                    <p class="slide-lead">
+                        Одна страница магазина собирается из ответов нескольких сервисов — пользователи, товары,
+                        рекомендации, реклама, оплата, — и пользователь ждёт <b>самый медленный</b> из них.
+                        Пусть каждый отвечает медленно лишь в 1 % случаев.
+                    </p>
+
+                    <div class="two is-left-wide">
+                        <div data-amp>
+                            <div class="amp-scale">
+                                <div class="amp-track">
+                                    <div class="amp-fill" data-amp-fill></div>
+                                </div>
+                                <div class="amp-val" data-amp-val>1,0 %</div>
+                            </div>
+                            <div class="amp-calls">
+                                <div class="amp-call" data-amp-call="1">1</div>
+                                <div class="amp-call" data-amp-call="5">5</div>
+                                <div class="amp-call" data-amp-call="10">10</div>
+                                <div class="amp-call" data-amp-call="20">20</div>
+                                <div class="amp-call" data-amp-call="50">50</div>
+                                <div class="amp-call" data-amp-call="100">100</div>
+                            </div>
+                            <div class="demo-bar">
+                                <button class="demo-btn" type="button" data-amp-btn>Больше вызовов →</button>
+                                <p class="demo-hint" data-amp-hint></p>
+                            </div>
+                            <p class="wide-accent">
+                                На сотне вызовов быстрыми окажутся все сразу лишь в <b>0,99<sup>100</sup> ≈ 36,6 %</b>
+                                случаев — значит, <b>в 63,4 % пользовательский запрос упрётся хотя бы в один медленный</b>.
+                                Это и есть усиление хвостового времени ожидания.
+                            </p>
+                        </div>
+
+                        <div class="tiles is-1">
+                            <div class="tile">
+                                <b>Как это измерять</b>
+                                <ul>
+                                    <li>скользящее окно последних <b>10 минут</b>: каждую минуту считаем p50, p95, p99, p999 по запросам за окно</li>
+                                    <li>строим график и смотрим не на число, а на его изменение</li>
+                                    <li><b>p50 стабилен, а p99 пополз вверх</b> — обычным пользователям хорошо, небольшой доле стало заметно плохо</li>
+                                </ul>
+                            </div>
+                            <div class="tile">
+                                <b>Процентили нельзя усреднять</b>
+                                <p>
+                                    p99 сервера A = 100 мс, p99 сервера B = 300 мс. Общий p99 — <b>не 200 мс</b>:
+                                    так математика не работает. Складывать нужно распределения — гистограммы,
+                                    а не готовые числа.
+                                </p>
+                                <em>forward decay · t-digest · HdrHistogram</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Вот почему в микросервисах хвост важнее, чем в монолите. Каждый отдельный сервис «почти всегда быстрый»,
+                        но чем больше вызовов нужно на одну страницу, тем выше шанс, что хотя бы один окажется медленным —
+                        и страница станет медленной целиком. Отсюда же практический совет: собирайте гистограммы, а не средние
+                        значения процентилей, иначе объединить данные с разных серверов будет просто нечем.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: вертикальное и горизонтальное масштабирование -->
+            <section class="slide" data-slide="14">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Шаг третий: чем масштабировать</h2>
+                    <p class="slide-lead">
+                        Нагрузка описана, производительность описана — теперь можно выбирать: расти вверх
+                        или вширь. На практике — разумное сочетание того и другого.
+                    </p>
+
+                    <div class="scale-two">
+                        <div class="scale-card">
+                            <h3>Вертикальное<em>vertical scaling · scale up</em></h3>
+                            <div class="fig">
+                                <svg width="560" height="140" viewBox="0 0 560 140" role="img" aria-label="Одна машина заменяется более мощной">
+                                    <defs>
+                                        <marker id="ar-up" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                                            <path d="M0 0 L9 4.5 L0 9 z" fill="#3f3f46"></path>
+                                        </marker>
+                                    </defs>
+                                    <rect class="f-box" x="60" y="42" width="110" height="60" rx="12"></rect>
+                                    <text class="t-sub" x="115" y="68" text-anchor="middle">4 CPU</text>
+                                    <text class="t-sub" x="115" y="90" text-anchor="middle">16 ГБ</text>
+                                    <path class="f-line" d="M180 72 H 256" marker-end="url(#ar-up)"></path>
+                                    <rect class="f-box is-hub" x="270" y="6" width="210" height="130" rx="16"></rect>
+                                    <text class="t-name" x="375" y="62" text-anchor="middle">32 CPU</text>
+                                    <text class="t-name" x="375" y="94" text-anchor="middle">128 ГБ</text>
+                                </svg>
+                            </div>
+                            <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #a1a1aa;">
+                                Та же одна машина, только мощнее.
+                            </p>
+                            <div class="pm">
+                                <div>
+                                    <p class="pm-label">Плюсы</p>
+                                    <ul class="is-plus">
+                                        <li>архитектура остаётся простой</li>
+                                        <li>нет распределённых проблем</li>
+                                        <li>проще эксплуатация</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p class="pm-label">Минусы</p>
+                                    <ul class="is-minus">
+                                        <li>мощные машины дорожают непропорционально</li>
+                                        <li>есть физический предел</li>
+                                        <li>одна машина — точка отказа</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="scale-card">
+                            <h3>Горизонтальное<em>horizontal scaling · scale out · shared-nothing</em></h3>
+                            <div class="fig">
+                                <svg width="560" height="140" viewBox="0 0 560 140" role="img" aria-label="Нагрузка распределяется балансировщиком между несколькими машинами">
+                                    <defs>
+                                        <marker id="ar-out" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                                            <path d="M0 0 L9 4.5 L0 9 z" fill="#3f3f46"></path>
+                                        </marker>
+                                    </defs>
+                                    <rect class="f-box is-hub" x="180" y="1" width="200" height="44" rx="12"></rect>
+                                    <text class="t-sub" x="280" y="28" text-anchor="middle">балансировщик</text>
+                                    <path class="f-line" d="M280 45 V 70 H 56 V 92" marker-end="url(#ar-out)"></path>
+                                    <path class="f-line" d="M280 45 V 70 H 206 V 92" marker-end="url(#ar-out)"></path>
+                                    <path class="f-line" d="M280 45 V 70 H 356 V 92" marker-end="url(#ar-out)"></path>
+                                    <path class="f-line" d="M280 45 V 70 H 506 V 92" marker-end="url(#ar-out)"></path>
+                                    <rect class="f-box" x="1" y="96" width="110" height="42" rx="12"></rect>
+                                    <text class="t-sub" x="56" y="122" text-anchor="middle">сервер</text>
+                                    <rect class="f-box" x="151" y="96" width="110" height="42" rx="12"></rect>
+                                    <text class="t-sub" x="206" y="122" text-anchor="middle">сервер</text>
+                                    <rect class="f-box" x="301" y="96" width="110" height="42" rx="12"></rect>
+                                    <text class="t-sub" x="356" y="122" text-anchor="middle">сервер</text>
+                                    <rect class="f-box" x="451" y="96" width="110" height="42" rx="12"></rect>
+                                    <text class="t-sub" x="506" y="122" text-anchor="middle">сервер</text>
+                                </svg>
+                            </div>
+                            <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #a1a1aa;">
+                                Много обычных машин, нагрузка распределяется между ними.
+                            </p>
+                            <div class="pm">
+                                <div>
+                                    <p class="pm-label">Плюсы</p>
+                                    <ul class="is-plus">
+                                        <li>растём по мере надобности</li>
+                                        <li>отказ одной машины не убивает систему</li>
+                                        <li>для stateless-сервиса — почти бесплатно</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p class="pm-label">Минусы</p>
+                                    <ul class="is-minus">
+                                        <li>состояние приходится синхронизировать</li>
+                                        <li>репликация и согласованность</li>
+                                        <li>отказы становятся штатной ситуацией</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        Разница вся в состоянии. Stateless-сервис размножается почти даром — запрос можно отдать любому
+                        серверу. Но если <b>сервер помнит корзину пользователя, соседний о ней не знает</b>, и появляются
+                        репликация, согласованность, обработка отказов. Поэтому базы данных так долго старались держать
+                        на одной машине; инструменты стали лучше, но <b>распределённость сама по себе не цель</b>.
+                    </p>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Классический путь такой: сначала растём вверх, пока это дёшево и просто, и только упёршись
+                        в цену, в потолок мощности или в требования по доступности — идём вширь. И ключевой водораздел здесь
+                        не «сервис или база», а есть ли состояние. Как только оно появляется, к нам приходят репликация,
+                        согласованность и обработка отказов — то, чему посвящена вся остальная книга.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: главный вывод раздела -->
+            <section class="slide" data-slide="15">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Главный вывод раздела</h2>
+                    <p class="slide-lead">
+                        <b>Универсальной масштабируемой архитектуры не существует.</b> Она вырастает из конкретной
+                        нагрузки: чего больше — чтений или записей, насколько велики данные, как быстро нужно отвечать,
+                        какие бывают пики. Две системы с одинаковой пропускной способностью могут не иметь между собой
+                        ничего общего.
+                    </p>
+
+                    <div class="two">
+                        <div class="tile">
+                            <b>Система A</b>
+                            <p>100 000 запросов в секунду, каждый по 1 КБ</p>
+                            <ul>
+                                <li>огромное количество запросов</li>
+                                <li>время отклика и параллельность</li>
+                                <li>процессор, сеть, очереди</li>
+                            </ul>
+                            <em>≈ 100 МБ/с</em>
+                        </div>
+                        <div class="tile">
+                            <b>Система B</b>
+                            <p>3 запроса в минуту, каждый по 2 ГБ</p>
+                            <ul>
+                                <li>объём памяти</li>
+                                <li>последовательное чтение с диска</li>
+                                <li>дисковая пропускная способность</li>
+                            </ul>
+                            <em>≈ 100 МБ/с</em>
+                        </div>
+                    </div>
+
+                    <p class="wide-accent">
+                        Пропускная способность одинаковая — <b>около 100 МБ/с у обеих</b>. Архитектуры будут совершенно
+                        разными, потому что нагрузка у них разная по характеру, а не по объёму.
+                    </p>
+
+                    <blockquote class="final-quote">
+                        <img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
+                        <div>
+                            <p>Масштабируемость — <b>не свойство системы, а ответ на вопрос</b>: что мы сделаем, когда конкретный параметр нагрузки вырастет в десять раз?</p>
+                            <cite>вывод по разделу 1.3 книги «Высоконагруженные приложения» Мартина Клеппмана</cite>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Если унести из доклада одну вещь — вот эту цепочку: система растёт → описываем нагрузку числами →
+                        описываем производительность процентилями, а не средним → и только потом выбираем, чем масштабировать.
+                        А пример двух систем со ста мегабайтами в секунду — хорошая прививка от вопроса «а какая архитектура
+                        масштабируемая?». Никакая. Правильный вопрос всегда начинается с описания нагрузки.
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="16" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
@@ -177,6 +1213,8 @@
 
     <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
     <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов этого доклада -->
+    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

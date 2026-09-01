@@ -265,59 +265,85 @@
                 </div>
             </section>
 
-            <!-- SLIDE: данные, а не вычисления + эпиграф главы -->
+            <!-- SLIDE: виды приложений + эпиграф главы -->
             <section class="slide" data-slide="5">
                 <div class="content-slide">
-                    <h2 class="gradient-text">Данные, а не вычисления</h2>
-                    <p class="slide-lead">
-                        Книга делит приложения на <b>высоконагруженные данными</b> (data-intensive)
-                        и <b>высоконагруженные вычислениями</b> (compute-intensive).
-                    </p>
+                    <h2 class="gradient-text">Виды приложений</h2>
 
-                    <div class="vs-row">
-                        <div class="vs-card">
-                            <h3>Compute-intensive</h3>
-                            <p>Узкое место — процессор: задача упирается в количество вычислений.</p>
-                        </div>
-                        <div class="vs-card is-on">
-                            <h3>Data-intensive</h3>
-                            <p>
-                                Чистая производительность CPU — просто ограничивающий фактор.
-                                Основная проблема — <b>объём данных, их сложность и скорость изменения</b>.
+                    <div class="kinds">
+                        <div class="kind is-main">
+                            <p class="section-label">Про них книга</p>
+                            <h3>Высоконагруженные данными<em>data-intensive</em></h3>
+                            <p class="kind-desc">
+                                Приложение почти ничего не вычисляет — оно хранит, ищет, обновляет и раздаёт данные.
+                                Собирается такое приложение из стандартных блоков, каждый из которых закрывает
+                                часто требующуюся функциональность.
+                            </p>
+
+                            <div class="bricks">
+                                <div class="brick">
+                                    <div class="brick-top">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path><path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"></path></svg>
+                                        <b>Базы данных</b>
+                                    </div>
+                                    <p>Хранить данные, чтобы эти или другие приложения могли найти их в дальнейшем</p>
+                                </div>
+                                <div class="brick">
+                                    <div class="brick-top">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline></svg>
+                                        <b>Кэши</b>
+                                    </div>
+                                    <p>Запоминать результат ресурсоёмкой операции для ускорения чтения</p>
+                                </div>
+                                <div class="brick">
+                                    <div class="brick-top">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16" y2="16"></line></svg>
+                                        <b>Поисковые индексы</b>
+                                    </div>
+                                    <p>Искать данные по ключевому слову и фильтровать их различными способами</p>
+                                </div>
+                            </div>
+
+                            <div class="warn">
+                                <span class="warn-label">Узкое место</span>
+                                <p>
+                                    Чистая производительность CPU — просто ограничивающий фактор.
+                                    Основная проблема — <b>объём данных, их сложность и скорость изменения</b>.
+                                </p>
+                            </div>
+
+                            <p class="kind-focus">
+                                <b>Акцент книги — на них.</b> Дальше и в докладе речь только о таких приложениях:
+                                как их собирать из готовых компонентов и что при этом ломается.
                             </p>
                         </div>
-                    </div>
 
-                    <div class="bricks">
-                        <div class="brick">
-                            <div class="brick-top">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path><path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"></path></svg>
-                                <b>Базы данных</b>
+                        <div class="kind is-side">
+                            <h3>Высоконагруженные вычислениями<em>compute-intensive</em></h3>
+                            <p class="kind-desc">
+                                Данных немного, но над ними много считают. Здесь всё решает то,
+                                сколько операций нужно выполнить, а не сколько данных прочитать и записать.
+                            </p>
+
+                            <div class="warn">
+                                <span class="warn-label">Узкое место</span>
+                                <p>Процессор: задача упирается в <b>количество вычислений</b>.</p>
                             </div>
-                            <p>Хранить данные, чтобы эти или другие приложения могли найти их в дальнейшем</p>
-                        </div>
-                        <div class="brick">
-                            <div class="brick-top">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline></svg>
-                                <b>Кэши</b>
-                            </div>
-                            <p>Запоминать результат ресурсоёмкой операции для ускорения чтения</p>
-                        </div>
-                        <div class="brick">
-                            <div class="brick-top">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16" y2="16"></line></svg>
-                                <b>Поисковые индексы</b>
-                            </div>
-                            <p>Искать данные по ключевому слову и фильтровать их различными способами</p>
                         </div>
                     </div>
+                </div>
 
-                    <p class="wide-accent">
-                        <span class="dotted">Информационные системы — очень удачная абстракция: мы используем их
-                        всё время, даже не задумываясь.</span> Но систем баз данных множество, подходов к кэшированию
-                        несколько, и <b>подобрать нужную комбинацию инструментов — работа разработчика</b>.
-                    </p>
-
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Книга не про то, как выжать максимум из процессора. Она про приложения, где больно от самих данных:
+                            их много, они сложно связаны и быстро меняются. Такие приложения собираются из типовых блоков —
+                            хранилище, кэш, поисковый индекс, — и блоки эти кажутся очевидными ровно до того момента,
+                            пока не приходится выбирать конкретный инструмент под конкретную задачу.
+                    </div>
                 </div>
 
                 <!-- Эпиграф главы: ящик выезжает снизу по клику -->
@@ -341,20 +367,6 @@
                         <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
                     </div>
                 </div>
-
-                <div class="me">
-                    <button class="me-btn" type="button">
-                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
-                        <span>Антон Помазков</span>
-                    </button>
-                    <div class="me-panel">
-                            Книга не про то, как выжать максимум из процессора. Она про приложения, где больно от самих данных:
-                            их много, они сложно связаны и быстро меняются. Такие приложения собираются из типовых блоков —
-                            хранилище, кэш, поисковый индекс, — и блоки эти кажутся очевидными ровно до того момента,
-                            пока не приходится выбирать конкретный инструмент под конкретную задачу.
-                    </div>
-                </div>
-
             </section>
 
             <!-- SLIDE: спойлер — две мысли доклада -->
@@ -363,32 +375,26 @@
                     <h2 class="gradient-text">Спойлер</h2>
                     <p class="slide-lead">Две главные мысли, которые будут раскрыты дальше.</p>
 
-                    <div class="spoiler">
-                        <div class="spoiler-card">
-                            <span class="spoiler-num">1</span>
-                            <h3>Важна задача, а не инструмент</h3>
+                    <div class="ideas">
+                        <div class="idea">
+                            <span class="idea-num">01</span>
+                            <h3>Важна задача,<br>а не инструмент</h3>
                             <p>
                                 Нет смысла мыслить жёсткими категориями «база данных», «кэш», «очередь».
                                 Есть <b>потребности системы</b>, и под каждую потребность подбирается подходящий инструмент.
                             </p>
                             <p>Один и тот же инструмент может решать разные задачи, а разные инструменты — похожие задачи.</p>
                         </div>
-                        <div class="spoiler-card">
-                            <span class="spoiler-num">2</span>
-                            <h3>Разработчик = архитектор</h3>
+                        <div class="idea">
+                            <span class="idea-num">02</span>
+                            <h3>Разработчик —<br>архитектор</h3>
                             <p>
                                 Современное приложение — это не один инструмент, а <b>система из нескольких компонентов</b>,
                                 которые нужно связать и синхронизировать.
                             </p>
-                            <p>Поэтому разработчик отвечает не только за код, но и за то, как устроена вся система, как части взаимодействуют, как система ведёт себя при сбоях и росте.</p>
+                            <p>Поэтому разработчик отвечает не только за код, но и за то, как устроена вся система, как части взаимодействуют, как она ведёт себя при сбоях и росте.</p>
                         </div>
                     </div>
-
-                    <blockquote class="book-quote" style="margin-top: 30px;">
-                        «Вы теперь не только разработчик приложения, но и архитектор информационной системы».
-                        <cite>Глава 1. Надежные, масштабируемые и удобные в сопровождении приложения</cite>
-                    </blockquote>
-
                 </div>
 
                 <div class="me">
@@ -403,10 +409,9 @@
                             и отвечать за поведение системы больше некому.
                     </div>
                 </div>
-
             </section>
 
-            <!-- SLIDE: границы категорий размываются -->
+            <!-- SLIDE: границы категорий размываются (круги категорий и их пересечения) -->
             <section class="slide" data-slide="7">
                 <div class="content-slide">
                     <h2 class="gradient-text">Нет «одного правильного инструмента»</h2>
@@ -415,31 +420,83 @@
                         <b>границы между категориями постепенно размываются</b>.
                     </p>
 
-                    <div class="blur-scene">
-                        <div class="blur-zone is-left">
-                            <span>Хранилища данных</span>
-                            <em>хранят и отдают по запросу</em>
+                    <div class="venn-slide" data-venn>
+                        <div class="venn" data-venn-stage>
+                            <div class="venn-circle c-db" data-circle="db">
+                                <span class="venn-cap">База данных</span>
+                                <span class="pop-host">
+                                    <a class="tool" href="https://www.postgresql.org/" target="_blank" rel="noreferrer">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#60a5fa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"></path><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"></path></svg>
+                                        PostgreSQL<span class="tool-go">↗</span>
+                                    </a>
+                                    <span class="pop is-center" role="tooltip"><b>PostgreSQL</b> — реляционная СУБД с открытым исходным кодом. Транзакции, надёжное хранение на диске, JSON, полнотекстовый поиск. Классический «источник правды» приложения.</span>
+                                </span>
+                            </div>
+
+                            <div class="venn-circle c-cache" data-circle="cache">
+                                <span class="venn-cap">Кэш</span>
+                                <span class="pop-host">
+                                    <a class="tool" href="https://redis.io/" target="_blank" rel="noreferrer">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#f87171" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l10-4 10 4-10 4z"></path><path d="M2 12l10 4 10-4"></path><path d="M2 17l10 4 10-4"></path></svg>
+                                        Redis<span class="tool-go">↗</span>
+                                    </a>
+                                    <span class="pop is-center" role="tooltip"><b>Redis</b> — хранилище структур данных в памяти: строки, списки, множества, потоки. Отвечает за микросекунды, поэтому чаще всего стоит перед базой как кэш.</span>
+                                </span>
+                            </div>
+
+                            <div class="venn-circle c-queue" data-circle="queue">
+                                <span class="venn-cap">Очередь сообщений</span>
+                                <span class="pop-host">
+                                    <a class="tool" href="https://kafka.apache.org/" target="_blank" rel="noreferrer">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fbbf24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.5"></circle><circle cx="17" cy="6" r="2.5"></circle><circle cx="17" cy="18" r="2.5"></circle><path d="M8.2 10.8 14.8 7.2M8.2 13.2l6.6 3.6"></path></svg>
+                                        Apache Kafka<span class="tool-go">↗</span>
+                                    </a>
+                                    <span class="pop is-center" role="tooltip"><b>Apache Kafka</b> — распределённый журнал событий: сообщения пишутся на диск в порядке поступления и раздаются множеству независимых потребителей.</span>
+                                </span>
+                            </div>
+
+                            <div class="lens" data-lens="0">
+                                Redis 1.1
+                                <span class="pop is-center" role="tooltip"><b>2009 · появился AOF.</b> Каждая запись дописывается в журнал на диске, и после перезапуска данные восстанавливаются. Кэш перестал жить «только в памяти» — его стало можно использовать как хранилище данных.</span>
+                            </div>
+                            <div class="lens" data-lens="1">
+                                Kafka 0.11
+                                <span class="pop is-center" role="tooltip"><b>2017 · транзакции и exactly-once.</b> Сообщение доставляется ровно один раз, запись в несколько разделов — атомарна. Очередь получила надёжность, соответствующую базам данных.</span>
+                            </div>
+                            <div class="lens" data-lens="2">
+                                Redis 5.0
+                                <span class="pop is-center" role="tooltip"><b>2018 · тип данных Stream.</b> Группы потребителей, подтверждения обработки, история сообщений. Хранилище данных стало полноценной очередью сообщений.</span>
+                            </div>
                         </div>
-                        <div class="blur-zone is-right">
-                            <span>Очереди сообщений</span>
-                            <em>передают и не теряют</em>
-                        </div>
-                        <div class="blur-tool is-first">
-                            <b>Redis</b>
-                            <span>хранилище данных, применяемое как очередь сообщений</span>
-                        </div>
-                        <div class="blur-tool is-second">
-                            <b>Apache Kafka</b>
-                            <span>очередь сообщений с соответствующим базам данных уровнем надёжности</span>
+
+                        <div class="venn-side">
+                            <p class="section-label">Эволюция</p>
+
+                            <div class="vt-row" data-vt="0">
+                                <span class="vt-year">2009</span>
+                                <span class="vt-text"><b>Redis 1.1</b><span>Персистентность AOF: кэш заходит на территорию баз данных</span></span>
+                            </div>
+                            <div class="vt-row" data-vt="1">
+                                <span class="vt-year">2017</span>
+                                <span class="vt-text"><b>Apache Kafka 0.11</b><span>Транзакции и exactly-once: очередь заходит на территорию баз данных</span></span>
+                            </div>
+                            <div class="vt-row" data-vt="2">
+                                <span class="vt-year">2018</span>
+                                <span class="vt-text"><b>Redis 5.0</b><span>Потоки с группами потребителей: кэш заходит на территорию очередей</span></span>
+                            </div>
+
+                            <div class="venn-bar">
+                                <button class="venn-btn" type="button" data-venn-btn>Следующий шаг →</button>
+                                <p class="venn-hint" data-venn-hint>Наведите на инструмент или на метку версии — покажу подробности</p>
+                            </div>
+
+                            <p class="venn-sum" data-venn-sum>
+                                И базы данных, и очереди хранят данные какое-то время, но <b>паттерны доступа у них разные</b> —
+                                отсюда разные характеристики производительности и очень разные реализации.
+                                Важно не название инструмента, а задача, которую он решает в конкретной архитектуре.
+                            </p>
                         </div>
                     </div>
-
-                    <p class="wide-accent">
-                        И базы данных, и очереди хранят данные какое-то время, но <b>паттерны доступа у них разные</b> —
-                        отсюда разные характеристики производительности и очень разные реализации.
-                        <span class="dotted">Важно не название инструмента, а задача, которую он решает в конкретной архитектуре.</span>
-                    </p>
-
                 </div>
 
                 <div class="me">
@@ -448,13 +505,13 @@
                         <span>Антон Помазков</span>
                     </button>
                     <div class="me-panel">
-                            Раньше было просто: базы отдельно, очереди отдельно, кэши отдельно. Сейчас Redis, который считается
-                            хранилищем, спокойно работает очередью, а Kafka — очередь — даёт надёжность на уровне базы данных.
-                            Поэтому вопрос «это база или очередь?» бессмысленный. Правильный вопрос — какую задачу
-                            этот инструмент закрывает в моей системе.
+                            Раньше было просто: базы отдельно, очереди отдельно, кэши отдельно. Дальше каждый инструмент
+                            дорастал до соседней категории: Redis научился переживать перезапуск и стал хранилищем,
+                            Kafka получила транзакции и надёжность базы, Redis добавил потоки и стал очередью.
+                            Поэтому вопрос «это база или очередь?» бессмысленный — правильный вопрос в том,
+                            какую задачу инструмент закрывает в моей системе.
                     </div>
                 </div>
-
             </section>
 
             <!-- SLIDE: система из нескольких компонентов -->

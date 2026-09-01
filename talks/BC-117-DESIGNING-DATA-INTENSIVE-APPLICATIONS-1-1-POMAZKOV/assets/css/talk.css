@@ -348,9 +348,15 @@
     border-radius: 14px;
     background: #0a0a0a;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+    /* Носитель бывает моноширинным и с nowrap (метка версии) — во всплывашке
+       и то и другое сбрасываем, иначе она вытягивалась в одну строку
+       через весь слайд. */
+    font-family: var(--font-sans);
+    font-weight: 400;
     font-size: 16px;
     line-height: 1.5;
     color: #d4d4d8;
+    white-space: normal;
     opacity: 0;
     visibility: hidden;
     transform: translateY(6px);
@@ -573,60 +579,114 @@
     border-color: #fff;
 }
 
-/* ===== Слайд «Данные, а не вычисления» ===== */
-.vs-row {
+/* ===== Слайд «Виды приложений» ===== */
+/* Две колонки: слева вид, которому посвящена книга, — ему и две трети ширины. */
+.kinds {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 28px;
+    grid-template-columns: 2fr 1fr;
+    gap: 48px;
+    align-items: start;
 }
-.vs-card {
-    border: 1px solid #232323;
-    border-radius: 20px;
-    background: #080808;
-    padding: 24px 28px;
+.kind.is-side {
+    border-left: 1px solid #232323;
+    padding-left: 48px;
 }
-.vs-card.is-on {
-    border-color: #3f3f46;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
-}
-.vs-card h3 {
-    margin: 0 0 10px;
-    font-size: 26px;
+.kind h3 {
+    margin: 0 0 14px;
+    font-size: 30px;
     font-weight: 600;
+    line-height: 1.2;
     color: #a1a1aa;
 }
-.vs-card.is-on h3 {
+.kind.is-main h3 {
     color: #fff;
 }
-.vs-card p {
+.kind h3 em {
+    display: block;
+    margin-top: 6px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    color: #52525b;
+}
+.kind .section-label {
+    margin-bottom: 12px;
+}
+.kind-desc {
     margin: 0;
     font-size: 18px;
     line-height: 1.55;
     color: #a1a1aa;
 }
+.kind-desc b {
+    color: #ededed;
+    font-weight: 600;
+}
+/* Узкое место — то, во что упирается вид приложений. Красный блок внимания. */
+.warn {
+    margin-top: 22px;
+    padding: 16px 22px;
+    border: 1px solid #5f1e1e;
+    border-left-width: 3px;
+    border-radius: 0 14px 14px 0;
+    background: rgba(248, 113, 113, 0.06);
+}
+.warn-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f87171;
+}
+.warn p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: #d4d4d8;
+}
+.warn p b {
+    color: #fff;
+    font-weight: 600;
+}
+/* Пометка про фокус книги — пунктирная строка под левой колонкой. */
+.kind-focus {
+    margin: 22px 0 0;
+    padding-top: 16px;
+    border-top: 1px dashed #3f3f46;
+    font-size: 19px;
+    line-height: 1.5;
+    color: #d4d4d8;
+}
+.kind-focus b {
+    color: #fff;
+    font-weight: 600;
+}
 .bricks {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 22px;
-    margin-top: 24px;
+    gap: 18px;
+    margin-top: 20px;
 }
 .brick {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     border: 1px solid #232323;
-    border-radius: 18px;
+    border-radius: 16px;
     background: #080808;
-    padding: 20px 24px;
+    padding: 16px 20px;
 }
 .brick-top {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 .brick-top svg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     stroke: #a1a1aa;
     stroke-width: 1.6;
     fill: none;
@@ -634,135 +694,276 @@
     stroke-linejoin: round;
 }
 .brick-top b {
-    font-size: 21px;
+    font-size: 19px;
     font-weight: 600;
     color: #fff;
 }
 .brick p {
     margin: 0;
-    font-size: 17px;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.45;
     color: #a1a1aa;
 }
 
-/* ===== Слайд «Спойлер» ===== */
-.spoiler {
+/* ===== Слайд «Спойлер»: главная мысль доклада =====
+   Без карточек и рамок — только крупная типографика и волосяная линия
+   между двумя мыслями. */
+.ideas {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 32px;
+    gap: 0 80px;
 }
-.spoiler-card {
-    border: 1px solid #3f3f46;
-    border-radius: 24px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
-    padding: 32px 36px;
+.idea + .idea {
+    border-left: 1px solid #232323;
+    padding-left: 80px;
 }
-.spoiler-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid #52525b;
+.idea-num {
+    display: block;
     font-family: var(--font-mono);
-    font-size: 18px;
-    color: #a1a1aa;
-    margin-bottom: 16px;
+    font-size: 22px;
+    letter-spacing: 0.12em;
+    color: #3f3f46;
+    margin-bottom: 18px;
 }
-.spoiler-card h3 {
-    margin: 0 0 14px;
-    font-size: 32px;
+.idea h3 {
+    margin: 0 0 24px;
+    font-size: 46px;
     font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: #fff;
-    line-height: 1.2;
 }
-.spoiler-card p {
-    margin: 0 0 12px;
-    font-size: 19px;
+.idea p {
+    margin: 0 0 16px;
+    font-size: 21px;
     line-height: 1.55;
     color: #a1a1aa;
+    max-width: 640px;
 }
-.spoiler-card p:last-child {
+.idea p:last-child {
     margin-bottom: 0;
 }
-.spoiler-card b {
+.idea b {
     color: #ededed;
     font-weight: 600;
 }
 
-/* ===== Слайд «Нет одного правильного инструмента» ===== */
-/* Сцена размечена в пикселях: доклад живёт на сцене фиксированных 1920×1080,
-   поэтому инструмент точно встаёт на границу категорий, а не «примерно
-   посередине». */
-.blur-scene {
+/* ===== Слайд «Нет одного правильного инструмента»: круги категорий =====
+   Сцена размечена в пикселях (доклад живёт на 1920×1080), круги двигает
+   скрипт: он же считает середину пересечения для метки с версией. */
+.venn-slide {
+    display: grid;
+    grid-template-columns: 940px minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+}
+.venn {
     position: relative;
-    width: 1720px;
-    height: 330px;
-    margin: 0 auto;
+    width: 940px;
+    height: 680px;
 }
-.blur-zone {
+.venn-circle {
     position: absolute;
-    top: 0;
-    height: 330px;
-    width: 960px;
-    border: 1px dashed #3f3f46;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.blur-zone.is-left {
-    left: 0;
-    border-right: none;
-    border-radius: 28px 0 0 28px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+.venn-circle.c-db {
+    border-color: rgba(96, 165, 250, 0.55);
+    background: rgba(96, 165, 250, 0.08);
 }
-.blur-zone.is-right {
-    right: 0;
-    border-left: none;
-    border-radius: 0 28px 28px 0;
-    background: linear-gradient(270deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+.venn-circle.c-cache {
+    border-color: rgba(248, 113, 113, 0.55);
+    background: rgba(248, 113, 113, 0.08);
 }
-.blur-zone span {
-    position: absolute;
-    top: 26px;
-    font-size: 19px;
+.venn-circle.c-queue {
+    border-color: rgba(251, 191, 36, 0.55);
+    background: rgba(251, 191, 36, 0.08);
+}
+/* Название и инструмент сдвинуты к внешнему краю круга: середина остаётся
+   свободной под метки версий, которые там и появляются. */
+.venn-circle.c-db > * {
+    transform: translateY(-44px);
+}
+.venn-circle.c-cache > * {
+    transform: translate(-32px, 36px);
+}
+.venn-circle.c-queue > * {
+    transform: translate(32px, 36px);
+}
+.venn-cap {
+    font-size: 15px;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    color: #a1a1aa;
+}
+/* Инструмент внутри круга: логотип, название-ссылка и пояснение по наведению. */
+.tool {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 9999px;
+    border: 1px solid #3f3f46;
+    background: #0a0a0a;
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.tool:hover {
+    border-color: #fff;
+    transform: translateY(-1px);
+}
+.tool svg {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+}
+.tool .tool-go {
+    font-size: 14px;
     color: #71717a;
 }
-.blur-zone em {
+/* Метка версии в пересечении кругов: её ставит скрипт по середине пары. */
+.lens {
     position: absolute;
-    bottom: 26px;
-    font-style: normal;
+    transform: translate(-50%, -50%);
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid #52525b;
+    background: #0a0a0a;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #ededed;
+    white-space: nowrap;
+    cursor: help;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease 0.35s, visibility 0.4s ease 0.35s,
+        left 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 5;
+}
+.lens.is-on {
+    opacity: 1;
+    visibility: visible;
+}
+.lens:hover {
+    border-color: #fff;
+}
+
+/* Всплывашка по центру носителя — для меток и кружков, где сдвиг влево
+   вывел бы её за край сцены. */
+.pop.is-center {
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+}
+.pop-host:hover .pop.is-center,
+.lens:hover .pop.is-center {
+    transform: translateX(-50%) translateY(0);
+}
+.lens:hover .pop {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Правая колонка слайда: таймлайн эволюции инструментов. */
+.venn-side {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.vt-row {
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid #171717;
+    background: #060606;
+    opacity: 0.4;
+    transition: opacity 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+}
+.vt-row.is-on {
+    opacity: 1;
+    border-color: #3f3f46;
+    background: #0a0a0a;
+}
+.vt-year {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: #71717a;
+}
+.vt-row.is-on .vt-year {
+    color: #fff;
+}
+.vt-text b {
+    display: block;
+    font-size: 19px;
+    color: #fff;
+    margin-bottom: 4px;
+}
+.vt-text span {
     font-size: 16px;
+    line-height: 1.45;
+    color: #a1a1aa;
+}
+.venn-bar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 6px;
+}
+.venn-btn {
+    padding: 12px 24px;
+    border-radius: 9999px;
+    border: 1px solid #3f3f46;
+    background: #0a0a0a;
+    color: #ededed;
+    font: inherit;
+    font-size: 17px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+}
+.venn-btn:hover {
+    border-color: #fff;
+    color: #fff;
+}
+.venn-hint {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.4;
     color: #52525b;
 }
-.blur-zone.is-left span,
-.blur-zone.is-left em { left: 36px; }
-.blur-zone.is-right span,
-.blur-zone.is-right em { right: 36px; }
-.blur-tool {
-    position: absolute;
-    left: 580px;
-    width: 560px;
-    padding: 18px 26px;
-    border: 1px solid #3f3f46;
-    border-radius: 18px;
-    background: #0a0a0a;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+/* Вывод слайда: появляется, когда все пересечения показаны. */
+.venn-sum {
+    margin: 8px 0 0;
+    padding: 16px 22px;
+    border-left: 3px solid #3f3f46;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    font-size: 18px;
+    line-height: 1.55;
+    color: #d4d4d8;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
-.blur-tool.is-first { top: 58px; }
-.blur-tool.is-second { top: 190px; }
-.blur-tool b {
-    display: block;
-    font-size: 24px;
+.venn-sum.is-on {
+    opacity: 1;
+}
+.venn-sum b {
     color: #fff;
-    margin-bottom: 6px;
-}
-.blur-tool span {
-    display: block;
-    font-size: 17px;
-    line-height: 1.5;
-    color: #a1a1aa;
+    font-weight: 600;
 }
 
 /* ===== Схемы на фиксированной сцене (архитектура, рассинхрон) ===== */

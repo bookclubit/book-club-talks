@@ -163,4 +163,112 @@
 
     render();
   });
+
+  // ---------- Круги категорий и их пересечения ----------
+  // Круги стоят на сцене фиксированных 940×680 и в начале не пересекаются.
+  // Каждый шаг таймлайна стягивает одну пару навстречу друг другу, а метка
+  // с версией встаёт ровно в середину этой пары — поэтому позиции считает
+  // скрипт, а не CSS: после второго шага круги уже сдвинуты, и «серединой»
+  // была бы не та точка.
+  document.querySelectorAll('[data-venn]').forEach((venn) => {
+    const START = { db: [470, 169], cache: [270, 516], queue: [670, 516] };
+    const STEPS = [
+      { a: 'cache', b: 'db', pull: 70 },
+      { a: 'queue', b: 'db', pull: 55 },
+      { a: 'cache', b: 'queue', pull: 35 },
+    ];
+    const R = 150;
+
+    const circles = {};
+    Object.keys(START).forEach((key) => {
+      circles[key] = venn.querySelector(`[data-circle="${key}"]`);
+    });
+    const lenses = [...venn.querySelectorAll('[data-lens]')];
+    const rows = [...venn.querySelectorAll('[data-vt]')];
+    const btn = venn.querySelector('[data-venn-btn]');
+    const hint = venn.querySelector('[data-venn-hint]');
+    const sum = venn.querySelector('[data-venn-sum]');
+    const slide = venn.closest('.slide');
+    if (Object.values(circles).some((c) => !c) || !btn || !slide) return;
+
+    let step = 0;
+
+    // Позиции центров после первых `n` шагов: пары стягиваются по очереди.
+    function centers(n) {
+      const p = {};
+      Object.keys(START).forEach((k) => (p[k] = START[k].slice()));
+      for (let i = 0; i < n; i++) {
+        const { a, b, pull } = STEPS[i];
+        const dx = p[b][0] - p[a][0];
+        const dy = p[b][1] - p[a][1];
+        const d = Math.hypot(dx, dy) || 1;
+        p[a][0] += (dx / d) * pull;
+        p[a][1] += (dy / d) * pull;
+        p[b][0] -= (dx / d) * pull;
+        p[b][1] -= (dy / d) * pull;
+      }
+      return p;
+    }
+
+    function render() {
+      const p = centers(step);
+      Object.keys(circles).forEach((k) => {
+        circles[k].style.left = `${p[k][0] - R}px`;
+        circles[k].style.top = `${p[k][1] - R}px`;
+      });
+      lenses.forEach((lens, i) => {
+        const { a, b } = STEPS[i];
+        lens.style.left = `${(p[a][0] + p[b][0]) / 2}px`;
+        lens.style.top = `${(p[a][1] + p[b][1]) / 2}px`;
+        lens.classList.toggle('is-on', i < step);
+      });
+      rows.forEach((row, i) => row.classList.toggle('is-on', i < step));
+      if (sum) sum.classList.toggle('is-on', step === STEPS.length);
+      btn.textContent = step === STEPS.length ? 'Показать сначала' : 'Следующий шаг →';
+      if (hint) {
+        hint.textContent =
+          step === 0
+            ? 'Пока категории не пересекаются'
+            : 'Наведите на метку версии — покажу, что изменилось';
+      }
+    }
+
+    function go(delta) {
+      const target = step + delta;
+      if (target < 0 || target > STEPS.length) return false;
+      step = target;
+      render();
+      return true;
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      step = step === STEPS.length ? 0 : step + 1;
+      render();
+    });
+
+    // Стрелки сначала проходят таймлайн и только потом листают слайды:
+    // обработчик дека висит на document, поэтому слушаем на фазе перехвата.
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (!slide.classList.contains('active')) return;
+        const moved = (e.key === 'ArrowRight' && go(1)) || (e.key === 'ArrowLeft' && go(-1));
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+
+    // Ушли со слайда — круги снова расходятся.
+    onLeave(slide, () => {
+      if (step === 0) return;
+      step = 0;
+      render();
+    });
+
+    render();
+  });
 })();

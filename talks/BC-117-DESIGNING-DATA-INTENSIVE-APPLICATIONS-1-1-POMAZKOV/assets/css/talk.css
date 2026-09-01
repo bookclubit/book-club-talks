@@ -1040,7 +1040,7 @@
 .scene-wires text {
     fill: #52525b;
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: 16px;
 }
 .node {
     position: absolute;
@@ -1054,14 +1054,21 @@
     gap: 6px;
 }
 .node b {
-    font-size: 22px;
+    font-size: 26px;
     color: #fff;
     font-weight: 600;
 }
 .node span {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.45;
     color: #a1a1aa;
+}
+.scene.is-big .node {
+    padding: 20px 26px;
+    gap: 10px;
+}
+.scene.is-big .node.is-hub b {
+    font-size: 30px;
 }
 .node em {
     font-style: normal;
@@ -1090,9 +1097,9 @@
 .sync-value {
     align-self: flex-start;
     font-family: var(--font-mono);
-    font-size: 19px;
+    font-size: 22px;
     color: #ededed;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 10px;
     background: #111;
     border: 1px solid #232323;

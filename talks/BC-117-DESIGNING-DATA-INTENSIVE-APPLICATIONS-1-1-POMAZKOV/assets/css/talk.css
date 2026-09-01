@@ -951,6 +951,76 @@
     font-weight: 600;
 }
 
+/* ===== Схема из книги (рис. 1.1): информационная система из компонентов =====
+   Вся схема — один SVG на 1720×620: у неё десяток узлов и полтора десятка
+   подписей вдоль стрелок, и раскладывать их вёрсткой пришлось бы вслепую.
+   Здесь координаты заданы явно и повторяют рисунок книги. */
+.fig {
+    width: 1720px;
+    margin: 0 auto;
+}
+.fig svg {
+    display: block;
+    width: 1720px;
+    height: 620px;
+}
+.fig .s-box {
+    fill: #0a0a0a;
+    stroke: #3f3f46;
+    stroke-width: 1.5;
+}
+.fig .s-fill {
+    fill: #0a0a0a;
+    stroke: none;
+}
+.fig .s-bound {
+    fill: none;
+    stroke: #3f3f46;
+    stroke-width: 1.5;
+    stroke-dasharray: 9 8;
+}
+.fig .s-line {
+    fill: none;
+    stroke: #52525b;
+    stroke-width: 1.5;
+}
+.fig .s-thin {
+    fill: none;
+    stroke: #3f3f46;
+    stroke-width: 1.5;
+}
+.fig .s-actor {
+    fill: none;
+    stroke: #a1a1aa;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+.fig .s-api {
+    fill: #a1a1aa;
+}
+.fig text {
+    font-family: var(--font-sans);
+}
+.fig .t-node {
+    fill: #ededed;
+    font-size: 17px;
+    font-weight: 600;
+}
+.fig .t-tool {
+    fill: #52525b;
+    font-size: 12px;
+    font-family: var(--font-mono);
+}
+.fig .t-edge {
+    fill: #a1a1aa;
+    font-size: 13px;
+}
+.fig .t-mini {
+    fill: #71717a;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+}
+
 /* ===== Схемы на фиксированной сцене (архитектура, рассинхрон) ===== */
 .scene {
     position: relative;
@@ -1069,12 +1139,14 @@
     font-weight: 600;
 }
 
-/* ===== Цепочка рассуждения ===== */
+/* ===== Цепочка рассуждения: звенья открываются по клику =====
+   Скрытые звенья остаются в потоке (прозрачность, не display) — иначе
+   строка перескакивала бы при появлении каждого следующего. */
 .chain {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    gap: 14px 0;
+    gap: 16px 0;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -1082,19 +1154,21 @@
 .chain li {
     display: flex;
     align-items: center;
-    padding: 13px 20px;
+    padding: 16px 24px;
     border: 1px solid #232323;
-    border-radius: 14px;
+    border-radius: 16px;
     background: #080808;
-    font-size: 18px;
-    line-height: 1.4;
+    font-size: 20px;
+    line-height: 1.35;
     color: #a1a1aa;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, color 0.2s ease;
 }
 .chain li::after {
     content: '→';
-    margin: 0 10px 0 18px;
+    margin: 0 12px 0 22px;
     color: #52525b;
-    font-size: 20px;
+    font-size: 22px;
 }
 .chain li:last-child {
     border-color: #fff;
@@ -1106,89 +1180,147 @@
     content: '';
     margin: 0;
 }
-
-/* ===== Слайд «Разработчик = архитектор» ===== */
-.big-quote {
-    margin: 0;
-    padding: 28px 40px;
-    border-left: 3px solid #fff;
-    border-radius: 0 18px 18px 0;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0));
-    font-size: 34px;
-    line-height: 1.4;
+.chain.is-stepped li {
+    cursor: help;
+    opacity: 0;
+    transform: translateY(12px);
+}
+.chain.is-stepped li.is-on {
+    opacity: 1;
+    transform: translateY(0);
+}
+.chain.is-stepped li.is-on:hover {
+    border-color: #a1a1aa;
+    color: #ededed;
+}
+.chain.is-stepped li:last-child.is-on:hover {
+    border-color: #fff;
     color: #fff;
 }
-.big-quote cite {
-    display: block;
-    margin-top: 14px;
-    font-style: normal;
-    font-family: var(--font-mono);
-    font-size: 15px;
-    color: #71717a;
-}
-.q-list {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
-    margin: 26px 0 0;
-    padding: 0;
-    list-style: none;
-}
-.q-list li {
-    border: 1px solid #232323;
-    border-radius: 16px;
-    background: #080808;
-    padding: 18px 20px;
-    font-size: 17px;
-    line-height: 1.45;
-    color: #a1a1aa;
-}
-.q-list li b {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #71717a;
-    font-weight: 600;
-}
 
-/* ===== Слайд «Итог» ===== */
-.sum-cols {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 28px;
-    margin-top: 26px;
+/* Пояснение к звену: одна панель под цепочкой, наполняется по наведению.
+   Всплывашка у каждого звена уезжала бы за край слайда — звенья стоят
+   и у левого, и у правого поля. */
+.chain-note {
+    margin: 22px 0 0;
+    min-height: 76px;
+    padding: 16px 22px;
+    border-left: 3px solid #3f3f46;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    font-size: 19px;
+    line-height: 1.5;
+    color: #d4d4d8;
+    transition: opacity 0.25s ease;
 }
-.sum-card {
-    border: 1px solid #3f3f46;
-    border-radius: 20px;
-    background: #0a0a0a;
-    padding: 24px 30px;
-}
-.sum-card b {
-    display: block;
-    font-size: 26px;
-    color: #fff;
-    margin-bottom: 10px;
-}
-.sum-card span {
-    font-size: 18px;
-    line-height: 1.55;
-    color: #a1a1aa;
-}
-
-/* ===== Слайд с вопросами преподавателя ===== */
-.qa .acc-head {
-    font-size: 20px;
-}
-.qa .acc-num {
-    flex-shrink: 0;
-    width: 26px;
-    font-family: var(--font-mono);
-    font-size: 16px;
+.chain-note.is-idle {
     color: #52525b;
 }
-.qa .acc-body p {
-    padding-left: 96px;
+.chain-note b {
+    color: #fff;
+    font-weight: 600;
 }
+.chain-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+.chain-btn {
+    padding: 12px 24px;
+    border-radius: 9999px;
+    border: 1px solid #3f3f46;
+    background: #0a0a0a;
+    color: #ededed;
+    font: inherit;
+    font-size: 17px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+}
+.chain-btn:hover {
+    border-color: #fff;
+    color: #fff;
+}
+.chain-hint {
+    margin: 0;
+    font-size: 15px;
+    color: #52525b;
+}
+
+/* ===== Три свойства системы (надёжность, масштабируемость, сопровождение) ===== */
+.props {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    margin-top: 28px;
+}
+.prop {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 26px;
+    border: 1px solid #232323;
+    border-radius: 18px;
+    background: #080808;
+}
+.prop b {
+    font-size: 24px;
+    color: #fff;
+    font-weight: 600;
+}
+.prop p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+.prop em {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dashed #232323;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #52525b;
+}
+
+/* ===== Итоговая цитата: фотография автора слева, тезис справа ===== */
+.final-quote {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 36px;
+    align-items: center;
+    margin-top: 30px;
+    padding: 30px 36px 30px 0;
+    border-left: 3px solid #fff;
+    border-radius: 0 20px 20px 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0));
+    padding-left: 36px;
+}
+.final-quote img {
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 1px solid #3f3f46;
+}
+.final-quote p {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.35;
+    color: #fff;
+}
+.final-quote b {
+    font-weight: 600;
+}
+.final-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.5;
+    color: #71717a;
+}
+

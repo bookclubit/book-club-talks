@@ -528,51 +528,104 @@
                         решает свой инструмент.
                     </p>
 
-                    <div class="scene" style="height: 400px;">
-                        <svg class="scene-wires" width="1720" height="400" viewBox="0 0 1720 400" aria-hidden="true">
+                    <!-- Схема повторяет рис. 1.1 книги: «Одна из возможных архитектур
+                         информационной системы, состоящей из нескольких компонентов». -->
+                    <div class="fig">
+                        <svg viewBox="0 0 1720 620" role="img" aria-label="Архитектура информационной системы из нескольких компонентов: клиент через API обращается к коду приложения, которое работает с кэшем, основной базой данных, полнотекстовым индексом и очередью сообщений">
                             <defs>
-                                <marker id="arrow-arch" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
-                                    <path d="M0 0 L9 4.5 L0 9 z" fill="#3f3f46" stroke="none"></path>
+                                <marker id="fig-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                                    <path d="M0 0 L9 4.5 L0 9 z" fill="#52525b"></path>
                                 </marker>
                             </defs>
-                            <path d="M750 52 H822" marker-end="url(#arrow-arch)"></path>
-                            <path d="M1060 104 V176"></path>
-                            <path d="M205 176 H1515"></path>
-                            <path d="M205 176 V208" marker-end="url(#arrow-arch)"></path>
-                            <path d="M640 176 V208" marker-end="url(#arrow-arch)"></path>
-                            <path d="M1080 176 V208" marker-end="url(#arrow-arch)"></path>
-                            <path d="M1515 176 V208" marker-end="url(#arrow-arch)"></path>
+
+                            <!-- Граница информационной системы -->
+                            <rect class="s-bound" x="120" y="6" width="1410" height="608" rx="10"></rect>
+
+                            <!-- Клиент и API -->
+                            <circle class="s-actor" cx="56" cy="316" r="9"></circle>
+                            <path class="s-actor" d="M56 325 V352 M40 334 H72 M56 352 L46 366 M56 352 L66 366"></path>
+                            <path class="s-line" d="M82 340 H108" marker-end="url(#fig-arrow)"></path>
+                            <rect class="s-api" x="112" y="298" width="11" height="84"></rect>
+                            <text class="t-mini" x="117" y="290" text-anchor="middle">API</text>
+                            <path class="s-line" d="M129 340 H292" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="211" y="322" text-anchor="middle">Клиентские запросы</text>
+
+                            <!-- Код приложения -->
+                            <rect class="s-box" x="298" y="280" width="200" height="120" rx="6"></rect>
+                            <text class="t-node" x="398" y="346" text-anchor="middle">Код приложения</text>
+
+                            <!-- Кэш в оперативной памяти -->
+                            <ellipse class="s-box" cx="399" cy="590" rx="107" ry="14"></ellipse>
+                            <rect class="s-fill" x="292" y="500" width="214" height="90"></rect>
+                            <path class="s-thin" d="M292 500 V590 M506 500 V590"></path>
+                            <ellipse class="s-box" cx="399" cy="500" rx="107" ry="14"></ellipse>
+                            <text class="t-node" x="399" y="528" text-anchor="middle" font-size="15">Кэш в оперативной</text>
+                            <text class="t-node" x="399" y="548" text-anchor="middle" font-size="15">памяти</text>
+                            <text class="t-tool" x="399" y="570" text-anchor="middle">Redis</text>
+
+                            <path class="s-line" d="M352 402 V482" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="342" y="432" text-anchor="end">Запросы на чтение</text>
+                            <text class="t-edge" x="342" y="450" text-anchor="end">сначала проверяют,</text>
+                            <text class="t-edge" x="342" y="468" text-anchor="end">не кэшированы ли данные</text>
+
+                            <path class="s-line" d="M446 484 V404" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="456" y="441">Неудачные обращения</text>
+                            <text class="t-edge" x="456" y="459">к кэшу и записи в кэш</text>
+
+                            <!-- Основная база данных -->
+                            <ellipse class="s-box" cx="759" cy="398" rx="107" ry="14"></ellipse>
+                            <rect class="s-fill" x="652" y="308" width="214" height="90"></rect>
+                            <path class="s-thin" d="M652 308 V398 M866 308 V398"></path>
+                            <ellipse class="s-box" cx="759" cy="308" rx="107" ry="14"></ellipse>
+                            <text class="t-node" x="759" y="336" text-anchor="middle" font-size="15">Основная</text>
+                            <text class="t-node" x="759" y="356" text-anchor="middle" font-size="15">база данных</text>
+                            <text class="t-tool" x="759" y="378" text-anchor="middle">PostgreSQL</text>
+                            <path class="s-line" d="M502 352 H646" marker-end="url(#fig-arrow)"></path>
+
+                            <!-- Полнотекстовый индекс -->
+                            <ellipse class="s-box" cx="759" cy="258" rx="107" ry="14"></ellipse>
+                            <rect class="s-fill" x="652" y="168" width="214" height="90"></rect>
+                            <path class="s-thin" d="M652 168 V258 M866 168 V258"></path>
+                            <ellipse class="s-box" cx="759" cy="168" rx="107" ry="14"></ellipse>
+                            <text class="t-node" x="759" y="196" text-anchor="middle" font-size="15">Полнотекстовый</text>
+                            <text class="t-node" x="759" y="216" text-anchor="middle" font-size="15">индекс</text>
+                            <text class="t-tool" x="759" y="238" text-anchor="middle">Elasticsearch</text>
+                            <path class="s-line" d="M500 296 C 560 240 592 212 644 209" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="556" y="182" text-anchor="middle">Запросы на поиск</text>
+
+                            <!-- Очередь сообщений -->
+                            <rect class="s-box" x="1008" y="10" width="168" height="108" rx="4"></rect>
+                            <path class="s-thin" d="M1028 22 V106 M1048 22 V106 M1068 22 V106 M1088 22 V106 M1108 22 V106 M1128 22 V106 M1148 22 V106"></path>
+                            <text class="t-node" x="1092" y="140" text-anchor="middle" font-size="15">Очередь сообщений</text>
+                            <text class="t-tool" x="1092" y="158" text-anchor="middle">Apache Kafka</text>
+                            <path class="s-line" d="M398 278 V90 Q398 66 422 66 H1004" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="700" y="50" text-anchor="middle">Асинхронные задачи</text>
+
+                            <!-- Код приложения → внешний мир -->
+                            <rect class="s-box" x="1288" y="10" width="180" height="108" rx="6"></rect>
+                            <text class="t-node" x="1378" y="70" text-anchor="middle" font-size="15">Код приложения</text>
+                            <path class="s-line" d="M1180 64 H1284" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="1378" y="142" text-anchor="middle">Например,</text>
+                            <text class="t-edge" x="1378" y="160" text-anchor="middle">отправка сообщений</text>
+                            <text class="t-edge" x="1378" y="178" text-anchor="middle">электронной почты</text>
+                            <path class="s-line" d="M1472 64 H1554" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-node" x="1620" y="70" text-anchor="middle">«Внешний мир»</text>
+
+                            <!-- Код приложения: перехват изменений -->
+                            <rect class="s-box" x="1008" y="470" width="200" height="120" rx="6"></rect>
+                            <text class="t-node" x="1108" y="536" text-anchor="middle">Код приложения</text>
+                            <path class="s-line" d="M870 352 H950 Q972 352 972 374 V508 Q972 530 994 530 H1002" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="962" y="432" text-anchor="end">Перехват изменений</text>
+                            <text class="t-edge" x="962" y="450" text-anchor="end">в данных</text>
+
+                            <path class="s-line" d="M1108 468 V232 Q1108 209 1086 209 H870" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="1122" y="380">Применение изменений</text>
+                            <text class="t-edge" x="1122" y="398">к поисковому индексу</text>
+
+                            <path class="s-line" d="M1004 545 H510" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="760" y="512" text-anchor="middle">Сделать кэш недействительным</text>
+                            <text class="t-edge" x="760" y="530" text-anchor="middle">или обновить</text>
                         </svg>
-
-                        <div class="node" style="left: 430px; top: 0; width: 320px; height: 104px;">
-                            <b>Клиентские приложения</b>
-                            <span>подробностей реализации не видят</span>
-                        </div>
-                        <div class="node is-hub" style="left: 830px; top: 0; width: 460px; height: 104px;">
-                            <b>Приложение / API</b>
-                            <span>единая точка входа: скрывает реализацию и связывает всё остальное</span>
-                        </div>
-
-                        <div class="node c-db" style="left: 15px; top: 216px; width: 380px; height: 175px;">
-                            <em>основное хранилище</em>
-                            <b>PostgreSQL</b>
-                            <span>хранит данные, чтобы эти или другие приложения нашли их в дальнейшем</span>
-                        </div>
-                        <div class="node c-cache" style="left: 450px; top: 216px; width: 380px; height: 175px;">
-                            <em>кэш</em>
-                            <b>Redis</b>
-                            <span>запоминает результат ресурсоёмкой операции для ускорения чтения</span>
-                        </div>
-                        <div class="node c-search" style="left: 890px; top: 216px; width: 380px; height: 175px;">
-                            <em>полнотекстовый поиск</em>
-                            <b>Elasticsearch</b>
-                            <span>ищет по ключевому слову и фильтрует данные различными способами</span>
-                        </div>
-                        <div class="node c-queue" style="left: 1325px; top: 216px; width: 380px; height: 175px;">
-                            <em>события</em>
-                            <b>Apache Kafka</b>
-                            <span>асинхронная обработка: тяжёлое уезжает из запроса пользователя</span>
-                        </div>
                     </div>
 
                     <p class="wide-accent">
@@ -681,30 +734,45 @@
             <!-- SLIDE: разработчик = архитектор -->
             <section class="slide" data-slide="10">
                 <div class="content-slide">
-                    <h2 class="gradient-text">Разработчик вынужден думать как архитектор</h2>
+                    <h2 class="gradient-text">Разработчик думает как архитектор</h2>
+                    <p class="slide-lead">
+                        К этому приводит простая цепочка — и вместе с ней появляются <b>три свойства системы</b>,
+                        о которых теперь приходится думать в первую очередь.
+                    </p>
 
-                    <blockquote class="big-quote">
-                        «Вы теперь не только разработчик приложения, но и архитектор информационной системы».
-                        <cite>Глава 1. Надежные, масштабируемые и удобные в сопровождении приложения</cite>
-                    </blockquote>
-
-                    <p class="section-label" style="margin-top: 30px;">Логическая цепочка</p>
-                    <ul class="chain" style="margin-top: 16px;">
-                        <li>Разные задачи</li>
-                        <li>разные инструменты</li>
-                        <li>несколько компонентов в одной системе</li>
-                        <li>компоненты не знают бизнес-логику друг друга</li>
-                        <li>код приложения должен их связать</li>
-                        <li>разработчик = архитектор</li>
+                    <ul class="chain is-stepped" data-chain>
+                        <li data-note="У приложения не одна потребность, а несколько разных: <b>хранить</b> данные, <b>быстро отдавать</b> их, <b>искать</b> по ним и <b>обрабатывать асинхронно</b>. Каждая задача со своими паттернами доступа.">Разные задачи</li>
+                        <li data-note="Паттерны доступа разные — значит, разные характеристики производительности и очень разные реализации. <b>Отдельная утилита уже не способна обеспечить все потребности</b> приложения в обработке и хранении данных.">разные инструменты</li>
+                        <li data-note="Работа разбивается на отдельные задачи, каждую эффективно выполняет свой инструмент: PostgreSQL, Redis, Elasticsearch, Kafka. <b>Из универсальных компонентов получается новая специализированная информационная система.</b>">несколько компонентов в одной системе</li>
+                        <li data-note="Redis не знает про запись в PostgreSQL, а Elasticsearch — про то, что документ удалили. Инструменты <b>ничего не знают ни друг о друге, ни о бизнес-логике</b>, ради которой их поставили рядом.">компоненты не знают бизнес-логику друг друга</li>
+                        <li data-note="Синхронизация кэшей и индексов с основной базой данных <b>становится обязанностью кода приложения</b>. Гарантии — что кэш будет корректно сделан недействительным или обновлён при записи — тоже даёт он.">код приложения должен их связать</li>
+                        <li data-note="Он отвечает уже не за один компонент, а за поведение всей системы: правильность и полнота данных при внутренних ошибках, производительность при деградации частей, масштабирование под нагрузку и качество API.">разработчик = архитектор</li>
                     </ul>
 
-                    <ul class="q-list">
-                        <li><b>Правильность</b>Как обеспечить правильность и полноту данных, в том числе при внутренних ошибках?</li>
-                        <li><b>Производительность</b>Как держать её одинаково хорошей для всех клиентов, если часть системы деградировала?</li>
-                        <li><b>Масштабирование</b>Как обеспечить масштабирование для учёта возросшей нагрузки?</li>
-                        <li><b>Интерфейс</b>Каким должен быть хороший API для этого сервиса?</li>
-                    </ul>
+                    <p class="chain-note is-idle" data-chain-note>Наведите на звено — расскажу подробнее</p>
 
+                    <div class="chain-bar">
+                        <button class="chain-btn" type="button" data-chain-btn>Следующее звено →</button>
+                        <p class="chain-hint" data-chain-hint>Цепочка из шести звеньев</p>
+                    </div>
+
+                    <div class="props">
+                        <div class="prop">
+                            <b>Надёжность</b>
+                            <p>Система должна продолжать работать корректно (осуществлять нужные функции на требуемом уровне производительности) даже при неблагоприятных обстоятельствах — в случае аппаратных или программных сбоев либо ошибок пользователя.</p>
+                            <em>раздел 1.2</em>
+                        </div>
+                        <div class="prop">
+                            <b>Масштабируемость</b>
+                            <p>Должны быть предусмотрены разумные способы решения возникающих при росте системы проблем — росте в смысле объёмов данных, трафика или сложности.</p>
+                            <em>раздел 1.3</em>
+                        </div>
+                        <div class="prop">
+                            <b>Удобство сопровождения</b>
+                            <p>Необходимо обеспечить возможность эффективной работы с системой множеству различных людей: разработчикам и обслуживающему персоналу, занимающимся как поддержкой текущего функционирования, так и адаптацией системы к новым сценариям применения.</p>
+                            <em>раздел 1.4</em>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="me">
@@ -715,12 +783,11 @@
                     <div class="me-panel">
                             Цепочка простая и неизбежная: разные задачи требуют разных инструментов, инструментов становится несколько,
                             друг про друга они ничего не знают — и связать их может только наш код. В этот момент мы перестаём быть
-                            «просто разработчиками»: приходится отвечать на вопросы правильности данных, деградации, масштабирования
-                            и качества API. Именно на трёх из них — надёжность, масштабируемость, удобство сопровождения —
-                            и сосредоточена книга.
+                            «просто разработчиками». А дальше книга говорит: из всех факторов, влияющих на конструкцию системы,
+                            в большинстве программных систем важнее всего три — надёжность, масштабируемость и удобство сопровождения.
+                            Каждому из них посвящён свой доклад сегодняшнего вечера.
                     </div>
                 </div>
-
             </section>
 
             <!-- SLIDE: итог -->
@@ -729,29 +796,27 @@
                     <h2 class="gradient-text">Итог</h2>
                     <p class="slide-lead">Главная цепочка доклада — от инструмента к системе.</p>
 
-                    <ul class="chain">
-                        <li>Нет «одного правильного инструмента»</li>
-                        <li>система из нескольких компонентов</li>
-                        <li>их нужно грамотно связать</li>
-                        <li>разработчик думает как архитектор</li>
+                    <ul class="chain is-stepped" data-chain>
+                        <li data-note="Границы между категориями размылись: Redis — хранилище в роли очереди, Kafka — очередь с надёжностью базы данных. <b>Смотрим не на ярлык, а на задачу</b>, которую инструмент решает в конкретной архитектуре.">Нет «одного правильного инструмента»</li>
+                        <li data-note="Хранилище, кэш, поисковый индекс, очередь — <b>каждый компонент закрывает свою задачу</b>, а снаружи это один API, за которым клиент не видит подробностей реализации.">система из нескольких компонентов</li>
+                        <li data-note="Инструменты не знают друг о друге: изменили имя в PostgreSQL — Redis остался со старым. <b>Синхронизация — обязанность кода приложения</b>, и цель не в том, чтобы сбоев не было, а в том, чтобы система из них корректно выходила.">их нужно грамотно связать</li>
+                        <li data-note="Он отвечает за поведение всей системы, а книга сводит это к трём свойствам: <b>надёжность, масштабируемость и удобство сопровождения</b>.">разработчик думает как архитектор</li>
                     </ul>
 
-                    <div class="sum-cols">
-                        <div class="sum-card">
-                            <b>Важна задача, а не инструмент</b>
-                            <span>Категории размылись: смотрим не на ярлык «база / кэш / очередь», а на потребность системы.</span>
-                        </div>
-                        <div class="sum-card">
-                            <b>Разработчик = архитектор</b>
-                            <span>Он отвечает за то, как части взаимодействуют и как система ведёт себя при сбоях и росте.</span>
-                        </div>
+                    <p class="chain-note is-idle" data-chain-note>Наведите на звено — расскажу подробнее</p>
+
+                    <div class="chain-bar">
+                        <button class="chain-btn" type="button" data-chain-btn>Следующее звено →</button>
+                        <p class="chain-hint" data-chain-hint>Цепочка из четырёх звеньев</p>
                     </div>
 
-                    <p class="wide-accent is-strong">
-                        Современное приложение — это <b>не программа и не база данных, а информационная система</b>,
-                        а разработчик — тот, кто проектирует её поведение.
-                    </p>
-
+                    <blockquote class="final-quote">
+                        <img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
+                        <div>
+                            <p>Современное приложение — это <b>не программа и не база данных, а информационная система</b>, а разработчик — тот, кто проектирует её поведение.</p>
+                            <cite>вывод по главе 1 книги «Высоконагруженные приложения» Мартина Клеппмана</cite>
+                        </div>
+                    </blockquote>
                 </div>
 
                 <div class="me">
@@ -766,97 +831,9 @@
                             Дальше книга разбирает три её свойства: надёжность, масштабируемость и удобство сопровождения.
                     </div>
                 </div>
-
             </section>
 
-            <!-- SLIDE: вопросы преподавателя -->
-            <section class="slide" data-slide="12">
-                <div class="content-slide">
-                    <h2 class="gradient-text">Вопросы, которые может задать преподаватель</h2>
-                    <p class="slide-lead">Нажмите на вопрос, чтобы увидеть краткий ответ по тексту главы.</p>
-
-                    <div class="acc qa">
-                        <div class="acc-item">
-                            <button class="acc-head" type="button">
-                                <span class="acc-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-                                <span class="acc-num">01</span>
-                                <b>Почему границы между категориями инструментов размываются?</b>
-                            </button>
-                            <div class="acc-body">
-                                <div class="acc-inner">
-                                    <p>Появилось множество инструментов, оптимизированных под разные сценарии использования, и они больше не укладываются в обычные категории: Redis — хранилище данных, применяемое как очередь сообщений, а Apache Kafka — очередь сообщений с соответствующим базам данных уровнем надёжности.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="acc-item">
-                            <button class="acc-head" type="button">
-                                <span class="acc-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-                                <span class="acc-num">02</span>
-                                <b>Почему одного инструмента приложению уже не хватает?</b>
-                            </button>
-                            <div class="acc-body">
-                                <div class="acc-inner">
-                                    <p>Требования приложений стали настолько жёсткими или широкими, что отдельная утилита не способна обеспечить все потребности в обработке и хранении данных. Поэтому работа разбивается на отдельные задачи, каждую эффективно решает свой инструмент, а объединяются они кодом приложения.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="acc-item">
-                            <button class="acc-head" type="button">
-                                <span class="acc-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-                                <span class="acc-num">03</span>
-                                <b>Кто отвечает за синхронизацию кэша и поискового индекса с базой данных?</b>
-                            </button>
-                            <div class="acc-body">
-                                <div class="acc-inner">
-                                    <p>Код приложения. При наличии управляемого приложением слоя кэширования (Memcached или аналог) либо сервера полнотекстового поиска (Elasticsearch, Solr) отдельно от БД синхронизация этих кэшей и индексов с основной базой данных становится обязанностью кода приложения.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="acc-item">
-                            <button class="acc-head" type="button">
-                                <span class="acc-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-                                <span class="acc-num">04</span>
-                                <b>Зачем поверх нескольких инструментов нужен API?</b>
-                            </button>
-                            <div class="acc-body">
-                                <div class="acc-inner">
-                                    <p>Интерфейс сервиса скрывает подробности реализации от клиентских приложений. Снаружи это одна специализированная информационная система, собранная из более мелких универсальных компонентов, и она может гарантировать определённые вещи — например, что кэш будет корректно сделан недействительным или обновлён при записи, а внешние клиенты увидят непротиворечивые результаты.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="acc-item">
-                            <button class="acc-head" type="button">
-                                <span class="acc-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-                                <span class="acc-num">05</span>
-                                <b>Почему разработчик становится архитектором информационной системы?</b>
-                            </button>
-                            <div class="acc-body">
-                                <div class="acc-inner">
-                                    <p>Потому что он проектирует объединённую систему и отвечает на её вопросы: как обеспечить правильность и полноту данных при внутренних ошибках, как держать производительность при ухудшении характеристик частей системы, как масштабироваться под возросшую нагрузку и каким должен быть хороший API. Из множества влияющих факторов книга выделяет три главных свойства: надёжность, масштабируемость и удобство сопровождения.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="me">
-                    <button class="me-btn" type="button">
-                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
-                        <span>Антон Помазков</span>
-                    </button>
-                    <div class="me-panel">
-                            Это уже не про содержание главы, а про защиту. Пять вопросов, которые логично
-                            вытекают из текста, и короткие ответы по нему же. Открывайте по одному
-                            и проговаривайте ответ своими словами — так он и запомнится.
-                    </div>
-                </div>
-            </section>
-
-            <section class="slide" data-slide="13" data-chrome="whatnext">
+            <section class="slide" data-slide="12" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

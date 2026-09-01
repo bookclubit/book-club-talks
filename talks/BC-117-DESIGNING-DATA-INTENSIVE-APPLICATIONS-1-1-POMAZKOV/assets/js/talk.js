@@ -271,4 +271,84 @@
 
     render();
   });
+
+  // ---------- Цепочка рассуждения: звено за звеном по клику ----------
+  // Скрытые звенья остаются в потоке, поэтому строка не перескакивает;
+  // пояснение к звену — одна панель под цепочкой: всплывашка у каждого
+  // звена уезжала бы за край слайда, звенья стоят у обоих полей.
+  document.querySelectorAll('[data-chain]').forEach((chain) => {
+    const links = [...chain.querySelectorAll('li')];
+    const slide = chain.closest('.slide');
+    const note = slide && slide.querySelector('[data-chain-note]');
+    const btn = slide && slide.querySelector('[data-chain-btn]');
+    const hint = slide && slide.querySelector('[data-chain-hint]');
+    if (!links.length || !slide || !note || !btn) return;
+
+    const idle = note.innerHTML;
+    let step = 0;
+
+    function render() {
+      links.forEach((li, i) => li.classList.toggle('is-on', i < step));
+      btn.textContent = step === links.length ? 'Показать сначала' : 'Следующее звено →';
+      if (hint) {
+        hint.textContent =
+          step === links.length
+            ? 'Наведите на звено — расскажу подробнее'
+            : `звено ${step} из ${links.length}`;
+      }
+    }
+
+    function resetNote() {
+      note.innerHTML = idle;
+      note.classList.add('is-idle');
+    }
+
+    links.forEach((li) => {
+      li.addEventListener('mouseenter', () => {
+        if (!li.classList.contains('is-on')) return;
+        note.innerHTML = li.dataset.note || '';
+        note.classList.remove('is-idle');
+      });
+      li.addEventListener('mouseleave', resetNote);
+    });
+
+    function go(delta) {
+      const target = step + delta;
+      if (target < 0 || target > links.length) return false;
+      step = target;
+      render();
+      return true;
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      step = step === links.length ? 0 : step + 1;
+      resetNote();
+      render();
+    });
+
+    // Стрелки сначала открывают звенья и только потом листают слайды.
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (!slide.classList.contains('active')) return;
+        const moved = (e.key === 'ArrowRight' && go(1)) || (e.key === 'ArrowLeft' && go(-1));
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+
+    // Ушли со слайда — цепочка начинается сначала.
+    onLeave(slide, () => {
+      if (step === 0) return;
+      step = 0;
+      resetNote();
+      render();
+    });
+
+    render();
+  });
 })();

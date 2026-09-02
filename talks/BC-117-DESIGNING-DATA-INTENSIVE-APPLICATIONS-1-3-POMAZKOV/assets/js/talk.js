@@ -50,66 +50,82 @@
     if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') closeMes();
   });
 
-  // ---------- Цепочка рассуждения: звено за звеном по клику ----------
-  // Скрытые звенья остаются в потоке, поэтому строка не перескакивает;
-  // пояснение к звену — одна панель под цепочкой: всплывашка у каждого
-  // звена уезжала бы за край слайда, звенья стоят у обоих полей.
-  document.querySelectorAll('[data-chain]').forEach((chain) => {
-    const links = [...chain.querySelectorAll('li')];
-    const slide = chain.closest('.slide');
-    const note = slide && slide.querySelector('[data-chain-note]');
-    const btn = slide && slide.querySelector('[data-chain-btn]');
-    const hint = slide && slide.querySelector('[data-chain-hint]');
-    if (!links.length || !slide || !note || !btn) return;
+  // ---------- Неправильный вопрос, который меняется на два правильных ----------
+  // Слайд начинается с «Эта система масштабируемая?» — по клику вопрос
+  // подменяется двумя корректными формулировками из книги.
+  document.querySelectorAll('[data-ask]').forEach((ask) => {
+    const btn = ask.querySelector('[data-ask-btn]');
+    const pair = ask.querySelector('[data-ask-pair]');
+    const slide = ask.closest('.slide');
+    if (!btn || !pair || !slide) return;
 
-    const idle = note.innerHTML;
-    let step = 0;
+    function set(open) {
+      ask.classList.toggle('is-open', open);
+      btn.hidden = open;
+      pair.hidden = !open;
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      set(true);
+    });
+
+    bindArrows(slide, (delta) => {
+      const open = ask.classList.contains('is-open');
+      if (delta > 0 && !open) {
+        set(true);
+        return true;
+      }
+      if (delta < 0 && open) {
+        set(false);
+        return true;
+      }
+      return false;
+    });
+
+    onLeave(slide, () => set(false));
+    set(false);
+  });
+
+  // ---------- Порядок рассуждения: звено за звеном по клику ----------
+  // Кнопки нет: звено открывает клик по слайду (и стрелки). Описание видно
+  // сразу вместе со звеном — на проекторе наводить мышью неудобно.
+  document.querySelectorAll('[data-path]').forEach((path) => {
+    const steps = [...path.querySelectorAll('.path-step')];
+    const slide = path.closest('.slide');
+    if (!steps.length || !slide) return;
+    const hint = slide.querySelector('[data-path-hint]');
+
+    let step = 1;
 
     function render() {
-      links.forEach((li, i) => li.classList.toggle('is-on', i < step));
-      btn.textContent = step === links.length ? 'Показать сначала' : 'Следующее звено →';
+      steps.forEach((li, i) => li.classList.toggle('is-on', i < step));
       if (hint) {
         hint.textContent =
-          step === links.length
-            ? 'Наведите на звено — расскажу подробнее'
-            : `звено ${step} из ${links.length}`;
+          step === steps.length
+            ? `все звенья открыты · клик по слайду — показать сначала`
+            : `звено ${step} из ${steps.length} · клик по слайду — следующее`;
       }
     }
 
-    function resetNote() {
-      note.innerHTML = idle;
-      note.classList.add('is-idle');
-    }
-
-    links.forEach((li) => {
-      li.addEventListener('mouseenter', () => {
-        if (!li.classList.contains('is-on')) return;
-        note.innerHTML = li.dataset.note || '';
-        note.classList.remove('is-idle');
-      });
-      li.addEventListener('mouseleave', resetNote);
-    });
-
     function go(delta) {
       const target = step + delta;
-      if (target < 0 || target > links.length) return false;
+      if (target < 1 || target > steps.length) return false;
       step = target;
       render();
       return true;
     }
 
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      step = step === links.length ? 0 : step + 1;
-      resetNote();
+    slide.addEventListener('click', (e) => {
+      if (e.target.closest('.me')) return;
+      step = step === steps.length ? 1 : step + 1;
       render();
     });
 
     bindArrows(slide, go);
     onLeave(slide, () => {
-      if (step === 0) return;
-      step = 0;
-      resetNote();
+      if (step === 1) return;
+      step = 1;
       render();
     });
 
@@ -248,10 +264,20 @@
         axis: ['самые быстрые', 'самые медленные'],
         marks: ['p50'],
         vals: ['avg', 'p50'],
-        btn: 'Показать хвост →',
+        btn: 'Показать p95 →',
         hint: `<b>p50 = ${fmtMs(
           p50
         )}</b> — медиана: половина запросов быстрее, половина медленнее. Это «типичное» время, а не среднее.`,
+      },
+      {
+        data: sorted,
+        axis: ['самые быстрые', 'самые медленные'],
+        marks: ['p50', 'p95'],
+        vals: ['avg', 'p50', 'p95'],
+        btn: 'Показать p99 →',
+        hint: `<b>p95 = ${fmtMs(
+          p95
+        )}</b>: девяносто пять запросов из ста уложились в это время, пять — нет. Медиана выросла всего вдвое, а p95 уже в разы больше.`,
       },
       {
         data: sorted,
@@ -260,9 +286,9 @@
         vals: ['avg', 'p50', 'p95', 'p99'],
         tail: true,
         btn: 'Показать сначала',
-        hint: `<b>p95 = ${fmtMs(p95)}</b>, <b>p99 = ${fmtMs(
+        hint: `<b>p99 = ${fmtMs(
           p99
-        )}</b>. Среднее (${fmtMs(
+        )}</b> — это тот самый хвост: один запрос из ста. Среднее (${fmtMs(
           avg
         )}) не описывает ни типичного запроса, ни хвоста — а живут пользователи именно в хвосте.`,
       },

@@ -94,6 +94,184 @@
     font-weight: 600;
 }
 
+/* Тот же вывод, но без вертикальной черты — просто карточка на всю ширину. */
+.wide-accent.is-bare {
+    border-left: 0;
+    border-radius: 18px;
+    border: 1px solid #232323;
+    background: #080808;
+    padding: 22px 28px;
+}
+
+/* ===== Таймлайн роста магазина: логотип и год над точкой, число под ней =====
+   Линия — отдельный элемент с фиксированным top: над точками стоят логотип
+   и год с заданными высотами, поэтому позиция считается один раз и не зависит
+   от длины подписей. Заполнение линии и появление шагов анимируются при
+   показе слайда (селектор от .slide.active — уход со слайда сбрасывает). */
+.tl {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 4px 0 0;
+}
+.tl-track {
+    position: absolute;
+    left: 12.5%;
+    right: 12.5%;
+    top: 102px;
+    height: 2px;
+    background: #232323;
+    border-radius: 2px;
+}
+.tl-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #3f3f46, #fff);
+}
+.tl-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.tl-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 50px;
+    padding: 0 20px;
+    border: 1px solid #232323;
+    border-radius: 12px;
+    background: #080808;
+    color: #a1a1aa;
+    font-size: 18px;
+}
+.tl-logo b {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+.tl-step.is-last .tl-logo {
+    border-color: #fff;
+    color: #fff;
+}
+.tl-year {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 22px;
+    color: #71717a;
+}
+.tl-dot {
+    width: 16px;
+    height: 16px;
+    margin-top: 13px;
+    border-radius: 50%;
+    background: #0a0a0a;
+    border: 2px solid #3f3f46;
+}
+.tl-step.is-last .tl-dot {
+    background: #fff;
+    border-color: #fff;
+}
+.tl-num {
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 42px;
+    line-height: 1.1;
+    color: #ededed;
+}
+.tl-step.is-last .tl-num {
+    color: #fff;
+}
+.tl-cap {
+    margin-top: 8px;
+    font-size: 17px;
+    color: #71717a;
+}
+@keyframes tl-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes tl-grow {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+.slide.active .tl-step {
+    animation: tl-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: calc(var(--i) * 0.45s + 0.15s);
+}
+.slide.active .tl-fill {
+    animation: tl-grow 1.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ===== Неправильный вопрос, который по клику меняется на правильные ===== */
+.ask {
+    margin-top: 34px;
+}
+.ask-q[hidden] {
+    display: none;
+}
+.ask-q {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    padding: 24px 30px;
+    border: 1px solid #5f1e1e;
+    border-radius: 18px;
+    background: linear-gradient(90deg, rgba(248, 113, 113, 0.14), rgba(248, 113, 113, 0.03));
+    color: #fecaca;
+    font-family: var(--font-sans);
+    font-size: 30px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.ask-q:hover {
+    border-color: #f87171;
+}
+.ask-mark {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #5f1e1e;
+    color: #f87171;
+    font-size: 20px;
+}
+.ask-hint {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 400;
+    color: #71717a;
+}
+.ask-pair[hidden] {
+    display: none;
+}
+.ask-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    animation: tl-in 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Цитата из книги — одинаковая на всех слайдах, со ссылкой на раздел. */
 .book-quote {
     border-left: 2px solid #3f3f46;
@@ -356,6 +534,96 @@
 }
 .q.is-bad .q-text {
     color: #71717a;
+}
+
+/* ===== Параметр нагрузки: заголовок, определение и лейблы параметров =====
+   Не карточка: определение должно читаться как продолжение заголовка слайда,
+   а перечисление параметров — как ряд ярлыков, а не как список в рамке. */
+.param {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.param-title {
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+.param-desc {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+.chip {
+    position: relative;
+    padding: 11px 20px;
+    border: 1px solid #232323;
+    border-radius: 999px;
+    background: #080808;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #d4d4d8;
+    cursor: help;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.chip:hover,
+.chip:focus-visible {
+    border-color: #a1a1aa;
+    color: #fff;
+    outline: none;
+}
+/* Подсказка всплывает над лейблом: снизу лейблы стоят вплотную к карточкам,
+   там всплывашка перекрывала бы пример. Крайним правым лейблам подсказка
+   прижимается правым краем, иначе уезжает за поле слайда. */
+.chip-tip {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 12px);
+    width: 380px;
+    padding: 16px 20px;
+    border: 1px solid #3f3f46;
+    border-radius: 14px;
+    background: #0a0a0a;
+    font-size: 16px;
+    line-height: 1.45;
+    color: #a1a1aa;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 5;
+}
+.chip.is-right .chip-tip {
+    left: auto;
+    right: 0;
+}
+.chip:hover .chip-tip,
+.chip:focus-visible .chip-tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Иконка в шапке карточки-примера. */
+.tile-ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid #232323;
+    border-radius: 14px;
+    background: #0a0a0a;
+    color: #a1a1aa;
 }
 
 /* ===== Крупные числа ===== */
@@ -1023,86 +1291,79 @@
     color: #52525b;
 }
 
-/* ===== Цепочка рассуждения: звенья открываются по клику =====
-   Скрытые звенья остаются в потоке (прозрачность, не display) — иначе
-   строка перескакивала бы при появлении каждого следующего. */
-.chain {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    gap: 16px 0;
+/* ===== Порядок рассуждения: звено за звеном, описание сразу под звеном =====
+   Звенья стоят в один ряд и открываются кликом по слайду; описание видно
+   сразу — наводить мышью на презентации неудобно. Скрытые звенья остаются
+   в потоке (прозрачность, не display), иначе ряд перескакивал бы. */
+.path {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px;
     margin: 0;
     padding: 0;
     list-style: none;
 }
-.chain li {
+.path-step {
+    position: relative;
     display: flex;
-    align-items: center;
-    padding: 16px 24px;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 24px;
     border: 1px solid #232323;
-    border-radius: 16px;
+    border-radius: 18px;
     background: #080808;
-    font-size: 20px;
-    line-height: 1.35;
-    color: #a1a1aa;
-    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, color 0.2s ease;
-}
-.chain li::after {
-    content: '→';
-    margin: 0 12px 0 22px;
-    color: #52525b;
-    font-size: 22px;
-}
-.chain li:last-child {
-    border-color: #fff;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
-    color: #fff;
-    font-weight: 600;
-}
-.chain li:last-child::after {
-    content: '';
-    margin: 0;
-}
-.chain.is-stepped li {
-    cursor: help;
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(14px);
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.chain.is-stepped li.is-on {
+.path-step.is-on {
     opacity: 1;
     transform: translateY(0);
 }
-.chain.is-stepped li.is-on:hover {
-    border-color: #a1a1aa;
-    color: #ededed;
+.path-step::after {
+    content: '92';
+    position: absolute;
+    top: 44px;
+    right: -30px;
+    width: 30px;
+    text-align: center;
+    color: #3f3f46;
+    font-size: 20px;
 }
-.chain.is-stepped li:last-child.is-on:hover {
-    border-color: #fff;
-    color: #fff;
+.path-step:last-child::after {
+    content: '';
 }
-
-/* Пояснение к звену: одна панель под цепочкой, наполняется по наведению.
-   Всплывашка у каждого звена уезжала бы за край слайда — звенья стоят
-   и у левого, и у правого поля. */
-.chain-note {
-    margin: 22px 0 0;
-    min-height: 76px;
-    padding: 16px 22px;
-    border-left: 3px solid #3f3f46;
-    border-radius: 0 14px 14px 0;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
-    font-size: 19px;
-    line-height: 1.5;
-    color: #d4d4d8;
-    transition: opacity 0.25s ease;
+.path-step:last-child {
+    border-color: #3f3f46;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
 }
-.chain-note.is-idle {
+.path-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
     color: #52525b;
 }
-.chain-note b {
-    color: #fff;
+.path-title {
+    font-size: 21px;
+    line-height: 1.3;
     font-weight: 600;
+    color: #fff;
+}
+.path-note {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+.path-note b {
+    color: #ededed;
+    font-weight: 600;
+}
+.path-hint {
+    margin: 18px 0 0;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #52525b;
 }
 
 /* ===== Итоговая цитата: фотография автора слева, тезис справа ===== */
@@ -1116,6 +1377,12 @@
     border-left: 3px solid #fff;
     border-radius: 0 20px 20px 0;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0));
+}
+.final-quote.is-bare {
+    border-left: 0;
+    border-radius: 20px;
+    padding-left: 0;
+    background: none;
 }
 .final-quote img {
     width: 130px;

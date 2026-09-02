@@ -773,15 +773,6 @@
     object-fit: contain;
     flex-shrink: 0;
 }
-.tool-mark.is-invert,
-.zone-mark.is-invert {
-    filter: invert(1);
-}
-.tool-word {
-    height: 22px;
-    width: auto;
-    flex-shrink: 0;
-}
 .tool-mono {
     display: flex;
     align-items: center;
@@ -801,22 +792,18 @@
     font-size: 13px;
     color: #71717a;
 }
-/* Метка в зоне диаграммы: логотип и версия, которой инструмент зашёл
-   на соседнюю территорию. Появляется, когда круги сведены. */
+/* Зона диаграммы: логотипы инструментов, которые эту роль закрывают.
+   Появляются, когда круги сведены; что именно умеет инструмент — в подсказке
+   по наведению на его знак. */
 .zone {
     position: absolute;
     display: flex;
     align-items: center;
-    gap: 9px;
-    padding: 8px 14px;
+    gap: 6px;
+    padding: 8px 10px;
     border-radius: 9999px;
     border: 1px solid #52525b;
     background: #0a0a0a;
-    font-family: var(--font-mono);
-    font-size: 14px;
-    color: #ededed;
-    white-space: nowrap;
-    cursor: help;
     transform: translate(-50%, -50%);
     opacity: 0;
     visibility: hidden;
@@ -824,41 +811,34 @@
         left 0.75s cubic-bezier(0.16, 1, 0.3, 1), top 0.75s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 5;
 }
-.zone.is-stack {
-    flex-direction: column;
-    gap: 8px;
-    border-radius: 20px;
+.zone.is-all {
+    border-color: #fff;
+    background: #111;
 }
 .zone-item {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 9px;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: help;
+    transition: background 0.2s ease;
 }
-.zone.is-all {
-    border-color: #fff;
-    background: #111;
+.zone-item:hover {
+    background: #1c1c1c;
 }
-.zone-mark {
-    width: 22px;
-    height: 22px;
+.zone-item img {
+    width: 28px;
+    height: 28px;
     object-fit: contain;
-    flex-shrink: 0;
-}
-.zone[data-zone] img.zone-mark[alt='Redis'] {
-    width: auto;
-    height: 18px;
 }
 .venn.is-tight .zone {
     opacity: 1;
     visibility: visible;
     transition-delay: 0.5s, 0.5s, 0s, 0s;
 }
-.zone:hover,
-.zone-item:hover {
-    border-color: #fff;
-}
-.zone:hover > .pop,
 .zone-item:hover > .pop {
     opacity: 1;
     visibility: visible;
@@ -871,7 +851,6 @@
     transform: translateX(-50%) translateY(6px);
 }
 .pop-host:hover .pop.is-center,
-.zone:hover > .pop.is-center,
 .zone-item:hover > .pop.is-center {
     transform: translateX(-50%) translateY(0);
 }
@@ -1184,28 +1163,13 @@
 }
 .road-note {
     position: relative;
-    margin-top: 38px;
-    min-height: 112px;
-    padding: 24px 30px;
-    border: 1px solid #232323;
-    border-radius: 18px;
-    background: #080808;
-    font-size: 21px;
-    line-height: 1.55;
+    margin-top: 34px;
+    min-height: 100px;
+    padding: 0 40px;
+    font-size: 26px;
+    line-height: 1.5;
     color: #a1a1aa;
-}
-.road-note::before {
-    content: '';
-    position: absolute;
-    top: -7px;
-    left: var(--x, 50%);
-    width: 12px;
-    height: 12px;
-    background: #080808;
-    border-left: 1px solid #232323;
-    border-top: 1px solid #232323;
-    transform: translateX(-50%) rotate(45deg);
-    transition: left 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
 }
 .road-note b {
     color: #ededed;
@@ -1245,14 +1209,48 @@
     line-height: 1.55;
     color: #a1a1aa;
 }
-.prop em {
+/* Низ карточки: раздел книги и спикер, который читает про него доклад. */
+.prop-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
     margin-top: auto;
-    padding-top: 12px;
+    padding-top: 14px;
     border-top: 1px dashed #232323;
+}
+.prop-foot em {
     font-style: normal;
     font-family: var(--font-mono);
     font-size: 13px;
     color: #52525b;
+}
+.prop-speaker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px 6px 6px;
+    border: 1px solid #232323;
+    border-radius: 9999px;
+    background: #0a0a0a;
+    text-decoration: none;
+    color: #d4d4d8;
+    font-size: 15px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.prop-speaker:hover {
+    border-color: #fff;
+    color: #fff;
+}
+.prop-speaker img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.prop-go {
+    font-size: 12px;
+    color: #71717a;
 }
 
 /* ===== Итог: четыре карточки-вывода и главная мысль под ними =====
@@ -1274,7 +1272,7 @@
     background: #080808;
 }
 .sum::after {
-    content: '92';
+    content: '→';
     position: absolute;
     top: 42px;
     right: -30px;

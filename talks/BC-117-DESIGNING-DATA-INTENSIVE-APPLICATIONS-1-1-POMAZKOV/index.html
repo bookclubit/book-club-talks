@@ -243,26 +243,6 @@
                         Главное, чему она учит, — не выбирать «правильную» технологию, а понимать, чем мы жертвуем в каждом выборе.
                     </div>
                 </div>
-
-                <!-- Цитата автора: ящик выезжает снизу по клику -->
-                <button class="quote-caller" type="button" aria-label="Цитата Мартина Клеппмана">
-                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
-                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
-                    </svg>
-                    <img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
-                    <span class="quote-caller-name">Мартин Клеппман</span>
-                </button>
-
-                <div class="quote-drawer">
-                    <div class="quote-drawer-inner">
-                        <img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
-                        <blockquote>
-                            «Не так важны инструменты, как умение мыслить о системах, которые они создают»
-                            <cite>Мартин Клеппман, интервью Хабру</cite>
-                        </blockquote>
-                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
-                    </div>
-                </div>
             </section>
 
             <!-- SLIDE: виды приложений + эпиграф главы -->
@@ -392,11 +372,15 @@
                         <b>границы между категориями постепенно размываются</b>.
                     </p>
 
-                    <!-- Логотипы в assets/logos/ — официальные, лежат локально ради автономности:
-                         postgresql.svg — Daniel Lundin, лицензия BSD;
-                         redis.svg — Redis Ltd, общественное достояние;
-                         kafka.svg — Apache Software Foundation, Apache License 2.0.
-                         Источник всех трёх — Wikimedia Commons. -->
+                    <!-- Логотипы в assets/logos/ — официальные, лежат локально ради
+                         автономности. Источник большинства — Simple Icons
+                         (simpleicons.org, репозиторий под CC0; сами знаки принадлежат
+                         владельцам брендов), Amazon SQS — Wikimedia Commons
+                         (AWS Simple Icons, общественное достояние). Знаки Kafka
+                         и SQLite взяты в белом варианте, значок SQS перекрашен
+                         в светлый — исходные слишком тёмные для тёмного слайда.
+                         У Memcached и Hazelcast свободного векторного знака нет —
+                         они обозначены монограммой. -->
                     <div class="venn-slide" data-venn>
                         <div class="venn" data-venn-stage>
                             <div class="venn-circle c-db" data-circle="db">
@@ -411,24 +395,31 @@
                                     </span>
                                     <span class="pop-host">
                                         <a class="tool" href="https://www.mysql.com/" target="_blank" rel="noreferrer">
-                                            <span class="tool-mono" aria-hidden="true">My</span>
+                                            <img class="tool-mark" src="assets/logos/mysql.svg" alt="">
                                             MySQL<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>MySQL</b> — самая распространённая реляционная СУБД веба. Та же задача: хранить данные так, чтобы их потом можно было найти.</span>
                                     </span>
                                     <span class="pop-host">
                                         <a class="tool" href="https://www.mongodb.com/" target="_blank" rel="noreferrer">
-                                            <span class="tool-mono" aria-hidden="true">Mo</span>
+                                            <img class="tool-mark" src="assets/logos/mongodb.svg" alt="">
                                             MongoDB<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>MongoDB</b> — документная база: вместо строк и таблиц — JSON-документы. Схемы гибче, а задача та же — хранение и поиск.</span>
                                     </span>
                                     <span class="pop-host">
                                         <a class="tool" href="https://clickhouse.com/" target="_blank" rel="noreferrer">
-                                            <span class="tool-mono" aria-hidden="true">Ch</span>
+                                            <img class="tool-mark" src="assets/logos/clickhouse.svg" alt="">
                                             ClickHouse<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>ClickHouse</b> — колоночная аналитическая СУБД: миллиарды строк сканируются за секунды. Хранилище, заточенное под отчёты, а не под транзакции.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://sqlite.org/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/sqlite.svg" alt="">
+                                            SQLite<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>SQLite</b> — вся база в одном файле рядом с приложением. Сервера нет, но задача та же: хранить и отдавать данные по запросу.</span>
                                     </span>
                                 </span>
                             </div>
@@ -438,20 +429,28 @@
                                 <span class="venn-tools">
                                     <span class="pop-host">
                                         <a class="tool" href="https://redis.io/" target="_blank" rel="noreferrer">
-                                            <img class="tool-word" src="assets/logos/redis.svg" alt="Redis"><span class="tool-go">↗</span>
+                                            <img class="tool-mark" src="assets/logos/redis.svg" alt="">
+                                            Redis<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>Redis</b> — хранилище структур данных в памяти: строки, списки, множества, потоки. Отвечает за микросекунды, поэтому чаще всего стоит перед базой как кэш.</span>
                                     </span>
                                     <span class="pop-host">
                                         <a class="tool" href="https://memcached.org/" target="_blank" rel="noreferrer">
-                                            <span class="tool-mono" aria-hidden="true">Mc</span>
+                                            <span class="tool-mono" aria-hidden="true">mc</span>
                                             Memcached<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>Memcached</b> — кэш в чистом виде: ключ, значение, время жизни. Ничего не хранит на диске и не умеет ничего, кроме быстрых чтений.</span>
                                     </span>
                                     <span class="pop-host">
+                                        <a class="tool" href="https://www.couchbase.com/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/couchbase.svg" alt="">
+                                            Couchbase<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Couchbase</b> — вырос из memcached: тот же протокол кэша в памяти, но с диском и документной моделью.</span>
+                                    </span>
+                                    <span class="pop-host">
                                         <a class="tool" href="https://hazelcast.com/" target="_blank" rel="noreferrer">
-                                            <span class="tool-mono" aria-hidden="true">Hz</span>
+                                            <span class="tool-mono" aria-hidden="true">hz</span>
                                             Hazelcast<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>Hazelcast</b> — распределённый кэш в памяти: данные размазаны по узлам кластера, приложение работает с ними как с обычной коллекцией.</span>
@@ -464,28 +463,35 @@
                                 <span class="venn-tools">
                                     <span class="pop-host">
                                         <a class="tool" href="https://kafka.apache.org/" target="_blank" rel="noreferrer">
-                                            <img class="tool-mark is-invert" src="assets/logos/kafka.svg" alt="">
+                                            <img class="tool-mark" src="assets/logos/kafka.svg" alt="">
                                             Apache Kafka<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>Apache Kafka</b> — распределённый журнал событий: сообщения пишутся на диск в порядке поступления и раздаются множеству независимых потребителей.</span>
                                     </span>
                                     <span class="pop-host">
                                         <a class="tool" href="https://www.rabbitmq.com/" target="_blank" rel="noreferrer">
-                                            <span class="tool-mono" aria-hidden="true">Ra</span>
+                                            <img class="tool-mark" src="assets/logos/rabbitmq.svg" alt="">
                                             RabbitMQ<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>RabbitMQ</b> — брокер сообщений с маршрутизацией: очереди, обменники, подтверждения доставки. Классика асинхронного обмена между сервисами.</span>
                                     </span>
                                     <span class="pop-host">
                                         <a class="tool" href="https://nats.io/" target="_blank" rel="noreferrer">
-                                            <span class="tool-mono" aria-hidden="true">Na</span>
+                                            <img class="tool-mark" src="assets/logos/nats.svg" alt="">
                                             NATS<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>NATS</b> — лёгкая шина сообщений: минимум гарантий по умолчанию, зато миллионы сообщений в секунду и простая эксплуатация.</span>
                                     </span>
                                     <span class="pop-host">
+                                        <a class="tool" href="https://pulsar.apache.org/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/pulsar.svg" alt="">
+                                            Apache Pulsar<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Apache Pulsar</b> — брокер сообщений, у которого хранение вынесено в отдельный слой: подписки, очереди и потоки в одном сервисе.</span>
+                                    </span>
+                                    <span class="pop-host">
                                         <a class="tool" href="https://aws.amazon.com/sqs/" target="_blank" rel="noreferrer">
-                                            <span class="tool-mono" aria-hidden="true">Sq</span>
+                                            <img class="tool-mark" src="assets/logos/amazon-sqs.svg" alt="">
                                             Amazon SQS<span class="tool-go">↗</span>
                                         </a>
                                         <span class="pop is-center" role="tooltip"><b>Amazon SQS</b> — очередь как облачный сервис: своего сервера нет, платишь за сообщения. Та же задача — передать работу другому обработчику.</span>
@@ -493,42 +499,75 @@
                                 </span>
                             </div>
 
-                            <div class="zone" data-zone="cache">
-                                <img class="zone-mark" src="assets/logos/redis.svg" alt="Redis">
-                                <b>1.0 · 2009</b>
-                                <span class="pop is-center" role="tooltip"><b>Redis 1.0 — чистый кэш.</b> Данные живут только в памяти: перезапуск — и их нет. Ровно то, чем Redis задумывался.</span>
-                            </div>
-                            <div class="zone" data-zone="queue">
-                                <img class="zone-mark is-invert" src="assets/logos/kafka.svg" alt="Apache Kafka">
-                                <b>0.8 · 2012</b>
-                                <span class="pop is-center" role="tooltip"><b>Kafka 0.8 — чистая очередь.</b> Журнал сообщений и независимые потребители. Ни транзакций, ни гарантий «ровно один раз» ещё нет.</span>
-                            </div>
-                            <div class="zone" data-zone="cache-db">
-                                <img class="zone-mark" src="assets/logos/redis.svg" alt="Redis">
-                                <b>1.1 · 2009</b>
-                                <span class="pop is-center" role="tooltip"><b>Появился AOF.</b> Каждая запись дописывается в журнал на диске, после перезапуска данные восстанавливаются. Кэш перестал жить «только в памяти» и стал хранилищем.</span>
-                            </div>
-                            <div class="zone" data-zone="cache-queue">
-                                <img class="zone-mark" src="assets/logos/redis.svg" alt="Redis">
-                                <b>5.0 · 2018</b>
-                                <span class="pop is-center" role="tooltip"><b>Тип данных Stream.</b> Группы потребителей, подтверждения обработки, история сообщений. Хранилище стало полноценной очередью.</span>
-                            </div>
-                            <div class="zone is-stack" data-zone="db-queue">
+                            <div class="zone" data-zone="db">
                                 <span class="zone-item">
-                                    <img class="zone-mark is-invert" src="assets/logos/kafka.svg" alt="Apache Kafka">
-                                    <b>0.11 · 2017</b>
-                                    <span class="pop is-center" role="tooltip"><b>Транзакции и exactly-once.</b> Сообщение доставляется ровно один раз, запись в несколько разделов атомарна. Очередь получила надёжность уровня базы данных.</span>
+                                    <img src="assets/logos/mysql.svg" alt="MySQL">
+                                    <span class="pop is-center" role="tooltip"><b>MySQL</b> — только хранение: строки, таблицы, транзакции. Очередью и кэшем быть не пытается.</span>
                                 </span>
                                 <span class="zone-item">
-                                    <img class="zone-mark" src="assets/logos/postgresql.svg" alt="PostgreSQL">
-                                    <b>9.5 · 2016</b>
-                                    <span class="pop is-center" role="tooltip"><b>SKIP LOCKED.</b> Несколько обработчиков разбирают строки таблицы, не мешая друг другу, — и обычная база начинает работать как очередь задач.</span>
+                                    <img src="assets/logos/mongodb.svg" alt="MongoDB">
+                                    <span class="pop is-center" role="tooltip"><b>MongoDB</b> — документное хранилище. Данные отдаёт быстро, но роль кэша или брокера на себя не берёт.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/clickhouse.svg" alt="ClickHouse">
+                                    <span class="pop is-center" role="tooltip"><b>ClickHouse</b> — аналитическое хранилище: миллиарды строк для отчётов. Чистая база и ничего кроме.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/sqlite.svg" alt="SQLite">
+                                    <span class="pop is-center" role="tooltip"><b>SQLite</b> — база в одном файле рядом с приложением. Ни кэша, ни очередей — только хранение.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="cache">
+                                <span class="zone-item">
+                                    <span class="tool-mono" aria-hidden="true">mc</span>
+                                    <span class="pop is-center" role="tooltip"><b>Memcached</b> — единственный здесь, кто остался чистым кэшем: ключ, значение, TTL, ничего на диске.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="queue">
+                                <span class="zone-item">
+                                    <img src="assets/logos/rabbitmq.svg" alt="RabbitMQ">
+                                    <span class="pop is-center" role="tooltip"><b>RabbitMQ</b> — брокер с маршрутизацией: доставил сообщение и забыл. Хранилищем данных не притворяется.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/amazon-sqs.svg" alt="Amazon SQS">
+                                    <span class="pop is-center" role="tooltip"><b>Amazon SQS</b> — облачная очередь: сообщения приходят и уходят, читать историю заново нельзя.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="cache-db">
+                                <span class="zone-item">
+                                    <img src="assets/logos/couchbase.svg" alt="Couchbase">
+                                    <span class="pop is-center" role="tooltip"><b>Couchbase</b> вырос из memcached: тот же протокол кэша в памяти — плюс диск, индексы и документная модель. Кэш и база одновременно.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="db-queue">
+                                <span class="zone-item">
+                                    <img src="assets/logos/kafka.svg" alt="Apache Kafka">
+                                    <span class="pop is-center" role="tooltip"><b>Apache Kafka</b> хранит сообщения столько, сколько нужно, и умеет транзакции: очередь, из которой можно перечитать всю историю, — по надёжности уровень базы данных.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/postgresql.svg" alt="PostgreSQL">
+                                    <span class="pop is-center" role="tooltip"><b>PostgreSQL</b> с <code>SKIP LOCKED</code> и <code>LISTEN/NOTIFY</code> раздаёт задачи обработчикам: обычная база работает как очередь.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/pulsar.svg" alt="Apache Pulsar">
+                                    <span class="pop is-center" role="tooltip"><b>Apache Pulsar</b> держит сообщения в отдельном слое хранения и уводит старые в объектное хранилище — очередь с архивом на годы.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="cache-queue">
+                                <span class="zone-item">
+                                    <span class="tool-mono" aria-hidden="true">hz</span>
+                                    <span class="pop is-center" role="tooltip"><b>Hazelcast</b> — кэш в памяти, у которого есть очереди, топики и надёжные задания: кэш и брокер в одном процессе.</span>
                                 </span>
                             </div>
                             <div class="zone is-all" data-zone="all">
-                                <img class="zone-mark" src="assets/logos/redis.svg" alt="Redis">
-                                <b>7.x · сегодня</b>
-                                <span class="pop is-center" role="tooltip"><b>Один инструмент на три задачи.</b> Сегодня Redis — и кэш, и хранилище с персистентностью, и очередь на потоках. Вопрос «это база или очередь?» потерял смысл: важно, какую задачу инструмент закрывает в вашей архитектуре.</span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/redis.svg" alt="Redis">
+                                    <span class="pop is-center" role="tooltip"><b>Redis</b> — кэш в памяти, персистентность на диск (AOF/RDB) и потоки с группами потребителей. Все три роли сразу.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/nats.svg" alt="NATS">
+                                    <span class="pop is-center" role="tooltip"><b>NATS</b> с JetStream: шина сообщений, хранение потоков и KV-хранилище с кэшем — тоже все три роли сразу.</span>
+                                </span>
                             </div>
                         </div>
 
@@ -845,17 +884,38 @@
                         <div class="prop">
                             <b>Надёжность</b>
                             <p>Система должна продолжать работать корректно (осуществлять нужные функции на требуемом уровне производительности) даже при неблагоприятных обстоятельствах — в случае аппаратных или программных сбоев либо ошибок пользователя.</p>
-                            <em>раздел 1.2</em>
+                            <div class="prop-foot">
+                                <em>раздел 1.2</em>
+                                <a class="prop-speaker" href="https://bc-117-designing-data-intensive-applications-1-2-nikiforov.pages.dev" target="_blank" rel="noreferrer">
+                                    <img src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span>Артём Никифоров</span>
+                                    <span class="prop-go">↗</span>
+                                </a>
+                            </div>
                         </div>
                         <div class="prop">
                             <b>Масштабируемость</b>
                             <p>Должны быть предусмотрены разумные способы решения возникающих при росте системы проблем — росте в смысле объёмов данных, трафика или сложности.</p>
-                            <em>раздел 1.3</em>
+                            <div class="prop-foot">
+                                <em>раздел 1.3</em>
+                                <a class="prop-speaker" href="https://bc-117-designing-data-intensive-applications-1-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">
+                                    <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span>Антон Помазков</span>
+                                    <span class="prop-go">↗</span>
+                                </a>
+                            </div>
                         </div>
                         <div class="prop">
                             <b>Удобство сопровождения</b>
                             <p>Необходимо обеспечить возможность эффективной работы с системой множеству различных людей: разработчикам и обслуживающему персоналу, занимающимся как поддержкой текущего функционирования, так и адаптацией системы к новым сценариям применения.</p>
-                            <em>раздел 1.4</em>
+                            <div class="prop-foot">
+                                <em>раздел 1.4</em>
+                                <a class="prop-speaker" href="https://bc-117-designing-data-intensive-applications-1-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">
+                                    <img src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span>Артём Никифоров</span>
+                                    <span class="prop-go">↗</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

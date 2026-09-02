@@ -1321,19 +1321,6 @@
     opacity: 1;
     transform: translateY(0);
 }
-.path-step::after {
-    content: '92';
-    position: absolute;
-    top: 44px;
-    right: -30px;
-    width: 30px;
-    text-align: center;
-    color: #3f3f46;
-    font-size: 20px;
-}
-.path-step:last-child::after {
-    content: '';
-}
 .path-step:last-child {
     border-color: #3f3f46;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
@@ -1358,12 +1345,6 @@
 .path-note b {
     color: #ededed;
     font-weight: 600;
-}
-.path-hint {
-    margin: 18px 0 0;
-    font-family: var(--font-mono);
-    font-size: 14px;
-    color: #52525b;
 }
 
 /* ===== Итоговая цитата: фотография автора слева, тезис справа ===== */

@@ -264,23 +264,20 @@
                         </li>
                     </ol>
 
-                    <p class="path-hint" data-path-hint></p>
+                    <b class="param-title" style="margin-top: 34px;">Дальше в докладе</b>
 
-                    <div class="tiles" style="margin-top: 28px;">
+                    <div class="tiles" style="margin-top: 18px;">
                         <div class="tile">
                             <b>Нагрузка</b>
                             <p>Параметры нагрузки и то, как их выбирают. Разбираем на примере Twitter — там разница между «правильным» и «неправильным» параметром видна лучше всего.</p>
-                            <em>дальше в докладе</em>
                         </div>
                         <div class="tile">
                             <b>Производительность</b>
                             <p>Пропускная способность и время отклика, почему среднее обманывает и зачем нужны процентили — вплоть до хвоста в 0,1 % запросов.</p>
-                            <em>дальше в докладе</em>
                         </div>
                         <div class="tile">
                             <b>Масштабирование</b>
                             <p>Вертикально или горизонтально, что делать с состоянием и почему универсальной масштабируемой архитектуры не существует.</p>
-                            <em>дальше в докладе</em>
                         </div>
                     </div>
                 </div>
@@ -386,8 +383,7 @@
                     <blockquote class="final-quote is-bare">
                         <img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
                         <div>
-                            <p>Сначала описываем нагрузку — и только потом смотрим, как система при ней себя ведёт. <b>Выбрать не тот параметр — значит промахнуться мимо реальной проблемы</b>, и следующий слайд ровно про такой промах.</p>
-                            <cite>мысль раздела 1.3.1 «Описание нагрузки» книги Мартина Клеппмана — своими словами</cite>
+                            <p>Сначала описываем нагрузку — и только потом смотрим, как система при ней себя ведёт. <b>Выбрать не тот параметр — значит промахнуться мимо реальной проблемы</b>.</p>
                         </div>
                     </blockquote>
                 </div>
@@ -735,46 +731,6 @@
                                 </span>
                             </a>
                         </div>
-                        <p class="stars-note">аккаунты X с рекордным числом подписчиков — по данным Википедии, август 2026</p>
-                    </div>
-
-                    <div class="fig">
-                        <svg width="1700" height="228" viewBox="0 0 1700 228" role="img" aria-label="Один твит обычного пользователя — 75 записей в ленты, один твит знаменитости — 30 миллионов записей за те же пять секунд">
-                            <defs>
-                                <pattern id="dots-calm" width="10" height="10" patternUnits="userSpaceOnUse">
-                                    <circle class="d-dot" cx="5" cy="5" r="2"></circle>
-                                </pattern>
-                                <pattern id="dots-hot" width="10" height="10" patternUnits="userSpaceOnUse">
-                                    <circle class="d-dot is-hot" cx="5" cy="5" r="2"></circle>
-                                </pattern>
-                                <linearGradient id="dots-fade" x1="0" y1="0" x2="1" y2="0">
-                                    <stop offset="0.78" stop-color="#fff" stop-opacity="1"></stop>
-                                    <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
-                                </linearGradient>
-                                <mask id="dots-mask">
-                                    <rect x="330" y="108" width="1070" height="120" fill="url(#dots-fade)"></rect>
-                                </mask>
-                            </defs>
-
-                            <text class="t-name" x="0" y="30">Обычный пользователь</text>
-                            <text class="t-sub" x="0" y="56">75 подписчиков</text>
-                            <rect x="330" y="12" width="150" height="50" fill="url(#dots-calm)"></rect>
-                            <text class="t-sub" x="330" y="86">одна точка — одна запись в чужую ленту</text>
-                            <text class="t-num" x="1700" y="34" text-anchor="end">75 записей</text>
-                            <text class="t-sub" x="1700" y="58" text-anchor="end">на один твит</text>
-
-                            <path class="f-line is-dim" d="M0 96 H 1700"></path>
-
-                            <text class="t-name" x="0" y="140">Знаменитость</text>
-                            <text class="t-sub" x="0" y="166">30 000 000 подписчиков</text>
-                            <text class="t-sub" x="0" y="196">тот же масштаб —</text>
-                            <text class="t-sub" x="0" y="216">точки не помещаются на слайд</text>
-                            <rect x="330" y="108" width="1070" height="120" fill="url(#dots-hot)" mask="url(#dots-mask)"></rect>
-                            <text class="t-num t-hot" x="1700" y="140" text-anchor="end">30 000 000</text>
-                            <text class="t-sub" x="1700" y="164" text-anchor="end">записей на один твит</text>
-                            <text class="t-sub" x="1700" y="196" text-anchor="end">и всё те же</text>
-                            <text class="t-num t-hot" x="1700" y="220" text-anchor="end">5 секунд</text>
-                        </svg>
                     </div>
 
                     <div class="fig is-gap">

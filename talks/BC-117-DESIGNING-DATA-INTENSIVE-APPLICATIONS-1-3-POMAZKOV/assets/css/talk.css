@@ -400,6 +400,10 @@
 .fig svg {
     display: block;
 }
+/* Вторая схема подряд на слайде — с воздухом от первой. */
+.fig.is-gap {
+    margin-top: 22px;
+}
 .fig .f-box {
     fill: #080808;
     stroke: #232323;
@@ -459,6 +463,99 @@
 }
 .fig .t-ok {
     fill: #4ade80;
+}
+
+/* Выбранный вариант на схеме и пунктирная рамка вокруг него. */
+.fig .f-box.is-pick {
+    fill: #0a0a0a;
+    stroke: #52525b;
+}
+.fig .f-dash {
+    fill: none;
+    stroke: #71717a;
+    stroke-width: 1.5;
+    stroke-dasharray: 9 7;
+}
+.fig .t-pick {
+    fill: #fff;
+    font-size: 30px;
+    font-weight: 600;
+}
+/* Точки-записи: одна точка — одна запись в чужую ленту. */
+.fig .d-dot {
+    fill: #71717a;
+}
+.fig .d-dot.is-hot {
+    fill: #f87171;
+}
+
+/* ===== Аккаунты-рекордсмены X: аватарка, число подписчиков, имя, ссылка ===== */
+.stars-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.stars {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+}
+.star {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1px solid #232323;
+    border-radius: 16px;
+    background: #080808;
+    text-decoration: none;
+}
+.star-ava {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid #3f3f46;
+    background: #18181b;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 600;
+    color: #ededed;
+}
+.star-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+.star-num {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1.1;
+    color: #fff;
+}
+.star-name {
+    margin-top: 5px;
+    font-size: 15px;
+    line-height: 1.2;
+    color: #a1a1aa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.star-at {
+    margin-top: 2px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #52525b;
+}
+.stars-note {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #52525b;
 }
 
 /* ===== Два подхода к ленте: колонка на подход ===== */

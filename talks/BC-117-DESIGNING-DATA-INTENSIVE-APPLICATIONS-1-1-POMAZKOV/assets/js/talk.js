@@ -165,107 +165,91 @@
   });
 
   // ---------- Круги категорий и их пересечения ----------
-  // Круги стоят на сцене фиксированных 940×680 и в начале не пересекаются.
-  // Каждый шаг таймлайна стягивает одну пару навстречу друг другу, а метка
-  // с версией встаёт ровно в середину этой пары — поэтому позиции считает
-  // скрипт, а не CSS: после второго шага круги уже сдвинуты, и «серединой»
-  // была бы не та точка.
+  // Два состояния: категории врозь (в каждом круге — свои инструменты
+  // со ссылками) и сведённая диаграмма Венна, где в зонах пересечений
+  // проявляются версии, которыми инструмент зашёл на соседнюю территорию.
+  // Координаты считает скрипт: круги двигаются, а метки стоят в центрах
+  // зон — в CSS такие точки не выразить.
   document.querySelectorAll('[data-venn]').forEach((venn) => {
-    const START = { db: [470, 169], cache: [270, 516], queue: [670, 516] };
-    const STEPS = [
-      { a: 'cache', b: 'db', pull: 70 },
-      { a: 'queue', b: 'db', pull: 55 },
-      { a: 'cache', b: 'queue', pull: 35 },
-    ];
-    const R = 150;
+    const stage = venn.querySelector('[data-venn-stage]');
+    const slide = venn.closest('.slide');
+    if (!stage || !slide) return;
+
+    const R = 210;
+    // Врозь — три круга по ширине сцены; сведённые — равносторонний
+    // треугольник со стороной 280 (меньше 2R, поэтому круги пересекаются).
+    const APART = { db: [330, 330], cache: [860, 330], queue: [1390, 330] };
+    const TIGHT = { db: [860, 228], cache: [720, 471], queue: [1000, 471] };
+    // Центры зон: середина пары, отодвинутая от третьего круга, — иначе
+    // метки пар и метка тройного пересечения налезали бы друг на друга.
+    const ZONES = {
+      cache: [608, 536],
+      queue: [1112, 536],
+      'cache-db': [729, 315],
+      'db-queue': [991, 315],
+      'cache-queue': [860, 541],
+      all: [860, 390],
+    };
 
     const circles = {};
-    Object.keys(START).forEach((key) => {
+    Object.keys(APART).forEach((key) => {
       circles[key] = venn.querySelector(`[data-circle="${key}"]`);
     });
-    const lenses = [...venn.querySelectorAll('[data-lens]')];
-    const rows = [...venn.querySelectorAll('[data-vt]')];
-    const btn = venn.querySelector('[data-venn-btn]');
+    if (Object.values(circles).some((c) => !c)) return;
+
     const hint = venn.querySelector('[data-venn-hint]');
-    const sum = venn.querySelector('[data-venn-sum]');
-    const slide = venn.closest('.slide');
-    if (Object.values(circles).some((c) => !c) || !btn || !slide) return;
+    venn.querySelectorAll('[data-zone]').forEach((zone) => {
+      const p = ZONES[zone.dataset.zone];
+      if (!p) return;
+      zone.style.left = `${p[0]}px`;
+      zone.style.top = `${p[1]}px`;
+    });
 
-    let step = 0;
-
-    // Позиции центров после первых `n` шагов: пары стягиваются по очереди.
-    function centers(n) {
-      const p = {};
-      Object.keys(START).forEach((k) => (p[k] = START[k].slice()));
-      for (let i = 0; i < n; i++) {
-        const { a, b, pull } = STEPS[i];
-        const dx = p[b][0] - p[a][0];
-        const dy = p[b][1] - p[a][1];
-        const d = Math.hypot(dx, dy) || 1;
-        p[a][0] += (dx / d) * pull;
-        p[a][1] += (dy / d) * pull;
-        p[b][0] -= (dx / d) * pull;
-        p[b][1] -= (dy / d) * pull;
-      }
-      return p;
-    }
+    let tight = false;
 
     function render() {
-      const p = centers(step);
+      const p = tight ? TIGHT : APART;
       Object.keys(circles).forEach((k) => {
         circles[k].style.left = `${p[k][0] - R}px`;
         circles[k].style.top = `${p[k][1] - R}px`;
       });
-      lenses.forEach((lens, i) => {
-        const { a, b } = STEPS[i];
-        lens.style.left = `${(p[a][0] + p[b][0]) / 2}px`;
-        lens.style.top = `${(p[a][1] + p[b][1]) / 2}px`;
-        lens.classList.toggle('is-on', i < step);
-      });
-      rows.forEach((row, i) => row.classList.toggle('is-on', i < step));
-      if (sum) sum.classList.toggle('is-on', step === STEPS.length);
-      btn.textContent = step === STEPS.length ? 'Показать сначала' : 'Следующий шаг →';
+      stage.classList.toggle('is-tight', tight);
       if (hint) {
-        hint.textContent =
-          step === 0
-            ? 'Пока категории не пересекаются'
-            : 'Наведите на метку версии — покажу, что изменилось';
+        hint.textContent = tight
+          ? 'наведите на метку — чем инструмент зашёл на соседнюю территорию · клик по слайду — развести категории'
+          : 'наведите на инструмент — что он делает · клик по слайду — свести категории';
       }
     }
 
-    function go(delta) {
-      const target = step + delta;
-      if (target < 0 || target > STEPS.length) return false;
-      step = target;
-      render();
-      return true;
-    }
-
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      step = step === STEPS.length ? 0 : step + 1;
+    // Клик по слайду переключает состояние; ссылки, кнопки и подпись
+    // спикера при этом должны работать сами по себе.
+    slide.addEventListener('click', (e) => {
+      if (e.target.closest('a, button, .me, .quote-drawer')) return;
+      tight = !tight;
       render();
     });
 
-    // Стрелки сначала проходят таймлайн и только потом листают слайды:
+    // Стрелки сначала сводят и разводят круги и только потом листают слайды:
     // обработчик дека висит на document, поэтому слушаем на фазе перехвата.
     document.addEventListener(
       'keydown',
       (e) => {
         if (!slide.classList.contains('active')) return;
-        const moved = (e.key === 'ArrowRight' && go(1)) || (e.key === 'ArrowLeft' && go(-1));
-        if (moved) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
+        const moved =
+          (e.key === 'ArrowRight' && !tight) || (e.key === 'ArrowLeft' && tight);
+        if (!moved) return;
+        tight = !tight;
+        render();
+        e.preventDefault();
+        e.stopPropagation();
       },
       true
     );
 
     // Ушли со слайда — круги снова расходятся.
     onLeave(slide, () => {
-      if (step === 0) return;
-      step = 0;
+      if (!tight) return;
+      tight = false;
       render();
     });
 
@@ -273,79 +257,66 @@
   });
 
   // ---------- Цепочка рассуждения: звено за звеном по клику ----------
-  // Скрытые звенья остаются в потоке, поэтому строка не перескакивает;
-  // пояснение к звену — одна панель под цепочкой: всплывашка у каждого
-  // звена уезжала бы за край слайда, звенья стоят у обоих полей.
-  document.querySelectorAll('[data-chain]').forEach((chain) => {
-    const links = [...chain.querySelectorAll('li')];
-    const slide = chain.closest('.slide');
-    const note = slide && slide.querySelector('[data-chain-note]');
-    const btn = slide && slide.querySelector('[data-chain-btn]');
-    const hint = slide && slide.querySelector('[data-chain-hint]');
-    if (!links.length || !slide || !note || !btn) return;
+  // Кнопки нет: следующее звено открывает клик по слайду (и стрелки).
+  // Описание текущего звена всегда видно — панель под линией, уголок
+  // панели скрипт ставит под активный узел.
+  document.querySelectorAll('[data-road]').forEach((road) => {
+    const nodes = [...road.querySelectorAll('[data-road-node]')];
+    const line = road.querySelector('.road-line');
+    const fill = road.querySelector('[data-road-fill]');
+    const note = road.querySelector('[data-road-note]');
+    const hint = road.querySelector('[data-road-hint]');
+    const slide = road.closest('.slide');
+    if (!nodes.length || !line || !note || !slide) return;
 
-    const idle = note.innerHTML;
-    let step = 0;
+    let step = 1;
 
     function render() {
-      links.forEach((li, i) => li.classList.toggle('is-on', i < step));
-      btn.textContent = step === links.length ? 'Показать сначала' : 'Следующее звено →';
+      nodes.forEach((n, i) => {
+        n.classList.toggle('is-on', i < step);
+        n.classList.toggle('is-now', i === step - 1);
+      });
+      const active = nodes[step - 1];
+      note.innerHTML = active.dataset.note || '';
+      if (fill) fill.style.width = `${((step - 1) / (nodes.length - 1)) * 100}%`;
+      const lineBox = line.getBoundingClientRect();
+      const nodeBox = active.getBoundingClientRect();
+      if (lineBox.width) {
+        const x = ((nodeBox.left + nodeBox.width / 2 - lineBox.left) / lineBox.width) * 100;
+        note.style.setProperty('--x', `${x}%`);
+      }
       if (hint) {
         hint.textContent =
-          step === links.length
-            ? 'Наведите на звено — расскажу подробнее'
-            : `звено ${step} из ${links.length}`;
+          step === nodes.length
+            ? `звено ${step} из ${nodes.length} · клик по слайду — показать сначала`
+            : `звено ${step} из ${nodes.length} · клик по слайду — следующее`;
       }
     }
 
-    function resetNote() {
-      note.innerHTML = idle;
-      note.classList.add('is-idle');
-    }
-
-    links.forEach((li) => {
-      li.addEventListener('mouseenter', () => {
-        if (!li.classList.contains('is-on')) return;
-        note.innerHTML = li.dataset.note || '';
-        note.classList.remove('is-idle');
-      });
-      li.addEventListener('mouseleave', resetNote);
-    });
-
-    function go(delta) {
-      const target = step + delta;
-      if (target < 0 || target > links.length) return false;
-      step = target;
-      render();
-      return true;
-    }
-
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      step = step === links.length ? 0 : step + 1;
-      resetNote();
+    slide.addEventListener('click', (e) => {
+      if (e.target.closest('a, button, .me, .quote-drawer')) return;
+      step = step === nodes.length ? 1 : step + 1;
       render();
     });
 
-    // Стрелки сначала открывают звенья и только потом листают слайды.
+    // Стрелки сначала проходят цепочку и только потом листают слайды.
     document.addEventListener(
       'keydown',
       (e) => {
         if (!slide.classList.contains('active')) return;
-        const moved = (e.key === 'ArrowRight' && go(1)) || (e.key === 'ArrowLeft' && go(-1));
-        if (moved) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
+        const next = e.key === 'ArrowRight' ? step + 1 : e.key === 'ArrowLeft' ? step - 1 : step;
+        if (next === step || next < 1 || next > nodes.length) return;
+        step = next;
+        render();
+        e.preventDefault();
+        e.stopPropagation();
       },
       true
     );
 
-    // Ушли со слайда — цепочка начинается сначала.
     onLeave(slide, () => {
-      if (step === 0) return;
-      step = 0;
-      resetNote();
+      if (step === 1) return;
+      step = 1;
       render();
     });
 

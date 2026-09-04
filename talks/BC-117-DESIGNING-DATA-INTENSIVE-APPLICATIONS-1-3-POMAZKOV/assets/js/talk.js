@@ -30,26 +30,6 @@
     );
   }
 
-  // ---------- Подпись спикера ----------
-  // Аватарка с именем в правом верхнем углу; по клику под ней раскрывается
-  // устное пояснение к слайду.
-  const mes = [...document.querySelectorAll('.me')];
-  const closeMes = () => mes.forEach((m) => m.classList.remove('is-open'));
-  mes.forEach((me) => {
-    const btn = me.querySelector('.me-btn');
-    if (!btn) return;
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const wasOpen = me.classList.contains('is-open');
-      closeMes();
-      if (!wasOpen) me.classList.add('is-open');
-    });
-  });
-  document.addEventListener('click', () => closeMes());
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') closeMes();
-  });
-
   // ---------- Неправильный вопрос, который меняется на два правильных ----------
   // Слайд начинается с «Эта система масштабируемая?» — по клику вопрос
   // подменяется двумя корректными формулировками из книги.
@@ -117,7 +97,7 @@
     }
 
     slide.addEventListener('click', (e) => {
-      if (e.target.closest('.me')) return;
+      if (e.target.closest('a, button')) return;
       step = step === steps.length ? 1 : step + 1;
       render();
     });

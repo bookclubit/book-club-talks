@@ -97,9 +97,275 @@
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
+                        <section class="slide" data-slide="3">
+                <style>
+                    /* ===== Контентные слайды спикера (вне «хром»-маркеров) ===== */
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1560px; margin: 0; }
+                    .cs .cs-lead b { color: #fff; font-weight: 600; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-cards.c4 { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card p + p { margin-top: 12px; }
+                    .cs-cards.c4 .cs-card { padding: 26px 28px; }
+                    .cs-cards.c4 .cs-card h3 { font-size: 21px; }
+                    .cs-cards.c4 .cs-card p { font-size: 17px; }
+                    .cs-card.mid { border-color: #666; background: rgba(255,255,255,0.04); }
+                    .cs-card.dim { border-style: dashed; opacity: 0.7; }
+                    .cs-card b, .cs-list b, .cs-callout b, .cs-table b, .cs-stat b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 32px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 21px; line-height: 1.55; color: var(--text-main); max-width: 1560px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-list.tight { gap: 14px; }
+                    .cs-list.tight li { font-size: 19px; }
+                    .cs-list.mini { gap: 10px; margin-top: 0; }
+                    .cs-list.mini li { font-size: 17px; line-height: 1.5; color: var(--text-muted); gap: 12px; }
+                    .cs-card .cs-list { margin-top: 0; }
+                    .cs-callout { margin-top: 32px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1640px; }
+                    .cs-callout.quote { font-style: italic; }
+                    .cs-note { margin-top: 26px; font-size: 18px; line-height: 1.5; color: #71717a; max-width: 1560px; }
+                    /* Две колонки: обычные, ровные и «цифра слева — текст справа». */
+                    .cs-two { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 34px; margin-top: 30px; align-items: start; }
+                    .cs-two.even { grid-template-columns: 1fr 1fr; }
+                    .cs-two.stat { grid-template-columns: 460px 1fr; align-items: start; }
+                    .cs-two .cs-cards, .cs-two .cs-list { margin-top: 0; }
+                    .cs-stack { display: flex; flex-direction: column; gap: 20px; }
+                    .cs-stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; }
+                    .cs-stat-n { font-size: 60px; font-weight: 700; letter-spacing: -0.04em; color: #fff; line-height: 1; }
+                    .cs-stat-l { font-size: 17px; line-height: 1.5; color: var(--text-muted); margin-top: 12px; }
+                    /* Схема «сбой → устойчивость ⇏ отказ». */
+                    .cs-flow { display: grid; grid-template-columns: 1fr 72px 1fr 72px 1fr; align-items: stretch; margin-top: 36px; }
+                    .cs-flow-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #52525b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; text-align: center; }
+                    .cs-flow-arrow .flat-icon { width: 34px; height: 34px; }
+                    .cs-flow-arrow.blocked { color: #f87171; }
+                    /* Таблица. */
+                    .cs-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 19px; line-height: 1.5; }
+                    .cs-table th { text-align: left; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #71717a; font-weight: 500; padding: 0 24px 14px 0; border-bottom: 1px solid var(--border); }
+                    .cs-table td { padding: 16px 24px 16px 0; border-bottom: 1px solid #1c1c1c; color: var(--text-muted); vertical-align: top; }
+                    .cs-table td:first-child { color: var(--text-main); font-weight: 500; width: 33%; }
+                    .cs-table.c3 td:first-child { width: 20%; }
+                    .cs-table tr:last-child td { border-bottom: none; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Что такое надёжность</div>
+                    <h2 class="gradient-text">Работать правильно, даже когда всё идёт не так</h2>
+                    <p class="cs-lead">Каждый интуитивно понимает, что значит «надёжно». Книга раскладывает это ожидание на четыре части — и добавляет к ним одно условие.</p>
+                    <div class="cs-cards c4">
+                        <div class="cs-card">
+                            <span class="cs-num">01 · ФУНКЦИЯ</span>
+                            <h3>Делает то, что ожидает пользователь</h3>
+                            <p>Приложение выполняет ожидаемую пользователем функцию — это база, без которой остальное бессмысленно.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">02 · ОШИБКИ ПОЛЬЗОВАТЕЛЯ</span>
+                            <h3>Переживает ошибочные действия</h3>
+                            <p>Выдерживает ошибки пользователя и применение программного обеспечения неожиданным образом.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">03 · ПРОИЗВОДИТЕЛЬНОСТЬ</span>
+                            <h3>Достаточно быстро для своего сценария</h3>
+                            <p>Производительность достаточна для текущего сценария — при предполагаемой нагрузке и объёме данных.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">04 · БЕЗОПАСНОСТЬ</span>
+                            <h3>Не пускает, кого не звали</h3>
+                            <p>Предотвращает любой несанкционированный доступ и неправильную эксплуатацию.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Если всё это — «работать нормально», то надёжность — это <b>продолжать работать нормально даже в случае проблем</b>. Возможные проблемы называются <b>сбоями</b>, а системы, созданные в расчёте на них, — <b>устойчивыми к сбоям</b>.</div>
+                </div>
+            </section>
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Ключевое различие</div>
+                    <h2 class="gradient-text">Сбой ≠ отказ</h2>
+                    <p class="cs-lead">В разговорной речи эти слова путают, а книга разводит их намеренно: вся идея устойчивых систем живёт в промежутке между ними. Мы учимся строить <b>надёжные системы из ненадёжных частей</b>.</p>
+                    <div class="cs-flow">
+                        <div class="cs-card">
+                            <span class="cs-num">СБОЙ · FAULT</span>
+                            <h3>Один компонент отклонился от нормы</h3>
+                            <p>Умер диск, зависла реплика, оператор ввёл не ту команду. Снизить вероятность сбоев до нуля невозможно.</p>
+                        </div>
+                        <div class="cs-flow-arrow">
+                            <svg class="flat-icon" viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12"></line><polyline points="13 5 20 12 13 19"></polyline></svg>
+                            <span>гасим</span>
+                        </div>
+                        <div class="cs-card mid">
+                            <span class="cs-num">УСТОЙЧИВОСТЬ К СБОЯМ</span>
+                            <h3>Механизмы, которые не дают сбою расползтись</h3>
+                            <p>Резервирование, изоляция, перезапуск, откат. Задача проектирования — предотвращать переход сбоев в отказы.</p>
+                        </div>
+                        <div class="cs-flow-arrow blocked">
+                            <svg class="flat-icon" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+                            <span>не пускаем</span>
+                        </div>
+                        <div class="cs-card dim">
+                            <span class="cs-num">ОТКАЗ · FAILURE</span>
+                            <h3>Система перестала работать для пользователя</h3>
+                            <p>Вся система в целом прекратила предоставлять требуемый сервис. Именно этого мы избегаем.</p>
+                        </div>
+                    </div>
+                    <ul class="cs-list tight" style="margin-top: 30px;">
+                        <li><span><b>Устойчивость — только к определённым типам сбоев.</b> Если Землю поглотит чёрная дыра, спасёт лишь хостинг данных в космосе — удачи с одобрением такой статьи бюджета.</span></li>
+                        <li><span><b>Сбои полезно вызывать намеренно.</b> Многие критические ошибки — следствие плохой обработки ошибок. Chaos Monkey в Netflix убивает случайные процессы без предупреждения, чтобы механизмы восстановления проверялись постоянно.</span></li>
+                        <li><span><b>Исключение — безопасность.</b> Если атакующий уже получил доступ к данным, «лечения» не существует: здесь предупреждение лучше устойчивости.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Источник сбоев 1 из 3</div>
+                    <h2 class="gradient-text">Аппаратные сбои: случайные и независимые</h2>
+                    <p class="cs-lead">Фатальные сбои винчестеров, дефекты ОЗУ, отключение электропитания, кто-то выдернул не тот сетевой кабель. При большом количестве машин это происходит постоянно.</p>
+                    <div class="cs-two stat">
+                        <div class="cs-stack">
+                            <div class="cs-stat">
+                                <div class="cs-stat-n">10–50 лет</div>
+                                <div class="cs-stat-l">среднее время наработки на отказ (MTTF) одного винчестера</div>
+                            </div>
+                            <div class="cs-stat">
+                                <div class="cs-stat-n">≈ 1 в день</div>
+                                <div class="cs-stat-l">отказ жёсткого диска в кластере хранения на <b>10 000</b> винчестеров — просто по статистике</div>
+                            </div>
+                        </div>
+                        <div class="cs-stack">
+                            <div class="cs-card">
+                                <h3>Первая реакция — избыточность железа</h3>
+                                <p>RAID-массивы, дублированное электропитание, CPU с горячей заменой, батареи и дизель-генераторы в ЦОД. Отказавший компонент на время замены подменяет резервный. Отказы не исчезают, но машины работают бесперебойно годами.</p>
+                            </div>
+                            <div class="cs-card">
+                                <h3>Сдвиг: переживать потерю целых машин</h3>
+                                <p>Данных и вычислений всё больше → машин больше → отказов пропорционально больше. В облаках вроде AWS виртуалки пропадают без предупреждения: платформа ценит гибкость выше надёжности одной машины. Ответ — <b>программные методы устойчивости</b> вместо аппаратной избыточности или вдобавок к ней.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Бонус для эксплуатации: система из одного сервера требует планового простоя ради перезагрузки, а устойчивая к аппаратным сбоям обновляется <b>по узлу за раз без остановки</b> — плавающее обновление.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Источник сбоев 2 из 3</div>
+                    <h2 class="gradient-text">Программные ошибки: одна на всех узлах</h2>
+                    <p class="cs-lead">Аппаратные сбои случайны и независимы: диск одного сервера ничего не знает о диске другого. Систематическая ошибка в софте — наоборот: она <b>коррелирует между узлами</b>, поэтому системных отказов от неё гораздо больше.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Как это выглядит</h3>
+                            <ul class="cs-list mini">
+                                <li><span>Ошибка роняет экземпляр сервера при конкретных «плохих» входных данных. <b>Секунда координации 30 июня 2012</b> подвесила множество приложений из-за бага в ядре Linux.</span></li>
+                                <li><span>Вышедший из-под контроля процесс исчерпал общий ресурс: время CPU, память, диск или полосу сети.</span></li>
+                                <li><span>Сервис, от которого зависит система, замедлился, перестал отвечать или возвращает испорченные ответы.</span></li>
+                                <li><span><b>Каскадные сбои:</b> крошечный сбой в одном компоненте вызывает сбой в другом — и дальше по цепочке.</span></li>
+                            </ul>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Что с этим делать</h3>
+                            <ul class="cs-list mini">
+                                <li><span>Быстрого решения нет — помогает <b>множество мелочей</b>.</span></li>
+                                <li><span>Тщательно обдумывать допущения и взаимодействия внутри системы.</span></li>
+                                <li><span>Всестороннее тестирование; изоляция процессов; возможность перезапуска после фатального сбоя.</span></li>
+                                <li><span>Измерять, мониторить и анализировать поведение в промышленной эксплуатации.</span></li>
+                                <li><span><b>Постоянная самопроверка</b> инвариантов: в очереди входящих сообщений столько же, сколько исходящих — иначе предупреждение.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Такие ошибки долго спят. Приложение делает допущение о своём окружении — обычно верное. До того дня, когда оно по какой-то причине перестаёт быть верным.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Источник сбоев 3 из 3</div>
+                    <h2 class="gradient-text">Человеческий фактор: люди ненадёжны</h2>
+                    <p class="cs-lead">Системы проектируют, пишут и эксплуатируют люди — и даже с самыми благими намерениями они ошибаются. Вопрос книги: как обеспечить надёжность системы, несмотря на ненадёжность людей?</p>
+                    <div class="cs-two stat">
+                        <div class="cs-stack">
+                            <div class="cs-stat">
+                                <div class="cs-stat-n">10–25 %</div>
+                                <div class="cs-stat-l">перебоев в крупных интернет-сервисах, где вообще замешано оборудование — серверы или сеть. <b>Главная причина — ошибки операторов в конфигурации.</b></div>
+                            </div>
+                            <div class="cs-card">
+                                <h3>Оптимальные системы сочетают несколько подходов</h3>
+                                <p>Ни один пункт справа не работает сам по себе — надёжность даёт их комбинация.</p>
+                            </div>
+                        </div>
+                        <ul class="cs-list tight">
+                            <li><span><b>Минимизировать возможности ошибиться.</b> Хорошие абстракции, API и админ-интерфейсы упрощают «правильные» действия и усложняют «неправильные». Но слишком жёсткие интерфейсы люди начнут обходить — нужно равновесие.</span></li>
+                            <li><span><b>Расцепить места ошибок и места отказов.</b> Полнофункциональная «песочница» с настоящими данными, где можно экспериментировать, не влияя на реальных пользователей.</span></li>
+                            <li><span><b>Тестировать на всех уровнях.</b> От модульных тестов до комплексных и ручных; автоматизация особенно ценна для пограничных случаев.</span></li>
+                            <li><span><b>Быстрое и удобное восстановление.</b> Быстрый откат конфигурации, постепенное внедрение кода на малую долю пользователей, утилиты для пересчёта данных.</span></li>
+                            <li><span><b>Подробный и ясный мониторинг.</b> Метрики производительности и частоты ошибок — телеметрия, как у ракеты после отрыва от земли.</span></li>
+                            <li><span><b>Управленческие практики и обучение</b> — важно, но уже за рамками книги.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Зачем это нам</div>
+                    <h2 class="gradient-text">Надёжность нужна не только АЭС и авиадиспетчерам</h2>
+                    <p class="cs-lead">От «обычных» приложений тоже ожидают надёжной работы — и у ненадёжности всегда есть цена.</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <span class="cs-num">БИЗНЕС-ПРИЛОЖЕНИЯ</span>
+                            <h3>Потери производительности и юристы</h3>
+                            <p>Ошибки в коммерческих приложениях — это потерянное рабочее время и <b>юридические риски</b>, если цифры в отчётах оказались неточны.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">ИНТЕРНЕТ-МАГАЗИНЫ</span>
+                            <h3>Простой = недополученный доход</h3>
+                            <p>Простои сайта приводят к колоссальным убыткам: недополученные доходы и <b>ущерб для репутации</b>.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">«НЕКРИТИЧНЫЕ» ПРИЛОЖЕНИЯ</span>
+                            <h3>Ответственность перед пользователями</h3>
+                            <p>Родители хранят все фото и видео детей в вашем приложении. Что они почувствуют, если база окажется испорчена? <b>Смогут ли они восстановить данные из резервной копии?</b></p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Иногда надёжностью жертвуют осознанно: ради стоимости разработки (прототип для нового рынка) или стоимости эксплуатации (сервис с очень низкой маржой). Но «срезать углы» нужно <b>очень осторожно</b>.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="9">
+                <div class="cs">
+                    <div class="badge">Не из книги · Примеряем на фронтенд</div>
+                    <h2 class="gradient-text">Те же три источника сбоев — в браузере</h2>
+                    <p class="cs-lead">Клеппман пишет про информационные системы, но словарь раздела 1.2 переносится на фронтенд без изменений: сбой компонента не должен становиться отказом страницы.</p>
+                    <table class="cs-table c3">
+                        <tr><th>Источник</th><th>Как выглядит в браузере</th><th>Чтобы сбой не стал отказом</th></tr>
+                        <tr><td>Аппаратура и сеть</td><td>Пропал Wi-Fi, CDN ответил 502, сторонний скрипт не загрузился</td><td>Повторы запросов с нарастающей задержкой, офлайн-состояния, <b>деградация функции</b> вместо белого экрана</td></tr>
+                        <tr><td>Программная ошибка</td><td>Неожиданный <b>null</b> в ответе API роняет всё дерево компонентов; утечка памяти в долгоживущей вкладке</td><td><b>Error boundaries</b>: падает виджет, а не страница; валидация данных на границе; мониторинг ошибок в проде</td></tr>
+                        <tr><td>Человеческий фактор</td><td>Опечатка в конфиге или релиз с багом уехал сразу на 100 % пользователей</td><td><b>Постепенная раскатка</b> и feature flags, быстрый откат, телеметрия — ровно список из книги</td></tr>
+                    </table>
+                    <div class="cs-callout">Chaos Monkey по-фронтендерски — намеренно ломать запросы и компоненты на стенде, чтобы обработка ошибок не оставалась непроверенной до первого инцидента.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10">
+                <div class="cs">
+                    <div class="badge">Что забрать с собой</div>
+                    <h2 class="gradient-text">Надёжность — в четырёх строках</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Надёжность — «продолжать работать нормально, когда что-то пошло не так».</b> Ожидаемая функция, устойчивость к ошибкам пользователя, достаточная производительность, защита от неправильной эксплуатации.</span></li>
+                        <li><span><b>Сбой ≠ отказ.</b> Сбои неизбежны; проектируем так, чтобы сбой компонента не превращался в отказ системы. Надёжные системы строятся из ненадёжных частей.</span></li>
+                        <li><span><b>Три источника сбоев — три набора мер.</b> Аппаратные: избыточность и переживание потери машин. Программные: тестирование, изоляция, мониторинг, самопроверки. Человеческие: хорошие интерфейсы, песочницы, быстрый откат, телеметрия.</span></li>
+                        <li><span><b>Надёжность — ответственность, а не роскошь.</b> Ей можно жертвовать ради скорости или цены, но осознанно и очень осторожно.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+
+<section class="slide" data-slide="11" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

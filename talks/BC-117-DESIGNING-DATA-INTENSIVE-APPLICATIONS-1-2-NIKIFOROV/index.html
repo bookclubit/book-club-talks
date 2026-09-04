@@ -215,13 +215,39 @@
                     </div>
                     <ul class="cs-list tight" style="margin-top: 30px;">
                         <li><span><b>Устойчивость — только к определённым типам сбоев.</b> Если Землю поглотит чёрная дыра, спасёт лишь хостинг данных в космосе — удачи с одобрением такой статьи бюджета.</span></li>
-                        <li><span><b>Сбои полезно вызывать намеренно.</b> Многие критические ошибки — следствие плохой обработки ошибок. Chaos Monkey в Netflix убивает случайные процессы без предупреждения, чтобы механизмы восстановления проверялись постоянно.</span></li>
+                        <li><span><b>Сбои полезно вызывать намеренно.</b> Звучит парадоксально — следующий слайд разбирает это на примере Chaos Monkey из Netflix.</span></li>
                         <li><span><b>Исключение — безопасность.</b> Если атакующий уже получил доступ к данным, «лечения» не существует: здесь предупреждение лучше устойчивости.</span></li>
                     </ul>
                 </div>
             </section>
 
             <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Парадокс устойчивых систем</div>
+                    <h2 class="gradient-text">Chaos Monkey: ломаем нарочно, чтобы не сломалось само</h2>
+                    <p class="cs-lead">Книга: в устойчивой к сбоям системе имеет смысл <b>повысить частоту сбоев, генерируя их умышленно</b> — например, прерывать работу случайно выбранных процессов без предупреждения. Зачем добровольно устраивать себе аварии?</p>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <span class="cs-num">01 · ПРОБЛЕМА</span>
+                            <h3>Код обработки ошибок почти не выполняется</h3>
+                            <p>Многие критические ошибки происходят из-за недостаточной обработки ошибок. Этот код пишут «на всякий случай» и годами не запускают — пока сбой не случится по-настоящему, никто не знает, работает ли он.</p>
+                        </div>
+                        <div class="cs-card mid">
+                            <span class="cs-num">02 · ПРИЁМ NETFLIX</span>
+                            <h3>Сервис, который убивает случайные машины</h3>
+                            <p>Chaos Monkey случайным образом выключает виртуальные машины Netflix прямо в промышленной среде — в рабочее время, когда инженеры на месте. Ни один сервис не может рассчитывать, что его машина будет жить вечно.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">03 · РЕЗУЛЬТАТ</span>
+                            <h3>Механизмы устойчивости проверяются каждый день</h3>
+                            <p>Умышленные сбои гарантируют постоянное тестирование резервирования, перезапуска и отката. Растёт уверенность, что при «естественном» сбое система справится — уверенность, а не надежда.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Порядок важен: сначала добиваемся, что сбой ≠ отказ, потом выпускаем обезьяну это проверять. Из одной обезьяны у Netflix выросла целая <b>Simian Army</b> — Latency Monkey добавляет задержки в сеть, Chaos Gorilla выключает целую зону доступности AWS — и отдельная дисциплина <b>chaos engineering</b>.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
                 <div class="cs">
                     <div class="badge">Источник сбоев 1 из 3</div>
                     <h2 class="gradient-text">Аппаратные сбои: случайные и независимые</h2>
@@ -252,7 +278,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="6">
+            <section class="slide" data-slide="7">
                 <div class="cs">
                     <div class="badge">Источник сбоев 2 из 3</div>
                     <h2 class="gradient-text">Программные ошибки: одна на всех узлах</h2>
@@ -282,7 +308,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="7">
+            <section class="slide" data-slide="8">
                 <div class="cs">
                     <div class="badge">Источник сбоев 3 из 3</div>
                     <h2 class="gradient-text">Человеческий фактор: люди ненадёжны</h2>
@@ -310,7 +336,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="8">
+            <section class="slide" data-slide="9">
                 <div class="cs">
                     <div class="badge">Зачем это нам</div>
                     <h2 class="gradient-text">Надёжность нужна не только АЭС и авиадиспетчерам</h2>
@@ -336,7 +362,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="9">
+            <section class="slide" data-slide="10">
                 <div class="cs">
                     <div class="badge">Не из книги · Примеряем на фронтенд</div>
                     <h2 class="gradient-text">Те же три источника сбоев — в браузере</h2>
@@ -351,7 +377,7 @@
                 </div>
             </section>
 
-            <section class="slide" data-slide="10">
+            <section class="slide" data-slide="11">
                 <div class="cs">
                     <div class="badge">Что забрать с собой</div>
                     <h2 class="gradient-text">Надёжность — в четырёх строках</h2>
@@ -365,7 +391,7 @@
             </section>
 
 
-<section class="slide" data-slide="11" data-chrome="whatnext">
+<section class="slide" data-slide="12" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

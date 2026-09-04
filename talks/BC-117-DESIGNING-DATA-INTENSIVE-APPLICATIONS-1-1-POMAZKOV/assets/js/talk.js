@@ -47,22 +47,6 @@
     if (slide) onLeave(slide, closeAll);
   });
 
-  // ---------- Подпись спикера ----------
-  // Аватарка с именем в правом верхнем углу; по клику под ней раскрывается
-  // устное пояснение к слайду.
-  const mes = [...document.querySelectorAll('.me')];
-  const closeMes = () => mes.forEach((m) => m.classList.remove('is-open'));
-  mes.forEach((me) => {
-    const btn = me.querySelector('.me-btn');
-    if (!btn) return;
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const wasOpen = me.classList.contains('is-open');
-      closeMes();
-      if (!wasOpen) me.classList.add('is-open');
-    });
-  });
-
   // ---------- Цитата: ящик выезжает снизу слайда ----------
   // Ящиков может быть несколько (по одному на слайд), поэтому пары
   // «аватарка → ящик» ищем внутри каждого слайда отдельно.
@@ -88,12 +72,8 @@
 
   // Листаем слайды или жмём Esc — открытых панелей остаться не должно.
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-      closeDrawers();
-      closeMes();
-    }
+    if (e.key === 'Escape' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') closeDrawers();
   });
-  document.addEventListener('click', () => closeMes());
 
   // ---------- Рассинхрон: PostgreSQL обновился, Redis остался старым ----------
   // Три состояния: согласие → запись мимо кэша → инвалидация кэша кодом
@@ -225,7 +205,7 @@
     // Клик по слайду переключает состояние; ссылки, кнопки и подпись
     // спикера при этом должны работать сами по себе.
     slide.addEventListener('click', (e) => {
-      if (e.target.closest('a, button, .me, .quote-drawer')) return;
+      if (e.target.closest('a, button, .quote-drawer')) return;
       tight = !tight;
       render();
     });
@@ -295,7 +275,7 @@
     }
 
     slide.addEventListener('click', (e) => {
-      if (e.target.closest('a, button, .me, .quote-drawer')) return;
+      if (e.target.closest('a, button, .quote-drawer')) return;
       step = step === nodes.length ? 1 : step + 1;
       render();
     });

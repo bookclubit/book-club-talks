@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подходы к работе над информационными системами — Высоконагруженные приложения. Программирование, масштабирование, поддержка</title>
+    <meta name="description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Подходы к работе над информационными системами — Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+    <meta property="og:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <meta property="og:image" content="https://bc-117-designing-data-intensive-applications-1-1-pomazkov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Подходы к работе над информационными системами — Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+    <meta name="twitter:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <meta name="twitter:image" content="https://bc-117-designing-data-intensive-applications-1-1-pomazkov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 1</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Надежные, масштабируемые и удобные в сопровождении приложения</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Подходы к работе над информационными системами</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank">
+                                    <img class="book-cover" src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank">
+                                    Высоконагруженные приложения. Программирование, масштабирование, поддержка
+                                </a>
+                                <p class="book-subtitle">
+                                    Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems
+                                </p>
+                                <p class="book-desc-ru">
+                                    Главная книга для тех, кто хочет научиться создавать крупные, быстрые и надежные ИТ-системы вроде Telegram, Netflix или крупных интернет-магазинов.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://martin.kleppmann.com/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
+                                    <div class="author-info">
+                                        <div class="author-name">Мартин Клеппман</div>
+                                        <div class="author-link-text">martin.kleppmann.com ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/kunjutone" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
+                                <div class="author-info">
+                                    <div class="author-name">Антон Помазков</div>
+                                    <div class="author-link-text">t.me/kunjutone ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <section class="slide" data-slide="3" data-chrome="agenda">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Программа вечера</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-117-designing-data-intensive-applications-1-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Подходы к работе над информационными системами</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-117-designing-data-intensive-applications-1-2-nikiforov.pages.dev" target="_blank" rel="noreferrer">Надежность</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-117-designing-data-intensive-applications-1-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">Масштабируемость</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-117-designing-data-intensive-applications-1-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Удобство сопровождения</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: об авторе книги -->
+            <section class="slide" data-slide="4">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Об авторе</h2>
+
+                    <div class="author-hero">
+                        <div>
+                            <img class="author-photo" src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
+                            <p class="author-name">Мартин Клеппман</p>
+                            <p class="author-role">Martin Kleppmann — исследователь распределённых систем, ИТ-предприниматель, доцент Кембриджского университета</p>
+                            <div class="author-links">
+                                <a href="https://martin.kleppmann.com/" target="_blank" rel="noreferrer">martin.kleppmann.com ↗</a>
+                            </div>
+                        </div>
+
+                        <div class="acc">
+                            <div class="acc-item">
+                                <button class="acc-head" type="button">
+                                    <span class="acc-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                                    <b>Карьера в индустрии</b>
+                                </button>
+                                <div class="acc-body">
+                                    <div class="acc-inner">
+                                        <ul>
+                                            <li><b>Rapportive</b> (2010) — плагин для Gmail: показывал профили людей из соцсетей прямо в почте. <a class="pop-link" href="https://betakit.com/linkedin-continues-on-post-ipo-acquisition-tear-with-rapportive/" target="_blank" rel="noreferrer">Куплен LinkedIn в 2012 ↗</a></li>
+                                            <li><b>Go Test It</b> — платформа для проверки веб-приложений в разных браузерах и на разных платформах. <a class="pop-link" href="https://thenextweb.com/news/red-gate-software-acquire-gotestit-testing-environment-start-ups" target="_blank" rel="noreferrer">Куплена Red Gate Software в 2009 ↗</a></li>
+                                            <li>После сделки несколько лет работал в LinkedIn над инфраструктурой обработки больших объёмов данных на Apache Kafka и Samza.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="acc-item">
+                                <button class="acc-head" type="button">
+                                    <span class="acc-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                                    <b>Научная деятельность</b>
+                                </button>
+                                <div class="acc-body">
+                                    <div class="acc-inner">
+                                        <ul>
+                                            <li><b>Кембридж</b> — преподаёт криптографию, распределённые системы и компьютерную безопасность; с 2024 года — Associate Professor.</li>
+                                            <li><span class="pop-host"><a class="pop-link" href="https://crdt.tech/" target="_blank" rel="noreferrer">CRDT ↗</a><span class="pop" role="tooltip"><b>Придумал не он.</b> Конфликт-свободные реплицируемые типы данных ввели Марк Шапиро, Нуну Прегиса, Карлуш Бакеру и Марек Завирски в 2011 году. Клеппман их исследует и формально верифицирует, а справочник crdt.tech ведёт вместе с Шапиро и Аннетт Бениусой.</span></span> — алгоритмы, позволяющие обновлять данные на разных устройствах одновременно без конфликтов (как в Google Документах, где текст правят несколько человек сразу).</li>
+                                            <li><span class="pop-host"><a class="pop-link" href="https://automerge.org/" target="_blank" rel="noreferrer">Automerge ↗</a><span class="pop" role="tooltip"><b>Один из создателей.</b> Открытый движок синхронизации для многопользовательских приложений: работает офлайн, сливает правки без конфликтов и помнит каждое изменение.</span></span> — библиотека с открытым исходным кодом, на которой такие приложения и строят.</li>
+                                            <li><span class="pop-host"><a class="pop-link" href="https://www.inkandswitch.com/essay/local-first/" target="_blank" rel="noreferrer">Local-first ↗</a><span class="pop" role="tooltip"><b>Соавтор манифеста.</b> Эссе «Local-First Software: You Own Your Data, in spite of the Cloud» (Ink &amp; Switch, 2019) — вместе с Адамом Уиггинсом, Питером ван Харденбергом и Марком Макгранаханом.</span></span> — подход, ради которого нужны CRDT: данные лежат на устройстве и работают без интернета, но синхронизируются при сети.</li>
+                                            <li><span class="pop-host"><a class="pop-link" href="https://bsky.app/" target="_blank" rel="noreferrer">Bluesky ↗</a><span class="pop" role="tooltip"><b>Советник и исследователь.</b> Соавтор рецензируемой статьи об AT Protocol — открытом протоколе, на котором работает сеть (2024).</span></span> — децентрализованная социальная сеть, которой он помогает как советник.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="acc-item">
+                                <button class="acc-head" type="button">
+                                    <span class="acc-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                                    <b>Почему эта книга?</b>
+                                </button>
+                                <div class="acc-body">
+                                    <div class="acc-inner">
+                                        <div class="acc-book">
+                                            <img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+                                            <div class="acc-book-text">
+                                                <p>Культовый статус в мире ИТ ему принесла книга <b>«Высоконагруженные приложения»</b> (Designing Data-Intensive Applications): она разошлась сотнями тысяч экземпляров и стала главным учебником по архитектуре баз данных для разработчиков по всему миру.</p>
+                                                <ul>
+                                                    <li>Объединяет сложную академическую теорию и реальную практику крупных ИТ-компаний.</li>
+                                                    <li>Написана понятным языком, со схемами, и не продвигает одну технологию — ни только SQL, ни только NoSQL.</li>
+                                                    <li><b>Учит мыслить компромиссами</b>: понимать, чем мы жертвуем — скоростью, надёжностью или консистентностью данных, — выбирая тот или иной архитектурный подход.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                        Автор книги — не теоретик и не практик по отдельности, а человек, который прошёл обе стороны:
+                        сначала строил инфраструктуру данных в LinkedIn, потом ушёл в Кембридж изучать распределённые системы.
+                        Поэтому книга и получилась такой: теория в ней подкреплена тем, как всё устроено в реальных компаниях.
+                        Главное, чему она учит, — не выбирать «правильную» технологию, а понимать, чем мы жертвуем в каждом выборе.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: виды приложений + эпиграф главы -->
+            <section class="slide" data-slide="5">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Виды приложений</h2>
+
+                    <div class="kinds">
+                        <div class="kind is-main">
+                            <p class="section-label">Про них книга</p>
+                            <h3>Высоконагруженные данными<em>data-intensive</em></h3>
+                            <p class="kind-desc">
+                                Приложение почти ничего не вычисляет — оно хранит, ищет, обновляет и раздаёт данные.
+                                Собирается такое приложение из стандартных блоков, каждый из которых закрывает
+                                часто требующуюся функциональность.
+                            </p>
+
+                            <div class="warn">
+                                <span class="warn-label">Узкое место</span>
+                                <p>
+                                    Чистая производительность CPU — просто ограничивающий фактор.
+                                    Основная проблема — <b>объём данных, их сложность и скорость изменения</b>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="kind is-side">
+                            <p class="section-label">Книга не про них</p>
+                            <h3>Высоконагруженные вычислениями<em>compute-intensive</em></h3>
+                            <p class="kind-desc">
+                                Данных немного, но над ними много считают. Здесь всё решает то,
+                                сколько операций нужно выполнить, а не сколько данных прочитать и записать.
+                            </p>
+
+                            <div class="warn">
+                                <span class="warn-label">Узкое место</span>
+                                <p>Процессор: задача упирается в <b>количество вычислений</b>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Книга не про то, как выжать максимум из процессора. Она про приложения, где больно от самих данных:
+                            их много, они сложно связаны и быстро меняются. Такие приложения собираются из типовых блоков —
+                            хранилище, кэш, поисковый индекс, — и блоки эти кажутся очевидными ровно до того момента,
+                            пока не приходится выбирать конкретный инструмент под конкретную задачу.
+                    </div>
+                </div>
+
+                <!-- Эпиграф главы: ящик выезжает снизу по клику -->
+                <button class="quote-caller" type="button" aria-label="Эпиграф главы: цитата Алана Кея">
+                    <svg class="quote-caller-arrow" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"></path>
+                    </svg>
+                    <img src="assets/authors/alan-kay.webp" alt="Алан Кей">
+                    <span class="quote-caller-name">Алан Кей</span>
+                </button>
+
+                <div class="quote-drawer">
+                    <div class="quote-drawer-inner">
+                        <img src="assets/authors/alan-kay.webp" alt="Алан Кей">
+                        <blockquote>
+                            «Интернет настолько хорош, что большинство людей считает его природным ресурсом,
+                            таким как Тихий океан, а не чем-то сотворённым руками человека. Когда в последний раз
+                            в технологии подобного масштаба не было ни одной ошибки?»
+                            <cite>Алан Кей, из интервью Dr. Dobb’s Journal (2012) · эпиграф к главе 1<br>фото: Marcin Wichary, CC BY 2.0</cite>
+                        </blockquote>
+                        <button class="quote-close" type="button" aria-label="Закрыть">✕</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: спойлер — две мысли доклада -->
+            <section class="slide" data-slide="6">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Спойлер</h2>
+                    <p class="slide-lead">Две главные мысли, которые будут раскрыты дальше.</p>
+
+                    <div class="ideas">
+                        <div class="idea">
+                            <span class="idea-num">01</span>
+                            <h3>Важна задача,<br>а не инструмент</h3>
+                            <p>
+                                Нет смысла мыслить жёсткими категориями «база данных», «кэш», «очередь».
+                                Есть <b>потребности системы</b>, и под каждую потребность подбирается подходящий инструмент.
+                            </p>
+                            <p>Один и тот же инструмент может решать разные задачи, а разные инструменты — похожие задачи.</p>
+                        </div>
+                        <div class="idea">
+                            <span class="idea-num">02</span>
+                            <h3>Разработчик —<br>архитектор</h3>
+                            <p>
+                                Современное приложение — это не один инструмент, а <b>система из нескольких компонентов</b>,
+                                которые нужно связать и синхронизировать.
+                            </p>
+                            <p>Поэтому разработчик отвечает не только за код, но и за то, как устроена вся система, как части взаимодействуют, как она ведёт себя при сбоях и росте.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Сразу скажу, к чему мы придём. Первое: перестать думать ярлыками «это база, а это очередь» —
+                            думать надо о задаче, которую нужно решить. Второе: как только инструментов в приложении становится
+                            больше одного, разработчик автоматически становится архитектором — потому что связывать их
+                            и отвечать за поведение системы больше некому.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: границы категорий размываются (круги категорий и их пересечения) -->
+            <section class="slide" data-slide="7">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Нет «одного правильного инструмента»</h2>
+                    <p class="slide-lead">
+                        Инструменты оптимизированы под разные сценарии и больше не укладываются в обычные категории —
+                        <b>границы между категориями постепенно размываются</b>.
+                    </p>
+
+                    <!-- Логотипы в assets/logos/ — официальные, лежат локально ради
+                         автономности. Источник большинства — Simple Icons
+                         (simpleicons.org, репозиторий под CC0; сами знаки принадлежат
+                         владельцам брендов), Amazon SQS — Wikimedia Commons
+                         (AWS Simple Icons, общественное достояние). Знаки Kafka
+                         и SQLite взяты в белом варианте, значок SQS перекрашен
+                         в светлый — исходные слишком тёмные для тёмного слайда.
+                         У Memcached и Hazelcast свободного векторного знака нет —
+                         они обозначены монограммой. -->
+                    <div class="venn-slide" data-venn>
+                        <div class="venn" data-venn-stage>
+                            <div class="venn-circle c-db" data-circle="db">
+                                <span class="venn-cap">Базы данных</span>
+                                <span class="venn-tools">
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://www.postgresql.org/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/postgresql.svg" alt="">
+                                            PostgreSQL<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>PostgreSQL</b> — реляционная СУБД с открытым исходным кодом. Транзакции, надёжное хранение на диске, JSON, полнотекстовый поиск. Классический «источник правды» приложения.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://www.mysql.com/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/mysql.svg" alt="">
+                                            MySQL<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>MySQL</b> — самая распространённая реляционная СУБД веба. Та же задача: хранить данные так, чтобы их потом можно было найти.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://www.mongodb.com/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/mongodb.svg" alt="">
+                                            MongoDB<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>MongoDB</b> — документная база: вместо строк и таблиц — JSON-документы. Схемы гибче, а задача та же — хранение и поиск.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://clickhouse.com/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/clickhouse.svg" alt="">
+                                            ClickHouse<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>ClickHouse</b> — колоночная аналитическая СУБД: миллиарды строк сканируются за секунды. Хранилище, заточенное под отчёты, а не под транзакции.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://sqlite.org/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/sqlite.svg" alt="">
+                                            SQLite<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>SQLite</b> — вся база в одном файле рядом с приложением. Сервера нет, но задача та же: хранить и отдавать данные по запросу.</span>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="venn-circle c-cache" data-circle="cache">
+                                <span class="venn-cap">Кэш</span>
+                                <span class="venn-tools">
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://redis.io/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/redis.svg" alt="">
+                                            Redis<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Redis</b> — хранилище структур данных в памяти: строки, списки, множества, потоки. Отвечает за микросекунды, поэтому чаще всего стоит перед базой как кэш.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://memcached.org/" target="_blank" rel="noreferrer">
+                                            <span class="tool-mono" aria-hidden="true">mc</span>
+                                            Memcached<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Memcached</b> — кэш в чистом виде: ключ, значение, время жизни. Ничего не хранит на диске и не умеет ничего, кроме быстрых чтений.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://www.couchbase.com/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/couchbase.svg" alt="">
+                                            Couchbase<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Couchbase</b> — вырос из memcached: тот же протокол кэша в памяти, но с диском и документной моделью.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://hazelcast.com/" target="_blank" rel="noreferrer">
+                                            <span class="tool-mono" aria-hidden="true">hz</span>
+                                            Hazelcast<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Hazelcast</b> — распределённый кэш в памяти: данные размазаны по узлам кластера, приложение работает с ними как с обычной коллекцией.</span>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="venn-circle c-queue" data-circle="queue">
+                                <span class="venn-cap">Очереди сообщений</span>
+                                <span class="venn-tools">
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://kafka.apache.org/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/kafka.svg" alt="">
+                                            Apache Kafka<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Apache Kafka</b> — распределённый журнал событий: сообщения пишутся на диск в порядке поступления и раздаются множеству независимых потребителей.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://www.rabbitmq.com/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/rabbitmq.svg" alt="">
+                                            RabbitMQ<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>RabbitMQ</b> — брокер сообщений с маршрутизацией: очереди, обменники, подтверждения доставки. Классика асинхронного обмена между сервисами.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://nats.io/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/nats.svg" alt="">
+                                            NATS<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>NATS</b> — лёгкая шина сообщений: минимум гарантий по умолчанию, зато миллионы сообщений в секунду и простая эксплуатация.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://pulsar.apache.org/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/pulsar.svg" alt="">
+                                            Apache Pulsar<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Apache Pulsar</b> — брокер сообщений, у которого хранение вынесено в отдельный слой: подписки, очереди и потоки в одном сервисе.</span>
+                                    </span>
+                                    <span class="pop-host">
+                                        <a class="tool" href="https://aws.amazon.com/sqs/" target="_blank" rel="noreferrer">
+                                            <img class="tool-mark" src="assets/logos/amazon-sqs.svg" alt="">
+                                            Amazon SQS<span class="tool-go">↗</span>
+                                        </a>
+                                        <span class="pop is-center" role="tooltip"><b>Amazon SQS</b> — очередь как облачный сервис: своего сервера нет, платишь за сообщения. Та же задача — передать работу другому обработчику.</span>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="zone" data-zone="db">
+                                <span class="zone-item">
+                                    <img src="assets/logos/mysql.svg" alt="MySQL">
+                                    <span class="pop is-center" role="tooltip"><b>MySQL</b> — только хранение: строки, таблицы, транзакции. Очередью и кэшем быть не пытается.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/mongodb.svg" alt="MongoDB">
+                                    <span class="pop is-center" role="tooltip"><b>MongoDB</b> — документное хранилище. Данные отдаёт быстро, но роль кэша или брокера на себя не берёт.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/clickhouse.svg" alt="ClickHouse">
+                                    <span class="pop is-center" role="tooltip"><b>ClickHouse</b> — аналитическое хранилище: миллиарды строк для отчётов. Чистая база и ничего кроме.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/sqlite.svg" alt="SQLite">
+                                    <span class="pop is-center" role="tooltip"><b>SQLite</b> — база в одном файле рядом с приложением. Ни кэша, ни очередей — только хранение.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="cache">
+                                <span class="zone-item">
+                                    <span class="tool-mono" aria-hidden="true">mc</span>
+                                    <span class="pop is-center" role="tooltip"><b>Memcached</b> — единственный здесь, кто остался чистым кэшем: ключ, значение, TTL, ничего на диске.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="queue">
+                                <span class="zone-item">
+                                    <img src="assets/logos/rabbitmq.svg" alt="RabbitMQ">
+                                    <span class="pop is-center" role="tooltip"><b>RabbitMQ</b> — брокер с маршрутизацией: доставил сообщение и забыл. Хранилищем данных не притворяется.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/amazon-sqs.svg" alt="Amazon SQS">
+                                    <span class="pop is-center" role="tooltip"><b>Amazon SQS</b> — облачная очередь: сообщения приходят и уходят, читать историю заново нельзя.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="cache-db">
+                                <span class="zone-item">
+                                    <img src="assets/logos/couchbase.svg" alt="Couchbase">
+                                    <span class="pop is-center" role="tooltip"><b>Couchbase</b> вырос из memcached: тот же протокол кэша в памяти — плюс диск, индексы и документная модель. Кэш и база одновременно.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="db-queue">
+                                <span class="zone-item">
+                                    <img src="assets/logos/kafka.svg" alt="Apache Kafka">
+                                    <span class="pop is-center" role="tooltip"><b>Apache Kafka</b> хранит сообщения столько, сколько нужно, и умеет транзакции: очередь, из которой можно перечитать всю историю, — по надёжности уровень базы данных.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/postgresql.svg" alt="PostgreSQL">
+                                    <span class="pop is-center" role="tooltip"><b>PostgreSQL</b> с <code>SKIP LOCKED</code> и <code>LISTEN/NOTIFY</code> раздаёт задачи обработчикам: обычная база работает как очередь.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/pulsar.svg" alt="Apache Pulsar">
+                                    <span class="pop is-center" role="tooltip"><b>Apache Pulsar</b> держит сообщения в отдельном слое хранения и уводит старые в объектное хранилище — очередь с архивом на годы.</span>
+                                </span>
+                            </div>
+                            <div class="zone" data-zone="cache-queue">
+                                <span class="zone-item">
+                                    <span class="tool-mono" aria-hidden="true">hz</span>
+                                    <span class="pop is-center" role="tooltip"><b>Hazelcast</b> — кэш в памяти, у которого есть очереди, топики и надёжные задания: кэш и брокер в одном процессе.</span>
+                                </span>
+                            </div>
+                            <div class="zone is-all" data-zone="all">
+                                <span class="zone-item">
+                                    <img src="assets/logos/redis.svg" alt="Redis">
+                                    <span class="pop is-center" role="tooltip"><b>Redis</b> — кэш в памяти, персистентность на диск (AOF/RDB) и потоки с группами потребителей. Все три роли сразу.</span>
+                                </span>
+                                <span class="zone-item">
+                                    <img src="assets/logos/nats.svg" alt="NATS">
+                                    <span class="pop is-center" role="tooltip"><b>NATS</b> с JetStream: шина сообщений, хранение потоков и KV-хранилище с кэшем — тоже все три роли сразу.</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <p class="venn-hint" data-venn-hint></p>
+                    </div>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Раньше было просто: базы отдельно, очереди отдельно, кэши отдельно. Дальше каждый инструмент
+                            дорастал до соседней категории: Redis научился переживать перезапуск и стал хранилищем,
+                            Kafka получила транзакции и надёжность базы, Redis добавил потоки и стал очередью.
+                            Поэтому вопрос «это база или очередь?» бессмысленный — правильный вопрос в том,
+                            какую задачу инструмент закрывает в моей системе.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: система из нескольких компонентов -->
+            <section class="slide" data-slide="8">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Система собирается из нескольких компонентов</h2>
+                    <p class="slide-lead">
+                        Требования стали такими жёсткими и широкими, что <b>отдельная утилита уже не способна
+                        обеспечить все потребности приложения</b>. Работа разбивается на задачи — каждую эффективно
+                        решает свой инструмент.
+                    </p>
+
+                    <!-- Схема повторяет рис. 1.1 книги: «Одна из возможных архитектур
+                         информационной системы, состоящей из нескольких компонентов». -->
+                    <div class="fig">
+                        <svg viewBox="0 0 1720 620" role="img" aria-label="Архитектура информационной системы из нескольких компонентов: клиент через API обращается к коду приложения, которое работает с кэшем, основной базой данных, полнотекстовым индексом и очередью сообщений">
+                            <defs>
+                                <marker id="fig-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+                                    <path d="M0 0 L9 4.5 L0 9 z" fill="#52525b"></path>
+                                </marker>
+                            </defs>
+
+                            <!-- Граница информационной системы -->
+                            <rect class="s-bound" x="120" y="6" width="1410" height="608" rx="10"></rect>
+
+                            <!-- Клиент и API -->
+                            <circle class="s-actor" cx="56" cy="316" r="9"></circle>
+                            <path class="s-actor" d="M56 325 V352 M40 334 H72 M56 352 L46 366 M56 352 L66 366"></path>
+                            <path class="s-line" d="M82 340 H108" marker-end="url(#fig-arrow)"></path>
+                            <rect class="s-api" x="112" y="298" width="11" height="84"></rect>
+                            <text class="t-mini" x="117" y="290" text-anchor="middle">API</text>
+                            <path class="s-line" d="M129 340 H292" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="211" y="322" text-anchor="middle">Клиентские запросы</text>
+
+                            <!-- Код приложения -->
+                            <rect class="s-box" x="298" y="280" width="200" height="120" rx="6"></rect>
+                            <text class="t-node" x="398" y="346" text-anchor="middle">Код приложения</text>
+
+                            <!-- Кэш в оперативной памяти -->
+                            <ellipse class="s-box" cx="399" cy="590" rx="107" ry="14"></ellipse>
+                            <rect class="s-fill" x="292" y="500" width="214" height="90"></rect>
+                            <path class="s-thin" d="M292 500 V590 M506 500 V590"></path>
+                            <ellipse class="s-box" cx="399" cy="500" rx="107" ry="14"></ellipse>
+                            <text class="t-node" x="399" y="528" text-anchor="middle" font-size="15">Кэш в оперативной</text>
+                            <text class="t-node" x="399" y="548" text-anchor="middle" font-size="15">памяти</text>
+                            <text class="t-tool" x="399" y="570" text-anchor="middle">Redis</text>
+
+                            <path class="s-line" d="M352 402 V482" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="342" y="432" text-anchor="end">Запросы на чтение</text>
+                            <text class="t-edge" x="342" y="450" text-anchor="end">сначала проверяют,</text>
+                            <text class="t-edge" x="342" y="468" text-anchor="end">не кэшированы ли данные</text>
+
+                            <path class="s-line" d="M446 484 V404" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="456" y="441">Неудачные обращения</text>
+                            <text class="t-edge" x="456" y="459">к кэшу и записи в кэш</text>
+
+                            <!-- Основная база данных -->
+                            <ellipse class="s-box" cx="759" cy="398" rx="107" ry="14"></ellipse>
+                            <rect class="s-fill" x="652" y="308" width="214" height="90"></rect>
+                            <path class="s-thin" d="M652 308 V398 M866 308 V398"></path>
+                            <ellipse class="s-box" cx="759" cy="308" rx="107" ry="14"></ellipse>
+                            <text class="t-node" x="759" y="336" text-anchor="middle" font-size="15">Основная</text>
+                            <text class="t-node" x="759" y="356" text-anchor="middle" font-size="15">база данных</text>
+                            <text class="t-tool" x="759" y="378" text-anchor="middle">PostgreSQL</text>
+                            <path class="s-line" d="M502 352 H646" marker-end="url(#fig-arrow)"></path>
+
+                            <!-- Полнотекстовый индекс -->
+                            <ellipse class="s-box" cx="759" cy="258" rx="107" ry="14"></ellipse>
+                            <rect class="s-fill" x="652" y="168" width="214" height="90"></rect>
+                            <path class="s-thin" d="M652 168 V258 M866 168 V258"></path>
+                            <ellipse class="s-box" cx="759" cy="168" rx="107" ry="14"></ellipse>
+                            <text class="t-node" x="759" y="196" text-anchor="middle" font-size="15">Полнотекстовый</text>
+                            <text class="t-node" x="759" y="216" text-anchor="middle" font-size="15">индекс</text>
+                            <text class="t-tool" x="759" y="238" text-anchor="middle">Elasticsearch</text>
+                            <path class="s-line" d="M500 296 C 560 240 592 212 644 209" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="556" y="182" text-anchor="middle">Запросы на поиск</text>
+
+                            <!-- Очередь сообщений -->
+                            <rect class="s-box" x="1008" y="10" width="168" height="108" rx="4"></rect>
+                            <path class="s-thin" d="M1028 22 V106 M1048 22 V106 M1068 22 V106 M1088 22 V106 M1108 22 V106 M1128 22 V106 M1148 22 V106"></path>
+                            <text class="t-node" x="1092" y="140" text-anchor="middle" font-size="15">Очередь сообщений</text>
+                            <text class="t-tool" x="1092" y="158" text-anchor="middle">Apache Kafka</text>
+                            <path class="s-line" d="M398 278 V90 Q398 66 422 66 H1004" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="700" y="50" text-anchor="middle">Асинхронные задачи</text>
+
+                            <!-- Код приложения → внешний мир -->
+                            <rect class="s-box" x="1288" y="10" width="180" height="108" rx="6"></rect>
+                            <text class="t-node" x="1378" y="70" text-anchor="middle" font-size="15">Код приложения</text>
+                            <path class="s-line" d="M1180 64 H1284" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="1378" y="142" text-anchor="middle">Например,</text>
+                            <text class="t-edge" x="1378" y="160" text-anchor="middle">отправка сообщений</text>
+                            <text class="t-edge" x="1378" y="178" text-anchor="middle">электронной почты</text>
+                            <path class="s-line" d="M1472 64 H1554" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-node" x="1620" y="70" text-anchor="middle">«Внешний мир»</text>
+
+                            <!-- Код приложения: перехват изменений -->
+                            <rect class="s-box" x="1008" y="470" width="200" height="120" rx="6"></rect>
+                            <text class="t-node" x="1108" y="536" text-anchor="middle">Код приложения</text>
+                            <path class="s-line" d="M870 352 H950 Q972 352 972 374 V508 Q972 530 994 530 H1002" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="962" y="432" text-anchor="end">Перехват изменений</text>
+                            <text class="t-edge" x="962" y="450" text-anchor="end">в данных</text>
+
+                            <path class="s-line" d="M1108 468 V232 Q1108 209 1086 209 H870" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="1122" y="380">Применение изменений</text>
+                            <text class="t-edge" x="1122" y="398">к поисковому индексу</text>
+
+                            <path class="s-line" d="M1004 545 H510" marker-end="url(#fig-arrow)"></path>
+                            <text class="t-edge" x="760" y="512" text-anchor="middle">Сделать кэш недействительным</text>
+                            <text class="t-edge" x="760" y="530" text-anchor="middle">или обновить</text>
+                        </svg>
+
+                        <!-- Названия инструментов на схеме — с пояснением по наведению.
+                             SVG нарисован в тех же пикселях, что и выводится (1720×620),
+                             поэтому накладки стоят прямо по координатам подписей. -->
+                        <span class="svg-tip" style="left: 399px; top: 566px; width: 48px;">
+                            <span class="pop is-center" role="tooltip"><b>Redis</b> — хранилище структур данных в памяти. Здесь стоит перед базой как кэш: отвечает за микросекунды и снимает с базы повторяющиеся чтения.</span>
+                        </span>
+                        <span class="svg-tip" style="left: 759px; top: 374px; width: 84px;">
+                            <span class="pop is-center" role="tooltip"><b>PostgreSQL</b> — реляционная СУБД с транзакциями и надёжным хранением на диске. Здесь это источник правды: всё остальное — производные от неё представления.</span>
+                        </span>
+                        <span class="svg-tip" style="left: 759px; top: 234px; width: 106px;">
+                            <span class="pop is-center" role="tooltip"><b>Elasticsearch</b> — поисковый движок на инвертированном индексе: полнотекстовый поиск, фильтры и агрегации, которых обычная база так быстро не даёт.</span>
+                        </span>
+                        <span class="svg-tip" style="left: 1092px; top: 154px; width: 98px;">
+                            <span class="pop is-center" role="tooltip"><b>Apache Kafka</b> — распределённый журнал событий. Сюда складываются асинхронные задачи, а разбирают их отдельные обработчики в своём темпе.</span>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Одним инструментом современное приложение уже не закрыть. Хранение — в PostgreSQL, быстрое чтение —
+                            в Redis, поиск — в Elasticsearch, события — в Kafka. Клиент об этом зоопарке ничего не знает:
+                            он видит один API. То есть мы своими руками собрали новую информационную систему
+                            из готовых универсальных кусков.
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SLIDE: компоненты нужно связать (демонстрация рассинхрона) -->
+            <section class="slide" data-slide="9">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Эти компоненты нужно грамотно связать</h2>
+                    <p class="slide-lead">
+                        Инструменты не знают друг о друге: <b>синхронизация кэшей и индексов с основной базой данных
+                        становится обязанностью кода приложения</b>.
+                    </p>
+
+                    <div data-sync>
+                    <div class="scene is-big" style="height: 500px;">
+                        <svg class="scene-wires" width="1720" height="500" viewBox="0 0 1720 500" aria-hidden="true">
+                            <defs>
+                                <marker id="arrow-sync" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+                                    <path d="M0 0 L9 4.5 L0 9 z" fill="#3f3f46" stroke="none"></path>
+                                </marker>
+                            </defs>
+                            <path d="M270 260 H372" marker-end="url(#arrow-sync)"></path>
+                            <path d="M700 260 H740"></path>
+                            <path d="M740 130 V390"></path>
+                            <path d="M740 130 H792" marker-end="url(#arrow-sync)"></path>
+                            <path d="M740 390 H792" marker-end="url(#arrow-sync)"></path>
+                            <path d="M1200 390 H1260 V260 H1302" marker-end="url(#arrow-sync)"></path>
+                            <text x="744" y="118">запись</text>
+                            <text x="1214" y="428">чтение через кэш</text>
+                        </svg>
+
+                        <div class="node" style="left: 0; top: 185px; width: 270px; height: 150px;">
+                            <b>Пользователь</b>
+                            <span>меняет имя в профиле</span>
+                        </div>
+                        <div class="node is-hub" style="left: 380px; top: 185px; width: 320px; height: 150px;">
+                            <b>Приложение</b>
+                            <span>код, который всё связывает</span>
+                        </div>
+                        <div class="node c-db" style="left: 800px; top: 35px; width: 400px; height: 190px;">
+                            <em>основное хранилище</em>
+                            <b>PostgreSQL</b>
+                            <span class="sync-value" data-sync-db>Аня</span>
+                        </div>
+                        <div class="node c-cache" style="left: 800px; top: 295px; width: 400px; height: 190px;">
+                            <em>кэш</em>
+                            <b>Redis</b>
+                            <span class="sync-value" data-sync-cache>Аня</span>
+                        </div>
+                        <div class="node" style="left: 1310px; top: 185px; width: 410px; height: 150px;">
+                            <b>Клиент видит</b>
+                            <span class="sync-value" data-sync-client>Аня</span>
+                        </div>
+                    </div>
+
+                    <div class="sync-bar">
+                        <button class="sync-btn" type="button" data-sync-btn>Пользователь меняет имя на «Анна»</button>
+                        <p class="sync-hint" data-sync-hint>Пока данные согласованы: в хранилище и в кэше одно и то же имя, клиент видит его же.</p>
+                    </div>
+                    </div>
+
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Смотрите, что происходит. Пользователь поменял имя — PostgreSQL записал новое, а Redis об этом не узнал.
+                            Клиент читает через кэш и видит старое. Никто не виноват: инструменты друг о друге просто не знают,
+                            связать их — работа нашего кода. И задача не в том, чтобы таких ситуаций не случалось никогда,
+                            а в том, чтобы система из них корректно выходила.
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SLIDE: разработчик = архитектор -->
+            <section class="slide" data-slide="10">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Разработчик думает как архитектор</h2>
+                    <p class="slide-lead">
+                        К этому приводит простая цепочка — и вместе с ней появляются <b>три свойства системы</b>,
+                        о которых теперь приходится думать в первую очередь.
+                    </p>
+
+                    <div class="road" data-road>
+                        <div class="road-line">
+                            <span class="road-track" aria-hidden="true"><i class="road-fill" data-road-fill></i></span>
+                            <div class="road-node" data-road-node data-note="У приложения не одна потребность, а несколько разных: <b>хранить</b> данные, <b>быстро отдавать</b> их, <b>искать</b> по ним и <b>обрабатывать асинхронно</b>. Каждая задача — со своими паттернами доступа.">
+                                <span class="road-dot" aria-hidden="true"></span>
+                                <span class="road-num">01</span>
+                                <b>Разные задачи</b>
+                            </div>
+                            <div class="road-node" data-road-node data-note="Паттерны доступа разные — значит, разные характеристики производительности и очень разные реализации. <b>Отдельная утилита уже не способна обеспечить все потребности</b> приложения в обработке и хранении данных.">
+                                <span class="road-dot" aria-hidden="true"></span>
+                                <span class="road-num">02</span>
+                                <b>Разные инструменты</b>
+                            </div>
+                            <div class="road-node" data-road-node data-note="Работа разбивается на отдельные задачи, каждую эффективно выполняет свой инструмент: PostgreSQL, Redis, Elasticsearch, Kafka. <b>Из универсальных компонентов получается новая специализированная информационная система.</b>">
+                                <span class="road-dot" aria-hidden="true"></span>
+                                <span class="road-num">03</span>
+                                <b>Несколько компонентов в одной системе</b>
+                            </div>
+                            <div class="road-node" data-road-node data-note="Redis не знает про запись в PostgreSQL, а Elasticsearch — про то, что документ удалили. Инструменты <b>ничего не знают ни друг о друге, ни о бизнес-логике</b>, ради которой их поставили рядом.">
+                                <span class="road-dot" aria-hidden="true"></span>
+                                <span class="road-num">04</span>
+                                <b>Компоненты не знают бизнес-логику друг друга</b>
+                            </div>
+                            <div class="road-node" data-road-node data-note="Синхронизация кэшей и индексов с основной базой данных <b>становится обязанностью кода приложения</b>. Гарантии — что кэш будет корректно сделан недействительным или обновлён при записи — тоже даёт он.">
+                                <span class="road-dot" aria-hidden="true"></span>
+                                <span class="road-num">05</span>
+                                <b>Код приложения должен их связать</b>
+                            </div>
+                            <div class="road-node is-last" data-road-node data-note="Он отвечает уже не за один компонент, а за поведение всей системы: правильность и полнота данных при внутренних ошибках, производительность при деградации частей, масштабирование под нагрузку и качество API.">
+                                <span class="road-dot" aria-hidden="true"></span>
+                                <span class="road-num">06</span>
+                                <b>Разработчик = архитектор</b>
+                            </div>
+                        </div>
+
+                        <div class="road-note" data-road-note></div>
+                        <p class="road-hint" data-road-hint></p>
+                    </div>
+
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Цепочка простая и неизбежная: разные задачи требуют разных инструментов, инструментов становится несколько,
+                            друг про друга они ничего не знают — и связать их может только наш код. В этот момент мы перестаём быть
+                            «просто разработчиками» — и появляются свойства системы, за которые отвечаем уже мы. О них — следующий слайд.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: три свойства системы, за которые отвечает архитектор -->
+            <section class="slide" data-slide="11">
+                <div class="content-slide">
+                    <h2 class="gradient-text">За что теперь отвечает разработчик</h2>
+                    <p class="slide-lead">
+                        Раз мы отвечаем за систему целиком, приходится думать и о её свойствах. Из всех факторов,
+                        влияющих на конструкцию системы, в большинстве программных систем книга выделяет
+                        <b>три</b> — им посвящены три раздела главы и три доклада сегодняшнего вечера.
+                    </p>
+
+                    <div class="props">
+                        <div class="prop">
+                            <b>Надёжность</b>
+                            <p>Система должна продолжать работать корректно (осуществлять нужные функции на требуемом уровне производительности) даже при неблагоприятных обстоятельствах — в случае аппаратных или программных сбоев либо ошибок пользователя.</p>
+                            <div class="prop-foot">
+                                <em>раздел 1.2</em>
+                                <a class="prop-speaker" href="https://bc-117-designing-data-intensive-applications-1-2-nikiforov.pages.dev" target="_blank" rel="noreferrer">
+                                    <img src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span>Артём Никифоров</span>
+                                    <span class="prop-go">↗</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="prop">
+                            <b>Масштабируемость</b>
+                            <p>Должны быть предусмотрены разумные способы решения возникающих при росте системы проблем — росте в смысле объёмов данных, трафика или сложности.</p>
+                            <div class="prop-foot">
+                                <em>раздел 1.3</em>
+                                <a class="prop-speaker" href="https://bc-117-designing-data-intensive-applications-1-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">
+                                    <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span>Антон Помазков</span>
+                                    <span class="prop-go">↗</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="prop">
+                            <b>Удобство сопровождения</b>
+                            <p>Необходимо обеспечить возможность эффективной работы с системой множеству различных людей: разработчикам и обслуживающему персоналу, занимающимся как поддержкой текущего функционирования, так и адаптацией системы к новым сценариям применения.</p>
+                            <div class="prop-foot">
+                                <em>раздел 1.4</em>
+                                <a class="prop-speaker" href="https://bc-117-designing-data-intensive-applications-1-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">
+                                    <img src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span>Артём Никифоров</span>
+                                    <span class="prop-go">↗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Это три слова, вокруг которых крутится вся первая глава — и весь сегодняшний вечер.
+                            Формулировки взяты у Клеппмана дословно: важно, что каждая из них про поведение системы целиком,
+                            а не про отдельный компонент. Дальше в вечере: надёжность — раздел 1.2, масштабируемость — 1.3,
+                            удобство сопровождения — 1.4.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: итог -->
+            <section class="slide" data-slide="12">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Итог</h2>
+                    <p class="slide-lead">Главная цепочка доклада — от инструмента к системе.</p>
+
+                    <div class="sums">
+                        <div class="sum">
+                            <span class="sum-num">01</span>
+                            <b>Нет «одного правильного инструмента»</b>
+                            <p>
+                                Границы между категориями размылись: Redis — хранилище в роли очереди, Kafka —
+                                очередь с надёжностью базы данных. <b>Смотрим не на ярлык, а на задачу</b>,
+                                которую инструмент решает в конкретной архитектуре.
+                            </p>
+                        </div>
+                        <div class="sum">
+                            <span class="sum-num">02</span>
+                            <b>Система из нескольких компонентов</b>
+                            <p>
+                                Хранилище, кэш, поисковый индекс, очередь — <b>каждый компонент закрывает свою
+                                задачу</b>, а снаружи это один API, за которым клиент не видит подробностей
+                                реализации.
+                            </p>
+                        </div>
+                        <div class="sum">
+                            <span class="sum-num">03</span>
+                            <b>Их нужно грамотно связать</b>
+                            <p>
+                                Инструменты не знают друг о друге: изменили имя в PostgreSQL — Redis остался
+                                со старым. <b>Синхронизация — обязанность кода приложения</b>, и цель не в том,
+                                чтобы сбоев не было, а в том, чтобы система из них корректно выходила.
+                            </p>
+                        </div>
+                        <div class="sum is-last">
+                            <span class="sum-num">04</span>
+                            <b>Разработчик думает как архитектор</b>
+                            <p>
+                                Он отвечает за поведение всей системы, а книга сводит это к трём свойствам:
+                                <b>надёжность, масштабируемость и удобство сопровождения</b>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <blockquote class="verdict">
+                        <img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
+                        <div>
+                            <p class="verdict-text">
+                                Современное приложение — это <b>не программа и не база данных,
+                                а информационная система</b>, а разработчик — тот, кто проектирует её поведение.
+                            </p>
+                            <cite>вывод по главе 1 книги «Высоконагруженные приложения» Мартина Клеппмана</cite>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <div class="me">
+                    <button class="me-btn" type="button">
+                        <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                        <span>Антон Помазков</span>
+                    </button>
+                    <div class="me-panel">
+                            Если запомнить из доклада одно — вот это. Инструмент выбирается под задачу, а не наоборот.
+                            Задач у приложения несколько, поэтому и инструментов несколько. Связывать их приходится нам,
+                            и вместе с этим на нас ложится ответственность за поведение всей системы.
+                            Дальше книга разбирает три её свойства: надёжность, масштабируемость и удобство сопровождения.
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="13" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-117-designing-data-intensive-applications-1-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Подходы к работе над информационными системами</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-117-designing-data-intensive-applications-1-2-nikiforov.pages.dev" target="_blank" rel="noreferrer">Надежность</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-117-designing-data-intensive-applications-1-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">Масштабируемость</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-117-designing-data-intensive-applications-1-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Удобство сопровождения</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов этого доклада -->
+    <script src="assets/js/talk.js"></script>
+
+</body>
+</html>

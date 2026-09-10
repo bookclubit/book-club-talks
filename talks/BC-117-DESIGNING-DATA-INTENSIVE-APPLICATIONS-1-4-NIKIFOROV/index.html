@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удобство сопровождения — Высоконагруженные приложения. Программирование, масштабирование, поддержка</title>
+    <meta name="description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Удобство сопровождения — Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+    <meta property="og:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <meta property="og:image" content="https://bc-117-designing-data-intensive-applications-1-4-nikiforov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Удобство сопровождения — Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+    <meta name="twitter:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <meta name="twitter:image" content="https://bc-117-designing-data-intensive-applications-1-4-nikiforov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 1</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Надежные, масштабируемые и удобные в сопровождении приложения</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Удобство сопровождения</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank">
+                                    <img class="book-cover" src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank">
+                                    Высоконагруженные приложения. Программирование, масштабирование, поддержка
+                                </a>
+                                <p class="book-subtitle">
+                                    Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems
+                                </p>
+                                <p class="book-desc-ru">
+                                    Главная книга для тех, кто хочет научиться создавать крупные, быстрые и надежные ИТ-системы вроде Telegram, Netflix или крупных интернет-магазинов.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://martin.kleppmann.com/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман">
+                                    <div class="author-info">
+                                        <div class="author-name">Мартин Клеппман</div>
+                                        <div class="author-link-text">martin.kleppmann.com ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/Frich22" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/nikiforov-artem.webp" alt="Артём Никифоров">
+                                <div class="author-info">
+                                    <div class="author-name">Артём Никифоров</div>
+                                    <div class="author-link-text">t.me/Frich22 ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+                        <section class="slide" data-slide="3">
+                <style>
+                    /* ===== Контентные слайды спикера (вне «хром»-маркеров) ===== */
+                    .cs { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: 0 140px; box-sizing: border-box; }
+                    .cs .badge { align-self: flex-start; margin-bottom: 28px; }
+                    .cs h2 { font-size: 54px; margin-bottom: 16px; }
+                    .cs .cs-lead { font-size: 23px; line-height: 1.55; color: var(--text-muted); max-width: 1560px; margin: 0; }
+                    .cs .cs-lead b { color: #fff; font-weight: 600; }
+                    .cs-cards { display: grid; gap: 24px; margin-top: 36px; }
+                    .cs-cards.c2 { grid-template-columns: repeat(2, 1fr); }
+                    .cs-cards.c3 { grid-template-columns: repeat(3, 1fr); }
+                    .cs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 34px; }
+                    .cs-card h3 { font-size: 24px; margin: 0 0 14px 0; color: #fff; }
+                    .cs-card p { font-size: 18px; line-height: 1.6; margin: 0; color: var(--text-muted); }
+                    .cs-card p + p { margin-top: 12px; }
+                    .cs-card b, .cs-list b, .cs-callout b, .cs-table b, .cs-chip b { color: #fff; font-weight: 600; }
+                    .cs-num { font-family: var(--font-mono); font-size: 14px; color: #71717a; display: block; margin-bottom: 12px; letter-spacing: 0.1em; }
+                    .cs-list { list-style: none; margin: 32px 0 0 0; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+                    .cs-list li { display: flex; gap: 20px; align-items: flex-start; font-size: 21px; line-height: 1.55; color: var(--text-main); max-width: 1560px; }
+                    .cs-list li::before { content: '—'; color: #555; flex-shrink: 0; }
+                    .cs-list.tight { gap: 14px; }
+                    .cs-list.tight li { font-size: 19px; }
+                    .cs-list.mini { gap: 10px; margin-top: 0; }
+                    .cs-list.mini li { font-size: 17px; line-height: 1.5; color: var(--text-muted); gap: 12px; }
+                    .cs-card .cs-list { margin-top: 0; }
+                    .cs-callout { margin-top: 32px; border-left: 3px solid #fff; background: rgba(255,255,255,0.04); border-radius: 0 12px 12px 0; padding: 20px 28px; font-size: 20px; line-height: 1.55; color: var(--text-muted); max-width: 1640px; }
+                    .cs-callout.quote { font-style: italic; }
+                    .cs-note { margin-top: 26px; font-size: 18px; line-height: 1.5; color: #71717a; max-width: 1560px; }
+                    .cs-two { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; margin-top: 30px; align-items: start; }
+                    .cs-two .cs-cards, .cs-two .cs-list { margin-top: 0; }
+                    /* Симптомы сложности и причины перемен — «чипсы». */
+                    .cs-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; max-width: 1600px; }
+                    .cs-chip { font-size: 17px; line-height: 1.3; padding: 9px 18px; border-radius: 9999px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-main); }
+                    /* Таблица. */
+                    .cs-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 19px; line-height: 1.5; }
+                    .cs-table th { text-align: left; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #71717a; font-weight: 500; padding: 0 24px 14px 0; border-bottom: 1px solid var(--border); }
+                    .cs-table td { padding: 16px 24px 16px 0; border-bottom: 1px solid #1c1c1c; color: var(--text-muted); vertical-align: top; }
+                    .cs-table td:first-child { color: var(--text-main); font-weight: 500; width: 33%; }
+                    .cs-table.c3 td:first-child { width: 20%; }
+                    .cs-table tr:last-child td { border-bottom: none; }
+                </style>
+                <div class="cs">
+                    <div class="badge">Раздел 1.4 · Зачем это</div>
+                    <h2 class="gradient-text">Сопровождение дороже разработки</h2>
+                    <p class="cs-lead">Большая часть стоимости софта — не изначальная разработка, а текущее сопровождение: исправление ошибок, поддержание работоспособности подсистем, расследование отказов, адаптация к новым платформам, модификация под новые сценарии, возврат технического долга, новые возможности.</p>
+                    <div class="cs-callout">Многие ненавидят сопровождать унаследованные (legacy) системы: чужие ошибки, устаревшие платформы, системы, которые заставили делать то, для чего они не предназначены. Каждая такая система неприятна по-своему — общих рецептов нет. Но можно проектировать так, чтобы <b>не создавать унаследованные системы своими руками</b>. Для этого — три принципа.</div>
+                    <div class="cs-cards c3">
+                        <div class="cs-card">
+                            <span class="cs-num">01 · OPERABILITY</span>
+                            <h3>Удобство эксплуатации</h3>
+                            <p>Обслуживающему персоналу легко поддерживать беспрепятственную работу системы.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">02 · SIMPLICITY</span>
+                            <h3>Простота</h3>
+                            <p>Новым инженерам легко понять систему — за счёт максимально возможного её упрощения. <b>Это не то же самое, что простота пользовательского интерфейса.</b></p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">03 · EVOLVABILITY</span>
+                            <h3>Возможность развития</h3>
+                            <p>Разработчикам легко вносить изменения и адаптировать систему под непредвиденные сценарии. Другие имена: расширяемость, модифицируемость, пластичность.</p>
+                        </div>
+                    </div>
+                    <p class="cs-note">Простых решений нет — как и с надёжностью и масштабируемостью. Эти три принципа нужно просто держать в голове при проектировании.</p>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Принцип 1 · Удобство эксплуатации</div>
+                    <h2 class="gradient-text">Хороший софт не компенсирует плохую эксплуатацию</h2>
+                    <p class="cs-lead">«Хороший обслуживающий персонал часто может обойти ограничения плохого ПО, но хорошее ПО не способно надёжно работать под управлением плохих операторов» — Джей Крепс, один из создателей Kafka. Операторы здесь — те, кто держит систему в проде: ops, SRE, дежурный инженер. Автоматизировать можно и нужно, но настроить автоматизацию и проверить, что она работает правильно, — всё равно задача людей.</p>
+                    <div class="cs-two">
+                        <div class="cs-card">
+                            <h3>За что отвечают операторы</h3>
+                            <ul class="cs-list mini">
+                                <li><span><b>Следят</b> за состоянием системы и восстанавливают сервис после сбоев.</span></li>
+                                <li><span><b>Ищут причины</b> отказов и просадок производительности.</span></li>
+                                <li><span><b>Обновляют</b> ПО и платформы, включая исправления безопасности; внедряют практики деплоя и управления конфигурацией.</span></li>
+                                <li><span><b>Отслеживают</b>, как системы влияют друг на друга, и останавливают проблемное изменение до ущерба.</span></li>
+                                <li><span><b>Планируют мощности</b> (capacity planning) заранее и <b>сохраняют знания</b> о системе при смене людей.</span></li>
+                            </ul>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Что система может сделать для операторов</h3>
+                            <ul class="cs-list mini">
+                                <li><span><b>Наблюдаемость:</b> хороший мониторинг и видимость того, что происходит внутри во время работы.</span></li>
+                                <li><span>Поддержка автоматизации и интеграция со стандартными утилитами.</span></li>
+                                <li><span>Независимость от отдельных машин: одну можно вывести на обслуживание, система продолжает работать.</span></li>
+                                <li><span>Качественная документация и понятная операционная модель: <b>«сделаю X — произойдёт Y»</b>, минимум неожиданностей.</span></li>
+                                <li><span>Разумные настройки по умолчанию и самовосстановление где возможно — но с возможностью оператору вмешаться и переопределить.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Удобство эксплуатации — это когда <b>стандартные задачи делаются легко</b>, а люди тратят силы на то, что действительно важно.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Принцип 2 · Простота</div>
+                    <h2 class="gradient-text">Простота: регулируем сложность</h2>
+                    <p class="cs-lead">Код маленького проекта бывает восхитительно простым и выразительным, а по мере роста превращается в <b>«большой ком грязи»</b> (Big Ball of Mud). Сложность замедляет всех, кто работает над системой, и увеличивает стоимость сопровождения. Симптомы узнаваемы:</p>
+                    <div class="cs-chips">
+                        <span class="cs-chip">взрывной рост числа состояний</span>
+                        <span class="cs-chip">тесная связанность модулей (tight coupling)</span>
+                        <span class="cs-chip">запутанные зависимости</span>
+                        <span class="cs-chip">несогласованные наименования и терминология</span>
+                        <span class="cs-chip">«костыли» ради производительности</span>
+                        <span class="cs-chip">частные случаи для обхода проблем</span>
+                    </div>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Цена сложности</h3>
+                            <p>Превышение бюджетов и срыв сроков. Больше шансов внести ошибку при изменении: когда систему трудно понять и обсуждать, легче упустить скрытые допущения, непреднамеренные последствия и неожиданные взаимодействия. Снижение сложности резко повышает удобство сопровождения — <b>простота должна быть основной целью</b>.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Побочная сложность vs неотъемлемая</h3>
+                            <p>Упростить систему — не обязательно урезать функциональность. Мозли и Маркс («Out of the Tar Pit», 2006) делят сложность на <b>неотъемлемую</b> (essential) — она в самой задаче пользователя — и <b>побочную</b> (accidental) — она от нашей конкретной реализации. Убирать нужно именно побочную.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Один из лучших инструментов против побочной сложности — <b>абстракция</b>: спрятать подробности реализации за аккуратным фасадом и переиспользовать во многих приложениях. Языки высокого уровня скрывают машинный код и регистры; SQL скрывает структуры данных на диске и в памяти, параллельные запросы других клиентов и несогласованность после сбоев. Найти хорошую абстракцию очень непросто — особенно в распределённых системах.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Принцип 3 · Возможность развития</div>
+                    <h2 class="gradient-text">Требования не останутся неизменными. Никогда.</h2>
+                    <p class="cs-lead">Вероятность того, что системные требования навсегда останутся прежними, стремится к нулю. Гораздо вероятнее их постоянное преобразование:</p>
+                    <div class="cs-chips">
+                        <span class="cs-chip">открываются новые факты</span>
+                        <span class="cs-chip">непредвиденные сценарии применения</span>
+                        <span class="cs-chip">меняются коммерческие приоритеты</span>
+                        <span class="cs-chip">пользователи требуют новых возможностей</span>
+                        <span class="cs-chip">новые платформы заменяют старые</span>
+                        <span class="cs-chip">меняются правовые и нормативные требования</span>
+                        <span class="cs-chip">рост системы требует архитектурных изменений</span>
+                    </div>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <h3>Agile — но на каком масштабе?</h3>
+                            <p>На уровне процессов адаптацию к изменениям даёт Agile; на уровне кода — разработка через тестирование (TDD) и рефакторинг. Но обсуждают их обычно в маленьком масштабе: <b>пара файлов исходного кода в одном приложении</b>.</p>
+                        </div>
+                        <div class="cs-card">
+                            <h3>Развитие на уровне информационной системы</h3>
+                            <p>Книга ищет способы ускорить адаптацию на уровне больших систем из нескольких приложений и сервисов. Пример из доклада Антона про раздел 1.3: как перевести живой Twitter с подхода 1, где лента собирается при чтении, на подход 2, где твиты раскладываются по лентам подписчиков при записи?</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Удобство модификации тесно связано с простотой и абстракциями: простую и понятную систему менять легче. Но это настолько важно, что для быстроты адаптации на уровне целой информационной системы книга вводит отдельный термин — <b>возможность развития (evolvability)</b>.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Не из книги · Примеряем на фронтенд</div>
+                    <h2 class="gradient-text">Три принципа — в нашем репозитории</h2>
+                    <p class="cs-lead">Клеппман говорит об информационных системах, но все три принципа звучат знакомо каждому, кто открывал чужой фронтенд-проект трёхлетней давности.</p>
+                    <table class="cs-table c3">
+                        <tr><th>Принцип</th><th>Как звучит в нашем проекте</th><th>Что помогает</th></tr>
+                        <tr><td>Удобство эксплуатации</td><td>Релиз и откат, конфиги и флаги, ошибки в проде; «сделаю X — произойдёт Y» про пайплайн и окружения</td><td><b>Наблюдаемость</b>: мониторинг ошибок, RUM (мониторинг реальных пользователей), Web Vitals; воспроизводимые сборки; документация «как выкатить и как откатить»; разумные дефолты</td></tr>
+                        <tr><td>Простота</td><td>Разросшееся состояние UI, тесно сцепленные компоненты, «костыли» на useEffect, три способа сделать одно и то же</td><td>Дизайн-система и переиспользуемые компоненты как <b>абстракции</b>; убирать побочную сложность, а не функциональность</td></tr>
+                        <tr><td>Возможность развития</td><td>Внутри приложения: классы → хуки, CRA → Vite, Next.js Pages → App Router. На уровне системы: смена контракта API (REST → GraphQL или BFF), выделение микрофронтенда, новое требование закона, которое трогает фронт, бэк и аналитику сразу</td><td>Явные границы модулей и контрактов, <b>тесты как страховка рефакторинга</b>, постепенная миграция вместо переписывания с нуля</td></tr>
+                    </table>
+                    <div class="cs-callout">Вопрос к своему репозиторию: сколько стоит изменение, которое пользователю кажется маленьким? Это и есть измеримая <b>возможность развития</b>.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Что забрать с собой</div>
+                    <h2 class="gradient-text">Удобство сопровождения — в четырёх строках</h2>
+                    <ul class="cs-list">
+                        <li><span><b>Сопровождение дороже разработки.</b> Проектируем так, чтобы не создавать унаследованные системы своими руками.</span></li>
+                        <li><span><b>Удобство эксплуатации = наблюдаемость + управляемость.</b> Хороший мониторинг состояния системы и эффективные способы управлять этим состоянием; стандартные задачи делаются легко.</span></li>
+                        <li><span><b>Простота — основная цель.</b> Убираем побочную сложность, а не функциональность; инструмент — хорошие абстракции.</span></li>
+                        <li><span><b>Возможность развития — отдельный принцип, опирающийся на простоту.</b> Требования изменятся обязательно; простую систему адаптировать легче, а книга ищет, как ускорять изменения на уровне целой системы, а не пары файлов.</span></li>
+                    </ul>
+                    <div class="cs-callout">Резюме главы: лёгкого пути к надёжности, масштабируемости и удобству сопровождения нет. Но есть <b>паттерны и методики, которые встречаются снова и снова</b> — им и посвящена остальная книга.</div>
+                </div>
+            </section>
+
+
+<section class="slide" data-slide="9" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-117-designing-data-intensive-applications-1-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Подходы к работе над информационными системами</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-117-designing-data-intensive-applications-1-2-nikiforov.pages.dev" target="_blank" rel="noreferrer">Надежность</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-117-designing-data-intensive-applications-1-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">Масштабируемость</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Удобство сопровождения</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+
+</body>
+</html>

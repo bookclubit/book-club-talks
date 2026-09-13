@@ -6,17 +6,86 @@
 
 /* ===== Базовый каркас дека (viewport, слайды, типографика, тултипы) ===== */
 
+/* ===== Палитра =====
+   Тёмная тема — значения по умолчанию, светлая целиком собирается
+   переопределением этих же токенов на <html data-theme="light">.
+   Правило простое: в самих правилах цветов-литералов быть не должно,
+   иначе слайд перестанет переключаться вместе с остальным деком. */
 :root {
+    color-scheme: dark;
+
+    /* Подложки: от самой глубокой к «поднятой» */
     --bg: #000000;
+    --bg-rgb: 10, 10, 10;
+    --bg-sunken: #101010;
     --bg-card: #0a0a0a;
     --bg-hover: #171717;
+    --bg-active: #27272a;
+
+    /* Рамки: от еле заметной до активной */
+    --border-soft: #222222;
     --border: #333333;
     --border-hover: #444444;
+    --border-mid: #3f3f46;
+    --border-strong: #555555;
+
+    /* Текст: от главного до самого приглушённого */
     --text-main: #ededed;
+    --text-soft: #d4d4d8;
     --text-muted: #a1a1aa;
+    --text-dim: #71717a;
+    --text-faint: #52525b;
     --accent: #ffffff;
+
+    /* Накладки и тени: --tint-rgb подсвечивает поверхность «своим» цветом
+       темы, --shadow-k делает тени в светлой теме кратно мягче. */
+    --tint-rgb: 255, 255, 255;
+    --shadow-rgb: 0, 0, 0;
+    --shadow-k: 1;
+
+    /* Подсветка кода и терминов */
+    --s-kw: #f87171;
+    --s-str: #34d399;
+    --s-com: #52525b;
+    --s-var: #60a5fa;
+    --s-key: #e879f9;
+
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+}
+
+:root[data-theme='light'] {
+    color-scheme: light;
+
+    --bg: #ffffff;
+    --bg-rgb: 255, 255, 255;
+    --bg-sunken: #f4f4f5;
+    --bg-card: #fafafa;
+    --bg-hover: #f1f1f3;
+    --bg-active: #e4e4e7;
+
+    --border-soft: #ededef;
+    --border: #e1e1e5;
+    --border-hover: #d0d0d6;
+    --border-mid: #c9c9d1;
+    --border-strong: #b4b4be;
+
+    --text-main: #18181b;
+    --text-soft: #3f3f46;
+    --text-muted: #52525b;
+    --text-dim: #71717a;
+    --text-faint: #8f8f99;
+    --accent: #09090b;
+
+    --tint-rgb: 24, 24, 27;
+    --shadow-rgb: 24, 24, 27;
+    --shadow-k: 0.16;
+
+    --s-kw: #c2410c;
+    --s-str: #047857;
+    --s-com: #8f8f99;
+    --s-var: #1d4ed8;
+    --s-key: #a21caf;
 }
 
 html, body {
@@ -42,7 +111,7 @@ h3 { font-size: 32px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 
 p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 24px; }
 
 .gradient-text {
-    background: linear-gradient(135deg, #ffffff 0%, #71717a 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--text-dim) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -73,7 +142,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     to { max-width: 1200px; opacity: 1; padding-left: 16px; }
 }
 .title-x {
-    font-size: 22px; font-weight: 400; color: #52525b; line-height: 1;
+    font-size: 22px; font-weight: 400; color: var(--text-faint); line-height: 1;
 }
 /* Название темы появляется после того, как пузыри разошлись. */
 .slide.active .title-tags + h1 {
@@ -114,10 +183,10 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     font-family: var(--font-mono); font-size: 14px; color: var(--text-muted);
 }
 .mac-dots { display: flex; gap: 8px; margin-right: 16px; }
-.mac-dot { width: 12px; height: 12px; border-radius: 50%; background: #333; }
+.mac-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border); }
 .code-content {
     padding: 20px; overflow-y: auto; flex-grow: 1; font-family: var(--font-mono);
-    font-size: 18px; line-height: 1.6; color: #a1a1aa;
+    font-size: 18px; line-height: 1.6; color: var(--text-muted);
 }
 
 /* Custom scrollbar in Vercel style */
@@ -129,19 +198,19 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     background: transparent;
 }
 .code-content::-webkit-scrollbar-thumb {
-    background: #222;
+    background: var(--border-soft);
     border-radius: 4px;
 }
 .code-content::-webkit-scrollbar-thumb:hover {
-    background: #444;
+    background: var(--border-hover);
 }
 
 .code-line {
     padding: 8px 16px; margin: 0 -16px; border-radius: 8px; cursor: pointer;
     transition: all 0.2s; border-left: 3px solid transparent;
 }
-.code-line:hover { background: #171717; color: #fff; }
-.code-line.active { background: #27272a; color: #fff; border-left-color: #fff; }
+.code-line:hover { background: var(--bg-hover); color: var(--accent); }
+.code-line.active { background: var(--bg-active); color: var(--accent); border-left-color: var(--accent); }
 
 .info-panel {
     background: transparent; border: none;
@@ -161,22 +230,22 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 /* Tooltip style */
 .tooltip-trigger {
     position: relative;
-    color: #fff;
+    color: var(--accent);
     font-weight: 600;
     cursor: pointer;
-    border-bottom: 2px dashed #ffffff;
+    border-bottom: 2px dashed var(--accent);
     transition: border-color 0.2s;
     display: inline-block;
 }
 .tooltip-trigger:hover {
-    border-bottom-color: #a1a1aa;
+    border-bottom-color: var(--text-muted);
 }
 .tooltip-content {
     position: absolute;
     bottom: 130%;
     left: 50%;
     transform: translateX(-50%) translateY(5px);
-    background: #0a0a0a;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 18px 22px;
@@ -188,7 +257,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    box-shadow: 0 10px 30px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
     z-index: 1000;
     text-align: left;
     visibility: hidden;
@@ -213,21 +282,21 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 }
 /* Style for links inside the tooltip */
 .tooltip-content a {
-    color: #ffffff;
+    color: var(--accent);
     text-decoration: underline;
     font-weight: 500;
     transition: color 0.2s ease;
 }
 .tooltip-content a:hover {
-    color: #a1a1aa;
+    color: var(--text-muted);
 }
 
 /* Syntax */
-.s-kw { color: #f87171; } /* keyword */
-.s-str { color: #34d399; } /* string */
-.s-com { color: #52525b; } /* comment */
-.s-var { color: #60a5fa; } /* variable */
-.s-key { color: #e879f9; } /* yaml key */
+.s-kw { color: var(--s-kw); } /* keyword */
+.s-str { color: var(--s-str); } /* string */
+.s-com { color: var(--s-com); } /* comment */
+.s-var { color: var(--s-var); } /* variable */
+.s-key { color: var(--s-key); } /* yaml key */
 
 .repo-link {
     position: fixed; top: 40px; right: 40px; padding: 14px 28px;
@@ -235,10 +304,10 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     color: var(--text-muted); text-decoration: none; font-size: 16px;
     transition: all 0.2s; z-index: 100; font-weight: 500; font-family: var(--font-sans);
 }
-.repo-link:hover { border-color: #fff; color: #fff; }
+.repo-link:hover { border-color: var(--accent); color: var(--accent); }
 
 .progress {
-    position: fixed; top: 0; left: 0; height: 2px; background: #fff; z-index: 1000;
+    position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 1000;
     transition: width 0.3s ease;
 }
 
@@ -260,12 +329,12 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
 }
 .build-service-card:hover {
-    border-color: #555;
-    background-color: #111;
+    border-color: var(--border-strong);
+    background-color: var(--bg-sunken);
 }
 .build-service-card.active-card {
-    border-color: #fff;
-    background-color: #171717;
+    border-color: var(--accent);
+    background-color: var(--bg-hover);
 }
 
 .build-controller {
@@ -273,18 +342,18 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
 }
 .build-controller:hover {
-    border-color: #fff;
-    background-color: #0c0c0c;
+    border-color: var(--accent);
+    background-color: var(--bg-sunken);
 }
 .build-controller.active-card {
-    border-color: #fff;
-    background-color: #111;
+    border-color: var(--accent);
+    background-color: var(--bg-sunken);
 }
 
 .build-tooltip {
     position: absolute;
-    background: #0a0a0a;
-    border: 1px solid #333;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 16px;
     width: 380px;
@@ -293,7 +362,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     transform: translateY(10px) translateX(-50%);
     transition: opacity 0.25s ease, transform 0.25s ease;
     z-index: 100;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    box-shadow: 0 10px 30px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -309,8 +378,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     position: absolute;
     width: 10px;
     height: 10px;
-    background: #0a0a0a;
-    border: 1px solid #333;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     z-index: 1;
 }
 
@@ -339,14 +408,14 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .tooltip-tabs {
     display: flex;
     gap: 8px;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid var(--border-soft);
     padding-bottom: 8px;
     margin-bottom: 12px;
 }
 .tooltip-tab {
     background: transparent;
     border: none;
-    color: #666;
+    color: var(--text-dim);
     font-family: var(--font-sans);
     font-size: 13px;
     font-weight: 500;
@@ -356,18 +425,18 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     transition: all 0.2s;
 }
 .tooltip-tab:hover {
-    color: #fff;
+    color: var(--accent);
 }
 .tooltip-tab.active {
-    color: #fff;
-    background: #222;
+    color: var(--accent);
+    background: var(--border-soft);
 }
 
 .tooltip-header {
     font-family: var(--font-mono);
     font-size: 13px;
-    color: #fff;
-    border-bottom: 1px solid #222;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border-soft);
     padding-bottom: 8px;
     margin-bottom: 12px;
     font-weight: 500;
@@ -384,7 +453,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     font-family: var(--font-mono);
     font-size: 13px;
     line-height: 1.5;
-    color: #a1a1aa;
+    color: var(--text-muted);
     overflow-x: auto;
 }
 
@@ -402,13 +471,13 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     gap: 6px;
 }
 .arch-aspect-card-left {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(var(--tint-rgb), 0.02);
+    border: 1px solid rgba(var(--tint-rgb), 0.04);
     border-radius: 6px;
     padding: 8px 12px;
     font-size: 13px;
     font-weight: 500;
-    color: #fff;
+    color: var(--accent);
     text-align: center;
     opacity: 0.25;
     transition: all 0.3s ease;
@@ -420,24 +489,24 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 }
 .arch-aspect-card-left.active-highlight {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.6);
-    color: #fff;
+    background: rgba(var(--tint-rgb), 0.08);
+    border-color: rgba(var(--tint-rgb), 0.6);
+    color: var(--accent);
     font-weight: 600;
     transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(var(--tint-rgb), 0.1);
     z-index: 10;
 }
 .acc-link {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(var(--tint-rgb), 0.85);
     text-decoration: none;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.35);
+    border-bottom: 1px dashed rgba(var(--tint-rgb), 0.35);
     transition: all 0.2s ease;
     position: relative;
 }
 .acc-link:hover {
-    color: #fff;
-    border-bottom-color: #fff;
+    color: var(--accent);
+    border-bottom-color: var(--accent);
 }
 .acc-link[data-tooltip]:hover::after {
     content: attr(data-tooltip);
@@ -452,8 +521,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     line-height: 1.5;
     padding: 12px 16px;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(var(--tint-rgb), 0.15);
+    box-shadow: 0 8px 32px rgba(var(--shadow-rgb), calc(0.5 * var(--shadow-k)));
     white-space: normal;
     width: 280px;
     z-index: 1000;
@@ -467,7 +536,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     left: 50%;
     transform: translateX(-50%);
     border: 6px solid transparent;
-    border-top-color: rgba(255, 255, 255, 0.15);
+    border-top-color: rgba(var(--tint-rgb), 0.15);
     z-index: 1001;
     pointer-events: none;
     animation: tooltipFadeIn 0.2s ease;
@@ -508,7 +577,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     width: 200px;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 15px 30px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
     transition: transform 0.3s ease;
 }
 .book-cover:hover {
@@ -523,7 +592,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     font-size: 32px;
     font-weight: 700;
     line-height: 1.2;
-    color: #fff;
+    color: var(--accent);
     text-decoration: none;
     margin-bottom: 6px;
     transition: color 0.2s;
@@ -542,7 +611,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .book-desc-ru {
     font-size: 15px;
     line-height: 1.6;
-    color: #888;
+    color: var(--text-dim);
     margin: 0;
 }
 .people-section {
@@ -580,14 +649,14 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     box-sizing: border-box;
 }
 .author-card:hover {
-    border-color: #555;
-    background: #0f0f0f;
+    border-color: var(--border-strong);
+    background: var(--bg-sunken);
 }
 .author-avatar {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 2px solid #333;
+    border: 2px solid var(--border);
     object-fit: cover;
 }
 .author-info {
@@ -598,7 +667,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .author-name {
     font-size: 18px;
     font-weight: 600;
-    color: #fff;
+    color: var(--accent);
     margin-bottom: 4px;
 }
 .author-link-text {
@@ -712,7 +781,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     min-height: 2.5em;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #71717a;
+    color: var(--text-dim);
     padding-left: var(--tl-rail);
     text-align: left;
 }
@@ -738,7 +807,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     top: 20px;
     bottom: 20px;
     width: 2px;
-    background: #222;
+    background: var(--border-soft);
 }
 .timeline-next-item {
     display: flex;
@@ -750,8 +819,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #000;
-    border: 2px solid #333;
+    background: var(--bg);
+    border: 2px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -767,13 +836,13 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     height: 20px;
     left: calc(-1 * (var(--tl-rail, 60px) - 11px));
     top: 12px;
-    border-color: #555;
-    background: #000;
-    color: #555;
+    border-color: var(--border-strong);
+    background: var(--bg);
+    color: var(--text-faint);
 }
 .timeline-next-marker.active {
-    border-color: #fff;
-    background: #fff;
+    border-color: var(--accent);
+    background: var(--accent);
     top: 21px;
 }
 .timeline-next-marker.upcoming {
@@ -781,7 +850,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     height: 10px;
     left: calc(-1 * (var(--tl-rail, 60px) - 16px));
     top: 14px;
-    background: #333;
+    background: var(--border);
     border: none;
 }
 .timeline-next-content {
@@ -800,14 +869,14 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     line-height: 1.25;
 }
 .timeline-next-item.completed .timeline-next-title {
-    color: #555;
+    color: var(--text-faint);
     font-size: var(--tl-title-done, 32px);
     font-weight: 500;
 }
 .timeline-next-item.next-large .timeline-next-title {
     font-size: var(--tl-title-active, 44px);
     font-weight: 600;
-    color: #fff;
+    color: var(--accent);
 }
 .timeline-next-speaker {
     display: flex;
@@ -819,14 +888,14 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     width: var(--tl-avatar, 32px);
     height: var(--tl-avatar, 32px);
     border-radius: 50%;
-    border: 1px solid #444;
+    border: 1px solid var(--border-hover);
     object-fit: cover;
-    background: #111;
+    background: var(--bg-sunken);
 }
 .timeline-next-speaker-name {
     font-size: var(--tl-speaker, 18px);
     font-weight: 500;
-    color: #a1a1aa;
+    color: var(--text-muted);
 }
 /* Название темы в программе ведёт на доклад этой темы, но подчёркивания нет:
    на слайде оно только шумело. Цвет наследуется, ссылку выдаёт подсветка
@@ -837,13 +906,13 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     transition: color 0.2s ease;
 }
 .timeline-next-title a:hover {
-    color: #fff;
+    color: var(--accent);
 }
 .timeline-badge-completed {
     font-size: 13px;
     font-weight: 600;
-    color: #555;
-    border: 1px solid #333;
+    color: var(--text-faint);
+    border: 1px solid var(--border);
     padding: 2px 8px;
     border-radius: 4px;
     text-transform: uppercase;
@@ -863,7 +932,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     border-radius: 20px;
     overflow: hidden;
     margin: 20px auto;
-    background: #000;
+    background: var(--bg);
 }
 .slider-img-container {
     position: absolute;
@@ -883,7 +952,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     top: 0;
     bottom: 0;
     width: 4px;
-    background: #fff;
+    background: var(--accent);
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
@@ -896,16 +965,16 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .slider-handle-button {
     width: 48px;
     height: 48px;
-    background: #fff;
-    border: 2px solid #fff;
+    background: var(--accent);
+    border: 2px solid var(--accent);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000;
+    color: var(--bg);
     font-size: 20px;
     font-weight: bold;
-    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    box-shadow: 0 0 20px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
 }
 .slider-range-input {
     position: absolute;
@@ -957,7 +1026,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 }
 .scale-tab-btn-horiz {
     flex: 1;
-    background: #0d0d0d;
+    background: var(--bg-sunken);
     border: 1px solid var(--border);
     height: 100%;
     color: var(--text-muted);
@@ -991,8 +1060,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     z-index: 1;
 }
 .scale-tab-btn-horiz:hover {
-    background: #141414;
-    color: #fff;
+    background: var(--bg-sunken);
+    color: var(--accent);
 }
 .scale-tab-btn-horiz.active {
     background: rgba(0, 223, 216, 0.12);
@@ -1002,7 +1071,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .scale-tabs-content {
     width: 1400px;
     height: 700px;
-    background: #0d0d0d;
+    background: var(--bg-sunken);
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 32px;
@@ -1036,7 +1105,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     font-weight: 600;
     margin-top: 0;
     margin-bottom: 16px;
-    color: #fff;
+    color: var(--accent);
 }
 .pane-grid-2 {
     display: grid;
@@ -1055,8 +1124,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.01);
-    border: 1px dashed #222;
+    background: rgba(var(--tint-rgb), 0.01);
+    border: 1px dashed var(--border-soft);
     border-radius: 16px;
     padding: 24px;
     min-height: 460px;
@@ -1066,8 +1135,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     flex-direction: column;
 }
 .vis-container-box {
-    background: #111;
-    border: 1px solid #333;
+    background: var(--bg-sunken);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 16px 24px;
     display: flex;
@@ -1076,7 +1145,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     gap: 8px;
     font-size: 15px;
     font-weight: 500;
-    color: #fff;
+    color: var(--accent);
     min-width: 140px;
 }
 .vis-container-box.min-box {
@@ -1094,7 +1163,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 }
 .vis-arrow-right {
     font-size: 20px;
-    color: #444;
+    color: var(--text-faint);
 }
 .pain-points-list {
     display: flex;
@@ -1129,23 +1198,23 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid var(--border-soft);
     padding-top: 20px;
     height: 40px;
 }
 .pag-btn {
     background: transparent;
-    border: 1px solid #222;
+    border: 1px solid var(--border-soft);
     border-radius: 8px;
-    color: #fff;
+    color: var(--accent);
     padding: 8px 16px;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s;
 }
 .pag-btn:hover:not(:disabled) {
-    border-color: #555;
-    background: #111;
+    border-color: var(--border-strong);
+    background: var(--bg-sunken);
 }
 .pag-btn:disabled {
     opacity: 0.3;
@@ -1159,7 +1228,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #222;
+    background: var(--border-soft);
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -1196,7 +1265,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 }
 .chain-block:hover {
     border-color: #00dfd8;
-    background: rgba(10, 10, 10, 0.6);
+    background: rgba(var(--bg-rgb), 0.6);
     transform: scale(1.03) !important;
     box-shadow: 0 10px 30px rgba(0, 223, 216, 0.15);
     z-index: 10;
@@ -1224,7 +1293,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .command-line {
     font-family: var(--font-mono);
     font-size: 13px;
-    color: #fff;
+    color: var(--accent);
     margin: 6px 0;
     white-space: nowrap;
     line-height: 1.4;
@@ -1237,7 +1306,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 }
 .chain-arrow {
     opacity: 0;
-    color: #444;
+    color: var(--text-faint);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1249,7 +1318,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     transform: translateX(-50%);
     opacity: 0;
     background: linear-gradient(135deg, #0070f3 0%, #00dfd8 100%);
-    color: #fff;
+    color: var(--accent);
     padding: 8px 24px;
     border-radius: 9999px;
     font-size: 16px;
@@ -1307,7 +1376,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .pillar-card h3 {
     font-size: 24px;
     font-weight: 600;
-    color: #fff;
+    color: var(--accent);
     margin: 0;
     transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease, margin 0.4s ease;
     max-height: 80px;
@@ -1319,7 +1388,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     margin: 0;
     font-size: 17px;
     line-height: 1.6;
-    color: #a1a1aa;
+    color: var(--text-muted);
     text-align: center;
     overflow: hidden;
     transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
@@ -1327,28 +1396,28 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
                 margin-top 0.4s ease;
 }
 .pillar-card:not(.collapsed):hover {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--accent);
+    background: rgba(var(--tint-rgb), 0.04);
     transform: scale(1.02) translateY(-4px) !important;
-    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(var(--tint-rgb), 0.05);
     opacity: 1 !important;
 }
 .pillar-card.dashed-card {
     border-style: dashed;
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.01);
+    border-color: rgba(var(--tint-rgb), 0.2);
+    background: rgba(var(--tint-rgb), 0.01);
 }
 .pillar-card.dashed-card:not(.collapsed):hover {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+    border-color: var(--accent);
+    background: rgba(var(--tint-rgb), 0.05);
+    box-shadow: 0 10px 30px rgba(var(--tint-rgb), 0.1);
 }
 .pillar-card.expanded {
     flex: 2.2;
-    background: rgba(15, 15, 15, 0.6);
-    border-color: #fff;
+    background: rgba(var(--bg-rgb), 0.6);
+    border-color: var(--accent);
     opacity: 1 !important;
-    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 40px rgba(var(--tint-rgb), 0.08);
     transform: none !important;
     cursor: default;
 }
@@ -1358,8 +1427,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     margin-top: 16px;
 }
 .pillar-card.expanded.dashed-card {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: #fff;
+    background: rgba(var(--tint-rgb), 0.03);
+    border-color: var(--accent);
 }
 .pillar-card.collapsed {
     flex: 0.35;
@@ -1390,7 +1459,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     top: 16px;
     right: 16px;
     background: linear-gradient(135deg, #0070f3 0%, #00dfd8 100%);
-    color: #fff;
+    color: var(--accent);
     font-size: 11px;
     font-weight: 700;
     padding: 3px 8px;
@@ -1429,14 +1498,14 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .peel-card-wrapper {
     position: relative;
     height: 64px;
-    background: rgba(255, 255, 255, 0.01);
-    border: 1px dashed rgba(255, 255, 255, 0.08);
+    background: rgba(var(--tint-rgb), 0.01);
+    border: 1px dashed rgba(var(--tint-rgb), 0.08);
     border-radius: 12px;
     overflow: hidden;
     display: flex;
     align-items: center;
     perspective: 800px;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
+    box-shadow: inset 0 2px 6px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
 }
 .peel-card-content-inner {
     display: flex;
@@ -1446,7 +1515,7 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     z-index: 1;
 }
 .peel-card-text {
-    color: #fff;
+    color: var(--accent);
     font-size: 16px;
     font-weight: 500;
 }
@@ -1456,8 +1525,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     left: -1px;
     width: calc(100% + 2px);
     height: calc(100% + 2px);
-    background: linear-gradient(135deg, transparent 23px, #000000 23px);
-    border: 1px dashed #ffffff;
+    background: linear-gradient(135deg, transparent 23px, var(--bg) 23px);
+    border: 1px dashed var(--accent);
     box-sizing: border-box;
     border-radius: 12px;
     z-index: 10;
@@ -1482,9 +1551,9 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     width: 24px;
     height: 24px;
     background: linear-gradient(135deg, transparent 50%, #2f2f36 50%);
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
-    border-right: 1.5px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    border-bottom: 1.5px solid rgba(var(--tint-rgb), 0.4);
+    border-right: 1.5px solid rgba(var(--tint-rgb), 0.4);
+    box-shadow: 2px 2px 6px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
     border-bottom-right-radius: 6px;
     pointer-events: auto;
     cursor: grab;
@@ -1493,8 +1562,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 }
 .peel-fold:hover {
     transform: scale(1.08);
-    background: linear-gradient(135deg, transparent 50%, #3f3f46 50%);
-    border-color: rgba(255, 255, 255, 0.6);
+    background: linear-gradient(135deg, transparent 50%, var(--border-mid) 50%);
+    border-color: rgba(var(--tint-rgb), 0.6);
 }
 .peel-fold:active {
     cursor: grabbing;
@@ -1503,8 +1572,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     width: 100%;
     max-width: 900px;
     padding: 32px 24px;
-    background: #09090b;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-sunken);
+    border: 1px solid rgba(var(--tint-rgb), 0.08);
     border-radius: 16px;
     margin-top: 20px;
     position: relative;
@@ -1517,8 +1586,8 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 .main-takeaway-card.revealed {
     opacity: 1;
     transform: translateY(0) scale(1);
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    border-color: rgba(var(--tint-rgb), 0.15);
+    box-shadow: 0 15px 35px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
 }
 
 @keyframes fadeIn {
@@ -1532,4 +1601,93 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 @keyframes slideInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Переключатель темы =====
+   Живёт вне масштабируемой сцены (.deck-stage), поэтому размеры у него
+   в реальных пикселях: и в окне, и на проекторе он одинаково небольшой.
+   По умолчанию приглушён до трети яркости и проявляется под курсором —
+   во время доклада он не должен спорить со слайдом. */
+.theme-toggle {
+    position: fixed;
+    left: 18px;
+    bottom: 14px;
+    z-index: 1200;
+    box-sizing: border-box;
+    width: 64px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    background: var(--bg-card);
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+    opacity: 1;
+    border-color: var(--border-strong);
+}
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--border-strong);
+    outline-offset: 3px;
+}
+.theme-toggle-track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+/* Кружок ездит под значками: активным выглядит тот, который он подсветил. */
+.theme-toggle-knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    box-sizing: border-box;
+    border: 1px solid var(--border-hover);
+    border-radius: 50%;
+    background: var(--bg-hover);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease,
+        border-color 0.25s ease;
+}
+:root:not([data-theme='light']) .theme-toggle-knob {
+    transform: translateX(30px);
+}
+.theme-toggle:active .theme-toggle-knob {
+    background: var(--bg-active);
+}
+.theme-ico {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-faint);
+    transition: color 0.25s ease;
+}
+.theme-ico svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+:root[data-theme='light'] .theme-ico-sun,
+:root:not([data-theme='light']) .theme-ico-moon {
+    color: var(--text-main);
+}
+
+/* Плавная смена темы — через View Transitions, где они есть. Дек при этом
+   не перерисовывается по кадрам: браузер сам делает кросс-фейд снимков. */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.35s;
 }

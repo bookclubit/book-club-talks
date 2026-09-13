@@ -6,6 +6,41 @@
  * (scripts/rebuild-talk.mjs) этот файл не трогает.
  */
 
+
+/* ===== Палитра доклада =====
+   Смысловые цвета контентных слайдов: алгоритм — голубой, «перебор дорого» —
+   красный, «эффективно» — зелёный. Нейтральные тона (подложки, рамки, текст)
+   не дублируются: они берутся из токенов дека и переключаются вместе с ним.
+   Светлая тема — только переопределение этих же переменных. */
+:root {
+    --algo: #7dd3fc;
+    --algo-rgb: 125, 211, 252;
+    --algo-dim: #2b4a5c;
+    --bad: #f87171;
+    --bad-rgb: 248, 113, 113;
+    --bad-line: #3a1f1f;
+    --good: #34d399;
+    --good-rgb: 52, 211, 153;
+    --good-line: #1c3d31;
+    --warn: #fbbf24;
+    /* Псевдонимы: карточка контентного слайда = подложка и рамка дека. */
+    --line: var(--border-soft);
+    --panel: var(--bg-card);
+}
+
+:root[data-theme='light'] {
+    --algo: #0284c7;
+    --algo-rgb: 2, 132, 199;
+    --algo-dim: #a5d5ef;
+    --bad: #dc2626;
+    --bad-rgb: 220, 38, 38;
+    --bad-line: #f0cccc;
+    --good: #059669;
+    --good-rgb: 5, 150, 105;
+    --good-line: #c2e6d8;
+    --warn: #b45309;
+}
+
 /* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css
    нет, а без него width: 100% с padding вылезает за контейнер слайда. */
 .content-slide,
@@ -25,16 +60,6 @@
     justify-content: flex-start;
     height: 100%;
     padding: 52px 100px;
-    /* Палитра доклада: алгоритм — голубой, «перебор/дорого» — красный,
-       «эффективно» — зелёный. Те же оттенки, что у подсветки кода в deck.css,
-       чтобы дек не расслаивался на два разных стиля. */
-    --algo: #7dd3fc;
-    --algo-dim: #2b4a5c;
-    --bad: #f87171;
-    --good: #34d399;
-    --warn: #fbbf24;
-    --line: #232323;
-    --panel: #080808;
 }
 .content-slide > h2 {
     font-size: 52px;
@@ -61,7 +86,7 @@
     max-width: 1400px;
 }
 .slide-lead b {
-    color: #ededed;
+    color: var(--text-main);
     font-weight: 600;
 }
 .section-label {
@@ -69,7 +94,7 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #71717a;
+    color: var(--text-dim);
     margin: 0;
 }
 /* Инлайновый термин и формула в строке — моно-шрифтом. */
@@ -79,60 +104,60 @@
     color: var(--algo);
 }
 .content-slide b {
-    color: #ededed;
+    color: var(--text-main);
     font-weight: 600;
 }
 .term {
-    color: #fff;
+    color: var(--accent);
     font-weight: 600;
 }
 .term-en {
     font-family: var(--font-mono);
     font-size: 0.85em;
-    color: #71717a;
+    color: var(--text-dim);
 }
 
 /* Вывод внизу слайда — широкая строка за левой чертой. */
 .wide-accent {
     margin: 30px 0 0;
     padding: 18px 26px;
-    border-left: 3px solid #3f3f46;
+    border-left: 3px solid var(--border-mid);
     border-radius: 0 14px 14px 0;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.05), rgba(var(--tint-rgb), 0));
     font-size: 20px;
     line-height: 1.55;
-    color: #d4d4d8;
+    color: var(--text-soft);
     flex-shrink: 0;
 }
 .wide-accent.is-strong {
-    border-left-color: #fff;
+    border-left-color: var(--accent);
     font-size: 23px;
-    color: #ededed;
+    color: var(--text-main);
 }
 .wide-accent.is-algo {
     border-left-color: var(--algo);
-    background: linear-gradient(90deg, rgba(125, 211, 252, 0.09), rgba(255, 255, 255, 0));
+    background: linear-gradient(90deg, rgba(var(--algo-rgb), 0.09), rgba(var(--tint-rgb), 0));
 }
 .wide-accent b {
-    color: #fff;
+    color: var(--accent);
     font-weight: 600;
 }
 
 /* Цитата из книги — одинаковая на всех слайдах, со ссылкой на раздел. */
 .book-quote {
-    border-left: 2px solid #3f3f46;
+    border-left: 2px solid var(--border-mid);
     padding: 4px 0 4px 22px;
     margin: 0;
     font-size: 18px;
     line-height: 1.6;
-    color: #d4d4d8;
+    color: var(--text-soft);
 }
 .book-quote cite {
     display: block;
     margin-top: 8px;
     font-style: normal;
     font-size: 14px;
-    color: #71717a;
+    color: var(--text-dim);
     font-family: var(--font-mono);
 }
 
@@ -143,18 +168,18 @@
     gap: 10px;
     padding: 13px 24px;
     border-radius: 12px;
-    border: 1px solid #3f3f46;
-    background: #0e0e0e;
-    color: #ededed;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-sunken);
+    color: var(--text-main);
     font: inherit;
     font-size: 18px;
     cursor: pointer;
     transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 .btn:hover {
-    border-color: #fff;
-    background: #171717;
-    color: #fff;
+    border-color: var(--accent);
+    background: var(--bg-hover);
+    color: var(--accent);
 }
 .btn svg {
     width: 18px;
@@ -179,7 +204,7 @@
 .seg button {
     border: none;
     background: none;
-    color: #a1a1aa;
+    color: var(--text-muted);
     font: inherit;
     font-size: 17px;
     padding: 10px 20px;
@@ -188,11 +213,11 @@
     transition: background 0.2s ease, color 0.2s ease;
 }
 .seg button:hover {
-    color: #fff;
+    color: var(--accent);
 }
 .seg button.is-active {
-    background: #1c1c1c;
-    color: #fff;
+    background: var(--bg-hover);
+    color: var(--accent);
 }
 .controls {
     margin-top: 26px;
@@ -207,7 +232,7 @@
     align-items: center;
     gap: 8px;
     font-size: 15px;
-    color: #52525b;
+    color: var(--text-faint);
 }
 .hint::before {
     content: '›';
@@ -238,23 +263,23 @@
     font-size: 14px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #71717a;
+    color: var(--text-dim);
 }
 .flow-node .fn-title {
     font-size: 28px;
     font-weight: 600;
-    color: #fff;
+    color: var(--accent);
     line-height: 1.2;
 }
 .flow-node .fn-desc {
     font-size: 17px;
     line-height: 1.5;
-    color: #a1a1aa;
+    color: var(--text-muted);
     margin: 0;
 }
 .flow-node.is-algo {
     border-color: var(--algo-dim);
-    background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(125, 211, 252, 0));
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.08), rgba(var(--algo-rgb), 0));
 }
 .flow-node.is-algo .fn-key {
     color: var(--algo);
@@ -264,7 +289,7 @@
     width: 54px;
     height: 20px;
     flex-shrink: 0;
-    stroke: #52525b;
+    stroke: var(--text-faint);
     stroke-width: 1.5;
     fill: none;
     stroke-linecap: round;
@@ -301,29 +326,29 @@
     transition: border-color 0.2s ease;
 }
 .tile:hover {
-    border-color: #3f3f46;
+    border-color: var(--border-mid);
 }
 .tile h3 {
     font-size: 24px;
     font-weight: 600;
-    color: #fff;
+    color: var(--accent);
     margin: 0;
     line-height: 1.25;
 }
 .tile p {
     font-size: 17px;
     line-height: 1.55;
-    color: #a1a1aa;
+    color: var(--text-muted);
     margin: 0;
 }
 .tile-num {
     font-family: var(--font-mono);
     font-size: 15px;
-    color: #52525b;
+    color: var(--text-faint);
 }
 .tile.is-algo { border-color: var(--algo-dim); }
-.tile.is-bad { border-color: #3a1f1f; }
-.tile.is-good { border-color: #1c3d31; }
+.tile.is-bad { border-color: var(--bad-line); }
+.tile.is-good { border-color: var(--good-line); }
 .tile-ico {
     width: 34px;
     height: 34px;
@@ -346,7 +371,7 @@
     padding-left: 18px;
     font-size: 17px;
     line-height: 1.5;
-    color: #a1a1aa;
+    color: var(--text-muted);
 }
 .tile-list li::before {
     content: '';
@@ -355,14 +380,14 @@
     top: 12px;
     width: 8px;
     height: 1px;
-    background: #52525b;
+    background: var(--text-faint);
 }
 .tile-foot {
     margin-top: auto;
     padding-top: 6px;
     font-family: var(--font-mono);
     font-size: 14px;
-    color: #52525b;
+    color: var(--text-faint);
 }
 
 /* ===== Две колонки с разделителем (задача vs алгоритм) ===== */
@@ -381,7 +406,7 @@
     align-items: center;
     justify-content: center;
     gap: 14px;
-    color: #52525b;
+    color: var(--text-faint);
     font-family: var(--font-mono);
     font-size: 15px;
 }
@@ -414,13 +439,13 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #71717a;
+    color: var(--text-dim);
 }
 .formula-val {
     font-family: var(--font-mono);
     font-size: 34px;
     line-height: 1.35;
-    color: #ededed;
+    color: var(--text-main);
 }
 .formula-val .hl {
     color: var(--algo);
@@ -428,14 +453,14 @@
 .formula-note {
     font-size: 17px;
     line-height: 1.5;
-    color: #71717a;
+    color: var(--text-dim);
     margin: 8px 0 0;
 }
 .bignum {
     font-family: var(--font-mono);
     font-size: 92px;
     line-height: 1;
-    color: #fff;
+    color: var(--accent);
     letter-spacing: -0.02em;
 }
 .bignum sup {
@@ -462,7 +487,7 @@
     justify-content: center;
     font-family: var(--font-mono);
     font-size: 36px;
-    color: #ededed;
+    color: var(--text-main);
     transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
         border-color 0.3s ease, color 0.3s ease;
 }
@@ -480,7 +505,7 @@
     opacity: 1;
     transform: none;
     border-color: var(--algo-dim);
-    color: #fff;
+    color: var(--accent);
     transition-delay: calc(var(--i) * 0.16s);
 }
 .sortdemo[data-state='on'] .chip.is-in {
@@ -502,7 +527,7 @@
 .sort-arrow {
     width: 22px;
     height: 40px;
-    stroke: #52525b;
+    stroke: var(--text-faint);
     stroke-width: 1.5;
     fill: none;
     stroke-linecap: round;
@@ -524,7 +549,7 @@
     background: var(--panel);
     font-size: 19px;
     line-height: 1.55;
-    color: #d4d4d8;
+    color: var(--text-soft);
 }
 .callout p { margin: 0; font-size: inherit; line-height: inherit; color: inherit; }
 .callout-label {
@@ -533,23 +558,23 @@
     font-size: 13px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #71717a;
+    color: var(--text-dim);
     padding-top: 4px;
     width: 150px;
 }
 .callout.is-warn {
-    border-color: #3a1f1f;
-    background: linear-gradient(90deg, rgba(248, 113, 113, 0.08), rgba(0, 0, 0, 0));
+    border-color: var(--bad-line);
+    background: linear-gradient(90deg, rgba(var(--bad-rgb), 0.08), rgba(var(--shadow-rgb), calc(0 * var(--shadow-k))));
 }
 .callout.is-warn .callout-label { color: var(--bad); }
 .callout.is-good {
-    border-color: #1c3d31;
-    background: linear-gradient(90deg, rgba(52, 211, 153, 0.08), rgba(0, 0, 0, 0));
+    border-color: var(--good-line);
+    background: linear-gradient(90deg, rgba(var(--good-rgb), 0.08), rgba(var(--shadow-rgb), calc(0 * var(--shadow-k))));
 }
 .callout.is-good .callout-label { color: var(--good); }
 .callout.is-algo {
     border-color: var(--algo-dim);
-    background: linear-gradient(90deg, rgba(125, 211, 252, 0.08), rgba(0, 0, 0, 0));
+    background: linear-gradient(90deg, rgba(var(--algo-rgb), 0.08), rgba(var(--shadow-rgb), calc(0 * var(--shadow-k))));
 }
 .callout.is-algo .callout-label { color: var(--algo); }
 
@@ -569,11 +594,11 @@
     border-radius: 16px;
     background: var(--panel);
     font-size: 21px;
-    color: #d4d4d8;
+    color: var(--text-soft);
 }
 .kv-row .kv-to {
     text-align: center;
-    color: #52525b;
+    color: var(--text-faint);
     font-family: var(--font-mono);
 }
 .kv-row .kv-model {
@@ -590,42 +615,42 @@
     overflow: visible;
 }
 .fig .f-edge {
-    stroke: #3f3f46;
+    stroke: var(--border-mid);
     stroke-width: 2;
     fill: none;
 }
 .fig .f-edge-dim {
-    stroke: #232323;
+    stroke: var(--border-soft);
     stroke-width: 2;
     fill: none;
 }
 .fig .f-node {
-    fill: #0e0e0e;
-    stroke: #52525b;
+    fill: var(--bg-sunken);
+    stroke: var(--text-faint);
     stroke-width: 2;
 }
 .fig .f-node-hi {
-    fill: #0e0e0e;
+    fill: var(--bg-sunken);
     stroke: var(--algo);
     stroke-width: 2.5;
 }
 .fig .f-label {
-    fill: #a1a1aa;
+    fill: var(--text-muted);
     font-family: var(--font-mono);
     font-size: 16px;
 }
 .fig .f-label-main {
-    fill: #ededed;
+    fill: var(--text-main);
     font-family: var(--font-sans);
     font-size: 18px;
 }
 .fig .f-weight {
-    fill: #71717a;
+    fill: var(--text-dim);
     font-family: var(--font-mono);
     font-size: 15px;
 }
 .fig .f-axis {
-    stroke: #3f3f46;
+    stroke: var(--border-mid);
     stroke-width: 1.5;
     fill: none;
 }
@@ -638,16 +663,16 @@
 }
 .fig .f-bar { fill: var(--algo); }
 .fig .f-tree-edge {
-    stroke: #2a2a2a;
+    stroke: var(--border-soft);
     stroke-width: 1.5;
     fill: none;
 }
-.fig .f-tree-node { fill: #3f3f46; }
+.fig .f-tree-node { fill: var(--border-mid); }
 .fig .f-tree-node.is-sol { fill: var(--good); }
 
 /* Кратчайший путь: маршрут подсвечивается по выбору в переключателе. */
 .routefig .route {
-    stroke: #52525b;
+    stroke: var(--text-faint);
     stroke-width: 7;
     fill: none;
     stroke-linecap: round;
@@ -669,30 +694,30 @@
     justify-content: center;
     font-family: var(--font-mono);
     font-size: 18px;
-    color: #52525b;
+    color: var(--text-faint);
 }
 .routefig[data-state='r1'] .route-legend .rl-1,
-.routefig[data-state='r2'] .route-legend .rl-2 { color: #ededed; }
+.routefig[data-state='r2'] .route-legend .rl-2 { color: var(--text-main); }
 .routefig[data-state='r3'] .route-legend .rl-3 { color: var(--good); }
 
 /* Выпуклая оболочка: резинка «натягивается» отрисовкой контура. */
 .hullfig .hull-band {
     stroke: var(--algo);
     stroke-width: 3;
-    fill: rgba(125, 211, 252, 0.07);
+    fill: rgba(var(--algo-rgb), 0.07);
     stroke-linejoin: round;
     stroke-dasharray: 1600;
     stroke-dashoffset: 1600;
     transition: stroke-dashoffset 1.2s ease, fill 1.2s ease;
 }
 .hullfig[data-state='off'] .hull-band {
-    fill: rgba(125, 211, 252, 0);
+    fill: rgba(var(--algo-rgb), 0);
 }
 .hullfig[data-state='on'] .hull-band {
     stroke-dashoffset: 0;
 }
 .hullfig .nail {
-    fill: #52525b;
+    fill: var(--text-faint);
     transition: fill 0.4s ease 0.9s;
 }
 .hullfig[data-state='on'] .nail.is-vertex {
@@ -724,7 +749,7 @@
 .lcs-name {
     font-family: var(--font-mono);
     font-size: 22px;
-    color: #71717a;
+    color: var(--text-dim);
     width: 34px;
 }
 .lcs-cell {
@@ -738,21 +763,21 @@
     justify-content: center;
     font-family: var(--font-mono);
     font-size: 26px;
-    color: #71717a;
+    color: var(--text-dim);
     transition: border-color 0.35s ease, color 0.35s ease, background 0.35s ease,
         transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .lcsdemo[data-state='on'] .lcs-cell.is-match {
     border-color: var(--algo);
-    color: #fff;
-    background: rgba(125, 211, 252, 0.1);
+    color: var(--accent);
+    background: rgba(var(--algo-rgb), 0.1);
     transform: translateY(-5px);
     transition-delay: calc(var(--i) * 0.12s);
 }
 .lcs-result {
     font-family: var(--font-mono);
     font-size: 26px;
-    color: #3f3f46;
+    color: var(--border-mid);
     transition: color 0.3s ease 0.6s;
 }
 .lcsdemo[data-state='on'] .lcs-result {
@@ -774,7 +799,7 @@
     background: var(--panel);
     font-family: var(--font-mono);
     font-size: 19px;
-    color: #ededed;
+    color: var(--text-main);
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease;
@@ -786,7 +811,7 @@
     transition-delay: calc(var(--i) * 0.18s);
 }
 .topo-sep {
-    color: #3f3f46;
+    color: var(--border-mid);
     font-family: var(--font-mono);
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -814,7 +839,7 @@
 .core-name {
     font-family: var(--font-mono);
     font-size: 17px;
-    color: #71717a;
+    color: var(--text-dim);
 }
 .core-track {
     position: relative;
@@ -829,14 +854,14 @@
     top: 7px;
     bottom: 7px;
     border-radius: 8px;
-    background: rgba(125, 211, 252, 0.16);
+    background: rgba(var(--algo-rgb), 0.16);
     border: 1px solid var(--algo-dim);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-mono);
     font-size: 17px;
-    color: #fff;
+    color: var(--accent);
     transition: opacity 0.45s ease;
 }
 .core-scale {
@@ -845,7 +870,7 @@
     gap: 20px;
     font-family: var(--font-mono);
     font-size: 15px;
-    color: #52525b;
+    color: var(--text-faint);
 }
 .core-scale .core-ticks {
     display: flex;
@@ -856,10 +881,10 @@
 .core-verdict {
     text-align: center;
     font-size: 20px;
-    color: #a1a1aa;
+    color: var(--text-muted);
     margin: 0;
 }
-.core-verdict b { color: #fff; }
+.core-verdict b { color: var(--accent); }
 
 /* ===== Авторы книги ===== */
 .authors4 {
@@ -877,24 +902,24 @@
     gap: 12px;
     transition: border-color 0.2s ease;
 }
-.au:hover { border-color: #3f3f46; }
+.au:hover { border-color: var(--border-mid); }
 .au-photo {
     width: 84px;
     height: 84px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid #3f3f46;
+    border: 1px solid var(--border-mid);
 }
 .au-name {
     font-size: 23px;
     font-weight: 600;
-    color: #fff;
+    color: var(--accent);
     line-height: 1.2;
 }
 .au-role {
     font-size: 15px;
     line-height: 1.45;
-    color: #71717a;
+    color: var(--text-dim);
     margin: -6px 0 0;
 }
 .au-facts {
@@ -910,7 +935,7 @@
     padding-left: 16px;
     font-size: 16px;
     line-height: 1.5;
-    color: #a1a1aa;
+    color: var(--text-muted);
 }
 .au-facts li::before {
     content: '';
@@ -919,9 +944,9 @@
     top: 11px;
     width: 8px;
     height: 1px;
-    background: #52525b;
+    background: var(--text-faint);
 }
-.au-facts li b { color: #ededed; }
+.au-facts li b { color: var(--text-main); }
 .au-link {
     margin-top: auto;
     padding-top: 10px;
@@ -930,7 +955,7 @@
     color: var(--algo);
     text-decoration: none;
 }
-.au-link:hover { color: #fff; }
+.au-link:hover { color: var(--accent); }
 
 /* ===== Итоговая карта главы ===== */
 .map {
@@ -945,14 +970,14 @@
     border-radius: 12px;
     background: var(--panel);
     font-size: 19px;
-    color: #d4d4d8;
+    color: var(--text-soft);
     text-align: center;
     min-width: 420px;
 }
 .map-node.is-head {
-    border-color: #fff;
-    background: #101010;
-    color: #fff;
+    border-color: var(--accent);
+    background: var(--bg-sunken);
+    color: var(--accent);
     font-size: 22px;
     font-weight: 600;
     font-family: var(--font-mono);
@@ -960,21 +985,21 @@
 }
 .map-node.is-algo {
     border-color: var(--algo-dim);
-    color: #fff;
+    color: var(--accent);
 }
 .map-link {
     width: 1px;
     height: 14px;
-    background: #3f3f46;
+    background: var(--border-mid);
 }
 .map-foot {
     margin: 24px 0 0;
     text-align: center;
     font-size: 23px;
     line-height: 1.5;
-    color: #a1a1aa;
+    color: var(--text-muted);
 }
-.map-foot b { color: #fff; font-weight: 600; }
+.map-foot b { color: var(--accent); font-weight: 600; }
 
 /* ===== Упражнения ===== */
 .ex {
@@ -1000,7 +1025,7 @@
 .ex-progress {
     font-family: var(--font-mono);
     font-size: 15px;
-    color: #71717a;
+    color: var(--text-dim);
 }
 .ex-dots {
     display: flex;
@@ -1011,13 +1036,13 @@
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: #27272a;
+    background: var(--bg-active);
 }
-.ex-dot.is-on { background: #fff; }
+.ex-dot.is-on { background: var(--accent); }
 .ex-q {
     font-size: 34px;
     line-height: 1.35;
-    color: #ededed;
+    color: var(--text-main);
     margin: 0;
     max-width: 1500px;
 }
@@ -1035,7 +1060,7 @@
 .ex-sol-card {
     border: 1px solid var(--algo-dim);
     border-radius: 20px;
-    background: linear-gradient(180deg, rgba(125, 211, 252, 0.05), rgba(0, 0, 0, 0));
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.05), rgba(var(--shadow-rgb), calc(0 * var(--shadow-k))));
     padding: 28px 32px;
     display: flex;
     flex-direction: column;
@@ -1045,7 +1070,7 @@
 .ex-note {
     font-size: 16px;
     line-height: 1.5;
-    color: #71717a;
+    color: var(--text-dim);
     margin: 0;
 }
 .ex-cols {
@@ -1057,7 +1082,7 @@
 .ex-col h4 {
     font-size: 20px;
     font-weight: 600;
-    color: #fff;
+    color: var(--accent);
     margin: 0 0 12px;
 }
 .ex-list {
@@ -1073,7 +1098,7 @@
     padding-left: 18px;
     font-size: 17px;
     line-height: 1.5;
-    color: #a1a1aa;
+    color: var(--text-muted);
 }
 .ex-list li::before {
     content: '';
@@ -1084,7 +1109,7 @@
     height: 1px;
     background: var(--algo);
 }
-.ex-list li b { color: #ededed; }
+.ex-list li b { color: var(--text-main); }
 
 /* ===== Заметки докладчика =====
    В слайде лежат скрытым блоком; панель собирается в talk.js и живёт вне
@@ -1098,9 +1123,9 @@
     max-height: 48vh;
     overflow-y: auto;
     padding: 26px 44px 30px;
-    background: rgba(8, 8, 8, 0.97);
-    border-top: 1px solid #232323;
-    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.8);
+    background: rgba(var(--bg-rgb), 0.97);
+    border-top: 1px solid var(--border-soft);
+    box-shadow: 0 -20px 60px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
     transform: translateY(101%);
     transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 60;
@@ -1115,17 +1140,17 @@
     font-size: 13px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #71717a;
+    color: var(--text-dim);
 }
 .notes-panel-body {
     max-width: 1300px;
     font-size: 17px;
     line-height: 1.65;
-    color: #d4d4d8;
+    color: var(--text-soft);
 }
 .notes-panel-body p { margin: 0 0 10px; font-size: inherit; line-height: inherit; color: inherit; }
 .notes-panel-body p:last-child { margin-bottom: 0; }
-.notes-panel-body b { color: #fff; font-weight: 600; }
+.notes-panel-body b { color: var(--accent); font-weight: 600; }
 .notes-panel-body em {
     display: inline-block;
     font-style: normal;
@@ -1133,7 +1158,7 @@
     font-size: 13px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #7dd3fc;
+    color: var(--algo);
     margin-right: 8px;
 }
 .notes-toggle {
@@ -1142,16 +1167,16 @@
     bottom: 12px;
     z-index: 61;
     padding: 6px 12px;
-    border: 1px solid #1c1c1c;
+    border: 1px solid var(--bg-hover);
     border-radius: 8px;
-    background: rgba(8, 8, 8, 0.7);
-    color: #3f3f46;
+    background: rgba(var(--bg-rgb), 0.7);
+    color: var(--border-mid);
     font-family: var(--font-mono);
     font-size: 12px;
     cursor: pointer;
     transition: color 0.2s ease, border-color 0.2s ease;
 }
-.notes-toggle:hover { color: #a1a1aa; border-color: #3f3f46; }
+.notes-toggle:hover { color: var(--text-muted); border-color: var(--border-mid); }
 
 /* Блок демонстрации: схема, подписи и легенда — колонкой по центру слайда. */
 .sortdemo,
@@ -1182,7 +1207,7 @@
     border-bottom: 1px solid var(--line);
     font-family: var(--font-mono);
     font-size: 14px;
-    color: #71717a;
+    color: var(--text-dim);
 }
 .codebox pre {
     margin: 0;
@@ -1190,19 +1215,19 @@
     font-family: var(--font-mono);
     font-size: 19px;
     line-height: 1.75;
-    color: #d4d4d8;
+    color: var(--text-soft);
     overflow-x: auto;
 }
-.c-com { color: #52525b; }
-.c-kw { color: #f87171; }
+.c-com { color: var(--s-com); }
+.c-kw { color: var(--s-kw); }
 .c-fn { color: var(--algo); }
-.c-str { color: #34d399; }
-.c-num { color: #e879f9; }
+.c-str { color: var(--s-str); }
+.c-num { color: var(--s-key); }
 
 /* Узел потока со знаком беды (тепловыделение процессора). */
 .flow-node.is-bad {
-    border-color: #3a1f1f;
-    background: linear-gradient(180deg, rgba(248, 113, 113, 0.07), rgba(248, 113, 113, 0));
+    border-color: var(--bad-line);
+    background: linear-gradient(180deg, rgba(var(--bad-rgb), 0.07), rgba(var(--bad-rgb), 0));
 }
 .flow-node.is-bad .fn-key { color: var(--bad); }
 

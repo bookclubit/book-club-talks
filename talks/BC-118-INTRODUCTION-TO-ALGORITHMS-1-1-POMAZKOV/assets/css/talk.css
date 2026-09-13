@@ -1,0 +1,1227 @@
+/*
+ * talk.css — стили контентных слайдов ЭТОГО доклада
+ * («Что такое алгоритмы», глава 1 «Роль алгоритмов в вычислениях»).
+ * Общий «хром» дека живёт в deck.css и правится только в шаблоне; всё, что
+ * относится к слайдам спикера, — здесь: пересборка «хром»-слайдов
+ * (scripts/rebuild-talk.mjs) этот файл не трогает.
+ */
+
+/* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css
+   нет, а без него width: 100% с padding вылезает за контейнер слайда. */
+.content-slide,
+.content-slide *,
+.content-slide *::before,
+.content-slide *::after {
+    box-sizing: border-box;
+}
+
+/* ===== Каркас контентного слайда =====
+   Шапка (заголовок + лид) прижата к верху, всё остальное центрировано в
+   остатке высоты: автоотступы у первого блока после шапки и у хвостового
+   псевдоэлемента делят свободное место поровну. */
+.content-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 52px 100px;
+    /* Палитра доклада: алгоритм — голубой, «перебор/дорого» — красный,
+       «эффективно» — зелёный. Те же оттенки, что у подсветки кода в deck.css,
+       чтобы дек не расслаивался на два разных стиля. */
+    --algo: #7dd3fc;
+    --algo-dim: #2b4a5c;
+    --bad: #f87171;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --line: #232323;
+    --panel: #080808;
+}
+.content-slide > h2 {
+    font-size: 52px;
+    margin: 0;
+    line-height: 1.1;
+    flex-shrink: 0;
+}
+.content-slide > h2 + .slide-lead {
+    margin-top: 14px;
+}
+.content-slide > .slide-lead + *,
+.content-slide > h2 + *:not(.slide-lead) {
+    margin-top: auto !important;
+}
+.content-slide::after {
+    content: '';
+    margin-top: auto;
+}
+.slide-lead {
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 1400px;
+}
+.slide-lead b {
+    color: #ededed;
+    font-weight: 600;
+}
+.section-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #71717a;
+    margin: 0;
+}
+/* Инлайновый термин и формула в строке — моно-шрифтом. */
+.content-slide code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: var(--algo);
+}
+.content-slide b {
+    color: #ededed;
+    font-weight: 600;
+}
+.term {
+    color: #fff;
+    font-weight: 600;
+}
+.term-en {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: #71717a;
+}
+
+/* Вывод внизу слайда — широкая строка за левой чертой. */
+.wide-accent {
+    margin: 30px 0 0;
+    padding: 18px 26px;
+    border-left: 3px solid #3f3f46;
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    font-size: 20px;
+    line-height: 1.55;
+    color: #d4d4d8;
+    flex-shrink: 0;
+}
+.wide-accent.is-strong {
+    border-left-color: #fff;
+    font-size: 23px;
+    color: #ededed;
+}
+.wide-accent.is-algo {
+    border-left-color: var(--algo);
+    background: linear-gradient(90deg, rgba(125, 211, 252, 0.09), rgba(255, 255, 255, 0));
+}
+.wide-accent b {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Цитата из книги — одинаковая на всех слайдах, со ссылкой на раздел. */
+.book-quote {
+    border-left: 2px solid #3f3f46;
+    padding: 4px 0 4px 22px;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #d4d4d8;
+}
+.book-quote cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 14px;
+    color: #71717a;
+    font-family: var(--font-mono);
+}
+
+/* ===== Общие мелочи ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    border-radius: 12px;
+    border: 1px solid #3f3f46;
+    background: #0e0e0e;
+    color: #ededed;
+    font: inherit;
+    font-size: 18px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.btn:hover {
+    border-color: #fff;
+    background: #171717;
+    color: #fff;
+}
+.btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Сегментированный переключатель: задаёт data-state целевому блоку,
+   вся смена картинки — на CSS. */
+.seg {
+    display: inline-flex;
+    padding: 5px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    gap: 4px;
+}
+.seg button {
+    border: none;
+    background: none;
+    color: #a1a1aa;
+    font: inherit;
+    font-size: 17px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.seg button:hover {
+    color: #fff;
+}
+.seg button.is-active {
+    background: #1c1c1c;
+    color: #fff;
+}
+.controls {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+.hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: #52525b;
+}
+.hint::before {
+    content: '›';
+    font-family: var(--font-mono);
+}
+
+/* ===== Поток «вход → обработка → выход» ===== */
+.flow {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 20px;
+}
+.flow-node {
+    flex: 1 1 0;
+    max-width: 460px;
+    padding: 28px 30px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+.flow-node .fn-key {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #71717a;
+}
+.flow-node .fn-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+}
+.flow-node .fn-desc {
+    font-size: 17px;
+    line-height: 1.5;
+    color: #a1a1aa;
+    margin: 0;
+}
+.flow-node.is-algo {
+    border-color: var(--algo-dim);
+    background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(125, 211, 252, 0));
+}
+.flow-node.is-algo .fn-key {
+    color: var(--algo);
+}
+.flow-arrow {
+    align-self: center;
+    width: 54px;
+    height: 20px;
+    flex-shrink: 0;
+    stroke: #52525b;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.flow.is-compact .flow-node {
+    padding: 20px 22px;
+    gap: 6px;
+}
+.flow.is-compact .flow-node .fn-title {
+    font-size: 22px;
+}
+.flow.is-compact .flow-arrow {
+    width: 38px;
+}
+
+/* ===== Плитки ===== */
+.tiles {
+    display: grid;
+    gap: 20px;
+}
+.tiles.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tiles.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tiles.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tiles.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.tile {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s ease;
+}
+.tile:hover {
+    border-color: #3f3f46;
+}
+.tile h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+    line-height: 1.25;
+}
+.tile p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: #a1a1aa;
+    margin: 0;
+}
+.tile-num {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #52525b;
+}
+.tile.is-algo { border-color: var(--algo-dim); }
+.tile.is-bad { border-color: #3a1f1f; }
+.tile.is-good { border-color: #1c3d31; }
+.tile-ico {
+    width: 34px;
+    height: 34px;
+    stroke: var(--algo);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.tile-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+.tile-list li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+.tile-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 8px;
+    height: 1px;
+    background: #52525b;
+}
+.tile-foot {
+    margin-top: auto;
+    padding-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #52525b;
+}
+
+/* ===== Две колонки с разделителем (задача vs алгоритм) ===== */
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0;
+}
+.split > .tile {
+    height: 100%;
+}
+.split-mid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #52525b;
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.split-mid::before,
+.split-mid::after {
+    content: '';
+    flex: 1 1 auto;
+    width: 1px;
+    background: var(--line);
+}
+
+/* ===== Формула / формальная постановка ===== */
+.formula {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    padding: 34px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.formula-row {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 26px;
+}
+.formula-key {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #71717a;
+}
+.formula-val {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    line-height: 1.35;
+    color: #ededed;
+}
+.formula-val .hl {
+    color: var(--algo);
+}
+.formula-note {
+    font-size: 17px;
+    line-height: 1.5;
+    color: #71717a;
+    margin: 8px 0 0;
+}
+.bignum {
+    font-family: var(--font-mono);
+    font-size: 92px;
+    line-height: 1;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+.bignum sup {
+    font-size: 0.5em;
+    vertical-align: super;
+}
+.bignum.is-bad { color: var(--bad); }
+
+/* ===== Числовые фишки (сортировка, экземпляр задачи) ===== */
+.chips {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.chip {
+    width: 108px;
+    height: 100px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 36px;
+    color: #ededed;
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.3s ease, color 0.3s ease;
+}
+.chip.is-small {
+    width: 84px;
+    height: 78px;
+    font-size: 28px;
+    border-radius: 14px;
+}
+.sortdemo .chip.is-out {
+    opacity: 0;
+    transform: translateY(22px) scale(0.94);
+}
+.sortdemo[data-state='on'] .chip.is-out {
+    opacity: 1;
+    transform: none;
+    border-color: var(--algo-dim);
+    color: #fff;
+    transition-delay: calc(var(--i) * 0.16s);
+}
+.sortdemo[data-state='on'] .chip.is-in {
+    opacity: 0.4;
+}
+.sort-row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+.sort-mid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 0;
+}
+.sort-arrow {
+    width: 22px;
+    height: 40px;
+    stroke: #52525b;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.4s ease;
+}
+.sortdemo[data-state='on'] .sort-arrow {
+    stroke: var(--algo);
+}
+
+/* ===== Выноска ===== */
+.callout {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 20px 26px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    font-size: 19px;
+    line-height: 1.55;
+    color: #d4d4d8;
+}
+.callout p { margin: 0; font-size: inherit; line-height: inherit; color: inherit; }
+.callout-label {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #71717a;
+    padding-top: 4px;
+    width: 150px;
+}
+.callout.is-warn {
+    border-color: #3a1f1f;
+    background: linear-gradient(90deg, rgba(248, 113, 113, 0.08), rgba(0, 0, 0, 0));
+}
+.callout.is-warn .callout-label { color: var(--bad); }
+.callout.is-good {
+    border-color: #1c3d31;
+    background: linear-gradient(90deg, rgba(52, 211, 153, 0.08), rgba(0, 0, 0, 0));
+}
+.callout.is-good .callout-label { color: var(--good); }
+.callout.is-algo {
+    border-color: var(--algo-dim);
+    background: linear-gradient(90deg, rgba(125, 211, 252, 0.08), rgba(0, 0, 0, 0));
+}
+.callout.is-algo .callout-label { color: var(--algo); }
+
+/* ===== Соответствие «реальность → модель» ===== */
+.kv {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.kv-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 18px;
+    padding: 16px 22px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+    font-size: 21px;
+    color: #d4d4d8;
+}
+.kv-row .kv-to {
+    text-align: center;
+    color: #52525b;
+    font-family: var(--font-mono);
+}
+.kv-row .kv-model {
+    color: var(--algo);
+    font-weight: 500;
+}
+
+/* ===== Схемы (inline SVG) ===== */
+.fig {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    overflow: visible;
+}
+.fig .f-edge {
+    stroke: #3f3f46;
+    stroke-width: 2;
+    fill: none;
+}
+.fig .f-edge-dim {
+    stroke: #232323;
+    stroke-width: 2;
+    fill: none;
+}
+.fig .f-node {
+    fill: #0e0e0e;
+    stroke: #52525b;
+    stroke-width: 2;
+}
+.fig .f-node-hi {
+    fill: #0e0e0e;
+    stroke: var(--algo);
+    stroke-width: 2.5;
+}
+.fig .f-label {
+    fill: #a1a1aa;
+    font-family: var(--font-mono);
+    font-size: 16px;
+}
+.fig .f-label-main {
+    fill: #ededed;
+    font-family: var(--font-sans);
+    font-size: 18px;
+}
+.fig .f-weight {
+    fill: #71717a;
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.fig .f-axis {
+    stroke: #3f3f46;
+    stroke-width: 1.5;
+    fill: none;
+}
+.fig .f-wave {
+    stroke: var(--algo);
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.fig .f-bar { fill: var(--algo); }
+.fig .f-tree-edge {
+    stroke: #2a2a2a;
+    stroke-width: 1.5;
+    fill: none;
+}
+.fig .f-tree-node { fill: #3f3f46; }
+.fig .f-tree-node.is-sol { fill: var(--good); }
+
+/* Кратчайший путь: маршрут подсвечивается по выбору в переключателе. */
+.routefig .route {
+    stroke: #52525b;
+    stroke-width: 7;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+    transition: opacity 0.35s ease, stroke 0.35s ease;
+}
+.routefig[data-state='r1'] .route-1,
+.routefig[data-state='r2'] .route-2,
+.routefig[data-state='r3'] .route-3 {
+    opacity: 1;
+}
+.routefig[data-state='r3'] .route-3 {
+    stroke: var(--good);
+}
+.route-legend {
+    display: flex;
+    gap: 34px;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: #52525b;
+}
+.routefig[data-state='r1'] .route-legend .rl-1,
+.routefig[data-state='r2'] .route-legend .rl-2 { color: #ededed; }
+.routefig[data-state='r3'] .route-legend .rl-3 { color: var(--good); }
+
+/* Выпуклая оболочка: резинка «натягивается» отрисовкой контура. */
+.hullfig .hull-band {
+    stroke: var(--algo);
+    stroke-width: 3;
+    fill: rgba(125, 211, 252, 0.07);
+    stroke-linejoin: round;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    transition: stroke-dashoffset 1.2s ease, fill 1.2s ease;
+}
+.hullfig[data-state='off'] .hull-band {
+    fill: rgba(125, 211, 252, 0);
+}
+.hullfig[data-state='on'] .hull-band {
+    stroke-dashoffset: 0;
+}
+.hullfig .nail {
+    fill: #52525b;
+    transition: fill 0.4s ease 0.9s;
+}
+.hullfig[data-state='on'] .nail.is-vertex {
+    fill: var(--algo);
+}
+.hullfig .vertex-num {
+    opacity: 0;
+    transition: opacity 0.4s ease 1.1s;
+    fill: var(--algo);
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.hullfig[data-state='on'] .vertex-num {
+    opacity: 1;
+}
+
+/* LCS: подсветка общей подпоследовательности. */
+.lcs {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+}
+.lcs-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.lcs-name {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: #71717a;
+    width: 34px;
+}
+.lcs-cell {
+    width: 62px;
+    height: 62px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 26px;
+    color: #71717a;
+    transition: border-color 0.35s ease, color 0.35s ease, background 0.35s ease,
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lcsdemo[data-state='on'] .lcs-cell.is-match {
+    border-color: var(--algo);
+    color: #fff;
+    background: rgba(125, 211, 252, 0.1);
+    transform: translateY(-5px);
+    transition-delay: calc(var(--i) * 0.12s);
+}
+.lcs-result {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    color: #3f3f46;
+    transition: color 0.3s ease 0.6s;
+}
+.lcsdemo[data-state='on'] .lcs-result {
+    color: var(--algo);
+}
+
+/* Топологическая сортировка: порядок сборки проявляется по шагам. */
+.topo-order {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.topo-item {
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    color: #ededed;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease;
+}
+.topodemo[data-state='on'] .topo-item {
+    opacity: 1;
+    transform: none;
+    border-color: var(--algo-dim);
+    transition-delay: calc(var(--i) * 0.18s);
+}
+.topo-sep {
+    color: #3f3f46;
+    font-family: var(--font-mono);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.topodemo[data-state='on'] .topo-sep {
+    opacity: 1;
+    transition-delay: calc(var(--i) * 0.18s);
+}
+
+/* Параллельные вычисления: одна задача — последовательно или по ядрам. */
+.cores {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+.core-row {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+}
+.core-name {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: #71717a;
+}
+.core-track {
+    position: relative;
+    height: 52px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    overflow: hidden;
+}
+.core-task {
+    position: absolute;
+    top: 7px;
+    bottom: 7px;
+    border-radius: 8px;
+    background: rgba(125, 211, 252, 0.16);
+    border: 1px solid var(--algo-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: #fff;
+    transition: opacity 0.45s ease;
+}
+.core-scale {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 20px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #52525b;
+}
+.core-scale .core-ticks {
+    display: flex;
+    justify-content: space-between;
+}
+.coresdemo[data-state='seq'] .core-task.only-par { opacity: 0; }
+.coresdemo[data-state='par'] .core-task.only-seq { opacity: 0; }
+.core-verdict {
+    text-align: center;
+    font-size: 20px;
+    color: #a1a1aa;
+    margin: 0;
+}
+.core-verdict b { color: #fff; }
+
+/* ===== Авторы книги ===== */
+.authors4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+.au {
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--panel);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s ease;
+}
+.au:hover { border-color: #3f3f46; }
+.au-photo {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #3f3f46;
+}
+.au-name {
+    font-size: 23px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+}
+.au-role {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #71717a;
+    margin: -6px 0 0;
+}
+.au-facts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+.au-facts li {
+    position: relative;
+    padding-left: 16px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+.au-facts li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 1px;
+    background: #52525b;
+}
+.au-facts li b { color: #ededed; }
+.au-link {
+    margin-top: auto;
+    padding-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--algo);
+    text-decoration: none;
+}
+.au-link:hover { color: #fff; }
+
+/* ===== Итоговая карта главы ===== */
+.map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+.map-node {
+    padding: 10px 26px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    font-size: 19px;
+    color: #d4d4d8;
+    text-align: center;
+    min-width: 420px;
+}
+.map-node.is-head {
+    border-color: #fff;
+    background: #101010;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+}
+.map-node.is-algo {
+    border-color: var(--algo-dim);
+    color: #fff;
+}
+.map-link {
+    width: 1px;
+    height: 14px;
+    background: #3f3f46;
+}
+.map-foot {
+    margin: 24px 0 0;
+    text-align: center;
+    font-size: 23px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+.map-foot b { color: #fff; font-weight: 600; }
+
+/* ===== Упражнения ===== */
+.ex {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+}
+.ex-head {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.ex-code {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    color: var(--algo);
+    padding: 7px 14px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 9999px;
+}
+.ex-progress {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #71717a;
+}
+.ex-dots {
+    display: flex;
+    gap: 7px;
+    margin-left: auto;
+}
+.ex-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #27272a;
+}
+.ex-dot.is-on { background: #fff; }
+.ex-q {
+    font-size: 34px;
+    line-height: 1.35;
+    color: #ededed;
+    margin: 0;
+    max-width: 1500px;
+}
+.ex-sol {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ex.is-open .ex-sol {
+    grid-template-rows: 1fr;
+}
+.ex-sol-inner {
+    overflow: hidden;
+}
+.ex-sol-card {
+    border: 1px solid var(--algo-dim);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(125, 211, 252, 0.05), rgba(0, 0, 0, 0));
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.ex-sol-card .section-label { color: var(--algo); }
+.ex-note {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #71717a;
+    margin: 0;
+}
+.ex-cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+}
+.ex-cols.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ex-col h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 12px;
+}
+.ex-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.ex-list li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #a1a1aa;
+}
+.ex-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 8px;
+    height: 1px;
+    background: var(--algo);
+}
+.ex-list li b { color: #ededed; }
+
+/* ===== Заметки докладчика =====
+   В слайде лежат скрытым блоком; панель собирается в talk.js и живёт вне
+   масштабируемой сцены, чтобы текст читался при любом размере окна. */
+.notes { display: none; }
+.notes-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 48vh;
+    overflow-y: auto;
+    padding: 26px 44px 30px;
+    background: rgba(8, 8, 8, 0.97);
+    border-top: 1px solid #232323;
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.8);
+    transform: translateY(101%);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 60;
+}
+.notes-panel.is-open { transform: none; }
+.notes-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #71717a;
+}
+.notes-panel-body {
+    max-width: 1300px;
+    font-size: 17px;
+    line-height: 1.65;
+    color: #d4d4d8;
+}
+.notes-panel-body p { margin: 0 0 10px; font-size: inherit; line-height: inherit; color: inherit; }
+.notes-panel-body p:last-child { margin-bottom: 0; }
+.notes-panel-body b { color: #fff; font-weight: 600; }
+.notes-panel-body em {
+    display: inline-block;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7dd3fc;
+    margin-right: 8px;
+}
+.notes-toggle {
+    position: fixed;
+    right: 16px;
+    bottom: 12px;
+    z-index: 61;
+    padding: 6px 12px;
+    border: 1px solid #1c1c1c;
+    border-radius: 8px;
+    background: rgba(8, 8, 8, 0.7);
+    color: #3f3f46;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.notes-toggle:hover { color: #a1a1aa; border-color: #3f3f46; }
+
+/* Блок демонстрации: схема, подписи и легенда — колонкой по центру слайда. */
+.sortdemo,
+.lcsdemo,
+.topodemo,
+.hullfig,
+.routefig,
+.coresdemo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+.sortdemo { gap: 0; }
+
+/* Листинг кода контентного слайда. */
+.codebox {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel);
+    overflow: hidden;
+}
+.codebox-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #71717a;
+}
+.codebox pre {
+    margin: 0;
+    padding: 24px 28px;
+    font-family: var(--font-mono);
+    font-size: 19px;
+    line-height: 1.75;
+    color: #d4d4d8;
+    overflow-x: auto;
+}
+.c-com { color: #52525b; }
+.c-kw { color: #f87171; }
+.c-fn { color: var(--algo); }
+.c-str { color: #34d399; }
+.c-num { color: #e879f9; }
+
+/* Узел потока со знаком беды (тепловыделение процессора). */
+.flow-node.is-bad {
+    border-color: #3a1f1f;
+    background: linear-gradient(180deg, rgba(248, 113, 113, 0.07), rgba(248, 113, 113, 0));
+}
+.flow-node.is-bad .fn-key { color: var(--bad); }
+
+/* Соседние блоки слайда не должны слипаться: схема, плитки и выноска идут
+   с одинаковым воздухом между собой. Первый блок после шапки центрируется
+   автоотступом (rule выше с !important), поэтому это правило его не трогает. */
+.content-slide > * + * {
+    margin-top: 26px;
+}
+
+/* Слайд упражнения без заголовка: центрируем карточку задания по высоте
+   (пара с margin-top: auto у .content-slide::after). */
+.content-slide > .ex {
+    margin-top: auto;
+}
+
+/* Таблица соответствий узкая: на всю ширину слайда стрелка уезжала от текста. */
+.kv {
+    width: 100%;
+    max-width: 1300px;
+    align-self: center;
+}

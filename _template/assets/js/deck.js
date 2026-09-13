@@ -319,4 +319,47 @@ class Presentation {
     }
 }
 
+// ===== Тема дека =====
+// По умолчанию дек тёмный — его таким и задумывали для проектора. Выбор
+// человека запоминается в localStorage и восстанавливается ещё до отрисовки
+// (инлайновый скрипт в <head>), поэтому здесь остаётся только переключение.
+const THEME_KEY = 'bc-deck-theme';
+
+function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+}
+
+function applyTheme(theme) {
+    const root = document.documentElement;
+    if (theme === 'light') root.setAttribute('data-theme', 'light');
+    else root.removeAttribute('data-theme');
+
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    btn.setAttribute('aria-checked', String(theme === 'light'));
+    btn.title = theme === 'light' ? 'Тёмная тема (T)' : 'Светлая тема (T)';
+}
+
+function setTheme(theme) {
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+    // Кросс-фейд средствами браузера: дек не перерисовывается по кадрам,
+    // а там, где View Transitions нет, тема просто переключается сразу.
+    if (document.startViewTransition) document.startViewTransition(() => applyTheme(theme));
+    else applyTheme(theme);
+}
+
+function setupTheme() {
+    applyTheme(currentTheme());
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.addEventListener('click', () => setTheme(currentTheme() === 'light' ? 'dark' : 'light'));
+    // Клавиша T по физической раскладке: работает и в русской (там это «е»).
+    document.addEventListener('keydown', (e) => {
+        if (e.code !== 'KeyT' || e.metaKey || e.ctrlKey || e.altKey) return;
+        e.preventDefault();
+        setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+    });
+}
+
+setupTheme();
+
 new Presentation();

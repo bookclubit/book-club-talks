@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Алгоритмы как технология — Алгоритмы: построение и анализ</title>
+    <meta name="description" content="Introduction to Algorithms">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Алгоритмы как технология — Алгоритмы: построение и анализ">
+    <meta property="og:description" content="Introduction to Algorithms">
+    <meta property="og:image" content="https://bc-118-introduction-to-algorithms-1-2-nikiforov.pages.dev/assets/cover/introduction-to-algorithms.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Алгоритмы как технология — Алгоритмы: построение и анализ">
+    <meta name="twitter:description" content="Introduction to Algorithms">
+    <meta name="twitter:image" content="https://bc-118-introduction-to-algorithms-1-2-nikiforov.pages.dev/assets/cover/introduction-to-algorithms.webp">
+    <!-- Тема до первой отрисовки: иначе светлый дек моргнёт тёмным. -->
+    <script>
+        try {
+            if (localStorage.getItem('bc-deck-theme') === 'light')
+                document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 1</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Роль алгоритмов в вычислениях</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Алгоритмы как технология</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844" target="_blank">
+                                    <img class="book-cover" src="assets/cover/introduction-to-algorithms.webp" alt="Алгоритмы: построение и анализ">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844" target="_blank">
+                                    Алгоритмы: построение и анализ
+                                </a>
+                                <p class="book-subtitle">
+                                    Introduction to Algorithms
+                                </p>
+                                <p class="book-desc-ru">
+                                    Самая известная в мире «библия» по алгоритмам для программистов.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Авторы</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://www.cs.dartmouth.edu/~thc/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/tomas-kormen.webp" alt="Томас Кормен">
+                                    <div class="author-info">
+                                        <div class="author-name">Томас Кормен</div>
+                                        <div class="author-link-text">www.cs.dartmouth.edu/~thc ↗</div>
+                                    </div>
+                                </a>
+                                <a class="author-card" href="https://people.csail.mit.edu/cel/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/charlz-leyzerson.webp" alt="Чарльз Лейзерсон">
+                                    <div class="author-info">
+                                        <div class="author-name">Чарльз Лейзерсон</div>
+                                        <div class="author-link-text">people.csail.mit.edu/cel ↗</div>
+                                    </div>
+                                </a>
+                                <a class="author-card" href="https://people.csail.mit.edu/rivest/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/ronald-rivest.webp" alt="Рональд Ривест">
+                                    <div class="author-info">
+                                        <div class="author-name">Рональд Ривест</div>
+                                        <div class="author-link-text">people.csail.mit.edu/rivest ↗</div>
+                                    </div>
+                                </a>
+                                <a class="author-card" href="https://www.columbia.edu/~cs2035/" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/klifford-shtayn.webp" alt="Клиффорд Штайн">
+                                    <div class="author-info">
+                                        <div class="author-name">Клиффорд Штайн</div>
+                                        <div class="author-link-text">www.columbia.edu/~cs2035 ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/Frich22" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/nikiforov-artem.webp" alt="Артём Никифоров">
+                                <div class="author-info">
+                                    <div class="author-name">Артём Никифоров</div>
+                                    <div class="author-link-text">t.me/Frich22 ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+
+<section class="slide" data-slide="4" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-118-introduction-to-algorithms-1-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Что такое алгоритмы</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Алгоритмы как технология</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Переключатель темы: светлая ↔ тёмная (клавиша T) -->
+    <button class="theme-toggle" id="themeToggle" type="button" role="switch"
+            aria-checked="false" aria-label="Переключить тему" title="Светлая тема (T)">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-knob"></span>
+            <span class="theme-ico theme-ico-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            </span>
+            <span class="theme-ico theme-ico-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+            </span>
+        </span>
+    </button>
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+
+</body>
+</html>

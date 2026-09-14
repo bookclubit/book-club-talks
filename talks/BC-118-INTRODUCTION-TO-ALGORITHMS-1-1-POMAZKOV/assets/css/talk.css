@@ -895,9 +895,14 @@
     align-items: stretch;
     gap: 20px;
 }
+/* Ширины карточек — в пикселях, а не долях: сцена доклада фиксированная
+   (1920x1080), зато анимируется единственное свойство, а содержимое карточек
+   стоит на месте. Раскладка: 4x415 + 3x20 зазора = 1720 в закрытом виде,
+   928 + 3x244 + 60 = 1720 в раскрытом. */
 .au {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 0 0 415px;
+    position: relative;
+    overflow: hidden;
     border: 1px solid var(--line);
     border-radius: 22px;
     background: var(--panel);
@@ -905,15 +910,32 @@
     display: flex;
     flex-direction: row;
     gap: 0;
-    transition: flex-grow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        padding 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+    transition: flex-basis 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
+/* Колонка с карьерой одной ширины во всех состояниях: если дать ей тянуться,
+   текст переносится заново на каждом кадре анимации — карточка «прыгает». */
 .au-main {
-    flex: 1 1 auto;
-    min-width: 0;
+    flex: 0 0 367px;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    /* Задержка только на появление: свёрнутый вид сначала гаснет, и лишь потом
+       проступает полная карточка — иначе аватарка накладывается на текст. */
+    transition: opacity 0.25s ease 0.15s;
+}
+/* Свёрнутый вид соседа: аватарка и буква фамилии поверх карточки. Оверлей, а
+   не перестроенная колонка, — по той же причине: перестройка вызывает прыжок. */
+.au-mini {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
 }
 .au:hover { border-color: var(--border-mid); }
 .au-photo {
@@ -1389,7 +1411,7 @@
 .au.is-expandable { cursor: pointer; }
 .au.is-expandable:hover { border-color: var(--algo-dim); }
 .au.is-open {
-    flex-grow: 3.2;
+    flex-basis: 928px;
     border-color: var(--algo-dim);
 }
 .au-toggle {
@@ -1436,61 +1458,52 @@
 /* Вклад в алгоритмы — вторая колонка той же карточки: до раскрытия её ширина
    нулевая, поэтому появление читается как раздвигание карточки вправо. */
 .au-side {
-    flex: 0 0 0%;
-    min-width: 0;
-    /* Свёрнутая колонка нулевой ширины: без height: 0 её текст переносится
-       по одному слову и растягивает карточку по высоте, хотя и не виден. */
+    flex: 0 0 0px;
+    display: flex;
+    align-items: center;
+    /* height: 0 — чтобы свёрнутая колонка не участвовала в высоте карточки;
+       ширину задаёт обёртка, поэтому её текст не перевёрстывается на лету. */
     height: 0;
-    opacity: 0;
     overflow: hidden;
+    transition: flex-basis 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.au-side-inner {
+    width: 486px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    transition: flex-basis 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 0.3s ease, margin 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        padding 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
+    transition: opacity 0.25s ease;
 }
 .au.is-open .au-side {
-    flex-basis: 46%;
+    flex-basis: 513px;
     height: auto;
-    opacity: 1;
-    margin-left: 26px;
     padding-left: 26px;
     border-left: 1px solid var(--line);
-    transition-delay: 0s, 0.12s, 0s, 0s;
+}
+.au.is-open .au-side-inner {
+    opacity: 1;
+    transition-delay: 0.18s;
 }
 .au-contrib li::before { background: var(--algo); }
 
 /* Свёрнутые соседи: только аватарка и буква фамилии (CLRS). */
-.authors4.has-open .au:not(.is-open) {
-    flex-grow: 0.4;
-    padding: 26px 12px;
-}
+.authors4.has-open .au:not(.is-open) { flex-basis: 244px; }
 .authors4.has-open .au:not(.is-open) .au-main {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    opacity: 0;
+    transition-delay: 0s;
 }
-.authors4.has-open .au:not(.is-open) .au-name,
-.authors4.has-open .au:not(.is-open) .au-role,
-.authors4.has-open .au:not(.is-open) .au-label,
-.authors4.has-open .au:not(.is-open) .au-facts,
-.authors4.has-open .au:not(.is-open) .au-link,
-.authors4.has-open .au:not(.is-open) .au-toggle {
-    display: none;
+.authors4.has-open .au:not(.is-open) .au-mini {
+    opacity: 1;
+    transition-delay: 0.18s;
 }
 .au-letter {
-    display: none;
     font-family: var(--font-mono);
-    font-size: 40px;
+    font-size: 44px;
     line-height: 1;
     color: var(--algo);
 }
-.authors4.has-open .au:not(.is-open) .au-letter { display: block; }
-.authors4.has-open .au:not(.is-open) .au-photo {
-    width: 72px;
-    height: 72px;
-}
+.au-mini .au-photo { width: 76px; height: 76px; }
 .au-contrib a {
     display: inline-block;
     margin-top: 3px;

@@ -61,7 +61,15 @@
   function setAuthorOpen(card, open) {
     card.classList.toggle('is-open', open);
     const toggle = card.querySelector('.au-toggle');
-    if (toggle) toggle.setAttribute('aria-expanded', String(open));
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', String(open));
+      const label = toggle.querySelector('.au-toggle-label');
+      if (label) label.textContent = open ? 'Свернуть' : 'Вклад в алгоритмы';
+    }
+    // Свёрнутый вид соседей включает контейнер: карточка не знает, раскрыт ли
+    // кто-то другой, а ряду это нужно, чтобы сжать всех, кроме раскрытого.
+    const row = card.closest('.authors4');
+    if (row) row.classList.toggle('has-open', !!row.querySelector('.au.is-open'));
   }
 
   authorCards.forEach((card) => {

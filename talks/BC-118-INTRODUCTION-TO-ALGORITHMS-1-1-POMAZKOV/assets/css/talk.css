@@ -887,20 +887,33 @@
 .core-verdict b { color: var(--accent); }
 
 /* ===== Авторы книги ===== */
+/* Карточки авторов — горизонтальный аккордеон: по умолчанию четыре равные
+   колонки, у раскрытой доля больше, у остальных меньше. Ширины ведёт flex-grow
+   при нулевом flex-basis, поэтому переход анимируется одним свойством. */
 .authors4 {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    display: flex;
+    align-items: stretch;
     gap: 20px;
 }
 .au {
+    flex: 1 1 0;
+    min-width: 0;
     border: 1px solid var(--line);
     border-radius: 22px;
     background: var(--panel);
     padding: 26px 24px;
     display: flex;
+    flex-direction: row;
+    gap: 0;
+    transition: flex-grow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        padding 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.au-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
     flex-direction: column;
     gap: 12px;
-    transition: border-color 0.2s ease;
 }
 .au:hover { border-color: var(--border-mid); }
 .au-photo {
@@ -1375,7 +1388,10 @@
 }
 .au.is-expandable { cursor: pointer; }
 .au.is-expandable:hover { border-color: var(--algo-dim); }
-.au.is-open { border-color: var(--algo-dim); }
+.au.is-open {
+    flex-grow: 3.2;
+    border-color: var(--algo-dim);
+}
 .au-toggle {
     display: flex;
     align-items: center;
@@ -1394,8 +1410,7 @@
     cursor: pointer;
     transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
-.au-toggle:hover,
-.au.is-open .au-toggle {
+.au-toggle:hover {
     border-color: var(--algo-dim);
     background: rgba(var(--algo-rgb), 0.1);
     color: var(--algo);
@@ -1411,18 +1426,71 @@
     stroke-linejoin: round;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.au.is-open .au-chevron { transform: rotate(180deg); }
-.au-more {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.au.is-open .au-toggle {
+    border-color: var(--algo-dim);
+    background: rgba(var(--algo-rgb), 0.1);
+    color: var(--algo);
 }
-.au.is-open .au-more { grid-template-rows: 1fr; }
-.au-more-inner { overflow: hidden; }
-.au-contrib {
-    padding-top: 14px;
+.au.is-open .au-chevron { transform: rotate(180deg); }
+
+/* Вклад в алгоритмы — вторая колонка той же карточки: до раскрытия её ширина
+   нулевая, поэтому появление читается как раздвигание карточки вправо. */
+.au-side {
+    flex: 0 0 0%;
+    min-width: 0;
+    /* Свёрнутая колонка нулевой ширины: без height: 0 её текст переносится
+       по одному слову и растягивает карточку по высоте, хотя и не виден. */
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: flex-basis 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.3s ease, margin 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        padding 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.au.is-open .au-side {
+    flex-basis: 46%;
+    height: auto;
+    opacity: 1;
+    margin-left: 26px;
+    padding-left: 26px;
+    border-left: 1px solid var(--line);
+    transition-delay: 0s, 0.12s, 0s, 0s;
 }
 .au-contrib li::before { background: var(--algo); }
+
+/* Свёрнутые соседи: только аватарка и буква фамилии (CLRS). */
+.authors4.has-open .au:not(.is-open) {
+    flex-grow: 0.4;
+    padding: 26px 12px;
+}
+.authors4.has-open .au:not(.is-open) .au-main {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.authors4.has-open .au:not(.is-open) .au-name,
+.authors4.has-open .au:not(.is-open) .au-role,
+.authors4.has-open .au:not(.is-open) .au-label,
+.authors4.has-open .au:not(.is-open) .au-facts,
+.authors4.has-open .au:not(.is-open) .au-link,
+.authors4.has-open .au:not(.is-open) .au-toggle {
+    display: none;
+}
+.au-letter {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: 40px;
+    line-height: 1;
+    color: var(--algo);
+}
+.authors4.has-open .au:not(.is-open) .au-letter { display: block; }
+.authors4.has-open .au:not(.is-open) .au-photo {
+    width: 72px;
+    height: 72px;
+}
 .au-contrib a {
     display: inline-block;
     margin-top: 3px;

@@ -164,11 +164,11 @@
 
             <!-- SLIDE: авторы книги -->
             <section class="slide" data-slide="4">
-                <div class="content-slide is-fill">
+                <div class="content-slide">
                     <h2 class="gradient-text">Кто написал эту книгу</h2>
 
                     <div class="authors4 is-roomy">
-                        <div class="au">
+                        <div class="au is-expandable">
                             <img class="au-photo" src="assets/authors/tomas-kormen.webp" alt="Томас Кормен">
                             <div class="au-name">Томас Кормен<span class="term-en"> · C</span></div>
                             <p class="au-role">Дартмутский колледж, почётный профессор информатики</p>
@@ -179,15 +179,26 @@
                                 <li>Много лет возглавлял факультет информатики, а до этого — институт письма и риторики: редкая пара должностей</li>
                             </ul>
 
-                            <p class="au-label">Вклад в алгоритмы</p>
-                            <ul class="au-facts">
-                                <li>Алгоритмы внешней памяти и параллельного ввода-вывода: как считать то, что в оперативную память не помещается</li>
-                                <li>Написал «Алгоритмы. Вводный курс» — ту же программу без математического аппарата</li>
-                            </ul>
                             <a class="au-link" href="https://www.cs.dartmouth.edu/~thc/" target="_blank" rel="noreferrer">cs.dartmouth.edu/~thc ↗</a>
+
+                            <button class="au-toggle" type="button" aria-expanded="false">
+                                <span class="au-toggle-label">Вклад в алгоритмы</span>
+                                <svg class="au-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="au-more">
+                                <div class="au-more-inner">
+                                    <ul class="au-facts au-contrib">
+                                        <li>Алгоритмы внешней памяти и параллельного ввода-вывода: как считать то, что в оперативную память не помещается.
+                                            <a href="https://www.cs.dartmouth.edu/~thc/" target="_blank" rel="noreferrer">страница в Дартмуте ↗</a></li>
+                                        <li>«Алгоритмы. Вводный курс» — та же программа без математического аппарата.
+                                            <a href="https://mitpress.mit.edu/9780262313230/algorithms-unlocked/" target="_blank" rel="noreferrer">MIT Press ↗</a></li>
+                                        <li>В самой книге отвечает за то, чтобы строгий материал можно было прочитать: псевдокод, формулировки, разбор рекуррентностей.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="au">
+                        <div class="au is-expandable">
                             <img class="au-photo" src="assets/authors/charlz-leyzerson.webp" alt="Чарльз Лейзерсон">
                             <div class="au-name">Чарльз Лейзерсон<span class="term-en"> · L</span></div>
                             <p class="au-role">MIT, профессор электротехники и информатики</p>
@@ -198,15 +209,26 @@
                                 <li>Сооснователь Cilk Arts; технологию выкупила Intel — так появился Cilk Plus</li>
                             </ul>
 
-                            <p class="au-label">Вклад в алгоритмы</p>
-                            <ul class="au-facts">
-                                <li>Придумал fat-tree — топологию сети суперкомпьютера Connection Machine CM-5</li>
-                                <li>Cilk и планировщик с перехватом работы: из этих работ выросла глава о многопоточных алгоритмах. Премия ACM Paris Kanellakis, 2013</li>
-                            </ul>
                             <a class="au-link" href="https://people.csail.mit.edu/cel/" target="_blank" rel="noreferrer">people.csail.mit.edu/cel ↗</a>
+
+                            <button class="au-toggle" type="button" aria-expanded="false">
+                                <span class="au-toggle-label">Вклад в алгоритмы</span>
+                                <svg class="au-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="au-more">
+                                <div class="au-more-inner">
+                                    <ul class="au-facts au-contrib">
+                                        <li>Придумал fat-tree — топологию сети суперкомпьютера Connection Machine CM-5.
+                                            <a href="https://ieeexplore.ieee.org/document/6312192/" target="_blank" rel="noreferrer">IEEE Trans. Computers, 1985 ↗</a></li>
+                                        <li>Cilk и планировщик с перехватом работы; сегодня развивается в MIT как OpenCilk.
+                                            <a href="https://cilk.mit.edu/" target="_blank" rel="noreferrer">cilk.mit.edu ↗</a></li>
+                                        <li>Из этих работ выросла глава книги о многопоточных алгоритмах. Премия ACM Paris Kanellakis, 2013.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="au">
+                        <div class="au is-expandable">
                             <img class="au-photo" src="assets/authors/ronald-rivest.webp" alt="Рональд Ривест">
                             <div class="au-name">Рональд Ривест<span class="term-en"> · R</span></div>
                             <p class="au-role">MIT, Institute Professor, криптограф</p>
@@ -217,15 +239,26 @@
                                 <li>Сооснователь RSA Security; много лет занимается проверяемыми системами голосования</li>
                             </ul>
 
-                            <p class="au-label">Вклад в алгоритмы</p>
-                            <ul class="au-facts">
-                                <li>Буква <b>R</b> в <b>RSA</b>: шифрование с открытым ключом, 1977 год. Премия Тьюринга, 2002</li>
-                                <li>Соавтор «медианы медиан» — выбора k-го по величине элемента за линейное время, это отдельная глава книги</li>
-                            </ul>
                             <a class="au-link" href="https://people.csail.mit.edu/rivest/" target="_blank" rel="noreferrer">people.csail.mit.edu/rivest ↗</a>
+
+                            <button class="au-toggle" type="button" aria-expanded="false">
+                                <span class="au-toggle-label">Вклад в алгоритмы</span>
+                                <svg class="au-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="au-more">
+                                <div class="au-more-inner">
+                                    <ul class="au-facts au-contrib">
+                                        <li>Буква <b>R</b> в <b>RSA</b>: шифрование с открытым ключом, 1977 год.
+                                            <a href="https://people.csail.mit.edu/rivest/pubs/RSA78.pdf" target="_blank" rel="noreferrer">оригинальная статья ↗</a></li>
+                                        <li>«Медиана медиан»: выбор k-го по величине элемента за линейное время — этому посвящена отдельная глава книги.
+                                            <a href="https://people.csail.mit.edu/rivest/pubs/BFPRT73.pdf" target="_blank" rel="noreferrer">Time Bounds for Selection, 1973 ↗</a></li>
+                                        <li>Глава о теории чисел и криптографии — его область. Премия Тьюринга, 2002.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="au">
+                        <div class="au is-expandable">
                             <img class="au-photo" src="assets/authors/klifford-shtayn.webp" alt="Клиффорд Штайн">
                             <div class="au-name">Клиффорд Штайн<span class="term-en"> · S</span></div>
                             <p class="au-role">Колумбийский университет, профессор исследования операций и информатики</p>
@@ -236,18 +269,30 @@
                                 <li>Заведовал кафедрой исследования операций, руководил институтом науки о данных</li>
                             </ul>
 
-                            <p class="au-label">Вклад в алгоритмы</p>
-                            <ul class="au-facts">
-                                <li>Комбинаторная оптимизация, теория расписаний и потоки в сетях</li>
-                                <li>Приближённые алгоритмы — его исследовательская тема; присоединился ко второму изданию, до него книгу звали CLR</li>
-                            </ul>
                             <a class="au-link" href="https://www.columbia.edu/~cs2035/" target="_blank" rel="noreferrer">columbia.edu/~cs2035 ↗</a>
+
+                            <button class="au-toggle" type="button" aria-expanded="false">
+                                <span class="au-toggle-label">Вклад в алгоритмы</span>
+                                <svg class="au-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                            </button>
+                            <div class="au-more">
+                                <div class="au-more-inner">
+                                    <ul class="au-facts au-contrib">
+                                        <li>Приближённые алгоритмы для NP-трудных задач и теория расписаний — его исследовательская тема.
+                                            <a href="https://ieor.columbia.edu/content/clifford-stein" target="_blank" rel="noreferrer">профиль в Колумбийском университете ↗</a></li>
+                                        <li>Потоки в сетях и комбинаторная оптимизация: отсюда главы о потоках и о приближённых алгоритмах.</li>
+                                        <li>Присоединился ко второму изданию — до 2001 года книгу звали CLR.
+                                            <a href="https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/" target="_blank" rel="noreferrer">страница книги, MIT Press ↗</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <aside class="notes">
                     <p><em>Зачем слайд</em> Прежде чем разбирать определения, полезно понять, кому мы верим. Это не компиляция из интернета: авторы сами построили часть того, о чём пишут. По первым буквам фамилий книгу во всём мире зовут CLRS.</p>
+                    <p><em>Как показывать</em> На карточках видна только карьера. Нажмите на карточку — раскроется вклад в алгоритмы со ссылками на оригинальные работы. Открытая карточка закрывает предыдущую, так что зал смотрит на одного человека за раз.</p>
                     <p><em>Что сказать</em> Ривест — соавтор RSA, то есть буквально того шифрования, которым ваш браузер защищает форму оплаты, и соавтор линейного алгоритма выбора k-го элемента. Лейзерсон сделал Cilk — систему, из которой выросла модель многопоточных алгоритмов. Штайн занимается приближёнными алгоритмами — ими закончится наш доклад. Кормен отвечает за то, что книгу можно читать, а не только цитировать.</p>
                     <p><em>Аналогия</em> Это как если бы учебник по React написали вчетвером люди, которые сами делали реконсилиатор, хуки и devtools.</p>
                     <p><em>Переход</em> Авторам верим. Теперь — почему именно эта книга, а не любая другая по алгоритмам.</p>

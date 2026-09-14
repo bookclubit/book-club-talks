@@ -1161,22 +1161,6 @@
     color: var(--algo);
     margin-right: 8px;
 }
-.notes-toggle {
-    position: fixed;
-    right: 16px;
-    bottom: 12px;
-    z-index: 61;
-    padding: 6px 12px;
-    border: 1px solid var(--bg-hover);
-    border-radius: 8px;
-    background: rgba(var(--bg-rgb), 0.7);
-    color: var(--border-mid);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
-}
-.notes-toggle:hover { color: var(--text-muted); border-color: var(--border-mid); }
 
 /* Блок демонстрации: схема, подписи и легенда — колонкой по центру слайда. */
 .sortdemo,
@@ -1260,7 +1244,6 @@
 .content-slide.is-fill > .slide-lead + * {
     margin-top: 30px !important;
 }
-.content-slide.is-fill > .authors4,
 .content-slide.is-fill > .whybook {
     flex: 1 1 auto;
     min-height: 0;
@@ -1369,24 +1352,87 @@
     transform: translateX(0) translateY(0);
 }
 
-/* ===== Слайд авторов: карточки на всю высоту ===== */
+/* ===== Слайд авторов: компактная карточка с раскрытием =====
+   На карточке видна только карьера — вклад в алгоритмы прячется до клика,
+   иначе четыре колонки текста занимают весь слайд и читать их некому.
+   Раскрытие — переходом grid-template-rows с 0fr на 1fr: так высота
+   анимируется без замера содержимого в JS. */
 .authors4.is-roomy { align-items: stretch; }
-.authors4.is-roomy .au { gap: 12px; padding: 34px 32px; }
-.authors4.is-roomy .au-photo { width: 104px; height: 104px; }
-.authors4.is-roomy .au-name { font-size: 27px; }
-.authors4.is-roomy .au-role { font-size: 17px; }
-.authors4.is-roomy .au-facts { gap: 11px; }
-.authors4.is-roomy .au-facts li { font-size: 17px; padding-left: 18px; }
-.authors4.is-roomy .au-facts li::before { top: 12px; }
-.authors4.is-roomy .au-link { font-size: 15px; }
+.authors4.is-roomy .au { gap: 10px; padding: 26px 24px; }
+.authors4.is-roomy .au-photo { width: 84px; height: 84px; }
+.authors4.is-roomy .au-name { font-size: 24px; }
+.authors4.is-roomy .au-role { font-size: 16px; }
+.authors4.is-roomy .au-facts { gap: 9px; }
+.authors4.is-roomy .au-facts li { font-size: 16px; padding-left: 18px; }
+.authors4.is-roomy .au-link { font-size: 14px; }
 .au-label {
-    margin: 6px 0 0;
+    margin: 4px 0 0;
     font-family: var(--font-mono);
     font-size: 13px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--algo);
 }
+.au.is-expandable { cursor: pointer; }
+.au.is-expandable:hover { border-color: var(--algo-dim); }
+.au.is-open { border-color: var(--algo-dim); }
+.au-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-top: 4px;
+    padding: 11px 14px;
+    border: 1px solid var(--border-mid);
+    border-radius: 12px;
+    background: var(--bg-sunken);
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.au-toggle:hover,
+.au.is-open .au-toggle {
+    border-color: var(--algo-dim);
+    background: rgba(var(--algo-rgb), 0.1);
+    color: var(--algo);
+}
+.au-chevron {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.au.is-open .au-chevron { transform: rotate(180deg); }
+.au-more {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.au.is-open .au-more { grid-template-rows: 1fr; }
+.au-more-inner { overflow: hidden; }
+.au-contrib {
+    padding-top: 14px;
+}
+.au-contrib li::before { background: var(--algo); }
+.au-contrib a {
+    display: inline-block;
+    margin-top: 3px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--algo);
+    text-decoration: none;
+    border-bottom: 1px solid var(--algo-dim);
+}
+.au-contrib a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 /* ===== «Почему именно эта книга»: обложка · преимущества · таймлайн ===== */
 .whybook {

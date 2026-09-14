@@ -53,6 +53,26 @@
     });
   });
 
+  // ---------- Карточки авторов: вклад в алгоритмы по клику ----------
+  // Открыта всегда одна карточка: четыре развёрнутых колонки текста зал не
+  // читает. Клик по ссылке внутри карточки её не сворачивает.
+  const authorCards = [...document.querySelectorAll('.au.is-expandable')];
+
+  function setAuthorOpen(card, open) {
+    card.classList.toggle('is-open', open);
+    const toggle = card.querySelector('.au-toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', String(open));
+  }
+
+  authorCards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      e.stopPropagation();
+      const open = !card.classList.contains('is-open');
+      authorCards.forEach((other) => setAuthorOpen(other, other === card && open));
+    });
+  });
+
   // ---------- Код с разбором по наведению ----------
   // Слева от листинга висят карточки «вход / алгоритм / выход» с прошлого
   // слайда; какую показать, решает data-echo на общем контейнере. Ставим его
@@ -119,6 +139,7 @@
     slide.querySelectorAll('[data-seg]').forEach((seg) => applyState(seg, seg.dataset.initial));
     slide.querySelectorAll('[data-demo-toggle]').forEach((btn) => applyToggle(btn, false));
     slide.querySelectorAll('.echo-split').forEach((s) => s.setAttribute('data-echo', 'none'));
+    slide.querySelectorAll('.au.is-open').forEach((card) => setAuthorOpen(card, false));
   }
 
   const slides = allSlides;
@@ -126,6 +147,8 @@
   // ---------- Заметки докладчика ----------
   // Текст лежит в самом слайде (<aside class="notes">), панель собирается тут:
   // она вне масштабируемой сцены, поэтому читается при любом размере окна.
+  // Кнопки-подсказки на экране нет намеренно: она висела поверх каждого слайда
+  // и попадала в запись. Панель открывается и закрывается клавишей N.
   const panel = document.createElement('div');
   panel.className = 'notes-panel';
   panel.innerHTML =
@@ -133,12 +156,6 @@
     '<span class="notes-panel-slide"></span><span>N — скрыть</span></div>' +
     '<div class="notes-panel-body"></div>';
   document.body.appendChild(panel);
-
-  const toggle = document.createElement('button');
-  toggle.type = 'button';
-  toggle.className = 'notes-toggle';
-  toggle.textContent = 'N — заметки';
-  document.body.appendChild(toggle);
 
   const body = panel.querySelector('.notes-panel-body');
   const counter = panel.querySelector('.notes-panel-slide');
@@ -159,11 +176,8 @@
 
   function setNotesOpen(open) {
     panel.classList.toggle('is-open', open);
-    toggle.textContent = open ? 'N — скрыть заметки' : 'N — заметки';
     if (open) renderNotes();
   }
-
-  toggle.addEventListener('click', () => setNotesOpen(!panel.classList.contains('is-open')));
 
   document.addEventListener('keydown', (e) => {
     // Латинская N и русская Т — одна и та же клавиша при любой раскладке.

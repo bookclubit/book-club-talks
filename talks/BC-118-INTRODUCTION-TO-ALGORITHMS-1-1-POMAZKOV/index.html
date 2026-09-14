@@ -370,7 +370,6 @@
                                     <p class="vtl-note">Текущее. Гендерно-нейтральный язык и сайт с дополнительными материалами.</p>
                                 </li>
                             </ol>
-                            <p class="vtl-foot">Больше <b>тридцати лет</b> книга остаётся основным учебником по алгоритмам в университетах и справочником для практиков.</p>
                         </div>
                     </div>
                 </div>
@@ -433,11 +432,27 @@
                     </p>
 
                     <div class="echo-split" data-echo="none" id="codeEcho">
+                        <div class="codebox">
+                            <div class="codebox-head">
+                                <span class="mac-dots"><span class="mac-dot"></span><span class="mac-dot"></span><span class="mac-dot"></span></span>
+                                <span>user-list.js</span>
+                            </div>
+<pre><span class="code-region" data-region="input"><span class="c-kw">const</span> users = [
+  { name: <span class="c-str">'Аня'</span>, rating: <span class="c-num">41</span> },
+  { name: <span class="c-str">'Борис'</span>, rating: <span class="c-num">31</span> },
+  { name: <span class="c-str">'Вера'</span>, rating: <span class="c-num">59</span> },
+];</span>
+
+<span class="code-region" data-region="algo"><span class="c-kw">const</span> byRating = (a, b) =&gt; a.rating - b.rating;</span>
+
+<span class="code-region" data-region="output"><span class="c-kw">const</span> sorted = [...users].<span class="c-fn">sort</span>(byRating);</span></pre>
+                        </div>
+
                         <div class="echo-pane">
                             <div class="echo-card is-hint">
                                 <span class="fn-key">наведите</span>
                                 <span class="fn-title">Три части кода</span>
-                                <p class="fn-desc">Наведите курсор на любой блок справа — здесь появится его роль из определения алгоритма.</p>
+                                <p class="fn-desc">Наведите курсор на любой блок кода слева — здесь появится его роль из определения алгоритма.</p>
                             </div>
                             <div class="echo-card" data-for="input">
                                 <span class="fn-key">input</span>
@@ -458,22 +473,6 @@
                                 <p class="echo-map">здесь — перестановка <code>users</code>, неубывающая по <code>rating</code></p>
                             </div>
                         </div>
-
-                        <div class="codebox">
-                            <div class="codebox-head">
-                                <span class="mac-dots"><span class="mac-dot"></span><span class="mac-dot"></span><span class="mac-dot"></span></span>
-                                <span>user-list.js</span>
-                            </div>
-<pre><span class="code-region" data-region="input"><span class="c-kw">const</span> users = [
-  { name: <span class="c-str">'Аня'</span>, rating: <span class="c-num">41</span> },
-  { name: <span class="c-str">'Борис'</span>, rating: <span class="c-num">31</span> },
-  { name: <span class="c-str">'Вера'</span>, rating: <span class="c-num">59</span> },
-];</span>
-
-<span class="code-region" data-region="algo"><span class="c-kw">const</span> byRating = (a, b) =&gt; a.rating - b.rating;</span>
-
-<span class="code-region" data-region="output"><span class="c-kw">const</span> sorted = [...users].<span class="c-fn">sort</span>(byRating);</span></pre>
-                        </div>
                     </div>
 
                     <div class="callout is-algo">
@@ -486,7 +485,7 @@
 
                 <aside class="notes">
                     <p><em>Суть</em> Показать, что алгоритмы — не отдельная академическая вселенная. Вы уже вызываете их десятками в день.</p>
-                    <p><em>Как показывать</em> Проведите курсором по трём блокам кода сверху вниз — слева по очереди проявятся вход, алгоритм и выход с прошлого слайда. Комментариев в коде нет намеренно: подпись даёт сам слайд.</p>
+                    <p><em>Как показывать</em> Проведите курсором по трём блокам кода сверху вниз — справа по очереди проявятся вход, алгоритм и выход с прошлого слайда. Комментариев в коде нет намеренно: подпись даёт сам слайд.</p>
                     <p><em>Что сказать</em> В V8 внутри <code>sort</code> живёт TimSort — гибрид сортировки слиянием и вставками. Кто-то его придумал, доказал корректность и оценил время. Ровно этим занимается книга.</p>
                     <p><em>Осторожно</em> Не уходить в детали TimSort — это не тема главы, достаточно факта, что за привычным вызовом стоит выбранный кем-то алгоритм.</p>
                     <p><em>Переход</em> Теперь про то, инструментом для чего этот алгоритм является.</p>

@@ -1250,3 +1250,652 @@
     max-width: 1300px;
     align-self: center;
 }
+
+/* ===== Слайд, растянутый на всю высоту =====
+   Обычный контентный слайд центрирует блок в остатке высоты. Там, где блок
+   должен занять весь остаток (карточки авторов, три колонки «почему эта
+   книга»), хвостовой автоотступ убирается — иначе он съедал бы половину. */
+.content-slide.is-fill::after { content: none; }
+.content-slide.is-fill > h2 + *,
+.content-slide.is-fill > .slide-lead + * {
+    margin-top: 30px !important;
+}
+.content-slide.is-fill > .authors4,
+.content-slide.is-fill > .whybook {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+/* ===== Подсказка при наведении =====
+   Один компонент на весь доклад: .tip-host — любой блок с подсказкой,
+   .tip-word — подчёркнутое слово в тексте. Сама подсказка (.tip) всплывает
+   над носителем; .is-below разворачивает её вниз (для верха слайда),
+   .is-left прижимает к правому краю (для крайней правой колонки). */
+.tip-host { position: relative; }
+.tip-host:hover { z-index: 20; }
+.tip-word {
+    position: relative;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: help;
+    border-bottom: 2px dashed var(--algo);
+    transition: border-color 0.2s ease;
+}
+.tip-word:hover {
+    border-bottom-color: var(--accent);
+    z-index: 20;
+}
+.tip-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-left: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--algo-dim);
+    color: var(--algo);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 400;
+    vertical-align: middle;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+.tip-host:hover .tip-mark {
+    border-color: var(--algo);
+    background: rgba(var(--algo-rgb), 0.16);
+}
+.tip {
+    position: absolute;
+    bottom: calc(100% + 16px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    width: 620px;
+    padding: 22px 26px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 16px;
+    background: var(--bg-sunken);
+    box-shadow: 0 18px 50px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    font-family: var(--font-sans);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-muted);
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 50;
+}
+.tip b { color: var(--text-main); font-weight: 600; }
+.tip code { font-family: var(--font-mono); font-size: 0.92em; color: var(--algo); }
+.tip-head {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--algo) !important;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.tip.is-below {
+    bottom: auto;
+    top: calc(100% + 16px);
+    transform: translateX(-50%) translateY(-6px);
+}
+/* Прижать подсказку к краю носителя: .is-left уходит влево (носитель у правого
+   края слайда), .is-start — вправо (носитель у левого края). */
+.tip.is-left {
+    left: auto;
+    right: 0;
+    transform: translateX(0) translateY(6px);
+}
+.tip.is-start {
+    left: 0;
+    right: auto;
+    transform: translateX(0) translateY(6px);
+}
+.tip-host:hover > .tip,
+.tip-word:hover > .tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+.tip-host:hover > .tip.is-left,
+.tip-host:hover > .tip.is-start,
+.tip-word:hover > .tip.is-left,
+.tip-word:hover > .tip.is-start {
+    transform: translateX(0) translateY(0);
+}
+
+/* ===== Слайд авторов: карточки на всю высоту ===== */
+.authors4.is-roomy { align-items: stretch; }
+.authors4.is-roomy .au { gap: 12px; padding: 34px 32px; }
+.authors4.is-roomy .au-photo { width: 104px; height: 104px; }
+.authors4.is-roomy .au-name { font-size: 27px; }
+.authors4.is-roomy .au-role { font-size: 17px; }
+.authors4.is-roomy .au-facts { gap: 11px; }
+.authors4.is-roomy .au-facts li { font-size: 17px; padding-left: 18px; }
+.authors4.is-roomy .au-facts li::before { top: 12px; }
+.authors4.is-roomy .au-link { font-size: 15px; }
+.au-label {
+    margin: 6px 0 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--algo);
+}
+
+/* ===== «Почему именно эта книга»: обложка · преимущества · таймлайн ===== */
+.whybook {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr) 600px;
+    gap: 40px;
+    align-items: start;
+}
+.wb-cover {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.wb-cover img {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 60px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
+}
+.wb-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.3;
+}
+.wb-sub {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-top: -6px;
+}
+.wb-adv,
+.wb-time {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+.adv-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.adv-list li {
+    padding-left: 20px;
+    border-left: 2px solid var(--algo-dim);
+}
+.adv-list h3 {
+    margin: 0 0 5px;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.25;
+}
+.adv-list p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* Вертикальный таймлайн изданий: точка — издание, промежуток — что добавили. */
+.vtl {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 30px;
+    position: relative;
+}
+.vtl::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--border-mid);
+}
+.vtl-item { position: relative; padding-bottom: 4px; }
+.vtl-dot {
+    position: absolute;
+    left: -30px;
+    top: 6px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    background: var(--bg);
+}
+.vtl-item.is-now .vtl-dot {
+    border-color: var(--algo);
+    background: var(--algo);
+    box-shadow: 0 0 0 5px rgba(var(--algo-rgb), 0.16);
+}
+.vtl-head {
+    font-size: 20px;
+    color: var(--text-soft);
+    line-height: 1.3;
+}
+.vtl-head b {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 600;
+}
+.vtl-tag {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    border: 1px solid var(--border-mid);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    vertical-align: middle;
+}
+.vtl-tag.is-now {
+    border-color: var(--algo-dim);
+    color: var(--algo);
+}
+.vtl-note {
+    margin: 4px 0 0;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--text-dim);
+}
+.vtl-gap {
+    position: relative;
+    padding: 9px 0 9px 0;
+}
+.vtl-gap::before {
+    content: '+';
+    position: absolute;
+    left: -29px;
+    top: 8px;
+    width: 12px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--algo);
+    background: var(--bg);
+    line-height: 1;
+    padding: 2px 0;
+}
+.vtl-gap p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.vtl-foot {
+    margin: 6px 0 0;
+    padding: 14px 20px;
+    border-left: 3px solid var(--algo);
+    border-radius: 0 12px 12px 0;
+    background: linear-gradient(90deg, rgba(var(--algo-rgb), 0.09), rgba(var(--tint-rgb), 0));
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-soft);
+}
+.vtl-foot b { color: var(--accent); font-weight: 600; }
+
+/* ===== Крупная анимированная схема «вход → алгоритм → выход» ===== */
+.flow.is-big { gap: 30px; }
+.flow.is-big .flow-node {
+    padding: 40px 42px;
+    max-width: 520px;
+    gap: 14px;
+}
+.flow.is-big .flow-node .fn-key { font-size: 16px; }
+.flow.is-big .flow-node .fn-title { font-size: 40px; }
+.flow.is-big .flow-node .fn-desc { font-size: 20px; }
+.flow.is-big .flow-arrow { width: 86px; height: 30px; }
+
+/* Появление по шагам: запускается сменой класса active на слайде, поэтому
+   при каждом возврате на слайд схема собирается заново. */
+.flow.is-anim .flow-node,
+.flow.is-anim .flow-arrow {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.slide.active .flow.is-anim .flow-node,
+.slide.active .flow.is-anim .flow-arrow {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.5s ease calc(var(--d) * 1s), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--d) * 1s);
+}
+.flow-dot { fill: var(--algo); opacity: 0; }
+.slide.active .flow.is-anim .flow-dot {
+    animation: flowDot 2.6s ease-in-out infinite;
+    animation-delay: calc((var(--d) + 1.6) * 1s);
+}
+@keyframes flowDot {
+    0% { transform: translateX(0); opacity: 0; }
+    12% { opacity: 1; }
+    55% { opacity: 1; }
+    70%, 100% { transform: translateX(46px); opacity: 0; }
+}
+
+/* ===== Код с разбором по наведению («это вы пишете каждый день») ===== */
+.echo-split {
+    display: grid;
+    grid-template-columns: 470px minmax(0, 1fr);
+    gap: 30px;
+    align-items: stretch;
+}
+.echo-pane { position: relative; min-height: 300px; }
+.echo-card {
+    position: absolute;
+    inset: 0;
+    padding: 30px 32px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.echo-card .fn-key {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.echo-card .fn-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+}
+.echo-card .fn-desc {
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0;
+}
+.echo-card.is-algo {
+    border-color: var(--algo-dim);
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.08), rgba(var(--algo-rgb), 0));
+}
+.echo-card.is-algo .fn-key { color: var(--algo); }
+.echo-card.is-hint { border-style: dashed; }
+.echo-card.is-hint .fn-title { color: var(--text-dim); }
+.echo-map {
+    margin: 4px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+.echo-split[data-echo='none'] .echo-card.is-hint,
+.echo-split[data-echo='input'] .echo-card[data-for='input'],
+.echo-split[data-echo='algo'] .echo-card[data-for='algo'],
+.echo-split[data-echo='output'] .echo-card[data-for='output'] {
+    opacity: 1;
+    transform: none;
+}
+.code-region {
+    display: block;
+    border: 1px dashed transparent;
+    border-radius: 10px;
+    margin: 0 -12px;
+    padding: 4px 12px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.code-region:hover {
+    border-color: var(--algo);
+    background: rgba(var(--algo-rgb), 0.07);
+}
+
+/* ===== Ветвление исходов (некорректный алгоритм) ===== */
+.branch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+}
+.branch-node {
+    flex: 0 0 auto;
+    width: 250px;
+    padding: 24px 26px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.branch-node .fn-key {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.branch-node .fn-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+}
+.branch-node.is-algo {
+    border-color: var(--algo-dim);
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.08), rgba(var(--algo-rgb), 0));
+}
+.branch-node.is-algo .fn-key { color: var(--algo); }
+.branch-arrow {
+    flex: 0 0 auto;
+    width: 54px;
+    height: 20px;
+    stroke: var(--text-faint);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.branch-fan {
+    flex: 0 0 auto;
+    width: 120px;
+    height: 440px;
+    overflow: visible;
+}
+.bf-line { fill: none; stroke-width: 2; }
+.bf-head { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.bf-line.is-bad, .bf-head.is-bad { stroke: var(--bad-line); }
+.bf-line.is-good, .bf-head.is-good { stroke: var(--good); }
+.branch-outs {
+    flex: 1 1 auto;
+    height: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.bo {
+    flex: 0 0 auto;
+    height: 132px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 26px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel);
+}
+.bo-sign {
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    border: 1px solid currentColor;
+}
+.bo-text h3 { margin: 0 0 4px; font-size: 22px; font-weight: 600; color: var(--accent); line-height: 1.2; }
+.bo-text p { margin: 0; font-size: 16px; line-height: 1.45; color: var(--text-muted); }
+.bo.is-bad { border-color: var(--bad-line); }
+.bo.is-bad .bo-sign { color: var(--bad); }
+.bo.is-good {
+    border-color: var(--good-line);
+    background: linear-gradient(90deg, rgba(var(--good-rgb), 0.08), rgba(var(--tint-rgb), 0));
+}
+.bo.is-good .bo-sign { color: var(--good); }
+.bo.is-good .tip-mark { border-color: var(--good-line); color: var(--good); }
+.bo.is-good:hover .tip-mark { border-color: var(--good); background: rgba(var(--good-rgb), 0.16); }
+.bo.is-good .tip { border-color: var(--good-line); width: 700px; }
+.bo.is-good .tip-head { color: var(--good) !important; }
+
+/* ===== Короткий пример внутри плитки (формы записи алгоритма) ===== */
+.sample {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-sunken);
+    overflow: hidden;
+}
+.sample pre {
+    margin: 0;
+    padding: 16px 18px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-soft);
+    overflow-x: auto;
+}
+.sample.is-fig { display: flex; align-items: center; justify-content: center; padding: 10px; }
+.chipfig { width: 100%; height: auto; overflow: visible; }
+.cf-body { fill: var(--panel); stroke: var(--border-mid); stroke-width: 2; }
+.cf-wire { stroke: var(--text-faint); stroke-width: 2; fill: none; stroke-linecap: round; }
+.cf-cell { fill: var(--bg-hover); stroke: var(--border-strong); stroke-width: 1.5; }
+.cf-cell.is-hi { fill: rgba(var(--algo-rgb), 0.14); stroke: var(--algo); }
+.cf-trace { stroke: var(--algo-dim); stroke-width: 1.5; fill: none; }
+.cf-label {
+    fill: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-anchor: middle;
+}
+.cf-label.is-hi { fill: var(--algo); }
+
+/* ===== Плитка-кнопка с переходом на слайд ===== */
+.tile.is-link {
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    align-items: stretch;
+}
+.tile.is-link:hover {
+    border-color: var(--algo-dim);
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.07), rgba(var(--algo-rgb), 0));
+}
+.tile-go {
+    margin-top: auto;
+    padding-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-faint);
+    transition: color 0.2s ease;
+}
+.tile.is-link:hover .tile-go { color: var(--algo); }
+.tile-src {
+    margin-top: auto;
+    padding-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--algo);
+    text-decoration: none;
+}
+.tile-src:hover { color: var(--accent); }
+.tile .tile-foot + .tile-src { margin-top: 0; }
+
+/* ===== Маршрутизация: волна обхода и найденный путь =====
+   Один цикл на 8 секунд: рёбра вспыхивают в порядке обхода (свой --d у
+   каждого), затем прорисовывается кратчайший путь. Анимация живёт только на
+   активном слайде, поэтому при возврате начинается сначала. */
+.net-split { grid-template-columns: minmax(0, 520px) minmax(0, 1fr); }
+.netfig { display: flex; flex-direction: column; gap: 10px; }
+.netfig-cap {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-faint);
+}
+.f-edge-scan {
+    fill: none;
+    stroke: var(--border-soft);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+.route-final {
+    fill: none;
+    stroke: var(--algo);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 560;
+    stroke-dashoffset: 560;
+    opacity: 0;
+}
+.slide.active .netfig .f-edge-scan {
+    animation: edgeScan 8s linear infinite;
+    animation-delay: calc(var(--d) * 1s);
+}
+.slide.active .netfig .n-hit {
+    animation: nodeHit 8s linear infinite;
+    animation-delay: calc(var(--d) * 1s);
+}
+/* Отправитель и получатель после своей вспышки остаются подсвеченными:
+   это опорные точки схемы, они не должны гаснуть вместе с промежуточными. */
+.slide.active .netfig .f-node-hi.n-hit {
+    animation-name: nodeHitHi;
+}
+.slide.active .netfig .route-final {
+    animation: routeDraw 8s linear infinite;
+}
+@keyframes edgeScan {
+    0% { stroke: var(--border-soft); stroke-width: 2; }
+    4% { stroke: var(--algo); stroke-width: 4; }
+    12% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    70% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    88%, 100% { stroke: var(--border-soft); stroke-width: 2; }
+}
+@keyframes nodeHit {
+    0% { stroke: var(--text-faint); stroke-width: 2; }
+    5% { stroke: var(--algo); stroke-width: 5; }
+    14% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    70% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    88%, 100% { stroke: var(--text-faint); stroke-width: 2; }
+}
+@keyframes nodeHitHi {
+    0% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    5% { stroke: var(--algo); stroke-width: 7; }
+    14%, 100% { stroke: var(--algo); stroke-width: 3; }
+}
+@keyframes routeDraw {
+    0%, 45% { stroke-dashoffset: 560; opacity: 0; }
+    46% { stroke-dashoffset: 560; opacity: 1; }
+    60%, 88% { stroke-dashoffset: 0; opacity: 1; }
+    96%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}

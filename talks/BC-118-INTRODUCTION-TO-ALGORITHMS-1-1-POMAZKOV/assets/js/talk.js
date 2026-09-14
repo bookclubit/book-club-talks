@@ -53,6 +53,42 @@
     });
   });
 
+  // ---------- Код с разбором по наведению ----------
+  // Слева от листинга висят карточки «вход / алгоритм / выход» с прошлого
+  // слайда; какую показать, решает data-echo на общем контейнере. Ставим его
+  // из JS, а не селектором :has(), чтобы поведение не зависело от поддержки.
+  document.querySelectorAll('.echo-split').forEach((split) => {
+    const reset = () => split.setAttribute('data-echo', 'none');
+    split.querySelectorAll('.code-region').forEach((region) => {
+      region.addEventListener('mouseenter', () =>
+        split.setAttribute('data-echo', region.getAttribute('data-region')));
+      region.addEventListener('mouseleave', reset);
+    });
+    split.addEventListener('mouseleave', reset);
+  });
+
+  // ---------- Переход на слайд по клику ----------
+  // Своего API у deck.js нет, поэтому «перематываем» дек теми же стрелками,
+  // которые он слушает: прогресс и заметки остаются в согласии с движком.
+  const allSlides = [...document.querySelectorAll('.slide')];
+
+  function gotoSlide(index) {
+    const from = allSlides.findIndex((s) => s.classList.contains('active'));
+    const step = index > from ? 'ArrowRight' : 'ArrowLeft';
+    for (let i = 0; i < Math.abs(index - from); i++) {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: step }));
+    }
+  }
+
+  document.querySelectorAll('[data-goto]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const target = document.getElementById(`slide-${btn.getAttribute('data-goto')}`);
+      const index = allSlides.indexOf(target);
+      if (index >= 0) gotoSlide(index);
+    });
+  });
+
   // ---------- Упражнения: решение скрыто до клика ----------
   document.querySelectorAll('.ex-toggle').forEach((btn) => {
     const ex = btn.closest('.ex');
@@ -82,9 +118,10 @@
     });
     slide.querySelectorAll('[data-seg]').forEach((seg) => applyState(seg, seg.dataset.initial));
     slide.querySelectorAll('[data-demo-toggle]').forEach((btn) => applyToggle(btn, false));
+    slide.querySelectorAll('.echo-split').forEach((s) => s.setAttribute('data-echo', 'none'));
   }
 
-  const slides = [...document.querySelectorAll('.slide')];
+  const slides = allSlides;
 
   // ---------- Заметки докладчика ----------
   // Текст лежит в самом слайде (<aside class="notes">), панель собирается тут:

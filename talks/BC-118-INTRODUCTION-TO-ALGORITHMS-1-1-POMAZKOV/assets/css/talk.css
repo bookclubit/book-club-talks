@@ -2026,20 +2026,18 @@
     height: 1px;
     background: var(--border-mid);
 }
+/* Колонка шириной ровно в обложку: все четыре приведены к одному книжному
+   прямоугольнику, поэтому точка и год встают по центру книги. */
 .htl-item {
     position: relative;
-    flex: 0 0 168px;
-    /* Без min-width: 0 колонка растягивается под ширину обложки и съедает
-       промежуток, где лежит текст «что добавило издание». */
-    min-width: 0;
-    padding-right: 14px;
+    flex: 0 0 calc(var(--cover-h) * 0.72);
+    text-align: center;
 }
-/* Последняя обложка свисать вправо не может — за ней край слайда. */
-.htl-item:last-child { flex-basis: 312px; }
 .htl-dot {
     position: absolute;
     top: calc(var(--line-y) - 6px);
-    left: 0;
+    left: 50%;
+    margin-left: -6.5px;
     width: 13px;
     height: 13px;
     border-radius: 50%;
@@ -2056,7 +2054,7 @@
 .htl-cover {
     display: block;
     height: var(--cover-h);
-    width: auto;
+    width: 100%;
     margin-bottom: 36px;
     border-radius: 6px;
     border: 1px solid var(--border-mid);
@@ -2070,7 +2068,7 @@
     border-color: var(--algo);
     box-shadow: 0 0 0 4px rgba(var(--algo-rgb), 0.3), 0 20px 46px rgba(var(--shadow-rgb), calc(0.7 * var(--shadow-k)));
     transform: scale(1.05);
-    transform-origin: left bottom;
+    transform-origin: center bottom;
 }
 .htl-item:hover .htl-cover { opacity: 0.9; filter: none; }
 .htl-year {
@@ -2081,8 +2079,8 @@
     line-height: 1.1;
 }
 .htl-name {
-    margin-top: 2px;
-    font-size: 15px;
+    margin-top: 3px;
+    font-size: 16px;
     color: var(--text-soft);
 }
 .htl-note {

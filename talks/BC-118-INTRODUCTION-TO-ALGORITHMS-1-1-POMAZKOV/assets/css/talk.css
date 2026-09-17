@@ -1525,29 +1525,6 @@
     gap: 40px;
     align-items: center;
 }
-.wb-cover {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-.wb-cover img {
-    width: 100%;
-    border-radius: 14px;
-    border: 1px solid var(--line);
-    box-shadow: 0 24px 60px rgba(var(--shadow-rgb), calc(0.6 * var(--shadow-k)));
-}
-.wb-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--accent);
-    line-height: 1.3;
-}
-.wb-sub {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    color: var(--text-dim);
-    margin-top: -6px;
-}
 .wb-adv,
 .wb-time {
     display: flex;
@@ -2022,21 +1999,20 @@
 .whybook {
     display: flex;
     flex-direction: column;
-    gap: 26px;
+    gap: 30px;
     justify-content: center;
-}
-.wb-top {
-    display: grid;
-    grid-template-columns: 210px minmax(0, 1fr);
-    gap: 36px;
-    align-items: center;
 }
 
 /* Горизонтальный таймлайн изданий: точка — издание, промежуток — что добавили. */
+/* Обложки стоят над линией таймлайна, поэтому линия и точки опущены на их
+   высоту. Обложка шире своей колонки и свисает вправо — в промежуток между
+   изданиями, где текста в этой полосе всё равно нет. */
 .htl {
+    --cover-h: 348px;
+    --line-y: calc(var(--cover-h) + 18px);
     list-style: none;
-    margin: 14px 0 0;
-    padding: 26px 0 0;
+    margin: 16px 0 0;
+    padding: 0;
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -2046,18 +2022,23 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 6px;
+    top: var(--line-y);
     height: 1px;
     background: var(--border-mid);
 }
 .htl-item {
     position: relative;
     flex: 0 0 168px;
+    /* Без min-width: 0 колонка растягивается под ширину обложки и съедает
+       промежуток, где лежит текст «что добавило издание». */
+    min-width: 0;
     padding-right: 14px;
 }
+/* Последняя обложка свисать вправо не может — за ней край слайда. */
+.htl-item:last-child { flex-basis: 312px; }
 .htl-dot {
     position: absolute;
-    top: -26px;
+    top: calc(var(--line-y) - 6px);
     left: 0;
     width: 13px;
     height: 13px;
@@ -2074,21 +2055,21 @@
    наше издание — в полную яркость и с кольцом, остальные приглушены. */
 .htl-cover {
     display: block;
-    height: 116px;
+    height: var(--cover-h);
     width: auto;
-    margin-bottom: 12px;
-    border-radius: 4px;
+    margin-bottom: 36px;
+    border-radius: 6px;
     border: 1px solid var(--border-mid);
-    opacity: 0.55;
-    filter: saturate(0.75);
+    opacity: 0.45;
+    filter: saturate(0.7);
     transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
 }
 .htl-item.is-now .htl-cover {
     opacity: 1;
     filter: none;
     border-color: var(--algo);
-    box-shadow: 0 0 0 3px rgba(var(--algo-rgb), 0.28), 0 14px 34px rgba(var(--shadow-rgb), calc(0.65 * var(--shadow-k)));
-    transform: translateY(-5px) scale(1.06);
+    box-shadow: 0 0 0 4px rgba(var(--algo-rgb), 0.3), 0 20px 46px rgba(var(--shadow-rgb), calc(0.7 * var(--shadow-k)));
+    transform: scale(1.05);
     transform-origin: left bottom;
 }
 .htl-item:hover .htl-cover { opacity: 0.9; filter: none; }
@@ -2114,12 +2095,12 @@
     position: relative;
     flex: 1 1 0;
     min-width: 0;
-    padding: 0 18px;
+    padding: calc(var(--cover-h) + 36px) 18px 0;
 }
 .htl-gap::before {
     content: '+';
     position: absolute;
-    top: -27px;
+    top: calc(var(--line-y) - 8px);
     left: 50%;
     transform: translateX(-50%);
     padding: 0 7px;

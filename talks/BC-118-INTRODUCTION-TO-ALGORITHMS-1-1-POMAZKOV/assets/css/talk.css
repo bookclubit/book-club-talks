@@ -2017,3 +2017,606 @@
     60%, 88% { stroke-dashoffset: 0; opacity: 1; }
     96%, 100% { stroke-dashoffset: 0; opacity: 0; }
 }
+
+/* ===== «Почему именно эта книга»: обложка и таймлайн сверху, преимущества строкой снизу ===== */
+.whybook {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    justify-content: center;
+}
+.wb-top {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 36px;
+    align-items: center;
+}
+
+/* Горизонтальный таймлайн изданий: точка — издание, промежуток — что добавили. */
+.htl {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 26px 0 0;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+}
+.htl::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 6px;
+    height: 1px;
+    background: var(--border-mid);
+}
+.htl-item {
+    position: relative;
+    flex: 0 0 168px;
+    padding-right: 14px;
+}
+.htl-dot {
+    position: absolute;
+    top: -26px;
+    left: 0;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    background: var(--bg);
+}
+.htl-item.is-now .htl-dot {
+    border-color: var(--algo);
+    background: var(--algo);
+    box-shadow: 0 0 0 5px rgba(var(--algo-rgb), 0.16);
+}
+.htl-year {
+    font-family: var(--font-mono);
+    font-size: 25px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.1;
+}
+.htl-name {
+    margin-top: 2px;
+    font-size: 15px;
+    color: var(--text-soft);
+}
+.htl-note {
+    margin: 7px 0 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text-dim);
+}
+.htl-gap {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 18px;
+}
+.htl-gap::before {
+    content: '+';
+    position: absolute;
+    top: -27px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 7px;
+    background: var(--bg);
+    color: var(--algo);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    line-height: 15px;
+}
+.htl-gap p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* Преимущества — пять пунктов в одну линию. */
+.wb-adv {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.adv-row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px;
+}
+.adv-item {
+    padding-left: 18px;
+    border-left: 2px solid var(--algo-dim);
+}
+.adv-item h3 {
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.25;
+}
+.adv-item p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* ===== Две колонки-задачи (интернет) ===== */
+.duo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    align-items: stretch;
+}
+.duo-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px 26px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+}
+.duo-col h3 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+}
+.duo-desc {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.duo-chapter {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+.duo-col .netfig { margin-top: auto; }
+
+/* Поиск: перебор против индекса. Верхняя строка сканируется по одному
+   документу, нижняя подсвечивает нужные сразу — цикл общий, 4 секунды. */
+.idxfig {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 10px;
+}
+.idx-row {
+    display: grid;
+    grid-template-columns: 148px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+}
+.idx-label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+}
+.idx-docs {
+    display: grid;
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+    gap: 5px;
+}
+.idx-index {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 14px;
+    background: rgba(var(--algo-rgb), 0.07);
+    font-family: var(--font-mono);
+    font-size: 18px;
+}
+.idx-term { color: var(--accent); }
+.idx-arrow { color: var(--text-faint); }
+.idx-list { color: var(--algo); }
+.idx-doc {
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: var(--bg-hover);
+}
+.slide.active .idxfig .idx-row:first-child .idx-doc {
+    animation: idxScan 4s linear infinite;
+    animation-delay: calc(var(--d) * 1s);
+}
+.slide.active .idxfig .idx-doc.is-hit {
+    animation: idxHit 4s linear infinite;
+    animation-delay: 0.1s;
+}
+@keyframes idxScan {
+    0%, 100% { background: var(--bg-hover); border-color: var(--line); }
+    4% { background: rgba(var(--algo-rgb), 0.55); border-color: var(--algo); }
+    16% { background: var(--bg-hover); border-color: var(--line); }
+}
+@keyframes idxHit {
+    0%, 100% { background: var(--bg-hover); border-color: var(--line); }
+    4%, 62% { background: rgba(var(--good-rgb), 0.5); border-color: var(--good); }
+    76% { background: var(--bg-hover); border-color: var(--line); }
+}
+
+/* ===== Экземпляр задачи: вход падает в алгоритм, снизу выходит порядок ===== */
+.instance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.inst-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    min-height: 122px;
+}
+.inst-row .chips { min-height: 78px; align-items: center; }
+.inst-arrow {
+    width: 22px;
+    height: 44px;
+    stroke: var(--text-faint);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.inst-algo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 34px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.1), rgba(var(--algo-rgb), 0));
+}
+.inst-algo .fn-key {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--algo);
+}
+.inst-algo .fn-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+}
+.inst-empty {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    color: var(--text-faint);
+    padding: 24px 0;
+}
+.chip.is-fresh {
+    animation: chipIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i) * 0.07s);
+}
+@keyframes chipIn {
+    from { opacity: 0; transform: translateY(-18px) scale(0.94); }
+    to { opacity: 1; transform: none; }
+}
+
+/* ===== Электронная коммерция: пакет едет по каналу, на ответвлении — перехват ===== */
+/* Схема считает высоту от ширины: во всю ширину слайда она не помещается. */
+.ecom-fig { display: block; width: 100%; max-width: 1480px; height: auto; margin: 0 auto; }
+.ec-wire {
+    stroke: var(--border-mid);
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+.ec-tap {
+    stroke: var(--bad);
+    stroke-width: 2;
+    stroke-dasharray: 7 7;
+    fill: none;
+    opacity: 0.35;
+}
+.ec-disc {
+    fill: var(--bg-sunken);
+    stroke: var(--border-mid);
+    stroke-width: 2;
+}
+.ec-ico {
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.ec-ico.is-thief { stroke: var(--bad); }
+.ec-box {
+    fill: var(--panel);
+    stroke: var(--border-mid);
+    stroke-width: 2;
+}
+.ec-box.is-thief { stroke: var(--bad-line); }
+.ec-field {
+    fill: var(--text-soft);
+    font-family: var(--font-mono);
+    font-size: 22px;
+}
+.ec-pill {
+    fill: rgba(var(--algo-rgb), 0.18);
+    stroke: var(--algo);
+    stroke-width: 2;
+}
+.ec-pill-text {
+    fill: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 19px;
+}
+.ec-steal {
+    font-family: var(--font-mono);
+    font-size: 19px;
+}
+.ec-steal.is-plain { fill: var(--bad); }
+.ec-steal.is-cipher { fill: var(--text-faint); }
+.ec-verdict {
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.ec-verdict.is-plain { fill: var(--bad); }
+.ec-verdict.is-cipher { fill: var(--good); }
+/* Какая надпись видна — решает состояние демонстрации. */
+.ecom[data-state='open'] .is-cipher,
+.ecom[data-state='safe'] .is-plain { display: none; }
+.ecom[data-state='safe'] .ec-pill {
+    fill: rgba(var(--good-rgb), 0.18);
+    stroke: var(--good);
+}
+.ecom[data-state='safe'] .ec-pill-text { fill: var(--good); }
+.ecom[data-state='safe'] .ec-box.is-thief { stroke: var(--good-line); }
+.ecom[data-state='safe'] .ec-ico.is-thief { stroke: var(--text-faint); }
+.ecom[data-state='safe'] .ec-tap { stroke: var(--good); }
+.ec-packet { opacity: 0; }
+.slide.active .ec-packet { animation: ecPacket 4.4s linear infinite; }
+@keyframes ecPacket {
+    0% { transform: translateX(240px); opacity: 0; }
+    8% { transform: translateX(300px); opacity: 1; }
+    88% { transform: translateX(760px); opacity: 1; }
+    100% { transform: translateX(820px); opacity: 0; }
+}
+.slide.active .ec-tap { animation: ecTap 4.4s linear infinite; }
+@keyframes ecTap {
+    0%, 46% { opacity: 0.25; stroke-width: 2; }
+    52% { opacity: 1; stroke-width: 4; }
+    70%, 100% { opacity: 0.25; stroke-width: 2; }
+}
+.slide.active .ec-thief .ec-steal,
+.slide.active .ec-thief .ec-verdict { animation: ecSteal 4.4s linear infinite; }
+@keyframes ecSteal {
+    0%, 50% { opacity: 0; }
+    58%, 92% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ===== Пошаговый разбор задачи: условие → почему не перебор → решение ===== */
+.steps {
+    position: relative;
+    min-height: var(--steps-h, 400px);
+}
+/* Схемы внутри шага считают высоту от своей ширины, поэтому во всю ширину
+   слайда они вылезают за его нижний край — ограничиваем ширину явно. */
+.steps .roadmap { max-width: 1120px; }
+.steps .topodemo .fig { max-width: 900px; }
+.steps .hullfig .fig { max-width: 520px; }
+.steps .sp-graph .fig { max-width: 100%; }
+.step-pane {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+.steps[data-step='0'] .step-pane[data-when='0'],
+.steps[data-step='1'] .step-pane[data-when='1'],
+.steps[data-step='2'] .step-pane[data-when='2'] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+.step-lead {
+    margin: 0;
+    max-width: 1300px;
+    align-self: center;
+    text-align: center;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.step-lead b { color: var(--text-main); font-weight: 600; }
+.step-dots {
+    display: flex;
+    gap: 9px;
+}
+.step-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg-active);
+    transition: background 0.25s ease;
+}
+.step-dots span.is-on { background: var(--algo); }
+
+/* ===== Карта дорог (задача о кратчайшем пути) ===== */
+.roadmap .rm-roads line {
+    stroke: var(--bg-active);
+    stroke-width: 20;
+    stroke-linecap: round;
+}
+.roadmap .rm-marking line {
+    stroke: var(--text-faint);
+    stroke-width: 2;
+    stroke-dasharray: 11 13;
+    stroke-linecap: round;
+}
+.rm-dist {
+    fill: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 18px;
+}
+.rm-cross {
+    fill: var(--bg-sunken);
+    stroke: var(--border-strong);
+    stroke-width: 2;
+}
+.rm-pin circle {
+    fill: rgba(var(--algo-rgb), 0.18);
+    stroke: var(--algo);
+    stroke-width: 2.5;
+}
+.rm-pin-text {
+    fill: var(--accent);
+    font-family: var(--font-sans);
+    font-size: 20px;
+    font-weight: 600;
+}
+.sp-solve {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 34px;
+    align-items: center;
+}
+.sp-graph { display: flex; flex-direction: column; gap: 10px; }
+.sp-algo {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    text-align: center;
+}
+.sp-model { display: flex; flex-direction: column; gap: 12px; }
+.sp-model .kv { max-width: none; }
+.sp-model .kv-row { font-size: 18px; padding: 12px 18px; }
+.sp-model-note {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+/* Найденный путь на статичном графе: без анимации прорисовки. */
+.route-final.is-static {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+}
+
+/* ===== Общие характеристики и исключение ===== */
+.common-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.common-item {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+    padding: 22px 28px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel);
+}
+.common-item.is-good { border-color: var(--good-line); }
+.common-num {
+    padding-top: 7px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-faint);
+}
+.common-body h3 {
+    margin: 0 0 7px;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.25;
+}
+.common-body p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+.exception {
+    padding: 18px 26px;
+    border-left: 3px solid var(--bad);
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(var(--bad-rgb), 0.09), rgba(var(--tint-rgb), 0));
+}
+.exception-head {
+    margin: 0 0 7px;
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--bad);
+}
+.exception-body {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.exception-list {
+    margin: 12px 0 0;
+    font-size: 20px;
+    line-height: 1.7;
+    color: var(--text-soft);
+}
+
+/* ===== Картинка внутри подсказки ===== */
+.tip.is-wide { width: 820px; }
+.tip-fig {
+    display: block;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+}
+.tip-fig svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+.tip-fig-arrow {
+    stroke: var(--text-faint);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.tf-num {
+    fill: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 27px;
+}
+.tf-sign {
+    fill: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 27px;
+}
+.tf-op {
+    fill: var(--bad);
+    font-family: var(--font-mono);
+    font-size: 21px;
+}
+.tf-op.is-good { fill: var(--good); }
+.tf-cap {
+    fill: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.f-bar.is-drop { fill: var(--bad); opacity: 0.5; }
+.f-wave.is-noisy { stroke: var(--text-faint); stroke-width: 1.5; }

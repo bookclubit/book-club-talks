@@ -117,6 +117,88 @@
     });
   });
 
+  // ---------- Пошаговый разбор задачи ----------
+  // Одна задача — один слайд: условие, потом «почему не перебором», потом
+  // решение. Шаг живёт в data-step контейнера, панели переключает CSS —
+  // так высота слайда не зависит от того, какой шаг открыт.
+  function renderStep(steps) {
+    const step = Number(steps.getAttribute('data-step')) || 0;
+    document.querySelectorAll(`[data-step-next][data-target="${steps.id}"]`).forEach((btn) => {
+      const labels = (btn.getAttribute('data-labels') || '').split('|');
+      const label = btn.querySelector('.btn-label');
+      if (label && labels[step]) label.textContent = labels[step];
+    });
+    const dots = steps.closest('.content-slide')?.querySelector('[data-step-dots]');
+    if (dots) {
+      [...dots.children].forEach((dot, i) => dot.classList.toggle('is-on', i === step));
+    }
+  }
+
+  const stepBoxes = [...document.querySelectorAll('.steps')];
+  stepBoxes.forEach(renderStep);
+
+  document.querySelectorAll('[data-step-next]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const steps = document.getElementById(btn.getAttribute('data-target'));
+      if (!steps) return;
+      const total = steps.querySelectorAll('.step-pane').length;
+      const next = ((Number(steps.getAttribute('data-step')) || 0) + 1) % total;
+      steps.setAttribute('data-step', String(next));
+      renderStep(steps);
+    });
+  });
+
+  // ---------- Экземпляр задачи: любая последовательность на входе ----------
+  // Смысл слайда — что экземпляров бесконечно много, поэтому кнопка гоняет
+  // по списку заведомо разных входов, включая пустой и вырожденные.
+  const INSTANCES = [
+    { in: [31, 41, 59, 26, 41, 58], note: 'шесть чисел из книги' },
+    { in: [5, 4, 3, 2, 1], note: 'уже упорядочена — по убыванию' },
+    { in: [2, 2, 2, 2], note: 'все элементы равны' },
+    { in: [7], note: 'один элемент' },
+    { in: [], note: 'пустая последовательность — тоже экземпляр' },
+    { in: [903, 12, 47, 512, 8, 64, 271, 33], note: 'восемь произвольных чисел' },
+  ];
+
+  function fillChips(box, values) {
+    box.innerHTML = '';
+    if (!values.length) {
+      const empty = document.createElement('span');
+      empty.className = 'inst-empty';
+      empty.textContent = '⟨ ⟩';
+      box.appendChild(empty);
+      return;
+    }
+    values.forEach((value, i) => {
+      const chip = document.createElement('div');
+      chip.className = 'chip is-small is-fresh';
+      chip.style.setProperty('--i', String(i));
+      chip.textContent = String(value);
+      box.appendChild(chip);
+    });
+  }
+
+  function renderInstance(demo, index) {
+    const item = INSTANCES[index % INSTANCES.length];
+    demo.dataset.instIndex = String(index % INSTANCES.length);
+    fillChips(demo.querySelector('[data-inst-in]'), item.in);
+    fillChips(demo.querySelector('[data-inst-out]'), [...item.in].sort((a, b) => a - b));
+    const caption = demo.closest('.content-slide')?.querySelector('[data-inst-caption]');
+    if (caption) caption.textContent = item.note;
+  }
+
+  document.querySelectorAll('.instance').forEach((demo) => renderInstance(demo, 0));
+
+  document.querySelectorAll('[data-inst-next]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const demo = document.getElementById(btn.getAttribute('data-target'));
+      if (!demo) return;
+      renderInstance(demo, (Number(demo.dataset.instIndex) || 0) + 1);
+    });
+  });
+
   // ---------- Упражнения: решение скрыто до клика ----------
   document.querySelectorAll('.ex-toggle').forEach((btn) => {
     const ex = btn.closest('.ex');
@@ -148,6 +230,12 @@
     slide.querySelectorAll('[data-demo-toggle]').forEach((btn) => applyToggle(btn, false));
     slide.querySelectorAll('.echo-split').forEach((s) => s.setAttribute('data-echo', 'none'));
     slide.querySelectorAll('.au.is-open').forEach((card) => setAuthorOpen(card, false));
+    slide.querySelectorAll('.steps').forEach((steps) => {
+      steps.setAttribute('data-step', '0');
+      renderStep(steps);
+    });
+    slide.querySelectorAll('.instance').forEach((demo) => renderInstance(demo, 0));
+    slide.querySelectorAll('[data-auto-demo]').forEach((el) => el.setAttribute('data-state', 'off'));
   }
 
   const slides = allSlides;
@@ -202,6 +290,13 @@
     new MutationObserver(() => {
       if (slide.classList.contains('active')) {
         if (panel.classList.contains('is-open')) renderNotes();
+        // Демонстрации, которые не ждут кнопки: проигрываются при входе на
+        // слайд, чтобы зал увидел построение, а не готовую картинку.
+        slide.querySelectorAll('[data-auto-demo]').forEach((el) => {
+          setTimeout(() => {
+            if (slide.classList.contains('active')) el.setAttribute('data-state', 'on');
+          }, 350);
+        });
       } else {
         resetSlide(slide);
       }

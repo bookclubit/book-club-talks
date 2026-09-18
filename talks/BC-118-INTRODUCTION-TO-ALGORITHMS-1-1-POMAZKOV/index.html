@@ -1155,11 +1155,6 @@
                         </div>
                     </div>
 
-                    <div class="callout is-algo">
-                        <span class="callout-label">Заметьте</span>
-                        <p>Разница между «просмотреть всё» и «заглянуть в индекс» — это не проценты.
-                        Это разница между <b>ответом за 200 миллисекунд</b> и ответом, которого вы не дождётесь.</p>
-                    </div>
                 </div>
 
                 <aside class="notes">
@@ -1183,7 +1178,7 @@
                     </p>
 
                     <div class="ecom" id="ecomDemo" data-state="open">
-                        <svg class="fig ecom-fig" viewBox="0 0 1180 340" aria-hidden="true">
+                        <svg class="fig ecom-fig" viewBox="0 0 1180 350" aria-hidden="true">
                             <line class="ec-wire" x1="430" y1="120" x2="930" y2="120"/>
                             <path class="ec-tap" d="M700 120 L700 222"/>
 
@@ -1207,22 +1202,24 @@
                             </g>
 
                             <g class="ec-thief">
-                                <rect class="ec-box is-thief" x="556" y="222" width="330" height="88" rx="12"/>
+                                <circle class="ec-disc is-thief" cx="496" cy="266" r="40"/>
                                 <g class="ec-ico is-thief">
-                                    <path d="M580 250h44v10a14 14 0 0 1-14 14h-16a14 14 0 0 1-14-14z"/>
-                                    <path d="M576 250a26 26 0 0 1 52 0"/>
-                                    <path d="M590 260h5M609 260h5"/>
+                                    <path d="M474 262h44v9a13 13 0 0 1-13 13h-18a13 13 0 0 1-13-13z"/>
+                                    <path d="M471 262a25 25 0 0 1 50 0"/>
+                                    <path d="M485 272h5M502 272h5"/>
                                 </g>
-                                <text class="ec-steal is-plain" x="770" y="262" text-anchor="middle">4111 1111 1111 1111</text>
-                                <text class="ec-steal is-cipher" x="770" y="262" text-anchor="middle">8f3a c091 dd47 20be</text>
-                                <text class="ec-verdict is-plain" x="770" y="292" text-anchor="middle">данные украдены</text>
-                                <text class="ec-verdict is-cipher" x="770" y="292" text-anchor="middle">украден мусор</text>
+                                <text class="f-label" x="496" y="336" text-anchor="middle">злоумышленник</text>
+                                <rect class="ec-box is-thief" x="560" y="222" width="300" height="88" rx="12"/>
+                                <text class="ec-steal is-plain" x="710" y="262" text-anchor="middle">4111 1111 1111 1111</text>
+                                <text class="ec-steal is-cipher" x="710" y="262" text-anchor="middle">8f3a c091 dd47 20be</text>
+                                <text class="ec-verdict is-plain" x="710" y="292" text-anchor="middle">данные украдены</text>
+                                <text class="ec-verdict is-cipher" x="710" y="292" text-anchor="middle">украден мусор</text>
                             </g>
 
                             <g class="ec-packet">
-                                <rect class="ec-pill" x="0" y="98" width="188" height="44" rx="10"/>
-                                <text class="ec-pill-text is-plain" x="94" y="127" text-anchor="middle">4111 1111 1111 1111</text>
-                                <text class="ec-pill-text is-cipher" x="94" y="127" text-anchor="middle">8f3a c091 dd47 20be</text>
+                                <rect class="ec-pill" x="0" y="98" width="236" height="44" rx="10"/>
+                                <text class="ec-pill-text is-plain" x="118" y="126" text-anchor="middle">4111 1111 1111 1111</text>
+                                <text class="ec-pill-text is-cipher" x="118" y="126" text-anchor="middle">8f3a c091 dd47 20be</text>
                             </g>
                         </svg>
                     </div>
@@ -1510,7 +1507,7 @@
                         Её длина — мера схожести: цепочки ДНК считают сходными, если у них есть длинная общая подпоследовательность.
                     </p>
 
-                    <div class="steps" id="lcsSteps" data-step="0" style="--steps-h: 400px">
+                    <div class="steps" id="lcsSteps" data-step="0" style="--steps-h: 500px">
                         <div class="step-pane" data-when="0">
                             <div class="lcsdemo" data-auto-demo data-state="off">
                                 <div class="lcs">
@@ -1565,27 +1562,42 @@
                         </div>
 
                         <div class="step-pane" data-when="2">
-                            <div class="tiles cols-3">
-                                <div class="tile is-bad">
-                                    <span class="tile-num">почему перебор горит</span>
-                                    <h3>Считает одно и то же</h3>
-                                    <p>Полный перебор снова и снова решает одни и те же маленькие подзадачи — именно на этом сгорает время.</p>
+                            <div class="dp">
+                                <div class="dp-fig">
+                                    <div class="dp-grid" style="--cols: 8">
+                                        <span class="dp-h"></span><span class="dp-h"></span><span class="dp-h">B</span><span class="dp-h">A</span><span class="dp-h">D</span><span class="dp-h">C</span><span class="dp-h">B</span><span class="dp-h">A</span>
+                                        <span class="dp-h"></span><span class="dp-c is-zero">0</span><span class="dp-c is-zero">0</span><span class="dp-c is-zero">0</span><span class="dp-c is-zero">0</span><span class="dp-c is-zero">0</span><span class="dp-c is-zero">0</span><span class="dp-c is-zero">0</span>
+                                        <span class="dp-h">A</span><span class="dp-c is-zero">0</span><span class="dp-c">0</span><span class="dp-c is-match">1</span><span class="dp-c is-path">1</span><span class="dp-c">1</span><span class="dp-c">1</span><span class="dp-c">1</span>
+                                        <span class="dp-h">B</span><span class="dp-c is-zero">0</span><span class="dp-c">1</span><span class="dp-c">1</span><span class="dp-c is-path">1</span><span class="dp-c">1</span><span class="dp-c">2</span><span class="dp-c">2</span>
+                                        <span class="dp-h">C</span><span class="dp-c is-zero">0</span><span class="dp-c">1</span><span class="dp-c">1</span><span class="dp-c">1</span><span class="dp-c is-match">2</span><span class="dp-c">2</span><span class="dp-c">2</span>
+                                        <span class="dp-h">B</span><span class="dp-c is-zero">0</span><span class="dp-c">1</span><span class="dp-c">1</span><span class="dp-c">1</span><span class="dp-c">2</span><span class="dp-c is-match">3</span><span class="dp-c">3</span>
+                                        <span class="dp-h">D</span><span class="dp-c is-zero">0</span><span class="dp-c">1</span><span class="dp-c">1</span><span class="dp-c">2</span><span class="dp-c">2</span><span class="dp-c is-path">3</span><span class="dp-c">3</span>
+                                        <span class="dp-h">A</span><span class="dp-c is-zero">0</span><span class="dp-c">1</span><span class="dp-c">2</span><span class="dp-c">2</span><span class="dp-c">2</span><span class="dp-c">3</span><span class="dp-c is-match">4</span>
+                                        <span class="dp-h">B</span><span class="dp-c is-zero">0</span><span class="dp-c">1</span><span class="dp-c">2</span><span class="dp-c">2</span><span class="dp-c">2</span><span class="dp-c">3</span><span class="dp-c is-path">4</span>
+                                    </div>
+                                    <p class="netfig-cap">c[i, j] — длина ЛОП префиксов X[1..i] и Y[1..j]; зелёным — совпадения, из которых собран ответ</p>
                                 </div>
-                                <div class="tile">
-                                    <span class="tile-num">идея</span>
-                                    <h3>Решить подзадачу один раз</h3>
-                                    <p>Ответы на маленькие подзадачи запоминаются в таблице и при повторной встрече берутся готовыми.</p>
-                                </div>
-                                <div class="tile is-good">
-                                    <span class="tile-num">результат</span>
-                                    <h3>Ответ собирается из ответов</h3>
-                                    <p>Вместо экспоненциального перебора — таблица m·n клеток. Для строк по тысяче символов это миллион шагов вместо неподъёмного числа.</p>
+
+                                <div class="dp-text">
+                                    <h3>Динамическое программирование</h3>
+                                    <p>Большая задача разбивается на подзадачи поменьше: <b>какова ЛОП префиксов</b>
+                                    X[1..i] и Y[1..j]. Каждая клетка таблицы — ответ на одну такую подзадачу,
+                                    и считается он из уже заполненных соседей:</p>
+                                    <div class="dp-rule">
+                                        <div><code>c[i, j] = c[i−1, j−1] + 1</code><span>если xᵢ = yⱼ — символ идёт в ответ</span></div>
+                                        <div><code>c[i, j] = max(c[i−1, j], c[i, j−1])</code><span>иначе — берём лучшее из двух соседей</span></div>
+                                    </div>
+                                    <p>Каждая подзадача решается <b>ровно один раз</b> и записывается в таблицу, дальше её ответ
+                                    берётся готовым. Вместо 2<sup>m</sup>·2<sup>n</sup> сопоставлений — <b>m·n клеток</b>:
+                                    для строк по тысяче символов это миллион шагов. В правом нижнем углу — длина ответа, 4;
+                                    пройдя по таблице обратно, собираем саму подпоследовательность <b>A C B A</b>.</p>
                                 </div>
                             </div>
                             <div class="callout is-algo">
-                                <span class="callout-label">Решение · глава 15</span>
-                                <p><b>Динамическое программирование</b> — это <b>метод</b>, а не рецепт для одной задачи.
-                                Им решается и длиннейшая общая подпоследовательность, и множество других задач. Разбор — глава 15.</p>
+                                <span class="callout-label">Глава 15</span>
+                                <p>Задачи, в которых решение складывается из решений <b>перекрывающихся подзадач</b>,
+                                решаются динамическим программированием. Подробнее о методе — в главе 15: там же рюкзак,
+                                перемножение цепочки матриц и оптимальные деревья поиска.</p>
                             </div>
                         </div>
                     </div>
@@ -1693,27 +1705,77 @@
                         </div>
 
                         <div class="step-pane" data-when="2">
-                            <div class="tiles cols-3">
-                                <div class="tile">
-                                    <span class="tile-num">шаг 1</span>
-                                    <h3>Части — вершины, зависимости — рёбра</h3>
-                                    <p>Получается ориентированный граф без циклов: если цикл есть, порядка не существует вовсе, и алгоритм об этом сообщит.</p>
+                            <div class="dp">
+                                <div class="dp-fig">
+                                    <svg class="fig topo-dfs" viewBox="0 0 900 300" aria-hidden="true">
+                                        <line class="f-edge" x1="110" y1="140" x2="330" y2="60"/>
+                                        <line class="f-edge" x1="110" y1="140" x2="330" y2="220"/>
+                                        <line class="f-edge" x1="330" y1="60" x2="570" y2="140"/>
+                                        <line class="f-edge" x1="330" y1="220" x2="570" y2="140"/>
+                                        <line class="f-edge" x1="570" y1="140" x2="800" y2="140"/>
+                                        <line class="f-edge" x1="330" y1="220" x2="800" y2="140"/>
+
+                                        <rect class="f-node" x="30" y="114" width="160" height="52" rx="12"/>
+                                        <rect class="f-node" x="255" y="34" width="150" height="52" rx="12"/>
+                                        <rect class="f-node" x="255" y="194" width="150" height="52" rx="12"/>
+                                        <rect class="f-node" x="500" y="114" width="140" height="52" rx="12"/>
+                                        <rect class="f-node-hi" x="730" y="114" width="140" height="52" rx="12"/>
+
+                                        <text class="f-label" x="110" y="146" text-anchor="middle">lib-core</text>
+                                        <text class="f-label" x="330" y="66" text-anchor="middle">icons</text>
+                                        <text class="f-label" x="330" y="226" text-anchor="middle">ui-kit</text>
+                                        <text class="f-label" x="570" y="146" text-anchor="middle">forms</text>
+                                        <text class="f-label" x="800" y="146" text-anchor="middle">app</text>
+
+                                        <text class="dfs-time" x="110" y="190" text-anchor="middle">1 / 10</text>
+                                        <text class="dfs-time" x="330" y="22" text-anchor="middle">2 / 7</text>
+                                        <text class="dfs-time" x="330" y="272" text-anchor="middle">8 / 9</text>
+                                        <text class="dfs-time" x="570" y="190" text-anchor="middle">3 / 6</text>
+                                        <text class="dfs-time" x="800" y="190" text-anchor="middle">4 / 5</text>
+                                    </svg>
+                                    <div class="dfs-list">
+                                        <span class="dfs-list-label">список по завершению, от последнего к первому</span>
+                                        <span class="topo-item is-static">lib-core</span><span class="topo-sep is-static">→</span>
+                                        <span class="topo-item is-static">ui-kit</span><span class="topo-sep is-static">→</span>
+                                        <span class="topo-item is-static">icons</span><span class="topo-sep is-static">→</span>
+                                        <span class="topo-item is-static">forms</span><span class="topo-sep is-static">→</span>
+                                        <span class="topo-item is-static">app</span>
+                                    </div>
                                 </div>
-                                <div class="tile">
-                                    <span class="tile-num">шаг 2</span>
+
+                                <div class="dp-text">
                                     <h3>Обход в глубину</h3>
-                                    <p>Обходим граф и записываем каждую вершину в список в момент, когда она полностью обработана.</p>
-                                </div>
-                                <div class="tile is-good">
-                                    <span class="tile-num">результат</span>
-                                    <h3>Список наоборот — ответ</h3>
-                                    <p>Время работы — линейное по числу частей и связей. Вместо n! получается n + m шагов: для сотни пакетов это мгновение.</p>
+                                    <p>Идём по графу в глубину и ставим каждой части два штампа: когда впервые вошли и когда
+                                    <b>закончили</b> — то есть обошли всех, кто от неё зависит. В момент завершения кладём часть
+                                    <b>в начало списка</b>.</p>
+                                    <p>Часть завершается позже всех своих зависимых — значит, в списке окажется раньше них.
+                                    Это ровно то условие, которого требовала задача. Правильных порядков обычно несколько:
+                                    здесь вышел <b>ui-kit раньше icons</b>, и это тоже верно.</p>
+                                    <p>Каждая часть и каждая связь просматриваются по одному разу — время <b>Θ(V + E)</b>
+                                    вместо n! перебора. Если же в графе нашёлся цикл, порядка не существует вовсе,
+                                    и обход сообщит об этом сам.</p>
                                 </div>
                             </div>
                             <div class="callout is-algo">
-                                <span class="callout-label">Решение · глава 22</span>
-                                <p>Это <b>топологическая сортировка</b> ориентированного ациклического графа.
-                                Ровно её делают turbo, nx, bazel и любой сборщик с графом зависимостей — и любой пакетный менеджер.</p>
+                                <span class="callout-label">Глава 22</span>
+                                <p>Задачи «упорядочить с учётом зависимостей» решаются <b>топологической сортировкой</b> графа.
+                                Подробнее — в главе 22. Её же каждый день выполняют
+                                <span class="tip-word">turbo<span class="tip is-left">
+                                    <b class="tip-head">Turborepo</b>
+                                    Система сборки JS/TS-монорепозиториев от Vercel. Из <code>package.json</code> пакетов строит граф задач,
+                                    запускает их в топологическом порядке, независимые — параллельно, а результаты кеширует:
+                                    повторная сборка без изменений занимает секунды.
+                                </span></span>,
+                                <span class="tip-word">nx<span class="tip is-start">
+                                    <b class="tip-head">Nx</b>
+                                    Система сборки монорепозиториев от Nrwl. Строит граф проектов и по нему находит, какие пакеты
+                                    затронуло изменение (<code>nx affected</code>): тесты и сборка идут только для них и строго в порядке зависимостей.
+                                </span></span> и
+                                <span class="tip-word">bazel<span class="tip is-start">
+                                    <b class="tip-head">Bazel</b>
+                                    Система сборки Google — открытая версия внутреннего Blaze. Не привязана к языку: собирает Java, C++, Go и JS
+                                    из одного графа целей. Сборки герметичные и воспроизводимые, пересобирается только то, что зависит от изменений.
+                                </span></span>.</p>
                             </div>
                         </div>
                     </div>
@@ -1873,11 +1935,9 @@
 
                     <div class="exception">
                         <p class="exception-head">Исключение: не у всех задач есть «варианты»</p>
-                        <p class="exception-body">
-                            Не всякая задача, решаемая с помощью алгоритма, имеет просто идентифицируемое множество
-                            вариантов-кандидатов. Здесь ничего не перебирают — здесь считают:
-                        </p>
                         <p class="exception-list">
+                            Не все задачи сводятся к поиску среди кандидатов: у некоторых перебирать просто нечего,
+                            и ответ получается прямым вычислением. Самый распространённый пример —
                             <span class="tip-word">дискретное преобразование Фурье<span class="tip is-wide is-start">
                                 <b class="tip-head">Глава 30 · БПФ</b>
                                 Слева — как сигнал меняется во времени, справа — из каких частот он состоит. Это одни и те же данные
@@ -1898,7 +1958,7 @@
                                         <rect class="f-bar" x="652" y="92" width="26" height="28" rx="4"/>
                                     </svg>
                                 </span>
-                            </span></span>,
+                            </span></span>. На нём же держатся
                             <span class="tip-word">умножение больших чисел<span class="tip is-wide">
                                 <b class="tip-head">Через частотное представление</b>
                                 Число — это полином, а умножение полиномов через БПФ считается быстрее, чем столбиком.
@@ -1936,7 +1996,7 @@
                                         <text class="tf-cap" x="350" y="126" text-anchor="middle">красные полосы отбрасываются — их вклад в сигнал мал</text>
                                     </svg>
                                 </span>
-                            </span></span>,
+                            </span></span> и
                             <span class="tip-word">обработка сигналов<span class="tip is-wide is-left">
                                 <b class="tip-head">Основа целой инженерной области</b>
                                 Фильтры, эквалайзеры, шумоподавление, распознавание речи — всё это работа с частотами, а значит,
@@ -1951,7 +2011,7 @@
                                         <text class="tf-cap" x="540" y="124" text-anchor="middle">после фильтрации</text>
                                     </svg>
                                 </span>
-                            </span></span>
+                            </span></span>.
                         </p>
                     </div>
                 </div>
@@ -2024,6 +2084,7 @@
 
                     <div class="split">
                         <div class="tile">
+                            <svg class="tile-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3H12v16H5.5A2.5 2.5 0 0 0 3 21.5zM21 5.5A2.5 2.5 0 0 0 18.5 3H12v16h6.5a2.5 2.5 0 0 1 2.5 2.5zM15 3v7l1.5-1.2L18 10V3"/></svg>
                             <span class="tile-num">главы о задачах</span>
                             <h3>Конкретные задачи</h3>
                             <p>Готовые разборы — те самые «рецепты»:</p>
@@ -2038,6 +2099,7 @@
                         <div class="split-mid"><span>+</span></div>
 
                         <div class="tile is-algo">
+                            <svg class="tile-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.1-.6-.6-2.1z"/></svg>
                             <span class="tile-num">главы о методах</span>
                             <h3>Общие методы</h3>
                             <p>То, что работает на задачах, которых в книге нет:</p>
@@ -2059,8 +2121,53 @@
                 </aside>
             </section>
 
-            <!-- SLIDE: как разрабатывать собственные алгоритмы -->
+            <!-- SLIDE: главная мысль главы -->
             <section class="slide" data-slide="27">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Главная мысль главы</h2>
+
+                    <div class="insight">
+                        <p class="insight-main">
+                            Найти ответ умеет и перебор.<br>
+                            Алгоритм находит его <b>верно на любом входе</b> —<br>
+                            и <b>не перебирая всё</b>.
+                        </p>
+
+                        <div class="insight-cols">
+                            <div class="insight-col">
+                                <span class="insight-num">01</span>
+                                <h3>Сначала — постановка</h3>
+                                <p>Точно записать вход, выход и отношения между ними. Без постановки нечего
+                                ни решать, ни проверять: непонятно, что считать правильным ответом.</p>
+                            </div>
+                            <div class="insight-col">
+                                <span class="insight-num">02</span>
+                                <h3>Корректность — на всех экземплярах</h3>
+                                <p>Тесты показывают, что ошибки нет на трёх входах. Доказательство — что её
+                                нет ни на одном. Алгоритм, который «иногда ошибается», — это осознанный выбор, а не находка в проде.</p>
+                            </div>
+                            <div class="insight-col">
+                                <span class="insight-num">03</span>
+                                <h3>Перебор — не решение</h3>
+                                <p>Когда кандидатов 2<sup>n</sup> или n!, нужен метод: динамическое программирование,
+                                обход графа, геометрия. А если оптимум недостижим — приближение с доказанной границей.</p>
+                            </div>
+                        </div>
+
+                        <p class="insight-foot">Вся остальная книга — это набор таких методов и доказательства того, почему они работают.</p>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <p><em>Зачем слайд</em> Это то, что должно остаться в голове после главы, даже если всё остальное забудется. Остановитесь на нём и прочитайте верхнюю фразу медленно.</p>
+                    <p><em>Как связать с докладом</em> Каждый пример, который мы разобрали, — кратчайший путь, общая подпоследовательность, порядок сборки, выпуклая оболочка — был про одно и то же: ответ спрятан среди экспоненциального числа кандидатов, перебор его теоретически находит, а на практике никогда. Алгоритм — это способ туда не ходить.</p>
+                    <p><em>Три пункта</em> Это порядок работы с любой задачей: поставить, доказать, не перебирать. Он же — ответ на вопрос из начала доклада, зачем читать книгу, если алгоритмы уже написаны.</p>
+                    <p><em>Переход</em> Как применить это к задаче, которой в книге нет, — следующий слайд.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: как разрабатывать собственные алгоритмы -->
+            <section class="slide" data-slide="28">
                 <div class="content-slide">
                     <h2 class="gradient-text">Как разрабатывать свои алгоритмы</h2>
                     <p class="slide-lead">
@@ -2109,7 +2216,7 @@
             </section>
 
             <!-- SLIDE: сложные задачи -->
-            <section class="slide" data-slide="28">
+            <section class="slide" data-slide="29">
                 <div class="content-slide">
                     <h2 class="gradient-text">Сложные задачи</h2>
                     <p class="slide-lead">
@@ -2150,7 +2257,7 @@
             </section>
 
             <!-- SLIDE: что такое NP-полные задачи -->
-            <section class="slide" data-slide="29">
+            <section class="slide" data-slide="30">
                 <div class="content-slide">
                     <h2 class="gradient-text">NP-полные задачи</h2>
                     <p class="slide-lead">
@@ -2191,7 +2298,7 @@
             </section>
 
             <!-- SLIDE: три причины интереса -->
-            <section class="slide" data-slide="30">
+            <section class="slide" data-slide="31">
                 <div class="content-slide">
                     <h2 class="gradient-text">Почему NP-полные задачи интересны</h2>
                     <p class="slide-lead">Книга называет три причины — и все три стоит понять.</p>
@@ -2231,7 +2338,7 @@
             </section>
 
             <!-- SLIDE: почему это важно разработчику -->
-            <section class="slide" data-slide="31">
+            <section class="slide" data-slide="32">
                 <div class="content-slide">
                     <h2 class="gradient-text">Зачем это знать разработчику</h2>
                     <p class="slide-lead">
@@ -2282,7 +2389,7 @@
             </section>
 
             <!-- SLIDE: задача о коммивояжере -->
-            <section class="slide" data-slide="32">
+            <section class="slide" data-slide="33">
                 <div class="content-slide">
                     <h2 class="gradient-text">Задача о коммивояжёре</h2>
                     <p class="slide-lead">
@@ -2344,7 +2451,7 @@
             </section>
 
             <!-- SLIDE: приближённые алгоритмы -->
-            <section class="slide" data-slide="33">
+            <section class="slide" data-slide="34">
                 <div class="content-slide">
                     <h2 class="gradient-text">Приближённые алгоритмы</h2>
                     <p class="slide-lead">
@@ -2402,7 +2509,7 @@
             </section>
 
             <!-- SLIDE: параллельные вычисления -->
-            <section class="slide" data-slide="34">
+            <section class="slide" data-slide="35">
                 <div class="content-slide">
                     <h2 class="gradient-text">Почему процессоры перестали ускоряться</h2>
                     <p class="slide-lead">
@@ -2446,7 +2553,7 @@
             </section>
 
             <!-- SLIDE: многоядерные процессоры -->
-            <section class="slide" data-slide="35">
+            <section class="slide" data-slide="36">
                 <div class="content-slide">
                     <h2 class="gradient-text">Многоядерный процессор</h2>
                     <p class="slide-lead">
@@ -2499,7 +2606,7 @@
             </section>
 
             <!-- SLIDE: многопоточные алгоритмы (демонстрация) -->
-            <section class="slide" data-slide="36">
+            <section class="slide" data-slide="37">
                 <div class="content-slide">
                     <h2 class="gradient-text">Многопоточные алгоритмы</h2>
                     <p class="slide-lead">
@@ -2569,7 +2676,7 @@
             </section>
 
             <!-- SLIDE: упражнения — заставка -->
-            <section class="slide" data-slide="37">
+            <section class="slide" data-slide="38">
                 <div class="content-slide">
                     <h2 class="gradient-text">Упражнения</h2>
                     <p class="slide-lead">
@@ -2625,7 +2732,7 @@
             </section>
 
             <!-- SLIDE: упражнение 1.1.1 -->
-            <section class="slide" id="slide-ex-1" data-slide="38">
+            <section class="slide" id="slide-ex-1" data-slide="39">
                 <div class="content-slide">
                     <div class="ex">
                         <div class="ex-head">
@@ -2690,7 +2797,7 @@
             </section>
 
             <!-- SLIDE: упражнение 1.1.2 -->
-            <section class="slide" id="slide-ex-2" data-slide="39">
+            <section class="slide" id="slide-ex-2" data-slide="40">
                 <div class="content-slide">
                     <div class="ex">
                         <div class="ex-head">
@@ -2755,7 +2862,7 @@
             </section>
 
             <!-- SLIDE: упражнение 1.1.3 -->
-            <section class="slide" id="slide-ex-3" data-slide="40">
+            <section class="slide" id="slide-ex-3" data-slide="41">
                 <div class="content-slide">
                     <div class="ex">
                         <div class="ex-head">
@@ -2820,7 +2927,7 @@
             </section>
 
             <!-- SLIDE: упражнение 1.1.4 -->
-            <section class="slide" id="slide-ex-4" data-slide="41">
+            <section class="slide" id="slide-ex-4" data-slide="42">
                 <div class="content-slide">
                     <div class="ex">
                         <div class="ex-head">
@@ -2896,7 +3003,7 @@
             </section>
 
             <!-- SLIDE: упражнение 1.1.5 -->
-            <section class="slide" id="slide-ex-5" data-slide="42">
+            <section class="slide" id="slide-ex-5" data-slide="43">
                 <div class="content-slide">
                     <div class="ex">
                         <div class="ex-head">
@@ -2960,7 +3067,7 @@
             </section>
 
             <!-- SLIDE 54 (chrome): что далее -->
-            <section class="slide" data-slide="43" data-chrome="whatnext">
+            <section class="slide" data-slide="44" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

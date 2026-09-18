@@ -1,0 +1,2799 @@
+/*
+ * talk.css — стили контентных слайдов ЭТОГО доклада
+ * («Что такое алгоритмы», глава 1 «Роль алгоритмов в вычислениях»).
+ * Общий «хром» дека живёт в deck.css и правится только в шаблоне; всё, что
+ * относится к слайдам спикера, — здесь: пересборка «хром»-слайдов
+ * (scripts/rebuild-talk.mjs) этот файл не трогает.
+ */
+
+
+/* ===== Палитра доклада =====
+   Смысловые цвета контентных слайдов: алгоритм — голубой, «перебор дорого» —
+   красный, «эффективно» — зелёный. Нейтральные тона (подложки, рамки, текст)
+   не дублируются: они берутся из токенов дека и переключаются вместе с ним.
+   Светлая тема — только переопределение этих же переменных. */
+:root {
+    --algo: #7dd3fc;
+    --algo-rgb: 125, 211, 252;
+    --algo-dim: #2b4a5c;
+    --bad: #f87171;
+    --bad-rgb: 248, 113, 113;
+    --bad-line: #3a1f1f;
+    --good: #34d399;
+    --good-rgb: 52, 211, 153;
+    --good-line: #1c3d31;
+    --warn: #fbbf24;
+    /* Псевдонимы: карточка контентного слайда = подложка и рамка дека. */
+    --line: var(--border-soft);
+    --panel: var(--bg-card);
+}
+
+:root[data-theme='light'] {
+    --algo: #0284c7;
+    --algo-rgb: 2, 132, 199;
+    --algo-dim: #a5d5ef;
+    --bad: #dc2626;
+    --bad-rgb: 220, 38, 38;
+    --bad-line: #f0cccc;
+    --good: #059669;
+    --good-rgb: 5, 150, 105;
+    --good-line: #c2e6d8;
+    --warn: #b45309;
+}
+
+/* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css
+   нет, а без него width: 100% с padding вылезает за контейнер слайда. */
+.content-slide,
+.content-slide *,
+.content-slide *::before,
+.content-slide *::after {
+    box-sizing: border-box;
+}
+
+/* ===== Каркас контентного слайда =====
+   Шапка (заголовок + лид) прижата к верху, всё остальное центрировано в
+   остатке высоты: автоотступы у первого блока после шапки и у хвостового
+   псевдоэлемента делят свободное место поровну. */
+.content-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 52px 100px;
+}
+.content-slide > h2 {
+    font-size: 52px;
+    margin: 0;
+    line-height: 1.1;
+    flex-shrink: 0;
+}
+.content-slide > h2 + .slide-lead {
+    margin-top: 14px;
+}
+.content-slide > .slide-lead + *,
+.content-slide > h2 + *:not(.slide-lead) {
+    margin-top: auto !important;
+}
+.content-slide::after {
+    content: '';
+    margin-top: auto;
+}
+.slide-lead {
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 1400px;
+}
+.slide-lead b {
+    color: var(--text-main);
+    font-weight: 600;
+}
+.section-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 0;
+}
+/* Инлайновый термин и формула в строке — моно-шрифтом. */
+.content-slide code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: var(--algo);
+}
+.content-slide b {
+    color: var(--text-main);
+    font-weight: 600;
+}
+.term {
+    color: var(--accent);
+    font-weight: 600;
+}
+.term-en {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: var(--text-dim);
+}
+
+/* Вывод внизу слайда — широкая строка за левой чертой. */
+.wide-accent {
+    margin: 30px 0 0;
+    padding: 18px 26px;
+    border-left: 3px solid var(--border-mid);
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.05), rgba(var(--tint-rgb), 0));
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--text-soft);
+    flex-shrink: 0;
+}
+.wide-accent.is-strong {
+    border-left-color: var(--accent);
+    font-size: 23px;
+    color: var(--text-main);
+}
+.wide-accent.is-algo {
+    border-left-color: var(--algo);
+    background: linear-gradient(90deg, rgba(var(--algo-rgb), 0.09), rgba(var(--tint-rgb), 0));
+}
+.wide-accent b {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Цитата из книги — одинаковая на всех слайдах, со ссылкой на раздел. */
+.book-quote {
+    border-left: 2px solid var(--border-mid);
+    padding: 4px 0 4px 22px;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-soft);
+}
+.book-quote cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+}
+
+/* ===== Общие мелочи ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    border-radius: 12px;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-sunken);
+    color: var(--text-main);
+    font: inherit;
+    font-size: 18px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.btn:hover {
+    border-color: var(--accent);
+    background: var(--bg-hover);
+    color: var(--accent);
+}
+.btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Сегментированный переключатель: задаёт data-state целевому блоку,
+   вся смена картинки — на CSS. */
+.seg {
+    display: inline-flex;
+    padding: 5px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    gap: 4px;
+}
+.seg button {
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 17px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.seg button:hover {
+    color: var(--accent);
+}
+.seg button.is-active {
+    background: var(--bg-hover);
+    color: var(--accent);
+}
+.controls {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+.hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: var(--text-faint);
+}
+.hint::before {
+    content: '›';
+    font-family: var(--font-mono);
+}
+
+/* ===== Поток «вход → обработка → выход» ===== */
+.flow {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 20px;
+}
+.flow-node {
+    flex: 1 1 0;
+    max-width: 460px;
+    padding: 28px 30px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+.flow-node .fn-key {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.flow-node .fn-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+}
+.flow-node .fn-desc {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0;
+}
+.flow-node.is-algo {
+    border-color: var(--algo-dim);
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.08), rgba(var(--algo-rgb), 0));
+}
+.flow-node.is-algo .fn-key {
+    color: var(--algo);
+}
+.flow-arrow {
+    align-self: center;
+    width: 54px;
+    height: 20px;
+    flex-shrink: 0;
+    stroke: var(--text-faint);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.flow.is-compact .flow-node {
+    padding: 20px 22px;
+    gap: 6px;
+}
+.flow.is-compact .flow-node .fn-title {
+    font-size: 22px;
+}
+.flow.is-compact .flow-arrow {
+    width: 38px;
+}
+
+/* ===== Плитки ===== */
+.tiles {
+    display: grid;
+    gap: 20px;
+}
+.tiles.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tiles.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tiles.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tiles.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.tile {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    padding: 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s ease;
+}
+.tile:hover {
+    border-color: var(--border-mid);
+}
+.tile h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0;
+    line-height: 1.25;
+}
+.tile p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0;
+}
+.tile-num {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--text-faint);
+}
+.tile.is-algo { border-color: var(--algo-dim); }
+.tile.is-bad { border-color: var(--bad-line); }
+.tile.is-good { border-color: var(--good-line); }
+.tile-ico {
+    width: 34px;
+    height: 34px;
+    stroke: var(--algo);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.tile-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+.tile-list li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.tile-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 8px;
+    height: 1px;
+    background: var(--text-faint);
+}
+.tile-foot {
+    margin-top: auto;
+    padding-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-faint);
+}
+
+/* ===== Две колонки с разделителем (задача vs алгоритм) ===== */
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0;
+}
+.split > .tile {
+    height: 100%;
+}
+.split-mid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.split-mid::before,
+.split-mid::after {
+    content: '';
+    flex: 1 1 auto;
+    width: 1px;
+    background: var(--line);
+}
+
+/* ===== Формула / формальная постановка ===== */
+.formula {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    padding: 34px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.formula-row {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 26px;
+}
+.formula-key {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.formula-val {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    line-height: 1.35;
+    color: var(--text-main);
+}
+.formula-val .hl {
+    color: var(--algo);
+}
+.formula-note {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-dim);
+    margin: 8px 0 0;
+}
+.bignum {
+    font-family: var(--font-mono);
+    font-size: 92px;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+}
+.bignum sup {
+    font-size: 0.5em;
+    vertical-align: super;
+}
+.bignum.is-bad { color: var(--bad); }
+
+/* ===== Числовые фишки (сортировка, экземпляр задачи) ===== */
+.chips {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.chip {
+    width: 108px;
+    height: 100px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 36px;
+    color: var(--text-main);
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.3s ease, color 0.3s ease;
+}
+.chip.is-small {
+    width: 84px;
+    height: 78px;
+    font-size: 28px;
+    border-radius: 14px;
+}
+.sortdemo .chip.is-out {
+    opacity: 0;
+    transform: translateY(22px) scale(0.94);
+}
+.sortdemo[data-state='on'] .chip.is-out {
+    opacity: 1;
+    transform: none;
+    border-color: var(--algo-dim);
+    color: var(--accent);
+    transition-delay: calc(var(--i) * 0.16s);
+}
+.sortdemo[data-state='on'] .chip.is-in {
+    opacity: 0.4;
+}
+.sort-row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+.sort-mid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 0;
+}
+.sort-arrow {
+    width: 22px;
+    height: 40px;
+    stroke: var(--text-faint);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.4s ease;
+}
+.sortdemo[data-state='on'] .sort-arrow {
+    stroke: var(--algo);
+}
+
+/* ===== Выноска ===== */
+.callout {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 20px 26px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--text-soft);
+}
+.callout p { margin: 0; font-size: inherit; line-height: inherit; color: inherit; }
+.callout-label {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding-top: 4px;
+    width: 150px;
+}
+.callout.is-warn {
+    border-color: var(--bad-line);
+    background: linear-gradient(90deg, rgba(var(--bad-rgb), 0.08), rgba(var(--shadow-rgb), calc(0 * var(--shadow-k))));
+}
+.callout.is-warn .callout-label { color: var(--bad); }
+.callout.is-good {
+    border-color: var(--good-line);
+    background: linear-gradient(90deg, rgba(var(--good-rgb), 0.08), rgba(var(--shadow-rgb), calc(0 * var(--shadow-k))));
+}
+.callout.is-good .callout-label { color: var(--good); }
+.callout.is-algo {
+    border-color: var(--algo-dim);
+    background: linear-gradient(90deg, rgba(var(--algo-rgb), 0.08), rgba(var(--shadow-rgb), calc(0 * var(--shadow-k))));
+}
+.callout.is-algo .callout-label { color: var(--algo); }
+
+/* ===== Соответствие «реальность → модель» ===== */
+.kv {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.kv-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 18px;
+    padding: 16px 22px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+    font-size: 21px;
+    color: var(--text-soft);
+}
+.kv-row .kv-to {
+    text-align: center;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+}
+.kv-row .kv-model {
+    color: var(--algo);
+    font-weight: 500;
+}
+
+/* ===== Схемы (inline SVG) ===== */
+.fig {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    overflow: visible;
+}
+.fig .f-edge {
+    stroke: var(--border-mid);
+    stroke-width: 2;
+    fill: none;
+}
+.fig .f-edge-dim {
+    stroke: var(--border-soft);
+    stroke-width: 2;
+    fill: none;
+}
+.fig .f-node {
+    fill: var(--bg-sunken);
+    stroke: var(--text-faint);
+    stroke-width: 2;
+}
+.fig .f-node-hi {
+    fill: var(--bg-sunken);
+    stroke: var(--algo);
+    stroke-width: 2.5;
+}
+.fig .f-label {
+    fill: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 16px;
+}
+.fig .f-label-main {
+    fill: var(--text-main);
+    font-family: var(--font-sans);
+    font-size: 18px;
+}
+.fig .f-weight {
+    fill: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.fig .f-axis {
+    stroke: var(--border-mid);
+    stroke-width: 1.5;
+    fill: none;
+}
+.fig .f-wave {
+    stroke: var(--algo);
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.fig .f-bar { fill: var(--algo); }
+.fig .f-tree-edge {
+    stroke: var(--border-soft);
+    stroke-width: 1.5;
+    fill: none;
+}
+.fig .f-tree-node { fill: var(--border-mid); }
+.fig .f-tree-node.is-sol { fill: var(--good); }
+
+/* Кратчайший путь: маршрут подсвечивается по выбору в переключателе. */
+.routefig .route {
+    stroke: var(--text-faint);
+    stroke-width: 7;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+    transition: opacity 0.35s ease, stroke 0.35s ease;
+}
+.routefig[data-state='r1'] .route-1,
+.routefig[data-state='r2'] .route-2,
+.routefig[data-state='r3'] .route-3 {
+    opacity: 1;
+}
+.routefig[data-state='r3'] .route-3 {
+    stroke: var(--good);
+}
+.route-legend {
+    display: flex;
+    gap: 34px;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--text-faint);
+}
+.routefig[data-state='r1'] .route-legend .rl-1,
+.routefig[data-state='r2'] .route-legend .rl-2 { color: var(--text-main); }
+.routefig[data-state='r3'] .route-legend .rl-3 { color: var(--good); }
+
+/* Выпуклая оболочка: резинка «натягивается» отрисовкой контура. */
+.hullfig .hull-band {
+    stroke: var(--algo);
+    stroke-width: 3;
+    fill: rgba(var(--algo-rgb), 0.07);
+    stroke-linejoin: round;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    transition: stroke-dashoffset 1.2s ease, fill 1.2s ease;
+}
+.hullfig[data-state='off'] .hull-band {
+    fill: rgba(var(--algo-rgb), 0);
+}
+.hullfig[data-state='on'] .hull-band {
+    stroke-dashoffset: 0;
+}
+.hullfig .nail {
+    fill: var(--text-faint);
+    transition: fill 0.4s ease 0.9s;
+}
+.hullfig[data-state='on'] .nail.is-vertex {
+    fill: var(--algo);
+}
+.hullfig .vertex-num {
+    opacity: 0;
+    transition: opacity 0.4s ease 1.1s;
+    fill: var(--algo);
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.hullfig[data-state='on'] .vertex-num {
+    opacity: 1;
+}
+
+/* LCS: подсветка общей подпоследовательности. */
+.lcs {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+}
+.lcs-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.lcs-name {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--text-dim);
+    width: 34px;
+}
+.lcs-cell {
+    width: 62px;
+    height: 62px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 26px;
+    color: var(--text-dim);
+    transition: border-color 0.35s ease, color 0.35s ease, background 0.35s ease,
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lcsdemo[data-state='on'] .lcs-cell.is-match {
+    border-color: var(--algo);
+    color: var(--accent);
+    background: rgba(var(--algo-rgb), 0.1);
+    transform: translateY(-5px);
+    transition-delay: calc(var(--i) * 0.12s);
+}
+.lcs-result {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    color: var(--border-mid);
+    transition: color 0.3s ease 0.6s;
+}
+.lcsdemo[data-state='on'] .lcs-result {
+    color: var(--algo);
+}
+
+/* Топологическая сортировка: порядок сборки проявляется по шагам. */
+.topo-order {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.topo-item {
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    color: var(--text-main);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease;
+}
+.topodemo[data-state='on'] .topo-item {
+    opacity: 1;
+    transform: none;
+    border-color: var(--algo-dim);
+    transition-delay: calc(var(--i) * 0.18s);
+}
+.topo-sep {
+    color: var(--border-mid);
+    font-family: var(--font-mono);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.topodemo[data-state='on'] .topo-sep {
+    opacity: 1;
+    transition-delay: calc(var(--i) * 0.18s);
+}
+
+/* Параллельные вычисления: одна задача — последовательно или по ядрам. */
+.cores {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+.core-row {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+}
+.core-name {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: var(--text-dim);
+}
+.core-track {
+    position: relative;
+    height: 52px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    overflow: hidden;
+}
+.core-task {
+    position: absolute;
+    top: 7px;
+    bottom: 7px;
+    border-radius: 8px;
+    background: rgba(var(--algo-rgb), 0.16);
+    border: 1px solid var(--algo-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: var(--accent);
+    transition: opacity 0.45s ease;
+}
+.core-scale {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 20px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--text-faint);
+}
+.core-scale .core-ticks {
+    display: flex;
+    justify-content: space-between;
+}
+.coresdemo[data-state='seq'] .core-task.only-par { opacity: 0; }
+.coresdemo[data-state='par'] .core-task.only-seq { opacity: 0; }
+.core-verdict {
+    text-align: center;
+    font-size: 20px;
+    color: var(--text-muted);
+    margin: 0;
+}
+.core-verdict b { color: var(--accent); }
+
+/* ===== Авторы книги ===== */
+/* Карточки авторов — горизонтальный аккордеон: по умолчанию четыре равные
+   колонки, у раскрытой доля больше, у остальных меньше. Ширины ведёт flex-grow
+   при нулевом flex-basis, поэтому переход анимируется одним свойством. */
+.authors4 {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+}
+/* Ширины карточек — в пикселях, а не долях: сцена доклада фиксированная
+   (1920x1080), зато анимируется единственное свойство, а содержимое карточек
+   стоит на месте. Раскладка: 4x415 + 3x20 зазора = 1720 в закрытом виде,
+   928 + 3x244 + 60 = 1720 в раскрытом. */
+.au {
+    flex: 0 0 415px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--panel);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    transition: flex-basis 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+/* Колонка с карьерой одной ширины во всех состояниях: если дать ей тянуться,
+   текст переносится заново на каждом кадре анимации — карточка «прыгает». */
+.au-main {
+    flex: 0 0 367px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Задержка только на появление: свёрнутый вид сначала гаснет, и лишь потом
+       проступает полная карточка — иначе аватарка накладывается на текст. */
+    transition: opacity 0.25s ease 0.15s;
+}
+/* Свёрнутый вид соседа: аватарка и буква фамилии поверх карточки. Оверлей, а
+   не перестроенная колонка, — по той же причине: перестройка вызывает прыжок. */
+.au-mini {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.au:hover { border-color: var(--border-mid); }
+.au-photo {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-mid);
+}
+.au-name {
+    font-size: 23px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+}
+.au-role {
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--text-dim);
+    margin: -6px 0 0;
+}
+.au-facts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+.au-facts li {
+    position: relative;
+    padding-left: 16px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.au-facts li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 1px;
+    background: var(--text-faint);
+}
+.au-facts li b { color: var(--text-main); }
+.au-link {
+    margin-top: auto;
+    padding-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--algo);
+    text-decoration: none;
+}
+.au-link:hover { color: var(--accent); }
+
+/* ===== Итоговая карта главы ===== */
+.map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+.map-node {
+    padding: 10px 26px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    font-size: 19px;
+    color: var(--text-soft);
+    text-align: center;
+    min-width: 420px;
+}
+.map-node.is-head {
+    border-color: var(--accent);
+    background: var(--bg-sunken);
+    color: var(--accent);
+    font-size: 22px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+}
+.map-node.is-algo {
+    border-color: var(--algo-dim);
+    color: var(--accent);
+}
+.map-link {
+    width: 1px;
+    height: 14px;
+    background: var(--border-mid);
+}
+.map-foot {
+    margin: 24px 0 0;
+    text-align: center;
+    font-size: 23px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.map-foot b { color: var(--accent); font-weight: 600; }
+
+/* ===== Упражнения ===== */
+.ex {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+}
+.ex-head {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.ex-code {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    color: var(--algo);
+    padding: 7px 14px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 9999px;
+}
+.ex-progress {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--text-dim);
+}
+.ex-dots {
+    display: flex;
+    gap: 7px;
+    margin-left: auto;
+}
+.ex-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg-active);
+}
+.ex-dot.is-on { background: var(--accent); }
+.ex-q {
+    font-size: 34px;
+    line-height: 1.35;
+    color: var(--text-main);
+    margin: 0;
+    max-width: 1500px;
+}
+.ex-sol {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ex.is-open .ex-sol {
+    grid-template-rows: 1fr;
+}
+.ex-sol-inner {
+    overflow: hidden;
+}
+.ex-sol-card {
+    border: 1px solid var(--algo-dim);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.05), rgba(var(--shadow-rgb), calc(0 * var(--shadow-k))));
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.ex-sol-card .section-label { color: var(--algo); }
+.ex-note {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dim);
+    margin: 0;
+}
+.ex-cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+}
+.ex-cols.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ex-col h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0 0 12px;
+}
+.ex-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.ex-list li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.ex-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 8px;
+    height: 1px;
+    background: var(--algo);
+}
+.ex-list li b { color: var(--text-main); }
+
+/* ===== Заметки докладчика =====
+   В слайде лежат скрытым блоком; панель собирается в talk.js и живёт вне
+   масштабируемой сцены, чтобы текст читался при любом размере окна. */
+.notes { display: none; }
+.notes-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 48vh;
+    overflow-y: auto;
+    padding: 26px 44px 30px;
+    background: rgba(var(--bg-rgb), 0.97);
+    border-top: 1px solid var(--border-soft);
+    box-shadow: 0 -20px 60px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
+    transform: translateY(101%);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 60;
+}
+.notes-panel.is-open { transform: none; }
+.notes-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.notes-panel-body {
+    max-width: 1300px;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text-soft);
+}
+.notes-panel-body p { margin: 0 0 10px; font-size: inherit; line-height: inherit; color: inherit; }
+.notes-panel-body p:last-child { margin-bottom: 0; }
+.notes-panel-body b { color: var(--accent); font-weight: 600; }
+.notes-panel-body em {
+    display: inline-block;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--algo);
+    margin-right: 8px;
+}
+
+/* Блок демонстрации: схема, подписи и легенда — колонкой по центру слайда. */
+.sortdemo,
+.lcsdemo,
+.topodemo,
+.hullfig,
+.routefig,
+.coresdemo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+.sortdemo { gap: 0; }
+
+/* Листинг кода контентного слайда. */
+.codebox {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel);
+    overflow: hidden;
+}
+.codebox-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-dim);
+}
+.codebox pre {
+    margin: 0;
+    padding: 24px 28px;
+    font-family: var(--font-mono);
+    font-size: 19px;
+    line-height: 1.75;
+    color: var(--text-soft);
+    overflow-x: auto;
+}
+.c-com { color: var(--s-com); }
+.c-kw { color: var(--s-kw); }
+.c-fn { color: var(--algo); }
+.c-str { color: var(--s-str); }
+.c-num { color: var(--s-key); }
+
+/* Узел потока со знаком беды (тепловыделение процессора). */
+.flow-node.is-bad {
+    border-color: var(--bad-line);
+    background: linear-gradient(180deg, rgba(var(--bad-rgb), 0.07), rgba(var(--bad-rgb), 0));
+}
+.flow-node.is-bad .fn-key { color: var(--bad); }
+
+/* Соседние блоки слайда не должны слипаться: схема, плитки и выноска идут
+   с одинаковым воздухом между собой. Первый блок после шапки центрируется
+   автоотступом (rule выше с !important), поэтому это правило его не трогает. */
+.content-slide > * + * {
+    margin-top: 26px;
+}
+
+/* Слайд упражнения без заголовка: центрируем карточку задания по высоте
+   (пара с margin-top: auto у .content-slide::after). */
+.content-slide > .ex {
+    margin-top: auto;
+}
+
+/* Таблица соответствий узкая: на всю ширину слайда стрелка уезжала от текста. */
+.kv {
+    width: 100%;
+    max-width: 1300px;
+    align-self: center;
+}
+
+/* ===== Слайд, растянутый на всю высоту =====
+   Обычный контентный слайд центрирует блок в остатке высоты. Там, где блок
+   должен занять весь остаток (карточки авторов, три колонки «почему эта
+   книга»), хвостовой автоотступ убирается — иначе он съедал бы половину. */
+.content-slide.is-fill::after { content: none; }
+.content-slide.is-fill > h2 + *,
+.content-slide.is-fill > .slide-lead + * {
+    margin-top: 30px !important;
+}
+.content-slide.is-fill > .whybook {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+/* ===== Подсказка при наведении =====
+   Один компонент на весь доклад: .tip-host — любой блок с подсказкой,
+   .tip-word — подчёркнутое слово в тексте. Сама подсказка (.tip) всплывает
+   над носителем; .is-below разворачивает её вниз (для верха слайда),
+   .is-left прижимает к правому краю (для крайней правой колонки). */
+.tip-host { position: relative; }
+.tip-host:hover { z-index: 20; }
+.tip-word {
+    position: relative;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: help;
+    border-bottom: 2px dashed var(--algo);
+    transition: border-color 0.2s ease;
+}
+.tip-word:hover {
+    border-bottom-color: var(--accent);
+    z-index: 20;
+}
+.tip-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-left: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--algo-dim);
+    color: var(--algo);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 400;
+    vertical-align: middle;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+.tip-host:hover .tip-mark {
+    border-color: var(--algo);
+    background: rgba(var(--algo-rgb), 0.16);
+}
+.tip {
+    position: absolute;
+    bottom: calc(100% + 16px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    width: 620px;
+    padding: 22px 26px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 16px;
+    background: var(--bg-sunken);
+    box-shadow: 0 18px 50px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    font-family: var(--font-sans);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-muted);
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 50;
+}
+.tip b { color: var(--text-main); font-weight: 600; }
+.tip code { font-family: var(--font-mono); font-size: 0.92em; color: var(--algo); }
+.tip-head {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--algo) !important;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.tip.is-below {
+    bottom: auto;
+    top: calc(100% + 16px);
+    transform: translateX(-50%) translateY(-6px);
+}
+/* Прижать подсказку к краю носителя: .is-left уходит влево (носитель у правого
+   края слайда), .is-start — вправо (носитель у левого края). */
+.tip.is-left {
+    left: auto;
+    right: 0;
+    transform: translateX(0) translateY(6px);
+}
+.tip.is-start {
+    left: 0;
+    right: auto;
+    transform: translateX(0) translateY(6px);
+}
+.tip-host:hover > .tip,
+.tip-word:hover > .tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+.tip-host:hover > .tip.is-left,
+.tip-host:hover > .tip.is-start,
+.tip-word:hover > .tip.is-left,
+.tip-word:hover > .tip.is-start {
+    transform: translateX(0) translateY(0);
+}
+
+/* ===== Слайд авторов: компактная карточка с раскрытием =====
+   На карточке видна только карьера — вклад в алгоритмы прячется до клика,
+   иначе четыре колонки текста занимают весь слайд и читать их некому.
+   Раскрытие — переходом grid-template-rows с 0fr на 1fr: так высота
+   анимируется без замера содержимого в JS. */
+.authors4.is-roomy { align-items: stretch; }
+.authors4.is-roomy .au { gap: 10px; padding: 26px 24px; }
+.authors4.is-roomy .au-photo { width: 84px; height: 84px; }
+.authors4.is-roomy .au-name { font-size: 24px; }
+.authors4.is-roomy .au-role { font-size: 16px; }
+.authors4.is-roomy .au-facts { gap: 9px; }
+.authors4.is-roomy .au-facts li { font-size: 16px; padding-left: 18px; }
+.authors4.is-roomy .au-link { font-size: 14px; }
+.au-label {
+    margin: 4px 0 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--algo);
+}
+.au.is-expandable { cursor: pointer; }
+.au.is-expandable:hover { border-color: var(--algo-dim); }
+.au.is-open {
+    flex-basis: 928px;
+    border-color: var(--algo-dim);
+}
+.au-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-top: 4px;
+    padding: 11px 14px;
+    border: 1px solid var(--border-mid);
+    border-radius: 12px;
+    background: var(--bg-sunken);
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.au-toggle:hover {
+    border-color: var(--algo-dim);
+    background: rgba(var(--algo-rgb), 0.1);
+    color: var(--algo);
+}
+.au-chevron {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.au.is-open .au-toggle {
+    border-color: var(--algo-dim);
+    background: rgba(var(--algo-rgb), 0.1);
+    color: var(--algo);
+}
+.au.is-open .au-chevron { transform: rotate(180deg); }
+
+/* Вклад в алгоритмы — вторая колонка той же карточки: до раскрытия её ширина
+   нулевая, поэтому появление читается как раздвигание карточки вправо. */
+.au-side {
+    flex: 0 0 0px;
+    display: flex;
+    align-items: center;
+    /* height: 0 — чтобы свёрнутая колонка не участвовала в высоте карточки;
+       ширину задаёт обёртка, поэтому её текст не перевёрстывается на лету. */
+    height: 0;
+    overflow: hidden;
+    transition: flex-basis 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.au-side-inner {
+    width: 486px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+.au.is-open .au-side {
+    flex-basis: 513px;
+    height: auto;
+    padding-left: 26px;
+    border-left: 1px solid var(--line);
+}
+.au.is-open .au-side-inner {
+    opacity: 1;
+    transition-delay: 0.18s;
+}
+.au-contrib li::before { background: var(--algo); }
+
+/* Свёрнутые соседи: только аватарка и буква фамилии (CLRS). */
+.authors4.has-open .au:not(.is-open) { flex-basis: 244px; }
+.authors4.has-open .au:not(.is-open) .au-main {
+    opacity: 0;
+    transition-delay: 0s;
+}
+.authors4.has-open .au:not(.is-open) .au-mini {
+    opacity: 1;
+    transition-delay: 0.18s;
+}
+.au-letter {
+    font-family: var(--font-mono);
+    font-size: 44px;
+    line-height: 1;
+    color: var(--algo);
+}
+.au-mini .au-photo { width: 76px; height: 76px; }
+.au-contrib a {
+    display: inline-block;
+    margin-top: 3px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--algo);
+    text-decoration: none;
+    border-bottom: 1px solid var(--algo-dim);
+}
+.au-contrib a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ===== «Почему именно эта книга»: обложка · преимущества · таймлайн ===== */
+/* Три колонки слайда «Почему именно эта книга»: обложка, преимущества,
+   таймлайн изданий. Колонки разной высоты, поэтому центрируются друг
+   относительно друга — иначе слайд перевешивает вправо, где текста больше. */
+.whybook {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr) 600px;
+    gap: 40px;
+    align-items: center;
+}
+.wb-adv,
+.wb-time {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.adv-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.adv-list li {
+    padding-left: 20px;
+    border-left: 2px solid var(--algo-dim);
+}
+.adv-list h3 {
+    margin: 0 0 5px;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.25;
+}
+.adv-list p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* Вертикальный таймлайн изданий: точка — издание, промежуток — что добавили. */
+.vtl {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 30px;
+    position: relative;
+}
+.vtl::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--border-mid);
+}
+.vtl-item { position: relative; padding-bottom: 4px; }
+.vtl-dot {
+    position: absolute;
+    left: -30px;
+    top: 6px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    background: var(--bg);
+}
+.vtl-item.is-now .vtl-dot {
+    border-color: var(--algo);
+    background: var(--algo);
+    box-shadow: 0 0 0 5px rgba(var(--algo-rgb), 0.16);
+}
+.vtl-head {
+    font-size: 20px;
+    color: var(--text-soft);
+    line-height: 1.3;
+}
+.vtl-head b {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 600;
+}
+.vtl-tag {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    border: 1px solid var(--border-mid);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    vertical-align: middle;
+}
+.vtl-tag.is-now {
+    border-color: var(--algo-dim);
+    color: var(--algo);
+}
+.vtl-note {
+    margin: 4px 0 0;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--text-dim);
+}
+.vtl-gap {
+    position: relative;
+    padding: 9px 0 9px 0;
+}
+.vtl-gap::before {
+    content: '+';
+    position: absolute;
+    left: -29px;
+    top: 8px;
+    width: 12px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--algo);
+    background: var(--bg);
+    line-height: 1;
+    padding: 2px 0;
+}
+.vtl-gap p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* ===== Крупная анимированная схема «вход → алгоритм → выход» ===== */
+.flow.is-big { gap: 30px; }
+.flow.is-big .flow-node {
+    padding: 40px 42px;
+    max-width: 520px;
+    gap: 14px;
+}
+.flow.is-big .flow-node .fn-key { font-size: 16px; }
+.flow.is-big .flow-node .fn-title { font-size: 40px; }
+.flow.is-big .flow-node .fn-desc { font-size: 20px; }
+.flow.is-big .flow-arrow { width: 86px; height: 30px; }
+
+/* Появление по шагам: запускается сменой класса active на слайде, поэтому
+   при каждом возврате на слайд схема собирается заново. */
+.flow.is-anim .flow-node,
+.flow.is-anim .flow-arrow {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.slide.active .flow.is-anim .flow-node,
+.slide.active .flow.is-anim .flow-arrow {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.5s ease calc(var(--d) * 1s), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--d) * 1s);
+}
+.flow-dot { fill: var(--algo); opacity: 0; }
+.slide.active .flow.is-anim .flow-dot {
+    animation: flowDot 2.6s ease-in-out infinite;
+    animation-delay: calc((var(--d) + 1.6) * 1s);
+}
+@keyframes flowDot {
+    0% { transform: translateX(0); opacity: 0; }
+    12% { opacity: 1; }
+    55% { opacity: 1; }
+    70%, 100% { transform: translateX(46px); opacity: 0; }
+}
+
+/* ===== Код с разбором по наведению («это вы пишете каждый день») ===== */
+.echo-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 470px;
+    gap: 30px;
+    align-items: stretch;
+}
+.echo-pane { position: relative; min-height: 300px; }
+.echo-card {
+    position: absolute;
+    inset: 0;
+    padding: 30px 32px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.echo-card .fn-key {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.echo-card .fn-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+}
+.echo-card .fn-desc {
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0;
+}
+.echo-card.is-algo {
+    border-color: var(--algo-dim);
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.08), rgba(var(--algo-rgb), 0));
+}
+.echo-card.is-algo .fn-key { color: var(--algo); }
+.echo-card.is-hint { border-style: dashed; }
+.echo-card.is-hint .fn-title { color: var(--text-dim); }
+.echo-map {
+    margin: 4px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+.echo-split[data-echo='none'] .echo-card.is-hint,
+.echo-split[data-echo='input'] .echo-card[data-for='input'],
+.echo-split[data-echo='algo'] .echo-card[data-for='algo'],
+.echo-split[data-echo='output'] .echo-card[data-for='output'] {
+    opacity: 1;
+    transform: none;
+}
+.code-region {
+    display: block;
+    border: 1px dashed transparent;
+    border-radius: 10px;
+    margin: 0 -12px;
+    padding: 4px 12px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.code-region:hover {
+    border-color: var(--algo);
+    background: rgba(var(--algo-rgb), 0.07);
+}
+
+/* ===== Ветвление исходов (некорректный алгоритм) ===== */
+.branch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+}
+.branch-node {
+    flex: 0 0 auto;
+    width: 250px;
+    padding: 24px 26px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.branch-node .fn-key {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.branch-node .fn-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+}
+.branch-node.is-algo {
+    border-color: var(--algo-dim);
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.08), rgba(var(--algo-rgb), 0));
+}
+.branch-node.is-algo .fn-key { color: var(--algo); }
+.branch-arrow {
+    flex: 0 0 auto;
+    width: 54px;
+    height: 20px;
+    stroke: var(--text-faint);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.branch-fan {
+    flex: 0 0 auto;
+    width: 120px;
+    height: 440px;
+    overflow: visible;
+}
+.bf-line { fill: none; stroke-width: 2; }
+.bf-head { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.bf-line.is-bad, .bf-head.is-bad { stroke: var(--bad-line); }
+.bf-line.is-good, .bf-head.is-good { stroke: var(--good); }
+.branch-outs {
+    flex: 1 1 auto;
+    height: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.bo {
+    flex: 0 0 auto;
+    height: 132px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 26px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel);
+}
+.bo-sign {
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    border: 1px solid currentColor;
+}
+.bo-text h3 { margin: 0 0 4px; font-size: 22px; font-weight: 600; color: var(--accent); line-height: 1.2; }
+.bo-text p { margin: 0; font-size: 16px; line-height: 1.45; color: var(--text-muted); }
+.bo.is-bad { border-color: var(--bad-line); }
+.bo.is-bad .bo-sign { color: var(--bad); }
+.bo.is-good {
+    border-color: var(--good-line);
+    background: linear-gradient(90deg, rgba(var(--good-rgb), 0.08), rgba(var(--tint-rgb), 0));
+}
+.bo.is-good .bo-sign { color: var(--good); }
+.bo.is-good .tip-mark { border-color: var(--good-line); color: var(--good); }
+.bo.is-good:hover .tip-mark { border-color: var(--good); background: rgba(var(--good-rgb), 0.16); }
+.bo.is-good .tip { border-color: var(--good-line); width: 700px; }
+.bo.is-good .tip-head { color: var(--good) !important; }
+
+/* ===== Короткий пример внутри плитки (формы записи алгоритма) ===== */
+.sample {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-sunken);
+    overflow: hidden;
+}
+.sample pre {
+    margin: 0;
+    padding: 16px 18px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-soft);
+    overflow-x: auto;
+}
+.sample.is-fig { display: flex; align-items: center; justify-content: center; padding: 10px; }
+.chipfig { width: 100%; height: auto; overflow: visible; }
+.cf-body { fill: var(--panel); stroke: var(--border-mid); stroke-width: 2; }
+.cf-wire { stroke: var(--text-faint); stroke-width: 2; fill: none; stroke-linecap: round; }
+.cf-cell { fill: var(--bg-hover); stroke: var(--border-strong); stroke-width: 1.5; }
+.cf-cell.is-hi { fill: rgba(var(--algo-rgb), 0.14); stroke: var(--algo); }
+.cf-trace { stroke: var(--algo-dim); stroke-width: 1.5; fill: none; }
+.cf-label {
+    fill: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-anchor: middle;
+}
+.cf-label.is-hi { fill: var(--algo); }
+
+/* ===== Плитка-кнопка с переходом на слайд ===== */
+.tile.is-link {
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    align-items: stretch;
+}
+.tile.is-link:hover {
+    border-color: var(--algo-dim);
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.07), rgba(var(--algo-rgb), 0));
+}
+.tile-go {
+    margin-top: auto;
+    padding-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-faint);
+    transition: color 0.2s ease;
+}
+.tile.is-link:hover .tile-go { color: var(--algo); }
+.tile-src {
+    margin-top: auto;
+    padding-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--algo);
+    text-decoration: none;
+}
+.tile-src:hover { color: var(--accent); }
+.tile .tile-foot + .tile-src { margin-top: 0; }
+
+/* ===== Маршрутизация: волна обхода и найденный путь =====
+   Один цикл на 8 секунд: рёбра вспыхивают в порядке обхода (свой --d у
+   каждого), затем прорисовывается кратчайший путь. Анимация живёт только на
+   активном слайде, поэтому при возврате начинается сначала. */
+.net-split { grid-template-columns: minmax(0, 520px) minmax(0, 1fr); }
+.netfig { display: flex; flex-direction: column; gap: 10px; }
+.netfig-cap {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-faint);
+}
+.f-edge-scan {
+    fill: none;
+    stroke: var(--border-soft);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+.route-final {
+    fill: none;
+    stroke: var(--algo);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 560;
+    stroke-dashoffset: 560;
+    opacity: 0;
+}
+.slide.active .netfig .f-edge-scan {
+    animation: edgeScan 8s linear infinite;
+    animation-delay: calc(var(--d) * 1s);
+}
+.slide.active .netfig .n-hit {
+    animation: nodeHit 8s linear infinite;
+    animation-delay: calc(var(--d) * 1s);
+}
+/* Отправитель и получатель после своей вспышки остаются подсвеченными:
+   это опорные точки схемы, они не должны гаснуть вместе с промежуточными. */
+.slide.active .netfig .f-node-hi.n-hit {
+    animation-name: nodeHitHi;
+}
+.slide.active .netfig .route-final {
+    animation: routeDraw 8s linear infinite;
+}
+@keyframes edgeScan {
+    0% { stroke: var(--border-soft); stroke-width: 2; }
+    4% { stroke: var(--algo); stroke-width: 4; }
+    12% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    70% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    88%, 100% { stroke: var(--border-soft); stroke-width: 2; }
+}
+@keyframes nodeHit {
+    0% { stroke: var(--text-faint); stroke-width: 2; }
+    5% { stroke: var(--algo); stroke-width: 5; }
+    14% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    70% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    88%, 100% { stroke: var(--text-faint); stroke-width: 2; }
+}
+@keyframes nodeHitHi {
+    0% { stroke: var(--algo-dim); stroke-width: 2.5; }
+    5% { stroke: var(--algo); stroke-width: 7; }
+    14%, 100% { stroke: var(--algo); stroke-width: 3; }
+}
+@keyframes routeDraw {
+    0%, 45% { stroke-dashoffset: 560; opacity: 0; }
+    46% { stroke-dashoffset: 560; opacity: 1; }
+    60%, 88% { stroke-dashoffset: 0; opacity: 1; }
+    96%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+/* ===== «Почему именно эта книга»: обложка и таймлайн сверху, преимущества строкой снизу ===== */
+.whybook {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+}
+
+/* Горизонтальный таймлайн изданий: точка — издание, промежуток — что добавили. */
+/* Обложки стоят над линией таймлайна, поэтому линия и точки опущены на их
+   высоту. Обложка шире своей колонки и свисает вправо — в промежуток между
+   изданиями, где текста в этой полосе всё равно нет. */
+.htl {
+    --cover-h: 348px;
+    --line-y: calc(var(--cover-h) + 18px);
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+}
+.htl::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--line-y);
+    height: 1px;
+    background: var(--border-mid);
+}
+/* Колонка шириной ровно в обложку: все четыре приведены к одному книжному
+   прямоугольнику, поэтому точка и год встают по центру книги. */
+.htl-item {
+    position: relative;
+    flex: 0 0 calc(var(--cover-h) * 0.72);
+    text-align: center;
+}
+.htl-dot {
+    position: absolute;
+    top: calc(var(--line-y) - 6px);
+    left: 50%;
+    margin-left: -6.5px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    background: var(--bg);
+}
+.htl-item.is-now .htl-dot {
+    border-color: var(--algo);
+    background: var(--algo);
+    box-shadow: 0 0 0 5px rgba(var(--algo-rgb), 0.16);
+}
+/* Обложка издания над годом. Высота у всех одна, чтобы годы стояли в строку;
+   наше издание — в полную яркость и с кольцом, остальные приглушены. */
+.htl-cover {
+    display: block;
+    height: var(--cover-h);
+    width: 100%;
+    margin-bottom: 36px;
+    border-radius: 6px;
+    border: 1px solid var(--border-mid);
+    opacity: 0.45;
+    filter: saturate(0.7);
+    transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+}
+.htl-item.is-now .htl-cover {
+    opacity: 1;
+    filter: none;
+    border-color: var(--algo);
+    box-shadow: 0 0 0 4px rgba(var(--algo-rgb), 0.3), 0 20px 46px rgba(var(--shadow-rgb), calc(0.7 * var(--shadow-k)));
+    transform: scale(1.05);
+    transform-origin: center bottom;
+}
+.htl-item:hover .htl-cover { opacity: 0.9; filter: none; }
+.htl-year {
+    font-family: var(--font-mono);
+    font-size: 25px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.1;
+}
+.htl-name {
+    margin-top: 3px;
+    font-size: 16px;
+    color: var(--text-soft);
+}
+.htl-note {
+    margin: 7px 0 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text-dim);
+}
+.htl-gap {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: calc(var(--cover-h) + 36px) 18px 0;
+}
+.htl-gap::before {
+    content: '+';
+    position: absolute;
+    top: calc(var(--line-y) - 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 7px;
+    background: var(--bg);
+    color: var(--algo);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    line-height: 15px;
+}
+.htl-gap p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* Преимущества — пять пунктов в одну линию. */
+.wb-adv {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.adv-row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px;
+}
+.adv-item {
+    padding-left: 18px;
+    border-left: 2px solid var(--algo-dim);
+}
+.adv-item h3 {
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.25;
+}
+.adv-item p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* ===== Две колонки-задачи (интернет) ===== */
+.duo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    align-items: stretch;
+}
+.duo-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px 26px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+}
+.duo-col h3 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.2;
+}
+.duo-desc {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.duo-chapter {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+.duo-col .netfig { margin-top: auto; }
+
+/* Поиск: перебор против индекса. Верхняя строка сканируется по одному
+   документу, нижняя подсвечивает нужные сразу — цикл общий, 4 секунды. */
+.idxfig {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 10px;
+}
+.idx-row {
+    display: grid;
+    grid-template-columns: 148px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+}
+.idx-label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+}
+.idx-docs {
+    display: grid;
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+    gap: 5px;
+}
+.idx-index {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 14px;
+    background: rgba(var(--algo-rgb), 0.07);
+    font-family: var(--font-mono);
+    font-size: 18px;
+}
+.idx-term { color: var(--accent); }
+.idx-arrow { color: var(--text-faint); }
+.idx-list { color: var(--algo); }
+.idx-doc {
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: var(--bg-hover);
+}
+.slide.active .idxfig .idx-row:first-child .idx-doc {
+    animation: idxScan 4s linear infinite;
+    animation-delay: calc(var(--d) * 1s);
+}
+.slide.active .idxfig .idx-doc.is-hit {
+    animation: idxHit 4s linear infinite;
+    animation-delay: 0.1s;
+}
+@keyframes idxScan {
+    0%, 100% { background: var(--bg-hover); border-color: var(--line); }
+    4% { background: rgba(var(--algo-rgb), 0.55); border-color: var(--algo); }
+    16% { background: var(--bg-hover); border-color: var(--line); }
+}
+@keyframes idxHit {
+    0%, 100% { background: var(--bg-hover); border-color: var(--line); }
+    4%, 62% { background: rgba(var(--good-rgb), 0.5); border-color: var(--good); }
+    76% { background: var(--bg-hover); border-color: var(--line); }
+}
+
+/* ===== Экземпляр задачи: вход падает в алгоритм, снизу выходит порядок ===== */
+.instance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.inst-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    min-height: 122px;
+}
+.inst-row .chips { min-height: 78px; align-items: center; }
+.inst-arrow {
+    width: 22px;
+    height: 44px;
+    stroke: var(--text-faint);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.inst-algo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 34px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(var(--algo-rgb), 0.1), rgba(var(--algo-rgb), 0));
+}
+.inst-algo .fn-key {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--algo);
+}
+.inst-algo .fn-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+}
+.inst-empty {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    color: var(--text-faint);
+    padding: 24px 0;
+}
+.chip.is-fresh {
+    animation: chipIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i) * 0.07s);
+}
+@keyframes chipIn {
+    from { opacity: 0; transform: translateY(-18px) scale(0.94); }
+    to { opacity: 1; transform: none; }
+}
+
+/* ===== Электронная коммерция: пакет едет по каналу, на ответвлении — перехват ===== */
+/* Схема считает высоту от ширины: во всю ширину слайда она не помещается. */
+.ecom-fig { display: block; width: 100%; max-width: 1480px; height: auto; margin: 0 auto; }
+.ec-wire {
+    stroke: var(--border-mid);
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+.ec-tap {
+    stroke: var(--bad);
+    stroke-width: 2;
+    stroke-dasharray: 7 7;
+    fill: none;
+    opacity: 0.35;
+}
+.ec-disc {
+    fill: var(--bg-sunken);
+    stroke: var(--border-mid);
+    stroke-width: 2;
+}
+.ec-ico {
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.ec-ico.is-thief { stroke: var(--bad); }
+.ec-box {
+    fill: var(--panel);
+    stroke: var(--border-mid);
+    stroke-width: 2;
+}
+.ec-box.is-thief { stroke: var(--bad-line); }
+.ec-field {
+    fill: var(--text-soft);
+    font-family: var(--font-mono);
+    font-size: 22px;
+}
+.ec-pill {
+    fill: rgba(var(--algo-rgb), 0.18);
+    stroke: var(--algo);
+    stroke-width: 2;
+}
+.ec-pill-text {
+    fill: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 17px;
+}
+.ec-steal {
+    font-family: var(--font-mono);
+    font-size: 19px;
+}
+.ec-steal.is-plain { fill: var(--bad); }
+.ec-steal.is-cipher { fill: var(--text-faint); }
+.ec-verdict {
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.ec-verdict.is-plain { fill: var(--bad); }
+.ec-verdict.is-cipher { fill: var(--good); }
+/* Какая надпись видна — решает состояние демонстрации. */
+.ecom[data-state='open'] .is-cipher,
+.ecom[data-state='safe'] .is-plain { display: none; }
+.ecom[data-state='safe'] .ec-pill {
+    fill: rgba(var(--good-rgb), 0.18);
+    stroke: var(--good);
+}
+.ecom[data-state='safe'] .ec-pill-text { fill: var(--good); }
+.ecom[data-state='safe'] .ec-box.is-thief { stroke: var(--good-line); }
+.ecom[data-state='safe'] .ec-ico.is-thief { stroke: var(--text-faint); }
+.ecom[data-state='safe'] .ec-tap { stroke: var(--good); }
+.ec-packet { opacity: 0; }
+.slide.active .ec-packet { animation: ecPacket 4.4s linear infinite; }
+@keyframes ecPacket {
+    0% { transform: translateX(430px); opacity: 0; }
+    8% { transform: translateX(444px); opacity: 1; }
+    88% { transform: translateX(720px); opacity: 1; }
+    100% { transform: translateX(740px); opacity: 0; }
+}
+.slide.active .ec-tap { animation: ecTap 4.4s linear infinite; }
+@keyframes ecTap {
+    0%, 46% { opacity: 0.25; stroke-width: 2; }
+    52% { opacity: 1; stroke-width: 4; }
+    70%, 100% { opacity: 0.25; stroke-width: 2; }
+}
+.slide.active .ec-thief .ec-steal,
+.slide.active .ec-thief .ec-verdict { animation: ecSteal 4.4s linear infinite; }
+@keyframes ecSteal {
+    0%, 50% { opacity: 0; }
+    58%, 92% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ===== Пошаговый разбор задачи: условие → почему не перебор → решение ===== */
+.steps {
+    position: relative;
+    min-height: var(--steps-h, 400px);
+}
+/* Схемы внутри шага считают высоту от своей ширины, поэтому во всю ширину
+   слайда они вылезают за его нижний край — ограничиваем ширину явно. */
+.steps .roadmap { max-width: 1120px; }
+.steps .topodemo .fig { max-width: 900px; }
+.steps .hullfig .fig { max-width: 520px; }
+.steps .sp-graph .fig { max-width: 100%; }
+.step-pane {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+.steps[data-step='0'] .step-pane[data-when='0'],
+.steps[data-step='1'] .step-pane[data-when='1'],
+.steps[data-step='2'] .step-pane[data-when='2'] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+.step-lead {
+    margin: 0;
+    max-width: 1300px;
+    align-self: center;
+    text-align: center;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.step-lead b { color: var(--text-main); font-weight: 600; }
+.step-dots {
+    display: flex;
+    gap: 9px;
+}
+.step-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg-active);
+    transition: background 0.25s ease;
+}
+.step-dots span.is-on { background: var(--algo); }
+
+/* ===== Карта дорог (задача о кратчайшем пути) ===== */
+.roadmap .rm-roads line {
+    stroke: var(--bg-active);
+    stroke-width: 20;
+    stroke-linecap: round;
+}
+.roadmap .rm-marking line {
+    stroke: var(--text-faint);
+    stroke-width: 2;
+    stroke-dasharray: 11 13;
+    stroke-linecap: round;
+}
+.rm-dist {
+    fill: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 18px;
+}
+.rm-cross {
+    fill: var(--bg-sunken);
+    stroke: var(--border-strong);
+    stroke-width: 2;
+}
+.rm-pin circle {
+    fill: rgba(var(--algo-rgb), 0.18);
+    stroke: var(--algo);
+    stroke-width: 2.5;
+}
+.rm-pin-text {
+    fill: var(--accent);
+    font-family: var(--font-sans);
+    font-size: 20px;
+    font-weight: 600;
+}
+.sp-solve {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 34px;
+    align-items: center;
+}
+.sp-graph { display: flex; flex-direction: column; gap: 10px; }
+.sp-algo {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    text-align: center;
+}
+.sp-model { display: flex; flex-direction: column; gap: 12px; }
+.sp-model .kv { max-width: none; }
+.sp-model .kv-row { font-size: 18px; padding: 12px 18px; }
+.sp-model-note {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+/* Найденный путь на статичном графе: без анимации прорисовки. */
+.route-final.is-static {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+}
+
+/* ===== Общие характеристики и исключение ===== */
+.common-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.common-item {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+    padding: 22px 28px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel);
+}
+.common-item.is-good { border-color: var(--good-line); }
+.common-num {
+    padding-top: 7px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-faint);
+}
+.common-body h3 {
+    margin: 0 0 7px;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.25;
+}
+.common-body p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+.exception {
+    padding: 18px 26px;
+    border-left: 3px solid var(--bad);
+    border-radius: 0 14px 14px 0;
+    background: linear-gradient(90deg, rgba(var(--bad-rgb), 0.09), rgba(var(--tint-rgb), 0));
+}
+.exception-head {
+    margin: 0 0 7px;
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--bad);
+}
+.exception-body {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+.exception-list {
+    margin: 12px 0 0;
+    font-size: 20px;
+    line-height: 1.7;
+    color: var(--text-soft);
+}
+
+/* ===== Картинка внутри подсказки ===== */
+.tip.is-wide { width: 820px; }
+.tip-fig {
+    display: block;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+}
+.tip-fig svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+.tip-fig-arrow {
+    stroke: var(--text-faint);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.tf-num {
+    fill: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 27px;
+}
+.tf-sign {
+    fill: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 27px;
+}
+.tf-op {
+    fill: var(--bad);
+    font-family: var(--font-mono);
+    font-size: 21px;
+}
+.tf-op.is-good { fill: var(--good); }
+.tf-cap {
+    fill: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 15px;
+}
+.f-bar.is-drop { fill: var(--bad); opacity: 0.5; }
+.f-wave.is-noisy { stroke: var(--text-faint); stroke-width: 1.5; }
+
+/* ===== Решение задачи: схема слева, объяснение справа ===== */
+.dp {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 44px;
+    align-items: center;
+}
+.dp-fig {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.dp-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.dp-text h3 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--accent);
+}
+.dp-text p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+.dp-rule {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 18px;
+    border: 1px solid var(--algo-dim);
+    border-radius: 12px;
+    background: rgba(var(--algo-rgb), 0.06);
+}
+.dp-rule div {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+}
+.dp-rule code {
+    flex: 0 0 360px;
+    font-size: 17px;
+}
+.dp-rule span {
+    font-size: 15px;
+    color: var(--text-dim);
+}
+
+/* Таблица динамического программирования для ЛОП. */
+.dp-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 36px);
+    gap: 3px;
+}
+.dp-h,
+.dp-c {
+    width: 36px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 16px;
+}
+.dp-h { color: var(--accent); font-weight: 600; }
+.dp-c {
+    border-radius: 6px;
+    background: var(--bg-hover);
+    color: var(--text-dim);
+}
+.dp-c.is-zero { background: transparent; color: var(--text-faint); }
+.dp-c.is-path {
+    background: rgba(var(--algo-rgb), 0.12);
+    color: var(--algo);
+}
+.dp-c.is-match {
+    background: rgba(var(--good-rgb), 0.28);
+    color: var(--accent);
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1px var(--good);
+}
+
+/* Обход в глубину для топологической сортировки: штампы входа/выхода. */
+.topo-dfs { max-width: 620px; }
+.dfs-time {
+    fill: var(--algo);
+    font-family: var(--font-mono);
+    font-size: 17px;
+}
+.dfs-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.dfs-list-label {
+    flex: 0 0 100%;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+}
+.topo-item.is-static {
+    opacity: 1;
+    transform: none;
+    border-color: var(--algo-dim);
+    font-size: 16px;
+    padding: 8px 14px;
+}
+.topo-sep.is-static { opacity: 1; }
+
+/* ===== Главная мысль главы ===== */
+.insight {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+.insight-main {
+    margin: 0;
+    font-size: 46px;
+    line-height: 1.28;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--text-soft);
+}
+.insight-main b {
+    color: var(--algo);
+    font-weight: 600;
+}
+.insight-cols {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px;
+}
+.insight-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 2px solid var(--algo-dim);
+}
+.insight-num {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--algo);
+}
+.insight-col h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.25;
+}
+.insight-col p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+.insight-foot {
+    margin: 0;
+    font-size: 19px;
+    color: var(--text-dim);
+}
+
+/* Злоумышленник — отдельная фигура рядом с блоком перехвата. */
+.ec-disc.is-thief { stroke: var(--bad-line); }
+.ecom[data-state='safe'] .ec-disc.is-thief { stroke: var(--border-mid); }
+.dp-fig .netfig-cap { max-width: 330px; }

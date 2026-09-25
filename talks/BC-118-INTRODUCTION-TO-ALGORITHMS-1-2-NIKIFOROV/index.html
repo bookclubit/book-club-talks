@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body>
@@ -125,7 +127,568 @@
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
+            <!-- ===== Контентные слайды: раздел 1.2 «Алгоритмы как технология» ===== -->
+
+            <section class="slide" data-slide="3">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Мысленный эксперимент</div>
+                    <h2 class="gradient-text">Представим бесконечно быстрый компьютер</h2>
+                    <p class="cs-lead">…и бесконечную память в придачу. Нужно ли было бы тогда вообще изучать алгоритмы?</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card inf-card">
+                            <div class="inf-sym">∞</div>
+                            <div>
+                                <h3>Скорость</h3>
+                                <p>Любой метод с конечным числом шагов отрабатывает мгновенно — неважно, сколько этих шагов.</p>
+                            </div>
+                        </div>
+                        <div class="cs-card inf-card">
+                            <div class="inf-sym">∞</div>
+                            <div>
+                                <h3>Память</h3>
+                                <p>Храним что угодно и сколько угодно — экономить нечего и незачем.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reveal-row">
+                        <button class="cs-btn" type="button" data-reveal="s3Answer">Что отвечает книга</button>
+                    </div>
+                    <div class="cs-callout reveal" id="s3Answer"><b>Нужно — но только чтобы показать, что метод завершается за конечное время и даёт правильный ответ.</b> Подошёл бы любой корректный метод. Скорее всего, выбирали бы тот, что легче всего реализовать, — в лучшем случае ещё и в хороших традициях программирования: аккуратно написанный и задокументированный.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="4">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Возвращаемся в реальность</div>
+                    <h2 class="gradient-text">Время — такой же ограниченный ресурс, как память</h2>
+                    <div class="cs-cards c2">
+                        <div class="cs-card limit-card">
+                            <div class="limit-head">
+                                <svg class="flat-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                                <span class="limit-val">скорость &lt; ∞</span>
+                            </div>
+                            <h3>Компьютеры весьма производительны…</h3>
+                            <p>…но их быстродействие не может быть бесконечно большим.</p>
+                        </div>
+                        <div class="cs-card limit-card">
+                            <div class="limit-head">
+                                <svg class="flat-icon" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="1.5"></rect><path d="M7 7v10M11 7v10M15 7v10M6 17v3M18 17v3"></path></svg>
+                                <span class="limit-val">память &gt; 0 ₽</span>
+                            </div>
+                            <h3>Память дешевеет…</h3>
+                            <p>…но не может стать бесплатной.</p>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Обоими ресурсами нужно распоряжаться разумно — и в этом помогают алгоритмы, <b>эффективные в плане расходов времени и памяти</b>.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="5">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Эффективность</div>
+                    <h2 class="gradient-text">Алгоритмы различаются сильнее, чем железо</h2>
+                    <p class="cs-lead">Алгоритмы для одной и той же задачи часто различаются по эффективности <b>намного значительнее</b>, чем различия, вызванные разным аппаратным и программным обеспечением. Пример — две сортировки из главы 2.</p>
+                    <div class="cs-cards c2">
+                        <div class="cs-card">
+                            <span class="cs-num"><i class="key key-a"></i>Сортировка вставкой · insertion sort</span>
+                            <div class="formula">c<sub>1</sub> · <i>n</i> · <span class="hl"><i>n</i></span></div>
+                            <p>Время ≈ c<sub>1</sub><i>n</i>², пропорционально <i>n</i>². Типичная константа c<sub>1</sub> <b>меньше</b>, чем у слияния: c<sub>1</sub> &lt; c<sub>2</sub>.</p>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num"><i class="key key-b"></i>Сортировка слиянием · merge sort</span>
+                            <div class="formula">c<sub>2</sub> · <i>n</i> · <span class="hl">lg <i>n</i></span></div>
+                            <p>Время ≈ c<sub>2</sub><i>n</i> lg <i>n</i>, где lg <i>n</i> — краткая запись log<sub>2</sub> <i>n</i>. Константа c<sub>2</sub> больше — но сомножитель куда меньше.</p>
+                        </div>
+                    </div>
+                    <div class="lg-strip">
+                        <div class="lg-cell"><div class="lg-n">n = 1 000 ≈ 2¹⁰</div><div class="lg-v">lg n ≈ 10</div></div>
+                        <div class="lg-cell"><div class="lg-n">n = 1 000 000 ≈ 2²⁰</div><div class="lg-v">lg n ≈ 20</div></div>
+                        <div class="lg-cell"><div class="lg-n">n = 1 000 000 000 ≈ 2³⁰</div><div class="lg-v">lg n ≈ 30</div></div>
+                        <div class="lg-cell note"><span>Сомножитель <i>n</i> вырос в миллион раз, а lg <i>n</i> прибавил всего 20.</span></div>
+                    </div>
+                    <div class="cs-callout lg-warn">
+                        <b>Осторожно, ловушка обозначений:</b> в книге lg <i>n</i> = log<sub>2</sub> <i>n</i>, а не десятичный логарифм, как в школе. Поэтому lg 1000 ≈ 10 (2¹⁰ = 1024), а не 3.
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="6">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Константы не спасают</div>
+                    <h2 class="gradient-text">Переломный момент наступит всегда</h2>
+                    <div class="cross-layout">
+                        <div class="cross-side">
+                            <p class="cs-lead small">На малых <i>n</i> вставки обычно быстрее: константа меньше. Но с ростом <i>n</i> ничтожный lg <i>n</i> полностью компенсирует разницу констант. <b>Не имеет значения, во сколько раз c<sub>1</sub> меньше c<sub>2</sub></b> — перелом всё равно наступит.</p>
+                            <div class="ctrl">
+                                <div class="ctrl-label">Во сколько раз c<sub>2</sub> больше c<sub>1</sub></div>
+                                <div class="ctrl-value" id="crossK">×50</div>
+                                <input class="cs-range" id="crossRange" type="range" min="0" max="5" step="0.01" value="1.699" aria-label="Отношение констант c2 к c1">
+                                <div class="presets">
+                                    <button class="cs-btn sm" type="button" data-k="2">×2</button>
+                                    <button class="cs-btn sm" type="button" data-k="50">×50</button>
+                                    <button class="cs-btn sm" type="button" data-k="1000">×1 000</button>
+                                    <button class="cs-btn sm" type="button" data-k="25000">×25 000 · А и Б</button>
+                                </div>
+                            </div>
+                            <div class="cross-out">
+                                <div class="cross-out-l" id="crossLabel">Слияние обгоняет вставки начиная с</div>
+                                <div class="cross-out-n" id="crossN">n ≈ 439</div>
+                                <p class="cs-note" id="crossNote"></p>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-legend">
+                                <span><i class="key key-a"></i><span>Вставки: c<sub>1</sub> · n², c<sub>1</sub> = 1</span></span>
+                                <span><i class="key key-b"></i><span>Слияние: c<sub>2</sub> · n · lg n</span></span>
+                            </div>
+                            <svg class="chart-svg" id="crossChart" viewBox="0 0 960 560" role="img" aria-label="Число операций вставок и слияния в зависимости от n, логарифмические оси"></svg>
+                            <div class="chart-tip" id="crossTip"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="7">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Эксперимент</div>
+                    <h2 class="gradient-text">Компьютер А против компьютера Б</h2>
+                    <p class="cs-lead">Оба сортируют <b>10 миллионов чисел</b>. Звучит внушительно, но это около 80 МБ восьмибайтовых целых — весьма немного даже для старых недорогих лэптопов.</p>
+                    <div class="versus">
+                        <div class="cs-card">
+                            <span class="cs-num"><i class="key key-a"></i>Компьютер А</span>
+                            <div class="pc-speed">10<sup>10</sup><small>команд/с</small></div>
+                            <div class="pc-speed-note">10 миллиардов команд в секунду — быстрее любого последовательного компьютера на момент написания книги</div>
+                            <dl class="pc-props">
+                                <div><dt>Алгоритм</dt><dd>сортировка вставкой</dd></div>
+                                <div><dt>Код</dt><dd>лучший в мире программист, машинный язык</dd></div>
+                                <div><dt>Цена</dt><dd class="cost">2<i>n</i>² команд</dd></div>
+                            </dl>
+                        </div>
+                        <div class="versus-mid">vs</div>
+                        <div class="cs-card">
+                            <span class="cs-num"><i class="key key-b"></i>Компьютер Б</span>
+                            <div class="pc-speed">10<sup>7</sup><small>команд/с</small></div>
+                            <div class="pc-speed-note">10 миллионов команд в секунду — в тысячу раз медленнее компьютера А</div>
+                            <dl class="pc-props">
+                                <div><dt>Алгоритм</dt><dd>сортировка слиянием</dd></div>
+                                <div><dt>Код</dt><dd>программист-середнячок, язык высокого уровня, неэффективный компилятор</dd></div>
+                                <div><dt>Цена</dt><dd class="cost">50 <i>n</i> lg <i>n</i> команд</dd></div>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="cs-callout">Ваши ставки? У А железо в 1000 раз быстрее и константа в 25 раз меньше. У Б есть только алгоритм получше.</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="8">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Результат</div>
+                    <h2 class="gradient-text">Медленный Б обгоняет в 17 раз</h2>
+                    <div class="cs-cards c2" style="margin-top: 26px;">
+                        <div class="cs-card">
+                            <span class="cs-num"><i class="key key-a"></i>Компьютер А · вставки</span>
+                            <div class="frac-row">
+                                <span class="frac"><span>2 · (10<sup>7</sup>)<sup>2</sup> команд</span><span>10<sup>10</sup> команд/с</span></span>
+                                <span>=</span>
+                                <span class="frac-res">20 000 с</span>
+                            </div>
+                            <div class="frac-note">более 5,5 часа</div>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num"><i class="key key-b"></i>Компьютер Б · слияние</span>
+                            <div class="frac-row">
+                                <span class="frac"><span>50 · 10<sup>7</sup> · lg 10<sup>7</sup> команд</span><span>10<sup>7</sup> команд/с</span></span>
+                                <span>≈</span>
+                                <span class="frac-res">1163 с</span>
+                            </div>
+                            <div class="frac-note">менее 20 минут</div>
+                        </div>
+                    </div>
+                    <div class="race" id="race">
+                        <div class="race-row">
+                            <div class="race-label"><i class="key key-a"></i>А · вставки</div>
+                            <div class="race-track"><div class="race-bar a" id="raceBarA"></div></div>
+                            <div class="race-time" id="raceTimeA">—</div>
+                        </div>
+                        <div class="race-row">
+                            <div class="race-label"><i class="key key-b"></i>Б · слияние</div>
+                            <div class="race-track"><div class="race-bar b" id="raceBarB"></div></div>
+                            <div class="race-time" id="raceTimeB">—</div>
+                        </div>
+                        <div class="race-ctrl">
+                            <div class="race-n">n = <b id="raceN">10 млн</b></div>
+                            <div class="race-ctrl-mid">
+                                <input class="cs-range" id="raceRange" type="range" min="3" max="9" step="0.01" value="7" aria-label="Количество сортируемых чисел, логарифмическая шкала">
+                                <div class="presets">
+                                    <button class="cs-btn sm" type="button" data-n="1e4">10 тыс.</button>
+                                    <button class="cs-btn sm" type="button" data-n="1e6">1 млн</button>
+                                    <button class="cs-btn sm" type="button" data-n="1e7">10 млн · книга</button>
+                                    <button class="cs-btn sm" type="button" data-n="1e8">100 млн · книга</button>
+                                    <button class="cs-btn sm" type="button" data-n="1e9">1 млрд</button>
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                        <div class="race-verdict">
+                            <div class="race-verdict-text" id="raceVerdict">—</div>
+                            <button class="cs-btn primary" type="button" id="raceRun">
+                                <svg class="flat-icon" viewBox="0 0 24 24"><polygon points="7 4 20 12 7 20 7 4"></polygon></svg>
+                                Запустить гонку
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="9">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Алгоритмы и другие технологии</div>
+                    <h2 class="gradient-text">Алгоритмы — это технология</h2>
+                    <p class="cs-lead">Пример с компьютерами А и Б показывает: алгоритмы, как и аппаратное обеспечение, следует рассматривать как <b>технологию</b>. Вложиться можно и в то, и в другое — и отдача сравнима.</p>
+                    <div class="eq">
+                        <div class="eq-term main">
+                            <div class="eq-big">Производительность</div>
+                            <div class="eq-sub">всей системы</div>
+                        </div>
+                        <div class="eq-op">=</div>
+                        <div class="eq-term">
+                            <div class="eq-big">Железо</div>
+                            <div class="eq-sub">у А — в 1000 раз быстрее</div>
+                        </div>
+                        <div class="eq-op">×</div>
+                        <div class="eq-term">
+                            <div class="eq-big">Алгоритм</div>
+                            <div class="eq-sub">у Б — <i>n</i> lg <i>n</i> вместо <i>n</i>²</div>
+                        </div>
+                    </div>
+                    <div class="cs-callout quote">«Общая производительность системы настолько же зависит от эффективности алгоритма, насколько и от мощности применяющегося аппаратного обеспечения. В области разработки алгоритмов происходит такое же быстрое развитие, как и в других компьютерных технологиях».</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="10">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Алгоритмы и другие технологии</div>
+                    <h2 class="gradient-text">Нужны ли алгоритмы, если есть всё это?</h2>
+                    <p class="cs-lead">Вопрос книги: так ли важны алгоритмы на современных компьютерах, если достигнуты выдающиеся успехи в других высоких технологиях? Нажмите на карточку — что у неё внутри.</p>
+                    <div class="tech-grid" id="techGrid">
+                        <button class="tech-card" type="button">
+                            <svg class="flat-icon" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"></rect><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"></path></svg>
+                            <span class="tech-title">Архитектуры компьютеров и технологии их изготовления</span>
+                            <span class="tech-hint">Что внутри? →</span>
+                            <span class="tech-inside">Работа приложения зависит от производительности железа, а <b>при разработке железа применяются разнообразные алгоритмы</b>.</span>
+                        </button>
+                        <button class="tech-card" type="button">
+                            <svg class="flat-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18M6.5 6.5h.01M9.5 6.5h.01"></path></svg>
+                            <span class="tech-title">Интуитивные графические интерфейсы (GUI)</span>
+                            <span class="tech-hint">Что внутри? →</span>
+                            <span class="tech-inside">Приложение тесно связано с интерфейсом, а <b>для разработки любого GUI требуются алгоритмы</b>.</span>
+                        </button>
+                        <button class="tech-card" type="button">
+                            <svg class="flat-icon" viewBox="0 0 24 24"><path d="M8 4C6 4 5 5 5 7v2c0 1.5-1 3-2 3 1 0 2 1.5 2 3v2c0 2 1 3 3 3M16 4c2 0 3 1 3 3v2c0 1.5 1 3 2 3-1 0-2 1.5-2 3v2c0 2-1 3-3 3"></path></svg>
+                            <span class="tech-title">Объектно-ориентированные системы</span>
+                            <span class="tech-hint">Что внутри? →</span>
+                            <span class="tech-inside">Код пишут на языке, отличном от машинного. Его обрабатывает <b>компилятор или интерпретатор, который интенсивно использует алгоритмы</b>.</span>
+                        </button>
+                        <button class="tech-card" type="button">
+                            <svg class="flat-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"></path></svg>
+                            <span class="tech-title">Интегрированные веб-технологии</span>
+                            <span class="tech-hint">Что внутри? →</span>
+                            <span class="tech-inside">Веб-служба «как добраться» стоит на <b>поиске кратчайшего пути, визуализации карт и интерполяции адресов</b> — разберём на следующем слайде.</span>
+                        </button>
+                        <button class="tech-card" type="button">
+                            <svg class="flat-icon" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0"></path><circle cx="12" cy="19" r="1"></circle></svg>
+                            <span class="tech-title">Быстрые сети — проводные и беспроводные</span>
+                            <span class="tech-hint">Что внутри? →</span>
+                            <span class="tech-inside">Сетевым приложениям нужна <b>маршрутизация, а она основана на ряде алгоритмов</b>.</span>
+                        </button>
+                    </div>
+                    <div class="tech-foot">
+                        <button class="cs-btn" type="button" data-reveal="techAnswer">Ответ книги</button>
+                        <div class="cs-callout reveal" id="techAnswer"><b>Да, безусловно.</b> Некоторым простым веб-приложениям алгоритмическое наполнение явно не нужно, но большинству — необходимо. А даже приложение без алгоритмов «на верхнем уровне» стоит на технологиях, внутри которых работают алгоритмы.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="11">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Пример из книги</div>
+                    <h2 class="gradient-text">Веб-служба «как добраться»</h2>
+                    <div class="route-layout" id="routeDemo">
+                        <div class="route-side">
+                            <p class="cs-lead small">В основе — мощное железо, графический интерфейс, глобальная сеть и, возможно, ООП. Но саму задачу решают алгоритмы — нажмите на пункт:</p>
+                            <div class="route-algos" role="tablist">
+                                <button class="route-tab on" type="button" role="tab" aria-selected="true" data-mode="route">Поиск маршрутов</button>
+                                <button class="route-tab" type="button" role="tab" aria-selected="false" data-mode="map">Визуализация карт</button>
+                                <button class="route-tab" type="button" role="tab" aria-selected="false" data-mode="addr">Интерполяция адресов</button>
+                            </div>
+                            <div class="route-ctrl on" data-panel="route">
+                                <p class="demo-intro"><b>Задача:</b> найти самый быстрый путь от дома до клуба. Числа на дорогах — минуты в пути, в кружках — лучшее известное время до точки. Алгоритм Дейкстры, раздел 24.3.</p>
+                                <ol class="demo-steps" id="routeSteps">
+                                    <li><span>Берём ближайшую ещё не обработанную точку — время до неё уже окончательное.</span></li>
+                                    <li><span>Смотрим её соседей: если через неё к соседу быстрее, записываем соседу новое время.</span></li>
+                                    <li><span>Повторяем, пока не дойдём до клуба. Маршрут — цепочка «откуда пришли».</span></li>
+                                </ol>
+                                <div class="route-btns">
+                                    <button class="cs-btn primary" type="button" id="routeRun">
+                                        <svg class="flat-icon" viewBox="0 0 24 24"><polygon points="7 4 20 12 7 20 7 4"></polygon></svg>
+                                        Найти маршрут
+                                    </button>
+                                    <button class="cs-btn" type="button" id="routeReset">Сбросить</button>
+                                </div>
+                                <div class="demo-result" id="routeStatus">Нажмите «Найти маршрут» — шаги слева будут подсвечиваться по ходу работы.</div>
+                            </div>
+                            <div class="route-ctrl" data-panel="map">
+                                <p class="demo-intro"><b>Задача:</b> дорога хранится как 300 точек. Когда карту отдаляют, мелкие изгибы становятся меньше пикселя — их не видно, но рисовать их всё равно пришлось бы. Какие точки можно выкинуть, не испортив форму?</p>
+                                <div class="ctrl-row"><span class="ctrl-label">Масштаб карты</span><span class="ctrl-inline" id="simpZoom">улица</span></div>
+                                <input class="cs-range" id="simpRange" type="range" min="0" max="100" step="1" value="0" aria-label="Масштаб карты">
+                                <ol class="demo-steps" id="simpSteps">
+                                    <li><span>Соединяем концы участка прямой — <b>синий пунктир</b>; синяя полоса вокруг — допуск ε.</span></li>
+                                    <li><span>Ищем точку, которая дальше всех от этой прямой, — <b>оранжевая</b>.</span></li>
+                                    <li><span>Дальше допуска ε — оставляем её и повторяем для двух половинок. Ближе — выкидываем все точки между концами.</span></li>
+                                </ol>
+                                <div class="route-btns">
+                                    <button class="cs-btn primary" type="button" id="simpRun">
+                                        <svg class="flat-icon" viewBox="0 0 24 24"><polygon points="7 4 20 12 7 20 7 4"></polygon></svg>
+                                        Показать по шагам
+                                    </button>
+                                </div>
+                                <div class="demo-result" id="simpStatus"></div>
+                            </div>
+                            <div class="route-ctrl" data-panel="addr">
+                                <p class="demo-intro"><b>Задача:</b> пользователь ищет «ул. Кормена, 31», но точных координат каждого дома в базе нет.</p>
+                                <div class="ctrl-row"><span class="ctrl-label">Номер дома</span><span class="ctrl-inline" id="addrNum">31</span></div>
+                                <input class="cs-range" id="addrRange" type="range" min="1" max="100" step="1" value="31" aria-label="Номер дома">
+                                <ol class="demo-steps on-all">
+                                    <li><span><b>Что известно:</b> отрезок улицы между двумя перекрёстками и номера домов на его концах — <span id="addrKnown">1 и 99</span> (■ на карте).</span></li>
+                                    <li><span><b>Какая доля пути:</b> <span id="addrFormula"></span></span></li>
+                                    <li><span><b>Где точка:</b> <span id="addrPlace"></span> — там и ставим метку ●.</span></li>
+                                </ol>
+                                <p class="cs-note">Дома стоят неравномерно, поэтому метка может промахнуться на пару домов, — зато не нужно хранить координаты каждого дома. Это линейная интерполяция.</p>
+                            </div>
+                        </div>
+                        <div class="cs-card route-map">
+                            <svg class="route-svg on" id="routeSvg" data-panel="route" viewBox="0 0 1010 600" role="img" aria-label="Граф дорог от дома до книжного клуба"></svg>
+                            <svg class="route-svg" id="simpSvg" data-panel="map" viewBox="0 0 1010 600" role="img" aria-label="Извилистая дорога до и после упрощения линии"></svg>
+                            <svg class="route-svg" id="addrSvg" data-panel="addr" viewBox="0 0 1010 600" role="img" aria-label="Отрезок улицы с диапазонами номеров домов"></svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="12">
+                <div class="cs">
+                    <div class="badge">Не из книги · Примеряем на фронтенд</div>
+                    <h2 class="gradient-text">Алгоритмы, на которых стоит наш фронтенд</h2>
+                    <p class="cs-lead">Упражнение 1.2.1 просит пример приложения, которому нужны алгоритмы. Далеко ходить не надо — они внутри инструментов, с которыми мы работаем каждый день.</p>
+                    <div class="cs-cards c3 fe-grid">
+                        <div class="cs-card">
+                            <span class="cs-num">React · reconciliation</span>
+                            <h3>Сравнение деревьев</h3>
+                            <p>Лучшие универсальные алгоритмы превращения одного дерева в другое работают за O(<i>n</i>³): 1000 элементов — порядка <b>миллиарда сравнений</b>. React берёт эвристику O(<i>n</i>): элементы разных типов дают разные деревья, а <b>key</b> подсказывает, какие дети стабильны.</p>
+                            <span class="cx">O(n³) → O(n)</span>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">Vue 3 · keyed diff</span>
+                            <h3>Наибольшая возрастающая подпоследовательность</h3>
+                            <p>Когда список переставили, Vue ищет LIS среди старых позиций узлов: они остаются на месте, двигаются только остальные — <b>минимум перемещений в DOM</b>.</p>
+                            <span class="cx">LIS · O(n log n)</span>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">React · Scheduler</span>
+                            <h3>Очередь задач — двоичная куча</h3>
+                            <p>Планировщик хранит задачи в min-heap, упорядоченной по сроку: самая срочная всегда наверху — O(1), добавить или снять задачу — O(log <i>n</i>). Кучи и очереди с приоритетами — глава 6.</p>
+                            <span class="cx">min-heap · O(log n)</span>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">Git · diff</span>
+                            <h3>Алгоритм Майерса</h3>
+                            <p>По умолчанию <b>git diff</b> ищет кратчайший набор правок алгоритмом Майерса за O(<i>ND</i>), где <i>D</i> — число различий. Поэтому дифф почти одинаковых файлов строится мгновенно.</p>
+                            <span class="cx">O(ND)</span>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">Бандлеры</span>
+                            <h3>Граф модулей</h3>
+                            <p>Сборщик строит граф импортов и обходит его от точки входа: что недостижимо, в бандл не попадёт. ES-модули и сами исполняются в порядке обхода графа в глубину. Графы — глава 22.</p>
+                            <span class="cx">DFS · O(V + E)</span>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">Виртуальные списки</span>
+                            <h3>Бинарный поиск на каждый скролл</h3>
+                            <p>Чтобы показать 20 строк из 100 000, виртуальный список находит первую видимую строку по накопленным высотам <b>бинарным поиском</b> — ~17 шагов вместо перебора всех строк.</p>
+                            <span class="cx">O(log n)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="13">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Итог</div>
+                    <h2 class="gradient-text">Чем больше задача, тем важнее алгоритм</h2>
+                    <p class="cs-lead">Вычислительные возможности растут — и компьютеры берутся за всё более сложные задачи. А с ростом задачи различия в эффективности алгоритмов проявляются всё значительнее. Во сколько раз Б обгоняет А:</p>
+                    <div class="gap-row">
+                        <div class="gap-tile"><div class="gap-n">n = 1 млн</div><div class="gap-v">×2</div><div class="gap-l">200 с против 100 с</div><div class="gap-meter"><span style="width: 10%"></span></div></div>
+                        <div class="gap-tile"><div class="gap-n">n = 10 млн</div><div class="gap-v">×17</div><div class="gap-l">5,6 ч против 19 мин</div><div class="gap-meter"><span style="width: 40%"></span></div></div>
+                        <div class="gap-tile"><div class="gap-n">n = 100 млн</div><div class="gap-v">×150</div><div class="gap-l">23 дня против 3,7 ч</div><div class="gap-meter"><span style="width: 70%"></span></div></div>
+                        <div class="gap-tile"><div class="gap-n">n = 1 млрд</div><div class="gap-v">×1 338</div><div class="gap-l">6,3 года против 1,7 дня</div><div class="gap-meter"><span style="width: 100%"></span></div></div>
+                    </div>
+                    <p class="cs-note">Полоски — в логарифмическом масштабе. Время — по формулам примера: 2<i>n</i>² / 10¹⁰ против 50 <i>n</i> lg <i>n</i> / 10⁷.</p>
+                    <div class="cs-callout quote">«Знание основных алгоритмов и методов их разработки — одна из характеристик, отличающих действительно умелого, опытного программиста от новичка. Располагая современными компьютерными технологиями, некоторые задачи можно решить и без основательного знания алгоритмов, однако знания в этой области позволяют достичь намного большего».</div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="14">
+                <div class="cs">
+                    <div class="badge">Раздел 1.2 · Упражнения</div>
+                    <h2 class="gradient-text">Разомнёмся: упражнения 1.2.1–1.2.3</h2>
+                    <div class="cs-cards c3 ex-grid">
+                        <div class="cs-card">
+                            <span class="cs-num">1.2.1 · Обсуждение</span>
+                            <h3>Алгоритмы на уровне приложения</h3>
+                            <p>Приведите пример приложения, для которого необходимо алгоритмическое наполнение на уровне приложений, и обсудите функции этих алгоритмов.</p>
+                            <button class="cs-btn" type="button" data-reveal="ex1">Наш вариант</button>
+                            <div class="ex-answer reveal" id="ex1">Навигатор: кратчайший путь по графу дорог (Дейкстра, A*), геокодирование и интерполяция адресов, отрисовка карты. А ещё — всё с предыдущего слайда про фронтенд. <b>Ваши примеры?</b></div>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">1.2.2 · Задача</span>
+                            <h3>8<i>n</i>² против 64 <i>n</i> lg <i>n</i></h3>
+                            <p>На одной машине вставкам нужно 8<i>n</i>² шагов, слиянию — 64 <i>n</i> lg <i>n</i>. При каком <i>n</i> вставки станут медленнее слияния? <span class="ex-hint">lg — это log<sub>2</sub>, как во всей книге.</span></p>
+                            <button class="cs-btn" type="button" data-reveal="ex2">Ответ</button>
+                            <div class="ex-answer reveal" id="ex2">Делим на 8<i>n</i>: <i>n</i> &lt; 8 log<sub>2</sub> <i>n</i>.<br>
+                                1) Замена <i>n</i> = 2<sup><i>k</i></sup>: 2<sup><i>k</i></sup> &lt; 8<i>k</i>. Это не степенное уравнение — <i>k</i> и в показателе, и снаружи, формулы нет. Зато степени двойки легко перебрать:<br><span class="mono">k=5: 32 &lt; 40 ✓ · k=6: 64 &gt; 48 ✗</span> → граница между 32 и 64.<br>
+                                2) Сужаем, как бинарным поиском:<br><span class="mono">n=43: 43 &lt; 43,4 ✓ · n=44: 44 &gt; 43,7 ✗</span><br>
+                                Вставки быстрее при 2 ≤ <i>n</i> ≤ 43, с <b><i>n</i> = 44</b> — слияние. Точный корень ≈ 43,56 (W-функция Ламберта, как в 1.2.3).</div>
+                        </div>
+                        <div class="cs-card">
+                            <span class="cs-num">1.2.3 · Задача</span>
+                            <h3>100<i>n</i>² против 2<sup><i>n</i></sup></h3>
+                            <p>При каком минимальном <i>n</i> алгоритм со временем 100<i>n</i>² работает быстрее, чем алгоритм со временем 2<sup><i>n</i></sup>, на одной и той же машине?</p>
+                            <button class="cs-btn" type="button" data-reveal="ex3">Ответ</button>
+                            <div class="ex-answer reveal" id="ex3"><b><i>n</i> = 15</b>: 100 · 15² = 22 500 &lt; 2¹⁵ = 32 768. При <i>n</i> = 14 ещё наоборот: 19 600 &gt; 16 384. Экспонента обгоняет любой полином — вопрос лишь, когда. <b>Разбор — на следующем слайде.</b></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="15">
+                <div class="cs">
+                    <div class="badge">Упражнение 1.2.3 · Разбор</div>
+                    <h2 class="gradient-text">Полином против экспоненты</h2>
+                    <div class="pe-layout">
+                        <div class="pe-left">
+                            <div class="cs-cards c2 pe-defs">
+                                <div class="cs-card">
+                                    <span class="cs-num"><i class="key key-a"></i>Полином</span>
+                                    <div class="pe-formula"><i>n</i><sup><i>k</i></sup></div>
+                                    <p><b>Переменная — в основании</b>, степень постоянна: <i>n</i>², <i>n</i>³, 100<i>n</i>² = 100 · <i>n</i> · <i>n</i>. С каждым шагом растёт всё медленнее: у <i>n</i>² при <i>n</i>&nbsp;=&nbsp;15 шаг даёт всего ×1,14.</p>
+                                </div>
+                                <div class="cs-card">
+                                    <span class="cs-num"><i class="key key-b"></i>Экспонента</span>
+                                    <div class="pe-formula">2<sup><i>n</i></sup></div>
+                                    <p><b>Переменная — в показателе</b>, основание постоянно: 2<sup><i>n</i></sup>, 3<sup><i>n</i></sup>. Каждый шаг <b>удваивает</b> значение — поэтому рано или поздно обгоняет любой полином.</p>
+                                </div>
+                            </div>
+                            <div class="chart-card pe-chart">
+                                <div class="chart-legend">
+                                    <span><i class="key key-a"></i><span>100<i>n</i>² — полином</span></span>
+                                    <span><i class="key key-b"></i><span>2<sup><i>n</i></sup> — экспонента</span></span>
+                                </div>
+                                <svg class="chart-svg pe-svg" id="peChart" viewBox="0 0 760 330" role="img" aria-label="Графики 100n² и 2 в степени n для n от 0 до 16"></svg>
+                                <div class="chart-tip" id="peTip"></div>
+                            </div>
+                        </div>
+<div class="cs-card pe-solve">
+                            <span class="cs-num">Алгебраическое решение</span>
+                            <ol class="pe-steps">
+                                <li><span class="pe-eq">100<i>n</i>² &lt; 2<sup><i>n</i></sup></span><span class="pe-why">обе части положительны — можно логарифмировать</span></li>
+                                <li><span class="pe-eq">log<sub>2</sub> 100 + 2 log<sub>2</sub> <i>n</i> &lt; <i>n</i></span><span class="pe-why">log<sub>2</sub> возрастает, поэтому знак неравенства сохраняется</span></li>
+                                <li><span class="pe-eq">6,64 + 2 log<sub>2</sub> <i>n</i> &lt; <i>n</i></span><span class="pe-why">экспонента «развернулась» в линейную <i>n</i>, полином — в логарифм</span></li>
+                                <li><span class="pe-eq">правая часть: +1 за шаг, левая: +2 log<sub>2</sub>(1 + 1/<i>n</i>)</span><span class="pe-why">2 log<sub>2</sub>(1 + 1/<i>n</i>) &lt; 1 ⇔ (1 + 1/<i>n</i>)² &lt; 2 ⇔ <i>n</i> &gt; 2,41 — начав выполняться, неравенство уже не нарушится</span></li>
+                                <li><span class="pe-eq"><i>n</i> = 14: 14,26 &gt; 14 ✗ · <i>n</i> = 15: 14,46 &lt; 15 ✓</span><span class="pe-why">значит, наименьшее <i>n</i> = <b>15</b></span></li>
+                            </ol>
+                            <div class="pe-big">
+                                <div class="pe-big-h">А если полином огромной степени — <i>n</i><sup>100</sup>?</div>
+                                <p>При <i>n</i> = 100 он и правда больше: 100<sup>100</sup> = 10<sup>200</sup>, а 2<sup>100</sup> ≈ 10<sup>30</sup>. Но тот же приём с логарифмом даёт <i>n</i> &lt; 100 log<sub>2</sub> <i>n</i> — и экспонента обгоняет его с <b><i>n</i> = 997</b>, дальше навсегда. Не путать со 100<sup><i>n</i></sup>: это не полином, а тоже экспонента, только с основанием 100.</p>
+                            </div>
+                            <p class="cs-note">Точный корень уравнения 100<i>n</i>² = 2<sup><i>n</i></sup> элементарной формулой не выражается — только через W-функцию Ламберта: <i>n</i> = −(2 / ln 2) · W<sub>−1</sub>(−ln 2 / 20) ≈ 14,32. Ближайшее целое сверху — 15.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="16">
+                <div class="cs">
+                    <div class="badge">Задача 1.1 · Сравнение времени работы</div>
+                    <h2 class="gradient-text">Какую задачу успеем решить за век?</h2>
+                    <p class="cs-lead small">Алгоритм выполняет <i>f</i>(<i>n</i>) операций. В условии задачи одна операция длится 1 мкс — компьютер делает <b>10⁶ операций в секунду</b>, и все цифры верны только для этой скорости. Какое наибольшее <i>n</i> он успеет обработать? Нажмите на строку.</p>
+                    <div class="t11-speed">
+                        <span class="ctrl-label">Скорость компьютера</span>
+                        <div class="presets" id="t11Speed">
+                            <button class="cs-btn sm is-active" type="button" data-speed="1e6">10⁶ оп/с · как в задаче</button>
+                            <button class="cs-btn sm" type="button" data-speed="1e9">10⁹ оп/с</button>
+                            <button class="cs-btn sm" type="button" data-speed="1e10">10¹⁰ оп/с · компьютер А</button>
+                        </div>
+                        <span class="t11-speed-note" id="t11SpeedNote"></span>
+                    </div>
+                    <table class="t11" id="t11">
+                        <thead>
+                            <tr><th><i>f</i>(<i>n</i>)</th><th>Секунда</th><th>Минута</th><th>Час</th><th>День</th><th>Месяц</th><th>Год</th><th>Век</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="t11-foot">
+                        <button class="cs-btn sm" type="button" id="t11All">Открыть всё</button>
+                        <button class="cs-btn sm" type="button" id="t11None">Скрыть</button>
+                        <p class="cs-note">Месяц — 30 дней, год — 365 дней.</p>
+                    </div>
+                    <div class="cs-callout reveal" id="t11Insight" style="margin-top: 18px;"></div>
+                </div>
+            </section>
+
+            <section class="slide" data-slide="17">
+                <div class="layout-center takeaways">
+                    <div class="badge">Что забрать с собой</div>
+                    <h2 class="gradient-text">Алгоритмы как технология — в пяти строках</h2>
+                    <div class="peel-container">
+                        <div class="peel-card-wrapper">
+                            <div class="peel-card-content-inner">
+                                <span class="peel-card-text">Идеальному компьютеру алгоритмы нужны ради корректности, реальному — ещё и ради скорости.</span>
+                            </div>
+                            <div class="peel-cover"><span class="peel-label">Вывод 1</span><div class="peel-fold"></div></div>
+                        </div>
+                        <div class="peel-card-wrapper">
+                            <div class="peel-card-content-inner">
+                                <span class="peel-card-text">Время и память — ограниченные ресурсы, и расходует их прежде всего выбранный алгоритм.</span>
+                            </div>
+                            <div class="peel-cover"><span class="peel-label">Вывод 2</span><div class="peel-fold"></div></div>
+                        </div>
+                        <div class="peel-card-wrapper">
+                            <div class="peel-card-content-inner">
+                                <span class="peel-card-text"><i>n</i>² против <i>n</i> lg <i>n</i>: константы решают только на малых <i>n</i> — перелом наступает всегда.</span>
+                            </div>
+                            <div class="peel-cover"><span class="peel-label">Вывод 3</span><div class="peel-fold"></div></div>
+                        </div>
+                        <div class="peel-card-wrapper">
+                            <div class="peel-card-content-inner">
+                                <span class="peel-card-text">Железо в 1000 раз медленнее, но алгоритм лучше — и на 10 млн чисел это в 17 раз быстрее.</span>
+                            </div>
+                            <div class="peel-cover"><span class="peel-label">Вывод 4</span><div class="peel-fold"></div></div>
+                        </div>
+                        <div class="peel-card-wrapper">
+                            <div class="peel-card-content-inner">
+                                <span class="peel-card-text">Алгоритмы — такая же технология, как железо, GUI и сети. И они внутри каждой из них.</span>
+                            </div>
+                            <div class="peel-cover"><span class="peel-label">Вывод 5</span><div class="peel-fold"></div></div>
+                        </div>
+                    </div>
+                    <div class="main-takeaway-card" id="mainTakeawayCard">
+                        <div class="mt-kicker">Главная мысль</div>
+                        <div class="mt-text">Производительность системы — это железо × алгоритм. Вкладываться в алгоритмы так же выгодно, как в железо, а их знание отличает опытного программиста от новичка.</div>
+                    </div>
+                    <div class="interactive-hint">Потяните за уголок карточки вправо</div>
+                </div>
+            </section>
+
 
 <section class="slide" data-slide="4" data-chrome="whatnext">
 
@@ -192,6 +755,8 @@
 
     <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
     <script src="assets/js/deck.js"></script>
+    <!-- Интерактив контентных слайдов: графики, гонка, Дейкстра, ответы -->
+    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

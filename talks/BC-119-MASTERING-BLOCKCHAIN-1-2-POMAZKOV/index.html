@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Распределенные системы — Блокчейн. Исчерпывающее руководство</title>
+    <meta name="description" content="Mastering Blockchain">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Распределенные системы — Блокчейн. Исчерпывающее руководство">
+    <meta property="og:description" content="Mastering Blockchain">
+    <meta property="og:image" content="https://bc-119-mastering-blockchain-1-2-pomazkov.pages.dev/assets/cover/mastering-blockchain.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Распределенные системы — Блокчейн. Исчерпывающее руководство">
+    <meta name="twitter:description" content="Mastering Blockchain">
+    <meta name="twitter:image" content="https://bc-119-mastering-blockchain-1-2-pomazkov.pages.dev/assets/cover/mastering-blockchain.webp">
+    <!-- Тема до первой отрисовки: иначе светлый дек моргнёт тёмным. -->
+    <script>
+        try {
+            if (localStorage.getItem('bc-deck-theme') === 'light')
+                document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 1</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Блокчейн. Курс молодого бойца</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Распределенные системы</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.amazon.com/Mastering-Blockchain-technical-blockchain-cryptography-ebook/dp/B0B4P2VC76?ref_=ast_author_mpb" target="_blank">
+                                    <img class="book-cover" src="assets/cover/mastering-blockchain.webp" alt="Блокчейн. Исчерпывающее руководство">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.amazon.com/Mastering-Blockchain-technical-blockchain-cryptography-ebook/dp/B0B4P2VC76?ref_=ast_author_mpb" target="_blank">
+                                    Блокчейн. Исчерпывающее руководство
+                                </a>
+                                <p class="book-subtitle">
+                                    Mastering Blockchain
+                                </p>
+                                <p class="book-desc-ru">
+                                    Фундаментальное техническое руководство, которое признано одним из самых авторитетных и полных учебников по технологии распределенного реестра в мире.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;url=https%3A%2F%2Fuk.linkedin.com%2Fin%2Fimranbashirblockchain&amp;ved=0CAAQ6vwSahcKEwiAvp_6nruWAxUAAAAAHQAAAAAQQw&amp;opi=89978449" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/imran-bashir.webp" alt="Имран Башир">
+                                    <div class="author-info">
+                                        <div class="author-name">Имран Башир</div>
+                                        <div class="author-link-text">www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;url=https%3A%2F%2Fuk.linkedin.com%2Fin%2Fimranbashirblockchain&amp;ved=0CAAQ6vwSahcKEwiAvp_6nruWAxUAAAAAHQAAAAAQQw&amp;opi=89978449 ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/kunjutone" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
+                                <div class="author-info">
+                                    <div class="author-name">Антон Помазков</div>
+                                    <div class="author-link-text">t.me/kunjutone ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+
+<section class="slide" data-slide="4" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-119-mastering-blockchain-1-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Развитие блокчейна</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-119-mastering-blockchain-1-2-pomazkov.pages.dev" target="_blank" rel="noreferrer">Распределенные системы</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-119-mastering-blockchain-1-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">История блокчейна</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-119-mastering-blockchain-1-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Введение в блокчейн</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title"><a href="https://bc-119-mastering-blockchain-1-5-nikiforov.pages.dev" target="_blank" rel="noreferrer">Типы блокчейна</a></div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Переключатель темы: светлая ↔ тёмная (клавиша T) -->
+    <button class="theme-toggle" id="themeToggle" type="button" role="switch"
+            aria-checked="false" aria-label="Переключить тему" title="Светлая тема (T)">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-knob"></span>
+            <span class="theme-ico theme-ico-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            </span>
+            <span class="theme-ico theme-ico-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+            </span>
+        </span>
+    </button>
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+
+</body>
+</html>

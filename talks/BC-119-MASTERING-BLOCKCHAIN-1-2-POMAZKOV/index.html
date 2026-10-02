@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body>
@@ -81,11 +83,11 @@
                         <div class="authors-column">
                             <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
                             <div class="authors-grid">
-                                <a class="author-card" href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;url=https%3A%2F%2Fuk.linkedin.com%2Fin%2Fimranbashirblockchain&amp;ved=0CAAQ6vwSahcKEwiAvp_6nruWAxUAAAAAHQAAAAAQQw&amp;opi=89978449" target="_blank">
+                                <a class="author-card" href="https://linkedin.com/in/imranbashirblockchain" target="_blank">
                                     <img class="author-avatar" src="assets/authors/imran-bashir.webp" alt="Имран Башир">
                                     <div class="author-info">
                                         <div class="author-name">Имран Башир</div>
-                                        <div class="author-link-text">www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;url=https%3A%2F%2Fuk.linkedin.com%2Fin%2Fimranbashirblockchain&amp;ved=0CAAQ6vwSahcKEwiAvp_6nruWAxUAAAAAHQAAAAAQQw&amp;opi=89978449 ↗</div>
+                                        <div class="author-link-text">linkedin.com/in/imranbashirblockchain ↗</div>
                                     </div>
                                 </a>
                             </div>
@@ -106,7 +108,887 @@
 
             <!-- SLIDE 3 (Copy of Slide 3) -->
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+<!-- SLIDE: главная мысль -->
+            <section class="slide" id="slide-main" data-slide="3">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Что мы должны вынести из этой части</h2>
+                    <p class="slide-lead">Главная мысль — одной фразой, и четыре вещи, которые стоит запомнить.</p>
+
+                    <div class="body">
+                        <p class="thesis" data-rv="up">
+                            Блокчейн — это <b>распределённая система</b>. Идеальной её сделать нельзя:
+                            когда сеть рвётся, приходится выбирать между <b>согласованностью</b> и <b>доступностью</b>.
+                        </p>
+
+                        <div class="takes">
+                            <div class="take"><span class="take-n">01</span><h3>Блокчейн — распределённая система</h3><p>Узлы обмениваются сообщениями, а снаружи выглядят как одна платформа.</p></div>
+                            <div class="take"><span class="take-n">02</span><h3>Узлы ломаются и врут</h3><p>Исправные, неисправные, византийские. Система работает, пока «плохих» меньше порога.</p></div>
+                            <div class="take"><span class="take-n">03</span><h3>CAP: всё сразу нельзя</h3><p>При разделении сети система либо согласована, либо доступна.</p></div>
+                            <div class="take"><span class="take-n">04</span><h3>PACELC: выбор есть всегда</h3><p>Даже без сбоев за согласованность платят задержкой. Блокчейн выбирает «согласуется со временем».</p></div>
+                        </div>
+
+                        <div class="chain">
+                            <div class="cn">Bitcoin</div>
+                            <div class="cn">Блокчейн</div>
+                            <div class="cn is-sol">Распределённая система</div>
+                            <div class="cn">Проектировать сложно</div>
+                            <div class="cn">CAP</div>
+                            <div class="cn">PACELC</div>
+                            <div class="cn is-now">Что дальше?</div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Блокчейн нельзя понять, не понимая распределённых систем: у них есть принципиальные ограничения, и блокчейн — один из способов с ними жить.</p>
+                    <p><em>Что говорить</em> Начинаем с конца: вот что должно остаться в голове после доклада. Четыре карточки — четыре шага рассказа. Нижняя цепочка — скелет: Bitcoin построен на блокчейне, блокчейн — распределённая система, проектировать такие системы сложно, CAP объясняет почему, PACELC уточняет, а в конце ответим на вопрос «что дальше».</p>
+                    <p><em>Запомнить</em> Блокчейн — распределённая система; идеальной она быть не может, и весь вопрос — чем именно она жертвует.</p>
+                    <p><em>Переход</em> Начнём с первого шага: почему блокчейн — это распределённая система.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: блокчейн — распределённая система -->
+            <section class="slide" id="slide-why" data-slide="4">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Блокчейн — это распределённая система</h2>
+                    <p class="slide-lead">
+                        Это распределённый реестр, который можно и централизовать, и децентрализовать. Задуман он был
+                        как <b>децентрализованная</b> платформа — поэтому сочетает обе парадигмы.
+                    </p>
+
+                    <div class="body">
+                        <div class="quad">
+                            <div class="quad-cell is-empty"><h3>—</h3><p>Много владельцев одной машины — так системы не строят.</p></div>
+                            <div class="quad-cell is-hi"><h3>Bitcoin, Ethereum</h3><p>Узлов много, единого владельца нет: <b>распределённо-децентрализованная</b> система.</p></div>
+                            <div class="quad-cell"><h3>Сайт на одном сервере</h3><p>Одна машина, один владелец.</p></div>
+                            <div class="quad-cell"><h3>Поиск Google · корпоративный блокчейн</h3><p>Узлов много, но управляет одна организация или консорциум.</p></div>
+                            <div class="quad-x"><span>одна машина</span><span>где работает →</span><span>много машин (распределённая)</span></div>
+                            <div class="quad-y"><span>один владелец</span><span>кто управляет →</span><span>владельцев много (децентрализованная)</span></div>
+                        </div>
+
+                        <div class="wide-accent is-sol">
+                            «Распределённая» — про то, <b>где</b> система работает. «Децентрализованная» — про то, <b>кто</b> ею управляет.
+                            Блокчейн отвечает «много» на оба вопроса.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Блокчейн — распределённая система и одновременно децентрализованная: это два разных свойства, и книга называет блокчейн «распределённо-децентрализованным».</p>
+                    <p><em>Что говорить</em> Автор начинает с тезиса: чтобы понять блокчейн, обязательно нужно разбираться в распределённых системах. Дальше тонкость: блокчейн — распределённый реестр, который можно и централизовать (корпоративная сеть под одним консорциумом), и децентрализовать (Bitcoin). Таблица 2×2 разводит два вопроса. По горизонтали — где система работает: на одной машине или на многих. По вертикали — кто ей управляет: один владелец или много. Поиск Google — распределённая, но централизованная система. Bitcoin — и распределённая, и децентрализованная.</p>
+                    <p><em>Запомнить</em> Распределённость — про машины, децентрализация — про власть. Блокчейн — про то и другое.</p>
+                    <p><em>Переход</em> Децентрализации посвящена следующая глава. Сегодня разбираем первое слово: что такое распределённая система.</p>
+                    <p><em>Оговорка</em> Поле 2×2 — наша иллюстрация к тексту главы, в книге такой схемы нет. Примеры в ячейках подобраны нами.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: что такое распределённая система -->
+            <section class="slide" id="slide-ds" data-slide="5">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Что такое распределённая система</h2>
+                    <p class="slide-lead">
+                        Два или более узла <b>скоординированно взаимодействуют</b> ради общего результата —
+                        а пользователь воспринимает их как единую логическую платформу.
+                    </p>
+
+                    <div class="body">
+                        <div class="dsview">
+                            <div class="ds-box" data-rv="left">
+                                <span class="section-label">Что видит пользователь</span>
+                                <div class="ds-search"><i></i>как работает блокчейн<span class="ds-caret"></span></div>
+                                <p class="ds-big">Одна согласованная платформа: один адрес, один ответ.</p>
+                            </div>
+                            <div class="ds-arrow" data-rv="pop"><i></i></div>
+                            <div class="ds-box is-real" data-rv="right">
+                                <span class="section-label">Как это устроено</span>
+                                <div class="cluster">
+                                    <span class="cl-n" style="--k:0"></span><span class="cl-n" style="--k:1"></span><span class="cl-n" style="--k:2"></span><span class="cl-n" style="--k:3"></span><span class="cl-n" style="--k:4"></span><span class="cl-n" style="--k:5"></span><span class="cl-n" style="--k:6"></span><span class="cl-n" style="--k:7"></span>
+                                    <span class="cl-n" style="--k:3"></span><span class="cl-n" style="--k:4"></span><span class="cl-n" style="--k:5"></span><span class="cl-n" style="--k:6"></span><span class="cl-n" style="--k:7"></span><span class="cl-n" style="--k:8"></span><span class="cl-n" style="--k:9"></span><span class="cl-n" style="--k:10"></span>
+                                </div>
+                                <div class="ds-parts">
+                                    <div class="ds-part"><b>Процессы — узлы</b>отдельные компьютеры со своей памятью и процессором</div>
+                                    <div class="ds-part"><b>Каналы связи</b>по ним узлы передают друг другу сообщения</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wide-accent is-sol">
+                            Поисковик Google — большая распределённая система, но для нас это одна страница.
+                            Блокчейн — тоже распределённая система, причём <b>с передачей сообщений</b>.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Распределённая система — это много узлов, которые договариваются между собой сообщениями, а наружу выглядят как одно целое.</p>
+                    <p><em>Что говорить</em> Определение из книги состоит из трёх частей: узлов два или больше; они координируются ради общего результата; пользователь видит единую платформу. Пример автора — поиск Google: за одной строкой поиска стоит огромная распределённая система. Для фронтендера это привычная картина: один URL API, а за ним балансировщик, десятки сервисов и реплик базы. Система состоит из процессов (узлов) и каналов связи; узлы общаются, передавая сообщения. Блокчейн — распределённая система именно такого типа: с передачей сообщений, без общей памяти.</p>
+                    <p><em>Как показывать</em> Справа «волна» по квадратикам — запрос обходит узлы; слева мигает курсор в строке поиска: одна строка — много машин.</p>
+                    <p><em>Запомнить</em> Узлы + каналы + сообщения, а снаружи — одна платформа.</p>
+                    <p><em>Переход</em> В книге есть схема такой системы в миниатюре. Посмотрим на неё и на то, что в ней может пойти не так.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: схема сети из книги -->
+            <section class="slide" id="slide-net" data-slide="6">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Модель из книги: шесть узлов и каналы между ними</h2>
+                    <p class="slide-lead">
+                        Распределённая система в миниатюре. Посмотрим, что с ней делают две типичные беды:
+                        узел, который врёт, и канал, который рвётся.
+                    </p>
+
+                    <div class="body">
+                        <div class="demo" id="netDemo" data-state="normal" style="--demo-cols: 1.35fr 1fr;">
+                            <div class="fig net-fig">
+                                <svg viewBox="0 0 760 440" aria-hidden="true">
+                                    <ellipse class="nt-zone only-part" cx="212" cy="196" rx="172" ry="188"/>
+                                    <ellipse class="nt-zone only-part" cx="566" cy="232" rx="164" ry="176"/>
+
+                                    <path class="nt-link" d="M130 130L310 70"/>
+                                    <path class="nt-link" d="M130 130L200 310"/>
+                                    <path class="nt-link" d="M310 70L200 310"/>
+                                    <path class="nt-link nt-l2" d="M310 70L500 120"/>
+                                    <path class="nt-link" d="M500 120L660 220"/>
+                                    <path class="nt-link" d="M660 220L520 340"/>
+                                    <path class="nt-link" d="M500 120L520 340"/>
+
+                                    <path class="nt-flow" d="M130 130L310 70"/>
+                                    <path class="nt-flow" d="M200 310L130 130"/>
+                                    <path class="nt-flow" d="M310 70L200 310"/>
+                                    <path class="nt-flow nt-l2-flow" d="M310 70L500 120"/>
+                                    <path class="nt-flow" d="M500 120L660 220"/>
+                                    <path class="nt-flow" d="M660 220L520 340"/>
+                                    <path class="nt-flow" d="M520 340L500 120"/>
+
+                                    <text class="nt-lbl" x="212" y="84">L1</text>
+                                    <text class="nt-lbl" x="410" y="78">L2</text>
+                                    <text class="nt-lbl" x="596" y="156">L3</text>
+                                    <text class="nt-lbl" x="612" y="298">L4</text>
+                                    <text class="nt-lbl" x="140" y="232">L5</text>
+
+                                    <g class="only-part">
+                                        <path class="nt-x" d="M393 83l24 24M417 83l-24 24"/>
+                                        <text class="nt-warn" x="212" y="408">группа 1</text>
+                                        <text class="nt-warn" x="566" y="432">группа 2</text>
+                                    </g>
+                                    <g class="only-byz">
+                                        <text class="nt-bad" x="474" y="246">«x = 5»</text>
+                                        <text class="nt-bad" x="626" y="306">«x = 9»</text>
+                                        <text class="nt-warn" x="500" y="66">x = 5 ?</text>
+                                        <text class="nt-warn" x="690" y="166">x = 9 ?</text>
+                                    </g>
+
+                                    <g class="nt-node"><circle cx="130" cy="130" r="38"/><text x="130" y="138">Nn</text></g>
+                                    <g class="nt-node"><circle cx="310" cy="70" r="38"/><text x="310" y="78">N1</text></g>
+                                    <g class="nt-node"><circle cx="200" cy="310" r="38"/><text x="200" y="318">N5</text></g>
+                                    <g class="nt-node nt-near"><circle cx="500" cy="120" r="38"/><text x="500" y="128">N2</text></g>
+                                    <g class="nt-node nt-near"><circle cx="660" cy="220" r="38"/><text x="660" y="228">N3</text></g>
+                                    <g class="nt-node nt-n4"><circle cx="520" cy="340" r="38"/><text x="520" y="348">N4</text></g>
+                                    <text class="nt-frame-t" x="330" y="434" text-anchor="middle">КОНЕЧНЫЕ ПОЛЬЗОВАТЕЛИ ВИДЯТ ОДНУ СИСТЕМУ</text>
+                                </svg>
+                            </div>
+                            <div class="demo-side">
+                                <div class="seg" data-target="netDemo">
+                                    <button type="button" class="is-active" data-value="normal">Норма</button>
+                                    <button type="button" class="is-bad" data-value="byz">N4 врёт</button>
+                                    <button type="button" class="is-bad" data-value="part">L2 оборван</button>
+                                </div>
+                                <div class="cap" data-for="normal">
+                                    <h3>Всё работает</h3>
+                                    <p>Узлы обмениваются сообщениями по каналам и хранят одинаковые данные. Снаружи это одна система.</p>
+                                </div>
+                                <div class="cap" data-for="byz">
+                                    <h3>N4 — византийский узел</h3>
+                                    <p>Соседям он сообщает разное: N2 получает одно значение, N3 — другое. Так возникает несогласованность данных.</p>
+                                </div>
+                                <div class="cap" data-for="part">
+                                    <h3>L2 повреждён или просто медленный</h3>
+                                    <p>Сеть распалась на две группы: внутри каждой связь есть, между ними — нет. Это и называют разделением сети.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> У распределённой системы два типичных источника бед: узел с некорректным поведением и канал, из-за которого сеть разделяется.</p>
+                    <p><em>Что говорить</em> Это рисунок 1.1 из книги: шесть узлов — N1…N5 и Nn — и каналы L1…L5. В книге отмечены два проблемных места: N4 — византийский узел, L2 — повреждённый или медленный канал. Сначала покажите норму: сообщения бегут по каналам. Потом нажмите «N4 врёт»: он сообщает соседям разные значения, и данные у N2 и N3 расходятся. Потом «L2 оборван»: левая и правая группы больше не слышат друг друга. Обратите внимание: «оборван» и «очень медленный» для узла неотличимы — он просто не получает ответа.</p>
+                    <p><em>Как показывать</em> Три кнопки справа переключают состояние схемы; при уходе со слайда она возвращается в «Норму».</p>
+                    <p><em>Запомнить</em> Византийский узел порождает несогласованность данных, повреждённый канал — разделение сети. Обе беды вернутся в CAP-теореме.</p>
+                    <p><em>Переход</em> Сначала разберём первую беду: что вообще такое узел и каким он бывает.</p>
+                    <p><em>Оговорка</em> Расположение узлов и дополнительные связи нарисованы нами так, чтобы обрыв L2 действительно делил сеть надвое; в книге схема условнее. Конкретные значения «x = 5» и «x = 9» — иллюстрация.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: узел -->
+            <section class="slide" id="slide-node" data-slide="7">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Узел: что это и какие бывают</h2>
+                    <p class="slide-lead">
+                        Узел — отдельный игрок распределённой системы: компьютер со своей <b>памятью и процессором</b>,
+                        который отправляет и принимает сообщения.
+                    </p>
+
+                    <div class="body">
+                        <div class="kinds">
+                            <div class="kind k-ok">
+                                <div class="kind-ico">✓</div>
+                                <h3>Исправный</h3>
+                                <p>Работает по протоколу: принимает, проверяет и передаёт сообщения.</p>
+                            </div>
+                            <div class="kind k-down">
+                                <div class="kind-ico">×</div>
+                                <h3>Неисправный</h3>
+                                <p>Упал, завис или потерял связь: молчит или отвечает слишком поздно.</p>
+                            </div>
+                            <div class="kind k-bad">
+                                <div class="kind-ico">!</div>
+                                <h3>Вредоносный</h3>
+                                <p>Ведёт себя произвольно: искажает данные, говорит разным узлам разное.</p>
+                            </div>
+                        </div>
+
+                        <div class="wide-accent is-now">
+                            Узел с некорректным поведением называют <b>византийским</b>. Причина не важна:
+                            злой умысел или ошибка в программе — византийским считается любое незапланированное поведение.
+                        </div>
+
+                        <div class="roles">
+                            <span class="section-label" style="margin-right: 6px;">В блокчейне — ещё и по роли</span>
+                            <span class="role"><b>Полный узел</b> проверяет каждый блок</span>
+                            <span class="role"><b>Лёгкий клиент</b> проверяет заголовки</span>
+                            <span class="role"><b>Архивный узел</b> хранит всю историю</span>
+                            <span class="role"><b>Валидатор, майнер</b> предлагает блоки</span>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://ethereum.org/developers/docs/nodes-and-clients/" target="_blank" rel="noopener">ethereum.org — nodes and clients</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Узлы бывают исправными, неисправными и вредоносными. Самый тяжёлый случай — византийский узел: он не просто молчит, а ведёт себя как угодно.</p>
+                    <p><em>Что говорить</em> По книге узел — отдельный игрок, компьютер: у каждого своя память и процессор, все умеют отправлять и принимать сообщения. Три состояния — исправный, неисправный, вредоносный. Разница между вторым и третьим принципиальна. Упавший узел предсказуем: он молчит. Византийский — нет: может отправить неверные данные или разным соседям разные. И важная фраза из книги: византийским считается любое незапланированное поведение, не обязательно злонамеренное. Баг в программе — тоже византийский отказ.</p>
+                    <p><em>Про роли</em> Нижняя строка — дополнение к книге: в блокчейнах узлы различают ещё и по роли. Полный узел проверяет каждый блок, лёгкий клиент — только заголовки, архивный хранит всё состояние с первого блока, валидатор (в proof-of-work — майнер) предлагает новые блоки. Это деление по документации Ethereum; у других сетей названия похожие.</p>
+                    <p><em>Запомнить</em> Неисправный узел молчит, византийский — врёт. Второе хуже.</p>
+                    <p><em>Переход</em> Слово «византийский» взялось из знаменитого мысленного эксперимента 1982 года.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>; <a href="https://ethereum.org/developers/docs/nodes-and-clients/" target="_blank" rel="noopener">ethereum.org — Nodes and clients: полные, лёгкие и архивные узлы</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: задача византийских генералов -->
+            <section class="slide" id="slide-generals" data-slide="8">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Задача византийских генералов</h2>
+                    <p class="slide-lead">
+                        Мысленный эксперимент Лэмпорта, Шостака и Пиза, 1982 год. Генералы должны договориться
+                        об <b>одновременной атаке</b>, общаясь только через гонцов, — а среди них может быть предатель.
+                    </p>
+
+                    <div class="body">
+                        <div class="demo" id="genDemo" data-state="g3" style="--demo-cols: 1fr 1fr;">
+                            <div class="fig gen-fig">
+                                <svg viewBox="0 0 640 500" aria-hidden="true">
+                                    <path class="gm" pathLength="1" style="--k:0" d="M284 124L156 268"/>
+                                    <text class="gm-t" style="--k:0" x="186" y="186">атака</text>
+                                    <path class="gm" pathLength="1" style="--k:1" d="M356 124L484 268"/>
+                                    <text class="gm-t" style="--k:1" x="454" y="186">атака</text>
+
+                                    <g class="only-g3">
+                                        <path class="gm is-lie" pathLength="1" style="--k:2" d="M462 310L178 310"/>
+                                        <text class="gm-t is-lie" style="--k:2" x="320" y="298">«командир велел отступать»</text>
+                                        <text class="gv is-q" x="120" y="398">атака или отступление?</text>
+                                    </g>
+
+                                    <g class="only-g4">
+                                        <path class="gm" pathLength="1" style="--k:2" d="M320 136L320 344"/>
+                                        <text class="gm-t" style="--k:2" x="354" y="236">атака</text>
+                                        <path class="gm is-lie" pathLength="1" style="--k:3" d="M462 310L178 310"/>
+                                        <text class="gm-t is-lie" style="--k:3" x="236" y="298">«отступление»</text>
+                                        <path class="gm is-lie" pathLength="1" style="--k:4" d="M474 346L376 388"/>
+                                        <text class="gm-t is-lie" style="--k:4" x="462" y="398">«отступление»</text>
+                                        <path class="gm is-relay" pathLength="1" style="--k:5" d="M166 346L264 388"/>
+                                        <text class="gm-t is-relay" style="--k:5" x="190" y="398">атака</text>
+                                        <text class="gv is-ok" x="92" y="234">атака ✓</text>
+                                        <text class="gv is-ok" x="320" y="488">атака ✓</text>
+                                        <g class="gn"><circle cx="320" cy="404" r="58"/><text x="320" y="410">Генерал 2</text></g>
+                                    </g>
+
+                                    <g class="gn is-cmd"><circle cx="320" cy="76" r="58"/><text x="320" y="82">Командир</text></g>
+                                    <g class="gn"><circle cx="120" cy="310" r="58"/><text x="120" y="316">Генерал 1</text></g>
+                                    <g class="gn is-tr"><circle cx="520" cy="310" r="58"/><text x="520" y="316">Предатель</text></g>
+                                </svg>
+                            </div>
+                            <div class="demo-side">
+                                <div class="seg" data-target="genDemo">
+                                    <button type="button" class="is-active is-bad" data-value="g3">3 генерала</button>
+                                    <button type="button" class="is-good" data-value="g4">4 генерала</button>
+                                </div>
+                                <div class="cap" data-for="g3">
+                                    <h3>Трое, один предатель — договориться нельзя</h3>
+                                    <p>Верный генерал получил «атака» от командира и «отступление» от соседа. Кто из них врёт, определить невозможно.</p>
+                                </div>
+                                <div class="cap" data-for="g4">
+                                    <h3>Четверо, один предатель — большинство спасает</h3>
+                                    <p>Каждый верный генерал слышит «атака» дважды и «отступление» один раз — и выбирает большинство.</p>
+                                </div>
+                                <div class="maps">
+                                    <div class="mp"><b>Генералы</b>исправные узлы</div>
+                                    <div class="mp"><b>Предатели</b>византийские узлы</div>
+                                    <div class="mp"><b>Гонец</b>канал связи</div>
+                                    <div class="mp"><b>Пойманный гонец</b>потерянное сообщение</div>
+                                </div>
+                                <div class="demo-bar"><span class="formula">n ≥ 3f + 1</span><span class="hint">чтобы выдержать f предателей, верных должно быть больше двух третей</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">Lamport et al., 1982</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Договориться в присутствии лжецов можно, но только если честных достаточно много: при устных сообщениях — больше двух третей.</p>
+                    <p><em>Что говорить</em> В 1982 году Лэмпорт, Шостак и Пиз описали задачу так: несколько генералов осаждают город, каждый командует своим легионом; общаются только через гонцов; победить можно, только атаковав одновременно. Среди генералов могут быть предатели, которые рассылают ложные сообщения. Нужен способ, при котором верные генералы всё равно придут к одному решению. Перевод на язык систем — в четырёх плашках: генералы — исправные узлы, предатели — византийские, гонец — канал связи, пойманный гонец — потерянное или задержанное сообщение.</p>
+                    <p><em>Как показывать</em> Сначала «3 генерала»: командир шлёт обоим «атака», предатель говорит соседу «командир велел отступать». У верного генерала два противоречивых сообщения, и он не может понять, кто лжёт: командир или сосед. Потом «4 генерала»: теперь каждый верный получает «атака» от командира и от другого верного — и одно «отступление» от предателя. Большинство решает. Стрелки рисуются по очереди — дайте им доиграть.</p>
+                    <p><em>Запомнить</em> Формула n ≥ 3f + 1: на одного предателя нужно минимум четверо участников. С подписанными сообщениями ограничение мягче — но это уже криптография, до неё дойдём.</p>
+                    <p><em>Переход</em> Византийский узел — не только про злодеев. Посмотрим на реальные случаи.</p>
+                    <p><em>Оговорка</em> Сценарии на схеме упрощены: в статье алгоритм рекурсивный и рассматривает также предателя-командира. Результат о «более чем двух третях» относится к устным (неподписанным) сообщениям; с подписями задача решается при любом числе предателей.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>; <a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">L. Lamport, R. Shostak, M. Pease — The Byzantine Generals Problem (ACM TOPLAS, 1982)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: византийский узел — примеры -->
+            <section class="slide" id="slide-byz" data-slide="9">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Византийский узел: примеры из жизни</h2>
+                    <p class="slide-lead">
+                        Византийским считается <b>любое</b> незапланированное поведение — и злой умысел, и обычная ошибка.
+                        Четыре реальных случая.
+                    </p>
+
+                    <div class="body is-roomy">
+                        <div class="split" style="gap: 20px;">
+                            <div class="card c-now">
+                                <span class="card-k">20.07.2008 · сбой железа</span>
+                                <h3>Amazon S3: один испорченный бит</h3>
+                                <p>В служебных сообщениях между серверами исказился единственный бит — и неверное состояние разошлось по всей системе.</p>
+                            </div>
+                            <div class="card c-now">
+                                <span class="card-k">24.02.2025 · ошибка в программе</span>
+                                <h3>Ethereum Holesky: невалидный блок</h3>
+                                <p>Три клиента из-за ошибки в настройке приняли неверный блок. Тестовая сеть осталась без финальности на две недели.</p>
+                            </div>
+                            <div class="card c-prob">
+                                <span class="card-k">21.11.2025 · намеренное действие</span>
+                                <h3>Cardano: «отравленная» транзакция</h3>
+                                <p>Некорректную транзакцию часть узлов приняла, часть отвергла — и сеть на несколько часов разделилась на две цепи.</p>
+                            </div>
+                            <div class="card c-prob">
+                                <span class="card-k">правило протокола</span>
+                                <h3>Ethereum: двойная подпись</h3>
+                                <p>Валидатор подписал два разных блока в одном слоте? Часть ставки сжигают, а его самого исключают из сети.</p>
+                            </div>
+                        </div>
+
+                        <div class="wide-accent is-strong">
+                            Протокол не гадает о причинах. Он должен выдержать <b>любое</b> неправильное поведение —
+                            пока таких узлов меньше порога.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><a href="https://www.datacenterknowledge.com/outages/s3-downtime-more-missing-bites" target="_blank" rel="noopener">Data Center Knowledge — S3, 2008</a><span class="sep">·</span><a href="https://github.com/ethereum/pm/blob/master/Network-Upgrade-Archive/Pectra/holesky-postmortem.md" target="_blank" rel="noopener">ethereum/pm — Holesky</a><span class="sep">·</span><a href="https://intersectmbo.org/news/incident-report-network-partition-analysis-and-resolution-strategy" target="_blank" rel="noopener">Intersect — Cardano</a><span class="sep">·</span><a href="https://cryptoslate.com/cardano-split-in-two-by-a-single-transaction-lessons-for-eth-and-sol-client-diversity/" target="_blank" rel="noopener">CryptoSlate — Cardano</a><span class="sep">·</span><a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/" target="_blank" rel="noopener">ethereum.org — slashing</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Византийские отказы — не экзотика с хакерами: это и испорченный бит, и ошибка в настройке, и чужой эксперимент. Протокол обязан пережить всё это, не разбираясь в причинах.</p>
+                    <p><em>Что говорить</em> Первый пример — вообще не блокчейн. В июле 2008 года хранилище Amazon S3 несколько часов было недоступно: в служебном протоколе обмена состоянием (gossip) в нескольких сообщениях исказился один бит, проверки целостности для этих сообщений не было, и неверная информация разошлась по серверам. Второй — февраль 2025: в тестовой сети Ethereum Holesky три клиента исполнения из-за неверно настроенного адреса контракта приняли невалидный блок, большинство валидаторов оказалось на неправильной ветке, и финальность восстанавливали около двух недель. Третий — ноябрь 2025, Cardano: специально составленная транзакция прошла проверку в новых версиях узла и была отвергнута старыми — сеть разошлась на две цепи. Четвёртый — уже не случай, а правило: в Ethereum за двойную подпись (два блока в одном слоте) валидатора наказывают — это и есть защита от византийского поведения, зашитая в протокол.</p>
+                    <p><em>Запомнить</em> Жёлтые карточки — никто не хотел зла, красные — кто-то действовал намеренно. Для системы разницы нет.</p>
+                    <p><em>Переход</em> Раз узлы могут и падать, и врать — понятно, почему проектировать такие системы трудно. Сформулируем это точнее.</p>
+                    <p><em>Оговорка</em> Про S3 — по публикациям 2008 года (исходная страница статуса AWS уже недоступна). Длительность раскола Cardano — около 14 часов по сообщениям СМИ; в отчёте Intersect названы причина и ход восстановления. Holesky — тестовая сеть, не основная.</p>
+                    <p><em>Источники</em> <a href="https://www.datacenterknowledge.com/outages/s3-downtime-more-missing-bites" target="_blank" rel="noopener">Data Center Knowledge — S3 Downtime: More Missing Bites (о сбое Amazon S3 20.07.2008)</a>; <a href="https://github.com/ethereum/pm/blob/master/Network-Upgrade-Archive/Pectra/holesky-postmortem.md" target="_blank" rel="noopener">ethereum/pm — Holesky postmortem (инцидент 24.02.2025 после обновления Pectra)</a>; <a href="https://intersectmbo.org/news/incident-report-network-partition-analysis-and-resolution-strategy" target="_blank" rel="noopener">Intersect — Incident report: network partition analysis and resolution strategy (21.11.2025)</a>; <a href="https://cryptoslate.com/cardano-split-in-two-by-a-single-transaction-lessons-for-eth-and-sol-client-diversity/" target="_blank" rel="noopener">CryptoSlate — Cardano split in two by a single transaction (11.2025)</a>; <a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/" target="_blank" rel="noopener">ethereum.org — Proof-of-stake rewards and penalties: slashing за двойную подпись</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: почему проектировать сложно -->
+            <section class="slide" id="slide-hard" data-slide="10">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Почему проектировать их так сложно</h2>
+                    <p class="slide-lead">
+                        Система должна продолжать работу, даже если часть узлов отказала или каналы нарушены —
+                        в пределах порога, который задаёт <b>протокол консенсуса</b>.
+                    </p>
+
+                    <div class="body">
+                        <div class="split" style="grid-template-columns: 1fr 1.25fr; gap: 28px;">
+                            <div class="stack-col is-roomy" style="gap: 16px;">
+                                <span class="section-label">Две главные проблемы</span>
+                                <div class="card c-sol">
+                                    <h3>Координация между узлами</h3>
+                                    <p>Как договориться об одном и том же, если общаться можно только сообщениями, а они теряются и опаздывают.</p>
+                                </div>
+                                <div class="card c-sol">
+                                    <h3>Устойчивость к сбоям</h3>
+                                    <p>Как продолжать работу, когда узлы падают, каналы рвутся, а кто-то ведёт себя по-византийски.</p>
+                                </div>
+                            </div>
+                            <div class="stack-col" style="gap: 16px;">
+                                <span class="section-label">Пороги: сколько «плохих» узлов выдержит сеть</span>
+                                <div class="fact"><span class="fact-n">&gt; ⅔</span><span class="fact-t">верных участников нужно в классической задаче византийских генералов — Лэмпорт и др., 1982</span></div>
+                                <div class="fact"><span class="fact-n">⅔ и ⅓</span><span class="fact-t">Ethereum: две трети стейка нужны для финальности, одна треть способна её остановить</span></div>
+                                <div class="fact"><span class="fact-n">20 + 20</span><span class="fact-t">Solana Alpenglow: до 20% вредоносных и ещё 20% молчащих узлов <span class="st st-now">testnet, 2026</span></span></div>
+                            </div>
+                        </div>
+
+                        <div class="wide-accent is-strong">
+                            Сложность оказалась принципиальной: доказана теорема о том, чего распределённая система
+                            <b>не может в принципе</b>.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">Lamport et al., 1982</a><span class="sep">·</span><a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/" target="_blank" rel="noopener">ethereum.org — proof-of-stake</a><span class="sep">·</span><a href="https://www.anza.xyz/blog/alpenglow-a-new-consensus-for-solana" target="_blank" rel="noopener">Anza — Alpenglow</a><span class="sep">·</span><a href="https://forklog.com/en/alpenglow-begins-activation-phase-in-solana-testnet/" target="_blank" rel="noopener">Forklog — Alpenglow в testnet</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Две задачи — договориться и не упасть — решаются только до определённого порога отказов. Этот порог задаёт протокол консенсуса.</p>
+                    <p><em>Что говорить</em> Книга называет две основные проблемы проектирования: координацию между узлами и устойчивость к сбоям. Система должна справляться, даже если часть узлов отказывает или нарушается работа каналов — но не бесконечно, а в пределах порога. Справа — как этот порог выглядит на деле. Классика: больше двух третей честных. Ethereum: для финальности нужны голоса двух третей стейка; значит, треть, действуя заодно или просто выпав, может остановить финализацию — для этого случая в протоколе есть механизм «утечки неактивности». Свежий пример — новый консенсус Solana, Alpenglow: его авторы прямо разделяют два типа отказов — до 20% вредоносных узлов плюс ещё до 20% не отвечающих. Он работает в публичном testnet с 24 сентября 2026 года, в основной сети его пока нет.</p>
+                    <p><em>Запомнить</em> «Сколько отказов мы переживём» — главный параметр любого протокола. Он зависит от того, считаем ли мы узлы просто упавшими или византийскими.</p>
+                    <p><em>Переход</em> Над этими задачами работают десятилетиями — и по дороге выяснилось, что некоторые желания несовместимы в принципе. Это CAP-теорема.</p>
+                    <p><em>Оговорка</em> Про Alpenglow: цифры — из описания протокола от разработчиков (Anza, май 2025); статус на 2 октября 2026 — тестовые сети, даты запуска в основной сети нет.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>; <a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">L. Lamport, R. Shostak, M. Pease — The Byzantine Generals Problem (ACM TOPLAS, 1982)</a>; <a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/" target="_blank" rel="noopener">ethereum.org — Proof-of-stake: финальность, две трети стейка, inactivity leak</a>; <a href="https://www.anza.xyz/blog/alpenglow-a-new-consensus-for-solana" target="_blank" rel="noopener">Anza — Alpenglow: A New Consensus for Solana (19.05.2025): финальность ≈ 150 мс, модель «20+20»</a>; <a href="https://forklog.com/en/alpenglow-begins-activation-phase-in-solana-testnet/" target="_blank" rel="noopener">Forklog — Alpenglow begins activation phase in Solana testnet (09.2026)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: CAP-теорема -->
+            <section class="slide" id="slide-cap" data-slide="11">
+                <div class="content-slide">
+                    <h2 class="gradient-text">CAP-теорема: три свойства</h2>
+                    <p class="slide-lead">
+                        Ни одна распределённая система не может одновременно обеспечить согласованность, доступность
+                        и устойчивость к разделению. Её ещё называют теоремой Брюэра.
+                    </p>
+
+                    <div class="body is-roomy">
+                        <div class="steps4 hist">
+                            <div class="sp"><span class="sp-y">1998</span><h3>Гипотеза</h3><p>Эрик Брюэр формулирует её как предположение.</p></div>
+                            <div class="sp"><span class="sp-y">2000</span><h3>Доклад</h3><p>Брюэр выносит гипотезу на конференцию PODC.</p></div>
+                            <div class="sp"><span class="sp-y">2002</span><h3>Теорема</h3><p>Сет Гилберт и Нэнси Линч доказывают её формально.</p></div>
+                        </div>
+
+                        <div class="letters">
+                            <div class="letter l-c">
+                                <span class="letter-b">C</span>
+                                <h3>Согласованность<small>Consistency</small></h3>
+                                <p>У всех узлов — единственный, актуальный и одинаковый экземпляр данных.</p>
+                            </div>
+                            <div class="letter l-a">
+                                <span class="letter-b">A</span>
+                                <h3>Доступность<small>Availability</small></h3>
+                                <p>Узлы работают, принимают запросы и отвечают — так и тогда, когда требуется.</p>
+                            </div>
+                            <div class="letter l-p">
+                                <span class="letter-b">P</span>
+                                <h3>Устойчивость к разделению<small>Partition tolerance</small></h3>
+                                <p>Система работает корректно, даже если часть узлов потеряла связь с остальными.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/" target="_blank" rel="noopener">Brewer, 2012</a><span class="sep">·</span><a href="https://dl.acm.org/doi/10.1145/564585.564601" target="_blank" rel="noopener">Gilbert &amp; Lynch, 2002</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> CAP — три желаемых свойства распределённой системы, которые нельзя получить одновременно. Это не инженерная трудность, а доказанная теорема.</p>
+                    <p><em>Что говорить</em> История короткая: в 1998 году Эрик Брюэр сформулировал гипотезу, в 2000-м рассказал о ней в ключевом докладе на симпозиуме PODC, а в 2002-м Сет Гилберт и Нэнси Линч из MIT доказали её — с тех пор это теорема. Три свойства по книге. Согласованность: у всех узлов одна и та же актуальная копия данных; добиваются этого алгоритмами консенсуса — подход называется репликацией конечного автомата (state machine replication), и блокчейн его реализует. Доступность: каждый работающий узел отвечает на запросы. Устойчивость к разделению: система продолжает корректно работать, если группа узлов не может обмениваться сообщениями с остальными — из-за отказа сети или самих узлов.</p>
+                    <p><em>Для фронтендеров</em> «Согласованность» здесь — не буква C из ACID: речь о том, что любая реплика отдаёт одно и то же актуальное значение. Ближайшая бытовая аналогия — открыть страницу с двух устройств и увидеть разные данные: значит, согласованности в этот момент нет.</p>
+                    <p><em>Запомнить</em> C — одинаковые данные, A — всегда отвечает, P — переживает разрыв сети.</p>
+                    <p><em>Переход</em> Теперь главное: какие два из трёх можно взять вместе.</p>
+                    <p><em>Оговорка</em> Даты — по книге и по статье самого Брюэра 2012 года: гипотеза появилась осенью 1998-го, опубликована в 1999-м, доклад на PODC — в 2000-м.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>; <a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/" target="_blank" rel="noopener">E. Brewer — CAP Twelve Years Later: How the «Rules» Have Changed (IEEE Computer, 2012)</a>; <a href="https://dl.acm.org/doi/10.1145/564585.564601" target="_blank" rel="noopener">S. Gilbert, N. Lynch — Brewer’s conjecture and the feasibility of consistent, available, partition-tolerant web services (SIGACT News, 2002)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: диаграмма Венна -->
+            <section class="slide" id="slide-venn" data-slide="12">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Два из трёх: что можно выбрать</h2>
+                    <p class="slide-lead">
+                        Диаграмма из книги. Нажмите на пару свойств — что получаем и чем за это платим.
+                    </p>
+
+                    <div class="body">
+                        <div class="demo" id="vennDemo" data-state="all" style="--demo-cols: 1fr 1.1fr;">
+                            <div class="fig venn-fig">
+                                <svg viewBox="0 0 560 500" aria-hidden="true">
+                                    <circle class="vc vc-c" style="--k:0" cx="280" cy="180" r="165"/>
+                                    <circle class="vc vc-a" style="--k:1" cx="185" cy="330" r="165"/>
+                                    <circle class="vc vc-p" style="--k:2" cx="375" cy="330" r="165"/>
+                                    <text class="vt" x="280" y="92">Согласованность</text>
+                                    <text class="vt" x="110" y="410">Доступность</text>
+                                    <text class="vt" x="452" y="400">Устойчивость</text>
+                                    <text class="vt-s" x="452" y="424">К РАЗДЕЛЕНИЮ</text>
+                                    <text class="vx vx-ca" x="196" y="250">СД</text>
+                                    <path class="vx-no" d="M166 258l60-28"/>
+                                    <text class="vx vx-cp" x="364" y="250">СУ</text>
+                                    <text class="vx vx-ap" x="280" y="398">ДУ</text>
+                                    <text class="v-mid" x="280" y="296">все три —</text>
+                                    <text class="v-mid" x="280" y="316">нельзя</text>
+                                </svg>
+                            </div>
+                            <div class="demo-side">
+                                <div class="seg" data-target="vennDemo">
+                                    <button type="button" data-value="cp">СУ</button>
+                                    <button type="button" data-value="ap">ДУ</button>
+                                    <button type="button" class="is-bad" data-value="ca">СД</button>
+                                </div>
+                                <div class="cap" data-for="all">
+                                    <h3>Все три сразу — нельзя</h3>
+                                    <p>Одновременно реализовать можно только два свойства: СУ, ДУ или СД.</p>
+                                </div>
+                                <div class="cap" data-for="cp">
+                                    <h3>СУ: согласованность и устойчивость</h3>
+                                    <p>Платим доступностью: при разрыве часть узлов перестаёт отвечать, чтобы данные не разошлись.</p>
+                                </div>
+                                <div class="cap" data-for="ap">
+                                    <h3>ДУ: доступность и устойчивость</h3>
+                                    <p>Платим согласованностью: узлы продолжают отвечать, но данные на них временно расходятся.</p>
+                                </div>
+                                <div class="cap" data-for="ca">
+                                    <h3>СД: согласованность и доступность</h3>
+                                    <p>В реальности не существует: сеть без разделений никто гарантировать не может.</p>
+                                </div>
+                                <div class="wide-accent is-sol is-compact">
+                                    На практике: когда сеть разделилась, система <b>либо доступна, либо согласована</b>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Формально пар три, но выбирать приходится между двумя: СУ или ДУ. Пара «согласованность и доступность» существует только в мире без сетевых сбоев.</p>
+                    <p><em>Что говорить</em> Это рисунок 1.2 из книги. Буквы — русские сокращения: С — согласованность, Д — доступность, У — устойчивость к разделению. Нажимайте кнопки по очереди. СУ: жертвуем доступностью. ДУ: жертвуем согласованностью. СД: жертвуем устойчивостью к разделению — и вот тут книга делает важную оговорку: в реальности такого варианта не существует. Разделение сети — не настройка, которую можно выключить, а событие, которое рано или поздно случится. Поэтому практический смысл теоремы — в нижней плашке: если сеть разделилась, система либо доступна, либо согласована.</p>
+                    <p><em>Как показывать</em> Три кнопки подсвечивают пару кругов; «СД» перечёркивается. При уходе со слайда диаграмма возвращается в исходный вид.</p>
+                    <p><em>Запомнить</em> P — не выбор, а данность. Реальный выбор — между C и A в момент разрыва.</p>
+                    <p><em>Переход</em> Звучит абстрактно. Книга объясняет это на самом маленьком примере — системе из двух узлов.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: пример с двумя узлами -->
+            <section class="slide" id="slide-two" data-slide="13">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Пример из книги: два узла и разрыв связи</h2>
+                    <p class="slide-lead">
+                        Минимальная распределённая система. Разорвём связь и посмотрим, почему приходится выбирать.
+                    </p>
+
+                    <div class="body">
+                        <div class="two" id="twoDemo" data-state="sync">
+                            <div class="demo-bar">
+                                <div class="seg" data-target="twoDemo">
+                                    <button type="button" class="is-active" data-value="sync">1 · Связь есть</button>
+                                    <button type="button" data-value="cut">2 · Разрыв и новая запись</button>
+                                    <button type="button" class="is-bad" data-value="accept">3а · Принять запись</button>
+                                    <button type="button" class="is-bad" data-value="reject">3б · Отклонить запись</button>
+                                </div>
+                                <span class="hint">идите слева направо</span>
+                            </div>
+
+                            <div class="two-row" style="margin-top: 44px;">
+                                <div class="two-node n-a">
+                                    <div class="two-write">клиент: запиши x = 2</div>
+                                    <span class="two-name">Узел A</span>
+                                    <span class="two-val"><span class="v-old">x = 1</span><span class="v-new">x = 2</span></span>
+                                    <span class="two-note"><i class="t-sync">актуальная копия</i><i class="t-cut">что делать с записью?</i><i class="t-accept">запись принята</i><i class="t-reject">клиенту отказано</i></span>
+                                </div>
+                                <div class="two-link"></div>
+                                <div class="two-node n-b">
+                                    <span class="two-name">Узел B</span>
+                                    <span class="two-val">x = 1</span>
+                                    <span class="two-note"><i class="t-sync">актуальная копия</i><i class="t-cut">ничего не знает о записи</i><i class="t-accept">копия устарела</i><i class="t-reject">копия не изменилась</i></span>
+                                </div>
+                            </div>
+
+                            <div class="props">
+                                <div class="prop prop-c"><b>С</b>согласованность<i></i></div>
+                                <div class="prop prop-a"><b>Д</b>доступность<i></i></div>
+                                <div class="prop prop-p"><b>У</b>связь между узлами<i></i></div>
+                            </div>
+
+                            <div class="wide-accent is-sol" style="min-height: 92px;">
+                                <div class="cap" data-for="sync"><p style="color: var(--text-soft);"><b>Всё хорошо.</b> На обоих узлах одинаковые актуальные данные, оба отвечают на запросы.</p></div>
+                                <div class="cap" data-for="cut"><p style="color: var(--text-soft);"><b>Связь пропала, а клиент прислал обновление.</b> Узел A не может передать его узлу B. Что ему делать?</p></div>
+                                <div class="cap" data-for="accept"><p style="color: var(--text-soft);"><b>Принял — потеряли согласованность.</b> На узле A уже x = 2, на узле B всё ещё x = 1: копии разошлись.</p></div>
+                                <div class="cap" data-for="reject"><p style="color: var(--text-soft);"><b>Отклонил — потеряли доступность.</b> Данные одинаковы, но система отказала клиенту в обслуживании.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/" target="_blank" rel="noopener">Brewer, 2012</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> При разрыве связи у узла ровно два варианта, и оба плохие: принять запись и разойтись с соседом — или отказать клиенту.</p>
+                    <p><em>Что говорить</em> Пример из книги: система из двух узлов. Шаг первый — связь есть: оба хранят одинаковые данные и оба отвечают, все три свойства на месте. Шаг второй — связь рвётся, и именно в этот момент на узел A приходит обновление. Передать его узлу B нельзя. Шаг 3а — узел принимает запись: клиент доволен, доступность сохранена, но на A уже новое значение, а на B старое — согласованность потеряна. Шаг 3б — узел отклоняет запись: данные по-прежнему одинаковы, но система отказала в обслуживании — потеряна доступность. Третьего варианта нет. Это и есть CAP на пальцах; тем же примером теорему объясняет сам Брюэр.</p>
+                    <p><em>Как показывать</em> Четыре кнопки — четыре шага. Внизу три индикатора: С, Д и связь. Обязательно покажите обе ветки, 3а и 3б, — контраст и есть смысл слайда.</p>
+                    <p><em>Запомнить</em> Разрыв связи + запись = выбор между «ответить» и «не соврать».</p>
+                    <p><em>Переход</em> И тут книга задаёт вопрос с подвохом: биткойн ведь работает, значит, нарушает теорему — или нет?</p>
+                    <p><em>Оговорка</em> Конкретные значения x — наша иллюстрация; в книге пример описан словами.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>; <a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/" target="_blank" rel="noopener">E. Brewer — CAP Twelve Years Later: How the «Rules» Have Changed (IEEE Computer, 2012)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: блокчейн и CAP -->
+            <section class="slide" id="slide-bccap" data-slide="14">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Блокчейн нарушает CAP? Нет — он умеет ждать</h2>
+                    <p class="slide-lead">
+                        В блокчейнах жертвуют согласованностью ради доступности и устойчивости к разделению.
+                        Согласованность наступает <b>со временем</b> — это конечная согласованность.
+                    </p>
+
+                    <div class="body">
+                        <div class="confs">
+                            <div class="cf" style="--k:0"><div class="cf-b">блок N</div><div class="cf-n">&nbsp;</div></div>
+                            <span class="cf-link" style="--k:1"></span>
+                            <div class="cf is-tx" style="--k:1"><div class="cf-b">N + 1<small>ваша транзакция</small></div><div class="cf-n"><b>1</b>подтверждение</div>
+                                <div class="cf-fork">блок-конкурент<small>отброшен сетью</small></div></div>
+                            <span class="cf-link" style="--k:2"></span>
+                            <div class="cf" style="--k:2"><div class="cf-b">N + 2</div><div class="cf-n"><b>2</b></div></div>
+                            <span class="cf-link" style="--k:3"></span>
+                            <div class="cf" style="--k:3"><div class="cf-b">N + 3</div><div class="cf-n"><b>3</b></div></div>
+                            <span class="cf-link" style="--k:4"></span>
+                            <div class="cf" style="--k:4"><div class="cf-b">N + 4</div><div class="cf-n"><b>4</b></div></div>
+                            <span class="cf-link" style="--k:5"></span>
+                            <div class="cf" style="--k:5"><div class="cf-b">N + 5</div><div class="cf-n"><b>5</b></div></div>
+                            <span class="cf-link" style="--k:6"></span>
+                            <div class="cf is-six" style="--k:6"><div class="cf-b">N + 6</div><div class="cf-n"><b>6</b>подтверждений</div></div>
+                        </div>
+
+                        <div class="sure" data-rv="up">
+                            <span>уверенность, что транзакцию не отменят</span>
+                            <div class="sure-bar"><i></i></div>
+                            <span>растёт с каждым блоком</span>
+                        </div>
+
+                        <div class="facts f3">
+                            <div class="fact"><span class="fact-n">≈ 10 мин</span><span class="fact-t">в среднем до первого подтверждения в Bitcoin</span></div>
+                            <div class="fact"><span class="fact-n">6 блоков</span><span class="fact-t">ждут при крупных платежах — это около часа</span></div>
+                            <div class="fact"><span class="fact-n">PoW</span><span class="fact-t">майнинг добавляет блоки и приводит узлы к консенсусу — подробно в главе 6</span></div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://developer.bitcoin.org/devguide/payment_processing.html" target="_blank" rel="noopener">Bitcoin developer guide</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Блокчейн не нарушает CAP: он выбирает доступность и устойчивость к разделению, а согласованность получает не сразу, а со временем — через подтверждения.</p>
+                    <p><em>Что говорить</em> Книга задаёт провокационный вопрос: биткойн работает, значит, ему удаётся достичь всех трёх свойств, нарушая теорему? Ответ — нет. Согласованность не достигается одновременно с двумя другими свойствами, но обеспечивается со временем: это называется конечной согласованностью (eventual consistency). Между узлами может возникнуть временное разногласие — на схеме это блок-конкурент под блоком N + 1: два майнера нашли блок почти одновременно. Сеть продолжает строить одну из веток, вторая отбрасывается. Каждый следующий блок поверх нашего — ещё одно подтверждение, и с каждым отменить транзакцию всё труднее. В Bitcoin блок появляется в среднем раз в десять минут; для крупных платежей принято ждать шесть подтверждений — около часа. Возможным это делает майнинг, то есть доказательство выполнения работы; его разберём в шестой главе.</p>
+                    <p><em>Как показывать</em> Блоки появляются по одному, полоса уверенности растёт. Блок-конкурент вспыхивает и гаснет — это и есть «временное разногласие».</p>
+                    <p><em>Для фронтендеров</em> Конечная согласованность знакома по жизни: обновили аватар, а в соседней вкладке ещё старый; кэш CDN отдаёт вчерашнюю версию. Данные сойдутся — вопрос, когда.</p>
+                    <p><em>Запомнить</em> Блокчейн = доступность + устойчивость к разделению сейчас, согласованность — потом.</p>
+                    <p><em>Переход</em> «Жертвуют согласованностью» — не закон природы, а выбор. Разные сети выбирают по-разному, и это хорошо видно в плохие дни.</p>
+                    <p><em>Оговорка</em> «Шесть подтверждений» — рекомендация из руководства для разработчиков Bitcoin, сами авторы называют число отчасти условным. Уверенность растёт вероятностно; полоса на слайде — образ, а не график.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>; <a href="https://developer.bitcoin.org/devguide/payment_processing.html" target="_blank" rel="noopener">Bitcoin Developer Guide — Payment processing: подтверждения, «6 confirmations»</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: CAP в 2025–2026 -->
+            <section class="slide" id="slide-cap2026" data-slide="15">
+                <div class="content-slide">
+                    <h2 class="gradient-text">CAP в жизни: кто что выбрал в 2025–2026</h2>
+                    <p class="slide-lead">
+                        Теорема — не абстракция из учебника: по ней видно, как сеть поведёт себя в плохой день.
+                        Три сети — три разных ответа.
+                    </p>
+
+                    <div class="body is-roomy">
+                        <div class="picks">
+                            <div class="card c-done">
+                                <span class="pick-tag">ДУ</span>
+                                <span class="card-k">Cardano · 21.11.2025</span>
+                                <h3>Разделилась, но работала</h3>
+                                <p>Сеть разошлась на две цепи, и обе продолжали выпускать блоки. После обновления узлов цепи сошлись.</p>
+                            </div>
+                            <div class="card c-sol">
+                                <span class="pick-tag">СУ</span>
+                                <span class="card-k">Sui · 14.01.2026</span>
+                                <h3>Остановилась, но не разошлась</h3>
+                                <p>Валидаторы разошлись во мнениях — и сеть встала примерно на шесть часов: форка не случилось ценой простоя.</p>
+                            </div>
+                            <div class="card c-now">
+                                <span class="pick-tag">ДУ + финал</span>
+                                <span class="card-k">Ethereum · всегда</span>
+                                <h3>Растёт сразу, фиксирует позже</h3>
+                                <p>Блоки появляются каждые 12 секунд, а «окончательными» становятся, когда за них проголосуют две трети стейка.</p>
+                                <div class="live">2.10.2026, 13:14 UTC — текущая эпоха 479 486, финализирована 479 484</div>
+                            </div>
+                        </div>
+
+                        <div class="wide-accent is-now">
+                            <b>Брюэр, 2012:</b> «два из трёх» — упрощение. Разделения редки, а выбор между согласованностью
+                            и доступностью можно делать по-разному для разных операций.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><a href="https://intersectmbo.org/news/incident-report-network-partition-analysis-and-resolution-strategy" target="_blank" rel="noopener">Intersect — Cardano</a><span class="sep">·</span><a href="https://blog.sui.io/sui-mainnet-network-stall-resolution/" target="_blank" rel="noopener">Sui Foundation — 14.01.2026</a><span class="sep">·</span><a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/" target="_blank" rel="noopener">ethereum.org — proof-of-stake</a><span class="sep">·</span><span>замер Beacon API, 2.10.2026</span><span class="sep">·</span><a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/" target="_blank" rel="noopener">Brewer, 2012</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> CAP — это не классификация из учебника, а предсказание поведения: в момент сбоя сеть либо продолжит работать с риском разойтись, либо остановится, чтобы не разойтись.</p>
+                    <p><em>Что говорить</em> Три свежих примера. Cardano, 21 ноября 2025 года: из-за некорректной транзакции сеть разделилась на две цепи. Обе ветки продолжали производить блоки — сеть осталась доступной, а согласованность восстановили позже, когда операторы обновили узлы. Это выбор «ДУ». Sui, 14 января 2026 года: из-за ошибки валидаторы начали приходить к разным результатам. Протокол не смог набрать нужное большинство и остановил обработку транзакций примерно на шесть часов. В отчёте разработчиков так и сказано: форк предотвращён ценой остановки. Это выбор «СУ». Ethereum совмещает оба подхода: цепочка растёт всегда, но поверх неё работает механизм финальности — блок считается окончательным, когда за него проголосовали две трети стейка. В обычный день финализированная эпоха отстаёт от текущей на две — это около 13 минут. Строка внизу карточки — реальный замер, сделанный во время подготовки доклада.</p>
+                    <p><em>Про Брюэра</em> Через двенадцать лет после гипотезы её автор написал статью-уточнение: формулировка «два из трёх» вводит в заблуждение. Разделения случаются редко; пока их нет, можно иметь и согласованность, и доступность. А когда случаются — выбор не обязан быть один на всю систему: его можно делать отдельно для разных операций и данных.</p>
+                    <p><em>Запомнить</em> Остановиться или разойтись — это выбор проектировщиков, сделанный заранее. В новостях о сбоях он становится виден.</p>
+                    <p><em>Переход</em> Но у CAP есть слепое пятно: она говорит только о плохом дне. А что в обычный?</p>
+                    <p><em>Оговорка</em> Метки «ДУ» и «СУ» у сетей — наша интерпретация по описаниям инцидентов, а не самоназвания проектов. Замер Ethereum: голова цепочки — слот 15 343 572 (эпоха 479 486), финализирована эпоха 479 484; эпоха — 32 слота по 12 секунд.</p>
+                    <p><em>Источники</em> <a href="https://intersectmbo.org/news/incident-report-network-partition-analysis-and-resolution-strategy" target="_blank" rel="noopener">Intersect — Incident report: network partition analysis and resolution strategy (21.11.2025)</a>; <a href="https://blog.sui.io/sui-mainnet-network-stall-resolution/" target="_blank" rel="noopener">Sui Foundation — Sui Mainnet Network Stall Resolution (15.01.2026)</a>; <a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/" target="_blank" rel="noopener">ethereum.org — Proof-of-stake: финальность, две трети стейка, inactivity leak</a>; <span>Собственный запрос к публичному Ethereum Beacon API, 2.10.2026, 13:14 UTC: голова — слот 15 343 572 (эпоха 479 486), финализирована эпоха 479 484</span>; <a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/" target="_blank" rel="noopener">E. Brewer — CAP Twelve Years Later: How the «Rules» Have Changed (IEEE Computer, 2012)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: PACELC -->
+            <section class="slide" id="slide-pacelc" data-slide="16">
+                <div class="content-slide">
+                    <h2 class="gradient-text">PACELC: выбор есть всегда</h2>
+                    <p class="slide-lead">
+                        Дэниел Абади из Йеля дополнил CAP: компромисс существует и тогда, когда сеть <b>не</b> разделена.
+                    </p>
+
+                    <div class="body">
+                        <div class="pac-word" aria-label="PACELC">
+                            <span class="l-p" style="--k:0">P</span><span class="l-a" style="--k:1">A</span><span class="l-c" style="--k:2">C</span><span class="l-e" style="--k:4">E</span><span class="l-l" style="--k:5">L</span><span class="l-c" style="--k:6">C</span>
+                        </div>
+
+                        <div class="pac-tree">
+                            <div class="pac-root" data-rv="pop">Сеть разделилась?</div>
+                            <div class="pac-br is-p" data-rv="left">
+                                <span class="pac-if">да — <b>P</b>artition</span>
+                                <div class="pac-choice"><div class="pac-opt o-a"><b>A</b>доступность</div>или<div class="pac-opt o-c"><b>C</b>согласованность</div></div>
+                                <p>Это и есть CAP — правило для плохого дня.</p>
+                            </div>
+                            <div class="pac-br is-e" data-rv="right">
+                                <span class="pac-if">нет — <b>E</b>lse, обычный день</span>
+                                <div class="pac-choice"><div class="pac-opt o-l"><b>L</b>задержка</div>или<div class="pac-opt o-c"><b>C</b>согласованность</div></div>
+                                <p>Чтобы копии совпали, узлам нужно время на переписку. Ответить быстро или точно?</p>
+                            </div>
+                        </div>
+
+                        <div class="wide-accent is-now is-compact">
+                            В русском издании во второй паре стоит «устойчивость» — это неточность перевода:
+                            у Абади там <b>latency</b>, задержка ответа.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html" target="_blank" rel="noopener">Abadi, 2010</a><span class="sep">·</span><a href="https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf" target="_blank" rel="noopener">Abadi, 2012</a><span class="sep">·</span><a href="https://dl.acm.org/doi/10.1145/3197406.3197420" target="_blank" rel="noopener">Golab, 2018</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> PACELC добавляет к CAP вторую половину: даже когда сеть цела, система выбирает между скоростью ответа и согласованностью.</p>
+                    <p><em>Что говорить</em> Название читается как формула. Если есть разделение — Partition — выбираем между доступностью (A) и согласованностью (C): это старая добрая CAP. Иначе — Else — выбираем между задержкой (L, latency) и согласованностью (C). Идея Дэниела Абади из Йельского университета: CAP описывает только момент сетевого разделения, а он редок. В обычной работе реплицированная система всё равно платит за согласованность — временем: чтобы все копии совпали, узлы должны обменяться сообщениями, прежде чем ответить клиенту. Можно ответить сразу — но тогда копии на какое-то время разойдутся. Абади предложил эту формулировку в 2010 году, развернул в статье 2012 года, а формальное доказательство дал Войцех Голаб в 2018 году — это статья, на которую ссылается книга.</p>
+                    <p><em>Важная оговорка про перевод</em> В русском тексте главы сказано, что PACELC — про «компромиссы между устойчивостью и согласованностью». В оригинальной формулировке Абади вторая пара — latency и consistency, то есть задержка и согласованность. Буква L в названии — именно latency. На слайде мы следуем оригиналу.</p>
+                    <p><em>Запомнить</em> CAP — про плохой день, PACELC — про каждый: быстро или согласованно.</p>
+                    <p><em>Переход</em> Посмотрим, как этот выбор выглядит в цифрах — у баз данных и у блокчейнов.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>; <a href="http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html" target="_blank" rel="noopener">D. Abadi — Problems with CAP, and Yahoo’s little known NoSQL system (2010): первая формулировка PACELC</a>; <a href="https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf" target="_blank" rel="noopener">D. Abadi — Consistency Tradeoffs in Modern Distributed Database System Design (IEEE Computer, 2012)</a>; <a href="https://dl.acm.org/doi/10.1145/3197406.3197420" target="_blank" rel="noopener">W. Golab — Proving PACELC (SIGACT News, 2018)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: PACELC на практике -->
+            <section class="slide" id="slide-pacelcex" data-slide="17">
+                <div class="content-slide">
+                    <h2 class="gradient-text">PACELC на практике: сколько ждать согласованности</h2>
+                    <p class="slide-lead">
+                        В обычный день цена согласованности — время. В блокчейне это время до <b>финальности</b>:
+                        момента, после которого транзакцию уже не отменить.
+                    </p>
+
+                    <div class="body is-roomy">
+                        <div class="split" style="grid-template-columns: 1.15fr 1fr; gap: 30px;">
+                            <div class="chart-box" style="padding: 22px 26px 24px;">
+                                <h3>Сколько ждать, чтобы запись стала окончательной</h3>
+                                <p class="chart-sub" style="margin-bottom: 18px;">логарифмическая шкала · штриховка — пока только в тестовой сети</p>
+                                <div class="fin">
+                                    <div class="fin-r" style="--k:0"><span class="fin-n">Bitcoin<small>6 подтверждений</small></span><div class="fin-bar"><i style="--w: 100%"></i></div><span class="fin-v">≈ 60 мин</span></div>
+                                    <div class="fin-r" style="--k:1"><span class="fin-n">Ethereum<small>финальность, 2 эпохи</small></span><div class="fin-bar"><i style="--w: 89%"></i></div><span class="fin-v">≈ 15 мин</span></div>
+                                    <div class="fin-r is-test" style="--k:2"><span class="fin-n">Solana Alpenglow<small>testnet с 24.09.2026</small></span><div class="fin-bar"><i style="--w: 21%"></i></div><span class="fin-v">≈ 0,15 с<small>цель протокола</small></span></div>
+                                </div>
+                            </div>
+
+                            <div class="stack-col" style="gap: 14px;">
+                                <span class="section-label">Базы данных по Абади</span>
+                                <div class="tbl is-lg" style="--cols: 1fr 160px;">
+                                    <div class="tbl-r"><div class="tbl-c k">Dynamo, Cassandra<small>жертвуют согласованностью и при разрыве, и в обычный день</small></div><div class="tbl-c d">PA / EL</div></div>
+                                    <div class="tbl-r"><div class="tbl-c k">Классические ACID-системы<small>всегда выбирают согласованность — платят доступностью и задержкой</small></div><div class="tbl-c d">PC / EC</div></div>
+                                    <div class="tbl-r"><div class="tbl-c k">Yahoo PNUTS<small>в обычный день — скорость, при разрыве — согласованность</small></div><div class="tbl-c d">PC / EL</div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wide-accent is-sol">
+                            Знакомо по фронтенду: оптимистичное обновление интерфейса — это выбор <b>L</b>,
+                            спиннер до ответа сервера — выбор <b>C</b>.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><a href="http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html" target="_blank" rel="noopener">Abadi, 2010</a><span class="sep">·</span><a href="https://developer.bitcoin.org/devguide/payment_processing.html" target="_blank" rel="noopener">Bitcoin developer guide</a><span class="sep">·</span><a href="https://ethereum.org/roadmap/single-slot-finality/" target="_blank" rel="noopener">ethereum.org — single slot finality</a><span class="sep">·</span><a href="https://www.anza.xyz/blog/alpenglow-a-new-consensus-for-solana" target="_blank" rel="noopener">Anza — Alpenglow</a><span class="sep">·</span><a href="https://forklog.com/en/alpenglow-begins-activation-phase-in-solana-testnet/" target="_blank" rel="noopener">Forklog — Alpenglow в testnet</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Компромисс «задержка или согласованность» в блокчейне называется временем до финальности — и вся гонка последних лет идёт за то, чтобы его сократить.</p>
+                    <p><em>Что говорить</em> Слева — сколько нужно ждать, чтобы запись стала окончательной. Bitcoin: шесть подтверждений, около часа. Ethereum: около пятнадцати минут — блок становится окончательным через две эпохи; разработчики сами называют это слишком долгим и планируют финальность за один слот. Новый консенсус Solana, Alpenglow, заявляет около 150 миллисекунд — но это цель протокола и результаты тестовой сети: в основной сети он на 2 октября 2026 года не запущен. Шкала логарифмическая: между первой и третьей строкой — четыре порядка. Справа — исходные примеры Абади из мира баз данных. Dynamo и Cassandra — PA/EL: и при разрыве, и в обычный день выбирают скорость и доступность. Классические транзакционные системы — PC/EC: согласованность всегда. Yahoo PNUTS — редкий случай PC/EL.</p>
+                    <p><em>Для фронтендеров</em> Оптимистичный апдейт — мы сразу показываем результат и надеемся, что сервер согласится: выбираем L. Спиннер до ответа — выбираем C. То же решение, только на клиенте.</p>
+                    <p><em>Запомнить</em> Быстро, согласованно, децентрализованно — одновременно не получается; каждая сеть выбирает свою точку.</p>
+                    <p><em>Переход</em> Мы узнали, чего добиться нельзя. Осталось понять, как добиваются возможного.</p>
+                    <p><em>Оговорка</em> Сравнение времени до финальности у блокчейнов с буквой L из PACELC — наша аналогия: Абади писал о базах данных. Цифра Alpenglow — заявленная разработчиками; для Bitcoin «финальность» вероятностная, а не абсолютная.</p>
+                    <p><em>Источники</em> <a href="http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html" target="_blank" rel="noopener">D. Abadi — Problems with CAP, and Yahoo’s little known NoSQL system (2010): первая формулировка PACELC</a>; <a href="https://developer.bitcoin.org/devguide/payment_processing.html" target="_blank" rel="noopener">Bitcoin Developer Guide — Payment processing: подтверждения, «6 confirmations»</a>; <a href="https://ethereum.org/roadmap/single-slot-finality/" target="_blank" rel="noopener">ethereum.org — Single slot finality: «около 15 минут» до финальности (обновлено 23.07.2026)</a>; <a href="https://www.anza.xyz/blog/alpenglow-a-new-consensus-for-solana" target="_blank" rel="noopener">Anza — Alpenglow: A New Consensus for Solana (19.05.2025): финальность ≈ 150 мс, модель «20+20»</a>; <a href="https://forklog.com/en/alpenglow-begins-activation-phase-in-solana-testnet/" target="_blank" rel="noopener">Forklog — Alpenglow begins activation phase in Solana testnet (09.2026)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: что дальше -->
+            <section class="slide" id="slide-next" data-slide="18">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Что дальше?</h2>
+                    <p class="slide-lead">
+                        Теоремы говорят, чего добиться <b>нельзя</b>. Следующий вопрос — как добиться лучшего из возможного:
+                        как узлам договориться об одной версии данных.
+                    </p>
+
+                    <div class="body is-roomy">
+                        <div class="chain is-big">
+                            <div class="cn">Bitcoin<small>построен на блокчейне</small></div>
+                            <div class="cn">Блокчейн<small>распределённая система</small></div>
+                            <div class="cn">CAP<small>всё сразу нельзя</small></div>
+                            <div class="cn">PACELC<small>выбор есть всегда</small></div>
+                            <div class="cn is-next">Консенсус<small>как узлы договариваются</small></div>
+                        </div>
+
+                        <div class="facts f3">
+                            <div class="fact"><span class="fact-k">Глава 5</span><span class="fact-t">Алгоритмы консенсуса: как узлы приходят к одной версии данных даже при отказах.</span></div>
+                            <div class="fact"><span class="fact-k">Глава 6</span><span class="fact-t">Bitcoin и доказательство работы: майнинг и подтверждения.</span></div>
+                            <div class="fact"><span class="fact-k">Сегодня дальше</span><span class="fact-t">История блокчейна и биткойна: откуда всё это взялось.</span></div>
+                        </div>
+
+                        <div class="wide-accent is-strong">
+                            Блокчейн не отменяет ограничений распределённых систем — он <b>выбирает</b>, чем заплатить,
+                            и делает этот выбор открытым правилом протокола.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Скелет доклада замыкается: блокчейн — распределённая система, её нельзя сделать идеальной, CAP и PACELC описывают, чем приходится платить. Следующий шаг — консенсус: как именно узлы договариваются.</p>
+                    <p><em>Что говорить</em> Соберите цепочку: Bitcoin построен на блокчейне; блокчейн — распределённая система; проектировать их сложно настолько, что есть теорема о невозможном — CAP; её уточнили до PACELC. Что дальше? Теоремы — про ограничения. А способ жить внутри этих ограничений называется консенсусом: это алгоритмы, с помощью которых узлы приходят к одной версии данных, даже когда часть из них отказала или врёт. В книге им посвящена пятая глава, а конкретному решению биткойна — доказательству работы — шестая. Сегодня же следом идёт история блокчейна и биткойна: получив представление о распределённых системах, автор переходит к самому блокчейну.</p>
+                    <p><em>Запомнить</em> Блокчейн не обходит CAP — он честно выбирает и записывает выбор в протокол.</p>
+                    <p><em>Переход</em> Дальше — «История блокчейна».</p>
+                    <p><em>Оговорка</em> Номера глав — по оглавлению четвёртого издания: глава 5 «Consensus Algorithms», глава 6 «Bitcoin Architecture».</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: источники -->
+            <section class="slide" id="slide-sources" data-slide="19">
+                <div class="content-slide" style="padding-bottom: 30px;">
+                    <h2 class="gradient-text sources-h">Источники</h2>
+                    <p class="slide-lead sources-lead">
+                        Основа — текст главы. Всё, чего в книге нет, сверено с первоисточниками: статьи авторов теорем,
+                        документация протоколов, отчёты об инцидентах. СМИ — только там, где первоисточник недоступен.
+                    </p>
+                    <div class="body" style="justify-content: flex-start; padding-top: 10px;">
+                        <div class="srcs"><div><h3>Книга</h3><ol><li><span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы»</span></li></ol></div>
+<div><h3>Статьи авторов теорем</h3><ol><li><a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">L. Lamport, R. Shostak, M. Pease — The Byzantine Generals Problem (ACM TOPLAS, 1982)</a></li><li><a href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/" target="_blank" rel="noopener">E. Brewer — CAP Twelve Years Later: How the «Rules» Have Changed (IEEE Computer, 2012)</a></li><li><a href="https://dl.acm.org/doi/10.1145/564585.564601" target="_blank" rel="noopener">S. Gilbert, N. Lynch — Brewer’s conjecture and the feasibility of consistent, available, partition-tolerant web services (SIGACT News, 2002)</a></li><li><a href="http://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html" target="_blank" rel="noopener">D. Abadi — Problems with CAP, and Yahoo’s little known NoSQL system (2010): первая формулировка PACELC</a></li><li><a href="https://www.cs.umd.edu/~abadi/papers/abadi-pacelc.pdf" target="_blank" rel="noopener">D. Abadi — Consistency Tradeoffs in Modern Distributed Database System Design (IEEE Computer, 2012)</a></li><li><a href="https://dl.acm.org/doi/10.1145/3197406.3197420" target="_blank" rel="noopener">W. Golab — Proving PACELC (SIGACT News, 2018)</a></li></ol></div>
+<div><h3>Документация протоколов и замеры</h3><ol><li><a href="https://ethereum.org/developers/docs/nodes-and-clients/" target="_blank" rel="noopener">ethereum.org — Nodes and clients: полные, лёгкие и архивные узлы</a></li><li><a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/" target="_blank" rel="noopener">ethereum.org — Proof-of-stake rewards and penalties: slashing за двойную подпись</a></li><li><a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/" target="_blank" rel="noopener">ethereum.org — Proof-of-stake: финальность, две трети стейка, inactivity leak</a></li><li><a href="https://www.anza.xyz/blog/alpenglow-a-new-consensus-for-solana" target="_blank" rel="noopener">Anza — Alpenglow: A New Consensus for Solana (19.05.2025): финальность ≈ 150 мс, модель «20+20»</a></li><li><a href="https://developer.bitcoin.org/devguide/payment_processing.html" target="_blank" rel="noopener">Bitcoin Developer Guide — Payment processing: подтверждения, «6 confirmations»</a></li><li><span>Собственный запрос к публичному Ethereum Beacon API, 2.10.2026, 13:14 UTC: голова — слот 15 343 572 (эпоха 479 486), финализирована эпоха 479 484</span></li><li><a href="https://ethereum.org/roadmap/single-slot-finality/" target="_blank" rel="noopener">ethereum.org — Single slot finality: «около 15 минут» до финальности (обновлено 23.07.2026)</a></li></ol></div>
+<div><h3>Отчёты об инцидентах</h3><ol><li><a href="https://github.com/ethereum/pm/blob/master/Network-Upgrade-Archive/Pectra/holesky-postmortem.md" target="_blank" rel="noopener">ethereum/pm — Holesky postmortem (инцидент 24.02.2025 после обновления Pectra)</a></li><li><a href="https://intersectmbo.org/news/incident-report-network-partition-analysis-and-resolution-strategy" target="_blank" rel="noopener">Intersect — Incident report: network partition analysis and resolution strategy (21.11.2025)</a></li><li><a href="https://blog.sui.io/sui-mainnet-network-stall-resolution/" target="_blank" rel="noopener">Sui Foundation — Sui Mainnet Network Stall Resolution (15.01.2026)</a></li></ol></div>
+<div><h3>СМИ — там, где первоисточник недоступен</h3><ol><li><a href="https://www.datacenterknowledge.com/outages/s3-downtime-more-missing-bites" target="_blank" rel="noopener">Data Center Knowledge — S3 Downtime: More Missing Bites (о сбое Amazon S3 20.07.2008)</a></li><li><a href="https://cryptoslate.com/cardano-split-in-two-by-a-single-transaction-lessons-for-eth-and-sol-client-diversity/" target="_blank" rel="noopener">CryptoSlate — Cardano split in two by a single transaction (11.2025)</a></li><li><a href="https://forklog.com/en/alpenglow-begins-activation-phase-in-solana-testnet/" target="_blank" rel="noopener">Forklog — Alpenglow begins activation phase in Solana testnet (09.2026)</a></li></ol></div></div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что сказать</em> Если спросят «откуда это» — вот список. На слайдах источники указаны мелким шрифтом внизу.</p>
+                    <p><em>Как проверять</em> Замер финальности Ethereum — запрос к публичному Beacon API (finality_checkpoints и заголовок головы цепочки) 2 октября 2026 года в 13:14 UTC; воспроизводится из браузера.</p>
+                </aside>
+            </section>
+
+            <section class="slide" data-slide="20" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
@@ -204,6 +1086,8 @@
 
     <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
     <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов: появление блоков, демонстрации, заметки докладчика (N) -->
+    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

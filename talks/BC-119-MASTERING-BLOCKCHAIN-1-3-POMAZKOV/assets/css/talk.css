@@ -1,0 +1,1023 @@
+/*
+ * talk.css — стили контентных слайдов ЭТОГО доклада
+ * («История блокчейна», глава 1 книги «Блокчейн. Исчерпывающее руководство»).
+ * Общий «хром» дека живёт в deck.css и правится только в шаблоне; всё, что
+ * относится к слайдам спикера, — здесь: пересборка «хром»-слайдов
+ * (scripts/rebuild-talk.mjs) этот файл не трогает.
+ */
+
+/* ===== Палитра доклада =====
+   Смысловые цвета: зелёный — «работает / принято», янтарный — «происходит
+   сейчас», фиолетовый — сети, красный — подделка и отказ, голубой —
+   криптография. Нейтральные тона (подложки, рамки, текст) берутся из токенов
+   дека и переключаются вместе с ним; светлая тема — переопределение этих же
+   переменных. Литералов цвета в правилах ниже нет. */
+:root {
+    --done: #34d399;
+    --done-rgb: 52, 211, 153;
+    --now: #fbbf24;
+    --now-rgb: 251, 191, 36;
+    --plan: #a78bfa;
+    --plan-rgb: 167, 139, 250;
+    --prob: #f87171;
+    --prob-rgb: 248, 113, 113;
+    --sol: #7dd3fc;
+    --sol-rgb: 125, 211, 252;
+    --line: var(--border-soft);
+    --panel: var(--bg-card);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    /* Стрелка-соединитель: это маска, цвет берётся из токена через background. */
+    --arr: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10h13M11 5l5 5-5 5'/%3E%3C/svg%3E");
+}
+
+:root[data-theme='light'] {
+    --done: #059669;
+    --done-rgb: 5, 150, 105;
+    --now: #b45309;
+    --now-rgb: 180, 83, 9;
+    --plan: #6d28d9;
+    --plan-rgb: 109, 40, 217;
+    --prob: #dc2626;
+    --prob-rgb: 220, 38, 38;
+    --sol: #0369a1;
+    --sol-rgb: 3, 105, 161;
+}
+
+/* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css нет. */
+.content-slide,
+.content-slide *,
+.content-slide *::before,
+.content-slide *::after {
+    box-sizing: border-box;
+}
+
+/* ===== Каркас контентного слайда =====
+   Шапка (заголовок + лид) сверху, .body занимает остаток и центрирует
+   содержимое, .src (источники) прижата к низу. */
+.content-slide {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 46px 96px 64px;
+}
+.content-slide > h2 {
+    font-size: 54px;
+    margin: 0;
+    line-height: 1.1;
+    flex-shrink: 0;
+}
+.content-slide > h2 + .slide-lead { margin-top: 14px; }
+.content-slide > .body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    padding: 16px 0;
+}
+.slide-lead {
+    font-size: 25px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 1560px;
+}
+.slide-lead b,
+.content-slide b { color: var(--text-main); font-weight: 600; }
+.content-slide p { font-size: 23px; line-height: 1.5; margin: 0; }
+.content-slide h3 { margin: 0; }
+.content-slide code { font-family: var(--font-mono); font-size: 0.9em; color: var(--sol); }
+.section-label {
+    font-family: var(--font-mono);
+    font-size: 15px !important;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 0;
+}
+
+/* Источники слайда — мелкой строкой у нижнего края. */
+.src {
+    position: absolute;
+    left: 96px;
+    right: 96px;
+    bottom: 20px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-dim);
+    letter-spacing: 0.01em;
+}
+.src .src-k {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-right: 8px;
+    color: var(--text-faint);
+}
+.src a {
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--border-strong);
+    margin-right: 4px;
+}
+.src a:hover { color: var(--text-main); border-bottom-color: var(--text-muted); }
+.src .sep { color: var(--text-faint); margin: 0 6px 0 2px; }
+
+/* ===== Появление элементов =====
+   Каждый слайд собирается по шагам: talk.js размечает блоки атрибутом
+   data-rv и раздаёт задержки (--d) в порядке чтения. Анимация привязана
+   к .slide.active, поэтому проигрывается заново при каждом входе на слайд.
+   fill-mode: backwards — до старта элемент скрыт, после финиша возвращается
+   к своим обычным стилям (иначе застывший transform ломал бы hover). */
+.slide.active .content-slide > h2 { animation: rvFade 0.6s ease backwards; }
+.slide.active .content-slide > .slide-lead { animation: rvUp 0.7s var(--ease) 0.08s backwards; }
+.slide.active .src { animation: rvFade 0.8s ease 0.9s backwards; }
+.slide.active [data-rv] { animation: rvUp 0.7s var(--ease) backwards; animation-delay: var(--d, 0ms); }
+.slide.active [data-rv='pop'] { animation-name: rvPop; }
+.slide.active [data-rv='left'] { animation-name: rvLeft; }
+.slide.active [data-rv='right'] { animation-name: rvRight; }
+.slide.active [data-rv='fade'] { animation-name: rvFade; }
+.slide.active [data-rv='down'] { animation-name: rvDown; }
+@keyframes rvUp { from { opacity: 0; transform: translateY(26px); } }
+@keyframes rvDown { from { opacity: 0; transform: translateY(-26px); } }
+@keyframes rvLeft { from { opacity: 0; transform: translateX(-40px); } }
+@keyframes rvRight { from { opacity: 0; transform: translateX(40px); } }
+@keyframes rvPop { from { opacity: 0; transform: scale(0.86); } }
+@keyframes rvFade { from { opacity: 0; } }
+@keyframes growY { from { transform: scaleY(0); } }
+@keyframes growX { from { transform: scaleX(0); } }
+@keyframes wipeX { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(var(--pulse-rgb, var(--sol-rgb)), 0.55); }
+    60% { box-shadow: 0 0 0 16px rgba(var(--pulse-rgb, var(--sol-rgb)), 0); }
+}
+@keyframes dotRun {
+    0% { transform: translateX(0); opacity: 0; }
+    20%, 80% { opacity: 1; }
+    100% { transform: translateX(22px); opacity: 0; }
+}
+@keyframes dashRun { to { stroke-dashoffset: -24; } }
+
+/* ===== Статусные чипы ===== */
+.st {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.st::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.st-done { color: var(--done); border-color: rgba(var(--done-rgb), 0.45); background: rgba(var(--done-rgb), 0.1); }
+.st-now { color: var(--now); border-color: rgba(var(--now-rgb), 0.5); background: rgba(var(--now-rgb), 0.1); --pulse-rgb: var(--now-rgb); }
+.st-plan { color: var(--plan); border-color: rgba(var(--plan-rgb), 0.5); background: rgba(var(--plan-rgb), 0.1); border-style: dashed; }
+.st-plan::before { background: transparent; border: 1.5px solid currentColor; }
+.st-note { color: var(--text-muted); border-color: var(--border-mid); background: rgba(var(--tint-rgb), 0.04); }
+.slide.active .st-now::before { animation: pulse 2.2s ease-out 1.5s infinite; }
+
+/* ===== Соединители-стрелки с бегущей точкой =====
+   Общие для цепочек: у каждого следующего элемента
+   слева стрелка (::before), по которой пробегает точка (::after). */
+.chain > .cn { position: relative; }
+.chain > .cn + .cn::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 50%;
+    width: 22px;
+    height: 22px;
+    margin-top: -11px;
+    background: var(--text-dim);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+.chain > .cn + .cn::after {
+    content: '';
+    position: absolute;
+    left: -31px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--sol);
+    opacity: 0;
+}
+.slide.active .chain > .cn + .cn::after {
+    animation: dotRun 2.4s ease-in-out infinite;
+    animation-delay: calc(1.6s + var(--k, 0) * 0.3s);
+}
+
+/* ===== Цепочка узлов ===== */
+.chain { display: flex; align-items: stretch; }
+.cn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 16px 8px 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--panel);
+    font-size: 23px;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+}
+.cn small {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+}
+.cn + .cn { margin-left: 34px; }
+.cn.is-done { border-color: rgba(var(--done-rgb), 0.5); }
+.cn.is-now { border-color: rgba(var(--now-rgb), 0.6); background: rgba(var(--now-rgb), 0.06); }
+.cn.is-sol { border-color: rgba(var(--sol-rgb), 0.6); }
+.cn.is-next { border-color: var(--text-main); background: var(--bg-hover); --pulse-rgb: var(--tint-rgb); }
+.slide.active .cn.is-next {
+    animation: rvPop 0.7s var(--ease) backwards, pulse 2.4s ease-out infinite;
+    animation-delay: var(--d, 0ms), 2s;
+}
+.chain.is-small .cn { font-size: 19px; padding: 12px 6px; }
+.chain.is-big .cn { font-size: 31px; padding: 40px 10px 38px; gap: 10px; }
+.chain.is-big .cn small { font-size: 17px; }
+
+/* Вывод — широкая строка за левой чертой. */
+.wide-accent {
+    padding: 16px 28px;
+    border-left: 3px solid var(--border-mid);
+    border-radius: 0 16px 16px 0;
+    background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.05), rgba(var(--tint-rgb), 0));
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--text-soft);
+    flex-shrink: 0;
+}
+.wide-accent.is-strong { border-left-color: var(--accent); font-size: 26px; color: var(--text-main); }
+.wide-accent.is-plan { border-left-color: var(--plan); background: linear-gradient(90deg, rgba(var(--plan-rgb), 0.09), rgba(var(--tint-rgb), 0)); }
+.wide-accent.is-now { border-left-color: var(--now); background: linear-gradient(90deg, rgba(var(--now-rgb), 0.08), rgba(var(--tint-rgb), 0)); }
+.wide-accent.is-sol { border-left-color: var(--sol); background: linear-gradient(90deg, rgba(var(--sol-rgb), 0.09), rgba(var(--tint-rgb), 0)); }
+.wide-accent b { color: var(--accent); }
+.wide-accent small { font-size: 0.78em; color: var(--text-dim); }
+.wide-accent.is-compact { font-size: 21px; padding: 12px 22px; }
+
+/* ===== Сетки и карточки ===== */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+.cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.stack-col { display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.card {
+    padding: 22px 26px 24px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.card.is-tight { padding: 16px 22px 18px; gap: 6px; }
+.card h3 { font-size: 31px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.18; color: var(--accent); }
+.card p { font-size: 22px !important; line-height: 1.45 !important; color: var(--text-muted); }
+.card .card-k {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.card.c-done { border-color: rgba(var(--done-rgb), 0.42); }
+.card.c-done .card-k { color: var(--done); }
+.card.c-now { border-color: rgba(var(--now-rgb), 0.48); }
+.card.c-now .card-k { color: var(--now); }
+.card.c-plan { border-color: rgba(var(--plan-rgb), 0.52); border-style: dashed; }
+.card.c-plan .card-k { color: var(--plan); }
+.card.c-sol { border-color: rgba(var(--sol-rgb), 0.42); }
+.card.c-sol .card-k { color: var(--sol); }
+.card.c-prob { border-color: rgba(var(--prob-rgb), 0.42); }
+.card.c-prob .card-k { color: var(--prob); }
+.card ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.card li { font-size: 21px; line-height: 1.4; color: var(--text-soft); padding-left: 22px; position: relative; }
+.card li::before { content: ''; position: absolute; left: 2px; top: 0.6em; width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); }
+.card.c-done li::before { background: var(--done); }
+.card.c-now li::before { background: var(--now); }
+.card.c-plan li::before { background: transparent; border: 1.5px solid var(--plan); }
+.card.c-prob li::before { background: var(--prob); }
+.card li small { display: block; font-size: 15px; color: var(--text-dim); font-family: var(--font-mono); margin-top: 2px; letter-spacing: 0.02em; }
+
+/* ===== Крупные цифры ===== */
+.facts { display: grid; gap: 16px; }
+.facts.f4 { grid-template-columns: repeat(4, 1fr); }
+.facts.f3 { grid-template-columns: repeat(3, 1fr); }
+.facts.f2 { grid-template-columns: repeat(2, 1fr); }
+.facts.f1 { grid-template-columns: 1fr; }
+.fact { padding: 16px 22px 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+.fact-n { display: block; font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; color: var(--accent); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.fact-n small { font-size: 0.5em; font-weight: 600; color: var(--text-muted); margin-left: 6px; letter-spacing: 0; }
+.fact-n.is-md { font-size: 40px; }
+.fact-t { display: block; font-size: 20px; line-height: 1.4; color: var(--text-muted); }
+.fact-k { display: block; font-family: var(--font-mono); font-size: 14.5px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; color: var(--text-dim); }
+
+/* ===== Таблица сравнения ===== */
+.tbl { display: grid; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--panel); }
+.tbl-r { display: grid; grid-template-columns: var(--cols, 220px 1fr 1fr); }
+.tbl-r + .tbl-r { border-top: 1px solid var(--line); }
+.tbl-c { padding: 13px 20px; font-size: 21px; line-height: 1.38; color: var(--text-soft); }
+.tbl-c + .tbl-c { border-left: 1px solid var(--line); }
+.tbl-h .tbl-c { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); background: rgba(var(--tint-rgb), 0.04); padding: 11px 20px; }
+.tbl-c.k { color: var(--text-main); font-weight: 600; }
+.tbl-c.d { font-family: var(--font-mono); font-size: 16.5px; color: var(--text-muted); font-weight: 500; }
+.tbl-c small { display: block; font-size: 16px; color: var(--text-dim); margin-top: 3px; line-height: 1.35; font-weight: 400; }
+.tbl-c.ok { color: var(--done); }
+.tbl-c.bad { color: var(--prob); }
+.tbl-c .st { margin-left: 6px; font-size: 12.5px; padding: 3px 9px; }
+.tbl.is-lg .tbl-c { font-size: 23.5px; padding: 17px 22px; }
+.tbl.is-lg .tbl-h .tbl-c { font-size: 15.5px; padding: 13px 22px; }
+.tbl.is-plain { border-radius: 14px; }
+.tbl.is-plain .tbl-c { font-size: 19.5px; padding: 11px 16px; }
+.tbl.is-plain .tbl-c.d { font-size: 15.5px; }
+
+/* ===== Источники ===== */
+.content-slide > h2.sources-h { font-size: 44px; }
+.slide-lead.sources-lead { font-size: 19px; margin-top: 8px; }
+.srcs { column-count: 4; column-gap: 34px; }
+.srcs > div { margin-bottom: 18px; }
+.srcs h3 { font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; margin-bottom: 8px; break-after: avoid; }
+.srcs ol { margin: 0; padding: 0; list-style: none; }
+.srcs li { font-size: 15.5px; line-height: 1.34; color: var(--text-muted); margin-bottom: 5px; break-inside: avoid; }
+.srcs li a { color: var(--text-soft); text-decoration: none; border-bottom: 1px dotted var(--border-strong); }
+.srcs li a:hover { color: var(--text-main); }
+
+/* ===== Рамка схемы и кадр «линия рисуется» ===== */
+@keyframes chDraw { from { stroke-dashoffset: 1; } }
+.chart-box { padding: 18px 22px 12px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); }
+.chart-box h3 { font-size: 26px; font-weight: 600; color: var(--accent); margin-bottom: 3px; }
+.chart-box .chart-sub { font-size: 18.5px !important; color: var(--text-dim); margin-bottom: 4px; }
+
+/* ===== Переключатель состояния демонстрации =====
+   Кнопка пишет значение в data-state блока-цели (talk.js), а что показать,
+   решают правила ниже: демонстрации не копят состояние в JS и сбрасываются
+   при уходе со слайда. */
+.demo-bar { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.seg {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 5px;
+    gap: 4px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-sunken);
+}
+.seg button {
+    font: inherit;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: 0;
+    padding: 11px 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.seg button:hover { color: var(--text-main); }
+.seg button:focus-visible { outline: 2px solid var(--text-muted); outline-offset: 2px; }
+.seg button.is-active { background: var(--bg-active); color: var(--text-main); }
+.seg button.is-bad.is-active { background: rgba(var(--prob-rgb), 0.18); color: var(--prob); }
+.seg button.is-good.is-active { background: rgba(var(--done-rgb), 0.16); color: var(--done); }
+.hint { font-size: 20px; color: var(--text-dim); }
+
+/* Подписи к состояниям: talk.js включает ту, чей data-for совпал с data-state. */
+.cap { display: none; }
+.cap { flex-direction: column; gap: 10px; }
+.cap p { font-size: 26px !important; line-height: 1.45 !important; color: var(--text-muted); }
+.demo { display: grid; grid-template-columns: var(--demo-cols, 1.15fr 1fr); gap: 36px; align-items: center; }
+.demo-side { display: flex; flex-direction: column; gap: 24px; }
+.fig svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+/* ===== Главная мысль ===== */
+.thesis {
+    font-size: 54px;
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.025em;
+    color: var(--text-main);
+    max-width: 1560px;
+}
+.thesis b { color: var(--sol); font-weight: 700; }
+.takes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.take { padding: 26px 28px 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); }
+.take-n { display: block; font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.1em; color: var(--sol); margin-bottom: 8px; }
+.take h3 { font-size: 31px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.18; color: var(--accent); margin-bottom: 8px; }
+.take p { font-size: 22.5px !important; line-height: 1.42 !important; color: var(--text-muted); }
+
+/* ===== Линии развития =====
+   Цвет события — его линия: криптография, метки времени и PoW, деньги,
+   сети и консенсус; биткойн — акцентом. Один и тот же класс l-* красит
+   точку на шкале, карточку события и строку общего таймлайна. */
+.l-c { --lane: var(--sol); --lane-rgb: var(--sol-rgb); }
+.l-t { --lane: var(--now); --lane-rgb: var(--now-rgb); }
+.l-m { --lane: var(--done); --lane-rgb: var(--done-rgb); }
+.l-n { --lane: var(--plan); --lane-rgb: var(--plan-rgb); }
+.l-b { --lane: var(--accent); --lane-rgb: var(--tint-rgb); }
+
+/* ===== Общий таймлайн ===== */
+.ov-legend { display: flex; gap: 26px; flex-wrap: wrap; }
+.ov-legend span { display: inline-flex; align-items: center; gap: 10px; font-size: 21px; color: var(--text-muted); }
+.ov-legend span::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--lane); }
+.ov { position: relative; }
+.ov-axis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 47px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--border-mid), var(--accent));
+    transform-origin: 0 50%;
+}
+.slide.active .ov-axis { animation: growX 1.6s var(--ease) 0.2s backwards; }
+.ov-cols { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px; position: relative; }
+.ov-col { display: flex; flex-direction: column; gap: 10px; }
+.ov-yr { font-family: var(--font-mono); font-size: 19px; font-weight: 600; letter-spacing: 0.04em; color: var(--text-dim); height: 28px; }
+.ov-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--bg); border: 3px solid var(--text-muted); margin: 0 0 6px; }
+.ov-col h3 { font-size: 27px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; color: var(--accent); min-height: 62px; }
+.ov-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.ov-ev {
+    padding: 8px 10px 9px 12px;
+    border-left: 3px solid var(--lane);
+    border-radius: 0 10px 10px 0;
+    background: rgba(var(--lane-rgb), 0.07);
+    font-size: 19.5px;
+    line-height: 1.3;
+    color: var(--text-soft);
+}
+.ov-ev span { display: block; font-family: var(--font-mono); font-size: 15px; color: var(--lane); letter-spacing: 0.04em; margin-bottom: 2px; }
+.slide.active .ov-ev { animation: rvFade 0.5s ease backwards; animation-delay: calc(var(--d, 0ms) + 260ms + var(--i, 0) * 90ms); }
+.ov-col.is-btc .ov-dot { border-color: var(--accent); background: var(--accent); --pulse-rgb: var(--tint-rgb); }
+.slide.active .ov-col.is-btc .ov-dot { animation: pulse 2.4s ease-out 2.6s infinite; }
+.ov-col.is-btc h3 { font-size: 34px; }
+
+/* ===== Нижняя шкала =====
+   Одна на весь доклад: talk.js кладёт её в сцену поверх слайдов и двигает,
+   когда меняется слайд с data-era. Пройденные отрезки залиты, текущий
+   заливается на глазах, головка шкалы едет к его концу. */
+.rail {
+    position: absolute;
+    /* слева шире: в углу экрана висит переключатель темы */
+    left: 150px;
+    right: 96px;
+    bottom: 20px;
+    height: 74px;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.5s ease, transform 0.6s var(--ease);
+}
+.rail.is-on { opacity: 1; transform: none; }
+.rail-segs { display: grid; grid-template-columns: repeat(8, 1fr); gap: 12px; height: 100%; }
+.rail-seg { position: relative; }
+.rail-yr {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--text-faint);
+    transition: color 0.4s;
+}
+.rail-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 28px;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--border-soft);
+}
+.rail-fill {
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: var(--text-muted);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.95s var(--ease);
+}
+.rail-lb {
+    position: absolute;
+    left: 0;
+    top: 46px;
+    font-size: 15.5px;
+    color: var(--text-faint);
+    white-space: nowrap;
+    transition: color 0.4s;
+}
+.rail-dot {
+    position: absolute;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--border-mid);
+    transition: background 0.4s, border-color 0.4s, transform 0.4s var(--ease), box-shadow 0.4s, opacity 0.4s;
+}
+.rail-seg.is-past .rail-fill,
+.rail-seg.is-cur .rail-fill { transform: scaleX(1); }
+.rail-seg.is-past .rail-dot { background: var(--lane); border-color: var(--lane); }
+.rail-seg.is-cur .rail-yr { color: var(--text-main); }
+.rail-seg.is-cur .rail-lb { color: var(--text-main); font-weight: 600; }
+.rail-seg.is-cur .rail-fill { background: var(--accent); }
+.rail-seg.is-cur .rail-dot {
+    background: var(--lane);
+    border-color: var(--lane);
+    transform: scale(1.5);
+    box-shadow: 0 0 0 4px rgba(var(--lane-rgb), 0.22);
+    transition-delay: calc(0.25s + var(--k, 0) * 0.12s);
+}
+.rail-seg.is-past .rail-yr,
+.rail-seg.is-past .rail-lb { color: var(--text-dim); }
+
+/* Подсветка отдельных точек: ссылки Сатоши, части блока, идеи рисунка 1.3. */
+.rail.has-marks .rail-dot { opacity: 0.3; }
+.rail.has-marks .rail-dot.is-mark {
+    opacity: 1;
+    background: var(--lane);
+    border-color: var(--accent);
+    transform: scale(1.9);
+    box-shadow: 0 0 0 5px rgba(var(--lane-rgb), 0.3);
+    transition-delay: 0s;
+}
+
+.rail-head {
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 22px;
+    height: 22px;
+    margin: -11px 0 0 -11px;
+    border-radius: 50%;
+    /* кольцо, а не точка: так головку не спутать с событием биткойна */
+    background: var(--bg);
+    border: 4px solid var(--accent);
+    box-shadow: 0 0 0 6px rgba(var(--tint-rgb), 0.12), 0 0 22px rgba(var(--tint-rgb), 0.35);
+    transition: left 0.95s var(--ease);
+}
+
+/* Слайды со шкалой: низ освобождён под неё, источники — над ней. */
+.content-slide.has-rail { padding-bottom: 128px; }
+.content-slide.has-rail .src { bottom: 104px; }
+
+/* ===== Шапка куска таймлайна ===== */
+.era-head { display: flex; align-items: center; gap: 18px; margin-bottom: 10px; flex-shrink: 0; }
+.era-n { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.12em; color: var(--text-dim); }
+.era-yr {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-main);
+    padding: 4px 16px;
+    border: 1px solid var(--border-mid);
+    border-radius: 999px;
+}
+.slide.active .era-head { animation: rvLeft 0.6s var(--ease) backwards; }
+
+/* ===== События куска: список слева, демонстрация справа ===== */
+.era-grid { display: grid; grid-template-columns: 1fr 1.08fr; gap: 48px; align-items: center; min-height: 0; }
+.era-grid.is-fig-first { grid-template-columns: 1.5fr 1fr; }
+.era-grid.is-wide-fig { grid-template-columns: 1fr 1fr; }
+.evs { display: flex; flex-direction: column; gap: 14px; }
+.ev {
+    display: grid;
+    grid-template-columns: 116px 1fr;
+    gap: 18px;
+    padding: 14px 20px 15px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--lane);
+    border-radius: 0 16px 16px 0;
+    background: var(--panel);
+}
+.ev-y { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--lane); letter-spacing: 0.02em; padding-top: 3px; }
+.ev-b { display: flex; flex-direction: column; gap: 4px; }
+.ev h3 { font-size: 26px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; color: var(--accent); }
+.ev p { font-size: 20px !important; line-height: 1.42 !important; color: var(--text-muted); }
+.ev-to { font-family: var(--font-mono); font-size: 14.5px; letter-spacing: 0.02em; color: var(--lane); margin-top: 2px; }
+.ev.is-side { opacity: 0.85; }
+.cols3 > .ev { grid-template-columns: 1fr; gap: 6px; }
+.l-b .ev-y { font-size: 18px; }
+.l-b.ev { grid-template-columns: 150px 1fr; }
+.demo-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.caps { min-height: 78px; }
+.cap.is-on { display: flex; animation: rvUp 0.45s var(--ease) backwards; }
+.cap p { font-size: 22px !important; line-height: 1.45 !important; color: var(--text-muted); }
+.v-bad { display: none; }
+[data-state='tamper'] .v-ok, [data-state='forge'] .v-ok, [data-state='chaos'] .v-ok { display: none; }
+[data-state='tamper'] .v-bad, [data-state='forge'] .v-bad, [data-state='chaos'] .v-bad { display: inline; }
+.fig svg text { font-family: var(--font-mono); text-anchor: middle; fill: var(--text-soft); }
+.fig svg .k { font-size: 15px; letter-spacing: 0.08em; fill: var(--text-dim); text-transform: uppercase; }
+.fig svg .h { font-size: 22px; font-weight: 600; fill: var(--text-main); }
+.fig svg .h.s { font-size: 17px; fill: var(--text-muted); }
+.fig svg .t { font-family: var(--font-sans); font-size: 16px; fill: var(--text-soft); }
+.fig svg .big { font-family: var(--font-sans); font-size: 64px; font-weight: 700; fill: var(--text-main); text-anchor: start; }
+.fig svg .big.s { font-size: 30px; text-anchor: middle; }
+
+/* ===== Дерево Меркла ===== */
+.mt rect { fill: var(--bg-sunken); stroke: var(--border-mid); stroke-width: 1.5; transition: stroke 0.35s, fill 0.35s; transition-delay: var(--td, 0s); }
+.mt .root rect { stroke: var(--sol); stroke-width: 2; }
+.mt .ed { fill: none; stroke: var(--border-strong); stroke-width: 2.5; stroke-dasharray: 1; transition: stroke 0.35s; transition-delay: var(--td, 0s); }
+.mt[data-state='tamper'] .hot rect { stroke: var(--prob); fill: rgba(var(--prob-rgb), 0.12); }
+.mt[data-state='tamper'] .ed.hot { stroke: var(--prob); }
+.mt[data-state='tamper'] .hot .h { fill: var(--prob); }
+.slide.active .mt .ed { animation: chDraw 0.6s var(--ease) backwards; animation-delay: var(--d, 0ms); }
+.slide.active .mt .nd { animation: rvPop 0.5s var(--ease) backwards; animation-delay: var(--d, 0ms); transform-box: fill-box; transform-origin: center; }
+
+/* ===== Слепая подпись ===== */
+.bsig .bill rect { fill: rgba(var(--done-rgb), 0.1); stroke: var(--done); stroke-width: 2; }
+.bsig .bill .k { text-anchor: start; fill: var(--done); }
+.bsig .bill .h { text-anchor: start; }
+.bsig .env rect { fill: var(--bg-hover); stroke: var(--border-strong); stroke-width: 2; }
+.bsig .env path { fill: none; stroke: var(--border-strong); stroke-width: 2; }
+.bsig .stamp circle { fill: rgba(var(--sol-rgb), 0.14); stroke: var(--sol); stroke-width: 3; stroke-dasharray: 6 4; }
+.bsig .stamp .k { fill: var(--sol); font-weight: 700; }
+.bsig .stamp path { fill: none; stroke: var(--sol); stroke-width: 2.5; stroke-linecap: round; }
+.bsig .bank rect { fill: var(--bg-sunken); stroke: var(--sol); stroke-width: 1.5; }
+.bsig .eye { font-size: 14px; fill: var(--text-dim); opacity: 0; transition: opacity 0.4s; }
+.bsig g { transition: opacity 0.5s var(--ease), transform 0.7s var(--ease); transform-box: fill-box; transform-origin: center; }
+.bsig .env { opacity: 0; transform: translateY(-90px); }
+.bsig .stamp { opacity: 0; transform: scale(1.8); }
+.bsig .bank { opacity: 0.35; }
+.bsig[data-state='env'] .env,
+.bsig[data-state='sign'] .env { opacity: 1; transform: none; }
+.bsig[data-state='sign'] .stamp,
+.bsig[data-state='out'] .stamp { opacity: 1; transform: none; }
+.bsig[data-state='sign'] .bank { opacity: 1; }
+.bsig[data-state='sign'] .eye { opacity: 1; }
+.bsig[data-state='out'] .env { opacity: 0; transform: translateY(120px); }
+.bsig[data-state='out'] .bill rect { stroke-width: 3; }
+
+/* ===== Эллиптическая кривая ===== */
+.ecc { padding: 8px; }
+.ecc .ax { stroke: var(--border-mid); stroke-width: 1.5; fill: none; }
+.ecc .curve { fill: none; stroke: var(--sol); stroke-width: 4; stroke-dasharray: 1; stroke-linecap: round; }
+.ecc .chord { fill: none; stroke: var(--now); stroke-width: 2.5; stroke-dasharray: 1; }
+.ecc .refl { fill: none; stroke: var(--text-dim); stroke-width: 2; stroke-dasharray: 7 6; }
+.ecc .pt circle { fill: var(--accent); stroke: var(--bg); stroke-width: 3; }
+.ecc .p3 circle { fill: var(--bg); stroke: var(--now); stroke-width: 3; }
+.ecc .p4 circle { fill: var(--done); }
+.ecc .pt text { font-family: var(--font-sans); font-size: 26px; font-weight: 700; fill: var(--text-main); text-anchor: start; }
+.ecc .p4 text { fill: var(--done); }
+.ecc .eq { font-size: 22px; fill: var(--text-dim); text-anchor: end; }
+.slide.active .ecc .curve { animation: chDraw 1.4s ease-in-out 0.3s backwards; }
+.slide.active .ecc .p1, .slide.active .ecc .p2 { animation: rvPop 0.5s var(--ease) 1.6s backwards; }
+.slide.active .ecc .p2 { animation-delay: 1.8s; }
+.slide.active .ecc .chord { animation: chDraw 0.8s ease-in-out 2.2s backwards; }
+.slide.active .ecc .p3 { animation: rvPop 0.4s var(--ease) 3s backwards; }
+.slide.active .ecc .refl { animation: rvFade 0.5s ease 3.4s backwards; }
+.slide.active .ecc .p4 { animation: rvPop 0.6s var(--ease) 3.8s backwards; }
+.ecc .pt { transform-box: fill-box; transform-origin: center; }
+.keys { display: flex; flex-direction: column; gap: 12px; }
+.kbar { display: grid; grid-template-columns: 70px 1fr 130px; gap: 16px; align-items: center; }
+.kbar-n { font-weight: 600; font-size: 22px; color: var(--text-main); }
+.kbar-t { height: 22px; border-radius: 6px; background: var(--bg-sunken); overflow: hidden; }
+.kbar-t i { display: block; height: 100%; width: var(--w); background: var(--text-dim); border-radius: 6px; transform-origin: 0 50%; }
+.kbar.is-ecc .kbar-t i { background: var(--sol); }
+.slide.active .kbar-t i { animation: growX 1.2s var(--ease) backwards; animation-delay: calc(var(--d, 0ms) + 300ms); }
+.kbar-v { font-family: var(--font-mono); font-size: 19px; color: var(--text-muted); text-align: right; }
+.kbar.is-ecc .kbar-v { color: var(--sol); font-weight: 600; }
+
+/* ===== Хеш-цепочка документов ===== */
+.hc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 44px; }
+.hc-b {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 20px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    background: var(--panel);
+    transition: border-color 0.35s, background 0.35s;
+    transition-delay: var(--td, 0s);
+}
+.hc-b + .hc-b::before {
+    content: '';
+    position: absolute;
+    left: -38px;
+    top: 50%;
+    width: 30px;
+    height: 24px;
+    margin-top: -12px;
+    background: var(--text-dim);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+    transition: background 0.35s;
+    transition-delay: var(--td, 0s);
+}
+.hc-k { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
+.hc-t { font-size: 23px; font-weight: 600; color: var(--text-main); }
+.hc-r { font-family: var(--font-mono); font-size: 16.5px; color: var(--text-muted); }
+.hc-r b { color: var(--now); }
+.hc-ne { color: var(--prob); font-weight: 600; }
+.hc[data-state='forge'] .is-forged { border-color: var(--now); background: rgba(var(--now-rgb), 0.08); }
+.hc[data-state='forge'] .is-broken { border-color: var(--prob); background: rgba(var(--prob-rgb), 0.07); }
+.hc[data-state='forge'] .is-broken::before { background: var(--prob); }
+.hc[data-state='forge'] .hc-prev { color: var(--prob); text-decoration: line-through; }
+
+/* ===== Двойная трата ===== */
+.ds .ln { fill: none; stroke: var(--border-mid); stroke-width: 2; stroke-dasharray: 8 7; }
+.slide.active .ds .ln { animation: dashRun 1.2s linear infinite; }
+.ds .coin circle { fill: rgba(var(--now-rgb), 0.14); stroke: var(--now); stroke-width: 2.5; }
+.ds .coin .h { font-size: 17px; }
+.ds .shop rect { fill: var(--bg-sunken); stroke: var(--border-strong); stroke-width: 1.5; }
+.ds .res { font-family: var(--font-sans); font-size: 19px; font-weight: 700; }
+.ds .r-ok { fill: var(--done); }
+.ds .r-bad { fill: var(--prob); display: none; }
+.ds .r-q { fill: var(--plan); display: none; }
+.ds .bank rect { fill: var(--bg-sunken); stroke: var(--sol); stroke-width: 2; }
+.ds .net circle { fill: rgba(var(--plan-rgb), 0.16); stroke: var(--plan); stroke-width: 2; }
+.ds .net path { fill: none; stroke: rgba(var(--plan-rgb), 0.55); stroke-width: 1.5; }
+.ds .net .k { fill: var(--plan); }
+.ds g { transition: opacity 0.5s, transform 0.9s var(--ease); }
+.ds .bank, .ds .net { opacity: 0; }
+.ds .ca { transform: translate(675px, -110px); }
+.ds .cb { transform: translate(675px, 110px); }
+.ds[data-state='bank'] .bank { opacity: 1; }
+.ds[data-state='bank'] .s2 .r-ok { display: none; }
+.ds[data-state='bank'] .s2 .r-bad { display: inline; }
+.ds[data-state='bank'] .cb { transform: translate(360px, 100px); }
+.ds[data-state='bank'] .cb circle { stroke: var(--prob); fill: rgba(var(--prob-rgb), 0.14); }
+.ds .ln-via { opacity: 0; }
+.ds[data-state='bank'] .ln-via { opacity: 1; }
+.ds[data-state='bank'] .ln-a,
+.ds[data-state='bank'] .ln-b,
+.ds[data-state='net'] .ln-a,
+.ds[data-state='net'] .ln-b { opacity: 0; }
+.ds .ln { transition: opacity 0.4s; }
+.ds[data-state='net'] .net { opacity: 1; }
+.ds[data-state='net'] .ca { transform: translate(230px, -60px); }
+.ds[data-state='net'] .cb { transform: translate(230px, 60px); }
+.ds[data-state='net'] .r-ok { display: none; }
+.ds[data-state='net'] .r-q { display: inline; }
+
+/* ===== Одноранговые сети ===== */
+.p2p svg { max-height: 420px; }
+.p2p .peer circle { fill: var(--bg-sunken); stroke: var(--text-muted); stroke-width: 2; transition: stroke 0.4s, fill 0.4s, opacity 0.4s; }
+.p2p .peer text { font-size: 15px; fill: var(--text-muted); }
+.p2p .peer.is-a circle { stroke: var(--now); fill: rgba(var(--now-rgb), 0.15); }
+.p2p .peer.is-b circle { stroke: var(--done); fill: rgba(var(--done-rgb), 0.15); }
+.p2p .srv rect { fill: var(--bg-hover); stroke: var(--sol); stroke-width: 2; transition: all 0.4s; }
+.p2p .srv text { fill: var(--sol); font-size: 15px; }
+.p2p .srv .x { stroke: var(--prob); stroke-width: 6; stroke-linecap: round; opacity: 0; transition: opacity 0.4s; }
+.p2p .e { fill: none; stroke-width: 2; transition: opacity 0.45s, stroke 0.45s; opacity: 0; }
+.p2p .e-spoke { stroke: rgba(var(--sol-rgb), 0.5); }
+.p2p .e-mesh { stroke: rgba(var(--plan-rgb), 0.5); }
+.p2p .e-ring { stroke: rgba(var(--plan-rgb), 0.45); }
+.p2p .e-hop { stroke: var(--done); stroke-width: 4; stroke-dasharray: 10 8; }
+.p2p .e-file { stroke: var(--done); stroke-width: 4; stroke-dasharray: 10 8; }
+.p2p .e-q { stroke: var(--now); stroke-width: 4; }
+.p2p .wave { fill: none; stroke: var(--now); stroke-width: 3; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.p2p[data-state='napster'] .e-spoke,
+.p2p[data-state='napster'] .e-file,
+.p2p[data-state='napster'] .e-q { opacity: 1; }
+.p2p[data-state='down'] .e-spoke { opacity: 0.25; stroke: var(--border-mid); }
+.p2p[data-state='down'] .srv .x { opacity: 1; }
+.p2p[data-state='down'] .srv rect { stroke: var(--prob); fill: rgba(var(--prob-rgb), 0.12); }
+.p2p[data-state='down'] .peer circle { opacity: 0.45; }
+.p2p[data-state='gnutella'] .srv,
+.p2p[data-state='dht'] .srv { opacity: 0; }
+.p2p .srv { transition: opacity 0.4s; }
+.p2p[data-state='gnutella'] .e-mesh { opacity: 1; }
+.p2p[data-state='gnutella'] .wave { animation: wave 2.4s ease-out infinite; }
+.p2p[data-state='gnutella'] .wave.w2 { animation-delay: 0.8s; }
+.p2p[data-state='gnutella'] .wave.w3 { animation-delay: 1.6s; }
+.p2p[data-state='dht'] .e-ring,
+.p2p[data-state='dht'] .e-hop { opacity: 1; }
+.p2p:not([data-state='napster']):not([data-state='dht']) .peer.is-b circle { stroke: var(--text-muted); fill: var(--bg-sunken); }
+.slide.active .p2p .e-file,
+.slide.active .p2p .e-hop { animation: dashRun 0.9s linear infinite; }
+@keyframes wave {
+    0% { opacity: 0.9; transform: scale(0.2); }
+    100% { opacity: 0; transform: scale(3.4); }
+}
+
+/* ===== Майнер ===== */
+.miner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 28px 26px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--panel);
+    min-width: 0;
+}
+.mn-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.mn-seg button { font-family: var(--font-mono); font-size: 18px; padding: 9px 16px; }
+.mn-row { display: grid; grid-template-columns: 90px 1fr; gap: 14px; align-items: baseline; }
+.mn-k { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+.mn-row code { font-family: var(--font-mono); font-size: 19px; color: var(--text-soft); overflow-wrap: anywhere; line-height: 1.45; }
+.miner .mn-hash { min-height: 56px; color: var(--text-muted); }
+.mn-hash b { color: var(--done); font-weight: 700; }
+.mn-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.mn-stats .fact { padding: 12px 16px 14px; }
+.mn-stats .fact-n { font-size: 34px; }
+.mn-foot { display: flex; align-items: center; gap: 20px; }
+.mn-go {
+    font: inherit;
+    font-size: 21px;
+    font-weight: 600;
+    padding: 13px 26px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-active);
+    color: var(--text-main);
+    cursor: pointer;
+}
+.mn-go:hover { background: var(--bg-hover); }
+.mn-go:disabled { opacity: 0.5; cursor: default; }
+.mn-msg { font-size: 19px; color: var(--text-dim); }
+.miner.is-found .mn-msg { color: var(--done); }
+.miner.is-found { border-color: rgba(var(--done-rgb), 0.5); }
+
+/* ===== Устройство блока ===== */
+.blk {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 22px 22px;
+    border: 2px solid var(--border-strong);
+    border-radius: 22px;
+    background: var(--panel);
+}
+.blk-h { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.blk-f, .blk-net {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 13px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-sunken);
+    cursor: help;
+    transition: border-color 0.2s, background 0.2s;
+}
+.blk-f:hover, .blk-net:hover, [data-marks]:hover { border-color: var(--text-muted); background: var(--bg-hover); }
+.blk-f.is-txs { padding: 22px 18px; }
+.blk-net { border-style: dashed; margin-top: 6px; background: transparent; }
+.blk-k { font-size: 22px; font-weight: 600; color: var(--text-main); }
+.blk-y { font-family: var(--font-mono); font-size: 15.5px; color: var(--sol); white-space: nowrap; }
+.legacy .card[data-marks], .pq[data-marks] { cursor: help; transition: border-color 0.2s, background 0.2s; }
+
+/* ===== Рисунок 1.3: идеи сходятся в биткойн ===== */
+.conv { position: relative; width: 1500px; height: 560px; margin: 0 auto; }
+.conv-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.conv-lines path { fill: none; stroke: var(--border-mid); stroke-width: 2; stroke-dasharray: 1; }
+.conv-lines .run { stroke: var(--sol); stroke-width: 3; stroke-dasharray: 0.04 0.96; stroke-linecap: round; opacity: 0; }
+.slide.active .conv-lines path { animation: chDraw 0.9s ease-in-out backwards; animation-delay: calc(400ms + var(--i, 0) * 90ms); }
+.slide.active .conv-lines .run { animation: convRun 2.6s linear infinite; animation-delay: calc(1.8s + var(--i, 0) * 0.3s); }
+@keyframes convRun {
+    0% { stroke-dashoffset: 0; opacity: 0; }
+    15%, 85% { opacity: 1; }
+    100% { stroke-dashoffset: -0.96; opacity: 0; }
+}
+.conv-core {
+    position: absolute;
+    left: 650px;
+    top: 200px;
+    width: 200px;
+    height: 160px;
+    border-radius: 24px;
+    border: 2px solid var(--accent);
+    background: var(--bg-hover);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-main);
+    --pulse-rgb: var(--tint-rgb);
+}
+.conv-core .conv-b { font-size: 50px; line-height: 1; }
+.conv-core small { font-family: var(--font-mono); font-size: 16px; color: var(--text-dim); font-weight: 500; }
+.slide.active .conv-core { animation: rvPop 0.7s var(--ease) 0.2s backwards, pulse 2.6s ease-out 2.4s infinite; }
+.conv-node {
+    position: absolute;
+    width: 300px;
+    padding: 14px 18px 15px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--lane);
+    border-radius: 0 16px 16px 0;
+    background: var(--panel);
+    cursor: help;
+    transition: border-color 0.2s, background 0.2s;
+}
+.conv-node h3 { font-size: 22px; font-weight: 600; line-height: 1.2; color: var(--accent); }
+.conv-node span { display: block; font-family: var(--font-mono); font-size: 14.5px; color: var(--lane); margin-top: 4px; }
+
+/* ===== Репликация конечных автоматов ===== */
+.smr { display: flex; flex-direction: column; gap: 14px; }
+.smr-r {
+    display: grid;
+    grid-template-columns: 200px 1fr 120px;
+    align-items: center;
+    gap: 22px;
+    padding: 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+}
+.smr-n { font-size: 24px; font-weight: 600; color: var(--text-main); }
+.smr-ops { display: flex; gap: 12px; }
+.smr-ops > span { gap: 12px; }
+.smr .smr-ops > .v-ok { display: flex; }
+.smr .smr-ops > .v-bad { display: none; }
+.smr[data-state='chaos'] .smr-ops > .v-ok { display: none; }
+.smr[data-state='chaos'] .smr-ops > .v-bad { display: flex; }
+.smr i, .smr-chain i {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 21px;
+    padding: 7px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-sunken);
+    color: var(--text-soft);
+}
+.smr-v { font-family: var(--font-mono); font-size: 40px; font-weight: 700; text-align: right; color: var(--done); }
+.smr[data-state='chaos'] .is-diff .smr-v { color: var(--prob); }
+.smr[data-state='chaos'] .is-diff { border-color: rgba(var(--prob-rgb), 0.45); }
+.smr[data-state='chaos'] .smr-v .v-bad { display: inline; }
+.smr-chain { display: flex; align-items: center; gap: 12px; padding: 4px 24px; opacity: 0.3; transition: opacity 0.4s; }
+.smr-chain i { border-color: rgba(var(--sol-rgb), 0.6); color: var(--sol); }
+.smr-k { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); width: 200px; }
+.smr[data-state='chain'] .smr-chain { opacity: 1; }
+.smr[data-state='chain'] .smr-ops i { border-color: rgba(var(--sol-rgb), 0.6); }
+
+/* ===== Наследие ===== */
+.legacy .card { padding: 20px 24px 22px; gap: 8px; }
+.legacy .card p { font-size: 23px !important; }
+.legacy .card .card-k { font-size: 16px; }
+.pq { padding: 22px 28px 24px; }
+.pq p { font-size: 23px !important; }
+.pq .card-k { display: flex; align-items: center; gap: 6px; }
+.refs .tbl-c { font-size: 21px; padding: 9px 18px; }
+
+/* ===== Заметки докладчика =====
+   В слайде лежат скрытым блоком; панель собирается в talk.js и живёт вне
+   масштабируемой сцены, чтобы текст читался при любом размере окна. */
+.notes { display: none; }
+.notes-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 52vh;
+    overflow-y: auto;
+    padding: 24px 44px 28px;
+    background: rgba(var(--bg-rgb), 0.97);
+    border-top: 1px solid var(--border-soft);
+    box-shadow: 0 -20px 60px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
+    transform: translateY(101%);
+    transition: transform 0.32s var(--ease);
+    z-index: 60;
+}
+.notes-panel.is-open { transform: none; }
+.notes-panel-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.notes-panel-body { max-width: 1400px; font-size: 17px; line-height: 1.65; color: var(--text-soft); }
+.notes-panel-body p { margin: 0 0 10px; font-size: inherit; line-height: inherit; color: inherit; }
+.notes-panel-body p:last-child { margin-bottom: 0; }
+.notes-panel-body b { color: var(--accent); font-weight: 600; }
+.notes-panel-body a { color: var(--text-soft); border-bottom: 1px dotted var(--border-strong); text-decoration: none; }
+.notes-panel-body em { display: inline-block; font-style: normal; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sol); margin-right: 8px; }
+
+/* Тем, кто просит меньше движения, показываем слайды сразу в итоговом виде. */
+@media (prefers-reduced-motion: reduce) {
+    .slide.active .content-slide,
+    .slide.active .content-slide *,
+    .slide.active .content-slide *::before,
+    .slide.active .content-slide *::after { animation: none !important; }
+    .notes-panel, .rail, .rail * { transition: none !important; }
+    .rail .rail-dot, .conv-lines .run { animation: none !important; }
+}

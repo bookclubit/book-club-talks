@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body>
@@ -81,11 +83,11 @@
                         <div class="authors-column">
                             <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
                             <div class="authors-grid">
-                                <a class="author-card" href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;url=https%3A%2F%2Fuk.linkedin.com%2Fin%2Fimranbashirblockchain&amp;ved=0CAAQ6vwSahcKEwiAvp_6nruWAxUAAAAAHQAAAAAQQw&amp;opi=89978449" target="_blank">
+                                <a class="author-card" href="https://linkedin.com/in/imranbashirblockchain" target="_blank">
                                     <img class="author-avatar" src="assets/authors/imran-bashir.webp" alt="Имран Башир">
                                     <div class="author-info">
                                         <div class="author-name">Имран Башир</div>
-                                        <div class="author-link-text">www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;url=https%3A%2F%2Fuk.linkedin.com%2Fin%2Fimranbashirblockchain&amp;ved=0CAAQ6vwSahcKEwiAvp_6nruWAxUAAAAAHQAAAAAQQw&amp;opi=89978449 ↗</div>
+                                        <div class="author-link-text">linkedin.com/in/imranbashirblockchain ↗</div>
                                     </div>
                                 </a>
                             </div>
@@ -106,7 +108,866 @@
 
             <!-- SLIDE 3 (Copy of Slide 3) -->
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+<!-- SLIDE: главная мысль -->
+            <section class="slide" id="slide-main" data-slide="3">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Что мы должны узнать</h2>
+                    <p class="slide-lead">Главная мысль части — одной фразой, и четыре вещи, которые стоит запомнить.</p>
+
+                    <div class="body">
+                        <p class="thesis" data-rv="up">
+                            Биткойн не изобрели с нуля — его <b>собрали</b> из идей, которые копились тридцать лет.
+                            Новой была сама сборка: она впервые решила <b>двойную трату без доверенного центра</b>.
+                        </p>
+
+                        <div class="takes">
+                            <div class="take"><span class="take-n">01</span><h3>Блокчейн родился с биткойном</h3><p>Идея — 2008, работающая сеть — 2009. Подробно биткойн — в главе 6.</p></div>
+                            <div class="take"><span class="take-n">02</span><h3>У него три корня</h3><p>Криптография, цифровые деньги и одноранговые сети с консенсусом — с 1976 года.</p></div>
+                            <div class="take"><span class="take-n">03</span><h3>Не хватало одного</h3><p>Электронная наличность должна быть подотчётной и анонимной. Двойную трату без банка не решил никто.</p></div>
+                            <div class="take"><span class="take-n">04</span><h3>Биткойн — это сборка</h3><p>Открытый ключ + хеш-цепочка + PoW + P2P-сеть. Заодно решена репликация автоматов (SMR).</p></div>
+                        </div>
+
+                        <div class="wide-accent is-sol">
+                            Дальше — таймлайн <b>1976 → 2009</b>: сначала целиком, потом по кускам. Шкала внизу экрана
+                            будет ехать вместе с нами через все слайды.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Биткойн — не озарение из ниоткуда, а удачная сборка идей, которые десятилетиями лежали в статьях криптографов и в провалившихся проектах цифровых денег. Новым было то, как их соединили: впервые решилась задача двойной траты в сети, где никто никому не доверяет.</p>
+                    <p><em>Что говорить</em> Начинаем с конца — вот что должно остаться в голове. Автор пишет: технология блокчейн появилась вместе с биткойном в 2008 году, практическая реализация — в 2009-м. Но без более ранней истории вычислений и сетей история блокчейна неполная. Четыре карточки — четыре шага рассказа: когда родился, из каких корней, какой задачи не хватало и что собрал Сатоши.</p>
+                    <p><em>Запомнить</em> Биткойн = сборка давно известных идей + решение двойной траты без доверия.</p>
+                    <p><em>Переход</em> Посмотрим на всю историю разом — одним таймлайном.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: общий таймлайн -->
+            <section class="slide" id="slide-overview" data-slide="4">
+                <div class="content-slide">
+                    <h2 class="gradient-text">Общий таймлайн: 1976 → 2009</h2>
+                    <p class="slide-lead">24 событий из книги, восемь кусков — по слайду на каждый. Цвет — линия развития, все четыре сходятся в биткойне.</p>
+
+                    <div class="body">
+                        <div class="ov-legend"><span class="l-c">Криптография</span><span class="l-t">Метки времени и PoW</span><span class="l-m">Цифровые деньги</span><span class="l-n">Сети и консенсус</span></div>
+                        <div class="ov">
+                            <div class="ov-axis"></div>
+                            <div class="ov-cols">
+                            <div class="ov-col" data-era="e1" data-from="1976" data-to="1979" data-short="Ключи и хеши">
+                                <div class="ov-yr">1976–1979</div>
+                                <div class="ov-dot"></div>
+                                <h3>Ключи и хеши</h3>
+                                <ul>
+                                    <li class="ov-ev l-c" data-ev="dh" data-y="1976" style="--i:0"><span>1976</span>Диффи и Хеллман: обмен ключами</li>
+                                    <li class="ov-ev l-c" data-ev="pk" data-y="1978" style="--i:1"><span>1978</span>Шифрование с открытым ключом (RSA)</li>
+                                    <li class="ov-ev l-n" data-ev="smr" data-y="1978" style="--i:2"><span>1978</span>Лэмпорт: порядок событий, репликация автоматов</li>
+                                    <li class="ov-ev l-c" data-ev="mt" data-y="1979" style="--i:3"><span>1979</span>Дерево Меркла</li>
+                                </ul>
+                            </div>
+                            <div class="ov-col" data-era="e2" data-from="1980" data-to="1983" data-short="Сеть и доверие">
+                                <div class="ov-yr">1980–1983</div>
+                                <div class="ov-dot"></div>
+                                <h3>Сеть и доверие</h3>
+                                <ul>
+                                    <li class="ov-ev l-c" data-ev="m80" data-y="1980" style="--i:0"><span>1980</span>Меркл: протоколы для открытого ключа</li>
+                                    <li class="ov-ev l-m" data-ev="bs" data-y="1982" style="--i:1"><span>1982</span>Чаум: слепая подпись</li>
+                                    <li class="ov-ev l-n" data-ev="bg" data-y="1982" style="--i:2"><span>1982</span>Задача византийских генералов</li>
+                                    <li class="ov-ev l-n" data-ev="tcp" data-y="1983" style="--i:3"><span>1980-е</span>TCP/IP</li>
+                                </ul>
+                            </div>
+                            <div class="ov-col" data-era="e3" data-from="1985" data-to="1985" data-short="Кривые">
+                                <div class="ov-yr">1985</div>
+                                <div class="ov-dot"></div>
+                                <h3>Эллиптические кривые</h3>
+                                <ul>
+                                    <li class="ov-ev l-c" data-ev="ecc" data-y="1985" style="--i:0"><span>1985</span>Коблиц и Миллер: криптография на эллиптических кривых</li>
+                                </ul>
+                            </div>
+                            <div class="ov-col" data-era="e4" data-from="1991" data-to="1993" data-short="Метки времени">
+                                <div class="ov-yr">1991–1993</div>
+                                <div class="ov-dot"></div>
+                                <h3>Цепочка меток времени</h3>
+                                <ul>
+                                    <li class="ov-ev l-t" data-ev="hs91" data-y="1991" style="--i:0"><span>1991</span>Хабер и Сторнетта: цепочка меток времени</li>
+                                    <li class="ov-ev l-t" data-ev="dn92" data-y="1992" style="--i:1"><span>1992</span>Дворк и Наор: первое доказательство работы</li>
+                                    <li class="ov-ev l-t" data-ev="bhs93" data-y="1993" style="--i:2"><span>1993</span>Метки времени + деревья Меркла</li>
+                                </ul>
+                            </div>
+                            <div class="ov-col" data-era="e5" data-from="1995" data-to="1998" data-short="Цифровые деньги">
+                                <div class="ov-yr">1995–1998</div>
+                                <div class="ov-dot"></div>
+                                <h3>Электронная наличность</h3>
+                                <ul>
+                                    <li class="ov-ev l-m" data-ev="dc95" data-y="1995" style="--i:0"><span>1995</span>DigiCash Чаума в банках</li>
+                                    <li class="ov-ev l-m" data-ev="bit98" data-y="1998" style="--i:1"><span>1998</span>Сабо: Bit Gold</li>
+                                    <li class="ov-ev l-m" data-ev="bm98" data-y="1998" style="--i:2"><span>1998</span>Вей Дай: b-money</li>
+                                </ul>
+                            </div>
+                            <div class="ov-col" data-era="e6" data-from="1999" data-to="2001" data-short="P2P-сети">
+                                <div class="ov-yr">1999–2001</div>
+                                <div class="ov-dot"></div>
+                                <h3>Одноранговые сети</h3>
+                                <ul>
+                                    <li class="ov-ev l-n" data-ev="nap99" data-y="1999" style="--i:0"><span>1999</span>Napster</li>
+                                    <li class="ov-ev l-t" data-ev="ts99" data-y="1999" style="--i:1"><span>1999</span>TIMESEC: служба меток времени</li>
+                                    <li class="ov-ev l-n" data-ev="gnu00" data-y="2000" style="--i:2"><span>2000</span>Gnutella: сеть без центра</li>
+                                    <li class="ov-ev l-n" data-ev="bt01" data-y="2001" style="--i:3"><span>2001</span>BitTorrent и DHT</li>
+                                </ul>
+                            </div>
+                            <div class="ov-col" data-era="e7" data-from="2002" data-to="2005" data-short="PoW">
+                                <div class="ov-yr">2002–2005</div>
+                                <div class="ov-dot"></div>
+                                <h3>Доказательство работы</h3>
+                                <ul>
+                                    <li class="ov-ev l-t" data-ev="hc02" data-y="2002" style="--i:0"><span>2002</span>Бэк: Hashcash</li>
+                                    <li class="ov-ev l-t" data-ev="rpow04" data-y="2004" style="--i:1"><span>2004</span>Финни: многоразовое PoW</li>
+                                    <li class="ov-ev l-n" data-ev="syb05" data-y="2005" style="--i:2"><span>2005</span>Аспнес и др.: PoW против атаки Сивиллы</li>
+                                </ul>
+                            </div>
+                            <div class="ov-col is-btc" data-era="e8" data-from="2008" data-to="2009" data-short="Биткойн">
+                                <div class="ov-yr">2008–2009</div>
+                                <div class="ov-dot"></div>
+                                <h3>Биткойн</h3>
+                                <ul>
+                                    <li class="ov-ev l-b" data-ev="wp08" data-y="2008" style="--i:0"><span>2008</span>Статья Сатоши Накамото</li>
+                                    <li class="ov-ev l-b" data-ev="gen09" data-y="2009" style="--i:1"><span>2009</span>Генезис-блок: биткойн запущен</li>
+                                </ul>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Тридцать три года, четыре линии развития: криптография, метки времени и доказательство работы, цифровые деньги, сети и консенсус. В 2008–2009 они сходятся в одной системе.</p>
+                    <p><em>Что говорить</em> Это весь таймлайн из книги на одном экране, разбитый на восемь кусков. Дальше каждый кусок — отдельный слайд, а внизу поедет шкала: она показывает, где мы сейчас. Обратите внимание на паузы: 1986–1990 и 2006–2007 годы — тихие. Сатоши публикует статью через три года после последнего события в списке.</p>
+                    <p><em>Оговорка</em> В книге b-money датирована 2004 годом. Здесь стоит 1998 — год публикации, и так же её датирует сам Сатоши. Лэмпорт 1978 года и репликация автоматов взяты из раздела книги о биткойне, в общем списке их нет.</p>
+                    <p><em>Переход</em> Едем с самого начала — 1976 год.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 1976–1979 -->
+            <section class="slide" id="slide-e1" data-era="e1" data-slide="5">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">01 / 08</span><span class="era-yr">1976 — 1979</span></div>
+                    <h2 class="gradient-text">Ключи и хеши</h2>
+                    <p class="slide-lead">За четыре года появились два кирпича, без которых биткойна нет: <b>пара ключей</b> и <b>дерево хешей</b>.</p>
+
+                    <div class="body">
+                        <div class="era-grid">
+                            <div class="evs">
+                                <div class="ev l-c"><span class="ev-y">1976</span><div class="ev-b"><h3>Диффи и Хеллман</h3><p>Двое договариваются о секрете по открытому каналу, который все слушают.</p><span class="ev-to">в биткойне → идея открытого и закрытого ключа</span></div></div>
+                                <div class="ev l-c"><span class="ev-y">1978</span><div class="ev-b"><h3>Открытый ключ: RSA</h3><p>Подписать может только владелец закрытого ключа, проверить — любой.</p><span class="ev-to">в биткойне → подпись каждой транзакции</span></div></div>
+                                <div class="ev l-n"><span class="ev-y">1978</span><div class="ev-b"><h3>Лэмпорт: порядок событий</h3><p>Как узлам договориться, что случилось раньше. Отсюда репликация автоматов.</p><span class="ev-to">в биткойне → общий порядок блоков</span></div></div>
+                                <div class="ev l-c"><span class="ev-y">1979</span><div class="ev-b"><h3>Дерево Меркла</h3><p>Хеши складываются попарно, пока не останется один — корень.</p><span class="ev-to">в биткойне → корень транзакций в заголовке блока</span></div></div>
+                            </div>
+
+                            <div class="demo-col">
+                                <div class="demo-bar">
+                                    <div class="seg" data-target="mtDemo">
+                                        <button type="button" data-value="ok" class="is-good is-active">Честно</button>
+                                        <button type="button" data-value="tamper" class="is-bad">Подменить Tx3</button>
+                                    </div>
+                                </div>
+                                <div class="fig mt" id="mtDemo" data-state="ok">
+                                    <svg viewBox="0 0 720 420" role="img" aria-label="Дерево Меркла из четырёх транзакций">
+                                        <path class="ed" pathLength="1" style="--d:500ms" d="M360 92 L180 168"/>
+                                        <path class="ed hot" pathLength="1" style="--d:560ms;--td:.35s" d="M360 92 L540 168"/>
+                                        <path class="ed" pathLength="1" style="--d:700ms" d="M180 240 L85 316"/>
+                                        <path class="ed" pathLength="1" style="--d:740ms" d="M180 240 L265 316"/>
+                                        <path class="ed hot" pathLength="1" style="--d:780ms;--td:.1s" d="M540 240 L455 316"/>
+                                        <path class="ed" pathLength="1" style="--d:820ms" d="M540 240 L635 316"/>
+
+                                        <g class="nd root hot" style="--d:300ms;--td:.6s"><rect x="250" y="20" width="220" height="72" rx="14"/><text x="360" y="48" class="k">корень</text><text x="360" y="76" class="h"><tspan class="v-ok">f3d9</tspan><tspan class="v-bad">6b1e</tspan></text></g>
+                                        <g class="nd" style="--d:420ms"><rect x="70" y="168" width="220" height="72" rx="14"/><text x="180" y="196" class="k">хеш(1 + 2)</text><text x="180" y="224" class="h">5be0</text></g>
+                                        <g class="nd hot" style="--d:460ms;--td:.35s"><rect x="430" y="168" width="220" height="72" rx="14"/><text x="540" y="196" class="k">хеш(3 + 4)</text><text x="540" y="224" class="h"><tspan class="v-ok">c7a2</tspan><tspan class="v-bad">08f4</tspan></text></g>
+
+                                        <g class="nd lf" style="--d:860ms"><rect x="10" y="316" width="150" height="92" rx="12"/><text x="85" y="342" class="k">Tx1</text><text x="85" y="368" class="t">Алиса → Бобу 5</text><text x="85" y="394" class="h s">a41f</text></g>
+                                        <g class="nd lf" style="--d:900ms"><rect x="190" y="316" width="150" height="92" rx="12"/><text x="265" y="342" class="k">Tx2</text><text x="265" y="368" class="t">Боб → Еве 2</text><text x="265" y="394" class="h s">7c09</text></g>
+                                        <g class="nd lf hot" style="--d:940ms;--td:0s"><rect x="380" y="316" width="150" height="92" rx="12"/><text x="455" y="342" class="k">Tx3</text><text x="455" y="368" class="t"><tspan class="v-ok">Ева → Дэну 1</tspan><tspan class="v-bad">Ева → Дэну 9</tspan></text><text x="455" y="394" class="h s"><tspan class="v-ok">e25b</tspan><tspan class="v-bad">1d8e</tspan></text></g>
+                                        <g class="nd lf" style="--d:980ms"><rect x="560" y="316" width="150" height="92" rx="12"/><text x="635" y="342" class="k">Tx4</text><text x="635" y="368" class="t">Дэн → Алисе 3</text><text x="635" y="394" class="h s">93c7</text></g>
+                                    </svg>
+                                </div>
+                                <div class="caps" data-caps="mtDemo">
+                                    <div class="cap" data-for="ok"><p><b>Корень — отпечаток всех транзакций.</b> В заголовке блока лежит только он: 32 байта на любое число транзакций.</p></div>
+                                    <div class="cap" data-for="tamper"><p><b>Поменяли одну цифру в Tx3 — поменялся корень.</b> Подмена видна сразу, проверять все транзакции не нужно.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://ee.stanford.edu/~hellman/publications/24.pdf" target="_blank" rel="noopener">Diffie &amp; Hellman, 1976</a><span class="sep">·</span><a href="https://dl.acm.org/doi/10.1145/359340.359342" target="_blank" rel="noopener">RSA, 1978</a><span class="sep">·</span><a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf" target="_blank" rel="noopener">Lamport, 1978</a><span class="sep">·</span><a href="https://patents.google.com/patent/US4309569A/en" target="_blank" rel="noopener">Merkle, патент 1979</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> 1976–1979 — годы, когда появилась асимметричная криптография и деревья хешей. Это два из трёх «криптографических» кирпичей биткойна.</p>
+                    <p><em>Что говорить</em> 1976 — статья Диффи и Хеллмана «New Directions in Cryptography»: впервые показано, что двое могут договориться о секретном ключе, общаясь открыто. 1978 — RSA, первая практичная система с открытым ключом и цифровой подписью. В книге этот пункт назван «изобретение открытых ключей шифрования»; сама идея открытого ключа — у Диффи и Хеллмана, RSA — её первая рабочая реализация. В том же 1978-м Лэмпорт пишет «Time, Clocks, and the Ordering of Events» — к ней вернёмся на слайде о репликации автоматов. 1979 — Ральф Меркл описывает дерево хешей (в патенте и диссертации).</p>
+                    <p><em>Демонстрация</em> Нажмите «Подменить Tx3»: меняется одна сумма — краснеет лист, потом его родитель, потом корень. Это и есть суть: корень дерева коротко фиксирует всё содержимое блока.</p>
+                    <p><em>Запомнить</em> Ключи дают «кто имеет право», хеши — «ничего не подменили».</p>
+                    <p><em>Оговорка</em> Хеши на схеме — условные четыре символа, реальный SHA-256 длиной 64 символа.</p>
+                    <p><em>Переход</em> Восьмидесятые: сеть, слепая подпись и предатели-генералы.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://ee.stanford.edu/~hellman/publications/24.pdf" target="_blank" rel="noopener">W. Diffie, M. Hellman — New Directions in Cryptography (IEEE Trans. on Information Theory, 1976)</a>; <a href="https://dl.acm.org/doi/10.1145/359340.359342" target="_blank" rel="noopener">R. Rivest, A. Shamir, L. Adleman — A Method for Obtaining Digital Signatures and Public-Key Cryptosystems (CACM, 1978)</a>; <a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf" target="_blank" rel="noopener">L. Lamport — Time, Clocks, and the Ordering of Events in a Distributed System (CACM, 1978)</a>; <a href="https://patents.google.com/patent/US4309569A/en" target="_blank" rel="noopener">R. Merkle — Method of providing digital signatures, патент US 4 309 569 (заявка 1979): дерево хешей</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 1980–1983 -->
+            <section class="slide" id="slide-e2" data-era="e2" data-slide="6">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">02 / 08</span><span class="era-yr">1980 — 1983</span></div>
+                    <h2 class="gradient-text">Сеть и доверие</h2>
+                    <p class="slide-lead">Появляется общий язык сетей, первые цифровые деньги Чаума и формулировка главной беды распределённых систем — <b>узлов, которые врут</b>.</p>
+
+                    <div class="body">
+                        <div class="era-grid">
+                            <div class="evs">
+                                <div class="ev l-c"><span class="ev-y">1980</span><div class="ev-b"><h3>Меркл: протоколы</h3><p>Протоколы для систем с открытым ключом. Эту статью Сатоши потом процитирует.</p></div></div>
+                                <div class="ev l-m"><span class="ev-y">1982</span><div class="ev-b"><h3>Чаум: слепая подпись</h3><p>Банк подписывает купюру, не видя её номера. Деньги становятся анонимными.</p><span class="ev-to">демонстрация справа →</span></div></div>
+                                <div class="ev l-n"><span class="ev-y">1982</span><div class="ev-b"><h3>Византийские генералы</h3><p>Лэмпорт, Шостак, Пиз: как договориться, если часть участников — предатели.</p><span class="ev-to">разобрали в прошлом докладе</span></div></div>
+                                <div class="ev l-n"><span class="ev-y">1980-е</span><div class="ev-b"><h3>TCP/IP</h3><p>1 января 1983 ARPANET переходит на TCP/IP — рождается интернет.</p></div></div>
+                            </div>
+
+                            <div class="demo-col">
+                                <div class="demo-bar">
+                                    <div class="seg" data-target="bsDemo">
+                                        <button type="button" data-value="bill" class="is-active">1 · Купюра</button>
+                                        <button type="button" data-value="env">2 · Конверт</button>
+                                        <button type="button" data-value="sign">3 · Подпись</button>
+                                        <button type="button" data-value="out" class="is-good">4 · Достать</button>
+                                    </div>
+                                </div>
+                                <div class="fig bsig" id="bsDemo" data-state="bill">
+                                    <svg viewBox="0 0 720 380" role="img" aria-label="Слепая подпись: купюра в конверте с копиркой">
+                                        <g class="bill">
+                                            <rect x="190" y="90" width="340" height="180" rx="14"/>
+                                            <text x="216" y="126" class="k">ЭЛЕКТРОННАЯ КУПЮРА</text>
+                                            <text x="216" y="196" class="big">100</text>
+                                            <text x="216" y="246" class="h">№ 7F3A·91C2</text>
+                                        </g>
+                                        <g class="env">
+                                            <rect x="160" y="70" width="400" height="220" rx="12"/>
+                                            <path d="M160 82 L360 190 L560 82"/>
+                                            <text x="360" y="266" class="k">конверт с копиркой</text>
+                                        </g>
+                                        <g class="stamp">
+                                            <circle cx="452" cy="196" r="46"/>
+                                            <text x="452" y="190" class="k">БАНК</text>
+                                            <path d="M424 210 q10 -12 18 0 t18 0 t18 0"/>
+                                        </g>
+                                        <g class="bank">
+                                            <rect x="590" y="40" width="110" height="64" rx="12"/>
+                                            <text x="645" y="80" class="k">банк</text>
+                                        </g>
+                                        <text class="eye" x="645" y="132">не видит номер</text>
+                                    </svg>
+                                </div>
+                                <div class="caps" data-caps="bsDemo">
+                                    <div class="cap" data-for="bill"><p><b>Клиент готовит купюру</b> со случайным номером. Банк её ещё не видел.</p></div>
+                                    <div class="cap" data-for="env"><p><b>Кладёт в конверт с копиркой.</b> Номер спрятан — в криптографии это «ослепление» случайным множителем.</p></div>
+                                    <div class="cap" data-for="sign"><p><b>Банк подписывает конверт, не открывая.</b> Через копирку подпись ложится на купюру.</p></div>
+                                    <div class="cap" data-for="out"><p><b>Купюра с подписью банка.</b> Любой проверит подпись, но банк не свяжет купюру с клиентом.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://www.ralphmerkle.com/papers/Protocols.pdf" target="_blank" rel="noopener">Merkle, 1980</a><span class="sep">·</span><a href="https://chaum.com/wp-content/uploads/2022/01/Chaum-blind-signatures.pdf" target="_blank" rel="noopener">Chaum, 1982</a><span class="sep">·</span><a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">Lamport et al., 1982</a><span class="sep">·</span><a href="https://www.internetsociety.org/internet/history-internet/brief-history-internet/" target="_blank" rel="noopener">Переход ARPANET на TCP/IP</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> В начале 80-х появляются три вещи из разных миров: протоколы Меркла (криптография), слепая подпись Чаума (цифровые деньги) и задача византийских генералов (распределённые системы).</p>
+                    <p><em>Что говорить</em> Книга называет TCP/IP просто «1980-е». Конкретная дата — 1 января 1983, когда ARPANET перешла на TCP/IP. Протоколы Меркла 1980 года стоят в списке литературы биткойна. Дэвид Чаум в 1982 году предлагает слепую подпись — на ней построены его цифровые деньги, к ним вернёмся на слайде про 1995 год. Византийских генералов подробно разбирали в прошлом докладе, здесь просто отмечаем: задача сформулирована в 1982-м, а массово решать её в открытой сети научились только с биткойном.</p>
+                    <p><em>Демонстрация</em> Проходим четыре шага кнопками. Аналогия с конвертом и копиркой — классическая, её использует сам Чаум. Математически «конверт» — это умножение номера на случайное число, которое клиент потом убирает.</p>
+                    <p><em>Запомнить</em> Слепая подпись — это анонимность цифровых денег. Банк гарантирует подлинность, но не знает, кому выдал купюру.</p>
+                    <p><em>Переход</em> 1985 год — математика, которая сделала ключи биткойна короткими.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://www.ralphmerkle.com/papers/Protocols.pdf" target="_blank" rel="noopener">R. Merkle — Protocols for Public Key Cryptosystems (IEEE S&amp;P, 1980)</a>; <a href="https://chaum.com/wp-content/uploads/2022/01/Chaum-blind-signatures.pdf" target="_blank" rel="noopener">D. Chaum — Blind Signatures for Untraceable Payments (CRYPTO ’82)</a>; <a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">L. Lamport, R. Shostak, M. Pease — The Byzantine Generals Problem (ACM TOPLAS, 1982)</a>; <a href="https://www.internetsociety.org/internet/history-internet/brief-history-internet/" target="_blank" rel="noopener">Internet Society — 1 января 1983 ARPANET перешла на TCP/IP</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 1985 -->
+            <section class="slide" id="slide-e3" data-era="e3" data-slide="7">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">03 / 08</span><span class="era-yr">1985</span></div>
+                    <h2 class="gradient-text">Эллиптические кривые</h2>
+                    <p class="slide-lead">Нил Коблиц и Виктор Миллер независимо предлагают строить криптографию на точках кривой. Та же стойкость — при <b>ключе в 12 раз короче</b>.</p>
+
+                    <div class="body">
+                        <div class="era-grid is-wide-fig">
+                            <div class="fig ecc">
+                                <svg viewBox="0 0 640 460" role="img" aria-label="Сложение точек на кривой y² = x³ + 7">
+                                    <path class="ax" d="M20 230 H620 M260 20 V440"/>
+                                    <path class="curve" pathLength="1" d="M584 36.3 L577.1 40.8 L570.2 45.2 L563.4 49.5 L556.7 53.7 L549.9 57.7 L543.3 61.7 L536.6 65.5 L530 69.2 L523.5 72.7 L517 76.2 L510.5 79.5 L504.1 82.8 L497.7 85.9 L491.4 88.9 L485.1 91.7 L478.8 94.5 L472.6 97.1 L466.5 99.6 L460.3 102 L454.3 104.3 L448.2 106.4 L442.2 108.5 L436.3 110.4 L430.4 112.2 L424.5 113.9 L418.7 115.6 L412.9 117.1 L407.2 118.5 L401.5 119.8 L395.9 121 L390.3 122.1 L384.7 123.1 L379.2 124.1 L373.7 124.9 L368.3 125.7 L362.9 126.4 L357.6 127 L352.3 127.6 L347 128.1 L341.8 128.6 L336.7 129 L331.5 129.3 L326.4 129.6 L321.4 129.8 L316.4 130.1 L311.5 130.2 L306.6 130.4 L301.7 130.5 L296.9 130.6 L292.1 130.6 L287.4 130.7 L282.7 130.7 L278 130.8 L273.4 130.8 L268.8 130.8 L264.3 130.8 L259.8 130.8 L255.4 130.8 L251 130.8 L246.7 130.8 L242.4 130.8 L238.1 130.8 L233.9 130.9 L229.7 130.9 L225.6 131 L221.5 131 L217.5 131.1 L213.5 131.2 L209.5 131.3 L205.6 131.4 L201.7 131.6 L197.9 131.8 L194.1 132 L190.4 132.2 L186.7 132.4 L183 132.7 L179.4 133 L175.8 133.3 L172.3 133.6 L168.8 133.9 L165.4 134.3 L162 134.7 L158.7 135.1 L155.3 135.6 L152.1 136.1 L148.9 136.6 L145.7 137.1 L142.5 137.7 L139.5 138.2 L136.4 138.9 L133.4 139.5 L130.4 140.1 L127.5 140.8 L124.6 141.5 L121.8 142.3 L119 143 L116.3 143.8 L113.6 144.6 L110.9 145.5 L108.3 146.3 L105.7 147.2 L103.2 148.1 L100.7 149 L98.3 150 L95.9 151 L93.5 152 L91.2 153 L88.9 154 L86.7 155.1 L84.5 156.2 L82.4 157.3 L80.3 158.5 L78.2 159.6 L76.2 160.8 L74.2 162 L72.3 163.2 L70.4 164.4 L68.6 165.7 L66.8 167 L65 168.2 L63.3 169.6 L61.7 170.9 L60.1 172.2 L58.5 173.6 L56.9 175 L55.4 176.4 L54 177.8 L52.6 179.2 L51.2 180.6 L49.9 182.1 L48.6 183.5 L47.4 185 L46.2 186.5 L45.1 188 L44 189.5 L42.9 191.1 L41.9 192.6 L40.9 194.1 L40 195.7 L39.1 197.3 L38.3 198.8 L37.5 200.4 L36.7 202 L36 203.6 L35.3 205.2 L34.7 206.9 L34.1 208.5 L33.6 210.1 L33.1 211.8 L32.6 213.4 L32.2 215 L31.8 216.7 L31.5 218.4 L31.2 220 L31 221.7 L30.8 223.3 L30.6 225 L30.5 226.7 L30.5 228.3 L30.4 230 L30.5 231.7 L30.5 233.3 L30.6 235 L30.8 236.7 L31 238.3 L31.2 240 L31.5 241.6 L31.8 243.3 L32.2 245 L32.6 246.6 L33.1 248.2 L33.6 249.9 L34.1 251.5 L34.7 253.1 L35.3 254.8 L36 256.4 L36.7 258 L37.5 259.6 L38.3 261.2 L39.1 262.7 L40 264.3 L40.9 265.9 L41.9 267.4 L42.9 268.9 L44 270.5 L45.1 272 L46.2 273.5 L47.4 275 L48.6 276.5 L49.9 277.9 L51.2 279.4 L52.6 280.8 L54 282.2 L55.4 283.6 L56.9 285 L58.5 286.4 L60.1 287.8 L61.7 289.1 L63.3 290.4 L65 291.8 L66.8 293 L68.6 294.3 L70.4 295.6 L72.3 296.8 L74.2 298 L76.2 299.2 L78.2 300.4 L80.3 301.5 L82.4 302.7 L84.5 303.8 L86.7 304.9 L88.9 306 L91.2 307 L93.5 308 L95.9 309 L98.3 310 L100.7 311 L103.2 311.9 L105.7 312.8 L108.3 313.7 L110.9 314.5 L113.6 315.4 L116.3 316.2 L119 317 L121.8 317.7 L124.6 318.5 L127.5 319.2 L130.4 319.9 L133.4 320.5 L136.4 321.1 L139.5 321.8 L142.5 322.3 L145.7 322.9 L148.9 323.4 L152.1 323.9 L155.3 324.4 L158.7 324.9 L162 325.3 L165.4 325.7 L168.8 326.1 L172.3 326.4 L175.8 326.7 L179.4 327 L183 327.3 L186.7 327.6 L190.4 327.8 L194.1 328 L197.9 328.2 L201.7 328.4 L205.6 328.6 L209.5 328.7 L213.5 328.8 L217.5 328.9 L221.5 329 L225.6 329 L229.7 329.1 L233.9 329.1 L238.1 329.2 L242.4 329.2 L246.7 329.2 L251 329.2 L255.4 329.2 L259.8 329.2 L264.3 329.2 L268.8 329.2 L273.4 329.2 L278 329.2 L282.7 329.3 L287.4 329.3 L292.1 329.4 L296.9 329.4 L301.7 329.5 L306.6 329.6 L311.5 329.8 L316.4 329.9 L321.4 330.2 L326.4 330.4 L331.5 330.7 L336.7 331 L341.8 331.4 L347 331.9 L352.3 332.4 L357.6 333 L362.9 333.6 L368.3 334.3 L373.7 335.1 L379.2 335.9 L384.7 336.9 L390.3 337.9 L395.9 339 L401.5 340.2 L407.2 341.5 L412.9 342.9 L418.7 344.4 L424.5 346.1 L430.4 347.8 L436.3 349.6 L442.2 351.5 L448.2 353.6 L454.3 355.7 L460.3 358 L466.5 360.4 L472.6 362.9 L478.8 365.5 L485.1 368.3 L491.4 371.1 L497.7 374.1 L504.1 377.2 L510.5 380.5 L517 383.8 L523.5 387.3 L530 390.8 L536.6 394.5 L543.3 398.3 L549.9 402.3 L556.7 406.3 L563.4 410.5 L570.2 414.8 L577.1 419.2 L584 423.7"/>
+                                    <path class="chord" pathLength="1" d="M20 183.8 L565.9 63.2"/>
+                                    <path class="refl" d="M523.9 72.5 L523.9 387.5"/>
+                                    <g class="pt p1"><circle cx="56" cy="175.8" r="9"/><text x="22" y="161.8">P</text></g>
+                                    <g class="pt p2"><circle cx="260" cy="130.8" r="9"/><text x="230" y="114.8">Q</text></g>
+                                    <g class="pt p3"><circle cx="523.9" cy="72.5" r="8"/></g>
+                                    <g class="pt p4"><circle cx="523.9" cy="387.5" r="11"/><text x="411.9" y="395.5">P + Q</text></g>
+                                    <text class="eq" x="600" y="440">y² = x³ + 7</text>
+                                </svg>
+                            </div>
+
+                            <div class="demo-side">
+                                <div class="ev l-c"><span class="ev-y">1985</span><div class="ev-b"><h3>Коблиц и Миллер</h3><p>Прямая через две точки кривой пересекает её в третьей. Отражаем — получаем «сумму» точек. Обратная задача практически неразрешима.</p></div></div>
+
+                                <div class="keys">
+                                    <span class="section-label">Ключ для стойкости 128 бит</span>
+                                    <div class="kbar"><span class="kbar-n">RSA</span><span class="kbar-t"><i style="--w:100%"></i></span><span class="kbar-v">3072 бита</span></div>
+                                    <div class="kbar is-ecc"><span class="kbar-n">ЭКК</span><span class="kbar-t"><i style="--w:8.3%"></i></span><span class="kbar-v">256 бит</span></div>
+                                </div>
+
+                                <div class="wide-accent is-sol is-compact">
+                                    В биткойне — кривая <b>secp256k1</b>, как раз <code>y² = x³ + 7</code>. Закрытый ключ — 32 байта,
+                                    в Ethereum та же кривая.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://link.springer.com/chapter/10.1007/3-540-39799-X_31" target="_blank" rel="noopener">Miller, 1985</a><span class="sep">·</span><a href="https://www.ams.org/journals/mcom/1987-48-177/S0025-5718-1987-0866109-5/" target="_blank" rel="noopener">Koblitz, 1987</a><span class="sep">·</span><a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final" target="_blank" rel="noopener">NIST SP 800-57</a><span class="sep">·</span><a href="https://www.secg.org/sec2-v2.pdf" target="_blank" rel="noopener">SEC 2: secp256k1</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Эллиптические кривые позволили сделать ключи и подписи короткими. Для системы, где каждая транзакция несёт подпись и хранится вечно у тысяч узлов, это принципиально.</p>
+                    <p><em>Что говорить</em> В 1985 году Миллер на конференции CRYPTO и независимо Коблиц (статья вышла в 1987-м) предложили использовать группу точек эллиптической кривой. Анимация показывает сложение точек: прямая через P и Q пересекает кривую в третьей точке, отражаем её относительно оси — это P + Q. Умножить точку на число легко, а по результату найти число — задача дискретного логарифма — очень трудно. Именно так закрытый ключ превращается в открытый.</p>
+                    <p><em>Цифры</em> По таблице NIST SP 800-57 стойкость 128 бит дают RSA с ключом 3072 бита и ЭКК с ключом 256 бит. Биткойн использует кривую secp256k1 из стандарта SEC 2: y² = x³ + 7 над конечным полем.</p>
+                    <p><em>Оговорка</em> На слайде кривая нарисована над вещественными числами — так нагляднее. В криптографии та же формула берётся по модулю большого простого числа, и «картинка» превращается в облако точек.</p>
+                    <p><em>Переход</em> Дальше — шесть тихих лет, и в 1991-м появляется то, что сегодня назвали бы первым блокчейном.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://link.springer.com/chapter/10.1007/3-540-39799-X_31" target="_blank" rel="noopener">V. Miller — Use of Elliptic Curves in Cryptography (CRYPTO ’85)</a>; <a href="https://www.ams.org/journals/mcom/1987-48-177/S0025-5718-1987-0866109-5/" target="_blank" rel="noopener">N. Koblitz — Elliptic Curve Cryptosystems (Mathematics of Computation, 1987)</a>; <a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final" target="_blank" rel="noopener">NIST SP 800-57 Part 1 Rev. 5 — сравнимая стойкость ключей RSA и ЭКК (2020)</a>; <a href="https://www.secg.org/sec2-v2.pdf" target="_blank" rel="noopener">Certicom — SEC 2: Recommended Elliptic Curve Domain Parameters (кривая secp256k1)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 1991–1993 -->
+            <section class="slide" id="slide-e4" data-era="e4" data-slide="8">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">04 / 08</span><span class="era-yr">1991 — 1993</span></div>
+                    <h2 class="gradient-text">Цепочка меток времени</h2>
+                    <p class="slide-lead">Хабер и Сторнетта защищают дату документа от подделки: каждая метка содержит <b>хеш предыдущей</b>. Это самая ранняя идея цепочки блоков.</p>
+
+                    <div class="body">
+                        <div class="cols3">
+                            <div class="ev l-t"><span class="ev-y">1991</span><div class="ev-b"><h3>Хабер и Сторнетта</h3><p>Метки времени, сцеплённые хешами. Задним числом не переписать.</p></div></div>
+                            <div class="ev l-t"><span class="ev-y">1992</span><div class="ev-b"><h3>Дворк и Наор</h3><p>Первое доказательство работы: письмо стоит вычислений — так дорожает спам.</p></div></div>
+                            <div class="ev l-t"><span class="ev-y">1993</span><div class="ev-b"><h3>+ деревья Меркла</h3><p>Документы собирают в дерево, в цепочку идёт один корень на пачку.</p></div></div>
+                        </div>
+
+                        <div class="demo-bar">
+                            <div class="seg" data-target="hcDemo">
+                                <button type="button" data-value="ok" class="is-good is-active">Цепочка цела</button>
+                                <button type="button" data-value="forge" class="is-bad">Переписать документ 2</button>
+                            </div>
+                            <span class="hint">поменяем сумму в договоре задним числом</span>
+                        </div>
+                        <div class="hc" id="hcDemo" data-state="ok">
+                            <div class="hc-b"><span class="hc-k">Документ 1 · 12.03</span><span class="hc-t">Акт приёмки</span><span class="hc-r">пред.: —</span><span class="hc-r">хеш: <b>4c1e</b></span></div>
+                            <div class="hc-b is-forged"><span class="hc-k">Документ 2 · 15.03</span><span class="hc-t"><span class="v-ok">Договор на 100</span><span class="v-bad">Договор на 900</span></span><span class="hc-r">пред.: 4c1e</span><span class="hc-r">хеш: <b><span class="v-ok">9a7b</span><span class="v-bad">3f60</span></b></span></div>
+                            <div class="hc-b is-broken" style="--td:.3s"><span class="hc-k">Документ 3 · 20.03</span><span class="hc-t">Счёт</span><span class="hc-r">пред.: <span class="hc-prev">9a7b</span><span class="v-bad hc-ne"> ≠ 3f60</span></span><span class="hc-r">хеш: <b>d02c</b></span></div>
+                            <div class="hc-b is-broken" style="--td:.55s"><span class="hc-k">Документ 4 · 02.04</span><span class="hc-t">Оплата</span><span class="hc-r">пред.: d02c</span><span class="hc-r">хеш: <b>71b5</b><span class="v-bad hc-ne"> · не сходится</span></span></div>
+                        </div>
+                        <div class="caps" data-caps="hcDemo">
+                            <div class="cap" data-for="ok"><p><b>Каждый документ «пристёгнут» к предыдущему.</b> С 1995 года компания авторов, Surety, раз в неделю печатает итоговый хеш в New York Times — бумажную копию не перепишет никто.</p></div>
+                            <div class="cap" data-for="forge"><p><b>Изменили документ 2 — изменился его хеш.</b> Документ 3 ссылается на старый хеш, цепочка рвётся. Чтобы скрыть подделку, придётся переписать всё после неё.</p></div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://link.springer.com/article/10.1007/BF00196791" target="_blank" rel="noopener">Haber &amp; Stornetta, 1991</a><span class="sep">·</span><a href="https://link.springer.com/chapter/10.1007/3-540-48071-4_10" target="_blank" rel="noopener">Dwork &amp; Naor, 1992</a><span class="sep">·</span><a href="https://link.springer.com/chapter/10.1007/978-1-4613-9323-8_24" target="_blank" rel="noopener">Bayer, Haber, Stornetta, 1993</a><span class="sep">·</span><a href="https://www.vice.com/en/article/what-was-the-first-blockchain/" target="_blank" rel="noopener">Vice: первый блокчейн</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> 1991 год — самая ранняя идея хеш-цепочки: каждая запись содержит хеш предыдущей, поэтому прошлое нельзя переписать незаметно. Книга прямо называет это самой ранней идеей цепочки блоков.</p>
+                    <p><em>Что говорить</em> Стюарт Хабер и Скотт Сторнетта решали прикладную задачу: доказать, что документ существовал в определённый момент и с тех пор не менялся. 1992 — Синтия Дворк и Мони Наор: чтобы отправить письмо, реши вычислительную задачку. Для одного письма это дёшево, для миллиона писем спама — дорого. Книга считает это первым применением PoW. 1993 — Байер, Хабер и Сторнетта добавляют деревья Меркла: в цепочку идёт не каждый документ, а корень дерева пачки. Это уже почти устройство блока биткойна.</p>
+                    <p><em>Демонстрация</em> «Переписать документ 2»: меняется сумма → хеш → документ 3 больше не совпадает → разрыв идёт дальше по цепочке.</p>
+                    <p><em>Факт</em> Хабер и Сторнетта основали компанию Surety. С 1995 года она каждую неделю публикует хеш своей базы в разделе объявлений New York Times. Журналисты называют это «старейшим блокчейном».</p>
+                    <p><em>Запомнить</em> Хеш-цепочка — это неизменяемая история. Без неё блокчейна нет.</p>
+                    <p><em>Переход</em> Середина 90-х: цифровые деньги выходят в реальные банки.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://link.springer.com/article/10.1007/BF00196791" target="_blank" rel="noopener">S. Haber, W. S. Stornetta — How to Time-Stamp a Digital Document (Journal of Cryptology, 1991)</a>; <a href="https://link.springer.com/chapter/10.1007/3-540-48071-4_10" target="_blank" rel="noopener">C. Dwork, M. Naor — Pricing via Processing or Combatting Junk Mail (CRYPTO ’92)</a>; <a href="https://link.springer.com/chapter/10.1007/978-1-4613-9323-8_24" target="_blank" rel="noopener">D. Bayer, S. Haber, W. S. Stornetta — Improving the Efficiency and Reliability of Digital Time-Stamping (1993)</a>; <a href="https://www.vice.com/en/article/what-was-the-first-blockchain/" target="_blank" rel="noopener">Vice — «What Was the First Blockchain?»: Surety публикует хеш в New York Times с 1995</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 1995–1998, требования к e-cash -->
+            <section class="slide" id="slide-e5" data-era="e5" data-slide="9">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">05 / 08</span><span class="era-yr">1995 — 1998</span></div>
+                    <h2 class="gradient-text">Электронная наличность</h2>
+                    <p class="slide-lead">В 1995 году DigiCash Чаума работает в настоящих банках. У хорошей e-cash два обязательных свойства, и они тянут в разные стороны.</p>
+
+                    <div class="body">
+                        <div class="split">
+                            <div class="card c-sol">
+                                <span class="card-k">Требование 1</span>
+                                <h3>Подотчётность</h3>
+                                <ul>
+                                    <li>Деньги можно потратить только один раз</li>
+                                    <li>Потратить их может только законный владелец</li>
+                                </ul>
+                            </div>
+                            <div class="card c-done">
+                                <span class="card-k">Требование 2</span>
+                                <h3>Анонимность</h3>
+                                <ul>
+                                    <li>Как наличные: путь купюры не отследить</li>
+                                    <li>Пользователь решает, кому раскрыть данные</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tbl is-lg" style="--cols: 330px 1fr 1fr 1.5fr">
+                            <div class="tbl-r tbl-h"><div class="tbl-c">Способ платить</div><div class="tbl-c">Подотчётность</div><div class="tbl-c">Анонимность</div><div class="tbl-c">В чём подвох</div></div>
+                            <div class="tbl-r"><div class="tbl-c k">Банковская карта</div><div class="tbl-c ok">да</div><div class="tbl-c bad">нет</div><div class="tbl-c">Каждую покупку видит платёжная система</div></div>
+                            <div class="tbl-r"><div class="tbl-c k">Файл «монета»</div><div class="tbl-c bad">нет</div><div class="tbl-c ok">да</div><div class="tbl-c">Файл копируется — двойная трата</div></div>
+                            <div class="tbl-r"><div class="tbl-c k">DigiCash Чаума</div><div class="tbl-c ok">да</div><div class="tbl-c ok">да</div><div class="tbl-c">Нужен центральный банк-эмитент. Компания обанкротилась в 1998</div></div>
+                        </div>
+
+                        <div class="wide-accent is-compact">
+                            Инструменты Чаума: <b>слепая подпись</b> даёт анонимность, <b>разделение секрета</b> ловит двойную трату —
+                            личность раскрывается только у того, кто потратил дважды. Подробно — в главе 4.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://chaum.com/wp-content/uploads/2022/01/Chaum-blind-signatures.pdf" target="_blank" rel="noopener">Chaum, 1982</a><span class="sep">·</span><a href="https://en.wikipedia.org/wiki/DigiCash" target="_blank" rel="noopener">DigiCash в банке</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Электронная наличность должна быть одновременно подотчётной и анонимной. Чаум решил обе задачи криптографией ещё в 80-х, но его система держалась на центральном банке.</p>
+                    <p><em>Что говорить</em> Автор подчёркивает: распределённые системы нужны, чтобы понять блокчейн, а идея e-cash — чтобы оценить его первое успешное применение. Подотчётность: потратить можно один раз и только владельцу. Проблема двойного расходования в том, что цифровые данные копируются бесплатно. Анонимность: наличные не отследить, а платежи картой персонализированы и регистрируются. Это нужно для безопасности, но воспринимается как вторжение в частную жизнь, ведь человек не контролирует, кому уйдут его данные.</p>
+                    <p><em>Таблица</em> Карта даёт подотчётность без анонимности. Голый файл — анонимность без подотчётности. Чаум дал обе, но через банк-эмитент: в 1995 году eCash выпускал американский Mark Twain Bank, а сама DigiCash обанкротилась в 1998 году.</p>
+                    <p><em>Запомнить</em> Подотчётность + анонимность. Двойная трата — главная беда цифровых денег.</p>
+                    <p><em>Переход</em> Покажем двойную трату на пальцах и что с ней пытались сделать в 1998-м.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://chaum.com/wp-content/uploads/2022/01/Chaum-blind-signatures.pdf" target="_blank" rel="noopener">D. Chaum — Blind Signatures for Untraceable Payments (CRYPTO ’82)</a>; <a href="https://en.wikipedia.org/wiki/DigiCash" target="_blank" rel="noopener">Mark Twain Bank (США) — первый банк, выпустивший eCash DigiCash (1995); история DigiCash</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 1995–1998, двойная трата -->
+            <section class="slide" id="slide-e5b" data-era="e5" data-slide="10">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">05 / 08</span><span class="era-yr">1995 — 1998</span></div>
+                    <h2 class="gradient-text">Двойная трата и кто ведёт реестр</h2>
+                    <p class="slide-lead">Цифровую монету можно скопировать. Остановить вторую трату может тот, кто ведёт реестр. Вопрос — <b>кто его ведёт</b>.</p>
+
+                    <div class="body">
+                        <div class="era-grid is-fig-first">
+                            <div class="demo-col">
+                                <div class="demo-bar">
+                                    <div class="seg" data-target="dsDemo">
+                                        <button type="button" data-value="copy" class="is-bad is-active">Копия монеты</button>
+                                        <button type="button" data-value="bank">Банк Чаума</button>
+                                        <button type="button" data-value="net" class="is-good">Реестр у всех</button>
+                                    </div>
+                                </div>
+                                <div class="fig ds" id="dsDemo" data-state="copy">
+                                    <svg viewBox="0 0 1000 380" role="img" aria-label="Двойная трата одной монеты в двух магазинах">
+                                        <path class="ln ln-a" d="M150 190 L840 80"/>
+                                        <path class="ln ln-b" d="M150 190 L840 300"/>
+                                        <path class="ln ln-via" d="M154 190 L420 190 M590 190 L840 80"/>
+                                        <g class="bank"><rect x="420" y="130" width="170" height="120" rx="16"/><text x="505" y="168" class="k">банк</text><text x="505" y="200" class="h s">7F3A —</text><text x="505" y="226" class="h s">потрачена</text></g>
+                                        <g class="net">
+                                            <circle cx="505" cy="120" r="24"/><circle cx="440" cy="175" r="24"/><circle cx="570" cy="175" r="24"/><circle cx="465" cy="250" r="24"/><circle cx="545" cy="250" r="24"/>
+                                            <path d="M505 120 L440 175 L465 250 L545 250 L570 175 Z M505 120 L465 250 M505 120 L545 250 M440 175 L570 175"/>
+                                            <text x="505" y="322" class="k">кто первый?</text>
+                                        </g>
+                                        <g class="coin c0"><circle cx="110" cy="190" r="44"/><text x="110" y="186" class="big s">100</text><text x="110" y="212" class="h s">7F3A</text></g>
+                                        <g class="coin ca"><circle cx="110" cy="190" r="34"/><text x="110" y="198" class="h">7F3A</text></g>
+                                        <g class="coin cb"><circle cx="110" cy="190" r="34"/><text x="110" y="198" class="h">7F3A</text></g>
+                                        <g class="shop s1"><rect x="850" y="40" width="130" height="80" rx="14"/><text x="915" y="74" class="k">магазин 1</text><text x="915" y="104" class="res"><tspan class="r-ok">✓ принято</tspan><tspan class="r-q">?</tspan></text></g>
+                                        <g class="shop s2"><rect x="850" y="260" width="130" height="80" rx="14"/><text x="915" y="294" class="k">магазин 2</text><text x="915" y="324" class="res"><tspan class="r-ok">✓ принято</tspan><tspan class="r-bad">✗ отказ</tspan><tspan class="r-q">?</tspan></text></g>
+                                    </svg>
+                                </div>
+                                <div class="caps" data-caps="dsDemo">
+                                    <div class="cap" data-for="copy"><p><b>Одну монету скопировали и потратили дважды.</b> Оба магазина приняли — каждый видит настоящую подпись.</p></div>
+                                    <div class="cap" data-for="bank"><p><b>Банк ведёт реестр потраченных номеров</b> и вторую трату отклоняет. Работает — но всё держится на одном центре.</p></div>
+                                    <div class="cap" data-for="net"><p><b>Реестр ведут все узлы.</b> Тогда им нужно договориться, какая трата была первой, — без доверия друг к другу. Это и решит биткойн.</p></div>
+                                </div>
+                            </div>
+
+                            <div class="evs">
+                                <div class="ev l-m"><span class="ev-y">1998</span><div class="ev-b"><h3>Ник Сабо: Bit Gold</h3><p>Цифровое «золото» из решённых задач. Хеш-цепочки + византийские кворумы, но без запуска.</p></div></div>
+                                <div class="ev l-m"><span class="ev-y">1998</span><div class="ev-b"><h3>Вей Дай: b-money</h3><p>Деньги создаются вычислениями, реестр ведут сами участники. Сатоши цитирует первым номером.</p><span class="ev-to">в книге — 2004, публикация — ноябрь 1998</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://unenumerated.blogspot.com/2005/12/bit-gold.html" target="_blank" rel="noopener">Szabo, Bit Gold</a><span class="sep">·</span><a href="http://www.weidai.com/bmoney.txt" target="_blank" rel="noopener">Wei Dai, b-money, 1998</a><span class="sep">·</span><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">Nakamoto, 2008</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Двойная трата решается реестром. Чаум отдал реестр банку. Сабо и Дай в 1998 году предложили отдать его всем участникам, но не решили, как им договориться о порядке трат.</p>
+                    <p><em>Что говорить</em> Три состояния демонстрации — три этапа мысли. Копия монеты: подпись настоящая, оба магазина обмануты. Банк Чаума: у центра есть список потраченных номеров, вторая трата отклоняется — но это снова доверенный центр, и DigiCash вместе с ним умерла. Реестр у всех: центра нет, но узлы должны прийти к согласию, какая трата первая. Это уже задача из прошлого доклада — консенсус при византийских узлах.</p>
+                    <p><em>Bit Gold и b-money</em> Сабо описал Bit Gold в 1998 году, публично — в блоге в 2005-м: хеш-цепочки и византийские кворумы, как и написано в книге. Вей Дай опубликовал b-money в ноябре 1998 года в рассылке cypherpunks. В книге стоит 2004 — это ошибка, в списке литературы биткойна b-money датирована 1998-м. Ни одна из систем не была запущена.</p>
+                    <p><em>Запомнить</em> Все попытки до биткойна были «в некоторой степени успешными», но двойную трату в среде без доверия и без разрешений не решил никто.</p>
+                    <p><em>Переход</em> Параллельно, без всякой криптографии, люди учились строить сети без центра — ради музыки.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://unenumerated.blogspot.com/2005/12/bit-gold.html" target="_blank" rel="noopener">N. Szabo — Bit Gold (замысел 1998, публикация в блоге 2005)</a>; <a href="http://www.weidai.com/bmoney.txt" target="_blank" rel="noopener">Wei Dai — b-money (рассылка cypherpunks, ноябрь 1998)</a>; <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">S. Nakamoto — Bitcoin: A Peer-to-Peer Electronic Cash System (31 октября 2008); список литературы — 8 работ</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 1999–2001 -->
+            <section class="slide" id="slide-e6" data-era="e6" data-slide="11">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">06 / 08</span><span class="era-yr">1999 — 2001</span></div>
+                    <h2 class="gradient-text">Одноранговые сети</h2>
+                    <p class="slide-lead">Обмен музыкой за три года прошёл путь от сети с центральным сервером до сети, где <b>центра нет вообще</b>.</p>
+
+                    <div class="body">
+                        <div class="era-grid">
+                            <div class="evs">
+                                <div class="ev l-n"><span class="ev-y">1999</span><div class="ev-b"><h3>Napster</h3><p>P2P-обмен, но поиск — через центральные серверы-индексы.</p></div></div>
+                                <div class="ev l-n"><span class="ev-y">2000</span><div class="ev-b"><h3>Gnutella</h3><p>Децентрализация: запрос передаётся от соседа к соседу.</p></div></div>
+                                <div class="ev l-n"><span class="ev-y">2001</span><div class="ev-b"><h3>BitTorrent и DHT</h3><p>Файл — кусками от многих. Распределённая хеш-таблица заменяет индекс.</p></div></div>
+                                <div class="ev l-t is-side"><span class="ev-y">1999</span><div class="ev-b"><h3>TIMESEC</h3><p>Бельгийская служба меток времени с минимальным доверием. Её тоже цитирует Сатоши.</p></div></div>
+                            </div>
+
+                            <div class="demo-col">
+                                <div class="demo-bar">
+                                    <div class="seg" data-target="p2pDemo">
+                                        <button type="button" data-value="napster" class="is-active">Napster</button>
+                                        <button type="button" data-value="down" class="is-bad">Сервер выключен</button>
+                                        <button type="button" data-value="gnutella">Gnutella</button>
+                                        <button type="button" data-value="dht" class="is-good">DHT</button>
+                                    </div>
+                                </div>
+                                <div class="fig p2p" id="p2pDemo" data-state="napster">
+                                    <svg viewBox="0 0 640 430" role="img" aria-label="Три устройства одноранговой сети">
+                                        <path class="e e-spoke" d="M320 47 L320 215"/>
+                                        <path class="e e-spoke" d="M438.8 96.2 L320 215"/>
+                                        <path class="e e-spoke" d="M488 215 L320 215"/>
+                                        <path class="e e-spoke" d="M438.8 333.8 L320 215"/>
+                                        <path class="e e-spoke" d="M320 383 L320 215"/>
+                                        <path class="e e-spoke" d="M201.2 333.8 L320 215"/>
+                                        <path class="e e-spoke" d="M152 215 L320 215"/>
+                                        <path class="e e-spoke" d="M201.2 96.2 L320 215"/>
+                                        <path class="e e-ring" d="M320 47 L438.8 96.2"/>
+                                        <path class="e e-ring" d="M438.8 96.2 L488 215"/>
+                                        <path class="e e-ring" d="M488 215 L438.8 333.8"/>
+                                        <path class="e e-ring" d="M438.8 333.8 L320 383"/>
+                                        <path class="e e-ring" d="M320 383 L201.2 333.8"/>
+                                        <path class="e e-ring" d="M201.2 333.8 L152 215"/>
+                                        <path class="e e-ring" d="M152 215 L201.2 96.2"/>
+                                        <path class="e e-ring" d="M201.2 96.2 L320 47"/>
+                                        <path class="e e-mesh" d="M320 47 L438.8 96.2"/>
+                                        <path class="e e-mesh" d="M320 47 L438.8 333.8"/>
+                                        <path class="e e-mesh" d="M438.8 96.2 L488 215"/>
+                                        <path class="e e-mesh" d="M438.8 96.2 L320 383"/>
+                                        <path class="e e-mesh" d="M488 215 L438.8 333.8"/>
+                                        <path class="e e-mesh" d="M488 215 L201.2 333.8"/>
+                                        <path class="e e-mesh" d="M438.8 333.8 L320 383"/>
+                                        <path class="e e-mesh" d="M438.8 333.8 L152 215"/>
+                                        <path class="e e-mesh" d="M320 383 L201.2 333.8"/>
+                                        <path class="e e-mesh" d="M320 383 L201.2 96.2"/>
+                                        <path class="e e-mesh" d="M201.2 333.8 L152 215"/>
+                                        <path class="e e-mesh" d="M201.2 333.8 L320 47"/>
+                                        <path class="e e-mesh" d="M152 215 L201.2 96.2"/>
+                                        <path class="e e-mesh" d="M152 215 L438.8 96.2"/>
+                                        <path class="e e-mesh" d="M201.2 96.2 L320 47"/>
+                                        <path class="e e-mesh" d="M201.2 96.2 L488 215"/>
+                                        <path class="e e-q" d="M201.2 333.8 L320 215"/>
+                                        <path class="e e-file" d="M201.2 333.8 L438.8 333.8"/>
+                                        <path class="e e-hop" d="M201.2 333.8 L438.8 96.2"/>
+                                        <path class="e e-hop" d="M438.8 96.2 L438.8 333.8"/>
+                                        <circle class="wave w1" cx="201.2" cy="333.8" r="30"/>
+                                        <circle class="wave w2" cx="201.2" cy="333.8" r="30"/>
+                                        <circle class="wave w3" cx="201.2" cy="333.8" r="30"/>
+                                        <g class="srv"><rect x="256" y="183" width="128" height="64" rx="12"/><text x="320" y="221">индекс</text><path class="x" d="M286 181 L354 249 M354 181 L286 249"/></g>
+                                        <g class="peer" transform="translate(320 47)"><circle r="20"/></g>
+                                        <g class="peer" transform="translate(438.8 96.2)"><circle r="20"/></g>
+                                        <g class="peer" transform="translate(488 215)"><circle r="20"/></g>
+                                        <g class="peer is-b" transform="translate(438.8 333.8)"><circle r="20"/><text dx="0" dy="50">есть файл</text></g>
+                                        <g class="peer" transform="translate(320 383)"><circle r="20"/></g>
+                                        <g class="peer is-a" transform="translate(201.2 333.8)"><circle r="20"/><text dy="50">ищет</text></g>
+                                        <g class="peer" transform="translate(152 215)"><circle r="20"/></g>
+                                        <g class="peer" transform="translate(201.2 96.2)"><circle r="20"/></g>
+                                    </svg>
+                                </div>
+                                <div class="caps" data-caps="p2pDemo">
+                                    <div class="cap" data-for="napster"><p><b>Файл идёт от пира к пиру, а поиск — через сервер.</b> Быстро и удобно, но центр есть.</p></div>
+                                    <div class="cap" data-for="down"><p><b>2001: суд — и серверы выключены.</b> Пиры на месте, а сети больше нет. Центр — единая точка отказа.</p></div>
+                                    <div class="cap" data-for="gnutella"><p><b>Запрос расходится волной от соседа к соседу.</b> Центра нет, но каждый поиск будоражит всю сеть.</p></div>
+                                    <div class="cap" data-for="dht"><p><b>Узлы стоят на кольце и знают «дальних» соседей.</b> Нужный узел — за несколько прыжков. Так ищут узлы и в Ethereum.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://en.wikipedia.org/wiki/Napster" target="_blank" rel="noopener">Napster</a><span class="sep">·</span><a href="https://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf" target="_blank" rel="noopener">Kademlia, 2002</a><span class="sep">·</span><a href="https://www.semanticscholar.org/search?q=Design%20of%20a%20secure%20timestamping%20service%20with%20minimal%20trust%20requirements" target="_blank" rel="noopener">Massias et al., 1999</a><span class="sep">·</span><a href="https://github.com/ethereum/devp2p/blob/master/discv5/discv5.md" target="_blank" rel="noopener">Ethereum discv5</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Сети обмена файлами показали на практике: центральный сервер — единая точка отказа, а сеть без центра можно сделать и рабочей, и масштабируемой.</p>
+                    <p><em>Что говорить</em> Napster (1999) — это P2P только наполовину: файлы шли напрямую между пользователями, но поиск шёл через индексирующие серверы компании. Когда в 2001 году по решению суда серверы выключили, сеть умерла. Gnutella (2000) убрала центр: запрос передаётся соседям, те — своим соседям. BitTorrent (2001) раздаёт файл кусками от многих источников. Распределённые хеш-таблицы — Chord, Kademlia и другие — находят нужный узел за логарифмическое число шагов. Kademlia сегодня лежит в основе поиска узлов в Ethereum (discv5).</p>
+                    <p><em>TIMESEC</em> В 1999 году бельгийский проект TIMESEC (Массиас, Серрет Авила, Кискатер) описал службу меток времени с минимальными требованиями к доверию. Эта работа — вторая в списке литературы биткойна.</p>
+                    <p><em>Демонстрация</em> Napster → «Сервер выключен» → Gnutella (волна запроса) → DHT (прыжки по кольцу).</p>
+                    <p><em>Запомнить</em> P2P-сеть без центра — это то, на чём будет жить биткойн: каждый узел равноправен.</p>
+                    <p><em>Переход</em> Осталась последняя деталь — доказательство работы.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://en.wikipedia.org/wiki/Napster" target="_blank" rel="noopener">История Napster: запуск в 1999, закрытие сети по решению суда в 2001</a>; <a href="https://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf" target="_blank" rel="noopener">P. Maymounkov, D. Mazières — Kademlia: A Peer-to-Peer Information System Based on the XOR Metric (IPTPS 2002)</a>; <a href="https://www.semanticscholar.org/search?q=Design%20of%20a%20secure%20timestamping%20service%20with%20minimal%20trust%20requirements" target="_blank" rel="noopener">H. Massias, X. Serret Avila, J.-J. Quisquater — Design of a Secure Timestamping Service with Minimal Trust Requirements (1999), проект TIMESEC</a>; <a href="https://github.com/ethereum/devp2p/blob/master/discv5/discv5.md" target="_blank" rel="noopener">Ethereum — Node Discovery Protocol v5 (таблица узлов по образцу Kademlia)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 2002–2005 -->
+            <section class="slide" id="slide-e7" data-era="e7" data-slide="12">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">07 / 08</span><span class="era-yr">2002 — 2005</span></div>
+                    <h2 class="gradient-text">Доказательство работы</h2>
+                    <p class="slide-lead">Найти ответ дорого, проверить — одно вычисление. Эта асимметрия защищает и от спама, и от <b>армии фальшивых узлов</b>.</p>
+
+                    <div class="body">
+                        <div class="era-grid">
+                            <div class="evs">
+                                <div class="ev l-t"><span class="ev-y">2002</span><div class="ev-b"><h3>Адам Бэк: Hashcash</h3><p>Ищи число, пока хеш письма не начнётся с нулей. Идея — 1997, статья — 2002.</p><span class="ev-to">в биткойне → майнинг</span></div></div>
+                                <div class="ev l-t"><span class="ev-y">2004</span><div class="ev-b"><h3>Хэл Финни: RPoW</h3><p>Многоразовое PoW: решённую задачу можно передать как жетон.</p></div></div>
+                                <div class="ev l-n"><span class="ev-y">2005</span><div class="ev-b"><h3>Аспнес и др.</h3><p>Атака Сивиллы (в книге — Сибил): один злоумышленник выдаёт себя за тысячи узлов. Головоломки делают каждый «голос» дорогим.</p></div></div>
+                            </div>
+
+                            <div class="miner" id="miner" data-zeros="4">
+                                <div class="mn-top">
+                                    <span class="section-label">Hashcash вживую · SHA-256</span>
+                                    <div class="seg mn-seg">
+                                        <button type="button" data-zeros="3">000</button>
+                                        <button type="button" data-zeros="4" class="is-active">0000</button>
+                                        <button type="button" data-zeros="5">00000</button>
+                                    </div>
+                                </div>
+                                <div class="mn-row"><span class="mn-k">данные</span><code class="mn-data">Книжный клуб · блок 1 · соль=<span class="mn-salt">7a3c</span> · nonce=<span class="mn-nonce">0</span></code></div>
+                                <div class="mn-row"><span class="mn-k">хеш</span><code class="mn-hash">—</code></div>
+                                <div class="mn-stats">
+                                    <div class="fact"><span class="fact-k">попыток</span><span class="fact-n is-md mn-tries">0</span></div>
+                                    <div class="fact"><span class="fact-k">в среднем нужно</span><span class="fact-n is-md mn-expect">65 536</span></div>
+                                    <div class="fact"><span class="fact-k">проверка</span><span class="fact-n is-md">1<small>хеш</small></span></div>
+                                </div>
+                                <div class="mn-foot">
+                                    <button type="button" class="mn-go">Искать nonce</button>
+                                    <span class="mn-msg">Каждый лишний ноль — в 16 раз больше работы.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="http://www.hashcash.org/papers/hashcash.pdf" target="_blank" rel="noopener">Back, Hashcash, 2002</a><span class="sep">·</span><a href="https://nakamotoinstitute.org/finney/rpow/" target="_blank" rel="noopener">Finney, RPoW, 2004</a><span class="sep">·</span><a href="https://www.cs.yale.edu/homes/aspnes/papers/tr1332.pdf" target="_blank" rel="noopener">Aspnes et al., 2005</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Доказательство работы — это асимметрия: найти ответ дорого, проверить дёшево. В 2002–2005 годах из средства против спама оно превращается в средство против фальшивых участников сети.</p>
+                    <p><em>Что говорить</em> Hashcash Адама Бэка: к письму добавляется число (nonce), которое подбирают, пока хеш не начнётся с заданного числа нулей. Предложено в 1997 году в рассылке cypherpunks, статья 2002 года — в списке литературы биткойна. 2004 — Хэл Финни делает PoW многоразовым: решённая задача становится жетоном, который можно передать. Тот самый Финни через пять лет получит первую транзакцию биткойна. 2005 — Аспнес, Джексон и Кришнамурти: вычислительные головоломки защищают от атаки Сивиллы. Если голос равен узлу, злоумышленник просто заводит тысячу узлов. Если голос равен работе, ему нужна тысяча компьютеров.</p>
+                    <p><em>Демонстрация</em> Нажмите «Искать nonce» — браузер по-настоящему перебирает SHA-256. Соль в данных новая при каждом запуске, поэтому число попыток каждый раз своё. С тремя нулями находит мгновенно, с четырьмя — примерно за секунду, с пятью — в среднем секунд за десять, иногда дольше. Каждый ноль в среднем умножает работу на 16. Проверка ответа — всегда один хеш.</p>
+                    <p><em>Запомнить</em> PoW делает «голос» в сети дорогим. Так биткойн защищается от Сивиллы без регистрации участников.</p>
+                    <p><em>Переход</em> Все детали на столе. 2008 год.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="http://www.hashcash.org/papers/hashcash.pdf" target="_blank" rel="noopener">A. Back — Hashcash: A Denial of Service Counter-Measure (2002; предложение в рассылке — 1997)</a>; <a href="https://nakamotoinstitute.org/finney/rpow/" target="_blank" rel="noopener">H. Finney — Reusable Proofs of Work (2004)</a>; <a href="https://www.cs.yale.edu/homes/aspnes/papers/tr1332.pdf" target="_blank" rel="noopener">J. Aspnes, C. Jackson, A. Krishnamurthy — Exposing Computationally-Challenged Byzantine Impostors (Yale, 2005)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: 2008–2009 -->
+            <section class="slide" id="slide-e8" data-era="e8" data-slide="13">
+                <div class="content-slide has-rail">
+                    <div class="era-head"><span class="era-n">08 / 08</span><span class="era-yr">2008 — 2009</span></div>
+                    <h2 class="gradient-text">Биткойн</h2>
+                    <p class="slide-lead">Впервые решён распределённый консенсус в сети без доверия: <b>упорядоченный список блоков</b> с транзакциями, защищённый PoW от двойной траты.</p>
+
+                    <div class="body">
+                        <div class="era-grid">
+                            <div class="evs">
+                                <div class="ev l-b"><span class="ev-y">31.10.2008</span><div class="ev-b"><h3>Статья Сатоши Накамото</h3><p>«Bitcoin: A Peer-to-Peer Electronic Cash System», девять страниц.</p></div></div>
+                                <div class="ev l-b"><span class="ev-y">03.01.2009</span><div class="ev-b"><h3>Генезис-блок</h3><p>В нём заголовок The Times о спасении банков.</p></div></div>
+                                <div class="ev l-b"><span class="ev-y">12.01.2009</span><div class="ev-b"><h3>Первая транзакция</h3><p>Сатоши → Хэлу Финни, 10 BTC, блок 170.</p></div></div>
+                                <p class="hint">наведите на часть блока — шкала внизу покажет, откуда она</p>
+                            </div>
+
+                            <div class="blk">
+                                <div class="blk-h"><span>Блок</span><span class="blk-n">№ N</span></div>
+                                <div class="blk-f" data-marks="hs91 bhs93"><span class="blk-k">хеш предыдущего блока</span><span class="blk-y">1991 · хеш-цепочка</span></div>
+                                <div class="blk-f" data-marks="mt bhs93"><span class="blk-k">корень Меркла</span><span class="blk-y">1979 · дерево хешей</span></div>
+                                <div class="blk-f" data-marks="hs91 ts99"><span class="blk-k">время</span><span class="blk-y">1991–1999 · метки времени</span></div>
+                                <div class="blk-f" data-marks="dn92 hc02 rpow04 syb05"><span class="blk-k">сложность и nonce</span><span class="blk-y">1992–2005 · PoW</span></div>
+                                <div class="blk-f is-txs" data-marks="dh pk ecc bs dc95 bit98 bm98"><span class="blk-k">транзакции с подписями</span><span class="blk-y">1976–1998 · ключи, ЭКК, e-cash</span></div>
+                                <div class="blk-net" data-marks="tcp nap99 gnu00 bt01 bg smr"><span class="blk-k">копия у каждого узла P2P-сети</span><span class="blk-y">1978–2001 · сети и консенсус</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">Nakamoto, 2008</a><span class="sep">·</span><a href="https://mempool.space/block/000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f" target="_blank" rel="noopener">Генезис-блок</a><span class="sep">·</span><a href="https://mempool.space/block/00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee" target="_blank" rel="noopener">Первая транзакция</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> В 2009 году появилась первая практическая реализация e-cash — биткойн. Впервые решена задача распределённого консенсуса в сети без доверия. Ключевое нововведение — упорядоченный список блоков с транзакциями, защищённый PoW от двойной траты.</p>
+                    <p><em>Что говорить</em> 31 октября 2008 года Сатоши Накамото рассылает статью в криптографическую рассылку. 3 января 2009 года — генезис-блок. В его первой транзакции зашит заголовок The Times от того же дня о втором пакете спасения банков. 12 января — первая транзакция между людьми: 10 BTC от Сатоши Хэлу Финни, автору RPoW. Слово «криптовалюта» появилось позже. Подробно архитектура — в главе 6.</p>
+                    <p><em>Схема блока</em> Наводите на поля: шкала внизу подсвечивает, какие события таймлайна легли в эту часть. Хеш предыдущего блока — цепочка Хабера и Сторнетты. Корень Меркла — дерево 1979 года. Время — метки времени. Nonce и сложность — Hashcash. Подписи — открытый ключ и эллиптические кривые. Рассылка блока — P2P-сеть.</p>
+                    <p><em>Запомнить</em> Биткойн почти ничего не изобрёл по частям — он соединил части так, что двойная трата решилась без центра.</p>
+                    <p><em>Переход</em> Книга сводит это в одну картинку — рисунок 1.3.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">S. Nakamoto — Bitcoin: A Peer-to-Peer Electronic Cash System (31 октября 2008); список литературы — 8 работ</a>; <a href="https://mempool.space/block/000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f" target="_blank" rel="noopener">Блок 0 сети Bitcoin (3 января 2009) — обозреватель mempool.space</a>; <a href="https://mempool.space/block/00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee" target="_blank" rel="noopener">Блок 170: первая транзакция Bitcoin — Сатоши Накамото → Хэл Финни (12 января 2009)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: рисунок 1.3 -->
+            <section class="slide" id="slide-fig" data-era="e8" data-slide="14">
+                <div class="content-slide has-rail">
+                    <h2 class="gradient-text">Из чего собран биткойн</h2>
+                    <p class="slide-lead">Рисунок 1.3 из книги: восемь идей сходятся в одну. Наведите на идею — шкала внизу покажет её годы.</p>
+
+                    <div class="body">
+                        <div class="conv">
+                            <svg class="conv-lines" viewBox="0 0 1500 560" aria-hidden="true"><path pathLength="1" style="--i:0" d="M300 46 C 480 46, 470 280, 650 280"/><path class="run" pathLength="1" style="--i:0" d="M300 46 C 480 46, 470 280, 650 280"/><path pathLength="1" style="--i:1" d="M300 198 C 480 198, 470 280, 650 280"/><path class="run" pathLength="1" style="--i:1" d="M300 198 C 480 198, 470 280, 650 280"/><path pathLength="1" style="--i:2" d="M300 350 C 480 350, 470 280, 650 280"/><path class="run" pathLength="1" style="--i:2" d="M300 350 C 480 350, 470 280, 650 280"/><path pathLength="1" style="--i:3" d="M300 502 C 480 502, 470 280, 650 280"/><path class="run" pathLength="1" style="--i:3" d="M300 502 C 480 502, 470 280, 650 280"/><path pathLength="1" style="--i:4" d="M1200 46 C 1020 46, 1030 280, 850 280"/><path class="run" pathLength="1" style="--i:4" d="M1200 46 C 1020 46, 1030 280, 850 280"/><path pathLength="1" style="--i:5" d="M1200 198 C 1020 198, 1030 280, 850 280"/><path class="run" pathLength="1" style="--i:5" d="M1200 198 C 1020 198, 1030 280, 850 280"/><path pathLength="1" style="--i:6" d="M1200 350 C 1020 350, 1030 280, 850 280"/><path class="run" pathLength="1" style="--i:6" d="M1200 350 C 1020 350, 1030 280, 850 280"/><path pathLength="1" style="--i:7" d="M1200 502 C 1020 502, 1030 280, 850 280"/><path class="run" pathLength="1" style="--i:7" d="M1200 502 C 1020 502, 1030 280, 850 280"/></svg>
+                            <div class="conv-core"><span class="conv-b">₿</span><span>Биткойн</span><small>2009</small></div>
+                            <div class="conv-node l-c" data-marks="dh pk m80" style="left:0px;top:0px"><h3>Шифрование с открытым ключом</h3><span>1976–1980</span></div>
+                            <div class="conv-node l-c" data-marks="ecc" style="left:0px;top:152px"><h3>Криптография эллиптических кривых</h3><span>1985</span></div>
+                            <div class="conv-node l-c" data-marks="mt hs91 bhs93" style="left:0px;top:304px"><h3>Хеш-функции</h3><span>1979–1993</span></div>
+                            <div class="conv-node l-m" data-marks="bs dc95 bit98 bm98" style="left:0px;top:456px"><h3>Электронные денежные схемы</h3><span>1982–1998</span></div>
+                            <div class="conv-node l-t" data-marks="hs91 bhs93 ts99" style="left:1200px;top:0px"><h3>Доверенная временная метка</h3><span>1991–1999</span></div>
+                            <div class="conv-node l-t" data-marks="dn92 hc02" style="left:1200px;top:152px"><h3>Hashcash</h3><span>1992–2002</span></div>
+                            <div class="conv-node l-t" data-marks="rpow04" style="left:1200px;top:304px"><h3>Повторно используемое доказательство работы</h3><span>2004</span></div>
+                            <div class="conv-node l-n" data-marks="tcp nap99 gnu00 bt01" style="left:1200px;top:456px"><h3>Одноранговая сеть</h3><span>1980-е–2001</span></div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Разработчики объединили концепции из схем e-cash и распределённых систем — так появились биткойн и то, что сейчас называют блокчейном.</p>
+                    <p><em>Что говорить</em> Это рисунок 1.3 из книги, восемь идей: шифрование с открытым ключом, электронные денежные схемы, хеш-функции, одноранговая сеть, криптография эллиптических кривых, доверенная временная метка, повторно используемое доказательство работы и Hashcash. Наводите на каждую — внизу загораются её точки на шкале. Автор оговаривается: влияние некоторых технологий не было непосредственным, но все они относятся к задаче, которую решил биткойн.</p>
+                    <p><em>Оговорка</em> На рисунке нет консенсуса — византийских генералов, Сивиллы, репликации автоматов. Но в тексте главы они есть, к репликации вернёмся через слайд.</p>
+                    <p><em>Переход</em> Проверим по первоисточнику: на кого ссылается сам Сатоши.</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: список литературы Сатоши -->
+            <section class="slide" id="slide-refs" data-era="e8" data-rail-mark="bm98 ts99 hs91 bhs93 hc02 m80" data-slide="15">
+                <div class="content-slide has-rail">
+                    <h2 class="gradient-text">На кого ссылается Сатоши</h2>
+                    <p class="slide-lead">В статье о биткойне всего восемь ссылок. Шесть из них — точки нашего таймлайна, они подсвечены на шкале внизу.</p>
+
+                    <div class="body">
+                        <div class="tbl is-plain refs" style="--cols: 70px 1fr 120px">
+                            <div class="tbl-r tbl-h"><div class="tbl-c">№</div><div class="tbl-c">Работа</div><div class="tbl-c">Год</div></div>
+                            <div class="tbl-r"><div class="tbl-c d">[1]</div><div class="tbl-c">Вей Дай — <b>b-money</b></div><div class="tbl-c d">1998</div></div>
+                            <div class="tbl-r"><div class="tbl-c d">[2]</div><div class="tbl-c">Массиас, Серрет Авила, Кискатер — <b>служба меток времени</b> (TIMESEC)</div><div class="tbl-c d">1999</div></div>
+                            <div class="tbl-r"><div class="tbl-c d">[3]</div><div class="tbl-c">Хабер, Сторнетта — <b>как поставить метку времени</b> на документ</div><div class="tbl-c d">1991</div></div>
+                            <div class="tbl-r"><div class="tbl-c d">[4]</div><div class="tbl-c">Байер, Хабер, Сторнетта — <b>метки времени</b> эффективнее и надёжнее</div><div class="tbl-c d">1993</div></div>
+                            <div class="tbl-r"><div class="tbl-c d">[5]</div><div class="tbl-c">Хабер, Сторнетта — <b>защищённые имена</b> для битовых строк</div><div class="tbl-c d">1997</div></div>
+                            <div class="tbl-r"><div class="tbl-c d">[6]</div><div class="tbl-c">Адам Бэк — <b>Hashcash</b></div><div class="tbl-c d">2002</div></div>
+                            <div class="tbl-r"><div class="tbl-c d">[7]</div><div class="tbl-c">Ральф Меркл — <b>протоколы</b> для систем с открытым ключом</div><div class="tbl-c d">1980</div></div>
+                            <div class="tbl-r"><div class="tbl-c d">[8]</div><div class="tbl-c">Вильям Феллер — теория вероятностей (для расчёта атаки)</div><div class="tbl-c d">1957</div></div>
+                        </div>
+
+                        <div class="wide-accent is-now is-compact">
+                            <b>Половина ссылок — про метки времени.</b> Сатоши сам описывает биткойн как одноранговый распределённый
+                            сервер меток времени: он отвечает на вопрос, какая трата была первой.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">Nakamoto, 2008</a><span class="sep">·</span><a href="http://www.weidai.com/bmoney.txt" target="_blank" rel="noopener">Wei Dai, b-money, 1998</a><span class="sep">·</span><a href="https://www.semanticscholar.org/search?q=Design%20of%20a%20secure%20timestamping%20service%20with%20minimal%20trust%20requirements" target="_blank" rel="noopener">Massias et al., 1999</a><span class="sep">·</span><a href="https://link.springer.com/article/10.1007/BF00196791" target="_blank" rel="noopener">Haber &amp; Stornetta, 1991</a><span class="sep">·</span><a href="https://link.springer.com/chapter/10.1007/978-1-4613-9323-8_24" target="_blank" rel="noopener">Bayer, Haber, Stornetta, 1993</a><span class="sep">·</span><a href="http://www.hashcash.org/papers/hashcash.pdf" target="_blank" rel="noopener">Back, Hashcash, 2002</a><span class="sep">·</span><span>и ещё 1 — в заметках (N)</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Список литературы биткойна — почти тот же таймлайн, что в книге. Его основу составляют работы о метках времени.</p>
+                    <p><em>Что говорить</em> Восемь ссылок. Из людей, придумавших цифровые деньги, — только Вей Дай. Из PoW — только Hashcash. Четыре ссылки из восьми — метки времени: три работы Хабера и Сторнетты и TIMESEC. В статье Сатоши предлагает решить двойную трату с помощью одноранговой распределённой службы меток времени. Метка времени здесь значит не «который час», а «в каком порядке». Феллер нужен для расчёта вероятности успешной атаки в разделе 11.</p>
+                    <p><em>Шкала</em> На шкале внизу подсвечены шесть работ из списка, которые есть на нашем таймлайне. Работы 1997 и 1957 годов в книжном таймлайне не упомянуты.</p>
+                    <p><em>Запомнить</em> Биткойн — это в первую очередь способ договориться о порядке событий.</p>
+                    <p><em>Переход</em> А договориться о порядке — значит решить ещё одну старую задачу: репликацию конечных автоматов.</p>
+                    <p><em>Источники</em> <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">S. Nakamoto — Bitcoin: A Peer-to-Peer Electronic Cash System (31 октября 2008); список литературы — 8 работ</a>; <a href="http://www.weidai.com/bmoney.txt" target="_blank" rel="noopener">Wei Dai — b-money (рассылка cypherpunks, ноябрь 1998)</a>; <a href="https://www.semanticscholar.org/search?q=Design%20of%20a%20secure%20timestamping%20service%20with%20minimal%20trust%20requirements" target="_blank" rel="noopener">H. Massias, X. Serret Avila, J.-J. Quisquater — Design of a Secure Timestamping Service with Minimal Trust Requirements (1999), проект TIMESEC</a>; <a href="https://link.springer.com/article/10.1007/BF00196791" target="_blank" rel="noopener">S. Haber, W. S. Stornetta — How to Time-Stamp a Digital Document (Journal of Cryptology, 1991)</a>; <a href="https://link.springer.com/chapter/10.1007/978-1-4613-9323-8_24" target="_blank" rel="noopener">D. Bayer, S. Haber, W. S. Stornetta — Improving the Efficiency and Reliability of Digital Time-Stamping (1993)</a>; <a href="http://www.hashcash.org/papers/hashcash.pdf" target="_blank" rel="noopener">A. Back — Hashcash: A Denial of Service Counter-Measure (2002; предложение в рассылке — 1997)</a>; <a href="https://www.ralphmerkle.com/papers/Protocols.pdf" target="_blank" rel="noopener">R. Merkle — Protocols for Public Key Cryptosystems (IEEE S&amp;P, 1980)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: SMR -->
+            <section class="slide" id="slide-smr" data-era="e8" data-rail-mark="smr bg" data-slide="16">
+                <div class="content-slide has-rail">
+                    <h2 class="gradient-text">Попутно: репликация конечных автоматов</h2>
+                    <p class="slide-lead">SMR ввёл Лэмпорт в 1978 году. Реплики остаются одинаковыми, если выполняют <b>одни и те же команды в одном порядке</b>. Порядок биткойну даёт цепочка блоков.</p>
+
+                    <div class="body">
+                        <div class="demo-bar">
+                            <div class="seg" data-target="smrDemo">
+                                <button type="button" data-value="chaos" class="is-bad is-active">Каждый в своём порядке</button>
+                                <button type="button" data-value="chain" class="is-good">Порядок из цепочки</button>
+                            </div>
+                            <span class="hint">старт: 0 · команды +10, ×2, −5</span>
+                        </div>
+                        <div class="smr" id="smrDemo" data-state="chaos">
+                            <div class="smr-r"><span class="smr-n">Реплика A</span><span class="smr-ops"><i>+10</i><i>×2</i><i>−5</i></span><span class="smr-v">15</span></div>
+                            <div class="smr-r is-diff"><span class="smr-n">Реплика B</span><span class="smr-ops"><span class="v-bad"><i>×2</i><i>+10</i><i>−5</i></span><span class="v-ok"><i>+10</i><i>×2</i><i>−5</i></span></span><span class="smr-v"><span class="v-bad">5</span><span class="v-ok">15</span></span></div>
+                            <div class="smr-r is-diff"><span class="smr-n">Реплика C</span><span class="smr-ops"><span class="v-bad"><i>−5</i><i>+10</i><i>×2</i></span><span class="v-ok"><i>+10</i><i>×2</i><i>−5</i></span></span><span class="smr-v"><span class="v-bad">10</span><span class="v-ok">15</span></span></div>
+                            <div class="smr-chain"><span class="smr-k">цепочка</span><i>блок 1: +10</i><i>блок 2: ×2</i><i>блок 3: −5</i></div>
+                        </div>
+                        <div class="caps" data-caps="smrDemo">
+                            <div class="cap" data-for="chaos"><p><b>Команды те же, порядок разный — состояния разошлись:</b> 15, 5 и 10. Чья версия правильная?</p></div>
+                            <div class="cap" data-for="chain"><p><b>Порядок задают блоки, PoW делает его общим.</b> Все исправные реплики применяют одно и то же и приходят к 15.</p></div>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span><span class="sep">·</span><a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf" target="_blank" rel="noopener">Lamport, 1978</a><span class="sep">·</span><a href="https://dl.acm.org/doi/10.1145/98163.98167" target="_blank" rel="noopener">Schneider, 1990</a></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Биткойн заодно решил задачу репликации конечных автоматов (SMR) в открытой сети: блоки реплицируются во все исправные узлы, а согласованность обеспечивает PoW.</p>
+                    <p><em>Что говорить</em> SMR — способ сделать сервис устойчивым к сбоям: копии состояния держат на нескольких узлах. Детерминированный автомат при одинаковом начальном состоянии и одинаковой последовательности команд придёт в одинаковое состояние. Вся сложность — договориться о порядке. В биткойне узлы раз за разом достигают соглашения о добавлении нового блока, и порядок блоков — это порядок команд.</p>
+                    <p><em>Демонстрация</em> Три реплики, три команды. В разном порядке получаем 15, 5 и 10. С порядком из цепочки — у всех 15.</p>
+                    <p><em>Оговорка о датах</em> В книге: SMR ввёл Лэмпорт в 1978 году, формализовал Фред Шнайдер в 1980-м. Статья Лэмпорта 1978 года — «Time, Clocks, and the Ordering of Events». Известный обзор Шнайдера о подходе через конечные автоматы вышел в 1990 году; дата 1980 в книге, вероятно, опечатка.</p>
+                    <p><em>Переход</em> Что из всей этой истории работает сегодня, в 2026 году?</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>; <a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf" target="_blank" rel="noopener">L. Lamport — Time, Clocks, and the Ordering of Events in a Distributed System (CACM, 1978)</a>; <a href="https://dl.acm.org/doi/10.1145/98163.98167" target="_blank" rel="noopener">F. Schneider — Implementing Fault-Tolerant Services Using the State Machine Approach: A Tutorial (ACM Computing Surveys, 1990)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: наследие в 2026 -->
+            <section class="slide" id="slide-legacy" data-era="e8" data-slide="17">
+                <div class="content-slide has-rail">
+                    <h2 class="gradient-text">Что из этой истории работает в 2026</h2>
+                    <p class="slide-lead">Почти ничего из таймлайна не устарело. Одна идея под угрозой: <b>эллиптические кривые</b> против будущих квантовых компьютеров.</p>
+
+                    <div class="body">
+                        <div class="cols3 legacy">
+                            <div class="card is-tight c-done" data-marks="mt bhs93"><span class="card-k">1979 · дерево Меркла</span><p>В каждом блоке Bitcoin. Та же идея — в git и в BitTorrent v2.</p></div>
+                            <div class="card is-tight c-done" data-marks="bs dc95"><span class="card-k">1982 · слепая подпись</span><p>Чаумовская наличность вернулась: Cashu и Fedimint выпускают ecash поверх биткойна.</p></div>
+                            <div class="card is-tight c-done" data-marks="ecc"><span class="card-k">1985 · эллиптические кривые</span><p>secp256k1 в Bitcoin и Ethereum. С Taproot (2021) — подписи Шнорра на той же кривой.</p></div>
+                            <div class="card is-tight c-done" data-marks="hs91 ts99"><span class="card-k">1991 · метки времени</span><p>OpenTimestamps (с 2016) закрепляет хеши в биткойне. Surety всё ещё печатает хеш в газете.</p></div>
+                            <div class="card is-tight c-done" data-marks="dn92 hc02"><span class="card-k">1992–2002 · PoW</span><p>Защищает Bitcoin. Ethereum ушёл с PoW на PoS в сентябре 2022.</p></div>
+                            <div class="card is-tight c-done" data-marks="bt01"><span class="card-k">2001 · DHT</span><p>Поиск узлов в Ethereum (discv5) устроен по образцу Kademlia.</p></div>
+                        </div>
+
+                        <div class="card c-now pq" data-marks="ecc pk">
+                            <span class="card-k"><span class="st st-now">происходит сейчас</span>&nbsp; квантовая угроза ЭКК</span>
+                            <p>NIST утвердил постквантовые стандарты в августе 2024. Для Bitcoin есть черновики <b>BIP 360</b> (P2MR — выход без открытого ключа на виду) и <b>BIP 361</b> (2026, план ухода от старых подписей). В сети ничего не активировано, сроков нет.</p>
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki" target="_blank" rel="noopener">BIP 341: Taproot</a><span class="sep">·</span><a href="https://opentimestamps.org/" target="_blank" rel="noopener">OpenTimestamps</a><span class="sep">·</span><a href="https://www.vice.com/en/article/what-was-the-first-blockchain/" target="_blank" rel="noopener">Vice: первый блокчейн</a><span class="sep">·</span><a href="https://cashu.space/" target="_blank" rel="noopener">Cashu</a><span class="sep">·</span><a href="https://fedimint.org/" target="_blank" rel="noopener">Fedimint</a><span class="sep">·</span><a href="https://github.com/ethereum/devp2p/blob/master/discv5/discv5.md" target="_blank" rel="noopener">Ethereum discv5</a><span class="sep">·</span><span>и ещё 4 — в заметках (N)</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Идеи 1976–2005 годов — не музей: почти всё работает в 2026 году. Под вопросом одна опора — криптография на эллиптических кривых.</p>
+                    <p><em>Что говорить</em> Деревья Меркла — в каждом блоке. Кривая secp256k1 — в Bitcoin и Ethereum, с Taproot (ноябрь 2021) к ECDSA добавились подписи Шнорра на той же кривой. Метки времени: OpenTimestamps бесплатно закрепляет хеши документов в блокчейне биткойна, а Surety продолжает печатать хеш в New York Times. Слепые подписи Чаума — основа Cashu и Fedimint: это ecash, обеспеченный биткойном. Kademlia — в протоколе поиска узлов Ethereum. PoW по-прежнему охраняет Bitcoin, Ethereum в сентябре 2022 перешёл на доказательство доли.</p>
+                    <p><em>Происходит сейчас</em> Квантовый компьютер с алгоритмом Шора мог бы восстановить закрытый ключ по открытому. В августе 2024 года NIST выпустил первые постквантовые стандарты (FIPS 203–205). Для Bitcoin: BIP 360 (Pay-to-Merkle-Root, P2MR) — новый тип выхода без открытого ключа на виду, номер присвоен в декабре 2024. BIP 361 (номер присвоен в феврале 2026) — план постепенного отказа от старых подписей. На октябрь 2026 оба в статусе Draft, активации в основной сети нет. Сроков, когда квантовый компьютер станет опасен, никто не знает.</p>
+                    <p><em>Запомнить</em> Детали биткойна живут отдельно и сегодня. И единственная, которую, возможно, придётся заменить, — эллиптические кривые.</p>
+                    <p><em>Переход</em> Подведём итог.</p>
+                    <p><em>Источники</em> <a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki" target="_blank" rel="noopener">BIP 340/341 — подписи Шнорра и Taproot (активированы в ноябре 2021)</a>; <a href="https://opentimestamps.org/" target="_blank" rel="noopener">OpenTimestamps — метки времени, закреплённые в блокчейне Bitcoin (с 2016)</a>; <a href="https://www.vice.com/en/article/what-was-the-first-blockchain/" target="_blank" rel="noopener">Vice — «What Was the First Blockchain?»: Surety публикует хеш в New York Times с 1995</a>; <a href="https://cashu.space/" target="_blank" rel="noopener">Cashu — протокол чаумовской электронной наличности поверх Bitcoin / Lightning</a>; <a href="https://fedimint.org/" target="_blank" rel="noopener">Fedimint — федеративные «монетные дворы» с чаумовской наличностью</a>; <a href="https://github.com/ethereum/devp2p/blob/master/discv5/discv5.md" target="_blank" rel="noopener">Ethereum — Node Discovery Protocol v5 (таблица узлов по образцу Kademlia)</a>; <a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards" target="_blank" rel="noopener">NIST — первые постквантовые стандарты FIPS 203, 204, 205 (август 2024)</a>; <a href="https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki" target="_blank" rel="noopener">BIP 360 — Pay-to-Merkle-Root (P2MR), статус Draft</a>; <a href="https://github.com/bitcoin/bips/blob/master/bip-0361.mediawiki" target="_blank" rel="noopener">BIP 361 — Post Quantum Migration and Legacy Signature Sunset (номер присвоен 11.02.2026), статус Draft</a>; <a href="https://cointelegraph.com/features/bitcoin-s-quantum-upgrade-path-what-bip-360-changes-and-what-it-does-not" target="_blank" rel="noopener">Cointelegraph — Bitcoin’s Quantum Defense Plan: What BIP-360 Actually Changes (2026)</a>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: итог -->
+            <section class="slide" id="slide-sum" data-era="e8" data-slide="18">
+                <div class="content-slide has-rail">
+                    <h2 class="gradient-text">Итог: тридцать лет — одна сборка</h2>
+                    <p class="slide-lead">Каждый кусок таймлайна дал биткойну одну деталь. Блокчейн — это то, что получилось, когда их соединили.</p>
+
+                    <div class="body">
+                        <div class="chain is-big">
+                            <div class="cn is-done">Ключи<small>1976–78</small></div>
+                            <div class="cn is-done">Хеш-деревья<small>1979</small></div>
+                            <div class="cn is-done">Слепая подпись<small>1982</small></div>
+                            <div class="cn is-done">Хеш-цепочка<small>1991</small></div>
+                            <div class="cn is-done">PoW<small>1992–2002</small></div>
+                            <div class="cn is-done">P2P<small>1999–2001</small></div>
+                            <div class="cn is-next">Биткойн<small>2009</small></div>
+                        </div>
+
+                        <div class="wide-accent is-strong">
+                            Новое в биткойне — не детали, а то, что он <b>решил двойную трату без доверенного центра</b>:
+                            порядок транзакций задаёт цепочка блоков, а PoW делает этот порядок общим.
+                        </div>
+
+                        <div class="wide-accent is-sol is-compact">
+                            Следующий доклад вечера — <b>«Введение в блокчейн»</b>: теперь, когда понятно, из чего он вырос, — что такое сам блокчейн.
+                        </div>
+                    </div>
+                    <div class="src"><span class="src-k">Источники</span><span>Mastering Blockchain, гл. 1</span></div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Биткойн собран из давно известных идей. Его вклад — решение двойной траты в сети без доверия и без разрешений.</p>
+                    <p><em>Что говорить</em> Пробегаем цепочку слева направо — это и есть весь доклад. После изучения e-cash и идей, которые привели к биткойну, можно переходить к самому блокчейну — так заканчивает раздел и автор.</p>
+                    <p><em>Запомнить</em> Блокчейн = ключи + хеши + метки времени + PoW + P2P, собранные так, что двойная трата решается без центра.</p>
+                    <p><em>Переход</em> Следующий доклад — «Введение в блокчейн».</p>
+                    <p><em>Источники</em> <span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span>.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: источники -->
+            <section class="slide" id="slide-sources" data-slide="19">
+                <div class="content-slide">
+                    <h2 class="gradient-text sources-h">Источники</h2>
+                    <p class="slide-lead sources-lead">Даты событий сверены с первоисточниками. Где книга расходится с ними, это сказано в заметках к слайду (клавиша N).</p>
+                    <div class="body">
+                        <div class="srcs"><div><h3>Книга</h3><ol><li><span>И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «История блокчейна»</span></li></ol></div>
+<div><h3>Первоисточники: статьи и рассылки</h3><ol><li><a href="https://ee.stanford.edu/~hellman/publications/24.pdf" target="_blank" rel="noopener">W. Diffie, M. Hellman — New Directions in Cryptography (IEEE Trans. on Information Theory, 1976)</a></li><li><a href="https://dl.acm.org/doi/10.1145/359340.359342" target="_blank" rel="noopener">R. Rivest, A. Shamir, L. Adleman — A Method for Obtaining Digital Signatures and Public-Key Cryptosystems (CACM, 1978)</a></li><li><a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf" target="_blank" rel="noopener">L. Lamport — Time, Clocks, and the Ordering of Events in a Distributed System (CACM, 1978)</a></li><li><a href="https://patents.google.com/patent/US4309569A/en" target="_blank" rel="noopener">R. Merkle — Method of providing digital signatures, патент US 4 309 569 (заявка 1979): дерево хешей</a></li><li><a href="https://www.ralphmerkle.com/papers/Protocols.pdf" target="_blank" rel="noopener">R. Merkle — Protocols for Public Key Cryptosystems (IEEE S&amp;P, 1980)</a></li><li><a href="https://chaum.com/wp-content/uploads/2022/01/Chaum-blind-signatures.pdf" target="_blank" rel="noopener">D. Chaum — Blind Signatures for Untraceable Payments (CRYPTO ’82)</a></li><li><a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">L. Lamport, R. Shostak, M. Pease — The Byzantine Generals Problem (ACM TOPLAS, 1982)</a></li><li><a href="https://link.springer.com/chapter/10.1007/3-540-39799-X_31" target="_blank" rel="noopener">V. Miller — Use of Elliptic Curves in Cryptography (CRYPTO ’85)</a></li><li><a href="https://www.ams.org/journals/mcom/1987-48-177/S0025-5718-1987-0866109-5/" target="_blank" rel="noopener">N. Koblitz — Elliptic Curve Cryptosystems (Mathematics of Computation, 1987)</a></li><li><a href="https://link.springer.com/article/10.1007/BF00196791" target="_blank" rel="noopener">S. Haber, W. S. Stornetta — How to Time-Stamp a Digital Document (Journal of Cryptology, 1991)</a></li><li><a href="https://link.springer.com/chapter/10.1007/3-540-48071-4_10" target="_blank" rel="noopener">C. Dwork, M. Naor — Pricing via Processing or Combatting Junk Mail (CRYPTO ’92)</a></li><li><a href="https://link.springer.com/chapter/10.1007/978-1-4613-9323-8_24" target="_blank" rel="noopener">D. Bayer, S. Haber, W. S. Stornetta — Improving the Efficiency and Reliability of Digital Time-Stamping (1993)</a></li><li><a href="https://unenumerated.blogspot.com/2005/12/bit-gold.html" target="_blank" rel="noopener">N. Szabo — Bit Gold (замысел 1998, публикация в блоге 2005)</a></li><li><a href="http://www.weidai.com/bmoney.txt" target="_blank" rel="noopener">Wei Dai — b-money (рассылка cypherpunks, ноябрь 1998)</a></li><li><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">S. Nakamoto — Bitcoin: A Peer-to-Peer Electronic Cash System (31 октября 2008); список литературы — 8 работ</a></li><li><a href="https://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf" target="_blank" rel="noopener">P. Maymounkov, D. Mazières — Kademlia: A Peer-to-Peer Information System Based on the XOR Metric (IPTPS 2002)</a></li><li><a href="https://www.semanticscholar.org/search?q=Design%20of%20a%20secure%20timestamping%20service%20with%20minimal%20trust%20requirements" target="_blank" rel="noopener">H. Massias, X. Serret Avila, J.-J. Quisquater — Design of a Secure Timestamping Service with Minimal Trust Requirements (1999), проект TIMESEC</a></li><li><a href="http://www.hashcash.org/papers/hashcash.pdf" target="_blank" rel="noopener">A. Back — Hashcash: A Denial of Service Counter-Measure (2002; предложение в рассылке — 1997)</a></li><li><a href="https://nakamotoinstitute.org/finney/rpow/" target="_blank" rel="noopener">H. Finney — Reusable Proofs of Work (2004)</a></li><li><a href="https://www.cs.yale.edu/homes/aspnes/papers/tr1332.pdf" target="_blank" rel="noopener">J. Aspnes, C. Jackson, A. Krishnamurthy — Exposing Computationally-Challenged Byzantine Impostors (Yale, 2005)</a></li><li><a href="https://dl.acm.org/doi/10.1145/98163.98167" target="_blank" rel="noopener">F. Schneider — Implementing Fault-Tolerant Services Using the State Machine Approach: A Tutorial (ACM Computing Surveys, 1990)</a></li></ol></div>
+<div><h3>Стандарты и протоколы</h3><ol><li><a href="https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final" target="_blank" rel="noopener">NIST SP 800-57 Part 1 Rev. 5 — сравнимая стойкость ключей RSA и ЭКК (2020)</a></li><li><a href="https://www.secg.org/sec2-v2.pdf" target="_blank" rel="noopener">Certicom — SEC 2: Recommended Elliptic Curve Domain Parameters (кривая secp256k1)</a></li><li><a href="https://github.com/ethereum/devp2p/blob/master/discv5/discv5.md" target="_blank" rel="noopener">Ethereum — Node Discovery Protocol v5 (таблица узлов по образцу Kademlia)</a></li><li><a href="https://mempool.space/block/000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f" target="_blank" rel="noopener">Блок 0 сети Bitcoin (3 января 2009) — обозреватель mempool.space</a></li><li><a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki" target="_blank" rel="noopener">BIP 340/341 — подписи Шнорра и Taproot (активированы в ноябре 2021)</a></li><li><a href="https://opentimestamps.org/" target="_blank" rel="noopener">OpenTimestamps — метки времени, закреплённые в блокчейне Bitcoin (с 2016)</a></li><li><a href="https://cashu.space/" target="_blank" rel="noopener">Cashu — протокол чаумовской электронной наличности поверх Bitcoin / Lightning</a></li><li><a href="https://fedimint.org/" target="_blank" rel="noopener">Fedimint — федеративные «монетные дворы» с чаумовской наличностью</a></li><li><a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards" target="_blank" rel="noopener">NIST — первые постквантовые стандарты FIPS 203, 204, 205 (август 2024)</a></li><li><a href="https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki" target="_blank" rel="noopener">BIP 360 — Pay-to-Merkle-Root (P2MR), статус Draft</a></li><li><a href="https://github.com/bitcoin/bips/blob/master/bip-0361.mediawiki" target="_blank" rel="noopener">BIP 361 — Post Quantum Migration and Legacy Signature Sunset (номер присвоен 11.02.2026), статус Draft</a></li></ol></div>
+<div><h3>История и СМИ</h3><ol><li><a href="https://www.internetsociety.org/internet/history-internet/brief-history-internet/" target="_blank" rel="noopener">Internet Society — 1 января 1983 ARPANET перешла на TCP/IP</a></li><li><a href="https://www.vice.com/en/article/what-was-the-first-blockchain/" target="_blank" rel="noopener">Vice — «What Was the First Blockchain?»: Surety публикует хеш в New York Times с 1995</a></li><li><a href="https://en.wikipedia.org/wiki/DigiCash" target="_blank" rel="noopener">Mark Twain Bank (США) — первый банк, выпустивший eCash DigiCash (1995); история DigiCash</a></li><li><a href="https://en.wikipedia.org/wiki/Napster" target="_blank" rel="noopener">История Napster: запуск в 1999, закрытие сети по решению суда в 2001</a></li><li><a href="https://mempool.space/block/00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee" target="_blank" rel="noopener">Блок 170: первая транзакция Bitcoin — Сатоши Накамото → Хэл Финни (12 января 2009)</a></li><li><a href="https://cointelegraph.com/features/bitcoin-s-quantum-upgrade-path-what-bip-360-changes-and-what-it-does-not" target="_blank" rel="noopener">Cointelegraph — Bitcoin’s Quantum Defense Plan: What BIP-360 Actually Changes (2026)</a></li></ol></div></div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Расхождения с книгой</em> b-money — ноябрь 1998, а не 2004. Hashcash предложен в 1997, статья — 2002. Обзор Шнайдера о SMR — 1990, а не 1980. TCP/IP — книга пишет «1980-е», ARPANET перешла 1 января 1983. Bit Gold придуман в 1998 году, опубликован в блоге в 2005-м.</p>
+                </aside>
+            </section>
+
+            <section class="slide" data-slide="20" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
@@ -209,6 +1070,8 @@
 
     <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
     <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов: появление блоков, шкала времени, демонстрации, заметки (N) -->
+    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

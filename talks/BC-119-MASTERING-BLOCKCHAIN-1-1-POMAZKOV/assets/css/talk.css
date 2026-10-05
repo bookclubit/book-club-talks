@@ -7,6 +7,7 @@
  *
  * Доклад держится на трёх видах слайдов:
  *   • таймлайн (.tl)   — год = точка, рядом подпись, при наведении подсказка;
+ *                        годы после выхода книги (.is-ours) — другого цвета;
  *   • этап (.stage)    — во что упёрлись → чем ответили → какие технологии;
  *   • технология (.tech) — логотип, сайт, кто создал, что это, было → стало.
  * Вверху слайдов этапа и технологии — «рельса» (.rail): тот же таймлайн
@@ -472,6 +473,10 @@
     pointer-events: none;
 }
 .tl-pt:hover, .tl-pt:focus-visible { z-index: 5; }
+/* Годы после выхода книги (2024–2026) добавлены нами — у них свой цвет.
+   Слайдов у них нет, поэтому и курсор обычный: это подсказка, а не переход. */
+.tl-pt { --pt: var(--hl); --pt-rgb: var(--hl-rgb); --ring-rgb: var(--pt-rgb); }
+.tl-pt.is-ours { --pt: var(--ok); --pt-rgb: var(--ok-rgb); cursor: default; }
 .tl-dot {
     position: absolute;
     left: 50%;
@@ -480,9 +485,9 @@
     height: 30px;
     margin: -15px 0 0 -15px;
     border-radius: 50%;
-    background: var(--hl);
+    background: var(--pt);
     border: 6px solid var(--bg);
-    outline: 2px solid var(--hl);
+    outline: 2px solid var(--pt);
     pointer-events: auto;
     transition: transform 0.25s var(--ease);
 }
@@ -531,7 +536,7 @@
     font-size: 34px;
     font-weight: 700;
     line-height: 1.2;
-    color: var(--hl);
+    color: var(--pt);
     white-space: nowrap;
 }
 .tl-c { font-size: 27px; font-weight: 600; line-height: 1.25; color: var(--text-main); }
@@ -546,7 +551,7 @@
     padding: 22px 26px;
     border-radius: 20px;
     background: var(--bg-card);
-    border: 1px solid rgba(var(--hl-rgb), 0.55);
+    border: 1px solid rgba(var(--pt-rgb), 0.55);
     box-shadow: 0 26px 70px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
     text-align: left;
     opacity: 0;
@@ -570,7 +575,7 @@
     height: 14px;
     margin-left: -7px;
     background: var(--bg-card);
-    border: 1px solid rgba(var(--hl-rgb), 0.55);
+    border: 1px solid rgba(var(--pt-rgb), 0.55);
     border-top: 0;
     border-left: 0;
 }
@@ -585,10 +590,30 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--hl);
+    color: var(--pt);
 }
 .tl-tip-t { display: block; margin-top: 10px; font-size: 24px; font-weight: 400; line-height: 1.4; color: var(--text-main); }
 .tl-tip-n { display: block; margin-top: 10px; font-size: 20px; font-weight: 400; line-height: 1.35; color: var(--text-muted); }
+
+/* Двенадцать точек: подписи через одну стоят по одну сторону оси, поэтому
+   им нужно умещаться в два шага сетки. */
+.tl.is-dense { margin: 0 24px; }
+.tl.is-dense .tl-axis { left: -24px; right: -24px; }
+.tl.is-dense .tl-label { width: 262px; margin-left: -131px; }
+.tl.is-dense .tl-y { font-size: 30px; }
+.tl.is-dense .tl-c { font-size: 24px; }
+.tl.is-dense .tl-tip { padding: 20px 24px; }
+.tl.is-dense .tl-tip-t { font-size: 22px; }
+.tl.is-dense .tl-tip-n { font-size: 19px; }
+.tl.is-dense .tl-pt.tip-start .tl-tip { left: 0; }
+.tl.is-dense .tl-pt.tip-end .tl-tip { right: 0; }
+.tl.is-dense .tl-pt.tip-start .tl-tip::after { left: 131px; }
+.tl.is-dense .tl-pt.tip-end .tl-tip::after { right: 131px; }
+.tl-legend { display: flex; gap: 36px; margin-top: 18px; flex-shrink: 0; }
+.tl-lg { display: inline-flex; align-items: center; gap: 12px; font-size: 22px; color: var(--text-muted); }
+.tl-lg i { width: 16px; height: 16px; border-radius: 50%; background: var(--hl); }
+.tl-lg.is-ours i { background: var(--ok); }
+.slide.active .tl-legend { animation: rvFade 0.7s ease 0.3s backwards; }
 
 /* ===== Главная мысль ===== */
 .big {
@@ -600,23 +625,60 @@
     max-width: 1560px;
 }
 .big em { font-style: normal; color: var(--hl); }
-.take3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.take {
+/* Плитки — всё, о чём пойдёт речь: иконка, название, куда ведёт клик.
+   Подсказка открывается под плиткой: над ней — главная мысль слайда. */
+.tks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.tk {
     position: relative;
-    padding: 30px 32px 34px;
-    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 16px 18px;
+    border-radius: 20px;
     border: 1px solid var(--border);
     background: var(--bg-card);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.25s var(--ease), background 0.2s;
 }
-.take-n {
-    font-family: var(--font-mono);
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: var(--hl);
+.tk:hover, .tk:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.8);
+    background: var(--bg-hover);
+    transform: translateY(-4px);
+    z-index: 5;
 }
-.take h3 { margin-top: 14px; font-size: 34px; font-weight: 600; line-height: 1.15; }
-.take p { margin-top: 12px !important; font-size: 26px; line-height: 1.42; color: var(--text-muted); }
+.tk .logo { width: 60px; height: 60px; border-radius: 17px; }
+.tk .logo-mono { font-size: 32px; }
+.tk .logo-corda { font-size: 17px; }
+.tk-t { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.tk-t b { font-size: 22px; line-height: 1.15; white-space: nowrap; }
+.tk-u { font-family: var(--font-mono); font-size: 15px; color: var(--text-dim); white-space: nowrap; transition: color 0.2s; }
+.tk:hover .tk-u, .tk:focus-visible .tk-u { color: var(--hl); }
+.tk-tip, .ed-tip {
+    position: absolute;
+    padding: 18px 22px;
+    border-radius: 18px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--hl-rgb), 0.55);
+    box-shadow: 0 26px 70px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.25s var(--ease), visibility 0.2s;
+    z-index: 10;
+}
+.tk-tip {
+    left: 0;
+    top: calc(100% + 12px);
+    width: 400px;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--text-main);
+    transform: translateY(-8px);
+}
+.tk:nth-child(5n) .tk-tip { left: auto; right: 0; }
+.tk:hover .tk-tip, .tk:focus-visible .tk-tip,
+.ed:hover .ed-tip, .ed:focus-visible .ed-tip { opacity: 1; visibility: visible; transform: none; }
 
 /* ===== Блокчейн и биткойн ===== */
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
@@ -693,6 +755,17 @@
 .step-y { font-family: var(--font-mono); font-size: 30px; font-weight: 700; color: var(--hl); }
 .step h3 { margin-top: 10px; font-size: 38px; font-weight: 600; }
 .step p { margin-top: 12px !important; font-size: 26px; line-height: 1.42; color: var(--text-muted); }
+/* Примеры под карточкой: название — ссылка на проект или первоисточник. */
+.ex { list-style: none; margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--border-soft); display: flex; flex-direction: column; gap: 10px; }
+.ex li { font-size: 21px; line-height: 1.4; color: var(--text-muted); }
+.ex a, .lnk {
+    color: var(--text-main);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(var(--hl-rgb), 0.55);
+    transition: color 0.2s, border-color 0.2s;
+}
+.ex a:hover, .ex a:focus-visible, .lnk:hover, .lnk:focus-visible { color: var(--hl); border-color: var(--hl); }
 .verdict {
     padding: 26px 34px;
     border-radius: 24px;
@@ -721,6 +794,12 @@
 .who-en { margin-top: 8px; font-family: var(--font-mono); font-size: 20px; color: var(--text-dim); }
 .who-role { margin-top: 14px; font-size: 26px; line-height: 1.35; color: var(--text-muted); }
 .who .site { margin-top: 26px; font-size: 18px; }
+
+/* Опыт по этапам: слева — когда, справа — где и кем. */
+.cv { display: flex; flex-direction: column; gap: 14px; }
+.cv-i { display: grid; grid-template-columns: 124px 1fr; gap: 20px; align-items: baseline; }
+.cv-y { font-family: var(--font-mono); font-size: 23px; font-weight: 700; color: var(--hl); white-space: nowrap; }
+.cv-i p { font-size: 27px; line-height: 1.4; }
 
 /* ===== Книга ===== */
 .bk { display: grid; grid-template-columns: 330px 1fr; gap: 84px; align-items: center; }
@@ -766,7 +845,16 @@
 .ed-y { font-family: var(--font-mono); font-size: 26px; font-weight: 700; color: var(--text-main); }
 .ed.is-now .ed-y { color: var(--hl); }
 .ed-t { font-size: 21px; color: var(--text-muted); }
-.bk-line { font-size: 27px; line-height: 1.45; color: var(--text-soft); max-width: 1100px; }
+/* Что появилось в издании — подсказка под ним: сверху она закрыла бы
+   название книги и цифры. */
+.ed { cursor: help; outline: none; }
+.ed:hover .ed-y, .ed:focus-visible .ed-y { color: var(--hl); }
+.ed-tip { left: 0; top: calc(100% + 14px); width: 470px; transform: translateY(-8px); }
+.ed:last-child .ed-tip { left: auto; right: 0; }
+.ed-tip-k { display: block; font-family: var(--font-mono); font-size: 14px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hl); }
+.ed-tip ul { margin: 12px 0 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.ed-tip li { font-size: 22px; line-height: 1.35; color: var(--text-main); }
+.hint { font-size: 22px; color: var(--text-dim); }
 
 /* ===== Зрелость: кто занялся блокчейном ===== */
 .orgs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -899,5 +987,5 @@
     .slide.active .content-slide *,
     .slide.active .content-slide *::before,
     .slide.active .content-slide *::after { animation: none !important; }
-    .tl-tip, .notes-panel { transition: none; }
+    .tl-tip, .tk-tip, .ed-tip, .notes-panel { transition: none; }
 }

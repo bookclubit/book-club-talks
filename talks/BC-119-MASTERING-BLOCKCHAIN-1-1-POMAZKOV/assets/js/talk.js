@@ -2,50 +2,23 @@
 // («Развитие блокчейна», глава 1).
 // Общий движок (клавиши, масштаб, прогресс) живёт в deck.js и правится только
 // в шаблоне. Здесь то, чего в нём нет: порядок появления блоков на слайде,
-// счётчики, переход на слайд по клику (карта 2008 → 2026), фильтр по статусу
-// «произошло / сейчас / план» и панель заметок докладчика.
+// переход на слайд по клику (точки таймлайна, «рельса» вверху, карточки
+// технологий), счётчики и панель заметок докладчика.
+// Подсказки таймлайна — чистый CSS (:hover / :focus-visible), скрипт им не нужен.
 
 (function () {
   const slides = [...document.querySelectorAll('.slide')];
 
   // ---------- Появление блоков ----------
   // Сама анимация — в talk.css и привязана к .slide.active, поэтому
-  // проигрывается при каждом входе на слайд. Здесь только разметка: какие
-  // блоки участвуют (data-rv = вид появления) и в каком порядке (--d).
-  // Порядок — порядок чтения в разметке; шаг сжимается, если блоков много,
-  // чтобы слайд собирался примерно за две секунды, а не за десять.
-  // Без этого скрипта слайды просто показываются сразу целиком.
-  const REVEAL = [
-    ['.vs-rev, .au2-id, .bk-cover, .q-old, .cmp-col:not(.is-eth)', 'left'],
-    ['.vs-evo, .q-new, .cmp-col.is-eth', 'right'],
-    ['.vs-mid, .q-arrow, .cmp-plus', 'pop'],
-    ['.fact, .chain > .cn, .fl, .blk, .bk-chip, .cmp-item, .en, .legend > .st, .legend > .filter', 'pop'],
-    ['.tbl-r', 'left'],
-    [
-      '.idea, .th, .sp, .card, .vs-fact, .wide-accent, .layer, .bar, .nb, .chart-box, .ev, .pb, .evo-r, ' +
-        '.codebox, .nodes, .eco-legend, .srcs > div, .bk-ed, .section-label, .arch, .isl-card, .isl-fig, ' +
-        '.rl-fig, .bc-frame, .bc-inner, .legend-t',
-      'up',
-    ],
-  ];
-  const ALL = REVEAL.map(([sel]) => sel).join(', ') + ', [data-seq]';
-
+  // проигрывается при каждом входе на слайд. Блоки помечены в разметке
+  // (data-rv = вид появления), здесь раздаются только задержки (--d) в порядке
+  // чтения. Шаг сжимается, если блоков много, чтобы слайд собирался примерно
+  // за полторы секунды. Без этого скрипта блоки появляются одновременно.
   slides.forEach((slide) => {
-    const root = slide.querySelector('.content-slide');
-    if (!root) return;
-    // Карта 2008 → 2026 и графики анимируются своими правилами.
-    const items = [...root.querySelectorAll(ALL)].filter((el) => !el.closest('.map, svg'));
-    const step = Math.max(45, Math.min(110, 1900 / Math.max(items.length, 1)));
-    items.forEach((el, i) => {
-      el.style.setProperty('--d', `${Math.round(250 + i * step)}ms`);
-      if (el.hasAttribute('data-seq') || el.hasAttribute('data-rv')) return;
-      const rule = REVEAL.find(([sel]) => el.matches(sel));
-      el.setAttribute('data-rv', rule ? rule[1] : 'up');
-    });
-    // Номер в ряду — для бегущих точек на стрелках (они идут волной).
-    root.querySelectorAll('.chain, .thread, .steps4, .flow6').forEach((row) => {
-      [...row.children].forEach((child, k) => child.style.setProperty('--k', k));
-    });
+    const items = [...slide.querySelectorAll('.content-slide [data-rv]')];
+    const step = Math.max(60, Math.min(130, 1500 / Math.max(items.length, 1)));
+    items.forEach((el, i) => el.style.setProperty('--d', `${Math.round(200 + i * step)}ms`));
   });
 
   // ---------- Счётчики ----------
@@ -54,31 +27,26 @@
   // остаётся на экране, если анимации отключены.
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const timers = new WeakMap();
-
-  function formatNumber(value, decimals) {
-    const [int, frac] = value.toFixed(decimals).split('.');
-    const grouped = int.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return frac ? `${grouped},${frac}` : grouped;
-  }
+  const finals = new WeakMap();
 
   function runCounter(el) {
     const target = parseFloat(el.dataset.count);
-    const decimals = Number(el.dataset.dec || 0);
-    const pre = el.dataset.pre || '';
-    const suf = el.dataset.suf || '';
     const holder = el.closest('[data-rv]') || el;
     const delay = parseFloat(getComputedStyle(holder).getPropertyValue('--d')) || 300;
-    const duration = 1500;
-    el.textContent = `${pre}${formatNumber(0, decimals)}${suf}`;
+    const duration = 1300;
+    el.textContent = '0';
     const startAt = performance.now() + delay;
     const tick = (now) => {
       const p = Math.min(1, Math.max(0, (now - startAt) / duration));
       const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = `${pre}${formatNumber(target * eased, decimals)}${suf}`;
+      el.textContent = String(Math.round(target * eased));
       if (p < 1) timers.set(el, requestAnimationFrame(tick));
       else el.textContent = el.dataset.final;
     };
     timers.set(el, requestAnimationFrame(tick));
+    // Кадры анимации браузер выдаёт только видимой вкладке. Если слайд открыли
+    // в фоне, число не должно застрять на нуле — ставим итог по таймеру.
+    finals.set(el, setTimeout(() => { el.textContent = el.dataset.final; }, delay + duration + 400));
   }
 
   document.querySelectorAll('[data-count]').forEach((el) => {
@@ -93,6 +61,7 @@
   function stopCounters(slide) {
     slide.querySelectorAll('[data-count]').forEach((el) => {
       cancelAnimationFrame(timers.get(el));
+      clearTimeout(finals.get(el));
       el.textContent = el.dataset.final;
     });
   }
@@ -114,35 +83,10 @@
       e.stopPropagation();
       const target = document.getElementById(`slide-${el.getAttribute('data-goto')}`);
       gotoSlide(slides.indexOf(target));
+      // Иначе фокус остался бы на кнопке, а с ним — открытая подсказка.
       el.blur();
     });
   });
-
-  // ---------- Фильтр по статусу ----------
-  // Кнопка пишет data-filter в контейнер-цель, остальное решает CSS: так
-  // слайд не копит состояние в JS, а уход со слайда сбрасывает фильтр.
-  document.querySelectorAll('.filter').forEach((box) => {
-    const target = document.getElementById(box.getAttribute('data-target'));
-    if (!target) return;
-    box.querySelectorAll('button[data-f]').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const value = btn.getAttribute('data-f');
-        const next = target.getAttribute('data-filter') === value ? 'all' : value;
-        target.setAttribute('data-filter', next);
-        box.querySelectorAll('button[data-f]').forEach((b) => {
-          b.classList.toggle('is-on', next !== 'all' && b.getAttribute('data-f') === next);
-        });
-        btn.blur();
-      });
-    });
-  });
-
-  function resetSlide(slide) {
-    slide.querySelectorAll('[data-filter]').forEach((el) => el.setAttribute('data-filter', 'all'));
-    slide.querySelectorAll('.filter button').forEach((b) => b.classList.remove('is-on'));
-    stopCounters(slide);
-  }
 
   // ---------- Заметки докладчика ----------
   // Текст лежит в самом слайде (<aside class="notes">), панель собирается тут:
@@ -184,7 +128,7 @@
   });
 
   // Слайд меняет deck.js — ловим это по классу active: на входе запускаем
-  // счётчики, на выходе возвращаем слайд в исходный вид.
+  // счётчики, на выходе возвращаем их к итоговым значениям.
   slides.forEach((slide) => {
     let wasActive = slide.classList.contains('active');
     new MutationObserver(() => {
@@ -195,7 +139,7 @@
         if (panel.classList.contains('is-open')) renderNotes();
         startCounters(slide);
       } else {
-        resetSlide(slide);
+        stopCounters(slide);
       }
     }).observe(slide, { attributes: true, attributeFilter: ['class'] });
   });

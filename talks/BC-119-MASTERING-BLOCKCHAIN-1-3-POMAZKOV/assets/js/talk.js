@@ -2,8 +2,9 @@
 // («История блокчейна», глава 1).
 // Общий движок (клавиши, масштаб, прогресс) живёт в deck.js и правится только
 // в шаблоне. Здесь то, чего в нём нет: порядок появления блоков, нижняя шкала
-// времени, общая для всех слайдов, переключатели демонстраций, живой майнер
-// Hashcash и панель заметок докладчика.
+// времени, общая для всех слайдов, переход на слайд по клику, раскрытие блока
+// «Как это работает», переключатели демонстраций, живой майнер Hashcash
+// и панель заметок докладчика.
 
 (function () {
     const slides = [...document.querySelectorAll('.slide')];
@@ -15,10 +16,10 @@
     // блоки участвуют (data-rv = вид появления) и в каком порядке (--d).
     // Без этого скрипта слайды просто показываются целиком.
     const REVEAL = [
-        ['.take, .fact, .chain > .cn, .hc-b, .conv-node', 'pop'],
+        ['.fact, .chain > .cn, .hc-b, .conv-node', 'pop'],
         ['.ev, .tbl-r, .smr-r, .kbar', 'left'],
         ['.blk-f, .blk-net', 'right'],
-        ['.card, .wide-accent, .chart-box, .section-label, .fig, .demo-bar, .ov-col, .ov-legend, .miner, .srcs > div', 'up'],
+        ['.card, .wide-accent, .chart-box, .section-label, .fig, .demo-bar, .ov-col, .ov-legend, .miner', 'up'],
     ];
     const ALL = REVEAL.map(([sel]) => sel).join(', ') + ', [data-rv]';
 
@@ -40,50 +41,54 @@
         });
     });
 
-    // ---------- Нижняя шкала времени ----------
-    // Одна на весь доклад и живёт в сцене поверх слайдов, поэтому не
-    // перерисовывается, а едет: пройденные отрезки залиты, текущий
-    // заливается на глазах, головка движется к его концу. Строится по
-    // слайду «Общий таймлайн» — данные о событиях есть только там.
-    const overview = document.querySelector('.ov');
-    let rail = null;
-    if (overview && stage) {
-        rail = document.createElement('div');
-        rail.className = 'rail';
-        rail.setAttribute('aria-hidden', 'true');
-        const segs = document.createElement('div');
-        segs.className = 'rail-segs';
-        overview.querySelectorAll('.ov-col').forEach((col) => {
-            const from = Number(col.dataset.from);
-            const to = Number(col.dataset.to);
-            const seg = document.createElement('div');
-            seg.className = 'rail-seg';
-            seg.dataset.era = col.dataset.era;
-            seg.innerHTML =
-                `<span class="rail-yr">${from === to ? from : `${from}–${String(to).slice(2)}`}</span>` +
-                '<span class="rail-bar"><i class="rail-fill"></i></span>' +
-                `<span class="rail-lb">${col.dataset.short}</span>`;
-            const bar = seg.querySelector('.rail-bar');
-            const seen = {};
-            col.querySelectorAll('.ov-ev').forEach((ev, k) => {
-                const y = Number(ev.dataset.y);
-                let x = from === to ? 45 : 8 + ((y - from) / (to - from)) * 74;
-                // события одного года разводим, чтобы точки не слились
-                seen[y] = (seen[y] || 0) + 1;
-                if (seen[y] > 1) x += 5 * (seen[y] - 1);
-                const dot = document.createElement('b');
-                dot.className = `rail-dot ${[...ev.classList].find((c) => c.startsWith('l-')) || ''}`;
-                dot.dataset.ev = ev.dataset.ev;
-                dot.style.left = `${x}%`;
-                dot.style.setProperty('--k', k);
-                bar.appendChild(dot);
-            });
-            segs.appendChild(seg);
+    // ---------- Переход на слайд по клику ----------
+    // Своего API у deck.js нет, поэтому «перематываем» дек теми же стрелками,
+    // которые он слушает: прогресс и заметки остаются в согласии с движком.
+    function gotoSlide(index) {
+        const from = slides.findIndex((sl) => sl.classList.contains('active'));
+        if (from < 0 || index < 0) return;
+        const step = index > from ? 'ArrowRight' : 'ArrowLeft';
+        for (let i = 0; i < Math.abs(index - from); i++) {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: step }));
+        }
+    }
+    const gotoId = (id) => gotoSlide(slides.indexOf(document.getElementById(`slide-${id}`)));
+
+    document.querySelectorAll('[data-goto]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            gotoId(el.getAttribute('data-goto'));
+            el.blur();
         });
-        rail.appendChild(segs);
-        const head = document.createElement('div');
-        head.className = 'rail-head';
-        rail.appendChild(head);
+    });
+
+    // ---------- Нижняя шкала времени ----------
+    // Одна сплошная линия на весь доклад, по точке на событие. Живёт в сцене
+    // поверх слайдов, поэтому не перерисовывается, а едет: пройденный путь
+    // залит, точка текущего слайда и её год — крупнее. Строится по слайду
+    // «Общий таймлайн» — список событий есть только там.
+    const events = [...document.querySelectorAll('.ov-ev[data-ev]')];
+    let rail = null;
+    if (events.length && stage) {
+        rail = document.createElement('nav');
+        rail.className = 'rail';
+        rail.setAttribute('aria-label', 'Таймлайн доклада');
+        rail.innerHTML = '<div class="rail-line"><i class="rail-fill"></i></div>';
+        events.forEach((ev, k) => {
+            const pt = document.createElement('button');
+            pt.type = 'button';
+            pt.className = `rail-pt ${[...ev.classList].find((c) => c.startsWith('l-')) || ''}`;
+            pt.dataset.ev = ev.dataset.ev;
+            pt.title = `${ev.dataset.y} · ${ev.lastChild.textContent.trim()}`;
+            pt.style.left = `${(k / (events.length - 1)) * 100}%`;
+            pt.innerHTML = `<span class="rail-yr">${ev.dataset.y}</span><b class="rail-dot"></b>`;
+            pt.addEventListener('click', (e) => {
+                e.stopPropagation();
+                gotoId(ev.dataset.ev);
+                pt.blur();
+            });
+            rail.appendChild(pt);
+        });
         stage.appendChild(rail);
     }
 
@@ -91,22 +96,23 @@
     function setMarks(ids) {
         if (!rail) return;
         rail.classList.toggle('has-marks', ids.length > 0);
-        rail.querySelectorAll('.rail-dot').forEach((d) => d.classList.toggle('is-mark', ids.includes(d.dataset.ev)));
+        rail.querySelectorAll('.rail-pt').forEach((p) => p.classList.toggle('is-mark', ids.includes(p.dataset.ev)));
     }
 
+    // data-ev слайда — его точка на шкале; «end» — сводные слайды после
+    // последнего события: весь путь пройден.
     function updateRail(slide) {
         if (!rail) return;
-        const era = slide.dataset.era;
-        rail.classList.toggle('is-on', Boolean(era));
-        if (!era) return;
-        const segEls = [...rail.querySelectorAll('.rail-seg')];
-        const cur = segEls.findIndex((s) => s.dataset.era === era);
-        segEls.forEach((s, i) => {
-            s.classList.toggle('is-past', i < cur);
-            s.classList.toggle('is-cur', i === cur);
+        const id = slide.dataset.ev;
+        rail.classList.toggle('is-on', Boolean(id));
+        if (!id) return;
+        const pts = [...rail.querySelectorAll('.rail-pt')];
+        const cur = id === 'end' ? pts.length : pts.findIndex((p) => p.dataset.ev === id);
+        pts.forEach((p, i) => {
+            p.classList.toggle('is-past', i < cur);
+            p.classList.toggle('is-cur', i === cur);
         });
-        const seg = segEls[cur];
-        if (seg) rail.querySelector('.rail-head').style.left = `${seg.offsetLeft + seg.offsetWidth}px`;
+        rail.querySelector('.rail-fill').style.width = `${Math.min(1, cur / (pts.length - 1)) * 100}%`;
         slideMarks = (slide.dataset.railMark || '').split(/\s+/).filter(Boolean);
         setMarks(slideMarks);
     }
@@ -116,6 +122,37 @@
     document.querySelectorAll('[data-marks]').forEach((el) => {
         el.addEventListener('mouseenter', () => setMarks(el.dataset.marks.split(/\s+/)));
         el.addEventListener('mouseleave', () => setMarks(slideMarks));
+    });
+
+    // ---------- «Как это работает» ----------
+    // Необязательный блок слайда события: на слайде от него только кнопка
+    // с пунктирной рамкой, схема или демонстрация раскрывается поверх слайда.
+    // Закрывается той же кнопкой, «свернуть», Esc и при уходе со слайда.
+    const hows = [...document.querySelectorAll('.how')];
+    const howBtns = [...document.querySelectorAll('[data-how]')];
+
+    function closeHows() {
+        hows.forEach((h) => h.classList.remove('is-open'));
+        howBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
+    }
+
+    howBtns.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const target = document.getElementById('how-' + btn.dataset.how);
+            const open = !target.classList.contains('is-open');
+            closeHows();
+            target.classList.toggle('is-open', open);
+            btn.setAttribute('aria-expanded', String(open));
+            btn.blur();
+        });
+    });
+
+    document.querySelectorAll('.how-close').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeHows();
+        });
     });
 
     // ---------- Переключатели демонстраций ----------
@@ -297,6 +334,7 @@
     function resetSlide(slide) {
         slide.querySelectorAll('.seg[data-target]').forEach((seg) => applyState(seg, seg.dataset.initial));
         if (miner && slide.contains(miner)) stopMiner();
+        closeHows();
     }
 
     // ---------- Заметки докладчика ----------
@@ -334,7 +372,10 @@
             e.preventDefault();
             setNotesOpen(!panel.classList.contains('is-open'));
         }
-        if (e.key === 'Escape') setNotesOpen(false);
+        if (e.key === 'Escape') {
+            setNotesOpen(false);
+            closeHows();
+        }
     });
 
     // Слайд меняет deck.js — ловим это по классу active: двигаем шкалу,

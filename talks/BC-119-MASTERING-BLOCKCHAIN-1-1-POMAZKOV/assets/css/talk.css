@@ -10,7 +10,7 @@
  *                        годы после выхода книги (.is-ours) — другого цвета;
  *   • этап (.stage)    — во что упёрлись → чем ответили → какие технологии;
  *   • технология (.tech) — логотип, сайт; сверху идея, ниже что это, кто
- *                        создал (аватар + ссылка на профиль), было → стало
+ *                        создал (имя — ссылка на профиль), было → стало
  *                        и свёрнутый необязательный блок «Как это работает».
  * Вверху слайдов этапа и технологии — «рельса» (.rail): тот же таймлайн
  * в миниатюре, на котором подсвечено, где мы сейчас.
@@ -376,17 +376,9 @@
 .row p { font-size: 30px; line-height: 1.38; color: var(--text-soft); }
 .row small { display: block; margin-top: 8px; font-size: 22px; color: var(--text-dim); }
 
-/* Кто создал: аватар слева, имя — ссылка на профиль. В кружке инициалы;
-   если положить внутрь <img>, он займёт кружок целиком. */
-.ppl { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 34px; }
+/* Примеры-проекты: кнопки в ряд; в кружке — монограмма проекта. */
+.ppl { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; }
 .ppl > small { flex-basis: 100%; margin-top: 0; }
-.person {
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    text-decoration: none;
-    color: inherit;
-}
 .ava {
     flex-shrink: 0;
     display: grid;
@@ -404,18 +396,10 @@
     color: var(--text-main);
     transition: transform 0.25s var(--ease), border-color 0.2s;
 }
-.ava img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .person-t { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
-.person-t b {
-    font-size: 27px;
-    line-height: 1.15;
-    border-bottom: 2px solid rgba(var(--hl-rgb), 0.55);
-    transition: color 0.2s, border-color 0.2s;
-}
+.person-t b { font-size: 25px; line-height: 1.15; }
 .person-t small { margin: 0; font-size: 19px; line-height: 1.25; color: var(--text-muted); }
-.person:hover .ava, .person:focus-visible .ava,
 .exb:hover .ava, .exb:focus-visible .ava { transform: scale(1.07); border-color: rgb(var(--brand-rgb)); }
-.person:hover b, .person:focus-visible b { color: var(--hl); border-color: var(--hl); }
 /* Пример-проект: кнопка, которая ведёт на его собственный слайд. */
 .exb {
     all: unset;
@@ -431,9 +415,8 @@
     transition: border-color 0.2s, background 0.2s, transform 0.25s var(--ease);
 }
 .exb .ava { width: 54px; height: 54px; font-size: 17px; }
-.exb .person-t b { border-bottom: 0; font-size: 25px; }
 .exb:hover, .exb:focus-visible { border-color: rgba(var(--hl-rgb), 0.85); background: var(--bg-hover); transform: translateY(-3px); }
-.ppl:has(.exb) { gap: 12px 14px; }
+
 
 .change > .k { display: block; margin-bottom: 12px; }
 .ba { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; }

@@ -3,7 +3,8 @@
 // Общий движок (клавиши, масштаб, прогресс) живёт в deck.js и правится только
 // в шаблоне. Здесь то, чего в нём нет: порядок появления блоков на слайде,
 // переход на слайд по клику (точки таймлайна, «рельса» вверху, карточки
-// технологий), счётчики и панель заметок докладчика.
+// технологий, название этапа в шапке), раскрытие блока «Как это работает»,
+// счётчики и панель заметок докладчика.
 // Подсказки таймлайна — чистый CSS (:hover / :focus-visible), скрипт им не нужен.
 
 (function () {
@@ -88,6 +89,37 @@
     });
   });
 
+  // ---------- «Как это работает» ----------
+  // Необязательный блок слайда технологии: на слайде от него только кнопка
+  // с пунктирной рамкой, схема раскрывается поверх слайда. Закрывается той же
+  // кнопкой, «свернуть», Esc и при уходе со слайда.
+  const hows = [...document.querySelectorAll('.how')];
+  const howBtns = [...document.querySelectorAll('[data-how]')];
+
+  function closeHows() {
+    hows.forEach((h) => h.classList.remove('is-open'));
+    howBtns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+  }
+
+  howBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const target = document.getElementById('how-' + btn.dataset.how);
+      const open = !target.classList.contains('is-open');
+      closeHows();
+      target.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      btn.blur();
+    });
+  });
+
+  document.querySelectorAll('.how-close').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeHows();
+    });
+  });
+
   // ---------- Заметки докладчика ----------
   // Текст лежит в самом слайде (<aside class="notes">), панель собирается тут:
   // она вне масштабируемой сцены, поэтому читается при любом размере окна.
@@ -124,7 +156,10 @@
       e.preventDefault();
       setNotesOpen(!panel.classList.contains('is-open'));
     }
-    if (e.key === 'Escape') setNotesOpen(false);
+    if (e.key === 'Escape') {
+      setNotesOpen(false);
+      closeHows();
+    }
   });
 
   // Слайд меняет deck.js — ловим это по классу active: на входе запускаем
@@ -140,6 +175,7 @@
         startCounters(slide);
       } else {
         stopCounters(slide);
+        closeHows();
       }
     }).observe(slide, { attributes: true, attributeFilter: ['class'] });
   });

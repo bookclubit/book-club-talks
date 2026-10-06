@@ -2,8 +2,10 @@
 // («Распределённые системы», глава 1).
 // Общий движок (клавиши, масштаб, прогресс) живёт в deck.js и правится только
 // в шаблоне. Здесь то, чего в нём нет: порядок появления блоков на слайде,
-// переключатели демонстраций (сеть из шести узлов, византийские генералы,
-// диаграмма CAP, пример с двумя узлами) и панель заметок докладчика.
+// переход на слайд по клику (плитки, карта доклада, «рельса» вверху, кнопки
+// примеров), раскрытие блока «Как это работает», переключатели демонстраций
+// (сеть из шести узлов, византийские генералы, диаграмма CAP, пример с двумя
+// узлами) и панель заметок докладчика.
 
 (function () {
   const slides = [...document.querySelectorAll('.slide')];
@@ -16,9 +18,9 @@
   // чтобы слайд собирался примерно за две секунды. Без этого скрипта слайды
   // просто показываются сразу целиком.
   const REVEAL = [
-    ['.take, .quad-cell, .kind, .letter, .fact, .chain > .cn, .role, .mp, .prop', 'pop'],
+    ['.quad-cell, .kind, .letter, .fact, .chain > .cn, .role, .mp, .prop', 'pop'],
     ['.tbl-r', 'left'],
-    ['.card, .wide-accent, .sp, .chart-box, .section-label, .fig, .seg, .two-row, .formula, .srcs > div', 'up'],
+    ['.card, .wide-accent, .sp, .chart-box, .section-label, .fig, .seg, .two-row, .formula', 'up'],
   ];
   const ALL = REVEAL.map(([sel]) => sel).join(', ') + ', [data-rv]';
 
@@ -26,17 +28,76 @@
     const root = slide.querySelector('.content-slide');
     if (!root) return;
     // Подписи демонстраций (.cap) появляются своим правилом при смене состояния.
-    const items = [...root.querySelectorAll(ALL)].filter((el) => !el.closest('svg, .cap'));
-    const step = Math.max(45, Math.min(110, 1900 / Math.max(items.length, 1)));
-    items.forEach((el, i) => {
-      el.style.setProperty('--d', `${Math.round(250 + i * step)}ms`);
-      if (el.hasAttribute('data-rv')) return;
-      const rule = REVEAL.find(([sel]) => el.matches(sel));
-      el.setAttribute('data-rv', rule ? rule[1] : 'up');
+    const all = [...root.querySelectorAll(ALL)].filter((el) => !el.closest('svg, .cap'));
+    // Блоки внутри «Как это работает» появляются при его раскрытии, поэтому
+    // у каждого такого блока свой отсчёт задержек — не с начала слайда.
+    const hows = [...root.querySelectorAll('.how')];
+    const groups = [all.filter((el) => !el.closest('.how')), ...hows.map((how) => all.filter((el) => how.contains(el)))];
+    groups.forEach((items, g) => {
+      const step = Math.max(45, Math.min(110, 1900 / Math.max(items.length, 1)));
+      items.forEach((el, i) => {
+        el.style.setProperty('--d', `${Math.round((g ? 150 : 250) + i * step)}ms`);
+        if (el.hasAttribute('data-rv')) return;
+        const rule = REVEAL.find(([sel]) => el.matches(sel));
+        el.setAttribute('data-rv', rule ? rule[1] : 'up');
+      });
     });
     // Номер в ряду — для бегущих точек на стрелках (они идут волной).
     root.querySelectorAll('.chain, .steps4').forEach((row) => {
       [...row.children].forEach((child, k) => child.style.setProperty('--k', k));
+    });
+  });
+
+  // ---------- Переход на слайд по клику ----------
+  // Своего API у deck.js нет, поэтому «перематываем» дек теми же стрелками,
+  // которые он слушает: прогресс и заметки остаются в согласии с движком.
+  function gotoSlide(index) {
+    const from = slides.findIndex((sl) => sl.classList.contains('active'));
+    if (from < 0 || index < 0) return;
+    const step = index > from ? 'ArrowRight' : 'ArrowLeft';
+    for (let i = 0; i < Math.abs(index - from); i++) {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: step }));
+    }
+  }
+
+  document.querySelectorAll('[data-goto]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const target = document.getElementById(`slide-${el.getAttribute('data-goto')}`);
+      gotoSlide(slides.indexOf(target));
+      // Иначе фокус остался бы на кнопке, а с ним — открытая подсказка.
+      el.blur();
+    });
+  });
+
+  // ---------- «Как это работает» ----------
+  // Необязательный блок слайда: на слайде от него только кнопка с пунктирной
+  // рамкой, схема или демонстрация раскрывается поверх слайда. Закрывается
+  // той же кнопкой, «свернуть», Esc и при уходе со слайда.
+  const hows = [...document.querySelectorAll('.how')];
+  const howBtns = [...document.querySelectorAll('[data-how]')];
+
+  function closeHows() {
+    hows.forEach((h) => h.classList.remove('is-open'));
+    howBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
+  }
+
+  howBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const target = document.getElementById('how-' + btn.dataset.how);
+      const open = !target.classList.contains('is-open');
+      closeHows();
+      target.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      btn.blur();
+    });
+  });
+
+  document.querySelectorAll('.how-close').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeHows();
     });
   });
 
@@ -70,6 +131,7 @@
 
   function resetSlide(slide) {
     slide.querySelectorAll('.seg[data-target]').forEach((seg) => applyState(seg, seg.dataset.initial));
+    closeHows();
   }
 
   // ---------- Заметки докладчика ----------
@@ -108,7 +170,10 @@
       e.preventDefault();
       setNotesOpen(!panel.classList.contains('is-open'));
     }
-    if (e.key === 'Escape') setNotesOpen(false);
+    if (e.key === 'Escape') {
+      setNotesOpen(false);
+      closeHows();
+    }
   });
 
   // Слайд меняет deck.js — ловим это по классу active: обновляем заметки,

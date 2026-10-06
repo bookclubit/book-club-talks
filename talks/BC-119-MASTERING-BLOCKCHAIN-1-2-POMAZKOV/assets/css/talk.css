@@ -53,7 +53,7 @@
 
 /* ===== Каркас контентного слайда =====
    Шапка (заголовок + лид) сверху, .body занимает остаток и центрирует
-   содержимое, .src (источники) прижата к низу. */
+   содержимое. */
 .content-slide {
     position: relative;
     display: flex;
@@ -62,7 +62,7 @@
     padding: 46px 96px 64px;
 }
 .content-slide > h2 {
-    font-size: 54px;
+    font-size: 60px;
     margin: 0;
     line-height: 1.1;
     flex-shrink: 0;
@@ -99,33 +99,6 @@
     margin: 0;
 }
 
-/* Источники слайда — мелкой строкой у нижнего края. */
-.src {
-    position: absolute;
-    left: 96px;
-    right: 96px;
-    bottom: 20px;
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--text-dim);
-    letter-spacing: 0.01em;
-}
-.src .src-k {
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-right: 8px;
-    color: var(--text-faint);
-}
-.src a {
-    color: var(--text-muted);
-    text-decoration: none;
-    border-bottom: 1px dotted var(--border-strong);
-    margin-right: 4px;
-}
-.src a:hover { color: var(--text-main); border-bottom-color: var(--text-muted); }
-.src .sep { color: var(--text-faint); margin: 0 6px 0 2px; }
-
 /* ===== Появление элементов =====
    Каждый слайд собирается по шагам: talk.js размечает блоки атрибутом
    data-rv и раздаёт задержки (--d) в порядке чтения. Анимация привязана
@@ -134,7 +107,6 @@
    к своим обычным стилям (иначе застывший transform ломал бы hover). */
 .slide.active .content-slide > h2 { animation: rvFade 0.6s ease backwards; }
 .slide.active .content-slide > .slide-lead { animation: rvUp 0.7s var(--ease) 0.08s backwards; }
-.slide.active .src { animation: rvFade 0.8s ease 0.9s backwards; }
 .slide.active [data-rv] { animation: rvUp 0.7s var(--ease) backwards; animation-delay: var(--d, 0ms); }
 .slide.active [data-rv='pop'] { animation-name: rvPop; }
 .slide.active [data-rv='left'] { animation-name: rvLeft; }
@@ -373,17 +345,6 @@
 .sp li::before { content: ''; position: absolute; left: 1px; top: 0.6em; width: 7px; height: 7px; border-radius: 50%; background: var(--border-strong); }
 .sp li small { display: block; font-size: 15px; color: var(--text-dim); font-family: var(--font-mono); margin-top: 2px; }
 
-/* ===== Источники ===== */
-.content-slide > h2.sources-h { font-size: 44px; }
-.slide-lead.sources-lead { font-size: 19px; margin-top: 8px; }
-.srcs { column-count: 4; column-gap: 34px; }
-.srcs > div { margin-bottom: 18px; }
-.srcs h3 { font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; margin-bottom: 8px; break-after: avoid; }
-.srcs ol { margin: 0; padding: 0; list-style: none; }
-.srcs li { font-size: 15.5px; line-height: 1.34; color: var(--text-muted); margin-bottom: 5px; break-inside: avoid; }
-.srcs li a { color: var(--text-soft); text-decoration: none; border-bottom: 1px dotted var(--border-strong); }
-.srcs li a:hover { color: var(--text-main); }
-
 /* ===== Рамка схемы и кадр «линия рисуется» ===== */
 @keyframes chDraw { from { stroke-dashoffset: 1; } }
 .chart-box { padding: 18px 22px 12px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); }
@@ -459,22 +420,6 @@
 .demo { display: grid; grid-template-columns: var(--demo-cols, 1.15fr 1fr); gap: 36px; align-items: center; }
 .demo-side { display: flex; flex-direction: column; gap: 24px; }
 .fig svg { width: 100%; height: 100%; display: block; overflow: visible; }
-
-/* ===== Главная мысль ===== */
-.thesis {
-    font-size: 54px;
-    font-weight: 600;
-    line-height: 1.22;
-    letter-spacing: -0.025em;
-    color: var(--text-main);
-    max-width: 1560px;
-}
-.thesis b { color: var(--sol); font-weight: 700; }
-.takes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.take { padding: 26px 28px 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); }
-.take-n { display: block; font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.1em; color: var(--sol); margin-bottom: 8px; }
-.take h3 { font-size: 31px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.18; color: var(--accent); margin-bottom: 8px; }
-.take p { font-size: 22.5px !important; line-height: 1.42 !important; color: var(--text-muted); }
 
 /* ===== Распределённая и децентрализованная: поле 2×2 ===== */
 .quad {
@@ -880,6 +825,967 @@
     white-space: normal;
 }
 .tw:hover::after, .tw:focus-visible::after { opacity: 1; transform: translateX(-50%); }
+
+/* ===== Оформление первого доклада вечера =====
+   Каркас перенесён из «Развития блокчейна»: шапка с «рельсой» (где мы на
+   пути доклада), слайд понятия (значок, идея, что это, было → стало,
+   свёрнутый блок «Как это работает»), слайд этапа, карта-таймлайн, плитки
+   главной мысли и выводы. Прежние демонстрации живут внутри блоков
+   «Как это работает». Цвет слайда задаёт класс .t-* на секции. */
+:root {
+    --brand-rgb: var(--sol-rgb);
+    --b-bitcoin: 247, 147, 26;
+    --b-ethereum: 98, 126, 234;
+    --b-amazon: 255, 153, 0;
+    --b-cardano: 51, 102, 255;
+    --b-sui: 77, 162, 255;
+}
+.t-sol { --brand-rgb: var(--sol-rgb); }
+.t-now { --brand-rgb: var(--now-rgb); }
+.t-plan { --brand-rgb: var(--plan-rgb); }
+.t-done { --brand-rgb: var(--done-rgb); }
+.t-bitcoin { --brand-rgb: var(--b-bitcoin); }
+.t-ethereum { --brand-rgb: var(--b-ethereum); }
+.t-amazon { --brand-rgb: var(--b-amazon); }
+.t-cardano { --brand-rgb: var(--b-cardano); }
+.t-sui { --brand-rgb: var(--b-sui); }
+
+/* Подпись-ярлык моноширинным шрифтом: «Идея», «Что это», «Было»… */
+.lbl {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.slide.active .top { animation: rvFade 0.6s ease backwards; }
+@keyframes ring {
+    0% { box-shadow: 0 0 0 0 rgba(var(--ring-rgb, var(--sol-rgb)), 0.6); }
+    70%, 100% { box-shadow: 0 0 0 18px rgba(var(--ring-rgb, var(--sol-rgb)), 0); }
+}
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 70px rgba(var(--brand-rgb), 0.18); }
+    50% { box-shadow: 0 0 130px rgba(var(--brand-rgb), 0.42); }
+}
+@keyframes arrowRun {
+    0%, 100% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+}
+@keyframes howIn { from { opacity: 0; transform: translateY(18px) scale(0.985); } }
+
+/* ===== Шапка слайда: где мы на таймлайне ===== */
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    height: 44px;
+    flex-shrink: 0;
+}
+.crumb {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.crumb-y {
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--sol-rgb), 0.45);
+    background: rgba(var(--sol-rgb), 0.08);
+    color: var(--sol);
+    letter-spacing: 0.06em;
+}
+.crumb-n { color: var(--text-faint); }
+.crumb-sep { color: var(--text-faint); margin: 0 -6px; }
+/* Название этапа в шапке — кнопка возврата на слайд этого этапа. */
+.crumb-back {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px 7px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    color: var(--text-main);
+    transition: border-color 0.2s, background 0.2s;
+}
+.crumb-back::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+    transform: scaleX(-1);
+    transition: transform 0.2s var(--ease);
+}
+.crumb-back:hover, .crumb-back:focus-visible { border-color: var(--sol); background: rgba(var(--sol-rgb), 0.1); }
+.crumb-back:hover::before { transform: scaleX(-1) translateX(3px); }
+
+.rail { display: flex; align-items: center; }
+/* Сброс — с той же специфичностью, что и правила ниже: иначе он перебил бы их. */
+.rail-home, .rail-pt {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.rail-home {
+    margin-right: 14px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    transition: color 0.2s, background 0.2s;
+}
+.rail-home:hover, .rail-home:focus-visible { color: var(--text-main); background: var(--bg-hover); }
+.rail-pt {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+}
+/* Отрезок линии под каждой точкой: вместе они складываются в ось. */
+.rail-pt::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    margin-top: -1px;
+    background: var(--border);
+}
+.rail-pt:first-of-type::before { left: 50%; }
+.rail-pt:last-of-type::before { right: 50%; }
+.rail-pt i {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--border-strong);
+    transition: transform 0.2s var(--ease), border-color 0.2s;
+}
+.rail-pt.is-past i { background: var(--text-dim); border-color: var(--text-dim); }
+.rail-pt.is-here i {
+    width: 17px;
+    height: 17px;
+    background: var(--sol);
+    border-color: var(--sol);
+}
+.slide.active .rail-pt.is-here i { animation: ring 2.4s ease-out 0.8s infinite; }
+.rail-pt:hover i, .rail-pt:focus-visible i { transform: scale(1.4); border-color: var(--sol); }
+
+/* ===== Логотип =====
+   Плитка одна на весь доклад: в ней либо знак бренда (svg), либо монограмма,
+   либо линейная иконка понятия. Свечение — цветом бренда. */
+.logo {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 190px;
+    height: 190px;
+    border-radius: 46px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+/* Большая плитка на слайде технологии «дышит» цветом бренда. */
+.tech-id .logo {
+    border-color: rgba(var(--brand-rgb), 0.35);
+    box-shadow: 0 0 90px rgba(var(--brand-rgb), 0.26);
+}
+.slide.active .tech-id .logo {
+    animation: rvPop 0.7s var(--ease) backwards, glow 4.5s ease-in-out infinite;
+    animation-delay: var(--d, 0ms), calc(var(--d, 0ms) + 0.7s);
+}
+.logo svg { position: relative; width: 62%; height: 62%; display: block; }
+.logo .ico { width: 54%; height: 54%; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.logo-mono {
+    font-size: 96px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--text-main);
+}
+.logo-mono.is-word { font-size: 46px; letter-spacing: -0.03em; }
+.logo-mono.is-abbr { font-size: 52px; letter-spacing: -0.02em; }
+/* Corda: в знаке буква «o» — красная точка. */
+
+/* ===== Слайд технологии ===== */
+.tech-card {
+    display: grid;
+    grid-template-columns: 430px 1fr;
+    gap: 84px;
+    align-items: center;
+}
+.tech-id { display: flex; flex-direction: column; align-items: flex-start; isolation: isolate; }
+.tech-id h2 {
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    margin: 36px 0 0;
+    color: var(--accent);
+}
+.tech-id h2.is-long { font-size: 50px; }
+.tech-id .tech-tag {
+    font-size: 29px;
+    line-height: 1.3;
+    color: var(--text-muted);
+    margin-top: 14px !important;
+}
+.site {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    font-family: var(--font-mono);
+    font-size: 21px;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s var(--ease);
+}
+.site span { color: var(--text-dim); transition: transform 0.2s var(--ease), color 0.2s; }
+.site:hover, .site:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.85);
+    background: rgba(var(--brand-rgb), 0.1);
+    transform: translateY(-2px);
+}
+.site:hover span { color: var(--text-main); transform: translate(2px, -2px); }
+
+.tech-info { display: flex; flex-direction: column; gap: 20px; }
+/* Идея — первой строкой: зачем это придумали и что сделали. Подробности ниже. */
+.idea { padding: 2px 0 4px 26px; border-left: 4px solid rgb(var(--brand-rgb)); }
+.idea .lbl { display: block; }
+.idea p {
+    margin-top: 8px !important;
+    font-size: 33px;
+    font-weight: 600;
+    line-height: 1.28;
+    letter-spacing: -0.012em;
+    color: var(--text-main);
+}
+.row {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-soft);
+}
+.row p { font-size: 30px; line-height: 1.38; color: var(--text-soft); }
+.row small { display: block; margin-top: 8px; font-size: 22px; color: var(--text-dim); }
+
+/* Примеры-проекты: кнопки в ряд; в кружке — монограмма проекта. */
+.ppl { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; }
+.ppl > small { flex-basis: 100%; margin-top: 0; }
+.ava {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(var(--brand-rgb), 0.14);
+    border: 2px solid rgba(var(--brand-rgb), 0.55);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    transition: transform 0.25s var(--ease), border-color 0.2s;
+}
+.person-t { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.person-t b { font-size: 25px; line-height: 1.15; }
+.person-t small { margin: 0; font-size: 19px; line-height: 1.25; color: var(--text-muted); }
+.exb:hover .ava, .exb:focus-visible .ava { transform: scale(1.07); border-color: rgb(var(--brand-rgb)); }
+/* Пример-проект: кнопка, которая ведёт на его собственный слайд. */
+.exb {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 24px 8px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-card);
+    transition: border-color 0.2s, background 0.2s, transform 0.25s var(--ease);
+}
+.exb .ava { width: 54px; height: 54px; font-size: 17px; }
+.exb:hover, .exb:focus-visible { border-color: rgba(var(--sol-rgb), 0.85); background: var(--bg-hover); transform: translateY(-3px); }
+
+
+.change > .lbl { display: block; margin-bottom: 12px; }
+.ba { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; }
+.ba-was, .ba-now { border-radius: 22px; padding: 16px 24px 18px; }
+.ba-was { border: 1px dashed var(--border-strong); }
+.ba-now {
+    border: 1px solid rgba(var(--brand-rgb), 0.65);
+    background: rgba(var(--brand-rgb), 0.1);
+}
+.ba span {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.ba-now span { color: var(--text-main); }
+.ba p { margin-top: 8px !important; font-size: 27px; line-height: 1.36; }
+.ba-was p { color: var(--text-muted); }
+.ba-now p { color: var(--text-main); }
+.ba-arrow, .pa-arrow {
+    align-self: center;
+    justify-self: center;
+    width: 34px;
+    height: 34px;
+    background: var(--text-muted);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+.slide.active .ba-arrow, .slide.active .pa-arrow {
+    animation: rvPop 0.7s var(--ease) backwards, arrowRun 1.8s ease-in-out infinite;
+    animation-delay: var(--d, 0ms), calc(var(--d, 0ms) + 0.7s);
+}
+.change .today {
+    margin-top: 12px !important;
+    font-size: 21px;
+    line-height: 1.4;
+    color: var(--text-dim);
+}
+.today .lbl { margin-right: 12px; font-size: 14px; }
+
+/* ===== «Как это работает»: необязательный свёрнутый блок =====
+   На слайде — кнопка с пунктирной рамкой: пунктир значит «можно пропустить».
+   По клику поверх слайда раскрывается схема из шагов. Открывает и закрывает
+   её talk.js; без скрипта блок просто остаётся свёрнутым. */
+.more { display: flex; gap: 16px; }
+.more .more-btn {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    border-radius: 20px;
+    border: 2px dashed var(--border-strong);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-soft);
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.more-btn::before {
+    content: '+';
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1;
+}
+.more-btn small {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.more-btn:hover, .more-btn:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.9);
+    background: rgba(var(--brand-rgb), 0.07);
+    color: var(--text-main);
+}
+.how {
+    position: absolute;
+    left: 96px;
+    right: 96px;
+    top: 112px;
+    bottom: 56px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 34px;
+    padding: 40px 48px;
+    border-radius: 30px;
+    border: 2px dashed rgba(var(--brand-rgb), 0.75);
+    background: var(--bg);
+    box-shadow: 0 0 0 14px var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px) scale(0.985);
+    transition: opacity 0.25s ease, transform 0.35s var(--ease), visibility 0.25s;
+}
+.how.is-open { opacity: 1; visibility: visible; transform: none; }
+.how-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
+.how-head h3 { margin-top: 10px; font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -0.028em; color: var(--text-main); }
+.how .how-close {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.how-close::after { content: ' ×'; }
+.how-close:hover, .how-close:focus-visible { color: var(--text-main); border-color: var(--text-main); background: var(--bg-hover); }
+/* Схема: пронумерованные шаги со стрелками. В каждом — название,
+   «формула» шага моноширинным шрифтом и объяснение простыми словами. */
+.flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--n, 4), 1fr);
+    gap: 52px;
+    counter-reset: st;
+}
+.flow li {
+    position: relative;
+    counter-increment: st;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 26px 28px;
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+}
+.flow li::before {
+    content: counter(st);
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(var(--brand-rgb), 0.16);
+    border: 2px solid rgba(var(--brand-rgb), 0.7);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+.flow li + li::after {
+    content: '';
+    position: absolute;
+    left: -43px;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    margin-top: -17px;
+    background: var(--text-muted);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+/* Список причин, а не цепочка шагов — без стрелок. */
+.how.no-arrows .flow { gap: 24px; }
+.how.no-arrows .flow li + li::after { content: none; }
+.flow b { margin-top: 16px; font-size: 29px; line-height: 1.15; }
+.flow .flow-s {
+    margin-top: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--brand-rgb), 0.32);
+    background: rgba(var(--brand-rgb), 0.09);
+    font-family: var(--font-mono);
+    font-size: 17px;
+    line-height: 1.35;
+    color: var(--text-main);
+}
+.flow p { margin-top: 14px !important; font-size: 23px; line-height: 1.42; color: var(--text-soft); }
+.flow[style*='--n: 5'] { gap: 40px; }
+.flow[style*='--n: 5'] li { padding: 22px 20px 24px; }
+.flow[style*='--n: 5'] li + li::after { left: -37px; }
+.flow[style*='--n: 5'] b { font-size: 26px; }
+.flow[style*='--n: 5'] .flow-s.flow-s { font-size: 15px; }
+.flow[style*='--n: 5'] p { font-size: 21px; }
+.how.is-open .flow li { animation: rvUp 0.6s var(--ease) backwards; animation-delay: calc(120ms + var(--i) * 110ms); }
+.how .how-sum {
+    padding: 20px 28px;
+    border-radius: 20px;
+    border: 1px solid rgba(var(--done-rgb), 0.48);
+    background: rgba(var(--done-rgb), 0.07);
+    font-size: 26px;
+    line-height: 1.42;
+    color: var(--text-main);
+}
+.how-sum .lbl { margin-right: 16px; color: var(--done); }
+
+/* ===== Слайд этапа: упёрлись → ответили → технологии ===== */
+.stage-head { display: flex; flex-direction: column; gap: 10px; }
+.stage-y {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--sol);
+    letter-spacing: -0.01em;
+}
+.stage-head h2 { font-size: 80px; font-weight: 700; line-height: 1.04; margin: 0; }
+.pa { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; }
+.pa-p, .pa-a { border-radius: 24px; padding: 26px 32px 30px; }
+.pa-p { border: 1px solid rgba(var(--now-rgb), 0.42); background: rgba(var(--now-rgb), 0.06); }
+.pa-a { border: 1px solid rgba(var(--done-rgb), 0.48); background: rgba(var(--done-rgb), 0.07); }
+.pa-p .lbl { color: var(--now); }
+.pa-a .lbl { color: var(--done); }
+.pa p { margin-top: 12px !important; font-size: 32px; line-height: 1.4; color: var(--text-main); }
+
+.minis { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 20px; }
+.mini {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    transition: border-color 0.2s, transform 0.25s var(--ease), background 0.2s;
+}
+.mini:hover, .mini:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.8);
+    background: var(--bg-hover);
+    transform: translateY(-4px);
+}
+.mini .logo { width: 72px; height: 72px; border-radius: 20px; }
+.mini .logo-mono { font-size: 38px; }
+.mini .logo-mono.is-abbr { font-size: 21px; }
+.mini-t { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.mini-t b { font-size: 28px; line-height: 1.15; }
+.mini-t span { font-size: 22px; line-height: 1.3; color: var(--text-muted); }
+/* Пять карточек в ряд не помещаются строкой — ставим логотип над подписью. */
+.minis[style*='--n: 5'] .mini { flex-direction: column; align-items: flex-start; gap: 16px; padding: 22px; }
+.minis[style*='--n: 5'] .mini-t b { font-size: 25px; }
+.minis[style*='--n: 5'] .mini-t span { font-size: 21px; }
+.body .stage-note { font-size: 24px; line-height: 1.45; color: var(--text-muted); }
+.stage-note .lbl { margin-right: 14px; }
+
+/* ===== Таймлайн: год — точка, рядом подпись, при наведении подсказка ===== */
+.tl {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    margin: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(var(--n, 9), 1fr);
+}
+.tl-axis {
+    position: absolute;
+    left: -40px;
+    right: -40px;
+    top: 50%;
+    height: 3px;
+    margin-top: -1.5px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--border-strong), var(--sol));
+    transform-origin: left center;
+}
+.tl-axis::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+    border-top: 3px solid var(--sol);
+    border-right: 3px solid var(--sol);
+    transform: rotate(45deg);
+}
+.slide.active .tl-axis { animation: growX 1.5s var(--ease) 0.25s backwards; }
+
+/* Точка — кнопка на всю колонку, но ловит мышь только на метке и на самой
+   точке: иначе подсказки выскакивали бы от случайного движения по слайду. */
+.tl-pt {
+    all: unset;
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    cursor: pointer;
+    pointer-events: none;
+}
+.tl-pt:hover, .tl-pt:focus-visible { z-index: 5; }
+/* Годы после выхода книги (2024–2026) добавлены нами — у них свой цвет.
+   Слайдов у них нет, поэтому и курсор обычный: это подсказка, а не переход. */
+.tl-pt { --pt: var(--sol); --pt-rgb: var(--sol-rgb); --ring-rgb: var(--pt-rgb); }
+.tl-pt.is-ours { --pt: var(--done); --pt-rgb: var(--done-rgb); cursor: default; }
+.tl-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border-radius: 50%;
+    background: var(--pt);
+    border: 6px solid var(--bg);
+    outline: 2px solid var(--pt);
+    pointer-events: auto;
+    transition: transform 0.25s var(--ease);
+}
+.slide.active .tl-dot {
+    animation: rvPop 0.5s var(--ease) backwards, ring 3.6s ease-out infinite;
+    animation-delay: calc(0.5s + var(--i) * 0.13s), calc(2.4s + var(--i) * 0.4s);
+}
+.tl-pt:hover .tl-dot, .tl-pt:focus-visible .tl-dot { transform: scale(1.35); }
+/* Ножка от точки к подписи. */
+.tl-pt::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 2px;
+    height: 38px;
+    margin-left: -1px;
+    background: var(--border-strong);
+}
+.tl-pt.up::before { bottom: calc(50% + 24px); transform-origin: bottom; }
+.tl-pt.down::before { top: calc(50% + 24px); transform-origin: top; }
+.slide.active .tl-pt::before {
+    animation: growY 0.45s var(--ease) backwards;
+    animation-delay: calc(0.62s + var(--i) * 0.13s);
+}
+.tl-label {
+    position: absolute;
+    left: 50%;
+    width: 340px;
+    margin-left: -170px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    pointer-events: auto;
+}
+.tl-pt.up .tl-label { bottom: calc(50% + 72px); }
+.tl-pt.down .tl-label { top: calc(50% + 72px); }
+.slide.active .tl-label {
+    animation: rvUp 0.6s var(--ease) backwards;
+    animation-delay: calc(0.7s + var(--i) * 0.13s);
+}
+.slide.active .tl-pt.down .tl-label { animation-name: rvDown; }
+.tl-y {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--pt);
+    white-space: nowrap;
+}
+.tl-c { font-size: 27px; font-weight: 600; line-height: 1.25; color: var(--text-main); }
+
+/* Подсказка: что этот шаг дал блокчейну. Открывается за подписью — дальше
+   от оси, на свободном месте, — и поэтому не закрывает соседние годы. */
+.tl-tip {
+    position: absolute;
+    left: 50%;
+    width: 520px;
+    margin-left: -260px;
+    padding: 22px 26px;
+    border-radius: 20px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--pt-rgb), 0.55);
+    box-shadow: 0 26px 70px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.25s var(--ease), visibility 0.2s;
+    z-index: 10;
+}
+.tl-pt.up .tl-tip { bottom: calc(100% + 18px); transform: translateY(10px); }
+.tl-pt.down .tl-tip { top: calc(100% + 18px); transform: translateY(-10px); }
+/* Крайние точки: подсказка не должна уезжать за край слайда. */
+.tl-pt.tip-start .tl-tip { left: 38px; margin-left: 0; }
+.tl-pt.tip-end .tl-tip { left: auto; right: 38px; margin-left: 0; }
+.tl-pt:hover .tl-tip, .tl-pt:focus-visible .tl-tip { opacity: 1; visibility: visible; transform: none; }
+/* Уголок, который показывает на подпись. */
+.tl-tip::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    margin-left: -7px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--pt-rgb), 0.55);
+    border-top: 0;
+    border-left: 0;
+}
+.tl-pt.up .tl-tip::after { bottom: -8px; transform: rotate(45deg); }
+.tl-pt.down .tl-tip::after { top: -8px; transform: rotate(225deg); }
+.tl-pt.tip-start .tl-tip::after { left: 132px; }
+.tl-pt.tip-end .tl-tip::after { left: auto; right: 132px; margin-left: 0; margin-right: -7px; }
+.tl-tip-k {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pt);
+}
+.tl-tip-t { display: block; margin-top: 10px; font-size: 24px; font-weight: 400; line-height: 1.4; color: var(--text-main); }
+.tl-tip-n { display: block; margin-top: 10px; font-size: 20px; font-weight: 400; line-height: 1.35; color: var(--text-muted); }
+
+/* Двенадцать точек: подписи через одну стоят по одну сторону оси, поэтому
+   им нужно умещаться в два шага сетки. */
+.tl.is-dense { margin: 0 24px; }
+.tl.is-dense .tl-axis { left: -24px; right: -24px; }
+.tl.is-dense .tl-label { width: 262px; margin-left: -131px; }
+.tl.is-dense .tl-y { font-size: 30px; }
+.tl.is-dense .tl-c { font-size: 24px; }
+.tl.is-dense .tl-tip { padding: 20px 24px; }
+.tl.is-dense .tl-tip-t { font-size: 22px; }
+.tl.is-dense .tl-tip-n { font-size: 19px; }
+.tl.is-dense .tl-pt.tip-start .tl-tip { left: 0; }
+.tl.is-dense .tl-pt.tip-end .tl-tip { right: 0; }
+.tl.is-dense .tl-pt.tip-start .tl-tip::after { left: 131px; }
+.tl.is-dense .tl-pt.tip-end .tl-tip::after { right: 131px; }
+.tl-legend { display: flex; gap: 36px; margin-top: 18px; flex-shrink: 0; }
+.tl-lg { display: inline-flex; align-items: center; gap: 12px; font-size: 22px; color: var(--text-muted); }
+.tl-lg i { width: 16px; height: 16px; border-radius: 50%; background: var(--sol); }
+.tl-lg.is-ours i { background: var(--done); }
+.slide.active .tl-legend { animation: rvFade 0.7s ease 0.3s backwards; }
+
+/* ===== Главная мысль ===== */
+.content-slide .big {
+    font-size: 58px;
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.025em;
+    color: var(--text-main);
+    max-width: 1560px;
+}
+.big em { font-style: normal; color: var(--sol); }
+/* Плитки — всё, о чём пойдёт речь: иконка, название, куда ведёт клик.
+   Подсказка открывается под плиткой: над ней — главная мысль слайда. */
+.tks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.tk {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 16px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.25s var(--ease), background 0.2s;
+}
+.tk:hover, .tk:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.8);
+    background: var(--bg-hover);
+    transform: translateY(-4px);
+    z-index: 5;
+}
+.tk .logo { width: 60px; height: 60px; border-radius: 17px; }
+.tk .logo-mono { font-size: 32px; }
+.tk-t { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.tk-t b { font-size: 22px; line-height: 1.15; white-space: nowrap; }
+.tk-u { font-family: var(--font-mono); font-size: 15px; color: var(--text-dim); white-space: nowrap; transition: color 0.2s; }
+.tk:hover .tk-u, .tk:focus-visible .tk-u { color: var(--sol); }
+.tk-tip, .ed-tip {
+    position: absolute;
+    padding: 18px 22px;
+    border-radius: 18px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--sol-rgb), 0.55);
+    box-shadow: 0 26px 70px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.25s var(--ease), visibility 0.2s;
+    z-index: 10;
+}
+.tk-tip {
+    left: 0;
+    top: calc(100% + 12px);
+    width: 400px;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--text-main);
+    transform: translateY(-8px);
+}
+.tk:nth-child(5n) .tk-tip { left: auto; right: 0; }
+.tk:hover .tk-tip, .tk:focus-visible .tk-tip,
+.ed:hover .ed-tip, .ed:focus-visible .ed-tip { opacity: 1; visibility: visible; transform: none; }
+
+
+.lnk {
+    color: var(--text-main);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(var(--sol-rgb), 0.55);
+    transition: color 0.2s, border-color 0.2s;
+}
+.lnk:hover, .lnk:focus-visible { color: var(--sol); border-color: var(--sol); }
+
+/* ===== Выводы: путь одной строкой =====
+   Шесть шагов, у каждого — цвет и логотипы его технологий. */
+.path { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 36px; }
+.pth {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 18px 24px;
+    border-radius: 24px;
+    border: 1px solid rgba(var(--brand-rgb), 0.4);
+    background: linear-gradient(180deg, rgba(var(--brand-rgb), 0.14), rgba(var(--brand-rgb), 0) 46%), var(--bg-card);
+}
+.pth::before {
+    content: '';
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    top: -1px;
+    height: 4px;
+    border-radius: 0 0 4px 4px;
+    background: rgb(var(--brand-rgb));
+}
+.pth + .pth::after {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 50%;
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
+    background: var(--text-dim);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+.pth-y { font-family: var(--font-mono); font-size: 20px; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+.pth > b { margin-top: 10px; font-size: 36px; line-height: 1.1; letter-spacing: -0.025em; }
+.pth-l {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-soft);
+}
+.pth-i { display: flex; align-items: center; gap: 14px; font-size: 25px; line-height: 1.2; color: var(--text-soft); }
+.pth .logo { width: 54px; height: 54px; border-radius: 15px; }
+.pth .logo-mono { font-size: 29px; }
+/* Итоговая цитата: фотография автора слева, его слова справа. */
+.final-quote {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+    margin: 0;
+    padding: 30px 44px;
+    border-left: 4px solid var(--sol);
+    border-radius: 0 24px 24px 0;
+    background: linear-gradient(90deg, rgba(var(--sol-rgb), 0.12), rgba(var(--sol-rgb), 0));
+}
+.final-quote img {
+    width: 150px;
+    height: 150px;
+    border-radius: 24px;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--border-mid);
+}
+.final-quote p { margin-top: 10px !important; font-size: 46px; font-weight: 600; line-height: 1.22; letter-spacing: -0.022em; color: var(--text-main); }
+.final-quote cite { display: block; margin-top: 14px; font-style: normal; font-family: var(--font-mono); font-size: 21px; color: var(--text-dim); }
+
+/* ----- Отличия этого доклада от первого ----- */
+/* Номер вопроса в шапке — в цвете слайда. */
+.crumb-y { border-color: rgba(var(--brand-rgb), 0.5); background: rgba(var(--brand-rgb), 0.1); color: var(--text-main); }
+/* Плитки и точки карты — кнопки: ведут на слайд, а не на сайт. */
+button.tk { appearance: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.tks { margin-top: 12px; }
+.tk-t b { white-space: normal; }
+.tk .logo-mono, .tk .logo-mono.is-abbr { font-size: 19px; letter-spacing: -0.02em; }
+.tk .logo svg:not(.ico) { width: 66%; height: 66%; }
+.mini.is-static { cursor: default; }
+.mini.is-static:hover { transform: none; border-color: var(--border); background: var(--bg-card); }
+.mini .logo-mono.is-abbr { font-size: 22px; }
+.pth .logo-mono.is-abbr { font-size: 17px; }
+/* В карточках выводов длинные слова («Согласованность») — набор плотнее. */
+.pth { padding: 28px 14px 24px; }
+.pth .logo { width: 44px; height: 44px; border-radius: 12px; }
+.pth .logo-mono { font-size: 24px; }
+.pth-i { gap: 12px; font-size: 20px; }
+.stage .body { gap: 40px; }
+.tech-id h2.is-long { font-size: 52px; }
+.tech-id .logo-mono.is-abbr { font-size: 50px; }
+.ppl .exb .ava { font-size: 19px; }
+.row > .ppl { align-self: center; }
+/* Семь точек вместо двенадцати — подписи крупнее и шире. */
+.tl-label { width: 400px; margin-left: -200px; gap: 8px; }
+.tl-y { font-size: 27px; letter-spacing: 0.04em; text-transform: uppercase; }
+.tl-c { font-size: 34px; line-height: 1.2; }
+.tl-tip-t { font-size: 26px; }
+/* Пара «или — или»: оба варианта равноправны, стрелки между ними нет. */
+.ba.is-or .ba-was, .ba.is-or .ba-now { border: 1px solid rgba(var(--brand-rgb), 0.5); background: rgba(var(--brand-rgb), 0.07); }
+.ba.is-or .ba-was p { color: var(--text-main); }
+.ba.is-or .ba-was span { color: var(--text-main); }
+.ba.is-or .ba-arrow, .slide.active .ba.is-or .ba-arrow {
+    width: auto;
+    height: auto;
+    background: none;
+    -webkit-mask: none;
+    mask: none;
+    animation: rvPop 0.7s var(--ease) backwards;
+    animation-delay: var(--d, 0ms);
+}
+.ba.is-or .ba-arrow::before {
+    content: 'или';
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+/* «Как это работает» с готовой демонстрацией. Блок закрыт через display: none,
+   поэтому анимации внутри (появление блоков, рисование стрелок на схемах)
+   стартуют именно в момент раскрытия, а не при входе на слайд. */
+.how { display: none; opacity: 1; visibility: visible; transform: none; transition: none; }
+.how.is-open { display: flex; animation: howIn 0.4s var(--ease) backwards; }
+.how.has-demo { justify-content: flex-start; gap: 22px; padding-top: 30px; }
+.how-demo { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: 24px; min-width: 0; }
 
 /* ===== Заметки докладчика =====
    В слайде лежат скрытым блоком; панель собирается в talk.js и живёт вне

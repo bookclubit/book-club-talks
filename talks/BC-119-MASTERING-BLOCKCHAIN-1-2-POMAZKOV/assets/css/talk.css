@@ -7,8 +7,8 @@
  *
  * Доклад — про узлы и связи, поэтому и слайд устроен так же просто:
  *   • одно утверждение крупным заголовком (ключевое слово — цветом части);
- *   • одна схема на «чертёжной» подложке: узлы-кружки, каналы-линии,
- *     сообщения — точки, бегущие по каналам.
+ *   • одна схема прямо на фоне слайда, без рамки: узлы-кружки,
+ *     каналы-линии, сообщения — точки, бегущие по каналам.
  * Вида слайда два: «утверждение слева — схема справа» (.split) и
  * «заголовок сверху — карточки снизу» (.duo / .trio).
  */
@@ -118,6 +118,8 @@
 }
 .content-slide h2 mark { background: none; color: var(--ac); }
 .say h2 { font-size: 68px; }
+/* Определение целиком стоит в заголовке — оно длиннее обычного утверждения. */
+#slide-sys .say h2 { font-size: 56px; line-height: 1.12; }
 #slide-main .say h2 { font-size: 80px; }
 #slide-main .say .lead { font-size: 35px; }
 .head h2 { font-size: 60px; }
@@ -145,6 +147,15 @@
     max-width: 1560px;
 }
 .by { margin-top: 22px; font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.06em; color: var(--text-dim); }
+/* Ссылка на первоисточник прямо в тексте слайда. */
+.lnk {
+    color: var(--text-main);
+    text-decoration: none;
+    border-bottom: 2px solid rgba(var(--ac-rgb), 0.6);
+    transition: color 0.2s, border-color 0.2s;
+}
+.lnk:hover, .lnk:focus-visible { color: var(--ac); border-color: var(--ac); }
+.by .lnk { color: var(--text-muted); border-bottom-width: 1px; }
 .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 .chip {
     padding: 10px 20px;
@@ -165,8 +176,16 @@
 }
 
 /* ===== Схема =====
-   «Чертёжная» подложка в точку и мягкий свет цветом части. */
-.scene, .card {
+   Схема стоит прямо на фоне слайда, без рамки и подложки. «Чертёжная»
+   подложка в точку и мягкий свет цветом части остались только у карточек.
+   --halo — цвет фона под схемой: им обведены подписи поверх линий. */
+.scene {
+    --halo: var(--bg);
+    position: relative;
+    height: 100%;
+    max-height: 770px;
+}
+.card {
     position: relative;
     border: 1px solid var(--border-soft);
     background:
@@ -174,13 +193,7 @@
         var(--bg-card);
     overflow: hidden;
 }
-.scene {
-    height: 100%;
-    max-height: 770px;
-    border-radius: 44px;
-    padding: 22px;
-}
-.scene::before, .card::before {
+.card::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -255,7 +268,7 @@
     font-size: 24px;
     font-weight: 600;
     paint-order: stroke;
-    stroke: var(--bg-card);
+    stroke: var(--halo, var(--bg-card));
     stroke-width: 10px;
     stroke-linejoin: round;
 }
@@ -273,7 +286,7 @@
 .zone.soft { fill: rgba(var(--tint-rgb), 0.035); stroke: var(--border-mid); stroke-dasharray: 4 12; }
 /* Разрыв сети. */
 .tear { fill: none; stroke: var(--prob); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
-.cutx circle { fill: var(--bg-card); stroke: var(--prob); stroke-width: 3; }
+.cutx circle { fill: var(--halo, var(--bg-card)); stroke: var(--prob); stroke-width: 3; }
 .cutx path { fill: none; stroke: var(--prob); stroke-width: 3.5; stroke-linecap: round; }
 /* Окно браузера. */
 .win > rect:first-child { fill: var(--bg); stroke: var(--border-strong); stroke-width: 2.5; }
@@ -283,7 +296,7 @@
 .win .rl { fill: var(--border-mid); }
 /* Город генералов. */
 .city path { fill: rgba(var(--tint-rgb), 0.08); stroke: var(--text-muted); stroke-width: 3; stroke-linejoin: round; }
-.city .gate { fill: var(--bg-card); }
+.city .gate { fill: var(--halo, var(--bg-card)); }
 /* Диаграмма CAP. */
 .vc { stroke-width: 3.5; mix-blend-mode: normal; }
 .vc.v-c { stroke: var(--sol); fill: rgba(var(--sol-rgb), 0.1); }
@@ -306,9 +319,15 @@
 .owner text { font-size: 24px; font-weight: 600; }
 .cli rect { fill: var(--bg); stroke: var(--text-muted); stroke-width: 3; }
 .cli text { font-size: 22px; font-weight: 600; }
+.cli.acc rect { stroke: var(--ac); fill: rgba(var(--ac-rgb), 0.13); }
+.cli.ok rect { stroke: var(--done); fill: rgba(var(--done-rgb), 0.13); }
+.cli.bad rect { stroke: var(--prob); fill: rgba(var(--prob-rgb), 0.13); }
+.cli.warn rect { stroke: var(--now); fill: rgba(var(--now-rgb), 0.13); }
 .bk { fill: var(--bg); stroke: var(--text-muted); stroke-width: 2.5; }
 .bk.is-a { stroke: var(--cc, var(--ac)); fill: rgba(var(--cc-rgb, var(--ac-rgb)), 0.14); }
 .bk.is-b { stroke: var(--text-dim); stroke-dasharray: 5 7; fill: transparent; }
+.bk.is-x { stroke: var(--prob); fill: rgba(var(--prob-rgb), 0.16); }
+.bk.is-g { stroke: var(--done); fill: rgba(var(--done-rgb), 0.14); }
 .pause rect { fill: rgba(var(--now-rgb), 0.12); stroke: var(--now); stroke-width: 2.5; stroke-dasharray: 6 8; }
 .pause text { font-family: var(--font-mono); font-size: 21px; font-weight: 600; fill: var(--now); }
 
@@ -387,33 +406,6 @@
 }
 .letter span { font-size: 33px; font-weight: 700; line-height: 1.12; letter-spacing: -0.025em; color: var(--text-main); }
 .letter small { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 16px; font-weight: 400; letter-spacing: 0.04em; color: var(--text-dim); }
-
-/* ===== План ===== */
-.plan { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-.plan-i {
-    all: unset;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    padding: 56px 40px;
-    border-radius: 34px;
-    border: 1px solid var(--border-soft);
-    background: var(--bg-card);
-    transition: border-color 0.2s, transform 0.3s var(--ease), background 0.2s;
-}
-.plan-i:hover, .plan-i:focus-visible { border-color: var(--ac); background: rgba(var(--ac-rgb), 0.07); transform: translateY(-6px); }
-.plan-n {
-    font-family: var(--font-mono);
-    font-size: 128px;
-    font-weight: 700;
-    line-height: 0.9;
-    color: var(--ac);
-}
-.plan-t { display: flex; flex-direction: column; gap: 8px; }
-.plan-t b { font-size: 44px; font-weight: 700; letter-spacing: -0.028em; line-height: 1.1; }
-.plan-t span { font-size: 27px; line-height: 1.35; color: var(--text-muted); }
 
 /* ===== Генералы: что услышал верный генерал ===== */
 .tally { display: flex; align-items: center; gap: 10px; margin-top: 30px; }
@@ -505,12 +497,7 @@
     display: grid;
     grid-template-columns: 300px 1fr 260px 1fr;
     align-items: center;
-    padding: 52px 44px;
-    border-radius: 40px;
-    border: 1px solid var(--border-soft);
-    background:
-        radial-gradient(circle at 1px 1px, rgba(var(--tint-rgb), 0.11) 1.4px, transparent 1.7px) 0 0 / 34px 34px,
-        var(--bg-card);
+    padding: 26px 0;
 }
 .lab-client {
     position: relative;
@@ -581,7 +568,7 @@
     padding: 9px 18px;
     border-radius: 999px;
     border: 2px solid var(--prob);
-    background: var(--bg-card);
+    background: var(--bg);
     font-family: var(--font-mono);
     font-size: 17px;
     font-weight: 600;
@@ -618,6 +605,109 @@
 .lab[data-state='s3a'] .is-pc em::after, .lab[data-state='s3b'] .is-pa em::after { content: 'потеряна'; }
 .lab-say { display: flex; align-items: center; padding-left: 26px; border-left: 3px solid rgba(var(--ac-rgb), 0.7); }
 .lab-say p { font-size: 29px; line-height: 1.4; color: var(--text-soft); }
+
+/* ===== Главная мысль: что выбрать, когда сеть порвалась =====
+   Переключатель пишет выбор в data-state блока .pick (talk.js). На схеме
+   у деталей стоит data-s — список состояний, в которых деталь видна. */
+.say .steps { margin-top: 38px; }
+.steps.is-pick button { padding: 16px 32px; font-size: 27px; }
+.steps.is-pick button[data-value='a'].is-active { background: rgba(var(--done-rgb), 0.2); }
+.pick [data-s] { display: none; }
+.pick[data-state='q'] [data-s~='q'], .pick[data-state='c'] [data-s~='c'], .pick[data-state='a'] [data-s~='a'] { display: inline; }
+/* Деталь появляется сразу по клику, не дожидаясь очереди сборки схемы. */
+#slide-main.active svg [data-s] { animation: fadeIn 0.4s ease backwards; animation-delay: 0s; }
+.ar.wr .al { text-anchor: start; }
+.pick[data-state='q'] .ar.wr { --c: var(--now); }
+.pick[data-state='c'] .ar.wr { --c: var(--prob); }
+.pick[data-state='a'] .ar.wr { --c: var(--done); }
+.pick .nd.sl circle { transition: stroke 0.3s, fill 0.3s; }
+.pick[data-state='a'] .nd.sl circle { stroke: var(--now); fill: rgba(var(--now-rgb), 0.18); }
+.pick[data-state='a'] .nd.sl text { fill: var(--now); }
+/* Подпись под схемой здесь — итог выбора, поэтому крупнее обычной. */
+#slide-main .tx.cap { font-size: 27px; fill: var(--text-soft); }
+.tx.sgn { font-size: 64px; font-weight: 700; }
+.tx.sgn.is-eq { fill: var(--done); }
+.tx.sgn.is-ne { fill: var(--prob); }
+
+/* ===== Инциденты: разбор по шагам =====
+   Кнопка «Подробнее» в карточке открывает панель поверх слайда (talk.js):
+   четыре шага, у каждого — маленькая схема из тех же узлов и стрелок. */
+.card.is-case p { margin-bottom: 30px; }
+.content-slide .more-btn, .content-slide .more-close {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--cc-rgb, var(--ac-rgb)), 0.65);
+    font-size: 23px;
+    font-weight: 600;
+    color: var(--text-main);
+    white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s;
+}
+.more-btn { align-self: flex-start; margin-top: auto; }
+.more-btn:hover, .more-btn:focus-visible, .more-close:hover, .more-close:focus-visible {
+    border-color: var(--cc, var(--ac));
+    background: rgba(var(--cc-rgb, var(--ac-rgb)), 0.14);
+}
+.more {
+    --halo: var(--bg-card);
+    position: absolute;
+    left: 96px;
+    right: 96px;
+    top: 100px;
+    bottom: 60px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 34px;
+    background: var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(26px);
+    transition: opacity 0.3s ease, transform 0.5s var(--ease), visibility 0s 0.3s;
+}
+.more.is-open { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.more.is-bad { --cc: var(--prob); --cc-rgb: var(--prob-rgb); }
+.more-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+.more-head .tagl { display: block; margin-bottom: 12px; font-size: 17px; }
+.more-head h3 { font-size: 56px; font-weight: 700; line-height: 1.08; letter-spacing: -0.032em; color: var(--text-main); }
+.flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; }
+.flow li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 28px 30px;
+    border-radius: 32px;
+    border: 1px solid var(--border-soft);
+    background: var(--bg-card);
+}
+/* Стрелка от шага к шагу — в промежутке между карточками. */
+.flow li + li::before {
+    content: '→';
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    width: 40px;
+    margin-top: -20px;
+    font-size: 30px;
+    line-height: 40px;
+    text-align: center;
+    color: var(--text-dim);
+}
+.flow-n { font-family: var(--font-mono); font-size: 16px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cc, var(--ac)); }
+.flow-pic { margin: 14px 0 18px; }
+.flow-pic svg { width: 100%; height: auto; display: block; overflow: visible; }
+.flow li b { font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.022em; }
+.flow li p { margin-top: 12px; font-size: 23px; line-height: 1.42; color: var(--text-muted); }
+.flow-pic .nd text { font-size: 24px; }
+.flow-pic .nd.bad text { fill: var(--prob); }
+.bits { font-family: var(--font-mono); font-size: 44px; font-weight: 700; letter-spacing: 0.04em; }
+.bits .is-bad { fill: var(--prob); }
+.stake { fill: transparent; stroke: var(--text-dim); stroke-width: 2.5; stroke-dasharray: 5 7; }
+.stake.is-left { fill: rgba(var(--prob-rgb), 0.16); stroke: var(--prob); stroke-dasharray: none; }
 
 /* ===== Цепочка блоков и подтверждения ===== */
 .chainv { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 44px; padding-bottom: 150px; }
@@ -914,5 +1004,5 @@
     .slide.active .content-slide *,
     .slide.active .content-slide *::before,
     .slide.active .content-slide *::after { animation: none !important; }
-    .lab *, .plan-i, .notes-panel { transition: none !important; }
+    .lab *, .more, .notes-panel { transition: none !important; }
 }

@@ -2,8 +2,8 @@
 // («Распределённые системы», глава 1).
 // Общий движок (клавиши, масштаб, прогресс) живёт в deck.js и правится только
 // в шаблоне. Здесь то, чего в нём нет: порядок появления блоков на слайде,
-// шаги примера «два узла и оборванный провод», переход по карточкам плана
-// и панель заметок докладчика.
+// переключатели схем (главная мысль, «два узла и оборванный провод»),
+// панели «Подробнее» у инцидентов и панель заметок докладчика.
 
 (function () {
   const slides = [...document.querySelectorAll('.slide')];
@@ -21,27 +21,6 @@
       const d = Math.round(180 + i * step);
       el.style.setProperty('--d', `${d}ms`);
       el.style.setProperty('--s', `${d + 350}ms`);
-    });
-  });
-
-  // ---------- Переход на слайд по клику ----------
-  // Своего API у deck.js нет, поэтому «перематываем» дек теми же стрелками,
-  // которые он слушает: прогресс и заметки остаются в согласии с движком.
-  function gotoSlide(index) {
-    const from = slides.findIndex((s) => s.classList.contains('active'));
-    if (from < 0 || index < 0) return;
-    const step = index > from ? 'ArrowRight' : 'ArrowLeft';
-    for (let i = 0; i < Math.abs(index - from); i++) {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: step }));
-    }
-  }
-
-  document.querySelectorAll('[data-goto]').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const target = document.getElementById(`slide-${el.getAttribute('data-goto')}`);
-      gotoSlide(slides.indexOf(target));
-      el.blur();
     });
   });
 
@@ -73,8 +52,38 @@
     });
   });
 
+  // ---------- Панели «Подробнее» ----------
+  // Кнопка в карточке открывает панель с разбором поверх слайда. Открыта
+  // всегда одна; закрывается кнопкой «свернуть», клавишей Esc и уходом со слайда.
+  const moreButtons = [...document.querySelectorAll('[data-more]')];
+
+  function setMore(id) {
+    moreButtons.forEach((btn) => {
+      const open = btn.getAttribute('data-more') === id;
+      btn.setAttribute('aria-expanded', String(open));
+      const box = document.getElementById(`more-${btn.getAttribute('data-more')}`);
+      if (box) box.classList.toggle('is-open', open);
+    });
+  }
+
+  moreButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setMore(btn.getAttribute('data-more'));
+      btn.blur();
+    });
+  });
+  document.querySelectorAll('.more').forEach((box) => {
+    box.addEventListener('click', (e) => e.stopPropagation());
+    box.querySelector('.more-close').addEventListener('click', () => setMore(null));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMore(null);
+  });
+
   function resetSlide(slide) {
     slide.querySelectorAll('.steps[data-target]').forEach((bar) => applyState(bar, bar.dataset.initial));
+    if (slide.querySelector('.more.is-open')) setMore(null);
   }
 
   // ---------- Заметки докладчика ----------

@@ -114,57 +114,33 @@
                 <div class="content-slide">
                     <div class="kicker"><b>Главная мысль</b></div>
                     <div class="body">
-                        <div class="split">
+                        <div class="split pick" id="capPick" data-state="q">
                             <div class="say">
                                 <h2 data-rv>Блокчейн&nbsp;— это <mark>распределённая система</mark></h2>
                                 <p class="lead" data-rv>Идеальной её сделать нельзя. Когда сеть рвётся, приходится выбирать: <b>согласованность</b> или <b>доступность</b>.</p>
+                                <div class="steps is-pick" data-target="capPick" data-rv><button type="button" data-value="c">Согласованность</button><button type="button" data-value="a">Доступность</button></div>
                             </div>
-                            <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Сеть из восьми узлов разорвана на две половины"><path class="ln dr" style="--i:0" pathLength="1" d="M186.7 239.2L143.3 400.8"/><path class="fl" style="--i:0" d="M186.7 239.2L143.3 400.8"/><path class="ln dr" style="--i:1" pathLength="1" d="M238.4 223.5L333.6 306.5"/><path class="fl" style="--i:1" d="M238.4 223.5L333.6 306.5"/><path class="ln dr" style="--i:2" pathLength="1" d="M176.4 428.9L325.6 361.1"/><path class="fl" style="--i:2" d="M176.4 428.9L325.6 361.1"/><path class="ln dr" style="--i:3" pathLength="1" d="M168.6 483.3L255.9 558.6"/><path class="fl" style="--i:3" d="M168.6 483.3L255.9 558.6"/><path class="ln dr" style="--i:4" pathLength="1" d="M356 388.4L304.1 545.3"/><path class="fl" style="--i:4" d="M356 388.4L304.1 545.3"/><path class="ln dr" style="--i:3" pathLength="1" d="M640.5 275.1L765.5 204.9"/><path class="fl" style="--i:3" d="M640.5 275.1L765.5 204.9"/><path class="ln dr" style="--i:4" pathLength="1" d="M634.5 333.4L753.5 436.6"/><path class="fl" style="--i:4" d="M634.5 333.4L753.5 436.6"/><path class="ln dr" style="--i:5" pathLength="1" d="M806.8 230.9L795.2 419.1"/><path class="fl" style="--i:5" d="M806.8 230.9L795.2 419.1"/><path class="ln dr" style="--i:6" pathLength="1" d="M602.7 350.6L626.1 527.4"/><path class="fl" style="--i:6" d="M602.7 350.6L626.1 527.4"/><path class="ln dr" style="--i:7" pathLength="1" d="M749 497.4L669.9 547.8"/><path class="fl" style="--i:7" d="M749 497.4L669.9 547.8"/><path class="ln dash cut" style="--i:9" d="M422.2 331L545.8 309"/><path class="ln dash cut" style="--i:10" d="M335 585.9L587 574.1"/><path class="tear" style="--i:11" d="M484 60L514 170L456 290L512 410L452 530L492 640"/><g class="nd ac" style="--i:0"><circle cx="200" cy="190" r="44"/><text x="200" y="190"></text></g><g class="nd ac" style="--i:1"><circle cx="130" cy="450" r="44"/><text x="130" y="450"></text></g><g class="nd ac" style="--i:2"><circle cx="372" cy="340" r="44"/><text x="372" y="340"></text></g><g class="nd ac" style="--i:3"><circle cx="290" cy="588" r="38"/><text x="290" y="588"></text></g><g class="nd ac" style="--i:4"><circle cx="596" cy="300" r="44"/><text x="596" y="300"></text></g><g class="nd ac" style="--i:5"><circle cx="810" cy="180" r="44"/><text x="810" y="180"></text></g><g class="nd ac" style="--i:6"><circle cx="792" cy="470" r="44"/><text x="792" y="470"></text></g><g class="nd ac" style="--i:7"><circle cx="632" cy="572" r="38"/><text x="632" y="572"></text></g><text class="tx cap" style="--i:12" x="470" y="700">сеть порвалась: две половины не слышат друг друга</text></svg></div>
+                            <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Сеть из восьми узлов разорвана на две половины; в левую приходит новая запись"><path class="ln dr" style="--i:0" pathLength="1" d="M186.7 239.2L143.3 400.8"/><path class="fl" style="--i:0" d="M186.7 239.2L143.3 400.8"/><path class="ln dr" style="--i:1" pathLength="1" d="M238.4 223.5L333.6 306.5"/><path class="fl" style="--i:1" d="M238.4 223.5L333.6 306.5"/><path class="ln dr" style="--i:2" pathLength="1" d="M176.4 428.9L325.6 361.1"/><path class="fl" style="--i:2" d="M176.4 428.9L325.6 361.1"/><path class="ln dr" style="--i:3" pathLength="1" d="M168.6 483.3L255.9 558.6"/><path class="fl" style="--i:3" d="M168.6 483.3L255.9 558.6"/><path class="ln dr" style="--i:4" pathLength="1" d="M356 388.4L304.1 545.3"/><path class="fl" style="--i:4" d="M356 388.4L304.1 545.3"/><path class="ln dr" style="--i:3" pathLength="1" d="M640.5 275.1L765.5 204.9"/><path class="fl" style="--i:3" d="M640.5 275.1L765.5 204.9"/><path class="ln dr" style="--i:4" pathLength="1" d="M634.5 333.4L753.5 436.6"/><path class="fl" style="--i:4" d="M634.5 333.4L753.5 436.6"/><path class="ln dr" style="--i:5" pathLength="1" d="M806.8 230.9L795.2 419.1"/><path class="fl" style="--i:5" d="M806.8 230.9L795.2 419.1"/><path class="ln dr" style="--i:6" pathLength="1" d="M602.7 350.6L626.1 527.4"/><path class="fl" style="--i:6" d="M602.7 350.6L626.1 527.4"/><path class="ln dr" style="--i:7" pathLength="1" d="M749 497.4L669.9 547.8"/><path class="fl" style="--i:7" d="M749 497.4L669.9 547.8"/><path class="ln dash cut" style="--i:9" d="M422.2 331L545.8 309"/><path class="ln dash cut" style="--i:10" d="M335 585.9L587 574.1"/><path class="tear" style="--i:11" d="M484 60L514 170L456 290L512 410L452 530L492 640"/><g class="nd ac sl" style="--i:0"><circle cx="200" cy="190" r="44"/><text x="200" y="190" data-s="q c">x = 1</text><text x="200" y="190" data-s="a">x = 2</text></g><g class="nd ac sl" style="--i:1"><circle cx="130" cy="450" r="44"/><text x="130" y="450" data-s="q c">x = 1</text><text x="130" y="450" data-s="a">x = 2</text></g><g class="nd ac sl" style="--i:2"><circle cx="372" cy="340" r="44"/><text x="372" y="340" data-s="q c">x = 1</text><text x="372" y="340" data-s="a">x = 2</text></g><g class="nd ac sl" style="--i:3"><circle cx="290" cy="588" r="38"/><text x="290" y="588" data-s="q c">x = 1</text><text x="290" y="588" data-s="a">x = 2</text></g><g class="nd ac" style="--i:4"><circle cx="596" cy="300" r="44"/><text x="596" y="300">x = 1</text></g><g class="nd ac" style="--i:5"><circle cx="810" cy="180" r="44"/><text x="810" y="180">x = 1</text></g><g class="nd ac" style="--i:6"><circle cx="792" cy="470" r="44"/><text x="792" y="470">x = 1</text></g><g class="nd ac" style="--i:7"><circle cx="632" cy="572" r="38"/><text x="632" y="572">x = 1</text></g><g class="ar wr" style="--i:10"><path class="ln dr" pathLength="1" d="M200 34L200 112"/><path class="ah" d="M200 136L189 112L211 112Z"/><text class="al" x="226" y="66" data-s="q">запись x = 2</text><text class="al" x="226" y="66" data-s="c">✕ отказ</text><text class="al" x="226" y="66" data-s="a">✓ принято</text></g><text class="tx sgn is-eq" x="484" y="350" data-s="c">=</text><text class="tx sgn is-ne" x="484" y="350" data-s="a">≠</text><text class="tx cap" x="470" y="700" data-s="q">сеть порвалась, а клиент прислал новую запись</text><text class="tx cap" x="470" y="700" data-s="c">данные везде одинаковые, но клиенту отказали</text><text class="tx cap" x="470" y="700" data-s="a">клиенту ответили, но половины сети разошлись</text></svg></div>
                         </div>
                     </div>
                 </div>
                 <aside class="notes">
                     <p><em>Главная мысль</em> Блокчейн нельзя понять, не понимая распределённых систем: у них есть принципиальные ограничения, и блокчейн — один из способов с ними жить.</p>
                     <p><em>Что говорить</em> Начинаем с вывода — это то, что нужно унести из доклада. Блокчейн нельзя понять, не понимая распределённых систем. У них есть принципиальные ограничения: узлы ломаются и врут, сеть рвётся, и всё сразу получить нельзя. Блокчейн — один из способов с этим жить.</p>
-                    <p><em>Как показывать</em> На схеме — сеть, порванная пополам. К этой картинке мы придём в середине доклада, когда дойдём до CAP-теоремы.</p>
+                    <p><em>Как показывать</em> На схеме — сеть, порванная пополам: на всех узлах x = 1, а в левую половину пришла запись x = 2. Под текстом два переключателя. «Согласованность» — запись отклонена: данные везде одинаковые, но клиент остался без ответа. «Доступность» — запись принята: клиенту ответили, но в левой половине уже x = 2, а в правой всё ещё x = 1. При уходе со слайда схема возвращается в исходный вид. Подробно этот выбор разбираем в середине доклада, когда дойдём до CAP-теоремы.</p>
                     <p><em>Запомнить</em> Блокчейн — распределённая система; идеальной она быть не может, и весь вопрос — чем именно она жертвует.</p>
                 </aside>
             </section>
 
-            <!-- SLIDE: plan -->
-            <section class="slide p0" id="slide-plan" data-slide="4">
-                <div class="content-slide">
-                    <div class="kicker"><b>План</b></div>
-                    <div class="body">
-                        <div class="head">
-                            <h2 data-rv>Шесть шагов к этой мысли</h2>
-                        </div>
-                        <div class="plan">
-                            <button class="plan-i p1" type="button" data-goto="sys" data-rv><span class="plan-n">1</span><span class="plan-t"><b>Система</b><span>Что такое распределённая система</span></span></button>
-                            <button class="plan-i p2" type="button" data-goto="kinds" data-rv><span class="plan-n">2</span><span class="plan-t"><b>Узлы</b><span>Какими бывают узлы и что в сети ломается</span></span></button>
-                            <button class="plan-i p3" type="button" data-goto="gen" data-rv><span class="plan-n">3</span><span class="plan-t"><b>Генералы</b><span>Можно ли договориться, если кто-то врёт</span></span></button>
-                            <button class="plan-i p4" type="button" data-goto="hard" data-rv><span class="plan-n">4</span><span class="plan-t"><b>CAP-теорема</b><span>Чего нельзя получить одновременно</span></span></button>
-                            <button class="plan-i p5" type="button" data-goto="bc" data-rv><span class="plan-n">5</span><span class="plan-t"><b>Блокчейн</b><span>Что он выбирает и чем за это платит</span></span></button>
-                            <button class="plan-i p6" type="button" data-goto="pacelc" data-rv><span class="plan-n">6</span><span class="plan-t"><b>PACELC</b><span>Чем платят в обычный день</span></span></button>
-                        </div>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Что говорить</em> Шесть шагов, каждый вырастает из предыдущего. Что такое распределённая система. Какими бывают её узлы и что в ней ломается. Можно ли договориться, если часть участников врёт. Чего от такой системы нельзя добиться в принципе. Что из этого выбирает блокчейн. И чем система платит даже в обычный день.</p>
-                    <p><em>Как показывать</em> Карточки кликабельны — по ним можно перейти к началу части. На слайдах дальше слева вверху подписано, в какой мы части.</p>
-                    <p><em>Откуда порядок</em> Порядок — как в книге: определение, узлы, византийские отказы, CAP, блокчейн и CAP, PACELC.</p>
-                </aside>
-            </section>
-
             <!-- SLIDE: sys -->
-            <section class="slide p1" id="slide-sys" data-slide="5">
+            <section class="slide p1" id="slide-sys" data-slide="4">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 1</b><span>Система</span></div>
                     <div class="body">
                         <div class="split">
                             <div class="say">
-                                <h2 data-rv>Снаружи&nbsp;— <mark>один сервис</mark>. Внутри&nbsp;— много машин</h2>
-                                <p class="lead" data-rv>Распределённая система — это два или больше узлов, которые согласованно работают ради общего результата. Пользователь видит их как одну платформу.</p>
+                                <h2 data-rv><mark>Распределённая система</mark>&nbsp;— два или больше узлов, которые согласованно работают ради общего результата</h2>
+                                <p class="lead" data-rv>Пользователь видит их как одну платформу.</p>
                                 <p class="aside" data-rv>Пример из книги — поиск Google: одна строка, а за ней тысячи серверов.</p>
                             </div>
                             <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Слева окно браузера с одной строкой поиска, справа — много связанных узлов"><g class="win" style="--i:0"><rect x="36" y="230" width="290" height="260" rx="26"/><circle cx="66" cy="258" r="6"/><circle cx="88" cy="258" r="6"/><circle cx="110" cy="258" r="6"/><rect class="field" x="60" y="288" width="242" height="56" rx="28"/><text class="ft" x="86" y="316">что такое блокчейн</text><rect class="rl" x="60" y="372" width="210" height="14" rx="7"/><rect class="rl" x="60" y="402" width="170" height="14" rx="7"/><rect class="rl" x="60" y="432" width="190" height="14" rx="7"/></g><text class="tx cap" style="--i:1" x="181" y="540">что видит пользователь</text><rect class="zone" style="--i:2" x="434" y="74" width="470" height="556" rx="48"/><text class="tx cap" style="--i:2" x="669" y="46">как это устроено</text><path class="ln dr" style="--i:3" pathLength="1" d="M576.1 170.8L633.9 159.2"/><path class="fl" style="--i:3" d="M576.1 170.8L633.9 159.2"/><path class="ln dr" style="--i:4" pathLength="1" d="M721.4 172.2L780.6 203.8"/><path class="ln dr" style="--i:5" pathLength="1" d="M537.5 226.4L548.5 293.6"/><path class="fl" style="--i:5" d="M537.5 226.4L548.5 293.6"/><path class="ln dr" style="--i:6" pathLength="1" d="M689.7 196L710.3 294"/><path class="ln dr" style="--i:7" pathLength="1" d="M790.7 261L751.3 305"/><path class="fl" style="--i:7" d="M790.7 261L751.3 305"/><path class="ln dr" style="--i:8" pathLength="1" d="M603 340L673 340"/><path class="ln dr" style="--i:9" pathLength="1" d="M568.6 385.3L589.4 460.7"/><path class="fl" style="--i:9" d="M568.6 385.3L589.4 460.7"/><path class="ln dr" style="--i:10" pathLength="1" d="M740.1 382.5L769.9 445.5"/><path class="ln dr" style="--i:11" pathLength="1" d="M648.8 501.5L743.2 492.5"/><path class="fl" style="--i:11" d="M648.8 501.5L743.2 492.5"/><path class="ln dr" style="--i:12" pathLength="1" d="M692.8 378.3L629.2 467.7"/><g class="nd ac" style="--i:3"><circle cx="530" cy="180" r="40"/><text x="530" y="180"></text></g><g class="nd ac" style="--i:4"><circle cx="680" cy="150" r="40"/><text x="680" y="150"></text></g><g class="nd ac" style="--i:5"><circle cx="822" cy="226" r="40"/><text x="822" y="226"></text></g><g class="nd ac" style="--i:6"><circle cx="556" cy="340" r="40"/><text x="556" y="340"></text></g><g class="nd ac" style="--i:7"><circle cx="720" cy="340" r="40"/><text x="720" y="340"></text></g><g class="nd ac" style="--i:8"><circle cx="602" cy="506" r="40"/><text x="602" y="506"></text></g><g class="nd ac" style="--i:9"><circle cx="790" cy="488" r="40"/><text x="790" y="488"></text></g><g class="ar acc" style="--i:10"><path class="ln dr" pathLength="1" d="M340 330L396 330"/><path class="ah" d="M420 330L396 341L396 319Z"/><text class="al" x="380" y="300">запрос</text></g><g class="ar ok" style="--i:12"><path class="ln dr" pathLength="1" d="M420 396L364 396"/><path class="ah" d="M340 396L364 385L364 407Z"/><text class="al" x="380" y="430">ответ</text></g><text class="tx cap" style="--i:13" x="669" y="676">много узлов — одна платформа</text></svg></div>
@@ -181,7 +157,7 @@
             </section>
 
             <!-- SLIDE: parts -->
-            <section class="slide p1" id="slide-parts" data-slide="6">
+            <section class="slide p1" id="slide-parts" data-slide="5">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 1</b><span>Система</span></div>
                     <div class="body">
@@ -205,7 +181,7 @@
             </section>
 
             <!-- SLIDE: dec -->
-            <section class="slide p1" id="slide-dec" data-slide="7">
+            <section class="slide p1" id="slide-dec" data-slide="6">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 1</b><span>Система</span></div>
                     <div class="body">
@@ -216,7 +192,6 @@
                             <div class="card" data-rv><div class="mini"><svg viewBox="0 0 700 330" role="img" aria-label="Шесть серверов, которыми управляет один владелец"><path class="ln thin" style="--i:0" d="M350 104L70 224"/><path class="ln thin" style="--i:1" d="M350 104L182 224"/><path class="ln thin" style="--i:2" d="M350 104L294 224"/><path class="ln thin" style="--i:3" d="M350 104L406 224"/><path class="ln thin" style="--i:4" d="M350 104L518 224"/><path class="ln thin" style="--i:5" d="M350 104L630 224"/><path class="ln dr" style="--i:0" pathLength="1" d="M113 268L139 268"/><path class="ln dr" style="--i:1" pathLength="1" d="M225 268L251 268"/><path class="ln dr" style="--i:2" pathLength="1" d="M337 268L363 268"/><path class="ln dr" style="--i:3" pathLength="1" d="M449 268L475 268"/><path class="ln dr" style="--i:4" pathLength="1" d="M561 268L587 268"/><g class="owner" style="--i:0"><rect x="252" y="36" width="196" height="68" rx="34"/><text x="350" y="71">один хозяин</text></g><g class="nd" style="--i:0"><circle cx="70" cy="268" r="36"/><text x="70" y="268"></text></g><g class="nd" style="--i:1"><circle cx="182" cy="268" r="36"/><text x="182" y="268"></text></g><g class="nd" style="--i:2"><circle cx="294" cy="268" r="36"/><text x="294" y="268"></text></g><g class="nd" style="--i:3"><circle cx="406" cy="268" r="36"/><text x="406" y="268"></text></g><g class="nd" style="--i:4"><circle cx="518" cy="268" r="36"/><text x="518" y="268"></text></g><g class="nd" style="--i:5"><circle cx="630" cy="268" r="36"/><text x="630" y="268"></text></g></svg></div><h3>Поиск Google</h3><div class="facts"><span><b>машин</b> много</span><span><b>хозяин</b> один</span></div><p>Распределённая, но централизованная система.</p></div>
                             <div class="card is-hi" data-rv><div class="mini"><svg viewBox="0 0 700 330" role="img" aria-label="Шесть узлов, у каждого свой владелец"><path class="ln dr" style="--i:0" pathLength="1" d="M391.5 57.2L533.7 95.8"/><path class="ln dr" style="--i:1" pathLength="1" d="M575.2 150L575.2 186"/><path class="ln dr" style="--i:2" pathLength="1" d="M533.7 240.2L391.5 278.8"/><path class="ln dr" style="--i:3" pathLength="1" d="M308.5 278.8L166.3 240.2"/><path class="ln dr" style="--i:4" pathLength="1" d="M124.8 186L124.8 150"/><path class="ln dr" style="--i:5" pathLength="1" d="M166.3 95.8L308.5 57.2"/><path class="ln dr" style="--i:6" pathLength="1" d="M350 89L350 247"/><path class="ln dr" style="--i:7" pathLength="1" d="M533.7 118.2L166.3 217.8"/><path class="ln dr" style="--i:8" pathLength="1" d="M533.7 217.8L166.3 118.2"/><g class="nd c1" style="--i:0"><circle cx="350" cy="46" r="36"/><text x="350" y="46"></text></g><g class="nd c2" style="--i:1"><circle cx="575.1666049839541" cy="107" r="36"/><text x="575.1666049839541" y="107"></text></g><g class="nd c3" style="--i:2"><circle cx="575.1666049839541" cy="229" r="36"/><text x="575.1666049839541" y="229"></text></g><g class="nd c4" style="--i:3"><circle cx="350" cy="290" r="36"/><text x="350" y="290"></text></g><g class="nd c5" style="--i:4"><circle cx="124.83339501604593" cy="229" r="36"/><text x="124.83339501604593" y="229"></text></g><g class="nd c6" style="--i:5"><circle cx="124.83339501604596" cy="106.99999999999999" r="36"/><text x="124.83339501604596" y="106.99999999999999"></text></g></svg></div><h3>Bitcoin</h3><div class="facts"><span><b>машин</b> много</span><span><b>хозяев</b> много</span></div><p>И распределённая, и децентрализованная.</p></div>
                         </div>
-                        <p class="foot" data-rv>Блокчейн задуман как система, где много и машин, и хозяев. Децентрализации посвящена глава 2.</p>
                     </div>
                 </div>
                 <aside class="notes">
@@ -230,7 +205,7 @@
             </section>
 
             <!-- SLIDE: kinds -->
-            <section class="slide p2" id="slide-kinds" data-slide="8">
+            <section class="slide p2" id="slide-kinds" data-slide="7">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 2</b><span>Узлы</span></div>
                     <div class="body">
@@ -255,31 +230,31 @@
             </section>
 
             <!-- SLIDE: flaws -->
-            <section class="slide p2" id="slide-flaws" data-slide="9">
+            <section class="slide p2" id="slide-flaws" data-slide="8">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 2</b><span>Узлы</span></div>
                     <div class="body">
                         <div class="split">
                             <div class="say">
-                                <h2 data-rv>Две беды: узел <mark>врёт</mark>, канал <mark>рвётся</mark></h2>
-                                <p class="lead" data-rv>Та же схема из книги. N4 — византийский узел: соседям он сообщает разное, и их данные расходятся. L2 — оборванный канал: сеть распадается на две части.</p>
-                                <p class="aside" data-rv>Медленный канал для узла неотличим от оборванного: ответа просто нет. Обе беды вернутся в CAP-теореме.</p>
+                                <h2 data-rv>Византийский узел <mark>врёт</mark>&nbsp;— и данные расходятся</h2>
+                                <p class="lead" data-rv>Та же схема из книги. N4 — византийский узел: соседу N5 он сообщает одно, соседу N6 — другое. У них оказываются разные данные, и каждый считает свои верными.</p>
+                                <p class="aside" data-rv>Упавший узел молчит, и это заметно. Византийский отвечает как обычный — поэтому ему верят.</p>
                             </div>
-                            <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Узел N4 сообщает соседям разное, канал между N3 и N4 оборван"><rect class="zone soft" style="--i:0" x="62" y="80" width="412" height="540" rx="64"/><rect class="zone soft" style="--i:1" x="536" y="80" width="352" height="560" rx="64"/><path class="ln dr" style="--i:0" pathLength="1" d="M174.9 230.8L155.1 469.2"/><path class="ln dr" style="--i:1" pathLength="1" d="M226.3 209.7L343.7 310.3"/><path class="ln dr" style="--i:2" pathLength="1" d="M198.8 493.4L341.2 386.6"/><path class="ln dr" style="--i:3" pathLength="1" d="M798.4 231L791.6 479"/><path class="ln dash cut" style="--i:9" d="M451 350L559 350"/><g class="cutx" style="--i:10" transform="translate(505 350)"><circle r="20"/><path d="M-8 -8L8 8M8 -8L-8 8"/></g><text class="tx bad" style="--i:10" x="505" y="300">L2 оборван</text><g class="ar lie" style="--i:5"><path class="ln dr" pathLength="1" d="M665.3 304.7L737.8 232.2"/><path class="ah" d="M754.7 215.3L745.6 240L730 224.4Z"/><text class="al" x="638" y="260">x = 5</text></g><g class="ar lie" style="--i:6"><path class="ln dr" pathLength="1" d="M662.7 397.7L731.3 474.4"/><path class="ah" d="M747.3 492.3L723.1 481.8L739.5 467.1Z"/><text class="al" x="629" y="455">x = 9</text></g><g class="nd" style="--i:0"><circle cx="180" cy="170" r="54"/><text x="180" y="170">N1</text></g><g class="nd" style="--i:1"><circle cx="150" cy="530" r="54"/><text x="150" y="530">N2</text></g><g class="nd" style="--i:2"><circle cx="390" cy="350" r="54"/><text x="390" y="350">N3</text></g><g class="nd bad" style="--i:3"><circle cx="620" cy="350" r="54"/><text x="620" y="350">N4</text></g><g class="nd" style="--i:4"><circle cx="800" cy="170" r="54"/><text x="800" y="170">N5</text></g><g class="nd" style="--i:5"><circle cx="790" cy="540" r="54"/><text x="790" y="540">N6</text></g><text class="tx bad" style="--i:7" x="726" y="352">N4 врёт</text><text class="tx neq" style="--i:8" x="868" y="358">≠</text><text class="tx cap" style="--i:11" x="268" y="668">первая половина сети</text><text class="tx cap" style="--i:11" x="712" y="688">вторая половина</text></svg></div>
+                            <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Узел N4 сообщает соседям N5 и N6 разные значения"><path class="ln dr" style="--i:0" pathLength="1" d="M174.9 230.8L155.1 469.2"/><path class="ln dr" style="--i:1" pathLength="1" d="M226.3 209.7L343.7 310.3"/><path class="ln dr" style="--i:2" pathLength="1" d="M198.8 493.4L341.2 386.6"/><path class="ln dr" style="--i:3" pathLength="1" d="M451 350L559 350"/><path class="ln dr" style="--i:4" pathLength="1" d="M798.4 231L791.6 479"/><g class="ar lie" style="--i:5"><path class="ln dr" pathLength="1" d="M665.3 304.7L737.8 232.2"/><path class="ah" d="M754.7 215.3L745.6 240L730 224.4Z"/><text class="al" x="638" y="260">x = 5</text></g><g class="ar lie" style="--i:6"><path class="ln dr" pathLength="1" d="M662.7 397.7L731.3 474.4"/><path class="ah" d="M747.3 492.3L723.1 481.8L739.5 467.1Z"/><text class="al" x="629" y="455">x = 9</text></g><g class="nd " style="--i:0"><circle cx="180" cy="170" r="54"/><text x="180" y="170">N1</text></g><g class="nd " style="--i:1"><circle cx="150" cy="530" r="54"/><text x="150" y="530">N2</text></g><g class="nd " style="--i:2"><circle cx="390" cy="350" r="54"/><text x="390" y="350">N3</text></g><g class="nd bad" style="--i:3"><circle cx="620" cy="350" r="54"/><text x="620" y="350">N4</text></g><g class="nd " style="--i:4"><circle cx="800" cy="170" r="54"/><text x="800" y="170">N5</text></g><g class="nd " style="--i:5"><circle cx="790" cy="540" r="54"/><text x="790" y="540">N6</text></g><text class="tx bad" style="--i:7" x="726" y="352">N4 врёт</text><text class="tx neq" style="--i:8" x="868" y="358">≠</text><text class="tx cap" style="--i:9" x="470" y="676">N5 и N6 получили разное — их данные расходятся</text></svg></div>
                         </div>
                     </div>
                 </div>
                 <aside class="notes">
-                    <p><em>Главная мысль</em> У распределённой системы два типичных источника бед: узел с некорректным поведением и канал, из-за которого сеть разделяется.</p>
-                    <p><em>Что говорить</em> Это рисунок 1.1 из книги: в нём отмечены два проблемных места. N4 — византийский узел: он сообщает соседям разные значения, и данные у N5 и N6 расходятся — возникает несогласованность. L2 — повреждённый или медленный канал: левая и правая группы больше не слышат друг друга, это называют разделением сети. Обратите внимание: «оборван» и «очень медленный» для узла неотличимы — он просто не получает ответа.</p>
-                    <p><em>Запомнить</em> Византийский узел порождает несогласованность данных, повреждённый канал — разделение сети. Обе беды вернутся в CAP-теореме.</p>
-                    <p><em>Оговорка</em> Расположение узлов нарисовано нами так, чтобы обрыв L2 действительно делил сеть надвое; в книге схема условнее. Значения «x = 5» и «x = 9» — иллюстрация.</p>
+                    <p><em>Главная мысль</em> Один византийский узел портит данные у соседей: он сообщает им разное, и в системе появляется несогласованность.</p>
+                    <p><em>Что говорить</em> Это рисунок 1.1 из книги: в нём отмечен N4 — византийский узел. Он сообщает соседям разные значения, и данные у N5 и N6 расходятся — возникает несогласованность. Остальные узлы работают как обычно и ничего не замечают. Этим византийский узел опаснее упавшего: тот просто молчит, и его отсутствие видно всем.</p>
+                    <p><em>Запомнить</em> Византийский узел порождает несогласованность данных.</p>
+                    <p><em>Оговорка</em> В книге на том же рисунке отмечен ещё и повреждённый канал L2, из-за которого сеть делится на части. Со слайда он убран, чтобы не смешивать две темы: о разделении сети говорим в части про CAP-теорему. Расположение узлов нарисовано нами; значения «x = 5» и «x = 9» — иллюстрация.</p>
                     <p><em>Источники</em> И. Башир, «Mastering Blockchain», 4-е изд. (2023), глава 1, раздел «Распределённые системы».</p>
                 </aside>
             </section>
 
             <!-- SLIDE: cases -->
-            <section class="slide p2" id="slide-cases" data-slide="10">
+            <section class="slide p2" id="slide-cases" data-slide="9">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 2</b><span>Узлы</span></div>
                     <div class="body">
@@ -287,17 +262,49 @@
                             <h2 data-rv>Византийский&nbsp;— не&nbsp;значит <mark>злой</mark></h2>
                         </div>
                         <div class="trio">
-                            <div class="card is-case" data-rv><div class="glyph">0 → 1</div><span class="tagl">сбой железа</span><h3>Amazon S3, 2008</h3><p>Один испорченный бит в служебных сообщениях — и хранилище встало на несколько часов.</p></div>
-                            <div class="card is-case" data-rv><div class="glyph">{ ✕ }</div><span class="tagl">ошибка в программе</span><h3>Ethereum Holesky, 2025</h3><p>Три клиента приняли неверный блок. Тестовая сеть две недели жила без финальности.</p></div>
-                            <div class="card is-case is-bad" data-rv><div class="glyph">A ≠ B</div><span class="tagl">умысел</span><h3>Двойная подпись</h3><p>Валидатор Ethereum подписал два разных блока — часть его ставки сжигают, а его исключают.</p></div>
+                            <div class="card is-case" data-rv><div class="glyph">0 → 1</div><span class="tagl">сбой железа</span><h3>Amazon S3, 2008</h3><p>Один испорченный бит в служебных сообщениях — и хранилище встало на несколько часов.</p><button class="more-btn" type="button" data-more="s3" aria-expanded="false">Подробнее</button></div>
+                            <div class="card is-case" data-rv><div class="glyph">{ ✕ }</div><span class="tagl">ошибка в программе</span><h3>Ethereum Holesky, 2025</h3><p>Три клиента приняли неверный блок. Тестовая сеть две недели жила без финальности.</p><button class="more-btn" type="button" data-more="holesky" aria-expanded="false">Подробнее</button></div>
+                            <div class="card is-case is-bad" data-rv><div class="glyph">A ≠ B</div><span class="tagl">умысел</span><h3>Двойная подпись</h3><p>Валидатор Ethereum подписал два разных блока — часть его ставки сжигают, а его исключают.</p><button class="more-btn" type="button" data-more="slash" aria-expanded="false">Подробнее</button></div>
                         </div>
                         <p class="foot" data-rv>Протокол не гадает о причинах. Он должен выдержать любое поведение — пока таких узлов меньше порога.</p>
+                    </div>
+                    <div class="more " id="more-s3">
+                        <div class="more-head"><div><span class="tagl">сбой железа · 20 июля 2008</span><h3>Amazon S3: один бит остановил хранилище</h3></div><button class="more-close" type="button">свернуть</button></div>
+                        <ol class="flow">
+                            <li style="--i:0"><span class="flow-n">шаг 1</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Три сервера обмениваются сообщениями"><path class="ln dr" style="--i:0" pathLength="1" d="M90 75L150 75"/><path class="fl" style="--i:0" d="M90 75L150 75"/><path class="ln dr" style="--i:1" pathLength="1" d="M210 75L270 75"/><path class="fl" style="--i:1" d="M210 75L270 75"/><g class="nd ac" style="--i:0"><circle cx="60" cy="75" r="30"/><text x="60" y="75"></text></g><g class="nd ac" style="--i:1"><circle cx="180" cy="75" r="30"/><text x="180" y="75"></text></g><g class="nd ac" style="--i:2"><circle cx="300" cy="75" r="30"/><text x="300" y="75"></text></g></svg></div><b>Серверы «сплетничают»</b><p>Серверы S3 постоянно пересказывают друг другу состояние системы: кто жив, кто занят.</p></li>
+                            <li style="--i:1"><span class="flow-n">шаг 2</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="В сообщении один бит поменялся с единицы на ноль"><text class="bits" x="84" y="75">0110</text><g class="ar lie" style="--i:1"><path class="ln dr" pathLength="1" d="M150 75L192 75"/><path class="ah" d="M212 75L192 84L192 66Z"/></g><text class="bits" x="278" y="75">01<tspan class="is-bad">0</tspan>0</text></svg></div><b>Исказился один бит</b><p>В нескольких таких сообщениях испортился бит. Контрольной суммы у них не было — сообщение выглядело обычным.</p></li>
+                            <li style="--i:2"><span class="flow-n">шаг 3</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Испорченное состояние передаётся от сервера к серверу"><g class="ar lie" style="--i:1"><path class="ln dr" pathLength="1" d="M88 62L138.6 49"/><path class="ah" d="M158 44L140.9 57.7L136.4 40.3Z"/></g><g class="ar lie" style="--i:2"><path class="ln dr" pathLength="1" d="M88 88L138.6 101"/><path class="ah" d="M158 106L136.4 109.7L140.9 92.3Z"/></g><g class="ar lie" style="--i:3"><path class="ln dr" pathLength="1" d="M212 44L253.2 59.1"/><path class="ah" d="M272 66L250.1 67.6L256.3 50.7Z"/></g><g class="ar lie" style="--i:4"><path class="ln dr" pathLength="1" d="M212 106L253.2 90.9"/><path class="ah" d="M272 84L256.3 99.3L250.1 82.4Z"/></g><g class="nd bad" style="--i:0"><circle cx="60" cy="75" r="30"/><text x="60" y="75">!</text></g><g class="nd bad" style="--i:1"><circle cx="184" cy="36" r="28"/><text x="184" y="36">!</text></g><g class="nd bad" style="--i:2"><circle cx="184" cy="114" r="28"/><text x="184" y="114">!</text></g><g class="nd bad" style="--i:3"><circle cx="300" cy="75" r="30"/><text x="300" y="75">!</text></g></svg></div><b>Ложь разошлась</b><p>Серверы приняли испорченное состояние за правду и передавали его дальше, пока оно не разошлось по всей системе.</p></li>
+                            <li style="--i:3"><span class="flow-n">шаг 4</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Серверы остановлены и запущены заново"><g class="nd down" style="--i:0"><circle cx="70" cy="75" r="34"/><text x="70" y="75">✕</text></g><g class="ar acc" style="--i:1"><path class="ln dr" pathLength="1" d="M116 75L224 75"/><path class="ah" d="M244 75L224 84L224 66Z"/><text class="al" x="180" y="50">сброс</text></g><g class="nd ok" style="--i:2"><circle cx="290" cy="75" r="34"/><text x="290" y="75">✓</text></g></svg></div><b>Полный перезапуск</b><p>Серверы были заняты сплетнями и не успевали обслуживать запросы. Обмен остановили, состояние очистили и запустили всё заново.</p></li>
+                        </ol>
+                        <p class="foot"><b>Итог.</b> Около восьми часов простоя — и никакого злоумышленника. После сбоя к служебным сообщениям добавили контрольные суммы.</p>
+                    </div>
+                    <div class="more " id="more-holesky">
+                        <div class="more-head"><div><span class="tagl">ошибка в программе · 24 февраля 2025</span><h3>Ethereum Holesky: большинство ушло не туда</h3></div><button class="more-close" type="button">свернуть</button></div>
+                        <ol class="flow">
+                            <li style="--i:0"><span class="flow-n">шаг 1</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="В тестовой сети Holesky включают обновление Pectra"><g class="cli acc" style="--i:0"><rect x="14" y="48" width="124" height="54" rx="22"/><text x="76" y="75">Pectra</text></g><g class="ar acc" style="--i:1"><path class="ln dr" pathLength="1" d="M146 75L188 75"/><path class="ah" d="M208 75L188 84L188 66Z"/></g><g class="cli " style="--i:2"><rect x="216" y="48" width="130" height="54" rx="22"/><text x="281" y="75">Holesky</text></g></svg></div><b>Обновление сети</b><p>В тестовой сети Holesky включили обновление Pectra — репетицию перед основной сетью.</p></li>
+                            <li style="--i:1"><span class="flow-n">шаг 2</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Адрес контракта в сети и в клиентах не совпадает"><g class="cli ok" style="--i:0"><rect x="14" y="48" width="130" height="54" rx="22"/><text x="79" y="75">адрес A</text></g><text class="tx sgn is-ne" style="--i:1" x="180" y="75">≠</text><g class="cli bad" style="--i:2"><rect x="216" y="48" width="130" height="54" rx="22"/><text x="281" y="75">адрес B</text></g><text class="tx cap" style="--i:1" x="79" y="126">в сети</text><text class="tx cap" style="--i:2" x="281" y="126">в клиентах</text></svg></div><b>Неверная настройка</b><p>В трёх клиентах — Geth, Nethermind и Besu — для этой сети был записан неверный адрес депозитного контракта.</p></li>
+                            <li style="--i:2"><span class="flow-n">шаг 3</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Три клиента приняли блок, два отвергли"><g class="nd bad" style="--i:0"><circle cx="40" cy="62" r="26"/><text x="40" y="62">✓</text></g><g class="nd bad" style="--i:1"><circle cx="100" cy="62" r="26"/><text x="100" y="62">✓</text></g><g class="nd bad" style="--i:2"><circle cx="160" cy="62" r="26"/><text x="160" y="62">✓</text></g><g class="nd ok" style="--i:3"><circle cx="250" cy="62" r="26"/><text x="250" y="62">✕</text></g><g class="nd ok" style="--i:4"><circle cx="310" cy="62" r="26"/><text x="310" y="62">✕</text></g><text class="tx cap" style="--i:3" x="100" y="122">приняли</text><text class="tx cap" style="--i:4" x="280" y="122">отвергли</text></svg></div><b>Неверный блок принят</b><p>Из-за этого они приняли блок, недействительный по правилам сети. Erigon и Reth его отвергли.</p></li>
+                            <li style="--i:3"><span class="flow-n">шаг 4</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Цепочка разделилась: большинство пошло по неверной ветке"><rect class="bk" style="--i:0" x="10" y="55" width="46" height="40" rx="10"/><path class="ln thin" style="--i:1" d="M56 75L84 34"/><path class="ln thin" style="--i:1" d="M56 75L84 116"/><rect class="bk is-x" style="--i:2" x="84" y="14" width="46" height="40" rx="10"/><path class="ln thin" style="--i:3" d="M130 34L142 34"/><rect class="bk is-x" style="--i:3" x="142" y="14" width="46" height="40" rx="10"/><rect class="bk is-g" style="--i:2" x="84" y="96" width="46" height="40" rx="10"/><text class="tx cap bad" style="--i:4" x="274" y="34">большинство</text><text class="tx cap good" style="--i:4" x="214" y="116">верная ветка</text></svg></div><b>Сеть раскололась</b><p>Большинство валидаторов проголосовало за неверную ветку. Вернуть их на верную оказалось долго.</p></li>
+                        </ol>
+                        <p class="foot"><b>Итог.</b> Финальность вернулась только 10 марта — через две недели. Никто не атаковал сеть: одна ошибка в настройке сделала византийскими большинство узлов.</p>
+                    </div>
+                    <div class="more is-bad" id="more-slash">
+                        <div class="more-head"><div><span class="tagl">умысел · правило протокола</span><h3>Двойная подпись: как ловят и наказывают</h3></div><button class="more-close" type="button">свернуть</button></div>
+                        <ol class="flow">
+                            <li style="--i:0"><span class="flow-n">шаг 1</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="В слот один валидатор предлагает один блок"><g class="nd ac" style="--i:0"><circle cx="70" cy="75" r="34"/><text x="70" y="75">V</text></g><g class="ar acc" style="--i:1"><path class="ln dr" pathLength="1" d="M112 75L206 75"/><path class="ah" d="M226 75L206 84L206 66Z"/></g><rect class="bk is-a" style="--i:2" x="234" y="50" width="76" height="50" rx="12"/><text class="tx cap" style="--i:2" x="272" y="126">один блок</text></svg></div><b>Очередь валидатора</b><p>В каждый слот блок предлагает один назначенный валидатор — и блок должен быть один.</p></li>
+                            <li style="--i:1"><span class="flow-n">шаг 2</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Валидатор отправляет двум соседям разные блоки"><g class="ar lie" style="--i:1"><path class="ln dr" pathLength="1" d="M98 60L238.3 37.2"/><path class="ah" d="M258 34L239.7 46.1L236.8 28.3Z"/><text class="al" x="176" y="22">блок A</text></g><g class="ar lie" style="--i:2"><path class="ln dr" pathLength="1" d="M98 90L238.3 112.8"/><path class="ah" d="M258 116L236.8 121.7L239.7 103.9Z"/><text class="al" x="176" y="130">блок B</text></g><g class="nd bad" style="--i:0"><circle cx="66" cy="75" r="34"/><text x="66" y="75">V</text></g><g class="nd " style="--i:3"><circle cx="294" cy="34" r="26"/><text x="294" y="34"></text></g><g class="nd " style="--i:4"><circle cx="294" cy="116" r="26"/><text x="294" y="116"></text></g></svg></div><b>Два блока вместо одного</b><p>Он подписывает два разных блока и рассылает их разным соседям. Это и есть «разным говорит разное».</p></li>
+                            <li style="--i:2"><span class="flow-n">шаг 3</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Две подписи одного валидатора складываются в доказательство"><g class="cli bad" style="--i:0"><rect x="14" y="14" width="148" height="48" rx="22"/><text x="88" y="38">подпись A</text></g><g class="cli bad" style="--i:1"><rect x="14" y="88" width="148" height="48" rx="22"/><text x="88" y="112">подпись B</text></g><g class="ar warn" style="--i:2"><path class="ln dr" pathLength="1" d="M170 38L203.8 53.6"/><path class="ah" d="M222 62L200.1 61.8L207.6 45.4Z"/></g><g class="ar warn" style="--i:2"><path class="ln dr" pathLength="1" d="M170 112L203.8 96.4"/><path class="ah" d="M222 88L207.6 104.6L200.1 88.2Z"/></g><g class="cli warn" style="--i:3"><rect x="228" y="48" width="118" height="54" rx="22"/><text x="287" y="75">улика</text></g></svg></div><b>Подписи — улика</b><p>Обе подписи сделаны одним ключом. Любой узел, который увидел обе, вкладывает их в блок как доказательство.</p></li>
+                            <li style="--i:3"><span class="flow-n">шаг 4</span><div class="flow-pic"><svg viewBox="0 0 360 150" role="img" aria-label="Ставка валидатора уменьшается, а он сам исключён"><rect class="stake" style="--i:0" x="16" y="56" width="150" height="38" rx="12"/><rect class="stake is-left" style="--i:1" x="16" y="56" width="104" height="38" rx="12"/><text class="tx bad" style="--i:2" x="91" y="122">ставка сгорает</text><g class="ar lie" style="--i:2"><path class="ln dr" pathLength="1" d="M180 75L216 75"/><path class="ah" d="M236 75L216 84L216 66Z"/></g><g class="nd down" style="--i:3"><circle cx="290" cy="75" r="34"/><text x="290" y="75">V</text></g><text class="tx cap" style="--i:3" x="290" y="132">исключён</text></svg></div><b>Слэшинг</b><p>Часть ставки сжигают, а валидатора принудительно выводят из сети.</p></li>
+                        </ol>
+                        <p class="foot"><b>Итог.</b> Запретить ложь нельзя — зато её можно сделать заметной и дорогой.</p>
                     </div>
                 </div>
                 <aside class="notes">
                     <p><em>Главная мысль</em> Византийские отказы — не экзотика с хакерами: это и испорченный бит, и ошибка в настройке, и чужой эксперимент. Протокол обязан пережить всё это, не разбираясь в причинах.</p>
                     <p><em>Что говорить</em> Первый пример — вообще не блокчейн. В июле 2008 года хранилище Amazon S3 несколько часов было недоступно: в служебном протоколе обмена состоянием в нескольких сообщениях исказился один бит, проверки целостности для этих сообщений не было, и неверная информация разошлась по серверам. Второй — февраль 2025: в тестовой сети Ethereum Holesky три клиента из-за неверно настроенного адреса контракта приняли невалидный блок, большинство валидаторов оказалось на неправильной ветке, и финальность восстанавливали около двух недель. Третий — уже не случай, а правило: в Ethereum за двойную подпись предусмотрено наказание — слэшинг.</p>
                     <p><em>Запомнить</em> В двух первых примерах никто не хотел зла, в третьем кто-то действует намеренно. Для системы разницы нет.</p>
+                    <p><em>Как показывать</em> У каждой карточки кнопка «Подробнее»: она открывает разбор случая в четыре шага со схемами. Закрывается кнопкой «свернуть», клавишей Esc или переходом на другой слайд.</p>
+                    <p><em>Подробности</em> Amazon S3: серверы обменивались состоянием по gossip-протоколу; данные клиентов защищались контрольными суммами, а эти служебные сообщения — нет. Сбой длился примерно с 8:40 до 16:58 по тихоокеанскому времени. Holesky: неверный адрес депозитного контракта был у Geth, Nethermind и Besu, верный — у Erigon и Reth; неверная ветка получила большинство голосов, финальность вернулась 10 марта 2025 года. Двойная подпись: наказание состоит из немедленного штрафа, дополнительного штрафа, который растёт с числом одновременно наказанных, и принудительного выхода.</p>
                     <p><em>Оговорка</em> Этих примеров в книге нет — они подобраны нами. Про S3 — по публикациям 2008 года (исходная страница статуса AWS уже недоступна). Holesky — тестовая сеть, не основная.</p>
                     <p><em>Переход</em> Слово «византийский» взялось из знаменитого мысленного эксперимента 1982 года.</p>
                     <p><em>Источники</em> <a href="https://www.datacenterknowledge.com/outages/s3-downtime-more-missing-bites" target="_blank" rel="noopener">Data Center Knowledge — S3 Downtime: More Missing Bites (о сбое Amazon S3 20.07.2008)</a>; <a href="https://github.com/ethereum/pm/blob/master/Network-Upgrade-Archive/Pectra/holesky-postmortem.md" target="_blank" rel="noopener">ethereum/pm — Holesky postmortem (инцидент 24.02.2025 после обновления Pectra)</a>; <a href="https://intersectmbo.org/news/incident-report-network-partition-analysis-and-resolution-strategy" target="_blank" rel="noopener">Intersect — Incident report: network partition analysis and resolution strategy (21.11.2025)</a>; <a href="https://cryptoslate.com/cardano-split-in-two-by-a-single-transaction-lessons-for-eth-and-sol-client-diversity/" target="_blank" rel="noopener">CryptoSlate — Cardano split in two by a single transaction (11.2025)</a>; <a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/rewards-and-penalties/" target="_blank" rel="noopener">ethereum.org — Proof-of-stake rewards and penalties: slashing за двойную подпись</a>.</p>
@@ -305,7 +312,7 @@
             </section>
 
             <!-- SLIDE: gen -->
-            <section class="slide p3" id="slide-gen" data-slide="11">
+            <section class="slide p3" id="slide-gen" data-slide="10">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 3</b><span>Генералы</span></div>
                     <div class="body">
@@ -314,7 +321,7 @@
                                 <h2 data-rv>Задача <mark>византийских генералов</mark></h2>
                                 <p class="lead" data-rv>Генералы окружили город и победят, только если ударят одновременно. Договариваются они через гонцов — а среди них может быть предатель.</p>
                                 <div class="chips" data-rv><span class="chip"><b>генерал</b> = узел</span><span class="chip"><b>предатель</b> = византийский узел</span><span class="chip"><b>гонец</b> = канал связи</span></div>
-                                <p class="by" data-rv>Лэмпорт, Шостак и Пиз · 1982</p>
+                                <p class="by" data-rv><a class="lnk" href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener">Лэмпорт, Шостак и Пиз · 1982</a></p>
                             </div>
                             <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Четыре генерала окружили город и общаются через гонцов"><g class="city" style="--i:0"><path d="M395 412V312H425V342H455V298H485V342H515V312H545V412Z"/><path class="gate" d="M455 412V380a15 15 0 0 1 30 0V412"/></g><text class="tx cap" style="--i:0" x="470" y="452">город</text><path class="ln dash" style="--i:4" d="M528 108Q794 126 828 300"/><path class="fl" style="--i:4" d="M528 108Q794 126 828 300"/><path class="ln dash" style="--i:5" d="M828 420Q794 598 528 612"/><path class="fl" style="--i:5" d="M828 420Q794 598 528 612"/><path class="ln dash" style="--i:6" d="M412 612Q146 598 112 420"/><path class="fl" style="--i:6" d="M412 612Q146 598 112 420"/><path class="ln dash" style="--i:7" d="M112 300Q146 126 412 108"/><path class="fl" style="--i:7" d="M112 300Q146 126 412 108"/><g class="nd ac" style="--i:1"><circle cx="470" cy="98" r="52"/><text x="470" y="98">Г1</text></g><g class="nd bad" style="--i:2"><circle cx="836" cy="360" r="52"/><text x="836" y="360">Г2</text></g><g class="nd ac" style="--i:3"><circle cx="470" cy="624" r="52"/><text x="470" y="624">Г3</text></g><g class="nd ac" style="--i:4"><circle cx="104" cy="360" r="52"/><text x="104" y="360">Г4</text></g><text class="tx bad" style="--i:8" x="836" y="456">предатель?</text><text class="tx call" style="--i:6" x="690" y="132">гонец</text></svg></div>
                         </div>
@@ -329,7 +336,7 @@
             </section>
 
             <!-- SLIDE: gen3 -->
-            <section class="slide p3" id="slide-gen3" data-slide="12">
+            <section class="slide p3" id="slide-gen3" data-slide="11">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 3</b><span>Генералы</span></div>
                     <div class="body">
@@ -351,7 +358,7 @@
             </section>
 
             <!-- SLIDE: gen4 -->
-            <section class="slide p3" id="slide-gen4" data-slide="13">
+            <section class="slide p3" id="slide-gen4" data-slide="12">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 3</b><span>Генералы</span></div>
                     <div class="body">
@@ -374,7 +381,7 @@
             </section>
 
             <!-- SLIDE: thr -->
-            <section class="slide p3" id="slide-thr" data-slide="14">
+            <section class="slide p3" id="slide-thr" data-slide="13">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 3</b><span>Генералы</span></div>
                     <div class="body">
@@ -405,7 +412,7 @@
             </section>
 
             <!-- SLIDE: hard -->
-            <section class="slide p4" id="slide-hard" data-slide="15">
+            <section class="slide p4" id="slide-hard" data-slide="14">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 4</b><span>CAP-теорема</span></div>
                     <div class="body">
@@ -427,7 +434,7 @@
             </section>
 
             <!-- SLIDE: cap -->
-            <section class="slide p4" id="slide-cap" data-slide="16">
+            <section class="slide p4" id="slide-cap" data-slide="15">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 4</b><span>CAP-теорема</span></div>
                     <div class="body">
@@ -439,7 +446,7 @@
                             <div class="card is-a" data-rv><div class="mini is-short"><svg viewBox="0 0 520 230" role="img" aria-label="Клиент отправляет запрос узлу и получает ответ"><g class="cli" style="--i:0"><rect x="26" y="66" width="112" height="100" rx="22"/><text x="82" y="116">клиент</text></g><g class="ar acc" style="--i:2"><path class="ln dr" pathLength="1" d="M156 92L332 92"/><path class="ah" d="M356 92L332 103L332 81Z"/><text class="al" x="256" y="76">запрос</text></g><g class="ar ok" style="--i:4"><path class="ln dr" pathLength="1" d="M356 142L180 142"/><path class="ah" d="M156 142L180 131L180 153Z"/><text class="al" x="256" y="180">ответ</text></g><g class="nd cc" style="--i:1"><circle cx="430" cy="116" r="56"/><text x="430" y="116">узел</text></g></svg></div><div class="letter"><b>A</b><span>Доступность<small>availability</small></span></div><p>Каждый запрос получает ответ.</p></div>
                             <div class="card is-p" data-rv><div class="mini is-short"><svg viewBox="0 0 520 230" role="img" aria-label="Сеть разделена на две части, обе продолжают работать"><path class="ln dr" style="--i:0" pathLength="1" d="M99.1 105.4L122.9 134.6"/><path class="fl" style="--i:0" d="M99.1 105.4L122.9 134.6"/><path class="ln dr" style="--i:1" pathLength="1" d="M397.1 105.4L420.9 134.6"/><path class="fl" style="--i:1" d="M397.1 105.4L420.9 134.6"/><path class="ln dash cut" style="--i:3" d="M116 72L326 72"/><path class="tear" style="--i:4" d="M262 14L284 66L240 118L282 170L258 220"/><g class="nd cc" style="--i:0"><circle cx="72" cy="72" r="36"/><text x="72" y="72"></text></g><g class="nd cc" style="--i:1"><circle cx="150" cy="168" r="36"/><text x="150" y="168"></text></g><g class="nd cc" style="--i:2"><circle cx="370" cy="72" r="36"/><text x="370" y="72"></text></g><g class="nd cc" style="--i:3"><circle cx="448" cy="168" r="36"/><text x="448" y="168"></text></g></svg></div><div class="letter"><b>P</b><span>Устойчивость к разделению<small>partition tolerance</small></span></div><p>Система работает, даже если сеть распалась на части.</p></div>
                         </div>
-                        <p class="foot" data-rv>Гипотеза Эрика Брюэра — 1998 год. Сет Гилберт и Нэнси Линч доказали её в 2002-м.</p>
+                        <p class="foot" data-rv><a class="lnk" href="https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/" target="_blank" rel="noopener">Гипотеза Эрика Брюэра</a> — 1998 год. <a class="lnk" href="https://dl.acm.org/doi/10.1145/564585.564601" target="_blank" rel="noopener">Сет Гилберт и Нэнси Линч доказали её</a> в 2002-м.</p>
                     </div>
                 </div>
                 <aside class="notes">
@@ -453,7 +460,7 @@
             </section>
 
             <!-- SLIDE: venn -->
-            <section class="slide p4" id="slide-venn" data-slide="17">
+            <section class="slide p4" id="slide-venn" data-slide="16">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 4</b><span>CAP-теорема</span></div>
                     <div class="body">
@@ -478,7 +485,7 @@
             </section>
 
             <!-- SLIDE: two -->
-            <section class="slide p4" id="slide-two" data-slide="18">
+            <section class="slide p4" id="slide-two" data-slide="17">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 4</b><span>CAP-теорема</span></div>
                     <div class="body">
@@ -518,7 +525,7 @@
             </section>
 
             <!-- SLIDE: bc -->
-            <section class="slide p5" id="slide-bc" data-slide="19">
+            <section class="slide p5" id="slide-bc" data-slide="18">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 5</b><span>Блокчейн</span></div>
                     <div class="body">
@@ -551,7 +558,7 @@
             </section>
 
             <!-- SLIDE: day -->
-            <section class="slide p5" id="slide-day" data-slide="20">
+            <section class="slide p5" id="slide-day" data-slide="19">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 5</b><span>Блокчейн</span></div>
                     <div class="body">
@@ -577,7 +584,7 @@
             </section>
 
             <!-- SLIDE: pacelc -->
-            <section class="slide p6" id="slide-pacelc" data-slide="21">
+            <section class="slide p6" id="slide-pacelc" data-slide="20">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 6</b><span>PACELC</span></div>
                     <div class="body">
@@ -609,7 +616,7 @@
             </section>
 
             <!-- SLIDE: front -->
-            <section class="slide p6" id="slide-front" data-slide="22">
+            <section class="slide p6" id="slide-front" data-slide="21">
                 <div class="content-slide">
                     <div class="kicker"><b>Часть 6</b><span>PACELC</span></div>
                     <div class="body">
@@ -634,7 +641,7 @@
             </section>
 
             <!-- SLIDE: next -->
-            <section class="slide p0" id="slide-next" data-slide="23">
+            <section class="slide p0" id="slide-next" data-slide="22">
                 <div class="content-slide">
                     <div class="kicker"><b>Что дальше</b></div>
                     <div class="body">
@@ -657,7 +664,7 @@
             </section>
 
             <!-- SLIDE: sum -->
-            <section class="slide p0" id="slide-sum" data-slide="24">
+            <section class="slide p0" id="slide-sum" data-slide="23">
                 <div class="content-slide">
                     <div class="kicker"><b>Итог</b></div>
                     <div class="body">
@@ -675,13 +682,13 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    <p><em>Что говорить</em> Шесть шагов — шесть выводов. Распределённая система — много узлов, которые работают как один. Узлы падают и врут. Договориться всё равно можно, пока лжецов меньше трети. Но всё сразу получить нельзя — это CAP. Блокчейн выбирает доступность и ждёт согласованности. А PACELC напоминает, что за согласованность платят и в обычный день — временем.</p>
+                    <p><em>Что говорить</em> Шесть частей — шесть выводов. Распределённая система — много узлов, которые работают как один. Узлы падают и врут. Договориться всё равно можно, пока лжецов меньше трети. Но всё сразу получить нельзя — это CAP. Блокчейн выбирает доступность и ждёт согласованности. А PACELC напоминает, что за согласованность платят и в обычный день — временем.</p>
                     <p><em>Запомнить</em> Блокчейн не отменяет ограничений распределённых систем — он выбирает, чем заплатить, и делает этот выбор открытым правилом протокола.</p>
                     <p><em>Переход</em> Дальше — «История блокчейна».</p>
                 </aside>
             </section>
 
-            <section class="slide" data-slide="25" data-chrome="whatnext">
+            <section class="slide" data-slide="24" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>

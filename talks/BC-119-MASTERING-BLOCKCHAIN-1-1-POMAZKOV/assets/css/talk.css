@@ -1,0 +1,1321 @@
+/*
+ * talk.css — стили контентных слайдов ЭТОГО доклада
+ * («Развитие блокчейна», глава 1 книги «Блокчейн. Исчерпывающее руководство»).
+ * Общий «хром» дека живёт в deck.css и правится только в шаблоне; всё, что
+ * относится к слайдам спикера, — здесь: пересборка «хром»-слайдов
+ * (scripts/rebuild-talk.mjs) этот файл не трогает.
+ *
+ * Доклад держится на трёх видах слайдов:
+ *   • таймлайн (.tl)   — год = точка, рядом подпись, при наведении подсказка;
+ *                        годы после выхода книги (.is-ours) — другого цвета;
+ *   • этап (.stage)    — во что упёрлись → чем ответили → какие технологии;
+ *   • технология (.tech) — логотип, сайт; сверху идея, ниже что это, кто
+ *                        создал (имя — ссылка на профиль), было → стало
+ *                        и свёрнутый необязательный блок «Как это работает».
+ * Вверху слайдов этапа и технологии — «рельса» (.rail): тот же таймлайн
+ * в миниатюре, на котором подсвечено, где мы сейчас.
+ */
+
+/* ===== Палитра доклада =====
+   Нейтральные тона (подложки, рамки, текст) берутся из токенов дека и
+   переключаются вместе с ним; светлая тема — переопределение этих же
+   переменных. Цвета брендов одинаковы в обеих темах и идут только в
+   подсветку и рамки: текст ими не красится, поэтому на белом не выцветает.
+   Литералов цвета в правилах ниже нет. */
+:root {
+    --hl: #7dd3fc;
+    --hl-rgb: 125, 211, 252;
+    --warn: #fbbf24;
+    --warn-rgb: 251, 191, 36;
+    --ok: #34d399;
+    --ok-rgb: 52, 211, 153;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --b-bitcoin: 247, 147, 26;
+    --b-ethereum: 98, 126, 234;
+    --b-solana: 153, 69, 255;
+    --b-avalanche: 232, 65, 66;
+    --b-polkadot: 230, 0, 122;
+    --b-lightning: 250, 204, 21;
+    --b-corda: 236, 29, 36;
+    --brand-rgb: var(--hl-rgb);
+
+    /* Стрелка-соединитель: это маска, цвет берётся из токена через background. */
+    --arr: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10h13M11 5l5 5-5 5'/%3E%3C/svg%3E");
+    --chk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 10.5l4 4 8-9'/%3E%3C/svg%3E");
+}
+
+:root[data-theme='light'] {
+    --hl: #0369a1;
+    --hl-rgb: 3, 105, 161;
+    --warn: #b45309;
+    --warn-rgb: 180, 83, 9;
+    --ok: #047857;
+    --ok-rgb: 4, 120, 87;
+}
+
+.t-bitcoin { --brand-rgb: var(--b-bitcoin); }
+.t-ethereum { --brand-rgb: var(--b-ethereum); }
+.t-solana { --brand-rgb: var(--b-solana); }
+.t-avalanche { --brand-rgb: var(--b-avalanche); }
+.t-polkadot { --brand-rgb: var(--b-polkadot); }
+.t-lightning { --brand-rgb: var(--b-lightning); }
+.t-corda { --brand-rgb: var(--b-corda); }
+
+/* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css нет. */
+.content-slide,
+.content-slide *,
+.content-slide *::before,
+.content-slide *::after {
+    box-sizing: border-box;
+}
+
+/* ===== Каркас контентного слайда =====
+   Сверху — заголовок с лидом либо «рельса» (.top), остаток занимает .body
+   и центрирует содержимое по вертикали. */
+.content-slide {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 52px 96px 60px;
+}
+.content-slide > h2 {
+    font-size: 60px;
+    margin: 0;
+    line-height: 1.1;
+    flex-shrink: 0;
+}
+.content-slide > .body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    padding-top: 20px;
+}
+.slide-lead {
+    font-size: 28px;
+    line-height: 1.45;
+    color: var(--text-muted);
+    margin: 16px 0 0;
+    max-width: 1500px;
+    flex-shrink: 0;
+}
+.content-slide p { margin: 0; }
+.content-slide h3 { margin: 0; }
+.content-slide b { color: var(--text-main); font-weight: 600; }
+.content-slide button { font: inherit; color: inherit; }
+
+/* Подпись-ярлык моноширинным шрифтом: «Что это», «Кто создал», «Было»… */
+.k {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+/* ===== Появление элементов =====
+   Блоки с data-rv появляются по шагам; задержки (--d) в порядке чтения
+   раздаёт talk.js. Анимация привязана к .slide.active, поэтому проигрывается
+   заново при каждом входе на слайд. fill-mode: backwards — до старта элемент
+   скрыт, после финиша возвращается к своим обычным стилям (иначе застывший
+   transform ломал бы hover). Без talk.js слайд просто показывается сразу. */
+.slide.active .content-slide > h2 { animation: rvFade 0.6s ease backwards; }
+.slide.active .content-slide > .slide-lead { animation: rvUp 0.7s var(--ease) 0.08s backwards; }
+.slide.active .top { animation: rvFade 0.6s ease backwards; }
+.slide.active [data-rv] { animation: rvUp 0.7s var(--ease) backwards; animation-delay: var(--d, 0ms); }
+.slide.active [data-rv='pop'] { animation-name: rvPop; }
+.slide.active [data-rv='left'] { animation-name: rvLeft; }
+.slide.active [data-rv='right'] { animation-name: rvRight; }
+.slide.active [data-rv='fade'] { animation-name: rvFade; }
+@keyframes rvUp { from { opacity: 0; transform: translateY(26px); } }
+@keyframes rvDown { from { opacity: 0; transform: translateY(-26px); } }
+@keyframes rvLeft { from { opacity: 0; transform: translateX(-40px); } }
+@keyframes rvRight { from { opacity: 0; transform: translateX(40px); } }
+@keyframes rvPop { from { opacity: 0; transform: scale(0.8); } }
+@keyframes rvFade { from { opacity: 0; } }
+@keyframes growX { from { transform: scaleX(0); } }
+@keyframes growY { from { transform: scaleY(0); } }
+@keyframes ring {
+    0% { box-shadow: 0 0 0 0 rgba(var(--ring-rgb, var(--hl-rgb)), 0.6); }
+    70%, 100% { box-shadow: 0 0 0 18px rgba(var(--ring-rgb, var(--hl-rgb)), 0); }
+}
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 70px rgba(var(--brand-rgb), 0.18); }
+    50% { box-shadow: 0 0 130px rgba(var(--brand-rgb), 0.42); }
+}
+@keyframes arrowRun {
+    0%, 100% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+}
+
+/* ===== Шапка слайда: где мы на таймлайне ===== */
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    height: 44px;
+    flex-shrink: 0;
+}
+.crumb {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.crumb-y {
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--hl-rgb), 0.45);
+    background: rgba(var(--hl-rgb), 0.08);
+    color: var(--hl);
+    letter-spacing: 0.06em;
+}
+.crumb-n { color: var(--text-faint); }
+.crumb-sep { color: var(--text-faint); margin: 0 -6px; }
+/* Название этапа в шапке — кнопка возврата на слайд этого этапа. */
+.crumb-back {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px 7px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    color: var(--text-main);
+    transition: border-color 0.2s, background 0.2s;
+}
+.crumb-back::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+    transform: scaleX(-1);
+    transition: transform 0.2s var(--ease);
+}
+.crumb-back:hover, .crumb-back:focus-visible { border-color: var(--hl); background: rgba(var(--hl-rgb), 0.1); }
+.crumb-back:hover::before { transform: scaleX(-1) translateX(3px); }
+
+.rail { display: flex; align-items: center; }
+/* Сброс — с той же специфичностью, что и правила ниже: иначе он перебил бы их. */
+.rail-home, .rail-pt {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.rail-home {
+    margin-right: 14px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    transition: color 0.2s, background 0.2s;
+}
+.rail-home:hover, .rail-home:focus-visible { color: var(--text-main); background: var(--bg-hover); }
+.rail-pt {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+}
+/* Отрезок линии под каждой точкой: вместе они складываются в ось. */
+.rail-pt::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    margin-top: -1px;
+    background: var(--border);
+}
+.rail-pt:first-of-type::before { left: 50%; }
+.rail-pt:last-of-type::before { right: 50%; }
+.rail-pt i {
+    position: relative;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--border-strong);
+    transition: transform 0.2s var(--ease), border-color 0.2s;
+}
+.rail-pt.is-past i { background: var(--text-dim); border-color: var(--text-dim); }
+.rail-pt.is-here i {
+    width: 17px;
+    height: 17px;
+    background: var(--hl);
+    border-color: var(--hl);
+}
+.slide.active .rail-pt.is-here i { animation: ring 2.4s ease-out 0.8s infinite; }
+.rail-pt:hover i, .rail-pt:focus-visible i { transform: scale(1.4); border-color: var(--hl); }
+
+/* ===== Логотип =====
+   Плитка одна на весь доклад: в ней либо знак бренда (svg), либо монограмма,
+   либо линейная иконка понятия. Свечение — цветом бренда. */
+.logo {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 190px;
+    height: 190px;
+    border-radius: 46px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+/* Большая плитка на слайде технологии «дышит» цветом бренда. */
+.tech-id .logo {
+    border-color: rgba(var(--brand-rgb), 0.35);
+    box-shadow: 0 0 90px rgba(var(--brand-rgb), 0.26);
+}
+.slide.active .tech-id .logo {
+    animation: rvPop 0.7s var(--ease) backwards, glow 4.5s ease-in-out infinite;
+    animation-delay: var(--d, 0ms), calc(var(--d, 0ms) + 0.7s);
+}
+.logo svg { position: relative; width: 62%; height: 62%; display: block; }
+.logo .ico { width: 54%; height: 54%; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.logo-mono {
+    font-size: 96px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--text-main);
+}
+.logo-mono.is-word { font-size: 46px; letter-spacing: -0.03em; }
+.logo-mono.is-abbr { font-size: 52px; letter-spacing: -0.02em; }
+/* Corda: в знаке буква «o» — красная точка. */
+.logo-corda { display: inline-flex; align-items: center; font-size: 50px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.logo-corda i { width: 0.56em; height: 0.56em; margin: 0.08em 0.045em 0; border-radius: 50%; background: rgb(var(--b-corda)); }
+
+/* ===== Слайд технологии ===== */
+.tech-card {
+    display: grid;
+    grid-template-columns: 430px 1fr;
+    gap: 84px;
+    align-items: center;
+}
+.tech-id { display: flex; flex-direction: column; align-items: flex-start; isolation: isolate; }
+.tech-id h2 {
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    margin: 36px 0 0;
+    color: var(--accent);
+}
+.tech-id h2.is-long { font-size: 50px; }
+.tech-tag {
+    font-size: 29px;
+    line-height: 1.3;
+    color: var(--text-muted);
+    margin-top: 14px !important;
+}
+.site {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    font-family: var(--font-mono);
+    font-size: 21px;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s var(--ease);
+}
+.site span { color: var(--text-dim); transition: transform 0.2s var(--ease), color 0.2s; }
+.site:hover, .site:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.85);
+    background: rgba(var(--brand-rgb), 0.1);
+    transform: translateY(-2px);
+}
+.site:hover span { color: var(--text-main); transform: translate(2px, -2px); }
+
+.tech-info { display: flex; flex-direction: column; gap: 20px; }
+/* Идея — первой строкой: зачем это придумали и что сделали. Подробности ниже. */
+.idea { padding: 2px 0 4px 26px; border-left: 4px solid rgb(var(--brand-rgb)); }
+.idea .k { display: block; }
+.idea p {
+    margin-top: 8px !important;
+    font-size: 33px;
+    font-weight: 600;
+    line-height: 1.28;
+    letter-spacing: -0.012em;
+    color: var(--text-main);
+}
+.row {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-soft);
+}
+.row p { font-size: 30px; line-height: 1.38; color: var(--text-soft); }
+.row small { display: block; margin-top: 8px; font-size: 22px; color: var(--text-dim); }
+
+/* Примеры-проекты: кнопки в ряд; в кружке — монограмма проекта. */
+.ppl { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; }
+.ppl > small { flex-basis: 100%; margin-top: 0; }
+.ava {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(var(--brand-rgb), 0.14);
+    border: 2px solid rgba(var(--brand-rgb), 0.55);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    transition: transform 0.25s var(--ease), border-color 0.2s;
+}
+.person-t { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.person-t b { font-size: 25px; line-height: 1.15; }
+.person-t small { margin: 0; font-size: 19px; line-height: 1.25; color: var(--text-muted); }
+.exb:hover .ava, .exb:focus-visible .ava { transform: scale(1.07); border-color: rgb(var(--brand-rgb)); }
+/* Пример-проект: кнопка, которая ведёт на его собственный слайд. */
+.exb {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 24px 8px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-card);
+    transition: border-color 0.2s, background 0.2s, transform 0.25s var(--ease);
+}
+.exb .ava { width: 54px; height: 54px; font-size: 17px; }
+.exb:hover, .exb:focus-visible { border-color: rgba(var(--hl-rgb), 0.85); background: var(--bg-hover); transform: translateY(-3px); }
+
+
+.change > .k { display: block; margin-bottom: 12px; }
+.ba { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; }
+.ba-was, .ba-now { border-radius: 22px; padding: 16px 24px 18px; }
+.ba-was { border: 1px dashed var(--border-strong); }
+.ba-now {
+    border: 1px solid rgba(var(--brand-rgb), 0.65);
+    background: rgba(var(--brand-rgb), 0.1);
+}
+.ba span {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.ba-now span { color: var(--text-main); }
+.ba p { margin-top: 8px !important; font-size: 27px; line-height: 1.36; }
+.ba-was p { color: var(--text-muted); }
+.ba-now p { color: var(--text-main); }
+.ba-arrow, .pa-arrow {
+    align-self: center;
+    justify-self: center;
+    width: 34px;
+    height: 34px;
+    background: var(--text-muted);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+.slide.active .ba-arrow, .slide.active .pa-arrow {
+    animation: rvPop 0.7s var(--ease) backwards, arrowRun 1.8s ease-in-out infinite;
+    animation-delay: var(--d, 0ms), calc(var(--d, 0ms) + 0.7s);
+}
+.today {
+    margin-top: 12px !important;
+    font-size: 21px;
+    line-height: 1.4;
+    color: var(--text-dim);
+}
+.today .k { margin-right: 12px; font-size: 14px; }
+
+/* ===== «Как это работает»: необязательный свёрнутый блок =====
+   На слайде — кнопка с пунктирной рамкой: пунктир значит «можно пропустить».
+   По клику поверх слайда раскрывается схема из шагов. Открывает и закрывает
+   её talk.js; без скрипта блок просто остаётся свёрнутым. */
+.more { display: flex; gap: 16px; }
+.more .more-btn {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    border-radius: 20px;
+    border: 2px dashed var(--border-strong);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-soft);
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.more-btn::before {
+    content: '+';
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1;
+}
+.more-btn small {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.more-btn:hover, .more-btn:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.9);
+    background: rgba(var(--brand-rgb), 0.07);
+    color: var(--text-main);
+}
+.how {
+    position: absolute;
+    left: 96px;
+    right: 96px;
+    top: 112px;
+    bottom: 56px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 34px;
+    padding: 40px 48px;
+    border-radius: 30px;
+    border: 2px dashed rgba(var(--brand-rgb), 0.75);
+    background: var(--bg);
+    box-shadow: 0 0 0 14px var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px) scale(0.985);
+    transition: opacity 0.25s ease, transform 0.35s var(--ease), visibility 0.25s;
+}
+.how.is-open { opacity: 1; visibility: visible; transform: none; }
+.how-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
+.how-head h3 { margin-top: 10px; font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -0.028em; color: var(--text-main); }
+.how .how-close {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.how-close::after { content: ' ×'; }
+.how-close:hover, .how-close:focus-visible { color: var(--text-main); border-color: var(--text-main); background: var(--bg-hover); }
+/* Схема: пронумерованные шаги со стрелками. В каждом — название,
+   «формула» шага моноширинным шрифтом и объяснение простыми словами. */
+.flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--n, 4), 1fr);
+    gap: 52px;
+    counter-reset: st;
+}
+.flow li {
+    position: relative;
+    counter-increment: st;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 26px 28px;
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+}
+.flow li::before {
+    content: counter(st);
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(var(--brand-rgb), 0.16);
+    border: 2px solid rgba(var(--brand-rgb), 0.7);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+.flow li + li::after {
+    content: '';
+    position: absolute;
+    left: -43px;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    margin-top: -17px;
+    background: var(--text-muted);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+/* Список причин, а не цепочка шагов — без стрелок. */
+.how.no-arrows .flow { gap: 24px; }
+.how.no-arrows .flow li + li::after { content: none; }
+.flow b { margin-top: 16px; font-size: 29px; line-height: 1.15; }
+.flow-s {
+    margin-top: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--brand-rgb), 0.32);
+    background: rgba(var(--brand-rgb), 0.09);
+    font-family: var(--font-mono);
+    font-size: 17px;
+    line-height: 1.35;
+    color: var(--text-main);
+}
+.flow p { margin-top: 14px !important; font-size: 23px; line-height: 1.42; color: var(--text-soft); }
+.flow[style*='--n: 5'] { gap: 40px; }
+.flow[style*='--n: 5'] li { padding: 22px 20px 24px; }
+.flow[style*='--n: 5'] li + li::after { left: -37px; }
+.flow[style*='--n: 5'] b { font-size: 26px; }
+.flow[style*='--n: 5'] .flow-s { font-size: 15px; }
+.flow[style*='--n: 5'] p { font-size: 21px; }
+.how.is-open .flow li { animation: rvUp 0.6s var(--ease) backwards; animation-delay: calc(120ms + var(--i) * 110ms); }
+.how-sum {
+    padding: 20px 28px;
+    border-radius: 20px;
+    border: 1px solid rgba(var(--ok-rgb), 0.48);
+    background: rgba(var(--ok-rgb), 0.07);
+    font-size: 26px;
+    line-height: 1.42;
+    color: var(--text-main);
+}
+.how-sum .k { margin-right: 16px; color: var(--ok); }
+
+/* ===== Слайд этапа: упёрлись → ответили → технологии ===== */
+.stage-head { display: flex; flex-direction: column; gap: 10px; }
+.stage-y {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--hl);
+    letter-spacing: -0.01em;
+}
+.stage-head h2 { font-size: 80px; font-weight: 700; line-height: 1.04; margin: 0; }
+.pa { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; }
+.pa-p, .pa-a { border-radius: 24px; padding: 26px 32px 30px; }
+.pa-p { border: 1px solid rgba(var(--warn-rgb), 0.42); background: rgba(var(--warn-rgb), 0.06); }
+.pa-a { border: 1px solid rgba(var(--ok-rgb), 0.48); background: rgba(var(--ok-rgb), 0.07); }
+.pa-p .k { color: var(--warn); }
+.pa-a .k { color: var(--ok); }
+.pa p { margin-top: 12px !important; font-size: 32px; line-height: 1.4; color: var(--text-main); }
+
+.minis { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 20px; }
+.mini {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    transition: border-color 0.2s, transform 0.25s var(--ease), background 0.2s;
+}
+.mini:hover, .mini:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.8);
+    background: var(--bg-hover);
+    transform: translateY(-4px);
+}
+.mini .logo { width: 72px; height: 72px; border-radius: 20px; }
+.mini .logo-mono { font-size: 38px; }
+.mini .logo-mono.is-abbr { font-size: 21px; }
+.mini .logo-corda { font-size: 20px; }
+.mini-t { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.mini-t b { font-size: 28px; line-height: 1.15; }
+.mini-t span { font-size: 22px; line-height: 1.3; color: var(--text-muted); }
+/* Пять карточек в ряд не помещаются строкой — ставим логотип над подписью. */
+.minis[style*='--n: 5'] .mini { flex-direction: column; align-items: flex-start; gap: 16px; padding: 22px; }
+.minis[style*='--n: 5'] .mini-t b { font-size: 25px; }
+.minis[style*='--n: 5'] .mini-t span { font-size: 21px; }
+.stage-note { font-size: 24px; line-height: 1.45; color: var(--text-muted); }
+.stage-note .k { margin-right: 14px; }
+
+/* ===== Таймлайн: год — точка, рядом подпись, при наведении подсказка ===== */
+.tl {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    margin: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(var(--n, 9), 1fr);
+}
+.tl-axis {
+    position: absolute;
+    left: -40px;
+    right: -40px;
+    top: 50%;
+    height: 3px;
+    margin-top: -1.5px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--border-strong), var(--hl));
+    transform-origin: left center;
+}
+.tl-axis::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+    border-top: 3px solid var(--hl);
+    border-right: 3px solid var(--hl);
+    transform: rotate(45deg);
+}
+.slide.active .tl-axis { animation: growX 1.5s var(--ease) 0.25s backwards; }
+
+/* Точка — кнопка на всю колонку, но ловит мышь только на метке и на самой
+   точке: иначе подсказки выскакивали бы от случайного движения по слайду. */
+.tl-pt {
+    all: unset;
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    cursor: pointer;
+    pointer-events: none;
+}
+.tl-pt:hover, .tl-pt:focus-visible { z-index: 5; }
+/* Годы после выхода книги (2024–2026) добавлены нами — у них свой цвет.
+   Слайдов у них нет, поэтому и курсор обычный: это подсказка, а не переход. */
+.tl-pt { --pt: var(--hl); --pt-rgb: var(--hl-rgb); --ring-rgb: var(--pt-rgb); }
+.tl-pt.is-ours { --pt: var(--ok); --pt-rgb: var(--ok-rgb); cursor: default; }
+.tl-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border-radius: 50%;
+    background: var(--pt);
+    border: 6px solid var(--bg);
+    outline: 2px solid var(--pt);
+    pointer-events: auto;
+    transition: transform 0.25s var(--ease);
+}
+.slide.active .tl-dot {
+    animation: rvPop 0.5s var(--ease) backwards, ring 3.6s ease-out infinite;
+    animation-delay: calc(0.5s + var(--i) * 0.13s), calc(2.4s + var(--i) * 0.4s);
+}
+.tl-pt:hover .tl-dot, .tl-pt:focus-visible .tl-dot { transform: scale(1.35); }
+/* Ножка от точки к подписи. */
+.tl-pt::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 2px;
+    height: 38px;
+    margin-left: -1px;
+    background: var(--border-strong);
+}
+.tl-pt.up::before { bottom: calc(50% + 24px); transform-origin: bottom; }
+.tl-pt.down::before { top: calc(50% + 24px); transform-origin: top; }
+.slide.active .tl-pt::before {
+    animation: growY 0.45s var(--ease) backwards;
+    animation-delay: calc(0.62s + var(--i) * 0.13s);
+}
+.tl-label {
+    position: absolute;
+    left: 50%;
+    width: 340px;
+    margin-left: -170px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    pointer-events: auto;
+}
+.tl-pt.up .tl-label { bottom: calc(50% + 72px); }
+.tl-pt.down .tl-label { top: calc(50% + 72px); }
+.slide.active .tl-label {
+    animation: rvUp 0.6s var(--ease) backwards;
+    animation-delay: calc(0.7s + var(--i) * 0.13s);
+}
+.slide.active .tl-pt.down .tl-label { animation-name: rvDown; }
+.tl-y {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--pt);
+    white-space: nowrap;
+}
+.tl-c { font-size: 27px; font-weight: 600; line-height: 1.25; color: var(--text-main); }
+
+/* Подсказка: что этот шаг дал блокчейну. Открывается за подписью — дальше
+   от оси, на свободном месте, — и поэтому не закрывает соседние годы. */
+.tl-tip {
+    position: absolute;
+    left: 50%;
+    width: 520px;
+    margin-left: -260px;
+    padding: 22px 26px;
+    border-radius: 20px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--pt-rgb), 0.55);
+    box-shadow: 0 26px 70px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.25s var(--ease), visibility 0.2s;
+    z-index: 10;
+}
+.tl-pt.up .tl-tip { bottom: calc(100% + 18px); transform: translateY(10px); }
+.tl-pt.down .tl-tip { top: calc(100% + 18px); transform: translateY(-10px); }
+/* Крайние точки: подсказка не должна уезжать за край слайда. */
+.tl-pt.tip-start .tl-tip { left: 38px; margin-left: 0; }
+.tl-pt.tip-end .tl-tip { left: auto; right: 38px; margin-left: 0; }
+.tl-pt:hover .tl-tip, .tl-pt:focus-visible .tl-tip { opacity: 1; visibility: visible; transform: none; }
+/* Уголок, который показывает на подпись. */
+.tl-tip::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    margin-left: -7px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--pt-rgb), 0.55);
+    border-top: 0;
+    border-left: 0;
+}
+.tl-pt.up .tl-tip::after { bottom: -8px; transform: rotate(45deg); }
+.tl-pt.down .tl-tip::after { top: -8px; transform: rotate(225deg); }
+.tl-pt.tip-start .tl-tip::after { left: 132px; }
+.tl-pt.tip-end .tl-tip::after { left: auto; right: 132px; margin-left: 0; margin-right: -7px; }
+.tl-tip-k {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pt);
+}
+.tl-tip-t { display: block; margin-top: 10px; font-size: 24px; font-weight: 400; line-height: 1.4; color: var(--text-main); }
+.tl-tip-n { display: block; margin-top: 10px; font-size: 20px; font-weight: 400; line-height: 1.35; color: var(--text-muted); }
+
+/* Двенадцать точек: подписи через одну стоят по одну сторону оси, поэтому
+   им нужно умещаться в два шага сетки. */
+.tl.is-dense { margin: 0 24px; }
+.tl.is-dense .tl-axis { left: -24px; right: -24px; }
+.tl.is-dense .tl-label { width: 262px; margin-left: -131px; }
+.tl.is-dense .tl-y { font-size: 30px; }
+.tl.is-dense .tl-c { font-size: 24px; }
+.tl.is-dense .tl-tip { padding: 20px 24px; }
+.tl.is-dense .tl-tip-t { font-size: 22px; }
+.tl.is-dense .tl-tip-n { font-size: 19px; }
+.tl.is-dense .tl-pt.tip-start .tl-tip { left: 0; }
+.tl.is-dense .tl-pt.tip-end .tl-tip { right: 0; }
+.tl.is-dense .tl-pt.tip-start .tl-tip::after { left: 131px; }
+.tl.is-dense .tl-pt.tip-end .tl-tip::after { right: 131px; }
+.tl-legend { display: flex; gap: 36px; margin-top: 18px; flex-shrink: 0; }
+.tl-lg { display: inline-flex; align-items: center; gap: 12px; font-size: 22px; color: var(--text-muted); }
+.tl-lg i { width: 16px; height: 16px; border-radius: 50%; background: var(--hl); }
+.tl-lg.is-ours i { background: var(--ok); }
+.slide.active .tl-legend { animation: rvFade 0.7s ease 0.3s backwards; }
+
+/* ===== Главная мысль ===== */
+.big {
+    font-size: 58px;
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.025em;
+    color: var(--text-main);
+    max-width: 1560px;
+}
+.big em { font-style: normal; color: var(--hl); }
+/* Плитки — всё, о чём пойдёт речь: иконка, название, куда ведёт клик.
+   Подсказка открывается под плиткой: над ней — главная мысль слайда. */
+.tks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.tk {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 16px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.25s var(--ease), background 0.2s;
+}
+.tk:hover, .tk:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.8);
+    background: var(--bg-hover);
+    transform: translateY(-4px);
+    z-index: 5;
+}
+.tk .logo { width: 60px; height: 60px; border-radius: 17px; }
+.tk .logo-mono { font-size: 32px; }
+.tk .logo-corda { font-size: 17px; }
+.tk-t { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.tk-t b { font-size: 22px; line-height: 1.15; white-space: nowrap; }
+.tk-u { font-family: var(--font-mono); font-size: 15px; color: var(--text-dim); white-space: nowrap; transition: color 0.2s; }
+.tk:hover .tk-u, .tk:focus-visible .tk-u { color: var(--hl); }
+.tk-tip, .ed-tip {
+    position: absolute;
+    padding: 18px 22px;
+    border-radius: 18px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--hl-rgb), 0.55);
+    box-shadow: 0 26px 70px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.25s var(--ease), visibility 0.2s;
+    z-index: 10;
+}
+.tk-tip {
+    left: 0;
+    top: calc(100% + 12px);
+    width: 400px;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--text-main);
+    transform: translateY(-8px);
+}
+.tk:nth-child(5n) .tk-tip { left: auto; right: 0; }
+.tk:hover .tk-tip, .tk:focus-visible .tk-tip,
+.ed:hover .ed-tip, .ed:focus-visible .ed-tip { opacity: 1; visibility: visible; transform: none; }
+
+/* ===== Блокчейн и биткойн ===== */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.duo-c {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    padding: 32px 34px;
+    border-radius: 26px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    isolation: isolate;
+}
+.duo-c .logo { width: 104px; height: 104px; border-radius: 28px; }
+.duo-c .k { display: block; }
+.duo-c h3 { margin-top: 8px; font-size: 40px; font-weight: 600; line-height: 1.12; }
+.duo-c p { margin-top: 12px !important; font-size: 26px; line-height: 1.42; color: var(--text-muted); }
+
+.chain { display: flex; align-items: stretch; justify-content: center; }
+.blk {
+    position: relative;
+    width: 300px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-card);
+}
+.blk + .blk { margin-left: 64px; }
+.blk + .blk::before {
+    content: '';
+    position: absolute;
+    left: -49px;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    margin-top: -17px;
+    background: var(--hl);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+    transform: scaleX(-1);
+}
+.blk-n { font-family: var(--font-mono); font-size: 17px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-main); }
+.blk-rows { display: flex; flex-direction: column; gap: 7px; margin: 14px 0; }
+.blk-rows i { height: 7px; border-radius: 4px; background: var(--border-mid); }
+.blk-rows i:nth-child(2) { width: 78%; }
+.blk-rows i:nth-child(3) { width: 56%; }
+.blk-h { font-family: var(--font-mono); font-size: 16px; color: var(--text-dim); }
+.blk-h b { color: var(--hl); font-weight: 600; }
+.blk.is-new { border-style: dashed; border-color: rgba(var(--hl-rgb), 0.7); background: rgba(var(--hl-rgb), 0.06); }
+.slide.active .blk.is-new { animation: rvPop 0.7s var(--ease) backwards, ring 2.6s ease-out infinite; animation-delay: var(--d, 0ms), calc(var(--d, 0ms) + 0.8s); }
+.chain-cap { font-size: 26px; line-height: 1.45; color: var(--text-muted); text-align: center; }
+
+/* ===== От идеи к пилотам (2013–2017) ===== */
+.steps3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px; }
+.step {
+    position: relative;
+    padding: 30px 32px 34px;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+}
+.step + .step::before {
+    content: '';
+    position: absolute;
+    left: -49px;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    margin-top: -17px;
+    background: var(--text-muted);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+.step-y { font-family: var(--font-mono); font-size: 30px; font-weight: 700; color: var(--hl); }
+.step h3 { margin-top: 10px; font-size: 38px; font-weight: 600; }
+.step p { margin-top: 12px !important; font-size: 26px; line-height: 1.42; color: var(--text-muted); }
+/* Примеры под карточкой: название — ссылка на проект или первоисточник. */
+.ex { list-style: none; margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--border-soft); display: flex; flex-direction: column; gap: 10px; }
+.ex li { font-size: 21px; line-height: 1.4; color: var(--text-muted); }
+.ex a, .lnk {
+    color: var(--text-main);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(var(--hl-rgb), 0.55);
+    transition: color 0.2s, border-color 0.2s;
+}
+.ex a:hover, .ex a:focus-visible, .lnk:hover, .lnk:focus-visible { color: var(--hl); border-color: var(--hl); }
+/* Две карточки вместо трёх: идея → эксперименты. Примеров проектов на слайде
+   нет, поэтому карточки крупнее обычных. */
+.steps3.is-two { grid-template-columns: 1fr 1fr; }
+.steps3.is-two .step { padding: 40px 44px 46px; }
+.steps3.is-two .step-y { font-size: 36px; }
+.steps3.is-two .step > p { margin-top: 18px !important; font-size: 34px; }
+.steps3.is-two .step h3 { margin-top: 12px; font-size: 52px; }
+.idl { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; }
+.idl li { padding: 13px 0; border-top: 1px solid var(--border-soft); }
+.idl li:last-child { padding-bottom: 0; }
+.idl li > p { margin-top: 0 !important; font-size: 26px; line-height: 1.3; color: var(--text-main); }
+.pjs { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+.pj {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 20px 6px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    font-size: 23px;
+    font-weight: 600;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+.pj::after { content: '↗'; margin-left: -2px; color: var(--text-dim); transition: color 0.2s; }
+.pj .ava { width: 42px; height: 42px; font-size: 13px; }
+.pj:hover, .pj:focus-visible { border-color: rgba(var(--hl-rgb), 0.85); background: var(--bg-hover); z-index: 5; }
+.pj:hover::after, .pj:focus-visible::after { color: var(--hl); }
+.pj-tip {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 12px);
+    width: 520px;
+    padding: 18px 22px;
+    border-radius: 18px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--hl-rgb), 0.55);
+    box-shadow: 0 26px 70px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text-main);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.25s var(--ease), visibility 0.2s;
+    z-index: 10;
+}
+.pj:hover .pj-tip, .pj:focus-visible .pj-tip { opacity: 1; visibility: visible; transform: none; }
+
+/* ===== Автор ===== */
+.who { display: grid; grid-template-columns: 400px 1fr; gap: 84px; align-items: center; }
+.who-id { display: flex; flex-direction: column; align-items: flex-start; }
+.who-photo { position: relative; width: 230px; height: 230px; }
+.who-photo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.who-photo::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 2px solid rgba(var(--hl-rgb), 0.6);
+}
+.slide.active .who-photo::after { animation: rvPop 0.9s var(--ease) 0.35s backwards; }
+.who-name { margin-top: 34px; font-size: 54px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; color: var(--accent); }
+.who-en { margin-top: 8px; font-family: var(--font-mono); font-size: 20px; color: var(--text-dim); }
+.who-role { margin-top: 14px; font-size: 26px; line-height: 1.35; color: var(--text-muted); }
+.who .site { margin-top: 26px; font-size: 18px; }
+
+/* Опыт по этапам: слева — когда, справа — где и кем. */
+.cv { display: flex; flex-direction: column; gap: 14px; }
+.cv-i { display: grid; grid-template-columns: 124px 1fr; gap: 20px; align-items: baseline; }
+.cv-y { font-family: var(--font-mono); font-size: 23px; font-weight: 700; color: var(--hl); white-space: nowrap; }
+.cv-i p { font-size: 27px; line-height: 1.4; }
+
+/* ===== Книга ===== */
+.bk { display: grid; grid-template-columns: 330px 1fr; gap: 84px; align-items: center; }
+.bk-cover img {
+    width: 100%;
+    display: block;
+    border-radius: 14px;
+    box-shadow: 0 30px 70px rgba(var(--shadow-rgb), calc(0.7 * var(--shadow-k)));
+}
+.bk-main { display: flex; flex-direction: column; gap: 34px; }
+.bk-title { font-size: 60px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; color: var(--accent); }
+.bk-sub { margin-top: 12px !important; font-size: 28px; color: var(--text-muted); }
+.bk-stats { display: flex; gap: 56px; }
+.bk-stat b { display: block; font-size: 76px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--text-main); font-variant-numeric: tabular-nums; }
+.bk-stat span { display: block; margin-top: 8px; font-size: 23px; color: var(--text-muted); }
+/* Издания — тот же мотив «год — точка», что и на таймлайне доклада. */
+.eds { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); padding-top: 26px; }
+.eds::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 12%;
+    top: 9px;
+    height: 2px;
+    background: var(--border-strong);
+    transform-origin: left center;
+}
+.slide.active .eds::before { animation: growX 1.2s var(--ease) 0.6s backwards; }
+.ed { position: relative; display: flex; flex-direction: column; gap: 4px; }
+.ed::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -26px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 3px solid var(--border-strong);
+}
+.ed.is-now::before { background: var(--hl); border-color: var(--hl); }
+.slide.active .ed.is-now::before { animation: ring 2.6s ease-out 1.6s infinite; }
+.ed-y { font-family: var(--font-mono); font-size: 26px; font-weight: 700; color: var(--text-main); }
+.ed.is-now .ed-y { color: var(--hl); }
+.ed-t { font-size: 21px; color: var(--text-muted); }
+/* Что появилось в издании — подсказка под ним: сверху она закрыла бы
+   название книги и цифры. */
+.ed { cursor: help; outline: none; }
+.ed:hover .ed-y, .ed:focus-visible .ed-y { color: var(--hl); }
+.ed-tip { left: 0; top: calc(100% + 14px); width: 470px; transform: translateY(-8px); }
+.ed:last-child .ed-tip { left: auto; right: 0; }
+.ed-tip-k { display: block; font-family: var(--font-mono); font-size: 14px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hl); }
+.ed-tip ul { margin: 12px 0 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.ed-tip li { font-size: 22px; line-height: 1.35; color: var(--text-main); }
+
+/* ===== Зрелость: кто занялся блокчейном ===== */
+.orgs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.org {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 26px 26px 24px;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.25s var(--ease), background 0.2s;
+}
+.org:hover, .org:focus-visible { border-color: rgba(var(--hl-rgb), 0.8); background: var(--bg-hover); transform: translateY(-4px); }
+.org .logo { width: 84px; height: 84px; border-radius: 22px; }
+.org .logo-mono.is-abbr { font-size: 24px; }
+.org b { margin-top: 20px; font-size: 28px; line-height: 1.15; }
+.org-d { margin-top: 10px; font-size: 23px; line-height: 1.4; color: var(--text-muted); flex: 1; }
+.org-u { margin-top: 16px; font-family: var(--font-mono); font-size: 17px; color: var(--text-dim); }
+.org:hover .org-u { color: var(--hl); }
+.chips { display: flex; gap: 14px; flex-wrap: wrap; }
+.chip {
+    padding: 14px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    font-size: 23px;
+    color: var(--text-soft);
+}
+.chip b { margin-right: 8px; }
+
+/* ===== Что даёт и что мешает ===== */
+.pc { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+.pc-col { padding: 32px 36px 36px; border-radius: 26px; }
+.pc-plus { border: 1px solid rgba(var(--ok-rgb), 0.48); background: rgba(var(--ok-rgb), 0.06); }
+.pc-minus { border: 1px solid rgba(var(--warn-rgb), 0.42); background: rgba(var(--warn-rgb), 0.06); }
+.pc-plus > .k { color: var(--ok); }
+.pc-minus > .k { color: var(--warn); }
+.pc-list { display: flex; flex-direction: column; gap: 24px; margin-top: 24px; }
+.pc-i { position: relative; padding-left: 46px; }
+.pc-i::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 28px;
+    height: 28px;
+    background: var(--ok);
+    -webkit-mask: var(--chk) center / contain no-repeat;
+    mask: var(--chk) center / contain no-repeat;
+}
+.pc-minus .pc-i::before {
+    top: 14px;
+    left: 4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--warn);
+    -webkit-mask: none;
+    mask: none;
+}
+.pc-i b { display: block; font-size: 34px; line-height: 1.2; }
+.pc-i span { display: block; margin-top: 4px; font-size: 25px; line-height: 1.4; color: var(--text-muted); }
+
+/* ===== Выводы: путь одной строкой =====
+   Шесть шагов, у каждого — цвет и логотипы его технологий. */
+.path { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 36px; }
+.pth {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 18px 24px;
+    border-radius: 24px;
+    border: 1px solid rgba(var(--brand-rgb), 0.4);
+    background: linear-gradient(180deg, rgba(var(--brand-rgb), 0.14), rgba(var(--brand-rgb), 0) 46%), var(--bg-card);
+}
+.pth::before {
+    content: '';
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    top: -1px;
+    height: 4px;
+    border-radius: 0 0 4px 4px;
+    background: rgb(var(--brand-rgb));
+}
+.pth + .pth::after {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 50%;
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
+    background: var(--text-dim);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+.pth-y { font-family: var(--font-mono); font-size: 20px; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+.pth > b { margin-top: 10px; font-size: 36px; line-height: 1.1; letter-spacing: -0.025em; }
+.pth-l {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-soft);
+}
+.pth-i { display: flex; align-items: center; gap: 14px; font-size: 25px; line-height: 1.2; color: var(--text-soft); }
+.pth .logo { width: 54px; height: 54px; border-radius: 15px; }
+.pth .logo-mono { font-size: 29px; }
+.pth .logo-corda { font-size: 15px; }
+/* Итоговая цитата: фотография автора слева, его слова справа. */
+.final-quote {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+    margin: 0;
+    padding: 30px 44px;
+    border-left: 4px solid var(--hl);
+    border-radius: 0 24px 24px 0;
+    background: linear-gradient(90deg, rgba(var(--hl-rgb), 0.12), rgba(var(--hl-rgb), 0));
+}
+.final-quote img {
+    width: 150px;
+    height: 150px;
+    border-radius: 24px;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--border-mid);
+}
+.final-quote p { margin-top: 10px !important; font-size: 46px; font-weight: 600; line-height: 1.22; letter-spacing: -0.022em; color: var(--text-main); }
+.final-quote cite { display: block; margin-top: 14px; font-style: normal; font-family: var(--font-mono); font-size: 21px; color: var(--text-dim); }
+
+/* ===== Заметки докладчика =====
+   В слайде лежат скрытым блоком; панель собирается в talk.js и живёт вне
+   масштабируемой сцены, чтобы текст читался при любом размере окна. */
+.notes { display: none; }
+.notes-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 52vh;
+    overflow-y: auto;
+    padding: 24px 44px 28px;
+    background: rgba(var(--bg-rgb), 0.97);
+    border-top: 1px solid var(--border-soft);
+    box-shadow: 0 -20px 60px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
+    transform: translateY(101%);
+    transition: transform 0.32s var(--ease);
+    z-index: 60;
+}
+.notes-panel.is-open { transform: none; }
+.notes-panel-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.notes-panel-body { max-width: 1400px; font-size: 17px; line-height: 1.65; color: var(--text-soft); }
+.notes-panel-body p { margin: 0 0 10px; font-size: inherit; line-height: inherit; color: inherit; }
+.notes-panel-body p:last-child { margin-bottom: 0; }
+.notes-panel-body b { color: var(--accent); font-weight: 600; }
+.notes-panel-body a { color: var(--text-soft); border-bottom: 1px dotted var(--border-strong); text-decoration: none; }
+.notes-panel-body em { display: inline-block; font-style: normal; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--hl); margin-right: 8px; }
+
+/* Тем, кто просит меньше движения, показываем слайды сразу в итоговом виде. */
+@media (prefers-reduced-motion: reduce) {
+    .slide.active .content-slide,
+    .slide.active .content-slide *,
+    .slide.active .content-slide *::before,
+    .slide.active .content-slide *::after { animation: none !important; }
+    .tl-tip, .tk-tip, .ed-tip, .pj-tip, .how, .notes-panel { transition: none; }
+}

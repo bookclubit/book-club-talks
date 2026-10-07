@@ -1018,12 +1018,13 @@
     transition: color 0.2s, border-color 0.2s;
 }
 .ex a:hover, .ex a:focus-visible, .lnk:hover, .lnk:focus-visible { color: var(--hl); border-color: var(--hl); }
-/* Две карточки вместо трёх: идея → эксперименты. В каждой — список идей,
-   под идеей — проект, который её предлагал (аватар, ссылка, подсказка). */
+/* Две карточки вместо трёх: идея → эксперименты. Примеров проектов на слайде
+   нет, поэтому карточки крупнее обычных. */
 .steps3.is-two { grid-template-columns: 1fr 1fr; }
-.steps3.is-two .step { padding: 24px 30px 26px; }
-.steps3.is-two .step > p { font-size: 24px; }
-.steps3.is-two .step h3 { margin-top: 6px; font-size: 34px; }
+.steps3.is-two .step { padding: 40px 44px 46px; }
+.steps3.is-two .step-y { font-size: 36px; }
+.steps3.is-two .step > p { margin-top: 18px !important; font-size: 34px; }
+.steps3.is-two .step h3 { margin-top: 12px; font-size: 52px; }
 .idl { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; }
 .idl li { padding: 13px 0; border-top: 1px solid var(--border-soft); }
 .idl li:last-child { padding-bottom: 0; }

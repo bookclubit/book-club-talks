@@ -372,16 +372,16 @@
 .card.is-hi { border-color: rgba(var(--ac-rgb), 0.6); }
 .card.is-ok h3 { color: var(--done); }
 .card.is-bad h3 { color: var(--prob); }
-/* Пара фактов в строку: «машин — много · хозяин — один». */
-.facts { display: flex; gap: 12px; margin-top: 14px; }
-.facts span {
-    padding: 8px 18px;
-    border-radius: 999px;
-    border: 1px solid var(--border-mid);
-    font-size: 23px;
-    color: var(--text-soft);
-}
-.facts b { margin-right: 8px; color: var(--text-muted); font-weight: 400; }
+/* Подпись под заголовком карточки: к какому свойству CAP ведёт задача. */
+.card h3 + .tagl { margin: 12px 0 0; }
+.tagl.is-c { color: var(--sol); }
+.tagl.is-a { color: var(--done); }
+/* Карточка без рамки и фона: подзаголовок, определение, под ними схема. */
+.card.is-plain { padding: 0; border: 0; border-radius: 0; background: none; overflow: visible; --halo: var(--bg); }
+.card.is-plain::before { display: none; }
+.card.is-plain h3 { font-size: 44px; }
+.card.is-plain p { font-size: 28px; }
+.card.is-plain .mini { margin: 34px 0 0; }
 /* Примеры из жизни: вместо схемы — крупный знак. */
 .card.is-case { padding: 46px 38px 42px; }
 .card.is-case h3 { font-size: 42px; }
@@ -646,7 +646,9 @@
     white-space: nowrap;
     transition: background 0.2s, border-color 0.2s;
 }
-.more-btn { align-self: flex-start; margin-top: auto; }
+/* Селектор той же силы, что и сброс `all: unset` выше, иначе отступ не применится
+   и кнопка поедет за текстом вместо того, чтобы стоять у низа карточки. */
+.content-slide .more-btn { align-self: flex-start; margin-top: auto; }
 .more-btn:hover, .more-btn:focus-visible, .more-close:hover, .more-close:focus-visible {
     border-color: var(--cc, var(--ac));
     background: rgba(var(--cc-rgb, var(--ac-rgb)), 0.14);
@@ -733,8 +735,19 @@
     margin-top: -1.5px;
     background: var(--border-strong);
 }
-.cb b { font-family: var(--font-mono); font-size: 30px; font-weight: 700; }
-.cb span { font-size: 19px; line-height: 1.2; color: var(--text-soft); }
+.cb b { position: relative; z-index: 1; font-family: var(--font-mono); font-size: 30px; font-weight: 700; }
+.cb span { position: relative; z-index: 1; font-size: 19px; line-height: 1.2; color: var(--text-soft); }
+/* Уверенность, что транзакцию не отменят: с каждым подтверждением (--k из шести)
+   блок залит выше. Обрезка clip-path, а не overflow: подписи под блоком
+   и блок-конкурент стоят за его границами. */
+.cb[style*='--k']::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    background: rgba(var(--done-rgb), 0.3);
+    clip-path: inset(calc(100% - var(--k) * 100% / 6) 0 0 0);
+}
 .cb em {
     position: absolute;
     left: 0;
@@ -748,9 +761,9 @@
     white-space: nowrap;
     color: var(--text-muted);
 }
-.cb.is-tx { border-color: var(--ac); background: rgba(var(--ac-rgb), 0.12); }
+.cb.is-tx { border-color: var(--ac); }
 .cb.is-tx em { color: var(--ac); }
-.cb.is-six { border-color: var(--done); background: rgba(var(--done-rgb), 0.12); }
+.cb.is-six { border-color: var(--done); }
 .cb.is-six em { color: var(--done); }
 .cb-fork {
     position: absolute;
@@ -777,11 +790,8 @@
 .slide.active .cb { animation: rise 0.6s var(--ease) backwards; animation-delay: calc(var(--d, 0ms) + var(--i) * 170ms); }
 .slide.active .cb-fork { animation: ghost 1.6s ease backwards; animation-delay: calc(var(--d, 0ms) + 700ms); }
 @keyframes ghost { 0% { opacity: 0; transform: translateY(-14px); } 45% { opacity: 1; border-color: var(--prob); } }
-.sure { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; font-size: 24px; color: var(--text-muted); }
-.sure-bar { height: 14px; border-radius: 14px; background: var(--border-soft); overflow: hidden; }
-.sure-bar i { display: block; height: 100%; border-radius: 14px; background: linear-gradient(90deg, var(--ac), var(--done)); transform-origin: left center; }
-.slide.active .sure-bar i { animation: growX 2.2s var(--ease) backwards; animation-delay: calc(var(--d, 0ms) + 300ms); }
-@keyframes growX { from { transform: scaleX(0.03); } }
+.slide.active .cb[style*='--k']::after { animation: fillUp 0.9s var(--ease) backwards; animation-delay: calc(var(--d, 0ms) + 500ms + var(--i) * 170ms); }
+@keyframes fillUp { from { clip-path: inset(100% 0 0 0); } }
 
 /* ===== PACELC: развилка ===== */
 .pac { display: flex; flex-direction: column; align-items: center; }

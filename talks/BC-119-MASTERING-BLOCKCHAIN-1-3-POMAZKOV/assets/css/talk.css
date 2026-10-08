@@ -1503,3 +1503,22 @@
     .notes-panel, .rail, .rail * { transition: none !important; }
     .rail .rail-dot, .conv-lines .run { animation: none !important; }
 }
+
+/* Цитата автора книги: крупная кавычка, текст, под ним аватар и имя. */
+.author-quote { position: relative; margin: 0; padding: 6px 0 0 96px; max-width: 1500px; }
+.author-quote::before {
+    content: '«';
+    position: absolute;
+    left: 0;
+    top: -34px;
+    font-size: 132px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent);
+}
+.author-quote blockquote { margin: 0; font-size: 34px; font-weight: 500; line-height: 1.38; letter-spacing: -0.015em; color: var(--text-main); }
+.author-quote blockquote b { color: var(--accent); }
+.author-quote figcaption { display: flex; align-items: center; gap: 18px; margin-top: 26px; }
+.author-quote img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+.author-quote figcaption span { display: flex; flex-direction: column; gap: 2px; font-size: 24px; }
+.author-quote small { font-size: 19px; color: var(--text-dim); }

@@ -1,0 +1,1524 @@
+/*
+ * talk.css — стили контентных слайдов ЭТОГО доклада
+ * («История блокчейна», глава 1 книги «Блокчейн. Исчерпывающее руководство»).
+ * Общий «хром» дека живёт в deck.css и правится только в шаблоне; всё, что
+ * относится к слайдам спикера, — здесь: пересборка «хром»-слайдов
+ * (scripts/rebuild-talk.mjs) этот файл не трогает.
+ */
+
+/* ===== Палитра доклада =====
+   Смысловые цвета: зелёный — «работает / принято», янтарный — «происходит
+   сейчас», фиолетовый — сети, красный — подделка и отказ, голубой —
+   криптография. Нейтральные тона (подложки, рамки, текст) берутся из токенов
+   дека и переключаются вместе с ним; светлая тема — переопределение этих же
+   переменных. Литералов цвета в правилах ниже нет. */
+:root {
+    --done: #34d399;
+    --done-rgb: 52, 211, 153;
+    --now: #fbbf24;
+    --now-rgb: 251, 191, 36;
+    --plan: #a78bfa;
+    --plan-rgb: 167, 139, 250;
+    --prob: #f87171;
+    --prob-rgb: 248, 113, 113;
+    --sol: #7dd3fc;
+    --sol-rgb: 125, 211, 252;
+    --line: var(--border-soft);
+    --panel: var(--bg-card);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    /* Стрелка-соединитель: это маска, цвет берётся из токена через background. */
+    --arr: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10h13M11 5l5 5-5 5'/%3E%3C/svg%3E");
+}
+
+:root[data-theme='light'] {
+    --done: #059669;
+    --done-rgb: 5, 150, 105;
+    --now: #b45309;
+    --now-rgb: 180, 83, 9;
+    --plan: #6d28d9;
+    --plan-rgb: 109, 40, 217;
+    --prob: #dc2626;
+    --prob-rgb: 220, 38, 38;
+    --sol: #0369a1;
+    --sol-rgb: 3, 105, 161;
+}
+
+/* Отступы и рамки — внутрь заданной ширины: глобального box-sizing в deck.css нет. */
+.content-slide,
+.content-slide *,
+.content-slide *::before,
+.content-slide *::after {
+    box-sizing: border-box;
+}
+
+/* ===== Каркас контентного слайда =====
+   Шапка (заголовок + лид) сверху, .body занимает остаток и центрирует
+   содержимое. */
+.content-slide {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 46px 96px 64px;
+}
+.content-slide > h2 {
+    font-size: 54px;
+    margin: 0;
+    line-height: 1.1;
+    flex-shrink: 0;
+}
+.content-slide > h2 + .slide-lead { margin-top: 14px; }
+.content-slide > .body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    padding: 16px 0;
+}
+.slide-lead {
+    font-size: 25px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 1560px;
+}
+.slide-lead b,
+.content-slide b { color: var(--text-main); font-weight: 600; }
+.content-slide p { font-size: 23px; line-height: 1.5; margin: 0; }
+.content-slide h3 { margin: 0; }
+.content-slide code { font-family: var(--font-mono); font-size: 0.9em; color: var(--sol); }
+.section-label {
+    font-family: var(--font-mono);
+    font-size: 15px !important;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 0;
+}
+
+/* ===== Появление элементов =====
+   Каждый слайд собирается по шагам: talk.js размечает блоки атрибутом
+   data-rv и раздаёт задержки (--d) в порядке чтения. Анимация привязана
+   к .slide.active, поэтому проигрывается заново при каждом входе на слайд.
+   fill-mode: backwards — до старта элемент скрыт, после финиша возвращается
+   к своим обычным стилям (иначе застывший transform ломал бы hover). */
+.slide.active .content-slide > h2 { animation: rvFade 0.6s ease backwards; }
+.slide.active .content-slide > .slide-lead { animation: rvUp 0.7s var(--ease) 0.08s backwards; }
+.slide.active [data-rv] { animation: rvUp 0.7s var(--ease) backwards; animation-delay: var(--d, 0ms); }
+.slide.active [data-rv='pop'] { animation-name: rvPop; }
+.slide.active [data-rv='left'] { animation-name: rvLeft; }
+.slide.active [data-rv='right'] { animation-name: rvRight; }
+.slide.active [data-rv='fade'] { animation-name: rvFade; }
+.slide.active [data-rv='down'] { animation-name: rvDown; }
+@keyframes rvUp { from { opacity: 0; transform: translateY(26px); } }
+@keyframes rvDown { from { opacity: 0; transform: translateY(-26px); } }
+@keyframes rvLeft { from { opacity: 0; transform: translateX(-40px); } }
+@keyframes rvRight { from { opacity: 0; transform: translateX(40px); } }
+@keyframes rvPop { from { opacity: 0; transform: scale(0.86); } }
+@keyframes rvFade { from { opacity: 0; } }
+@keyframes growY { from { transform: scaleY(0); } }
+@keyframes growX { from { transform: scaleX(0); } }
+@keyframes wipeX { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(var(--pulse-rgb, var(--sol-rgb)), 0.55); }
+    60% { box-shadow: 0 0 0 16px rgba(var(--pulse-rgb, var(--sol-rgb)), 0); }
+}
+@keyframes dotRun {
+    0% { transform: translateX(0); opacity: 0; }
+    20%, 80% { opacity: 1; }
+    100% { transform: translateX(22px); opacity: 0; }
+}
+@keyframes dashRun { to { stroke-dashoffset: -24; } }
+
+/* ===== Статусные чипы ===== */
+.st {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.st::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.st-done { color: var(--done); border-color: rgba(var(--done-rgb), 0.45); background: rgba(var(--done-rgb), 0.1); }
+.st-now { color: var(--now); border-color: rgba(var(--now-rgb), 0.5); background: rgba(var(--now-rgb), 0.1); --pulse-rgb: var(--now-rgb); }
+.st-plan { color: var(--plan); border-color: rgba(var(--plan-rgb), 0.5); background: rgba(var(--plan-rgb), 0.1); border-style: dashed; }
+.st-plan::before { background: transparent; border: 1.5px solid currentColor; }
+.st-note { color: var(--text-muted); border-color: var(--border-mid); background: rgba(var(--tint-rgb), 0.04); }
+.slide.active .st-now::before { animation: pulse 2.2s ease-out 1.5s infinite; }
+
+/* ===== Соединители-стрелки с бегущей точкой =====
+   Общие для цепочек: у каждого следующего элемента
+   слева стрелка (::before), по которой пробегает точка (::after). */
+.chain > .cn { position: relative; }
+.chain > .cn + .cn::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 50%;
+    width: 22px;
+    height: 22px;
+    margin-top: -11px;
+    background: var(--text-dim);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+.chain > .cn + .cn::after {
+    content: '';
+    position: absolute;
+    left: -31px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--sol);
+    opacity: 0;
+}
+.slide.active .chain > .cn + .cn::after {
+    animation: dotRun 2.4s ease-in-out infinite;
+    animation-delay: calc(1.6s + var(--k, 0) * 0.3s);
+}
+
+/* ===== Цепочка узлов ===== */
+.chain { display: flex; align-items: stretch; }
+.cn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 16px 8px 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--panel);
+    font-size: 23px;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+}
+.cn small {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+}
+.cn + .cn { margin-left: 34px; }
+.cn.is-done { border-color: rgba(var(--done-rgb), 0.5); }
+.cn.is-now { border-color: rgba(var(--now-rgb), 0.6); background: rgba(var(--now-rgb), 0.06); }
+.cn.is-sol { border-color: rgba(var(--sol-rgb), 0.6); }
+.cn.is-next { border-color: var(--text-main); background: var(--bg-hover); --pulse-rgb: var(--tint-rgb); }
+.slide.active .cn.is-next {
+    animation: rvPop 0.7s var(--ease) backwards, pulse 2.4s ease-out infinite;
+    animation-delay: var(--d, 0ms), 2s;
+}
+.chain.is-small .cn { font-size: 19px; padding: 12px 6px; }
+.chain.is-big .cn { font-size: 31px; padding: 40px 10px 38px; gap: 10px; }
+.chain.is-big .cn small { font-size: 17px; }
+
+/* Вывод — широкая строка за левой чертой. */
+.wide-accent {
+    padding: 16px 28px;
+    border-left: 3px solid var(--border-mid);
+    border-radius: 0 16px 16px 0;
+    background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.05), rgba(var(--tint-rgb), 0));
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--text-soft);
+    flex-shrink: 0;
+}
+.wide-accent.is-strong { border-left-color: var(--accent); font-size: 26px; color: var(--text-main); }
+.wide-accent.is-plan { border-left-color: var(--plan); background: linear-gradient(90deg, rgba(var(--plan-rgb), 0.09), rgba(var(--tint-rgb), 0)); }
+.wide-accent.is-now { border-left-color: var(--now); background: linear-gradient(90deg, rgba(var(--now-rgb), 0.08), rgba(var(--tint-rgb), 0)); }
+.wide-accent.is-sol { border-left-color: var(--sol); background: linear-gradient(90deg, rgba(var(--sol-rgb), 0.09), rgba(var(--tint-rgb), 0)); }
+.wide-accent b { color: var(--accent); }
+.wide-accent small { font-size: 0.78em; color: var(--text-dim); }
+.wide-accent.is-compact { font-size: 21px; padding: 12px 22px; }
+
+/* ===== Сетки и карточки ===== */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+.cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.stack-col { display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.card {
+    padding: 22px 26px 24px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.card.is-tight { padding: 16px 22px 18px; gap: 6px; }
+.card h3 { font-size: 31px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.18; color: var(--accent); }
+.card p { font-size: 22px !important; line-height: 1.45 !important; color: var(--text-muted); }
+.card .card-k {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.card.c-done { border-color: rgba(var(--done-rgb), 0.42); }
+.card.c-done .card-k { color: var(--done); }
+.card.c-now { border-color: rgba(var(--now-rgb), 0.48); }
+.card.c-now .card-k { color: var(--now); }
+.card.c-plan { border-color: rgba(var(--plan-rgb), 0.52); border-style: dashed; }
+.card.c-plan .card-k { color: var(--plan); }
+.card.c-sol { border-color: rgba(var(--sol-rgb), 0.42); }
+.card.c-sol .card-k { color: var(--sol); }
+.card.c-prob { border-color: rgba(var(--prob-rgb), 0.42); }
+.card.c-prob .card-k { color: var(--prob); }
+.card ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.card li { font-size: 21px; line-height: 1.4; color: var(--text-soft); padding-left: 22px; position: relative; }
+.card li::before { content: ''; position: absolute; left: 2px; top: 0.6em; width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); }
+.card.c-done li::before { background: var(--done); }
+.card.c-now li::before { background: var(--now); }
+.card.c-plan li::before { background: transparent; border: 1.5px solid var(--plan); }
+.card.c-prob li::before { background: var(--prob); }
+.card li small { display: block; font-size: 15px; color: var(--text-dim); font-family: var(--font-mono); margin-top: 2px; letter-spacing: 0.02em; }
+
+/* ===== Крупные цифры ===== */
+.facts { display: grid; gap: 16px; }
+.facts.f4 { grid-template-columns: repeat(4, 1fr); }
+.facts.f3 { grid-template-columns: repeat(3, 1fr); }
+.facts.f2 { grid-template-columns: repeat(2, 1fr); }
+.facts.f1 { grid-template-columns: 1fr; }
+.fact { padding: 16px 22px 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+.fact-n { display: block; font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; color: var(--accent); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.fact-n small { font-size: 0.5em; font-weight: 600; color: var(--text-muted); margin-left: 6px; letter-spacing: 0; }
+.fact-n.is-md { font-size: 40px; }
+.fact-t { display: block; font-size: 20px; line-height: 1.4; color: var(--text-muted); }
+.fact-k { display: block; font-family: var(--font-mono); font-size: 14.5px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; color: var(--text-dim); }
+
+/* ===== Таблица сравнения ===== */
+.tbl { display: grid; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--panel); }
+.tbl-r { display: grid; grid-template-columns: var(--cols, 220px 1fr 1fr); }
+.tbl-r + .tbl-r { border-top: 1px solid var(--line); }
+.tbl-c { padding: 13px 20px; font-size: 21px; line-height: 1.38; color: var(--text-soft); }
+.tbl-c + .tbl-c { border-left: 1px solid var(--line); }
+.tbl-h .tbl-c { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); background: rgba(var(--tint-rgb), 0.04); padding: 11px 20px; }
+.tbl-c.k { color: var(--text-main); font-weight: 600; }
+.tbl-c.d { font-family: var(--font-mono); font-size: 16.5px; color: var(--text-muted); font-weight: 500; }
+.tbl-c small { display: block; font-size: 16px; color: var(--text-dim); margin-top: 3px; line-height: 1.35; font-weight: 400; }
+.tbl-c.ok { color: var(--done); }
+.tbl-c.bad { color: var(--prob); }
+.tbl-c .st { margin-left: 6px; font-size: 12.5px; padding: 3px 9px; }
+.tbl.is-lg .tbl-c { font-size: 23.5px; padding: 17px 22px; }
+.tbl.is-lg .tbl-h .tbl-c { font-size: 15.5px; padding: 13px 22px; }
+.tbl.is-plain { border-radius: 14px; }
+.tbl.is-plain .tbl-c { font-size: 19.5px; padding: 11px 16px; }
+.tbl.is-plain .tbl-c.d { font-size: 15.5px; }
+
+/* ===== Рамка схемы и кадр «линия рисуется» ===== */
+@keyframes chDraw { from { stroke-dashoffset: 1; } }
+.chart-box { padding: 18px 22px 12px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); }
+.chart-box h3 { font-size: 26px; font-weight: 600; color: var(--accent); margin-bottom: 3px; }
+.chart-box .chart-sub { font-size: 18.5px !important; color: var(--text-dim); margin-bottom: 4px; }
+
+/* ===== Переключатель состояния демонстрации =====
+   Кнопка пишет значение в data-state блока-цели (talk.js), а что показать,
+   решают правила ниже: демонстрации не копят состояние в JS и сбрасываются
+   при уходе со слайда. */
+.demo-bar { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.seg {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 5px;
+    gap: 4px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-sunken);
+}
+.seg button {
+    font: inherit;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: 0;
+    padding: 11px 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.seg button:hover { color: var(--text-main); }
+.seg button:focus-visible { outline: 2px solid var(--text-muted); outline-offset: 2px; }
+.seg button.is-active { background: var(--bg-active); color: var(--text-main); }
+.seg button.is-bad.is-active { background: rgba(var(--prob-rgb), 0.18); color: var(--prob); }
+.seg button.is-good.is-active { background: rgba(var(--done-rgb), 0.16); color: var(--done); }
+.hint { font-size: 20px; color: var(--text-dim); }
+
+/* Подписи к состояниям: talk.js включает ту, чей data-for совпал с data-state. */
+.cap { display: none; }
+.cap { flex-direction: column; gap: 10px; }
+.cap p { font-size: 26px !important; line-height: 1.45 !important; color: var(--text-muted); }
+.demo { display: grid; grid-template-columns: var(--demo-cols, 1.15fr 1fr); gap: 36px; align-items: center; }
+.demo-side { display: flex; flex-direction: column; gap: 24px; }
+.fig svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+/* ===== Главная мысль ===== */
+.content-slide .thesis {
+    font-size: 66px;
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.025em;
+    color: var(--text-main);
+    max-width: 1560px;
+}
+.content-slide .thesis b { color: var(--sol); font-weight: 700; }
+/* Плитки — все события доклада по порядку: значок, название, год.
+   Наведение открывает идею одной фразой, клик ведёт на слайд события. */
+.tks { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.tks .tk {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding: 16px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    transition: border-color 0.2s, transform 0.25s var(--ease), background 0.2s;
+}
+.tks .tk:hover, .tks .tk:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.8);
+    background: var(--bg-hover);
+    transform: translateY(-4px);
+    z-index: 5;
+}
+.tk .logo { width: 60px; height: 60px; border-radius: 17px; color: rgb(var(--brand-rgb)); }
+.tk .logo-mono, .tk .logo-mono.is-abbr { font-size: 17px; letter-spacing: -0.02em; color: inherit; }
+.tk-t { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.tk-t b { font-size: 22px; line-height: 1.15; }
+.tk-u { font-family: var(--font-mono); font-size: 15px; color: var(--text-dim); }
+.tk-tip {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 12px);
+    width: 420px;
+    padding: 18px 22px;
+    border-radius: 18px;
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--brand-rgb), 0.55);
+    box-shadow: 0 26px 70px rgba(var(--shadow-rgb), calc(0.75 * var(--shadow-k)));
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--text-main);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.25s var(--ease), visibility 0.2s;
+    z-index: 10;
+}
+.tk:nth-child(6n) .tk-tip, .tk:nth-child(6n - 1) .tk-tip { left: auto; right: 0; }
+.tk:nth-last-child(-n + 6) .tk-tip { top: auto; bottom: calc(100% + 12px); transform: translateY(8px); }
+.tk:hover .tk-tip, .tk:focus-visible .tk-tip { opacity: 1; visibility: visible; transform: none; }
+
+/* ===== Линии развития =====
+   Цвет события — его линия: криптография, метки времени и PoW, деньги,
+   сети и консенсус; биткойн — акцентом. Один и тот же класс l-* красит
+   точку на шкале, карточку события и строку общего таймлайна. */
+.l-c { --lane: var(--sol); --lane-rgb: var(--sol-rgb); }
+.l-t { --lane: var(--now); --lane-rgb: var(--now-rgb); }
+.l-m { --lane: var(--done); --lane-rgb: var(--done-rgb); }
+.l-n { --lane: var(--plan); --lane-rgb: var(--plan-rgb); }
+.l-b { --lane: var(--accent); --lane-rgb: var(--tint-rgb); }
+
+/* ===== Общий таймлайн ===== */
+.ov-legend { display: flex; gap: 26px; flex-wrap: wrap; }
+.ov-legend span { display: inline-flex; align-items: center; gap: 10px; font-size: 21px; color: var(--text-muted); }
+.ov-legend span::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--lane); }
+.ov { position: relative; }
+.ov-axis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 47px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--border-mid), var(--accent));
+    transform-origin: 0 50%;
+}
+.slide.active .ov-axis { animation: growX 1.6s var(--ease) 0.2s backwards; }
+.ov-cols { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px; position: relative; }
+.ov-col { display: flex; flex-direction: column; gap: 10px; }
+.ov-yr { font-family: var(--font-mono); font-size: 19px; font-weight: 600; letter-spacing: 0.04em; color: var(--text-dim); height: 28px; }
+.ov-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--bg); border: 3px solid var(--text-muted); margin: 0 0 6px; }
+.ov-col h3 { font-size: 27px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; color: var(--accent); min-height: 62px; }
+.ov-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.ov-ev {
+    padding: 8px 10px 9px 12px;
+    border-left: 3px solid var(--lane);
+    border-radius: 0 10px 10px 0;
+    background: rgba(var(--lane-rgb), 0.07);
+    font-size: 19.5px;
+    line-height: 1.3;
+    color: var(--text-soft);
+}
+.ov-ev[data-goto] { cursor: pointer; transition: background 0.2s, transform 0.2s var(--ease); }
+.ov-ev[data-goto]:hover, .ov-ev[data-goto]:focus-visible { background: rgba(var(--lane-rgb), 0.2); transform: translateX(3px); outline: none; }
+.ov-ev span { display: block; font-family: var(--font-mono); font-size: 15px; color: var(--lane); letter-spacing: 0.04em; margin-bottom: 2px; }
+.slide.active .ov-ev { animation: rvFade 0.5s ease backwards; animation-delay: calc(var(--d, 0ms) + 260ms + var(--i, 0) * 90ms); }
+.ov-col.is-btc .ov-dot { border-color: var(--accent); background: var(--accent); --pulse-rgb: var(--tint-rgb); }
+.slide.active .ov-col.is-btc .ov-dot { animation: pulse 2.4s ease-out 2.6s infinite; }
+.ov-col.is-btc h3 { font-size: 34px; }
+
+/* ===== Нижняя шкала =====
+   Одна сплошная линия на весь доклад, по точке на событие. talk.js кладёт её
+   в сцену поверх слайдов. Точка текущего слайда крупнее, год над ней — тоже;
+   пройденный путь залит. Клик по точке ведёт на слайд события. */
+.rail {
+    position: absolute;
+    /* слева шире: в углу экрана висит переключатель темы */
+    left: 160px;
+    right: 110px;
+    bottom: 26px;
+    height: 62px;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.5s ease, transform 0.6s var(--ease);
+}
+.rail.is-on { opacity: 1; transform: none; }
+.rail-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 46px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--border-mid);
+}
+.rail-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-radius: 3px;
+    background: var(--text-muted);
+    transition: width 0.9s var(--ease);
+}
+.rail-pt {
+    all: unset;
+    position: absolute;
+    top: 0;
+    width: 44px;
+    height: 100%;
+    margin-left: -22px;
+    cursor: pointer;
+    transition: opacity 0.4s;
+}
+.rail.is-on .rail-pt { pointer-events: auto; }
+.rail-yr {
+    position: absolute;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1;
+    color: var(--text-faint);
+    white-space: nowrap;
+    transition: font-size 0.45s var(--ease), color 0.4s, bottom 0.45s var(--ease);
+}
+.rail-dot {
+    position: absolute;
+    left: 50%;
+    top: 47.5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--border-strong);
+    transform: translate(-50%, -50%);
+    transition: width 0.45s var(--ease), height 0.45s var(--ease), background 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+.rail-pt.is-past .rail-dot { background: var(--lane); border-color: var(--lane); }
+.rail-pt.is-past .rail-yr { color: var(--text-dim); }
+.rail-pt.is-cur .rail-yr { bottom: 32px; font-size: 27px; font-weight: 700; color: var(--text-main); }
+.rail-pt.is-cur .rail-dot {
+    width: 22px;
+    height: 22px;
+    background: var(--lane);
+    border: 4px solid var(--bg);
+    box-shadow: 0 0 0 3px var(--lane), 0 0 22px rgba(var(--lane-rgb), 0.55);
+}
+.rail-pt:hover .rail-yr, .rail-pt:focus-visible .rail-yr { color: var(--text-main); }
+.rail-pt:hover .rail-dot, .rail-pt:focus-visible .rail-dot { border-color: var(--lane); }
+
+/* Подсветка отдельных точек: ссылки Сатоши, части блока, идеи рисунка 1.3. */
+.rail.has-marks .rail-pt:not(.is-mark) { opacity: 0.3; }
+.rail.has-marks .rail-pt.is-mark .rail-yr { color: var(--text-main); font-size: 16px; font-weight: 700; }
+.rail.has-marks .rail-pt.is-mark .rail-dot {
+    width: 18px;
+    height: 18px;
+    background: var(--lane);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 5px rgba(var(--lane-rgb), 0.3);
+}
+
+/* Слайды со шкалой: низ освобождён под неё. */
+.content-slide.has-rail { padding-bottom: 112px; }
+.content-slide.has-rail .how { bottom: 104px; }
+
+/* ===== Шапка куска таймлайна ===== */
+.era-head { display: flex; align-items: center; gap: 18px; margin-bottom: 10px; flex-shrink: 0; }
+.era-n { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.12em; color: var(--text-dim); }
+.era-yr {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-main);
+    padding: 4px 16px;
+    border: 1px solid var(--border-mid);
+    border-radius: 999px;
+}
+.slide.active .era-head { animation: rvLeft 0.6s var(--ease) backwards; }
+
+/* ===== События куска: список слева, демонстрация справа ===== */
+.era-grid { display: grid; grid-template-columns: 1fr 1.08fr; gap: 48px; align-items: center; min-height: 0; }
+.era-grid.is-fig-first { grid-template-columns: 1.5fr 1fr; }
+.era-grid.is-wide-fig { grid-template-columns: 1fr 1fr; }
+.evs { display: flex; flex-direction: column; gap: 14px; }
+.ev {
+    display: grid;
+    grid-template-columns: 116px 1fr;
+    gap: 18px;
+    padding: 14px 20px 15px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--lane);
+    border-radius: 0 16px 16px 0;
+    background: var(--panel);
+}
+.ev-y { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--lane); letter-spacing: 0.02em; padding-top: 3px; }
+.ev-b { display: flex; flex-direction: column; gap: 4px; }
+.ev h3 { font-size: 26px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; color: var(--accent); }
+.ev p { font-size: 20px !important; line-height: 1.42 !important; color: var(--text-muted); }
+.ev-to { font-family: var(--font-mono); font-size: 14.5px; letter-spacing: 0.02em; color: var(--lane); margin-top: 2px; }
+.ev.is-side { opacity: 0.85; }
+.cols3 > .ev { grid-template-columns: 1fr; gap: 6px; }
+.l-b .ev-y { font-size: 18px; }
+.l-b.ev { grid-template-columns: 150px 1fr; }
+.demo-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.caps { min-height: 78px; }
+.cap.is-on { display: flex; animation: rvUp 0.45s var(--ease) backwards; }
+.cap p { font-size: 22px !important; line-height: 1.45 !important; color: var(--text-muted); }
+.v-bad { display: none; }
+[data-state='tamper'] .v-ok, [data-state='forge'] .v-ok, [data-state='chaos'] .v-ok { display: none; }
+[data-state='tamper'] .v-bad, [data-state='forge'] .v-bad, [data-state='chaos'] .v-bad { display: inline; }
+.fig svg text { font-family: var(--font-mono); text-anchor: middle; fill: var(--text-soft); }
+.fig svg .k { font-size: 15px; letter-spacing: 0.08em; fill: var(--text-dim); text-transform: uppercase; }
+.fig svg .h { font-size: 22px; font-weight: 600; fill: var(--text-main); }
+.fig svg .h.s { font-size: 17px; fill: var(--text-muted); }
+.fig svg .t { font-family: var(--font-sans); font-size: 16px; fill: var(--text-soft); }
+.fig svg .big { font-family: var(--font-sans); font-size: 64px; font-weight: 700; fill: var(--text-main); text-anchor: start; }
+.fig svg .big.s { font-size: 30px; text-anchor: middle; }
+
+/* ===== Дерево Меркла ===== */
+.mt rect { fill: var(--bg-sunken); stroke: var(--border-mid); stroke-width: 1.5; transition: stroke 0.35s, fill 0.35s; transition-delay: var(--td, 0s); }
+.mt .root rect { stroke: var(--sol); stroke-width: 2; }
+.mt .ed { fill: none; stroke: var(--border-strong); stroke-width: 2.5; stroke-dasharray: 1; transition: stroke 0.35s; transition-delay: var(--td, 0s); }
+.mt[data-state='tamper'] .hot rect { stroke: var(--prob); fill: rgba(var(--prob-rgb), 0.12); }
+.mt[data-state='tamper'] .ed.hot { stroke: var(--prob); }
+.mt[data-state='tamper'] .hot .h { fill: var(--prob); }
+.slide.active .mt .ed { animation: chDraw 0.6s var(--ease) backwards; animation-delay: var(--d, 0ms); }
+.slide.active .mt .nd { animation: rvPop 0.5s var(--ease) backwards; animation-delay: var(--d, 0ms); transform-box: fill-box; transform-origin: center; }
+
+/* ===== Слепая подпись ===== */
+.bsig .bill rect { fill: rgba(var(--done-rgb), 0.1); stroke: var(--done); stroke-width: 2; }
+.bsig .bill .k { text-anchor: start; fill: var(--done); }
+.bsig .bill .h { text-anchor: start; }
+.bsig .env rect { fill: var(--bg-hover); stroke: var(--border-strong); stroke-width: 2; }
+.bsig .env path { fill: none; stroke: var(--border-strong); stroke-width: 2; }
+.bsig .stamp circle { fill: rgba(var(--sol-rgb), 0.14); stroke: var(--sol); stroke-width: 3; stroke-dasharray: 6 4; }
+.bsig .stamp .k { fill: var(--sol); font-weight: 700; }
+.bsig .stamp path { fill: none; stroke: var(--sol); stroke-width: 2.5; stroke-linecap: round; }
+.bsig .bank rect { fill: var(--bg-sunken); stroke: var(--sol); stroke-width: 1.5; }
+.bsig .eye { font-size: 14px; fill: var(--text-dim); opacity: 0; transition: opacity 0.4s; }
+.bsig g { transition: opacity 0.5s var(--ease), transform 0.7s var(--ease); transform-box: fill-box; transform-origin: center; }
+.bsig .env { opacity: 0; transform: translateY(-90px); }
+.bsig .stamp { opacity: 0; transform: scale(1.8); }
+.bsig .bank { opacity: 0.35; }
+.bsig[data-state='env'] .env,
+.bsig[data-state='sign'] .env { opacity: 1; transform: none; }
+.bsig[data-state='sign'] .stamp,
+.bsig[data-state='out'] .stamp { opacity: 1; transform: none; }
+.bsig[data-state='sign'] .bank { opacity: 1; }
+.bsig[data-state='sign'] .eye { opacity: 1; }
+.bsig[data-state='out'] .env { opacity: 0; transform: translateY(120px); }
+.bsig[data-state='out'] .bill rect { stroke-width: 3; }
+
+/* ===== Эллиптическая кривая ===== */
+.ecc { padding: 8px; }
+.ecc .ax { stroke: var(--border-mid); stroke-width: 1.5; fill: none; }
+.ecc .curve { fill: none; stroke: var(--sol); stroke-width: 4; stroke-dasharray: 1; stroke-linecap: round; }
+.ecc .chord { fill: none; stroke: var(--now); stroke-width: 2.5; stroke-dasharray: 1; }
+.ecc .refl { fill: none; stroke: var(--text-dim); stroke-width: 2; stroke-dasharray: 7 6; }
+.ecc .pt circle { fill: var(--accent); stroke: var(--bg); stroke-width: 3; }
+.ecc .p3 circle { fill: var(--bg); stroke: var(--now); stroke-width: 3; }
+.ecc .p4 circle { fill: var(--done); }
+.ecc .pt text { font-family: var(--font-sans); font-size: 26px; font-weight: 700; fill: var(--text-main); text-anchor: start; }
+.ecc .p4 text { fill: var(--done); }
+.ecc .eq { font-size: 22px; fill: var(--text-dim); text-anchor: end; }
+.slide.active .ecc .curve { animation: chDraw 1.4s ease-in-out 0.3s backwards; }
+.slide.active .ecc .p1, .slide.active .ecc .p2 { animation: rvPop 0.5s var(--ease) 1.6s backwards; }
+.slide.active .ecc .p2 { animation-delay: 1.8s; }
+.slide.active .ecc .chord { animation: chDraw 0.8s ease-in-out 2.2s backwards; }
+.slide.active .ecc .p3 { animation: rvPop 0.4s var(--ease) 3s backwards; }
+.slide.active .ecc .refl { animation: rvFade 0.5s ease 3.4s backwards; }
+.slide.active .ecc .p4 { animation: rvPop 0.6s var(--ease) 3.8s backwards; }
+.ecc .pt { transform-box: fill-box; transform-origin: center; }
+.keys { display: flex; flex-direction: column; gap: 12px; }
+.kbar { display: grid; grid-template-columns: 70px 1fr 130px; gap: 16px; align-items: center; }
+.kbar-n { font-weight: 600; font-size: 22px; color: var(--text-main); }
+.kbar-t { height: 22px; border-radius: 6px; background: var(--bg-sunken); overflow: hidden; }
+.kbar-t i { display: block; height: 100%; width: var(--w); background: var(--text-dim); border-radius: 6px; transform-origin: 0 50%; }
+.kbar.is-ecc .kbar-t i { background: var(--sol); }
+.slide.active .kbar-t i { animation: growX 1.2s var(--ease) backwards; animation-delay: calc(var(--d, 0ms) + 300ms); }
+.kbar-v { font-family: var(--font-mono); font-size: 19px; color: var(--text-muted); text-align: right; }
+.kbar.is-ecc .kbar-v { color: var(--sol); font-weight: 600; }
+
+/* ===== Хеш-цепочка документов ===== */
+.hc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 44px; }
+.hc-b {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 20px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    background: var(--panel);
+    transition: border-color 0.35s, background 0.35s;
+    transition-delay: var(--td, 0s);
+}
+.hc-b + .hc-b::before {
+    content: '';
+    position: absolute;
+    left: -38px;
+    top: 50%;
+    width: 30px;
+    height: 24px;
+    margin-top: -12px;
+    background: var(--text-dim);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+    transition: background 0.35s;
+    transition-delay: var(--td, 0s);
+}
+.hc-k { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
+.hc-t { font-size: 23px; font-weight: 600; color: var(--text-main); }
+.hc-r { font-family: var(--font-mono); font-size: 16.5px; color: var(--text-muted); }
+.hc-r b { color: var(--now); }
+.hc-ne { color: var(--prob); font-weight: 600; }
+.hc[data-state='forge'] .is-forged { border-color: var(--now); background: rgba(var(--now-rgb), 0.08); }
+.hc[data-state='forge'] .is-broken { border-color: var(--prob); background: rgba(var(--prob-rgb), 0.07); }
+.hc[data-state='forge'] .is-broken::before { background: var(--prob); }
+.hc[data-state='forge'] .hc-prev { color: var(--prob); text-decoration: line-through; }
+
+/* ===== Двойная трата ===== */
+.ds .ln { fill: none; stroke: var(--border-mid); stroke-width: 2; stroke-dasharray: 8 7; }
+.slide.active .ds .ln { animation: dashRun 1.2s linear infinite; }
+.ds .coin circle { fill: rgba(var(--now-rgb), 0.14); stroke: var(--now); stroke-width: 2.5; }
+.ds .coin .h { font-size: 17px; }
+.ds .shop rect { fill: var(--bg-sunken); stroke: var(--border-strong); stroke-width: 1.5; }
+.ds .res { font-family: var(--font-sans); font-size: 19px; font-weight: 700; }
+.ds .r-ok { fill: var(--done); }
+.ds .r-bad { fill: var(--prob); display: none; }
+.ds .r-q { fill: var(--plan); display: none; }
+.ds .bank rect { fill: var(--bg-sunken); stroke: var(--sol); stroke-width: 2; }
+.ds .net circle { fill: rgba(var(--plan-rgb), 0.16); stroke: var(--plan); stroke-width: 2; }
+.ds .net path { fill: none; stroke: rgba(var(--plan-rgb), 0.55); stroke-width: 1.5; }
+.ds .net .k { fill: var(--plan); }
+.ds g { transition: opacity 0.5s, transform 0.9s var(--ease); }
+.ds .bank, .ds .net { opacity: 0; }
+.ds .ca { transform: translate(675px, -110px); }
+.ds .cb { transform: translate(675px, 110px); }
+.ds[data-state='bank'] .bank { opacity: 1; }
+.ds[data-state='bank'] .s2 .r-ok { display: none; }
+.ds[data-state='bank'] .s2 .r-bad { display: inline; }
+.ds[data-state='bank'] .cb { transform: translate(360px, 100px); }
+.ds[data-state='bank'] .cb circle { stroke: var(--prob); fill: rgba(var(--prob-rgb), 0.14); }
+.ds .ln-via { opacity: 0; }
+.ds[data-state='bank'] .ln-via { opacity: 1; }
+.ds[data-state='bank'] .ln-a,
+.ds[data-state='bank'] .ln-b,
+.ds[data-state='net'] .ln-a,
+.ds[data-state='net'] .ln-b { opacity: 0; }
+.ds .ln { transition: opacity 0.4s; }
+.ds[data-state='net'] .net { opacity: 1; }
+.ds[data-state='net'] .ca { transform: translate(230px, -60px); }
+.ds[data-state='net'] .cb { transform: translate(230px, 60px); }
+.ds[data-state='net'] .r-ok { display: none; }
+.ds[data-state='net'] .r-q { display: inline; }
+
+/* ===== Одноранговые сети ===== */
+.p2p svg { max-height: 420px; }
+.p2p .peer circle { fill: var(--bg-sunken); stroke: var(--text-muted); stroke-width: 2; transition: stroke 0.4s, fill 0.4s, opacity 0.4s; }
+.p2p .peer text { font-size: 15px; fill: var(--text-muted); }
+.p2p .peer.is-a circle { stroke: var(--now); fill: rgba(var(--now-rgb), 0.15); }
+.p2p .peer.is-b circle { stroke: var(--done); fill: rgba(var(--done-rgb), 0.15); }
+.p2p .srv rect { fill: var(--bg-hover); stroke: var(--sol); stroke-width: 2; transition: all 0.4s; }
+.p2p .srv text { fill: var(--sol); font-size: 15px; }
+.p2p .srv .x { stroke: var(--prob); stroke-width: 6; stroke-linecap: round; opacity: 0; transition: opacity 0.4s; }
+.p2p .e { fill: none; stroke-width: 2; transition: opacity 0.45s, stroke 0.45s; opacity: 0; }
+.p2p .e-spoke { stroke: rgba(var(--sol-rgb), 0.5); }
+.p2p .e-mesh { stroke: rgba(var(--plan-rgb), 0.5); }
+.p2p .e-ring { stroke: rgba(var(--plan-rgb), 0.45); }
+.p2p .e-hop { stroke: var(--done); stroke-width: 4; stroke-dasharray: 10 8; }
+.p2p .e-file { stroke: var(--done); stroke-width: 4; stroke-dasharray: 10 8; }
+.p2p .e-q { stroke: var(--now); stroke-width: 4; }
+.p2p .wave { fill: none; stroke: var(--now); stroke-width: 3; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.p2p[data-state='napster'] .e-spoke,
+.p2p[data-state='napster'] .e-file,
+.p2p[data-state='napster'] .e-q { opacity: 1; }
+.p2p[data-state='down'] .e-spoke { opacity: 0.25; stroke: var(--border-mid); }
+.p2p[data-state='down'] .srv .x { opacity: 1; }
+.p2p[data-state='down'] .srv rect { stroke: var(--prob); fill: rgba(var(--prob-rgb), 0.12); }
+.p2p[data-state='down'] .peer circle { opacity: 0.45; }
+.p2p[data-state='gnutella'] .srv,
+.p2p[data-state='dht'] .srv { opacity: 0; }
+.p2p .srv { transition: opacity 0.4s; }
+.p2p[data-state='gnutella'] .e-mesh { opacity: 1; }
+.p2p[data-state='gnutella'] .wave { animation: wave 2.4s ease-out infinite; }
+.p2p[data-state='gnutella'] .wave.w2 { animation-delay: 0.8s; }
+.p2p[data-state='gnutella'] .wave.w3 { animation-delay: 1.6s; }
+.p2p[data-state='dht'] .e-ring,
+.p2p[data-state='dht'] .e-hop { opacity: 1; }
+.p2p:not([data-state='napster']):not([data-state='dht']) .peer.is-b circle { stroke: var(--text-muted); fill: var(--bg-sunken); }
+.slide.active .p2p .e-file,
+.slide.active .p2p .e-hop { animation: dashRun 0.9s linear infinite; }
+@keyframes wave {
+    0% { opacity: 0.9; transform: scale(0.2); }
+    100% { opacity: 0; transform: scale(3.4); }
+}
+
+/* ===== Майнер ===== */
+.miner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 28px 26px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--panel);
+    min-width: 0;
+}
+.mn-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.mn-seg button { font-family: var(--font-mono); font-size: 18px; padding: 9px 16px; }
+.mn-row { display: grid; grid-template-columns: 90px 1fr; gap: 14px; align-items: baseline; }
+.mn-k { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+.mn-row code { font-family: var(--font-mono); font-size: 19px; color: var(--text-soft); overflow-wrap: anywhere; line-height: 1.45; }
+.miner .mn-hash { min-height: 56px; color: var(--text-muted); }
+.mn-hash b { color: var(--done); font-weight: 700; }
+.mn-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.mn-stats .fact { padding: 12px 16px 14px; }
+.mn-stats .fact-n { font-size: 34px; }
+.mn-foot { display: flex; align-items: center; gap: 20px; }
+.mn-go {
+    font: inherit;
+    font-size: 21px;
+    font-weight: 600;
+    padding: 13px 26px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-active);
+    color: var(--text-main);
+    cursor: pointer;
+}
+.mn-go:hover { background: var(--bg-hover); }
+.mn-go:disabled { opacity: 0.5; cursor: default; }
+.mn-msg { font-size: 19px; color: var(--text-dim); }
+.miner.is-found .mn-msg { color: var(--done); }
+.miner.is-found { border-color: rgba(var(--done-rgb), 0.5); }
+
+/* ===== Устройство блока ===== */
+.blk {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 22px 22px;
+    border: 2px solid var(--border-strong);
+    border-radius: 22px;
+    background: var(--panel);
+}
+.blk-h { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.blk-f, .blk-net {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 13px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-sunken);
+    cursor: help;
+    transition: border-color 0.2s, background 0.2s;
+}
+.blk-f:hover, .blk-net:hover, [data-marks]:hover { border-color: var(--text-muted); background: var(--bg-hover); }
+.blk-f.is-txs { padding: 22px 18px; }
+.blk-net { border-style: dashed; margin-top: 6px; background: transparent; }
+.blk-k { font-size: 22px; font-weight: 600; color: var(--text-main); }
+.blk-y { font-family: var(--font-mono); font-size: 15.5px; color: var(--sol); white-space: nowrap; }
+.legacy .card[data-marks], .pq[data-marks] { cursor: help; transition: border-color 0.2s, background 0.2s; }
+
+/* ===== Рисунок 1.3: идеи сходятся в биткойн ===== */
+.conv { position: relative; width: 1500px; height: 560px; margin: 0 auto; }
+.conv-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.conv-lines path { fill: none; stroke: var(--border-mid); stroke-width: 2; stroke-dasharray: 1; }
+.conv-lines .run { stroke: var(--sol); stroke-width: 3; stroke-dasharray: 0.04 0.96; stroke-linecap: round; opacity: 0; }
+.slide.active .conv-lines path { animation: chDraw 0.9s ease-in-out backwards; animation-delay: calc(400ms + var(--i, 0) * 90ms); }
+.slide.active .conv-lines .run { animation: convRun 2.6s linear infinite; animation-delay: calc(1.8s + var(--i, 0) * 0.3s); }
+@keyframes convRun {
+    0% { stroke-dashoffset: 0; opacity: 0; }
+    15%, 85% { opacity: 1; }
+    100% { stroke-dashoffset: -0.96; opacity: 0; }
+}
+.conv-core {
+    position: absolute;
+    left: 650px;
+    top: 200px;
+    width: 200px;
+    height: 160px;
+    border-radius: 24px;
+    border: 2px solid var(--accent);
+    background: var(--bg-hover);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-main);
+    --pulse-rgb: var(--tint-rgb);
+}
+.conv-core .conv-b { font-size: 50px; line-height: 1; }
+.conv-core small { font-family: var(--font-mono); font-size: 16px; color: var(--text-dim); font-weight: 500; }
+.slide.active .conv-core { animation: rvPop 0.7s var(--ease) 0.2s backwards, pulse 2.6s ease-out 2.4s infinite; }
+.conv-node {
+    position: absolute;
+    width: 300px;
+    padding: 14px 18px 15px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--lane);
+    border-radius: 0 16px 16px 0;
+    background: var(--panel);
+    cursor: help;
+    transition: border-color 0.2s, background 0.2s;
+}
+.conv-node h3 { font-size: 22px; font-weight: 600; line-height: 1.2; color: var(--accent); }
+.conv-node span { display: block; font-family: var(--font-mono); font-size: 14.5px; color: var(--lane); margin-top: 4px; }
+
+/* ===== Репликация конечных автоматов ===== */
+.smr { display: flex; flex-direction: column; gap: 14px; }
+.smr-r {
+    display: grid;
+    grid-template-columns: 200px 1fr 120px;
+    align-items: center;
+    gap: 22px;
+    padding: 14px 24px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+}
+.smr-n { font-size: 24px; font-weight: 600; color: var(--text-main); }
+.smr-ops { display: flex; gap: 12px; }
+.smr-ops > span { gap: 12px; }
+.smr .smr-ops > .v-ok { display: flex; }
+.smr .smr-ops > .v-bad { display: none; }
+.smr[data-state='chaos'] .smr-ops > .v-ok { display: none; }
+.smr[data-state='chaos'] .smr-ops > .v-bad { display: flex; }
+.smr i, .smr-chain i {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 21px;
+    padding: 7px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-sunken);
+    color: var(--text-soft);
+}
+.smr-v { font-family: var(--font-mono); font-size: 40px; font-weight: 700; text-align: right; color: var(--done); }
+.smr[data-state='chaos'] .is-diff .smr-v { color: var(--prob); }
+.smr[data-state='chaos'] .is-diff { border-color: rgba(var(--prob-rgb), 0.45); }
+.smr[data-state='chaos'] .smr-v .v-bad { display: inline; }
+.smr-chain { display: flex; align-items: center; gap: 12px; padding: 4px 24px; opacity: 0.3; transition: opacity 0.4s; }
+.smr-chain i { border-color: rgba(var(--sol-rgb), 0.6); color: var(--sol); }
+.smr-k { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); width: 200px; }
+.smr[data-state='chain'] .smr-chain { opacity: 1; }
+.smr[data-state='chain'] .smr-ops i { border-color: rgba(var(--sol-rgb), 0.6); }
+
+/* ===== Наследие ===== */
+.legacy .card { padding: 20px 24px 22px; gap: 8px; }
+.legacy .card p { font-size: 23px !important; }
+.legacy .card .card-k { font-size: 16px; }
+.pq { padding: 22px 28px 24px; }
+.pq p { font-size: 23px !important; }
+.pq .card-k { display: flex; align-items: center; gap: 6px; }
+.refs .tbl-c { font-size: 21px; padding: 9px 18px; }
+
+/* ===== Слайд события =====
+   Оформление перенесено из первого доклада вечера («Развитие блокчейна»):
+   слева значок, название и ссылка на первоисточник; справа — идея, что это,
+   кто придумал, было → стало и свёрнутый блок «Как это работает».
+   Цвет слайда — цвет его линии развития. */
+:root { --brand-rgb: var(--sol-rgb); --b-bitcoin: 247, 147, 26; }
+.slide.tech, .tk { --brand-rgb: var(--lane-rgb); }
+.slide.tech.t-bitcoin, .tk.t-bitcoin { --brand-rgb: var(--b-bitcoin); }
+.lbl {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.slide.active .top { animation: rvFade 0.6s ease backwards; }
+@keyframes ring {
+    0% { box-shadow: 0 0 0 0 rgba(var(--ring-rgb, var(--sol-rgb)), 0.6); }
+    70%, 100% { box-shadow: 0 0 0 18px rgba(var(--ring-rgb, var(--sol-rgb)), 0); }
+}
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 70px rgba(var(--brand-rgb), 0.18); }
+    50% { box-shadow: 0 0 130px rgba(var(--brand-rgb), 0.42); }
+}
+@keyframes arrowRun {
+    0%, 100% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+}
+
+/* ===== Шапка слайда: где мы на таймлайне ===== */
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    height: 44px;
+    flex-shrink: 0;
+}
+.crumb {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.crumb-y {
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--sol-rgb), 0.45);
+    background: rgba(var(--sol-rgb), 0.08);
+    color: var(--sol);
+    letter-spacing: 0.06em;
+}
+.crumb-n { color: var(--text-faint); }
+.crumb-sep { color: var(--text-faint); margin: 0 -6px; }
+/* Название этапа в шапке — кнопка возврата на слайд этого этапа. */
+.crumb-back {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px 7px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    color: var(--text-main);
+    transition: border-color 0.2s, background 0.2s;
+}
+.crumb-back::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+    transform: scaleX(-1);
+    transition: transform 0.2s var(--ease);
+}
+.crumb-back:hover, .crumb-back:focus-visible { border-color: var(--sol); background: rgba(var(--sol-rgb), 0.1); }
+.crumb-back:hover::before { transform: scaleX(-1) translateX(3px); }
+
+
+/* ===== Логотип =====
+   Плитка одна на весь доклад: в ней либо знак бренда (svg), либо монограмма,
+   либо линейная иконка понятия. Свечение — цветом бренда. */
+.logo {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 190px;
+    height: 190px;
+    border-radius: 46px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+/* Большая плитка на слайде технологии «дышит» цветом бренда. */
+.tech-id .logo {
+    border-color: rgba(var(--brand-rgb), 0.35);
+    box-shadow: 0 0 90px rgba(var(--brand-rgb), 0.26);
+}
+.slide.active .tech-id .logo {
+    animation: rvPop 0.7s var(--ease) backwards, glow 4.5s ease-in-out infinite;
+    animation-delay: var(--d, 0ms), calc(var(--d, 0ms) + 0.7s);
+}
+.logo svg { position: relative; width: 62%; height: 62%; display: block; }
+.logo .ico { width: 54%; height: 54%; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.logo-mono {
+    font-size: 96px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--text-main);
+}
+.logo-mono.is-word { font-size: 46px; letter-spacing: -0.03em; }
+.logo-mono.is-abbr { font-size: 52px; letter-spacing: -0.02em; }
+/* Corda: в знаке буква «o» — красная точка. */
+
+/* ===== Слайд технологии ===== */
+.tech-card {
+    display: grid;
+    grid-template-columns: 430px 1fr;
+    gap: 84px;
+    align-items: center;
+}
+.tech-id { display: flex; flex-direction: column; align-items: flex-start; isolation: isolate; }
+.tech-id h2 {
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    margin: 36px 0 0;
+    color: var(--accent);
+}
+.tech-id h2.is-long { font-size: 50px; }
+.tech-id .tech-tag {
+    font-size: 29px;
+    line-height: 1.3;
+    color: var(--text-muted);
+    margin-top: 14px !important;
+}
+.site {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    font-family: var(--font-mono);
+    font-size: 21px;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s var(--ease);
+}
+.site span { color: var(--text-dim); transition: transform 0.2s var(--ease), color 0.2s; }
+.site:hover, .site:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.85);
+    background: rgba(var(--brand-rgb), 0.1);
+    transform: translateY(-2px);
+}
+.site:hover span { color: var(--text-main); transform: translate(2px, -2px); }
+
+.tech-info { display: flex; flex-direction: column; gap: 20px; }
+/* Идея — первой строкой: зачем это придумали и что сделали. Подробности ниже. */
+.idea { padding: 2px 0 4px 26px; border-left: 4px solid rgb(var(--brand-rgb)); }
+.idea .lbl { display: block; }
+.idea p {
+    margin-top: 8px !important;
+    font-size: 33px;
+    font-weight: 600;
+    line-height: 1.28;
+    letter-spacing: -0.012em;
+    color: var(--text-main);
+}
+.row {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-soft);
+}
+.row p { font-size: 30px; line-height: 1.38; color: var(--text-soft); }
+.row small { display: block; margin-top: 8px; font-size: 22px; color: var(--text-dim); }
+
+/* Примеры-проекты: кнопки в ряд; в кружке — монограмма проекта. */
+.ppl { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; }
+.ppl > small { flex-basis: 100%; margin-top: 0; }
+.ava {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(var(--brand-rgb), 0.14);
+    border: 2px solid rgba(var(--brand-rgb), 0.55);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    transition: transform 0.25s var(--ease), border-color 0.2s;
+}
+.person-t { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.person-t b { font-size: 25px; line-height: 1.15; }
+.person-t small { margin: 0; font-size: 19px; line-height: 1.25; color: var(--text-muted); }
+.exb:hover .ava, .exb:focus-visible .ava { transform: scale(1.07); border-color: rgb(var(--brand-rgb)); }
+/* Пример-проект: кнопка, которая ведёт на его собственный слайд. */
+.exb {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 24px 8px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    background: var(--bg-card);
+    transition: border-color 0.2s, background 0.2s, transform 0.25s var(--ease);
+}
+.exb .ava { width: 54px; height: 54px; font-size: 17px; }
+.exb:hover, .exb:focus-visible { border-color: rgba(var(--sol-rgb), 0.85); background: var(--bg-hover); transform: translateY(-3px); }
+
+
+.change > .lbl { display: block; margin-bottom: 12px; }
+.ba { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; }
+.ba-was, .ba-now { border-radius: 22px; padding: 16px 24px 18px; }
+.ba-was { border: 1px dashed var(--border-strong); }
+.ba-now {
+    border: 1px solid rgba(var(--brand-rgb), 0.65);
+    background: rgba(var(--brand-rgb), 0.1);
+}
+.ba span {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.ba-now span { color: var(--text-main); }
+.ba p { margin-top: 8px !important; font-size: 27px; line-height: 1.36; }
+.ba-was p { color: var(--text-muted); }
+.ba-now p { color: var(--text-main); }
+.ba-arrow, .pa-arrow {
+    align-self: center;
+    justify-self: center;
+    width: 34px;
+    height: 34px;
+    background: var(--text-muted);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+.slide.active .ba-arrow, .slide.active .pa-arrow {
+    animation: rvPop 0.7s var(--ease) backwards, arrowRun 1.8s ease-in-out infinite;
+    animation-delay: var(--d, 0ms), calc(var(--d, 0ms) + 0.7s);
+}
+.change .today {
+    margin-top: 12px !important;
+    font-size: 21px;
+    line-height: 1.4;
+    color: var(--text-dim);
+}
+.today .lbl { margin-right: 12px; font-size: 14px; }
+
+/* ===== «Как это работает»: необязательный свёрнутый блок =====
+   На слайде — кнопка с пунктирной рамкой: пунктир значит «можно пропустить».
+   По клику поверх слайда раскрывается схема из шагов. Открывает и закрывает
+   её talk.js; без скрипта блок просто остаётся свёрнутым. */
+.more { display: flex; gap: 16px; }
+.more .more-btn {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    border-radius: 20px;
+    border: 2px dashed var(--border-strong);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-soft);
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.more-btn::before {
+    content: '+';
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1;
+}
+.more-btn small {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.more-btn:hover, .more-btn:focus-visible {
+    border-color: rgba(var(--brand-rgb), 0.9);
+    background: rgba(var(--brand-rgb), 0.07);
+    color: var(--text-main);
+}
+.how {
+    position: absolute;
+    left: 96px;
+    right: 96px;
+    top: 112px;
+    bottom: 56px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 34px;
+    padding: 40px 48px;
+    border-radius: 30px;
+    border: 2px dashed rgba(var(--brand-rgb), 0.75);
+    background: var(--bg);
+    box-shadow: 0 0 0 14px var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px) scale(0.985);
+    transition: opacity 0.25s ease, transform 0.35s var(--ease), visibility 0.25s;
+}
+.how.is-open { opacity: 1; visibility: visible; transform: none; }
+.how-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
+.how-head h3 { margin-top: 10px; font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -0.028em; color: var(--text-main); }
+.how .how-close {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 12px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border-mid);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.how-close::after { content: ' ×'; }
+.how-close:hover, .how-close:focus-visible { color: var(--text-main); border-color: var(--text-main); background: var(--bg-hover); }
+/* Схема: пронумерованные шаги со стрелками. В каждом — название,
+   «формула» шага моноширинным шрифтом и объяснение простыми словами. */
+.flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--n, 4), 1fr);
+    gap: 52px;
+    counter-reset: st;
+}
+.flow li {
+    position: relative;
+    counter-increment: st;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 26px 28px;
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+}
+.flow li::before {
+    content: counter(st);
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(var(--brand-rgb), 0.16);
+    border: 2px solid rgba(var(--brand-rgb), 0.7);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+.flow li + li::after {
+    content: '';
+    position: absolute;
+    left: -43px;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    margin-top: -17px;
+    background: var(--text-muted);
+    -webkit-mask: var(--arr) center / contain no-repeat;
+    mask: var(--arr) center / contain no-repeat;
+}
+/* Список причин, а не цепочка шагов — без стрелок. */
+.how.no-arrows .flow { gap: 24px; }
+.how.no-arrows .flow li + li::after { content: none; }
+.flow b { margin-top: 16px; font-size: 29px; line-height: 1.15; }
+.flow .flow-s {
+    margin-top: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(var(--brand-rgb), 0.32);
+    background: rgba(var(--brand-rgb), 0.09);
+    font-family: var(--font-mono);
+    font-size: 17px;
+    line-height: 1.35;
+    color: var(--text-main);
+}
+.flow p { margin-top: 14px !important; font-size: 23px; line-height: 1.42; color: var(--text-soft); }
+.flow[style*='--n: 5'] { gap: 40px; }
+.flow[style*='--n: 5'] li { padding: 22px 20px 24px; }
+.flow[style*='--n: 5'] li + li::after { left: -37px; }
+.flow[style*='--n: 5'] b { font-size: 26px; }
+.flow[style*='--n: 5'] .flow-s.flow-s { font-size: 15px; }
+.flow[style*='--n: 5'] p { font-size: 21px; }
+.how.is-open .flow li { animation: rvUp 0.6s var(--ease) backwards; animation-delay: calc(120ms + var(--i) * 110ms); }
+.how .how-sum {
+    padding: 20px 28px;
+    border-radius: 20px;
+    border: 1px solid rgba(var(--done-rgb), 0.48);
+    background: rgba(var(--done-rgb), 0.07);
+    font-size: 26px;
+    line-height: 1.42;
+    color: var(--text-main);
+}
+.how-sum .lbl { margin-right: 16px; color: var(--done); }
+
+
+.lnk {
+    color: var(--text-main);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(var(--sol-rgb), 0.55);
+    transition: color 0.2s, border-color 0.2s;
+}
+.lnk:hover, .lnk:focus-visible { color: var(--sol); border-color: var(--sol); }
+
+/* Кнопка «Таймлайн» стоит в шапке отдельно от крошек — шрифт задаём ей сами. */
+.top > .crumb-back { font-family: var(--font-mono); font-size: 16px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.tks { margin-top: 18px; }
+/* Значок события — в цвете его линии; длинные монограммы мельче. */
+.tech-id .logo { color: rgb(var(--brand-rgb)); }
+.tech-id .logo-mono { color: inherit; }
+.tech-id h2.is-long { font-size: 54px; }
+.crumb-y { border-color: rgba(var(--brand-rgb), 0.5); background: rgba(var(--brand-rgb), 0.1); color: rgb(var(--brand-rgb)); }
+:root[data-theme='light'] .crumb-y { color: var(--text-main); }
+/* «В биткойне» — что из этого события попало в биткойн. */
+.change .today { font-size: 23px; color: var(--text-soft); }
+.change .today .lbl { color: rgb(var(--b-bitcoin)); }
+
+/* Блок «Как это работает» с готовой демонстрацией: слева шаги столбиком,
+   справа сама демонстрация. Широким демонстрациям (.is-wide) шаги не нужны. */
+.how.has-demo { justify-content: flex-start; gap: 26px; padding-top: 32px; }
+.how-split { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: 48px; align-items: center; flex: 1; min-height: 0; }
+.how-demo { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.how.is-wide .how-demo { flex: 1; justify-content: center; gap: 24px; }
+.flow.is-col { grid-template-columns: 1fr; gap: 14px; }
+.flow.is-col li { display: grid; grid-template-columns: 40px 1fr; column-gap: 18px; align-items: start; padding: 18px 22px 20px; }
+.flow.is-col li::before { grid-row: 1 / span 3; }
+.flow.is-col li + li::after { content: none; }
+.flow.is-col b { margin-top: 4px; font-size: 26px; }
+.flow.is-col .flow-s { justify-self: start; margin-top: 8px; }
+.flow.is-col p { margin-top: 8px !important; font-size: 21px; }
+
+/* ===== Заметки докладчика =====
+   В слайде лежат скрытым блоком; панель собирается в talk.js и живёт вне
+   масштабируемой сцены, чтобы текст читался при любом размере окна. */
+.notes { display: none; }
+.notes-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 52vh;
+    overflow-y: auto;
+    padding: 24px 44px 28px;
+    background: rgba(var(--bg-rgb), 0.97);
+    border-top: 1px solid var(--border-soft);
+    box-shadow: 0 -20px 60px rgba(var(--shadow-rgb), calc(0.8 * var(--shadow-k)));
+    transform: translateY(101%);
+    transition: transform 0.32s var(--ease);
+    z-index: 60;
+}
+.notes-panel.is-open { transform: none; }
+.notes-panel-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.notes-panel-body { max-width: 1400px; font-size: 17px; line-height: 1.65; color: var(--text-soft); }
+.notes-panel-body p { margin: 0 0 10px; font-size: inherit; line-height: inherit; color: inherit; }
+.notes-panel-body p:last-child { margin-bottom: 0; }
+.notes-panel-body b { color: var(--accent); font-weight: 600; }
+.notes-panel-body a { color: var(--text-soft); border-bottom: 1px dotted var(--border-strong); text-decoration: none; }
+.notes-panel-body em { display: inline-block; font-style: normal; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sol); margin-right: 8px; }
+
+/* Тем, кто просит меньше движения, показываем слайды сразу в итоговом виде. */
+@media (prefers-reduced-motion: reduce) {
+    .slide.active .content-slide,
+    .slide.active .content-slide *,
+    .slide.active .content-slide *::before,
+    .slide.active .content-slide *::after { animation: none !important; }
+    .notes-panel, .rail, .rail * { transition: none !important; }
+    .rail .rail-dot, .conv-lines .run { animation: none !important; }
+}
+
+/* Цитата автора книги: крупная кавычка, текст, под ним аватар и имя. */
+.author-quote { position: relative; margin: 0; padding: 6px 0 0 96px; max-width: 1500px; }
+.author-quote::before {
+    content: '«';
+    position: absolute;
+    left: 0;
+    top: -34px;
+    font-size: 132px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent);
+}
+.author-quote blockquote { margin: 0; font-size: 34px; font-weight: 500; line-height: 1.38; letter-spacing: -0.015em; color: var(--text-main); }
+.author-quote blockquote b { color: var(--accent); }
+.author-quote figcaption { display: flex; align-items: center; gap: 18px; margin-top: 26px; }
+.author-quote img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+.author-quote figcaption span { display: flex; flex-direction: column; gap: 2px; font-size: 24px; }
+.author-quote small { font-size: 19px; color: var(--text-dim); }

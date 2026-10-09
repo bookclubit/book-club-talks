@@ -1173,6 +1173,8 @@
     padding-bottom: 20px;
     border-bottom: 1px solid var(--border-soft);
 }
+/* Последняя строка стоит над кнопкой «Как это работает» — черта под ней лишняя. */
+.row:has(+ .more) { padding-bottom: 0; border-bottom: 0; }
 .row p { font-size: 30px; line-height: 1.38; color: var(--text-soft); }
 .row small { display: block; margin-top: 8px; font-size: 22px; color: var(--text-dim); }
 

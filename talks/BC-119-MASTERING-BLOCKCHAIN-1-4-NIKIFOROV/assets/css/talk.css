@@ -1260,3 +1260,8 @@
 .map.is-wide .map-r { grid-template-columns: 170px 1fr; padding: 16px 30px; }
 .map.is-wide .map-r b { font-size: 28px; }
 .map.is-wide .map-r small { font-size: 22px; }
+
+/* Слайд о программах: значки-глифы убраны, чтобы влезли пояснения из книги. */
+#s-vm .glyph { display: none; }
+/* Уровни подробно: название уровня длиннее обычного. */
+#s-layers2 .map.is-wide .map-r { grid-template-columns: 240px 1fr; }

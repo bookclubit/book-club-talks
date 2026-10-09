@@ -1197,3 +1197,14 @@
 }
 .tl-i b { display: block; font-family: var(--font-mono); font-size: 20px; font-weight: 600; letter-spacing: 0.06em; color: var(--ac); }
 .tl-i span { display: block; margin-top: 6px; font-size: 27px; line-height: 1.32; color: var(--text-soft); }
+
+/* Уровень: что делает — обычным текстом, термин-пример — мелкой подписью. */
+.layer { padding: 14px 30px; }
+.layer span small {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    color: var(--text-dim);
+}

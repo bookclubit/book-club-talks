@@ -1170,3 +1170,16 @@
 .chips.is-tight { margin-top: 18px; }
 .card .chip { font-size: 21px; padding: 8px 16px; }
 .chip.is-ac { border-color: rgba(var(--cc-rgb, var(--ac-rgb)), 0.6); color: var(--text-main); }
+
+/* Карточка-объяснение: определение и строка-пример под чертой. */
+.duo.is-tight { gap: 22px 26px; }
+.card.is-plainbox { padding: 26px 34px 28px; }
+.card.is-plainbox h3 { font-size: 36px; }
+.card.is-plainbox p { font-size: 25px; color: var(--text-soft); }
+.card .ex {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    font-size: 21px;
+    color: var(--text-dim);
+}

@@ -1183,3 +1183,10 @@
     font-size: 21px;
     color: var(--text-dim);
 }
+
+/* Короткая карточка: заголовок-мысль и одна строка. Чем меньше слов, тем крупнее. */
+.card.is-plainbox.is-min { padding: 34px 40px 38px; justify-content: center; }
+.card.is-plainbox.is-min h3 { font-size: 46px; line-height: 1.1; }
+.card.is-plainbox.is-min p { margin-top: 16px; font-size: 32px; line-height: 1.35; color: var(--text-soft); }
+.duo.is-tight .card.is-plainbox.is-min h3 { font-size: 40px; }
+.duo.is-tight .card.is-plainbox.is-min p { font-size: 29px; }

@@ -113,29 +113,12 @@
                     <div class="body">
                         <div class="head">
                             <h2 data-rv>Тип блокчейна&nbsp;— ответ на <mark>три вопроса</mark></h2>
-                            <p class="lead" data-rv>Ответы независимы: одна сеть может быть открытой, со своей монетой и первого уровня одновременно, как Ethereum.</p>
                         </div>
                         <div class="trio">
-                            <div class="card is-case is-c" data-rv>
-                                <div class="tagl">Вопрос 1</div>
-                                <h3>Кто может участвовать?</h3>
-                                <p>От «любой желающий» до «только сотрудники одной компании». Чем закрытее сеть, тем больше приходится доверять её хозяину.</p>
-                                <p class="ex">Bitcoin открыт всем, а сеть нескольких банков&nbsp;— только им</p>
-                            </div>
-                            <div class="card is-case is-l" data-rv>
-                                <div class="tagl">Вопрос 2</div>
-                                <h3>Есть ли своя монета?</h3>
-                                <p>Встроенная монета нужна, чтобы платить комиссии и награждать тех, кто держит сеть. Бывают сети без монет&nbsp;— они просто хранят общие данные.</p>
-                                <p class="ex">В Ethereum есть монета ETH, а в корпоративных сетях её часто нет</p>
-                            </div>
-                            <div class="card is-case is-p" data-rv>
-                                <div class="tagl">Вопрос 3</div>
-                                <h3>Где проходят транзакции?</h3>
-                                <p>Прямо в основной сети (это уровень 1) или в надстройке над ней, которая потом отчитывается основной (уровень 2).</p>
-                                <p class="ex">Ethereum&nbsp;— уровень 1, а Base (сеть биржи Coinbase) работает над ним&nbsp;— уровень 2</p>
-                            </div>
+                            <div class="card is-plainbox is-min is-c" data-rv><div class="tagl">Вопрос 1</div><h3>Кто может участвовать?</h3><p>Все&nbsp;— или только свои.</p></div>
+                            <div class="card is-plainbox is-min is-l" data-rv><div class="tagl">Вопрос 2</div><h3>Есть ли своя монета?</h3><p>У Bitcoin есть, у сетей компаний&nbsp;— часто нет.</p></div>
+                            <div class="card is-plainbox is-min is-p" data-rv><div class="tagl">Вопрос 3</div><h3>Где идут переводы?</h3><p>В основной сети&nbsp;— или в надстройке над ней.</p></div>
                         </div>
-                        <p class="foot" data-rv>А над всем этим&nbsp;— <b>распределённые реестры</b> (DLT): общее название для любых баз данных с копиями у многих участников. Блокчейн&nbsp;— один из их видов.</p>
                     </div>
                 </div>
                 <aside class="notes">
@@ -155,9 +138,9 @@
                     <div class="body">
                         <div class="split">
                             <div class="say">
-                                <h2 data-rv>Каждый блокчейн&nbsp;— <mark>распределённый реестр</mark>, но не наоборот</h2>
-                                <p class="lead" data-rv>Распределённый реестр&nbsp;— как общая Google-таблица, только без Google: копия есть у каждого участника, и все правки сверяются между собой.</p>
-                                <p class="aside" data-rv>Блокчейн&nbsp;— частный случай: записи складываются в блоки, а блоки сцеплены в цепочку. Бывают реестры и без блоков.</p>
+                                <h2 data-rv>Блокчейн&nbsp;— частный случай <mark>распределённого реестра</mark></h2>
+                                <p class="lead" data-rv>Реестр&nbsp;— общая таблица, копия которой есть у каждого участника.</p>
+                                <p class="aside" data-rv>В блокчейне записи идут блоками. Бывают реестры и без блоков.</p>
                             </div>
                             <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Большая область распределённых реестров; внутри неё область блокчейнов с Bitcoin, Ethereum и Fabric; Corda — снаружи блокчейнов, без блоков">
                                 <rect class="zone is-2" style="--i:0" x="40" y="70" width="860" height="600" rx="64"/>
@@ -190,12 +173,12 @@
                     <div class="kicker"><b>Часть 2</b><span>Кто участвует</span></div>
                     <div class="body">
                         <div class="head">
-                            <h2 data-rv>Два основных вида: <mark>публичные и приватные</mark></h2>
+                            <h2 data-rv>Кто участвует: <mark>все или только свои</mark></h2>
                         </div>
                         <div class="axis" data-rv><span>открыто всем</span><i></i><span>только своим</span></div>
                         <div class="duo">
-                            <div class="card is-plainbox is-ok" data-rv><div class="tagl">Публичные</div><h3>Открыты всем, никто не владеет</h3><p>Любой может скачать программу, стать узлом и проверять блоки. Порядок держит консенсус, а не хозяин. Участникам часто платят наградой за работу.</p><p class="ex">Bitcoin, Ethereum. Как интернет: подключиться может каждый</p></div>
-                            <div class="card is-plainbox is-bad" data-rv><div class="tagl">Приватные · консорциум</div><h3>Только для своих</h3><p>Сеть ведут несколько компаний, которые договорились работать вместе,&nbsp;— это и называют <b>консорциумом</b>. Посторонних не пускают, все участники известны.</p><p class="ex">Как офисная сеть с пропусками. Строят их, например, на Hyperledger Fabric&nbsp;— открытом движке для корпоративных блокчейнов</p></div>
+                            <div class="card is-plainbox is-min is-ok" data-rv><div class="tagl">Публичные</div><h3>Открыты всем</h3><p>Хозяина нет, войти может любой. Bitcoin, Ethereum.</p></div>
+                            <div class="card is-plainbox is-min is-bad" data-rv><div class="tagl">Приватные</div><h3>Только для своих</h3><p>Сеть ведут несколько компаний вместе. Например, банки.</p></div>
                         </div>
                     </div>
                 </div>
@@ -213,13 +196,12 @@
                     <div class="kicker"><b>Часть 2</b><span>Кто участвует</span></div>
                     <div class="body">
                         <div class="head">
-                            <h2 data-rv>Крайние случаи: <mark>полуприватные и полностью приватные</mark></h2>
+                            <h2 data-rv>Ещё два <mark>крайних случая</mark></h2>
                         </div>
                         <div class="duo">
-                            <div class="card is-plainbox" data-rv><div class="tagl">Полуприватные</div><h3>Наполовину открыты</h3><p>Часть сети видят и используют все, часть&nbsp;— только избранные. Вход открыт, но правила задаёт центральный орган. Поэтому их называют <b>полудецентрализованными</b>.</p><p class="ex">Пока только идея: рабочих сетей автор не называет</p></div>
-                            <div class="card is-plainbox" data-rv><div class="tagl">Полностью приватные</div><h3>Внутри одной организации</h3><p>Все узлы у одной организации. Децентрализации нет, поэтому такие сети редки. Но остаётся общий журнал с подписями, который нельзя тихо переписать.</p><p class="ex">Например, обмен данными между министерствами</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Полуприватные</div><h3>Наполовину открыты</h3><p>Часть видят все, часть&nbsp;— избранные. Пока только идея.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Полностью приватные</div><h3>Один хозяин</h3><p>Все узлы у одной организации. Например, у министерства.</p></div>
                         </div>
-                        <p class="foot" data-rv>Чем ближе к «только своим», тем меньше нужен сложный консенсус и тем больше приходится доверять хозяину сети.</p>
                     </div>
                 </div>
                 <aside class="notes">
@@ -235,13 +217,13 @@
                     <div class="kicker"><b>Часть 2</b><span>Кто участвует</span></div>
                     <div class="body">
                         <div class="head">
-                            <h2 data-rv>«Закрытый» и «приватный»&nbsp;— <mark>это разные вопросы</mark></h2>
+                            <h2 data-rv>«Закрытый» и «приватный»&nbsp;— <mark>не одно и то же</mark></h2>
                         </div>
                         <div class="duo">
-                            <div class="card is-plainbox" data-rv><div class="tagl">Закрытый&nbsp;— про вход</div><h3>Пускают ли без проверки?</h3><p>В закрытую сеть подключают только после проверки: кто ты такой. Раз все участники известны и доверяют друг другу, майнинг не нужен&nbsp;— записи утверждает выбранный всеми участник.</p><p class="ex">Как клуб с фейс-контролем на входе</p></div>
-                            <div class="card is-plainbox" data-rv><div class="tagl">Приватный&nbsp;— про хозяина</div><h3>Есть ли у сети владелец?</h3><p>Приватной сетью управляет компания или их группа. У публичной хозяина нет: правила одни для всех, и поменять их в одиночку нельзя.</p><p class="ex">Как клуб, у которого есть владелец</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Закрытый</div><h3>Про вход</h3><p>Пускают только после проверки. Как клуб с фейс-контролем.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Приватный</div><h3>Про хозяина</h3><p>У сети есть владелец. Как клуб, у которого есть хозяин.</p></div>
                         </div>
-                        <p class="foot" data-rv>Поэтому бывает и так: хозяина нет, а вход по паспорту. Пример из книги&nbsp;— Bitcoin, к которому добавили проверку личности. Сеть стала <b>закрытой</b>, но осталась <b>публичной</b>.</p>
+                        <p class="foot" data-rv>Bitcoin с проверкой личности&nbsp;— закрытый, но по-прежнему публичный.</p>
                     </div>
                 </div>
                 <aside class="notes">
@@ -262,10 +244,10 @@
                             <h2 data-rv>Своя монета есть <mark>не у всех</mark></h2>
                         </div>
                         <div class="duo">
-                            <div class="card is-plainbox is-hi" data-rv><div class="tagl">С монетой · токенизированные</div><h3>Монета&nbsp;— зарплата сети</h3><p>Тем, кто держит сеть, платят новыми монетами: майнерам в биткойне, валидаторам в Ethereum. А пользователи этими же монетами платят комиссию за переводы.</p><p class="ex">Bitcoin&nbsp;— монета BTC, Ethereum&nbsp;— монета ETH</p></div>
-                            <div class="card is-plainbox" data-rv><div class="tagl">Без монеты · нетокенизированные</div><h3>Только общие данные</h3><p>Сеть ведут компании, которые и так рассчитываются по договорам. Им нужна не валюта, а общий журнал: накладные, договоры, документы.</p><p class="ex">Корпоративные сети на Hyperledger Fabric</p></div>
+                            <div class="card is-plainbox is-min is-hi" data-rv><div class="tagl">С монетой</div><h3>Монета&nbsp;— зарплата сети</h3><p>Ей платят тем, кто держит сеть. Bitcoin, Ethereum.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Без монеты</div><h3>Только общие данные</h3><p>Компаниям нужна не валюта, а общий журнал.</p></div>
                         </div>
-                        <p class="foot" data-rv>Монету можно сделать и поверх чужой сети&nbsp;— программой-контрактом. Так устроены «цифровые доллары» <b>USDT</b> и <b>USDC</b>: своей сети у них нет, они живут внутри Ethereum и других.</p>
+                        <p class="foot" data-rv>Монету можно сделать и поверх чужой сети: так устроены «цифровые доллары» USDT.</p>
                     </div>
                 </div>
                 <aside class="notes">
@@ -285,7 +267,7 @@
                     <div class="body">
                         <div class="head">
                             <h2 data-rv>Уровень 1&nbsp;— это <mark>основная сеть</mark></h2>
-                            <p class="lead" data-rv>Сеть, которая сама решает, какие блоки правильные, и ни на кого не опирается. Бывает двух видов.</p>
+                            <p class="lead" data-rv>Сеть, которая сама решает, какие блоки правильные.</p>
                         </div>
                         <div class="duo">
                             <div class="card" data-rv><div class="mini"><svg viewBox="0 0 760 250" role="img" aria-label="Одна цепочка, в которой всё: консенсус, выполнение, данные">
@@ -293,16 +275,16 @@
                                 <text class="tx call" style="--i:1" x="380" y="70">проверка</text>
                                 <text class="tx call" style="--i:2" x="380" y="125">программы</text>
                                 <text class="tx call" style="--i:3" x="380" y="180">хранение</text>
-                            </svg></div><div class="tagl">Монолитные</div><h3>Одна сеть делает всё</h3><p>Проверка блоков, программы и хранение данных&nbsp;— всё внутри одной сети. Так устроены Bitcoin и Ethereum.</p><p class="ex">Как приложение-монолит: проще, но всё упирается в одну систему</p></div>
+                            </svg></div><div class="tagl">Монолитные</div><h3>Одна сеть делает всё</h3><p>Как приложение-монолит. Bitcoin, Ethereum.</p></div>
                             <div class="card" data-rv><div class="mini"><svg viewBox="0 0 760 250" role="img" aria-label="Основная цепочка в центре, к ней подключены пять цепочек">
                                 <path class="ln dr" style="--i:1" pathLength="1" d="M380 125L230 55M380 125L530 55M380 125L210 190M380 125L550 190M380 125L380 230"/>
                                 <g class="nd ac" style="--i:0"><circle cx="380" cy="125" r="46"/><text x="380" y="125">гл.</text></g>
                                 <g class="nd" style="--i:2"><circle cx="230" cy="55" r="26"/></g><g class="nd" style="--i:2"><circle cx="530" cy="55" r="26"/></g>
                                 <g class="nd" style="--i:3"><circle cx="210" cy="190" r="26"/></g><g class="nd" style="--i:3"><circle cx="550" cy="190" r="26"/></g>
                                 <g class="nd" style="--i:4"><circle cx="380" cy="230" r="20"/></g>
-                            </svg></div><div class="tagl">Полилитные</div><h3>Сеть из многих сетей</h3><p>Есть главная сеть, а к ней подключены отдельные сети со своими задачами. Так устроены Polkadot и Cosmos.</p><p class="ex">Как микросервисы: гибко, но между сетями нужны мосты</p></div>
+                            </svg></div><div class="tagl">Полилитные</div><h3>Сеть из многих сетей</h3><p>Как микросервисы. Polkadot, Cosmos.</p></div>
                         </div>
-                        <p class="foot" data-rv>Над любой сетью первого уровня можно построить надстройку&nbsp;— это <b>уровень 2</b>, о нём дальше.</p>
+                        <p class="foot" data-rv>Над основной сетью можно построить надстройку&nbsp;— это <b>уровень 2</b>.</p>
                     </div>
                 </div>
                 <aside class="notes">
@@ -320,27 +302,27 @@
                     <div class="body">
                         <div class="split">
                             <div class="say">
-                                <h2 data-rv>Уровень 2: транзакции <mark>вне цепочки</mark>, расчёт&nbsp;— на первом</h2>
-                                <p class="lead" data-rv>Придуман, чтобы разгрузить Bitcoin и Ethereum: решить проблемы масштабируемости и конфиденциальности. Работает поверх первого уровня.</p>
-                                <div class="chips" data-rv><span class="chip">сайдчейны</span><span class="chip">ZK-роллапы</span><span class="chip">оптимистичные роллапы</span><span class="chip">Plasma</span><span class="chip">Lightning Network</span></div>
+                                <h2 data-rv>Уровень 2&nbsp;— <mark>надстройка</mark> над основной сетью</h2>
+                                <p class="lead" data-rv>Переводы идут в надстройке, а в основную сеть записывается только итог.</p>
+                                <p class="aside" data-rv>Как магазин: сотни покупок за день, а в банк&nbsp;— одна инкассация.</p>
                             </div>
                             <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Наверху много транзакций на втором уровне; вниз уходит одна пачка; внизу цепочка первого уровня">
                                 <rect class="zone" style="--i:0" x="90" y="60" width="760" height="250" rx="40"/>
-                                <text class="tx call" style="--i:0" x="470" y="30">уровень 2 · быстро и дёшево</text>
+                                <text class="tx call" style="--i:0" x="470" y="30">уровень 2 — надстройка: быстро и дёшево</text>
                                 <path class="ln thin" style="--i:1" d="M190 140L290 220L390 130L500 230L600 140L720 215"/><g class="nd ac" style="--i:1"><circle cx="190" cy="140" r="22"/></g><g class="nd ac" style="--i:1"><circle cx="290" cy="220" r="22"/></g><g class="nd ac" style="--i:2"><circle cx="390" cy="130" r="22"/></g><g class="nd ac" style="--i:2"><circle cx="500" cy="230" r="22"/></g><g class="nd ac" style="--i:3"><circle cx="600" cy="140" r="22"/></g><g class="nd ac" style="--i:3"><circle cx="720" cy="215" r="22"/></g>
-                                <g class="ar acc" style="--i:4"><path class="ln dr" pathLength="1" d="M470 330L470 432"/><path class="ah" d="M470 456L459 432L481 432Z"/><text class="al" x="610" y="390">итог пачкой</text></g>
+                                <g class="ar acc" style="--i:4"><path class="ln dr" pathLength="1" d="M470 330L470 432"/><path class="ah" d="M470 456L459 432L481 432Z"/><text class="al" x="610" y="390">только итог</text></g>
                                 <g style="--i:5"><rect class="rbk is-dim" x="110" y="480" width="150" height="110" rx="18"/><rect class="rbk is-dim" x="290" y="480" width="150" height="110" rx="18"/><rect class="rbk is-ok" x="470" y="480" width="150" height="110" rx="18"/><rect class="rbk is-dim" x="650" y="480" width="150" height="110" rx="18"/></g>
                                 <path class="ln" d="M262 535L288 535M442 535L468 535M622 535L648 535"/>
-                                <text class="tx call" style="--i:6" x="455" y="640">уровень 1 · консенсус и расчёты</text>
+                                <text class="tx call" style="--i:6" x="455" y="640">уровень 1 — основная сеть: надёжно</text>
                             </svg></div>
                         </div>
                     </div>
                 </div>
                 <aside class="notes">
-                    <p><em>Что говорить</em> Помните главную проблему из прошлого доклада — масштабируемость? Блокчейны второго уровня придуманы, чтобы решить проблемы масштабируемости и конфиденциальности классических сетей первого уровня — Bitcoin и Ethereum. Общий принцип: первый уровень служит базой для консенсуса и расчётов, а сами транзакции выполняются вне цепочки, на втором уровне, поверх первого. Решений много: сайдчейны, роллапы с нулевым разглашением (ZK-роллапы), оптимистичные роллапы, цепочки Plasma и Lightning Network.</p>
-                    <p><em>Как показывать</em> Наверху — много мелких транзакций на втором уровне. Вниз, на первый уровень, уходит только итог, одной записью. Первый уровень его фиксирует и обеспечивает безопасность.</p>
+                    <p><em>Что говорить</em> Помните главную проблему из прошлого доклада — основные сети медленные: каждую транзакцию проверяет каждый узел. Решение второго уровня: делать переводы в надстройке, где их быстро и дёшево обрабатывают, а в основную сеть записывать только итог — одной записью на тысячи переводов. Основная сеть остаётся «судьёй»: она хранит итог и гарантирует, что его нельзя подделать. Аналогия — магазин: за день сотни покупок проходят через кассу, а в банк вечером идёт одна инкассация. Книга называет так решения, которые используют первый уровень для консенсуса и расчётов, а транзакции выполняют вне цепочки. Придуманы, чтобы решить проблемы масштабируемости и конфиденциальности Bitcoin и Ethereum.</p>
+                    <p><em>Как показывать</em> Наверху — много мелких переводов в надстройке. Вниз, в основную сеть, уходит только итог. Основная сеть его записывает и защищает.</p>
                     <p><em>Оговорка</em> Сами роллапы, Plasma и каналы состояния в этой главе только перечислены. Подробно автор разбирает их в главах про масштабируемость.</p>
-                    <p><em>Переход</em> Из всего списка книга подробно разбирает только сайдчейны.</p>
+                    <p><em>Переход</em> Надстройки бывают разные — по тому, как основная сеть убеждается, что итог честный. Разберём простыми словами.</p>
                 </aside>
             </section>
 
@@ -350,13 +332,13 @@
                     <div class="kicker"><b>Часть 5</b><span>Уровень 2</span></div>
                     <div class="body">
                         <div class="head">
-                            <h2 data-rv>Виды второго уровня <mark>простыми словами</mark></h2>
+                            <h2 data-rv>Как основная сеть <mark>проверяет итог</mark></h2>
                         </div>
                         <div class="duo is-tight">
-                            <div class="card is-plainbox" data-rv><div class="tagl">Оптимистичный роллап</div><h3>Верим, пока не докажут обман</h3><p>Собирает тысячи транзакций в пачку и публикует её в Ethereum. Пачка считается честной, если за ~неделю никто не доказал обман.</p><p class="ex">Так работает Base&nbsp;— сеть биржи Coinbase</p></div>
-                            <div class="card is-plainbox" data-rv><div class="tagl">ZK-роллап</div><h3>Прикладывает доказательство</h3><p>Тоже пачки, но к каждой&nbsp;— математическое доказательство, что всё посчитано верно. Ждать проверку на обман не нужно.</p><p class="ex">Быстрее выводить деньги, но доказательства дорого считать</p></div>
-                            <div class="card is-plainbox" data-rv><div class="tagl">Каналы состояния</div><h3>Рассчитываемся в конце</h3><p>Двое открывают «счёт» в основной сети, дальше платят друг другу сколько угодно раз, а в сеть записывают только итог.</p><p class="ex">Так устроены быстрые платежи биткойна (Lightning). Как счёт в баре: платишь один раз</p></div>
-                            <div class="card is-plainbox" data-rv><div class="tagl">Plasma</div><h3>Отправляет только отпечатки</h3><p>Отдельная цепочка, которая пишет в основную только короткие хеши. Оператор мог спрятать данные, поэтому её вытеснили роллапы.</p><p class="ex">Сегодня почти не используется</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Оптимистичный роллап</div><h3>Верим, пока не докажут обман</h3><p>Неделю итог можно оспорить.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">ZK-роллап</div><h3>Прикладываем доказательство</h3><p>Математика гарантирует: всё верно.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Каналы</div><h3>Рассчитываемся в конце</h3><p>Как счёт в баре: платишь один раз.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Plasma</div><h3>Только отпечатки</h3><p>Данные могли спрятать. Сегодня не используется.</p></div>
                         </div>
                     </div>
                 </div>
@@ -376,7 +358,7 @@
                     <div class="kicker"><b>Часть 5</b><span>Уровень 2</span></div>
                     <div class="body">
                         <div class="head">
-                            <h2 data-rv>Сайдчейн&nbsp;— <mark>соседняя цепочка</mark>, привязанная к основной</h2>
+                            <h2 data-rv>Сайдчейн&nbsp;— <mark>соседняя сеть</mark>, куда можно перевести монеты</h2>
                         </div>
                         <div class="duo">
                             <div class="card is-bad" data-rv><div class="mini"><svg viewBox="0 0 760 230" role="img" aria-label="Монеты уходят из основной цепочки в сайдчейн и обратно не возвращаются">
@@ -384,21 +366,21 @@
                                 <text class="tx cap" style="--i:0" x="580" y="60">основная</text>
                                 <g class="ar lie" style="--i:1"><path class="ln dr" pathLength="1" d="M405 98L405 132"/><path class="ah" d="M405 156L394 132L416 132Z"/><text class="al" x="300" y="125">сжечь</text></g>
                                 <g style="--i:2"><rect class="rbk" x="360" y="160" width="90" height="60" rx="12"/><rect class="rbk" x="480" y="160" width="90" height="60" rx="12"/></g>
-                                <text class="tx cap" style="--i:2" x="200" y="190">сайдчейн</text>
-                            </svg></div><div class="tagl">Однонаправленная привязка</div><h3>Сжечь и получить</h3><p>Монеты отправляют на адрес, откуда их никто не потратит,&nbsp;— «сжигают»,&nbsp;— и получают взамен монеты новой сети. Так запускают новые криптовалюты.</p></div>
+                                <text class="tx cap" style="--i:2" x="200" y="190">соседняя</text>
+                            </svg></div><div class="tagl">В одну сторону</div><h3>Сжечь и получить</h3><p>Монеты уничтожают в основной сети, получают в соседней.</p></div>
                             <div class="card is-ok" data-rv><div class="mini"><svg viewBox="0 0 760 230" role="img" aria-label="Монеты ходят между основной цепочкой и сайдчейном в обе стороны">
                                 <g style="--i:0"><rect class="rbk is-dim" x="120" y="30" width="90" height="60" rx="12"/><rect class="rbk is-dim" x="240" y="30" width="90" height="60" rx="12"/><rect class="rbk is-ok" x="360" y="30" width="90" height="60" rx="12"/></g>
-                                <text class="tx cap" style="--i:0" x="580" y="60">Bitcoin</text>
+                                <text class="tx cap" style="--i:0" x="580" y="60">основная</text>
                                 <g class="ar ok" style="--i:1"><path class="ln dr" pathLength="1" d="M385 98L385 132"/><path class="ah" d="M385 156L374 132L396 132Z"/></g>
                                 <g class="ar ok" style="--i:2"><path class="ln dr" pathLength="1" d="M425 152L425 118"/><path class="ah" d="M425 94L436 118L414 118Z"/></g>
                                 <g style="--i:3"><rect class="rbk is-ok" x="360" y="160" width="90" height="60" rx="12"/><rect class="rbk" x="480" y="160" width="90" height="60" rx="12"/></g>
-                                <text class="tx cap" style="--i:3" x="200" y="190">Rootstock</text>
-                            </svg></div><div class="tagl">Двунаправленная привязка</div><h3>Туда и обратно</h3><p>Монеты переходят в соседнюю сеть и при необходимости возвращаются. Так сеть <b>Rootstock</b> даёт биткойну программы&nbsp;— смарт-контракты.</p></div>
+                                <text class="tx cap" style="--i:3" x="200" y="190">соседняя</text>
+                            </svg></div><div class="tagl">Туда и обратно</div><h3>Как обмен валюты</h3><p>Монеты запирают в основной сети, копию выдают в соседней.</p></div>
                         </div>
                     </div>
                 </div>
                 <aside class="notes">
-                    <p><em>Что говорить</em> Сайдчейны — точнее, сайдчейны с привязкой (pegged sidechains) — позволяют перемещать монеты из одного блокчейна в другой и обратно. Однонаправленная привязка: монеты в основной сети сжигают — отправляют на адрес, с которого их невозможно потратить, — и в подтверждение получают монеты в новой сети. Так запускают новые альткойны и создают дефицит. Этот механизм называется Proof of Burn, доказательство уничтожения, — альтернатива PoW и PoS. Двунаправленная привязка: монеты можно перевести в сайдчейн, а потом вернуть в основную цепочку. Самый успешный пример — Rootstock: смарт-контракты для биткойна с двусторонней привязкой, что заметно повышает пропускную способность системы. Ещё пример — Deku, решение второго уровня для Tezos.</p>
+                    <p><em>Что говорить</em> Сайдчейн — соседняя сеть, «привязанная» к основной: в неё можно перевести монеты из основной сети, а иногда и вернуть обратно. В книге два варианта. В одну сторону: монеты в основной сети «сжигают» — отправляют на адрес, с которого их невозможно потратить, — и взамен получают столько же монет в новой сети. Так запускали новые криптовалюты (альткойны); в книге это называется Proof of Burn, «доказательство сжигания». Туда и обратно: монеты в основной сети блокируют, а в соседней выпускают их копию; при возврате копию уничтожают, а оригинал разблокируют. Самый известный пример — Rootstock: соседняя сеть для биткойна, в которой работают программы (смарт-контракты), а сами биткойны туда переносятся и возвращаются. Ещё пример из книги — Deku для сети Tezos.</p>
                     <p><em>Для фронтендеров</em> Когда в кошельке вы «бриджите» токены в другую сеть — это как раз привязка между цепочками.</p>
                     <p><em>Переход</em> Это то, что есть в книге. А что из второго уровня реально живёт сейчас?</p>
                 </aside>
@@ -410,14 +392,14 @@
                     <div class="kicker"><b>Часть 6</b><span>Что сейчас</span></div>
                     <div class="body">
                         <div class="head">
-                            <h2 data-rv>Второй уровень в 2026: <mark>победили роллапы</mark></h2>
+                            <h2 data-rv>2026: <mark>победили роллапы</mark></h2>
                         </div>
                         <div class="trio">
-                            <div class="card is-plainbox" data-rv><div class="tagl">Кто победил</div><h3>Роллапы</h3><p>Почти вся работа второго уровня у Ethereum идёт в роллапах. Больше всего&nbsp;— в двух сетях, остальные сотни почти пустуют.</p><p class="ex">Лидеры: Base (сеть биржи Coinbase) и Arbitrum</p></div>
-                            <div class="card is-plainbox" data-rv><div class="tagl">Что помогло</div><h3>Комиссии упали в десятки раз</h3><p>В 2024 году Ethereum выделил роллапам отдельное дешёвое место для данных. Перевод на втором уровне стал стоить центы.</p><p class="ex">Обновление Ethereum под названием Dencun, март 2024</p></div>
-                            <div class="card is-plainbox" data-rv><div class="tagl">Кто проиграл</div><h3>Plasma ушла, каналы остались</h3><p>Plasma вытеснили роллапы: у них данные не спрячешь. Каналы состояния живут в быстрых платежах биткойна.</p><p class="ex">Lightning Network&nbsp;— сеть каналов для биткойна</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Кто победил</div><h3>Роллапы</h3><p>Лидеры&nbsp;— Base и Arbitrum.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Что помогло</div><h3>Комиссии упали в десятки раз</h3><p>Обновление Ethereum в 2024 году.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Кто ушёл</div><h3>Plasma</h3><p>Её вытеснили роллапы.</p></div>
                         </div>
-                        <p class="foot" data-rv>Ethereum сделал ставку на разделение: основная сеть отвечает за надёжность, второй уровень&nbsp;— за скорость. Его конкурент Solana пошла другим путём: всё в одной очень быстрой сети.</p>
+                        <p class="foot" data-rv>Ethereum: основная сеть&nbsp;— надёжность, надстройки&nbsp;— скорость. Solana: всё в одной быстрой сети.</p>
                     </div>
                 </div>
                 <aside class="notes">
@@ -440,12 +422,12 @@
                             <h2 data-rv>Выводы</h2>
                         </div>
                         <div class="sums">
-                            <div class="sum p1" data-rv><span>1</span><p>Любой блокчейн&nbsp;— распределённый реестр, но не наоборот: в Corda нет блоков.</p></div>
-                            <div class="sum p2" data-rv><span>2</span><p>По доступу: публичные, полуприватные, приватные и полностью приватные.</p></div>
-                            <div class="sum p2" data-rv><span>3</span><p>Закрытый ≠ приватный: закрытость решает, кого пускают, а не кому принадлежит сеть.</p></div>
-                            <div class="sum p3" data-rv><span>4</span><p>Свой токен есть у Bitcoin и Ethereum, а у Fabric и Quorum&nbsp;— нет.</p></div>
-                            <div class="sum p4" data-rv><span>5</span><p>Уровень 1: монолитные (Bitcoin, Solana) и полилитные (Polkadot, Cosmos).</p></div>
-                            <div class="sum p6" data-rv><span>6</span><p>Уровень 2 выполняет транзакции вне цепочки, а расчёт оставляет первому. Сегодня это прежде всего роллапы.</p></div>
+                            <div class="sum p1" data-rv><span>1</span><p>Блокчейн&nbsp;— частный случай распределённого реестра.</p></div>
+                            <div class="sum p2" data-rv><span>2</span><p>Сети бывают для всех и только для своих.</p></div>
+                            <div class="sum p2" data-rv><span>3</span><p>«Закрытый»&nbsp;— про вход, «приватный»&nbsp;— про хозяина.</p></div>
+                            <div class="sum p3" data-rv><span>4</span><p>Своя монета есть не у всех.</p></div>
+                            <div class="sum p4" data-rv><span>5</span><p>Уровень 1&nbsp;— основная сеть.</p></div>
+                            <div class="sum p6" data-rv><span>6</span><p>Уровень 2&nbsp;— надстройка. Сегодня это роллапы.</p></div>
                         </div>
                     </div>
                 </div>
@@ -464,9 +446,9 @@
                             <h2 data-rv>Три вопроса <mark>залу</mark></h2>
                         </div>
                         <div class="trio">
-                            <div class="card is-case is-c" data-rv><div class="glyph">1</div><h3>Блокчейн или обычная база?</h3><p>Если все участники доверяют друг другу, чем закрытый реестр лучше базы данных с репликацией?</p></div>
-                            <div class="card is-case is-p" data-rv><div class="glyph">2</div><h3>Монолит или модули?</h3><p>Solana держит всё в одной цепочке, Ethereum разнёс по уровням. Какой подход вам ближе как разработчикам?</p></div>
-                            <div class="card is-case is-a" data-rv><div class="glyph">3</div><h3>Где это видит фронтенд?</h3><p>Смена сети в кошельке, мосты, ожидание подтверждений. Что из этого вы уже встречали?</p></div>
+                            <div class="card is-case is-c" data-rv><div class="glyph">1</div><h3>Блокчейн или обычная база?</h3><p>Если все друг другу доверяют&nbsp;— зачем блокчейн?</p></div>
+                            <div class="card is-case is-p" data-rv><div class="glyph">2</div><h3>Монолит или надстройки?</h3><p>Что вам ближе как разработчикам?</p></div>
+                            <div class="card is-case is-a" data-rv><div class="glyph">3</div><h3>Где это видит фронтенд?</h3><p>Смена сети в кошельке, мосты, ожидание.</p></div>
                         </div>
                     </div>
                 </div>

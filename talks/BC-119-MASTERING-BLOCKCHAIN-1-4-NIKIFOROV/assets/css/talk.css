@@ -1170,3 +1170,30 @@
 .chips.is-tight { margin-top: 18px; }
 .card .chip { font-size: 21px; padding: 8px 16px; }
 .chip.is-ac { border-color: rgba(var(--cc-rgb, var(--ac-rgb)), 0.6); color: var(--text-main); }
+
+/* Вертикальный таймлайн: дата и событие (слайд о Сатоши). */
+.tl { position: relative; display: flex; flex-direction: column; padding-left: 40px; }
+.tl::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 26px;
+    bottom: 26px;
+    width: 3px;
+    border-radius: 3px;
+    background: rgba(var(--ac-rgb), 0.35);
+}
+.tl-i { position: relative; padding: 12px 0; }
+.tl-i::before {
+    content: '';
+    position: absolute;
+    left: -39px;
+    top: 17px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--ac);
+    background: var(--bg);
+}
+.tl-i b { display: block; font-family: var(--font-mono); font-size: 20px; font-weight: 600; letter-spacing: 0.06em; color: var(--ac); }
+.tl-i span { display: block; margin-top: 6px; font-size: 27px; line-height: 1.32; color: var(--text-soft); }

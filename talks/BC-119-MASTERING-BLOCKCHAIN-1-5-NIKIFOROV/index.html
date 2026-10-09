@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body>
@@ -81,11 +83,11 @@
                         <div class="authors-column">
                             <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
                             <div class="authors-grid">
-                                <a class="author-card" href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;url=https%3A%2F%2Fuk.linkedin.com%2Fin%2Fimranbashirblockchain&amp;ved=0CAAQ6vwSahcKEwiAvp_6nruWAxUAAAAAHQAAAAAQQw&amp;opi=89978449" target="_blank">
+                                <a class="author-card" href="https://uk.linkedin.com/in/imranbashirblockchain" target="_blank">
                                     <img class="author-avatar" src="assets/authors/imran-bashir.webp" alt="Имран Башир">
                                     <div class="author-info">
                                         <div class="author-name">Имран Башир</div>
-                                        <div class="author-link-text">www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;url=https%3A%2F%2Fuk.linkedin.com%2Fin%2Fimranbashirblockchain&amp;ved=0CAAQ6vwSahcKEwiAvp_6nruWAxUAAAAAHQAAAAAQQw&amp;opi=89978449 ↗</div>
+                                        <div class="author-link-text">uk.linkedin.com/in/imranbashirblockchain ↗</div>
                                     </div>
                                 </a>
                             </div>
@@ -104,9 +106,279 @@
                 </div>
             </section>
 
+            <!-- SLIDE: main -->
+            <section class="slide p0" id="s-main" data-slide="3">
+                <div class="content-slide">
+                    <div class="kicker"><b>Главная мысль</b></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Тип блокчейна&nbsp;— ответ на <mark>три вопроса</mark></h2>
+                            <p class="lead" data-rv>Категории пересекаются: одна сеть может быть публичной, с токеном и первого уровня одновременно.</p>
+                        </div>
+                        <div class="trio">
+                            <div class="card is-case is-c" data-rv>
+                                <div class="tagl">Вопрос 1</div>
+                                <h3>Кто может участвовать?</h3>
+                                <div class="chips is-tight"><span class="chip is-ac">публичные</span><span class="chip">приватные</span><span class="chip">консорциумы</span><span class="chip">полуприватные</span><span class="chip">закрытые</span></div>
+                            </div>
+                            <div class="card is-case is-l" data-rv>
+                                <div class="tagl">Вопрос 2</div>
+                                <h3>Есть ли свой токен?</h3>
+                                <div class="chips is-tight"><span class="chip is-ac">токенизированные</span><span class="chip">нетокенизированные</span></div>
+                            </div>
+                            <div class="card is-case is-p" data-rv>
+                                <div class="tagl">Вопрос 3</div>
+                                <h3>На каком уровне идут транзакции?</h3>
+                                <div class="chips is-tight"><span class="chip is-ac">уровень 1</span><span class="chip">монолитные</span><span class="chip">полилитные</span><span class="chip is-ac">уровень 2</span><span class="chip">сайдчейны</span><span class="chip">роллапы</span></div>
+                            </div>
+                        </div>
+                        <p class="foot" data-rv>А над всеми ними&nbsp;— зонтик <b>распределённых реестров</b> (DLT).</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Типов много, и они частично пересекаются. Проще всего держать в голове три вопроса: кто может участвовать, есть ли у сети свой токен и на каком уровне идут транзакции.</p>
+                    <p><em>Что говорить</em> В прошлом докладе мы разобрали, что такой блокчейн вообще. Теперь — какие они бывают. Автор говорит, что за последние годы блокчейны разделились на несколько категорий с разными, но частично пересекающимися признаками. Например, Ethereum одновременно публичный, токенизированный и первого уровня. Поэтому я разложил типы по трём вопросам — так их легче запомнить. А сверху всего этого — зонтичный термин DLT, технология распределённых реестров. С него и начнём.</p>
+                    <p><em>Оговорка</em> Это рисунок 1.9 книги, только разложенный по вопросам. На рисунке есть ещё аппчейны — цепочки под одно приложение. В тексте главы их не разбирают.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: dlt -->
+            <section class="slide p1" id="s-dlt" data-slide="4">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 1</b><span>Распределённые реестры</span></div>
+                    <div class="body">
+                        <div class="split">
+                            <div class="say">
+                                <h2 data-rv>Любой блокчейн&nbsp;— <mark>распределённый реестр</mark>. Но не наоборот</h2>
+                                <p class="lead" data-rv>Распределённый реестр&nbsp;— общая база данных, копия которой есть у многих участников. Блокчейн&nbsp;— частный случай: данные в нём растут <b>блоками</b>.</p>
+                                <p class="aside" data-rv>Corda от R3&nbsp;— реестр для финансовых договоров. Блоков в нём нет, поэтому это не блокчейн.</p>
+                            </div>
+                            <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Большая область распределённых реестров; внутри неё меньшая область блокчейнов с Bitcoin и Ethereum; Corda — снаружи блокчейнов">
+                                <rect class="zone is-2" style="--i:0" x="40" y="70" width="860" height="600" rx="64"/>
+                                <text class="tx call" style="--i:0" x="470" y="40">распределённые реестры · DLT</text>
+                                <rect class="zone is-3" style="--i:1" x="380" y="170" width="480" height="420" rx="52"/>
+                                <text class="tx good" style="--i:1" x="620" y="210">блокчейны</text>
+                                <g style="--i:2"><rect class="rbk is-ok" x="440" y="270" width="160" height="90" rx="18"/><text class="tx call" x="520" y="315">Bitcoin</text></g>
+                                <g style="--i:3"><rect class="rbk is-ok" x="640" y="270" width="180" height="90" rx="18"/><text class="tx call" x="730" y="315">Ethereum</text></g>
+                                <g style="--i:4"><rect class="rbk is-ok" x="460" y="420" width="340" height="90" rx="18"/><text class="tx call" x="630" y="465">Hyperledger Fabric</text></g>
+                                <g style="--i:5"><rect class="rbk is-dim" x="100" y="320" width="200" height="90" rx="18"/><text class="tx call" x="200" y="365">Corda</text></g>
+                                <text class="tx cap" style="--i:5" x="200" y="450">без блоков</text>
+                            </svg></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> DLT — технология распределённых реестров — зонтичный термин. Распределённый реестр — широкое понятие: разделяемая база данных, которая лежит сразу во многих точках или у многих организаций. Все блокчейны — распределённые реестры, но не каждый распределённый реестр — блокчейн. Главное отличие: распределённый реестр не обязан расти блоками транзакций, а блокчейн — это именно разделяемая база из блоков. Пример реестра без блоков — Corda от компании R3: реестр для регистрации финансовых договоров и управления ими. А Bitcoin и Ethereum обновляют базу блоками. Распределённый реестр бывает и публичным, и приватным.</p>
+                    <p><em>Ещё термин</em> В книге есть «общедоступный реестр» (shared ledger) — общий термин для любой базы, которой пользуются все желающие или консорциум. В этом смысле любой блокчейн — общедоступный реестр.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: access -->
+            <section class="slide p2" id="s-access" data-slide="5">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 2</b><span>Кто участвует</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>От открытого к закрытому: <mark>кто может участвовать</mark></h2>
+                        </div>
+                        <div class="axis" data-rv><span>открыто всем</span><i></i><span>только своим</span></div>
+                        <div class="grid4">
+                            <div class="tile is-ok" data-rv><i>Публичные</i><b>Никто не владеет</b><span>Узлом может стать любой. Состояние реестра определяет распределённый консенсус.</span><span><em>Bitcoin, Ethereum</em></span></div>
+                            <div class="tile" data-rv><i>Полуприватные</i><b>Наполовину открыт</b><span>Приватную часть контролирует группа, публичная открыта всем. Пока только концепция.</span><span><em>рабочих сетей нет</em></span></div>
+                            <div class="tile" data-rv><i>Приватные · консорциум</i><b>Только для группы</b><span>Реестр открыт для консорциума или компаний, которые решили вести его вместе.</span><span><em>Hyperledger Fabric, Quorum</em></span></div>
+                            <div class="tile is-bad" data-rv><i>Полностью приватные</i><b>Внутри одной организации</b><span>Противоречат децентрализации, поэтому редки. Хватает репликации и известных валидаторов.</span><span><em>обмен данными министерств</em></span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Первый вопрос — кто может участвовать. Публичными блокчейнами никто не владеет: они полностью открыты, любой может стать узлом и участвовать в принятии решений. За участие могут платить вознаграждение, а могут и не платить. У каждого своя копия реестра, конечное состояние определяет распределённый консенсус. Это Bitcoin и Ethereum. Приватные открыты только консорциуму или группе, которые решили вести реестр вместе. Примеры — Hyperledger Fabric и Quorum. Технически они могут работать и публично, но созданы для приватного использования. Их ещё называют блокчейнами консорциумов или корпоративными.</p>
+                    <p><em>Полуприватные</em> Есть публичная часть для всех и приватная часть для избранных. Автор честно говорит: это пока концепция, рабочих моделей нет. Идея — защитить обе части майнингом (PoW) в публичной части. Такую модель называют полудецентрализованной: контролирует центральный орган, но сеть открыта для тех, кто прошёл проверку.</p>
+                    <p><em>Полностью приватные</em> Широко не используются: противоречат главному принципу — децентрализации. Но бывают полезны внутри организации. Пример из книги — обмен данными между министерствами: сложный консенсус не нужен, хватает репликации конечного автомата и протокола соглашения с известными валидаторами. Токены тут не обязательны, но могут представлять активы.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: permissioned -->
+            <section class="slide p2" id="s-closed" data-slide="6">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 2</b><span>Кто участвует</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Закрытый реестр <mark>не обязательно приватный</mark></h2>
+                        </div>
+                        <div class="duo">
+                            <div class="card is-case is-c" data-rv>
+                                <div class="tagl">Закрытый распределённый реестр</div>
+                                <h3>Участники знают друг друга и доверяют</h3>
+                                <p>Распределённый консенсус и майнинг не нужны. Правду о записях фиксирует протокол соглашения, транзакции проверяет выбранный центральный орган.</p>
+                            </div>
+                            <div class="card is-case is-a" data-rv>
+                                <div class="tagl">Пример из книги</div>
+                                <h3>Bitcoin + проверка личности = закрытый реестр</h3>
+                                <p>Если поверх публичной сети поставить уровень контроля доступа, в неё будут пускать только после идентификации. Сеть станет закрытой, но останется публичной.</p>
+                            </div>
+                        </div>
+                        <p class="foot" data-rv><b>Закрытость</b>&nbsp;— это кого пускают в сеть. <b>Приватность</b>&nbsp;— это кому сеть принадлежит.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Закрытый распределённый реестр — блокчейн, где участники уже знают друг друга и доверяют друг другу. Поэтому без распределённого консенсуса можно обойтись: вместо него протокол соглашения фиксирует общепризнанную истину о состоянии записей. Участники заранее выбрали центральный орган, который проверяет транзакции, и майнинг обычно не нужен.</p>
+                    <p><em>Главный нюанс</em> Закрытый — не значит приватный. Это может быть публичный блокчейн с контролем доступа. Пример автора: Bitcoin станет закрытым реестром, если поверх него появится уровень, где пользователь сначала проходит идентификацию и только потом получает доступ.</p>
+                    <p><em>Термины</em> В оригинале — permissioned ledger. Отсюда пара permissioned / permissionless, которую часто встречаешь в статьях.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: token -->
+            <section class="slide p3" id="s-token" data-slide="7">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 3</b><span>Токен</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Своя монета есть <mark>не у всех</mark></h2>
+                        </div>
+                        <div class="duo">
+                            <div class="card is-case is-l is-hi" data-rv>
+                                <div class="glyph">$</div>
+                                <div class="tagl">Токенизированные</div>
+                                <h3>Криптовалюта рождается в консенсусе</h3>
+                                <p>Майнинг и первичное распределение монет. Токен передаёт ценность между участниками. <b>Bitcoin, Ethereum.</b></p>
+                            </div>
+                            <div class="card is-case" data-rv>
+                                <div class="glyph">{ }</div>
+                                <div class="tagl">Нетокенизированные</div>
+                                <h3>Нет нативной монеты&nbsp;— только данные</h3>
+                                <p>Нужны для обмена данными между доверенными сторонами. Токен можно сделать смарт-контрактом, но в сеть он не встроен. <b>Hyperledger Fabric, Quorum.</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Второй вопрос — есть ли у сети свой токен. Токенизированные блокчейны — стандартные: криптовалюта в них генерируется на основе консенсуса, через майнинг и первичное распределение. Примеры — Bitcoin и Ethereum. Нетокенизированные устроены так, что базовой единицы для передачи ценности в них нет. Они полезны, когда нужно не переводить деньги, а обмениваться данными между доверенными сторонами. Большинство полностью закрытых блокчейнов такие — Hyperledger Fabric, Quorum. Токен там можно создать как приложение на смарт-контракте, но нативной криптовалюты в сети нет.</p>
+                    <p><em>Оговорка</em> Автор пишет, что у нетокенизированных нет таких преимуществ, как неизменяемость, безопасность и изменения через консенсус, — по сути это общий реестр для хранения данных. Это спорное место: в Fabric консенсус есть, просто без майнинга. Можно упомянуть как повод для обсуждения.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: l1 -->
+            <section class="slide p4" id="s-l1" data-slide="8">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 4</b><span>Уровень 1</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Уровень 1: <mark>монолит</mark> или сеть сетей</h2>
+                        </div>
+                        <div class="duo">
+                            <div class="card" data-rv><div class="mini"><svg viewBox="0 0 760 250" role="img" aria-label="Одна цепочка, в которой всё: консенсус, выполнение, данные">
+                                <rect class="zone" style="--i:0" x="230" y="20" width="300" height="210" rx="30"/>
+                                <text class="tx call" style="--i:1" x="380" y="70">консенсус</text>
+                                <text class="tx call" style="--i:2" x="380" y="125">выполнение</text>
+                                <text class="tx call" style="--i:3" x="380" y="180">данные</text>
+                            </svg></div><div class="tagl">Монолитные</div><h3>Всё в одной цепочке</h3><p>Консенсус, смарт-контракты и безопасность&nbsp;— части одного базового блокчейна. <b>Bitcoin, Ethereum, Solana.</b></p></div>
+                            <div class="card" data-rv><div class="mini"><svg viewBox="0 0 760 250" role="img" aria-label="Основная цепочка в центре, к ней подключены пять цепочек">
+                                <path class="ln dr" style="--i:1" pathLength="1" d="M380 125L230 55M380 125L530 55M380 125L210 190M380 125L550 190M380 125L380 230"/>
+                                <g class="nd ac" style="--i:0"><circle cx="380" cy="125" r="46"/><text x="380" y="125">L1</text></g>
+                                <g class="nd" style="--i:2"><circle cx="230" cy="55" r="26"/></g><g class="nd" style="--i:2"><circle cx="530" cy="55" r="26"/></g>
+                                <g class="nd" style="--i:3"><circle cx="210" cy="190" r="26"/></g><g class="nd" style="--i:3"><circle cx="550" cy="190" r="26"/></g>
+                                <g class="nd" style="--i:4"><circle cx="380" cy="230" r="20"/></g>
+                            </svg></div><div class="tagl">Полилитные</div><h3>Цепочки вокруг основной</h3><p>Сеть сетей. Если цепочки одного типа, их называют однородными, если разных&nbsp;— гетерогенными. <b>Polkadot, Avalanche, Cosmos.</b></p></div>
+                        </div>
+                        <p class="foot" data-rv>Оба вида&nbsp;— <b>первый уровень</b>: базовая цепочка сама отвечает за консенсус и остаётся источником истины.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Третий вопрос — уровень. Любая цепочка базового уровня, которая сама отвечает за консенсус, — блокчейн первого уровня. Например, Bitcoin и Ethereum. Внутри первого уровня два вида архитектуры. Монолитная: всё — программируемость, консенсус, безопасность — часть одного базового блокчейна, ничего не вынесено наружу. Это Bitcoin, Ethereum, Solana. Полилитная: несколько цепочек одного или разных типов подключены к основной и образуют сеть сетей. Это Polkadot, Avalanche, Cosmos. Дополнительные цепочки стоят горизонтально к основной, а иногда основная вообще не нужна — подсети общаются напрямую. Если все цепочки одного типа и по одним правилам — однородные, если разных — гетерогенные. Многоцепочечные архитектуры обычно стремятся к гетерогенности.</p>
+                    <p><em>Связь с прошлым докладом</em> Полилитные сети — один из ответов на проблему совместимости, о которой говорили в ограничениях.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: l2 -->
+            <section class="slide p5" id="s-l2" data-slide="9">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 5</b><span>Уровень 2</span></div>
+                    <div class="body">
+                        <div class="split">
+                            <div class="say">
+                                <h2 data-rv>Уровень 2: транзакции <mark>вне цепочки</mark>, расчёт&nbsp;— на первом</h2>
+                                <p class="lead" data-rv>Придуман, чтобы разгрузить Bitcoin и Ethereum: решить проблемы масштабируемости и конфиденциальности. Работает поверх первого уровня.</p>
+                                <div class="chips" data-rv><span class="chip">сайдчейны</span><span class="chip">ZK-роллапы</span><span class="chip">оптимистичные роллапы</span><span class="chip">Plasma</span><span class="chip">Lightning Network</span></div>
+                            </div>
+                            <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Наверху много транзакций на втором уровне; вниз уходит одна пачка; внизу цепочка первого уровня">
+                                <rect class="zone" style="--i:0" x="90" y="60" width="760" height="250" rx="40"/>
+                                <text class="tx call" style="--i:0" x="470" y="30">уровень 2 · быстро и дёшево</text>
+                                <path class="ln thin" style="--i:1" d="M190 140L290 220L390 130L500 230L600 140L720 215"/><g class="nd ac" style="--i:1"><circle cx="190" cy="140" r="22"/></g><g class="nd ac" style="--i:1"><circle cx="290" cy="220" r="22"/></g><g class="nd ac" style="--i:2"><circle cx="390" cy="130" r="22"/></g><g class="nd ac" style="--i:2"><circle cx="500" cy="230" r="22"/></g><g class="nd ac" style="--i:3"><circle cx="600" cy="140" r="22"/></g><g class="nd ac" style="--i:3"><circle cx="720" cy="215" r="22"/></g>
+                                <g class="ar acc" style="--i:4"><path class="ln dr" pathLength="1" d="M470 330L470 432"/><path class="ah" d="M470 456L459 432L481 432Z"/><text class="al" x="610" y="390">итог пачкой</text></g>
+                                <g style="--i:5"><rect class="rbk is-dim" x="110" y="480" width="150" height="110" rx="18"/><rect class="rbk is-dim" x="290" y="480" width="150" height="110" rx="18"/><rect class="rbk is-ok" x="470" y="480" width="150" height="110" rx="18"/><rect class="rbk is-dim" x="650" y="480" width="150" height="110" rx="18"/></g>
+                                <path class="ln" d="M262 535L288 535M442 535L468 535M622 535L648 535"/>
+                                <text class="tx call" style="--i:6" x="455" y="640">уровень 1 · консенсус и расчёты</text>
+                            </svg></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Помните главную проблему из прошлого доклада — масштабируемость? Блокчейны второго уровня придуманы, чтобы решить проблемы масштабируемости и конфиденциальности классических сетей первого уровня — Bitcoin и Ethereum. Общий принцип: первый уровень служит базой для консенсуса и расчётов, а сами транзакции выполняются вне цепочки, на втором уровне, поверх первого. Решений много: сайдчейны, роллапы с нулевым разглашением (ZK-роллапы), оптимистичные роллапы, цепочки Plasma и Lightning Network.</p>
+                    <p><em>Как показывать</em> Наверху — много мелких транзакций на втором уровне. Вниз, на первый уровень, уходит только итог, одной записью. Первый уровень его фиксирует и обеспечивает безопасность.</p>
+                    <p><em>Оговорка</em> Сами роллапы, Plasma и каналы состояния в этой главе только перечислены. Подробно автор разбирает их в главах про масштабируемость.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: sidechains -->
+            <section class="slide p5" id="s-side" data-slide="10">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 5</b><span>Уровень 2</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Сайдчейн&nbsp;— <mark>соседняя цепочка</mark>, привязанная к основной</h2>
+                        </div>
+                        <div class="duo">
+                            <div class="card is-bad" data-rv><div class="mini"><svg viewBox="0 0 760 230" role="img" aria-label="Монеты уходят из основной цепочки в сайдчейн и обратно не возвращаются">
+                                <g style="--i:0"><rect class="rbk is-dim" x="120" y="30" width="90" height="60" rx="12"/><rect class="rbk is-dim" x="240" y="30" width="90" height="60" rx="12"/><rect class="rbk is-bad" x="360" y="30" width="90" height="60" rx="12"/></g>
+                                <text class="tx cap" style="--i:0" x="580" y="60">основная</text>
+                                <g class="ar lie" style="--i:1"><path class="ln dr" pathLength="1" d="M405 98L405 132"/><path class="ah" d="M405 156L394 132L416 132Z"/><text class="al" x="300" y="125">сжечь</text></g>
+                                <g style="--i:2"><rect class="rbk" x="360" y="160" width="90" height="60" rx="12"/><rect class="rbk" x="480" y="160" width="90" height="60" rx="12"/></g>
+                                <text class="tx cap" style="--i:2" x="200" y="190">сайдчейн</text>
+                            </svg></div><div class="tagl">Однонаправленная привязка</div><h3>Сжечь и получить</h3><p>Монеты отправляют на адрес, откуда их не потратить, и получают в новой сети. Это <b>Proof of Burn</b>: так запускают новые альткойны.</p></div>
+                            <div class="card is-ok" data-rv><div class="mini"><svg viewBox="0 0 760 230" role="img" aria-label="Монеты ходят между основной цепочкой и сайдчейном в обе стороны">
+                                <g style="--i:0"><rect class="rbk is-dim" x="120" y="30" width="90" height="60" rx="12"/><rect class="rbk is-dim" x="240" y="30" width="90" height="60" rx="12"/><rect class="rbk is-ok" x="360" y="30" width="90" height="60" rx="12"/></g>
+                                <text class="tx cap" style="--i:0" x="580" y="60">Bitcoin</text>
+                                <g class="ar ok" style="--i:1"><path class="ln dr" pathLength="1" d="M385 98L385 132"/><path class="ah" d="M385 156L374 132L396 132Z"/></g>
+                                <g class="ar ok" style="--i:2"><path class="ln dr" pathLength="1" d="M425 152L425 118"/><path class="ah" d="M425 94L436 118L414 118Z"/></g>
+                                <g style="--i:3"><rect class="rbk is-ok" x="360" y="160" width="90" height="60" rx="12"/><rect class="rbk" x="480" y="160" width="90" height="60" rx="12"/></g>
+                                <text class="tx cap" style="--i:3" x="200" y="190">Rootstock</text>
+                            </svg></div><div class="tagl">Двунаправленная привязка</div><h3>Туда и обратно</h3><p>Монеты переходят в сайдчейн и при необходимости возвращаются. <b>Rootstock</b> так даёт биткойну смарт-контракты. Ещё пример&nbsp;— <b>Deku</b> у Tezos.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Сайдчейны — точнее, сайдчейны с привязкой (pegged sidechains) — позволяют перемещать монеты из одного блокчейна в другой и обратно. Однонаправленная привязка: монеты в основной сети сжигают — отправляют на адрес, с которого их невозможно потратить, — и в подтверждение получают монеты в новой сети. Так запускают новые альткойны и создают дефицит. Этот механизм называется Proof of Burn, доказательство уничтожения, — альтернатива PoW и PoS. Двунаправленная привязка: монеты можно перевести в сайдчейн, а потом вернуть в основную цепочку. Самый успешный пример — Rootstock: смарт-контракты для биткойна с двусторонней привязкой, что заметно повышает пропускную способность системы. Ещё пример — Deku, решение второго уровня для Tezos.</p>
+                    <p><em>Для фронтендеров</em> Когда в кошельке вы «бриджите» токены в другую сеть — это как раз привязка между цепочками.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: sum -->
+            <section class="slide p0" id="s-sum" data-slide="11">
+                <div class="content-slide">
+                    <div class="kicker"><b>Итог</b></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Выводы</h2>
+                        </div>
+                        <div class="sums">
+                            <div class="sum p1" data-rv><span>1</span><p>Любой блокчейн&nbsp;— распределённый реестр, но не наоборот: в Corda нет блоков.</p></div>
+                            <div class="sum p2" data-rv><span>2</span><p>По доступу: публичные, полуприватные, приватные и полностью приватные.</p></div>
+                            <div class="sum p2" data-rv><span>3</span><p>Закрытый ≠ приватный: закрытость решает, кого пускают, а не кому принадлежит сеть.</p></div>
+                            <div class="sum p3" data-rv><span>4</span><p>Свой токен есть у Bitcoin и Ethereum, а у Fabric и Quorum&nbsp;— нет.</p></div>
+                            <div class="sum p4" data-rv><span>5</span><p>Уровень 1: монолитные (Bitcoin, Solana) и полилитные (Polkadot, Cosmos).</p></div>
+                            <div class="sum p5" data-rv><span>6</span><p>Уровень 2 выполняет транзакции вне цепочки, а расчёт оставляет первому уровню.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Подводим итог по трём вопросам. Зонтик — распределённые реестры, блокчейн — их частный случай. Кто участвует — от публичных до полностью приватных, и отдельно помним, что закрытый не значит приватный. Токен — есть у одних, нет у других. Уровень — первый (монолитный или полилитный) и второй, который разгружает первый.</p>
+                    <p><em>Конец главы</em> На этом первая глава закончена: развитие, распределённые системы, история, введение и типы. Во второй главе автор разбирает децентрализацию — идею, на которой держится весь блокчейн.</p>
+                </aside>
+            </section>
+
             <!-- SLIDE 3 (Copy of Slide 3) -->
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+<section class="slide" data-slide="12" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
@@ -219,6 +491,8 @@
 
     <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
     <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов: появление блоков, заметки докладчика (N) -->
+    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

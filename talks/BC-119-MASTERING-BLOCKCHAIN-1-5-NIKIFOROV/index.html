@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Типы блокчейна — Блокчейн. Исчерпывающее руководство</title>
+    <meta name="description" content="Mastering Blockchain">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Типы блокчейна — Блокчейн. Исчерпывающее руководство">
+    <meta property="og:description" content="Mastering Blockchain">
+    <meta property="og:image" content="https://bc-119-mastering-blockchain-1-5-nikiforov.pages.dev/assets/cover/mastering-blockchain.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Типы блокчейна — Блокчейн. Исчерпывающее руководство">
+    <meta name="twitter:description" content="Mastering Blockchain">
+    <meta name="twitter:image" content="https://bc-119-mastering-blockchain-1-5-nikiforov.pages.dev/assets/cover/mastering-blockchain.webp">
+    <!-- Тема до первой отрисовки: иначе светлый дек моргнёт тёмным. -->
+    <script>
+        try {
+            if (localStorage.getItem('bc-deck-theme') === 'light')
+                document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Стили контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
+
+</head>
+<body>
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+            
+            <!-- SLIDE 1 (Copy of Slide 1) -->
+            <section class="slide" data-slide="1">
+                <div class="layout-center">
+                    <div class="title-tags">
+                        <span class="badge">Глава 1</span>
+                        <span class="title-tail">
+                            <span class="title-x" aria-hidden="true">×</span>
+                            <span class="badge">Блокчейн. Курс молодого бойца</span>
+                        </span>
+                    </div>
+                    <h1 class="gradient-text">Типы блокчейна</h1>
+                </div>
+            </section>
+
+            <!-- SLIDE 2 (Copy of Slide 2) -->
+            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
+            <section class="slide" data-slide="2">
+
+                <div class="about-book-slide">
+                    <!-- Book block -->
+                    <div class="book-container">
+                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
+                        <div class="book-row">
+                            <div class="book-cover-container">
+                                <a href="https://www.amazon.com/Mastering-Blockchain-technical-blockchain-cryptography-ebook/dp/B0B4P2VC76?ref_=ast_author_mpb" target="_blank">
+                                    <img class="book-cover" src="assets/cover/mastering-blockchain.webp" alt="Блокчейн. Исчерпывающее руководство">
+                                </a>
+                            </div>
+                            <div class="book-text-info">
+                                <a class="book-link" href="https://www.amazon.com/Mastering-Blockchain-technical-blockchain-cryptography-ebook/dp/B0B4P2VC76?ref_=ast_author_mpb" target="_blank">
+                                    Блокчейн. Исчерпывающее руководство
+                                </a>
+                                <p class="book-subtitle">
+                                    Mastering Blockchain
+                                </p>
+                                <p class="book-desc-ru">
+                                    Фундаментальное техническое руководство, которое признано одним из самых авторитетных и полных учебников по технологии распределенного реестра в мире.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- People block in two columns -->
+                    <div class="people-section">
+                        <div class="authors-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
+                            <div class="authors-grid">
+                                <a class="author-card" href="https://uk.linkedin.com/in/imranbashirblockchain" target="_blank">
+                                    <img class="author-avatar" src="assets/authors/imran-bashir.webp" alt="Имран Башир">
+                                    <div class="author-info">
+                                        <div class="author-name">Имран Башир</div>
+                                        <div class="author-link-text">uk.linkedin.com/in/imranbashirblockchain ↗</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="speaker-column">
+                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
+                            <a class="author-card" href="https://t.me/Frich22" target="_blank">
+                                <img class="author-avatar" src="assets/speakers/nikiforov-artem.webp" alt="Артём Никифоров">
+                                <div class="author-info">
+                                    <div class="author-name">Артём Никифоров</div>
+                                    <div class="author-link-text">t.me/Frich22 ↗</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE: main -->
+            <section class="slide p0" id="s-main" data-slide="3">
+                <div class="content-slide">
+                    <div class="kicker"><b>Главная мысль</b></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Тип блокчейна&nbsp;— ответ на <mark>три вопроса</mark></h2>
+                        </div>
+                        <div class="trio">
+                            <div class="card is-plainbox is-min is-c" data-rv><div class="tagl">Вопрос 1</div><h3>Кто может участвовать?</h3><p>Все&nbsp;— или только свои.</p></div>
+                            <div class="card is-plainbox is-min is-l" data-rv><div class="tagl">Вопрос 2</div><h3>Есть ли своя монета?</h3><p>У Bitcoin есть, у сетей компаний&nbsp;— часто нет.</p></div>
+                            <div class="card is-plainbox is-min is-p" data-rv><div class="tagl">Вопрос 3</div><h3>Где идут переводы?</h3><p>В основной сети&nbsp;— или в надстройке над ней.</p></div>
+                        </div>
+                    <p class="foot" data-rv>Над всем этим&nbsp;— зонтик <b>распределённых реестров</b> (DLT). А на рисунке книги есть ещё <b>аппчейн</b>&nbsp;— блокчейн, сделанный под одно приложение.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Типов много, и названия путают. Проще держать в голове три вопроса: кто может участвовать, есть ли у сети своя монета и где проходят транзакции. Любой блокчейн описывается тремя ответами.</p>
+                    <p><em>Что говорить</em> В прошлом докладе мы разобрали, что такое блокчейн. Теперь — какие они бывают. Автор говорит, что категории частично пересекаются: например, Ethereum одновременно публичный, со своей монетой (ETH) и первого уровня. Поэтому раскладываем по трём независимым вопросам — дальше по слайду на каждый.</p>
+                    <p><em>Термины этого доклада</em> Публичный — участвовать может любой. Приватный — только приглашённые. Консорциум — несколько компаний, которые ведут сеть вместе (например, банки). Токен — монета или любая единица ценности в сети; нативный токен — встроенный в саму сеть, им платят комиссии (ETH, BTC). Уровень 1 — основная сеть, которая сама договаривается о блоках. Уровень 2 — надстройка: выполняет транзакции у себя, а итог записывает в основную сеть. DLT (distributed ledger technology) — технология распределённых реестров, общее название.</p>
+                    <p><em>План</em> Зонтик DLT → кто участвует (два слайда) → закрытый и приватный → монета → уровень 1 → уровень 2 и его виды → сайдчейны → что живо в 2026 → выводы и вопросы залу.</p>
+                    <p><em>Оговорка</em> Это рисунок 1.9 книги, разложенный по вопросам. На рисунке есть ещё аппчейны — цепочки под одно приложение; в тексте главы их не разбирают.</p>
+                    <p><em>Переход</em> Начнём сверху — с зонтика.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: dlt -->
+            <section class="slide p1" id="s-dlt" data-slide="4">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 1</b><span>Распределённые реестры</span></div>
+                    <div class="body">
+                        <div class="split">
+                            <div class="say">
+                                <h2 data-rv>Блокчейн&nbsp;— частный случай <mark>распределённого реестра</mark></h2>
+                                <p class="lead" data-rv>Распределённый реестр (DLT)&nbsp;— общая таблица, копия которой есть у каждого участника. Он бывает публичным и приватным.</p>
+                                <p class="aside" data-rv>В блокчейне записи идут блоками. Бывают реестры и без блоков: <b>Corda</b> от компании R3 хранит договоры банков, но блоков в ней нет.</p>
+                                <p class="aside" data-rv>Ещё термин из книги&nbsp;— <b>общедоступный реестр</b>: любая база, которой пользуются все желающие или группа компаний. В этом смысле любой блокчейн&nbsp;— общедоступный реестр.</p>
+                            </div>
+                            <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Большая область распределённых реестров; внутри неё область блокчейнов с Bitcoin, Ethereum и Fabric; Corda — снаружи блокчейнов, без блоков">
+                                <rect class="zone is-2" style="--i:0" x="40" y="70" width="860" height="600" rx="64"/>
+                                <text class="tx call" style="--i:0" x="470" y="40">распределённые реестры · DLT</text>
+                                <rect class="zone is-3" style="--i:1" x="350" y="150" width="520" height="480" rx="52"/>
+                                <text class="tx good" style="--i:1" x="610" y="192">блокчейны</text>
+                                <g style="--i:2"><rect class="rbk is-ok" x="385" y="235" width="215" height="110" rx="18"/><text class="tx call" x="492" y="272">Bitcoin</text><text class="tx cap" x="492" y="312">деньги</text></g>
+                                <g style="--i:3"><rect class="rbk is-ok" x="620" y="235" width="215" height="110" rx="18"/><text class="tx call" x="727" y="272">Ethereum</text><text class="tx cap" x="727" y="312">программы</text></g>
+                                <g style="--i:4"><rect class="rbk is-ok" x="440" y="400" width="340" height="110" rx="18"/><text class="tx call" x="610" y="437">Hyperledger Fabric</text><text class="tx cap" x="610" y="477">блокчейн для компаний</text></g>
+                                <g style="--i:5"><rect class="rbk is-dim" x="80" y="300" width="230" height="120" rx="18"/><text class="tx call" x="195" y="342">Corda</text><text class="tx cap" x="195" y="382">договоры банков</text></g>
+                                <text class="tx cap" style="--i:5" x="195" y="465">блоков нет:</text>
+                                <text class="tx cap" style="--i:5" x="195" y="497">запись видят только</text>
+                                <text class="tx cap" style="--i:5" x="195" y="529">участники сделки</text>
+                            </svg></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> «Распределённый реестр» — общее название для любой общей базы данных, копия которой есть у многих участников. Блокчейн — его частный случай, где записи собраны в блоки и сцеплены в цепочку.</p>
+                    <p><em>Что говорить</em> Реестр — это просто книга учёта: кто кому сколько должен, кому что принадлежит. Распределённый — значит, у каждого участника своя копия, и правки сверяются между копиями. Аналогия — общая Google-таблица, только без Google: нет одного сервера, который хранит «настоящую» версию. В книге это называется DLT — distributed ledger technology, технология распределённых реестров. Все блокчейны — распределённые реестры. Но не каждый распределённый реестр — блокчейн: он не обязан складывать записи в блоки.</p>
+                    <p><em>Кто на схеме</em> Bitcoin — цифровые деньги. Ethereum — сеть, где кроме денег работают программы (смарт-контракты). Hyperledger Fabric — открытый проект Linux Foundation для корпоративных блокчейнов: компании поднимают на нём свои закрытые сети. Corda — система компании R3 (её создал консорциум банков) для финансовых договоров. В Corda нет общей цепочки блоков: каждая запись о сделке хранится только у её участников, и посторонние её не видят. Поэтому это распределённый реестр, но не блокчейн.</p>
+                    <p><em>Ещё термин</em> В книге есть «общедоступный реестр» (shared ledger) — общий термин для любой базы, которой пользуются все желающие или консорциум. В этом смысле любой блокчейн — общедоступный реестр.</p>
+                    <p><em>Переход</em> Внутри зонтика первый вопрос — кто может участвовать.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: access -->
+            <section class="slide p2" id="s-access" data-slide="5">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 2</b><span>Кто участвует</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Кто участвует: <mark>все или только свои</mark></h2>
+                        </div>
+                        <div class="axis" data-rv><span>открыто всем</span><i></i><span>только своим</span></div>
+                        <div class="duo">
+                            <div class="card is-plainbox is-min is-ok" data-rv><div class="tagl">Публичные</div><h3>Открыты всем</h3><p>Хозяина нет: любой может стать узлом и участвовать в решениях, иногда за награду. Bitcoin, Ethereum.</p></div>
+                            <div class="card is-plainbox is-min is-bad" data-rv><div class="tagl">Приватные</div><h3>Только для своих</h3><p>Сеть ведут несколько компаний вместе, например банки,&nbsp;— это <b>консорциум</b>. Строят на Hyperledger Fabric и Quorum.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Первый вопрос — кто может участвовать. Два основных ответа. Публичными блокчейнами никто не владеет: они полностью открыты, любой может стать узлом и участвовать в принятии решений. За участие могут платить наградой, а могут и не платить. У каждого своя копия реестра, конечное состояние определяет распределённый консенсус. Это Bitcoin и Ethereum. Приватные открыты только консорциуму — группе компаний, которые решили вести общий реестр вместе. Например, несколько банков ведут общий реестр расчётов. Примеры платформ — Hyperledger Fabric и Quorum. Их ещё называют корпоративными блокчейнами.</p>
+                    <p><em>Зачем приватный блокчейн, а не общая база?</em> Ни одной компании консорциума не нужно доверять остальным: у всех своя копия, записи подписаны, и тихо переписать историю не может никто. Обычная общая база принадлежала бы кому-то одному.</p>
+                    <p><em>Что изменилось с выхода книги</em> Hyperledger с сентября 2024 года живёт под крылом Linux Foundation Decentralized Trust; Fabric развивается (вышла версия 3.0). Quorum фактически свёрнут: ConsenSys перестала его поддерживать и с 2023 года переводит клиентов на Hyperledger Besu — Ethereum-клиент, который тоже умеет приватные сети.</p>
+                    <p><em>Переход</em> Между этими полюсами есть ещё два крайних случая.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: access edges -->
+            <section class="slide p2" id="s-access2" data-slide="6">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 2</b><span>Кто участвует</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Ещё два <mark>крайних случая</mark></h2>
+                        </div>
+                        <div class="duo">
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Полуприватные</div><h3>Наполовину открыты</h3><p>Часть видят все, часть&nbsp;— избранные. Управляет центральный орган, поэтому их зовут <b>полудецентрализованными</b>. Пока только идея.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Полностью приватные</div><h3>Один хозяин</h3><p>Все узлы у одной организации, например у министерств. Сложный консенсус не нужен: узлы просто копируют данные по общим правилам.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Полуприватные</em> Есть публичная часть для всех и приватная часть для избранных. Автор честно говорит: это пока концепция, рабочих моделей нет. Идея — защитить обе части майнингом (PoW) в публичной части. Такую модель называют полудецентрализованной: контролирует центральный орган, но сеть открыта для тех, кто прошёл проверку.</p>
+                    <p><em>Полностью приватные</em> Широко не используются: противоречат главному принципу — децентрализации. Но бывают полезны внутри организации. Пример из книги — обмен данными между министерствами: сложный консенсус не нужен, хватает репликации (копирования данных между узлами) и протокола соглашения с известными валидаторами. Токены тут не обязательны, но могут представлять активы.</p>
+                    <p><em>Переход</em> Есть ещё один тип, который легко спутать с приватным, — закрытый.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: permissioned -->
+            <section class="slide p2" id="s-closed" data-slide="7">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 2</b><span>Кто участвует</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>«Закрытый» и «приватный»&nbsp;— <mark>не одно и то же</mark></h2>
+                        </div>
+                        <div class="duo">
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Закрытый</div><h3>Про вход</h3><p>Пускают только после проверки, все друг друга знают. Поэтому майнинг не нужен: записи утверждает выбранный участниками орган. Как клуб с фейс-контролем.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Приватный</div><h3>Про хозяина</h3><p>У сети есть владелец. Как клуб, у которого есть хозяин.</p></div>
+                        </div>
+                        <p class="foot" data-rv>Bitcoin с проверкой личности&nbsp;— закрытый, но по-прежнему публичный.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Это два независимых вопроса. «Закрытый» отвечает на «кого пускают», «приватный» — на «кому принадлежит». Их часто путают, и книга специально это разводит.</p>
+                    <p><em>Что говорить</em> Закрытый распределённый реестр — сеть, куда пускают только проверенных участников. Раз все друг друга знают и доверяют, сложный распределённый консенсус и майнинг не нужны: вместо них работает протокол соглашения, а транзакции проверяет заранее выбранный всеми участник. Приватность — другой вопрос: кому принадлежит сеть. Приватной управляет компания или консорциум, у публичной хозяина нет. Отсюда неожиданный пример автора: если поверх биткойна поставить уровень, где пользователь сначала проходит идентификацию, сеть станет закрытой, но останется публичной — у неё по-прежнему нет владельца.</p>
+                    <p><em>Термины</em> В оригинале «закрытый» — permissioned (вход по разрешению), «открытый» — permissionless (без разрешения). Эту пару часто встречаешь в статьях. Публичный / приватный — public / private.</p>
+                    <p><em>Аналогия</em> Открытый публичный — городской парк: заходит кто угодно, хозяина нет. Закрытый приватный — офис компании: вход по пропуску, хозяин есть. Закрытый публичный — государственный архив: хозяина в бизнес-смысле нет, но пускают только по документам.</p>
+                    <p><em>Переход</em> Второй вопрос — есть ли у сети своя монета.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: token -->
+            <section class="slide p3" id="s-token" data-slide="8">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 3</b><span>Монета</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Своя монета есть <mark>не у всех</mark></h2>
+                        </div>
+                        <div class="duo">
+                            <div class="card is-plainbox is-min is-hi" data-rv><div class="tagl">С монетой</div><h3>Монета&nbsp;— зарплата сети</h3><p>Она рождается вместе с работой сети: ей награждают майнеров и раздают первым участникам. Bitcoin, Ethereum.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Без монеты</div><h3>Только общие данные</h3><p>Компаниям нужна не валюта, а общий журнал. Монету можно сделать программой поверх, но в сеть она не встроена. Hyperledger Fabric, Quorum.</p></div>
+                        </div>
+                        <p class="foot" data-rv>Монету можно сделать и поверх чужой сети: так устроены «цифровые доллары» USDT.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Своя (нативная) монета нужна сети, чтобы платить тем, кто её поддерживает, и чтобы брать плату за транзакции. Сетям компаний, которые просто обмениваются данными, монета не нужна.</p>
+                    <p><em>Что говорить</em> Второй вопрос — есть ли у сети своя монета. В книге это «токенизированные» и «нетокенизированные» блокчейны. В токенизированных монета рождается вместе с работой сети: майнеры в биткойне и валидаторы в Ethereum получают новые монеты в награду, а пользователи платят ими комиссию. Это Bitcoin и Ethereum. Нетокенизированные блокчейны устроены так, что встроенной монеты нет: компании, которые ведут такую сеть, и так рассчитываются по договорам, им нужен общий надёжный журнал — например, для накладных и договоров. Пример — корпоративные сети на Hyperledger Fabric.</p>
+                    <p><em>Токен поверх чужой сети</em> Монету можно сделать программой (смарт-контрактом) поверх другой сети. Самые известные — стейблкоины USDT и USDC: «цифровые доллары», 1 USDT ≈ 1 $. Своей сети у них нет, это контракты внутри Ethereum, Tron, Solana и других. Нативная монета Ethereum — ETH (ей платят комиссии), а USDC — всего лишь контракт в нём.</p>
+                    <p><em>Термины</em> Токен — любая единица ценности в сети. Нативный токен — встроенный в саму сеть (BTC, ETH). Стейблкоин — токен, привязанный к обычной валюте.</p>
+                    <p><em>Оговорка</em> Автор пишет, что у нетокенизированных нет таких преимуществ, как неизменяемость и изменения через консенсус. Это спорное место: в Fabric консенсус есть, просто без майнинга. Можно упомянуть как повод для обсуждения.</p>
+                    <p><em>Переход</em> Третий вопрос — где проходят транзакции. Сначала первый уровень.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: l1 -->
+            <section class="slide p4" id="s-l1" data-slide="9">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 4</b><span>Уровень 1</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Уровень 1&nbsp;— это <mark>основная сеть</mark></h2>
+                            <p class="lead" data-rv>Сеть, которая сама решает, какие блоки правильные.</p>
+                        </div>
+                        <div class="duo">
+                            <div class="card" data-rv><div class="mini"><svg viewBox="0 0 760 250" role="img" aria-label="Одна цепочка, в которой всё: консенсус, выполнение, данные">
+                                <rect class="zone" style="--i:0" x="230" y="20" width="300" height="210" rx="30"/>
+                                <text class="tx call" style="--i:1" x="380" y="70">проверка</text>
+                                <text class="tx call" style="--i:2" x="380" y="125">программы</text>
+                                <text class="tx call" style="--i:3" x="380" y="180">хранение</text>
+                            </svg></div><div class="tagl">Монолитные</div><h3>Одна сеть делает всё</h3><p>Всё в одной сети, как приложение-монолит. Bitcoin, Ethereum, Solana.</p></div>
+                            <div class="card" data-rv><div class="mini"><svg viewBox="0 0 760 250" role="img" aria-label="Основная цепочка в центре, к ней подключены пять цепочек">
+                                <path class="ln dr" style="--i:1" pathLength="1" d="M380 125L230 55M380 125L530 55M380 125L210 190M380 125L550 190M380 125L380 230"/>
+                                <g class="nd ac" style="--i:0"><circle cx="380" cy="125" r="46"/><text x="380" y="125">гл.</text></g>
+                                <g class="nd" style="--i:2"><circle cx="230" cy="55" r="26"/></g><g class="nd" style="--i:2"><circle cx="530" cy="55" r="26"/></g>
+                                <g class="nd" style="--i:3"><circle cx="210" cy="190" r="26"/></g><g class="nd" style="--i:3"><circle cx="550" cy="190" r="26"/></g>
+                                <g class="nd" style="--i:4"><circle cx="380" cy="230" r="20"/></g>
+                            </svg></div><div class="tagl">Полилитные</div><h3>Сеть из многих сетей</h3><p>Главная сеть и подключённые к ней сети, как микросервисы. Polkadot, Avalanche, Cosmos. Подсети одного типа называют однородными, разных&nbsp;— разнородными.</p></div>
+                        </div>
+                        <p class="foot" data-rv>В обоих случаях основная сеть&nbsp;— источник истины. Над ней можно построить надстройку&nbsp;— это <b>уровень 2</b>.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Третий вопрос — уровень. Любая цепочка базового уровня, которая сама отвечает за консенсус, — блокчейн первого уровня. Например, Bitcoin и Ethereum. Внутри первого уровня два вида архитектуры. Монолитная: всё — программируемость, консенсус, безопасность — часть одного базового блокчейна, ничего не вынесено наружу. Это Bitcoin, Ethereum, Solana. Полилитная: несколько цепочек одного или разных типов подключены к основной и образуют сеть сетей. Это Polkadot, Avalanche, Cosmos. Дополнительные цепочки стоят горизонтально к основной, а иногда основная вообще не нужна — подсети общаются напрямую. Если все цепочки одного типа и по одним правилам — однородные, если разных — гетерогенные. Многоцепочечные архитектуры обычно стремятся к гетерогенности.</p>
+                    <p><em>Связь с прошлым докладом</em> Полилитные сети — один из ответов на проблему совместимости, о которой говорили в ограничениях.</p>
+                    <p><em>Термины сегодня</em> Слово «полилитный» встречается редко. В статьях обычно спорят «монолитные против модульных» (modular): модульная сеть разносит выполнение, консенсус и хранение данных по разным слоям. Ещё любопытный факт: Avalanche в декабре 2024 года (апгрейд Avalanche9000) переименовала свои подсети в «Avalanche L1» — подчёркивая, что каждая из них — самостоятельная цепочка первого уровня.</p>
+                    <p><em>Переход</em> Первый уровень упирается в масштабируемость. Ответ на это — второй уровень.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: l2 -->
+            <section class="slide p5" id="s-l2" data-slide="10">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 5</b><span>Уровень 2</span></div>
+                    <div class="body">
+                        <div class="split">
+                            <div class="say">
+                                <h2 data-rv>Уровень 2&nbsp;— <mark>надстройка</mark> над основной сетью</h2>
+                                <p class="lead" data-rv>Переводы идут в надстройке, а в основную сеть записывается только итог. Так книга решает две проблемы Bitcoin и Ethereum: <b>скорость</b> и <b>конфиденциальность</b>.</p>
+                                <p class="aside" data-rv>Как магазин: сотни покупок за день, а в банк&nbsp;— одна инкассация.</p>
+                            </div>
+                            <div class="scene" data-rv="scene"><svg viewBox="0 0 940 720" role="img" aria-label="Наверху много транзакций на втором уровне; вниз уходит одна пачка; внизу цепочка первого уровня">
+                                <rect class="zone" style="--i:0" x="90" y="60" width="760" height="250" rx="40"/>
+                                <text class="tx call" style="--i:0" x="470" y="30">уровень 2 — надстройка: быстро и дёшево</text>
+                                <path class="ln thin" style="--i:1" d="M190 140L290 220L390 130L500 230L600 140L720 215"/><g class="nd ac" style="--i:1"><circle cx="190" cy="140" r="22"/></g><g class="nd ac" style="--i:1"><circle cx="290" cy="220" r="22"/></g><g class="nd ac" style="--i:2"><circle cx="390" cy="130" r="22"/></g><g class="nd ac" style="--i:2"><circle cx="500" cy="230" r="22"/></g><g class="nd ac" style="--i:3"><circle cx="600" cy="140" r="22"/></g><g class="nd ac" style="--i:3"><circle cx="720" cy="215" r="22"/></g>
+                                <g class="ar acc" style="--i:4"><path class="ln dr" pathLength="1" d="M470 330L470 432"/><path class="ah" d="M470 456L459 432L481 432Z"/><text class="al" x="610" y="390">только итог</text></g>
+                                <g style="--i:5"><rect class="rbk is-dim" x="110" y="480" width="150" height="110" rx="18"/><rect class="rbk is-dim" x="290" y="480" width="150" height="110" rx="18"/><rect class="rbk is-ok" x="470" y="480" width="150" height="110" rx="18"/><rect class="rbk is-dim" x="650" y="480" width="150" height="110" rx="18"/></g>
+                                <path class="ln" d="M262 535L288 535M442 535L468 535M622 535L648 535"/>
+                                <text class="tx call" style="--i:6" x="455" y="640">уровень 1 — основная сеть: надёжно</text>
+                            </svg></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Помните главную проблему из прошлого доклада — основные сети медленные: каждую транзакцию проверяет каждый узел. Решение второго уровня: делать переводы в надстройке, где их быстро и дёшево обрабатывают, а в основную сеть записывать только итог — одной записью на тысячи переводов. Основная сеть остаётся «судьёй»: она хранит итог и гарантирует, что его нельзя подделать. Аналогия — магазин: за день сотни покупок проходят через кассу, а в банк вечером идёт одна инкассация. Книга называет так решения, которые используют первый уровень для консенсуса и расчётов, а транзакции выполняют вне цепочки. Придуманы, чтобы решить проблемы масштабируемости и конфиденциальности Bitcoin и Ethereum.</p>
+                    <p><em>Как показывать</em> Наверху — много мелких переводов в надстройке. Вниз, в основную сеть, уходит только итог. Основная сеть его записывает и защищает.</p>
+                    <p><em>Оговорка</em> Сами роллапы, Plasma и каналы состояния в этой главе только перечислены. Подробно автор разбирает их в главах про масштабируемость.</p>
+                    <p><em>Переход</em> Надстройки бывают разные — по тому, как основная сеть убеждается, что итог честный. Разберём простыми словами.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: l2 kinds -->
+            <section class="slide p5" id="s-l2kinds" data-slide="11">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 5</b><span>Уровень 2</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Как основная сеть <mark>проверяет итог</mark></h2>
+                        </div>
+                        <div class="duo is-tight">
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Оптимистичный роллап</div><h3>Верим, пока не докажут обман</h3><p>Неделю итог можно оспорить.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">ZK-роллап</div><h3>Прикладываем доказательство</h3><p>Доказательство с нулевым разглашением (ZK): математика гарантирует, что всё верно.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Каналы состояния</div><h3>Рассчитываемся в конце</h3><p>Как счёт в баре: платишь один раз. Так работает Lightning Network у биткойна.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Plasma</div><h3>Только отпечатки</h3><p>Данные могли спрятать. Сегодня не используется.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Все решения второго уровня делают одно: выполняют много транзакций в стороне и записывают в основную сеть только итог. Разница — в том, как основная сеть убеждается, что итог честный.</p>
+                    <p><em>Оптимистичный роллап</em> «Оптимистичный» — потому что по умолчанию считает пачку честной. Если оператор сжульничал, любой может за отведённое время (обычно около 7 дней) отправить в Ethereum доказательство обмана, и пачку отменят. Поэтому вывод денег из таких сетей в основную сеть занимает около недели. Это Arbitrum, Base, OP Mainnet.</p>
+                    <p><em>ZK-роллап</em> ZK — zero knowledge, доказательство с нулевым разглашением. К каждой пачке прикладывается короткое математическое доказательство, что все транзакции выполнены по правилам. Ethereum проверяет доказательство за доли секунды — ждать неделю не нужно. Минус — доказательства сложно и дорого считать. Это zkSync, Starknet, Scroll, Linea.</p>
+                    <p><em>Каналы состояния</em> Двое блокируют деньги в основной сети, дальше обмениваются подписанными «расписками» напрямую — мгновенно и бесплатно, — а в сеть записывают только итоговый баланс, когда закрывают канал. Lightning Network — сеть таких каналов для биткойна. Аналогия — открытый счёт в баре: заказываешь весь вечер, платишь один раз.</p>
+                    <p><em>Plasma</em> Отдельная цепочка, которая периодически записывает в основную только короткий отпечаток (хеш) своего состояния. Слабое место — оператор мог скрыть данные, и пользователи не смогли бы доказать обман. Роллапы решили это, публикуя все данные в основной сети, и вытеснили Plasma.</p>
+                    <p><em>Переход</em> Остался последний вид, который книга разбирает подробно, — сайдчейны.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: sidechains -->
+            <section class="slide p5" id="s-side" data-slide="12">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 5</b><span>Уровень 2</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Сайдчейн&nbsp;— <mark>соседняя сеть</mark>, куда можно перевести монеты</h2>
+                        </div>
+                        <div class="duo">
+                            <div class="card is-bad" data-rv><div class="mini"><svg viewBox="0 0 760 230" role="img" aria-label="Монеты уходят из основной цепочки в сайдчейн и обратно не возвращаются">
+                                <g style="--i:0"><rect class="rbk is-dim" x="120" y="30" width="90" height="60" rx="12"/><rect class="rbk is-dim" x="240" y="30" width="90" height="60" rx="12"/><rect class="rbk is-bad" x="360" y="30" width="90" height="60" rx="12"/></g>
+                                <text class="tx cap" style="--i:0" x="580" y="60">основная</text>
+                                <g class="ar lie" style="--i:1"><path class="ln dr" pathLength="1" d="M405 98L405 132"/><path class="ah" d="M405 156L394 132L416 132Z"/><text class="al" x="300" y="125">сжечь</text></g>
+                                <g style="--i:2"><rect class="rbk" x="360" y="160" width="90" height="60" rx="12"/><rect class="rbk" x="480" y="160" width="90" height="60" rx="12"/></g>
+                                <text class="tx cap" style="--i:2" x="200" y="190">соседняя</text>
+                            </svg></div><div class="tagl">В одну сторону</div><h3>Сжечь и получить</h3><p>Монеты «сжигают» в основной сети и получают в соседней. Книга называет это <b>Proof of Burn</b>&nbsp;— доказательство сжигания. Так запускали новые монеты.</p></div>
+                            <div class="card is-ok" data-rv><div class="mini"><svg viewBox="0 0 760 230" role="img" aria-label="Монеты ходят между основной цепочкой и сайдчейном в обе стороны">
+                                <g style="--i:0"><rect class="rbk is-dim" x="120" y="30" width="90" height="60" rx="12"/><rect class="rbk is-dim" x="240" y="30" width="90" height="60" rx="12"/><rect class="rbk is-ok" x="360" y="30" width="90" height="60" rx="12"/></g>
+                                <text class="tx cap" style="--i:0" x="580" y="60">основная</text>
+                                <g class="ar ok" style="--i:1"><path class="ln dr" pathLength="1" d="M385 98L385 132"/><path class="ah" d="M385 156L374 132L396 132Z"/></g>
+                                <g class="ar ok" style="--i:2"><path class="ln dr" pathLength="1" d="M425 152L425 118"/><path class="ah" d="M425 94L436 118L414 118Z"/></g>
+                                <g style="--i:3"><rect class="rbk is-ok" x="360" y="160" width="90" height="60" rx="12"/><rect class="rbk" x="480" y="160" width="90" height="60" rx="12"/></g>
+                                <text class="tx cap" style="--i:3" x="200" y="190">соседняя</text>
+                            </svg></div><div class="tagl">Туда и обратно</div><h3>Как обмен валюты</h3><p>Монеты запирают в основной сети, копию выдают в соседней. Так сеть <b>Rootstock</b> даёт биткойну смарт-контракты. Ещё пример&nbsp;— Deku у сети Tezos.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Сайдчейн — соседняя сеть, «привязанная» к основной: в неё можно перевести монеты из основной сети, а иногда и вернуть обратно. В книге два варианта. В одну сторону: монеты в основной сети «сжигают» — отправляют на адрес, с которого их невозможно потратить, — и взамен получают столько же монет в новой сети. Так запускали новые криптовалюты (альткойны); в книге это называется Proof of Burn, «доказательство сжигания». Туда и обратно: монеты в основной сети блокируют, а в соседней выпускают их копию; при возврате копию уничтожают, а оригинал разблокируют. Самый известный пример — Rootstock: соседняя сеть для биткойна, в которой работают программы (смарт-контракты), а сами биткойны туда переносятся и возвращаются. Ещё пример из книги — Deku для сети Tezos.</p>
+                    <p><em>Для фронтендеров</em> Когда в кошельке вы «бриджите» токены в другую сеть — это как раз привязка между цепочками.</p>
+                    <p><em>Переход</em> Это то, что есть в книге. А что из второго уровня реально живёт сейчас?</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: l2 now -->
+            <section class="slide p6" id="s-now" data-slide="13">
+                <div class="content-slide">
+                    <div class="kicker"><b>Часть 6</b><span>Что сейчас</span></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>2026: <mark>победили роллапы</mark></h2>
+                        </div>
+                        <div class="trio">
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Кто победил</div><h3>Роллапы</h3><p>Лидеры&nbsp;— Base и Arbitrum.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Что помогло</div><h3>Комиссии упали в десятки раз</h3><p>Обновление Ethereum в 2024 году.</p></div>
+                            <div class="card is-plainbox is-min" data-rv><div class="tagl">Кто ушёл</div><h3>Plasma</h3><p>Её вытеснили роллапы.</p></div>
+                        </div>
+                        <p class="foot" data-rv>Ethereum: основная сеть&nbsp;— надёжность, надстройки&nbsp;— скорость. Solana: всё в одной быстрой сети.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Главная мысль</em> Из всех решений второго уровня в 2026 году главными стали роллапы, а Ethereum целиком перестроил развитие вокруг них.</p>
+                    <p><em>Что говорить</em> Роллап выполняет транзакции у себя, а в Ethereum публикует их данные и итоговое состояние. Активность сильно сконцентрирована: большую часть транзакций второго уровня обрабатывают Base — сеть, которую запустила биржа Coinbase, — и Arbitrum. Из сотен остальных сетей большинство почти пустые. Обе лидирующие сети — оптимистичные роллапы. Среди ZK-роллапов известны zkSync, Starknet, Scroll, Linea.</p>
+                    <p><em>Dencun</em> 13 марта 2024 года Ethereum включил обновление Dencun с EIP-4844 (EIP — Ethereum Improvement Proposal, номер предложения по улучшению). Оно дало роллапам «блобы» — отдельное место под данные со своим рынком комиссий. Публиковать данные стало намного дешевле, и комиссии на Base и OP Mainnet упали больше чем на 90 %.</p>
+                    <p><em>Plasma</em> Главная слабость Plasma — оператор мог скрыть данные, и пользователи не смогли бы доказать обман. Роллапы решили это, публикуя данные в основной сети. Не путайте с Plasma — так в 2025 году назвали новую сеть для стейблкоинов.</p>
+                    <p><em>Разделение против монолита</em> Подход Ethereum называют модульным: основная сеть отвечает за безопасность и хранение данных, выполнение вынесено на второй уровень. Solana — монолит: всё в одной высокопроизводительной сети. Для разработчиков это знакомо: микросервисы против монолита. У модульного подхода гибкость, но фрагментация — пользователи и деньги разбросаны по десяткам сетей.</p>
+                    <p><em>Оговорка</em> Цифры по долям роллапов в разных источниках расходятся, поэтому на слайде — только качественная картина. Свежие данные — на l2beat.com.</p>
+                    <p><em>Переход</em> Подведём итог.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: sum -->
+            <section class="slide p0" id="s-sum" data-slide="14">
+                <div class="content-slide">
+                    <div class="kicker"><b>Итог</b></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Выводы</h2>
+                        </div>
+                        <div class="sums">
+                            <div class="sum p1" data-rv><span>1</span><p>Блокчейн&nbsp;— частный случай распределённого реестра.</p></div>
+                            <div class="sum p2" data-rv><span>2</span><p>Сети бывают для всех и только для своих&nbsp;— чем закрытее, тем больше доверяем хозяину.</p></div>
+                            <div class="sum p2" data-rv><span>3</span><p>«Закрытый»&nbsp;— про вход, «приватный»&nbsp;— про хозяина.</p></div>
+                            <div class="sum p3" data-rv><span>4</span><p>Своя монета есть не у всех: компаниям хватает общего журнала.</p></div>
+                            <div class="sum p4" data-rv><span>5</span><p>Уровень 1&nbsp;— основная сеть: одна делает всё или сеть из сетей.</p></div>
+                            <div class="sum p6" data-rv><span>6</span><p>Уровень 2&nbsp;— надстройка для скорости. В 2026 побеждают роллапы.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Что говорить</em> Подводим итог по трём вопросам. Зонтик — распределённые реестры, блокчейн — их частный случай. Кто участвует — от публичных до полностью приватных, и отдельно помним, что закрытый не значит приватный. Токен — есть у одних, нет у других. Уровень — первый (монолитный или полилитный) и второй, который разгружает первый.</p>
+                    <p><em>Переход</em> И напоследок — пара вопросов залу.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE: discuss -->
+            <section class="slide p0" id="s-talk" data-slide="15">
+                <div class="content-slide">
+                    <div class="kicker"><b>Обсудим</b></div>
+                    <div class="body">
+                        <div class="head">
+                            <h2 data-rv>Три вопроса <mark>залу</mark></h2>
+                        </div>
+                        <div class="trio">
+                            <div class="card is-case is-c" data-rv><div class="glyph">1</div><h3>Блокчейн или обычная база?</h3><p>Если все участники доверяют друг другу&nbsp;— может, хватит обычной базы данных?</p></div>
+                            <div class="card is-case is-p" data-rv><div class="glyph">2</div><h3>Одна сеть или надстройки?</h3><p>Как монолит против микросервисов: что бы выбрали вы?</p></div>
+                            <div class="card is-case is-a" data-rv><div class="glyph">3</div><h3>Видели это во фронтенде?</h3><p>Кнопка «сменить сеть» в кошельке, перевод между сетями, долгое «ожидание…».</p></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Зачем</em> Вечер длинный, это последний доклад — хорошее место для разговора, а не для новых фактов.</p>
+                    <p><em>Вопрос 1</em> Ловушка из книги: закрытому реестру не нужен консенсус и майнинг — тогда что остаётся от блокчейна? Обычно ответ: общий журнал, которому не нужно доверять одной стороне, и криптографические подписи. Если и этого не нужно — честнее взять обычную базу.</p>
+                    <p><em>Вопрос 2</em> Аналогия: монолит против микросервисов. Монолит проще и быстрее, но упирается в одну машину. Модули масштабируются, но появляется фрагментация: ликвидность и пользователи размазаны по сетям, нужны мосты.</p>
+                    <p><em>Вопрос 3</em> Фронтенд сталкивается с типами блокчейнов напрямую: переключение сети в MetaMask, выбор L2 при оплате, мост между сетями, статус «pending» до подтверждения.</p>
+                    <p><em>Конец главы</em> На этом первая глава закончена: развитие, распределённые системы, история, введение и типы. Во второй главе автор разбирает децентрализацию — идею, на которой держится весь блокчейн.</p>
+                </aside>
+            </section>
+
+            <!-- SLIDE 3 (Copy of Slide 3) -->
+
+<section class="slide" data-slide="16" data-chrome="whatnext">
+
+                <div class="timeline-next-container">
+                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-119-mastering-blockchain-1-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Развитие блокчейна</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-119-mastering-blockchain-1-2-pomazkov.pages.dev" target="_blank" rel="noreferrer">Распределенные системы</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-119-mastering-blockchain-1-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">История блокчейна</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-119-mastering-blockchain-1-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Введение в блокчейн</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Типы блокчейна</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Переключатель темы: светлая ↔ тёмная (клавиша T) -->
+    <button class="theme-toggle" id="themeToggle" type="button" role="switch"
+            aria-checked="false" aria-label="Переключить тему" title="Светлая тема (T)">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-knob"></span>
+            <span class="theme-ico theme-ico-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            </span>
+            <span class="theme-ico theme-ico-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+            </span>
+        </span>
+    </button>
+
+    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов: появление блоков, заметки докладчика (N) -->
+    <script src="assets/js/talk.js"></script>
+
+</body>
+</html>

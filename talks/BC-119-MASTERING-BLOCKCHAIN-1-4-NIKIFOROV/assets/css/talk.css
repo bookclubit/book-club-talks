@@ -1237,3 +1237,26 @@
 .map-r code { font-family: var(--font-mono); font-size: 28px; font-weight: 600; color: var(--ac); }
 .map-r b { display: block; font-size: 30px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-main); }
 .map-r small { display: block; margin-top: 4px; font-size: 22px; color: var(--text-muted); }
+
+/* Демонстрация хеша: данные → отпечаток. */
+.hd { display: flex; flex-direction: column; gap: 22px; }
+.hd-r {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 26px 32px;
+    border-radius: 26px;
+    border: 1px solid var(--border-soft);
+    background: var(--bg-card);
+}
+.hd-in { font-size: 34px; font-weight: 600; color: var(--text-main); }
+.hd-in b { color: var(--ac); }
+.hd-ar { font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.08em; color: var(--text-dim); }
+.hd-r code { font-family: var(--font-mono); font-size: 30px; font-weight: 600; color: var(--ac); word-break: break-all; }
+.hd-r.is-alt code { color: var(--now); }
+.hd .by { margin-top: 4px; }
+/* Поля блока: таблица на всю ширину. */
+.map.is-wide { gap: 14px; }
+.map.is-wide .map-r { grid-template-columns: 170px 1fr; padding: 16px 30px; }
+.map.is-wide .map-r b { font-size: 28px; }
+.map.is-wide .map-r small { font-size: 22px; }

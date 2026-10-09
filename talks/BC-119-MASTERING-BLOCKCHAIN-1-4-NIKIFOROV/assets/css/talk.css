@@ -1208,3 +1208,32 @@
     letter-spacing: 0.02em;
     color: var(--text-dim);
 }
+
+/* Карточка-объяснение: определение и строка-пример под чертой. */
+.duo.is-tight { gap: 22px 26px; }
+.card.is-plainbox { padding: 26px 34px 28px; }
+.card.is-plainbox h3 { font-size: 36px; }
+.card.is-plainbox p { font-size: 25px; color: var(--text-soft); }
+.card .ex {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    font-size: 21px;
+    color: var(--text-dim);
+}
+
+/* Соответствие «понятие Redux → понятие блокчейна». */
+.map { display: flex; flex-direction: column; gap: 16px; }
+.map-r {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 30px;
+    border-radius: 24px;
+    border: 1px solid var(--border-soft);
+    background: var(--bg-card);
+}
+.map-r code { font-family: var(--font-mono); font-size: 28px; font-weight: 600; color: var(--ac); }
+.map-r b { display: block; font-size: 30px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-main); }
+.map-r small { display: block; margin-top: 4px; font-size: 22px; color: var(--text-muted); }

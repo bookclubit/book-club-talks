@@ -362,7 +362,8 @@ function setupTheme() {
 
 setupTheme();
 
-new Presentation();
+// Экземпляр дека нужен содержанию (переход на слайд по клику).
+window.deck = new Presentation();
 
 // ===== Слайды нового стиля (класс fx) =====
 // Порядок появления блоков (data-rv), счётчики (data-count), ряды «ячеек»
@@ -549,5 +550,70 @@ new Presentation();
         stopCounters(slide);
       }
     }).observe(slide, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
+
+// ===== Содержание презентации =====
+// Кнопка рядом с переключателем темы (или клавиша O) открывает список всех
+// слайдов: номер и заголовок, текущий подсвечен. Клик — переход на слайд.
+// Заголовок берётся из data-toc у секции, иначе из её h1/h2, иначе из
+// подписи-кикера.
+(function () {
+  const btn = document.getElementById('tocToggle');
+  const panel = document.getElementById('tocPanel');
+  if (!btn || !panel || !window.deck) return;
+  const slides = [...document.querySelectorAll('.slide')];
+  const text = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '');
+  const labelOf = (slide, i) =>
+    slide.dataset.toc ||
+    text(slide.querySelector('h1, h2')) ||
+    text(slide.querySelector('.fx-kicker')) ||
+    `Слайд ${i + 1}`;
+
+  panel.innerHTML =
+    '<div class="toc-head">Содержание</div>' +
+    slides
+      .map((s, i) => {
+        const chrome = s.dataset.chrome && s.dataset.chrome !== 'title' ? ' is-chrome' : '';
+        const label = labelOf(s, i).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+        return `<button class="toc-item${chrome}" type="button" data-i="${i}"><span class="n">${String(i + 1).padStart(2, '0')}</span><span>${label}</span></button>`;
+      })
+      .join('');
+  const items = [...panel.querySelectorAll('.toc-item')];
+
+  function markCurrent() {
+    const cur = window.deck.current;
+    items.forEach((it, i) => it.classList.toggle('is-current', i === cur));
+    return items[cur];
+  }
+  function setOpen(open) {
+    panel.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    if (open) {
+      const cur = markCurrent();
+      if (cur) cur.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setOpen(!panel.classList.contains('is-open'));
+    btn.blur();
+  });
+  panel.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const it = e.target.closest('.toc-item');
+    if (!it) return;
+    window.deck.showSlide(Number(it.dataset.i));
+    setOpen(false);
+  });
+  document.addEventListener('click', () => setOpen(false));
+  document.addEventListener('keydown', (e) => {
+    // Латинская O и русская Щ — одна клавиша при любой раскладке.
+    if (e.code === 'KeyO' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      e.preventDefault();
+      setOpen(!panel.classList.contains('is-open'));
+    }
+    if (e.key === 'Escape') setOpen(false);
   });
 })();

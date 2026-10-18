@@ -124,9 +124,9 @@ if (!html.includes('data-chrome=')) {
 
 html = replaceTimeline(html, 'agenda', buildAgenda(items, currentIdx));
 html = replaceTimeline(html, 'whatnext', buildWhatNext(items, currentIdx));
-// Автор, книга и «Программа вечера» живут только в первом докладе вечера.
+// Открытие стрима, автор, книга и «Программа вечера» — только в первом докладе вечера.
 if (currentIdx > 0) {
-  for (const kind of ['author', 'book', 'agenda']) html = dropChromeSlide(html, kind);
+  for (const kind of ['opening', 'author', 'book', 'agenda']) html = dropChromeSlide(html, kind);
 }
 
 // Спикер на титуле (доклады нового стиля): если тему передали другому

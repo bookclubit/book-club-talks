@@ -89,7 +89,7 @@ function urlLabel(url) {
 // Класс у секции бывает и просто «slide» (старые доклады), и «slide fx …».
 export function chromeSlideRe(kind) {
   return new RegExp(
-    `[ \\t]*<section class="slide[^"]*"[^>]*data-chrome="${kind}"[\\s\\S]*?</section>\\s*`,
+    `[ \\t]*<section class="slide[^"]*"[^>]*data-chrome="${kind}"[\\s\\S]*?</section>[ \\t]*\\n?`,
     '',
   );
 }
@@ -102,7 +102,8 @@ export function renumberSlides(html) {
 
 /** Убирает «хром»-слайд целиком (например, программу вечера у второго доклада). */
 export function dropChromeSlide(html, kind) {
-  return html.replace(chromeSlideRe(kind), '\n');
+  // Регулярка забирает строки слайда целиком, но не отступ следующей строки.
+  return html.replace(chromeSlideRe(kind), '');
 }
 
 // Стили «хром»-слайдов выделены в deck.css маркерами: пересборка старого

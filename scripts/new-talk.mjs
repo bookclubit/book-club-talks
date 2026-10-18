@@ -496,11 +496,20 @@ export function findEvent(DATA, index, stream) {
   return null;
 }
 
+// Ссылки клуба на слайде открытия: плоские одноцветные иконки (линия цвета
+// текста, без фирменных цветов) — в одном стиле с остальным деком.
+const icon = (paths) =>
+  `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${paths.map((d) => `<path d="${d}"/>`).join('')}</svg>`;
 const CLUB_LINKS = [
-  ['telegram', 'Telegram'],
-  ['youtube', 'YouTube'],
-  ['vk', 'VK Видео'],
-  ['boosty', 'Boosty'],
+  ['telegram', 'Telegram', icon(['m22 2-7 20-4-9-9-4Z', 'M22 2 11 13'])],
+  ['youtube', 'YouTube', icon([
+    'M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17',
+    'm10 15 5-3-5-3z',
+  ])],
+  ['vk', 'VK Видео', icon(['M3 7.5 6.5 17 10 7.5', 'M13.5 7.5v9.5', 'M13.5 12.5 19 7.5', 'M15.3 11 19.5 17'])],
+  ['boosty', 'Boosty', icon([
+    'M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4.1 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z',
+  ])],
 ];
 
 /**
@@ -508,16 +517,34 @@ const CLUB_LINKS = [
  * стрима, дата, о чём вечер (книга, глава, сколько докладов) и ссылки клуба
  * из settings.json — их видят и те, кто смотрит запись.
  */
-export function buildOpeningSlide({ meta, chapter, event, stream, coverFile, talks, socials }) {
+/** Спикеры вечера из программы — каждый по разу, в порядке выступлений. */
+export function eveningSpeakers(items) {
+  const seen = new Set();
+  return items
+    .map((i) => i.speaker)
+    .filter((sp) => sp?.name && !seen.has(sp.name) && seen.add(sp.name));
+}
+
+export function buildOpeningSlide({ meta, chapter, event, stream, coverFile, talks, socials, speakers = [] }) {
   const when = eventWhen(event);
   const title = String(event?.title ?? '').trim() || chapter.title || meta.title;
   const links = CLUB_LINKS.filter(([k]) => socials?.[k])
-    .map(([k, label]) => `<a class="chip" href="${esc(socials[k])}" target="_blank" rel="noopener">${label}</a>`)
+    .map(([k, label, svg]) => `<a class="chip" href="${esc(socials[k])}" target="_blank" rel="noopener">${svg}${label}</a>`)
     .join('');
   const linksBlock = links
-    ? `<div class="open-links" data-rv="left"><em>Клуб</em><div class="chips">${links}</div></div>`
-    : '<div></div>';
-  return `<section class="slide fx is-title is-opening" id="slide-opening" data-slide="1" data-chrome="opening">
+    ? `<div class="open-links" data-rv="fade"><em>Клуб</em><div class="chips">${links}</div></div>`
+    : '';
+  // Кто выступает сегодня — аватар и имя каждого спикера программы.
+  const people = speakers
+    .map((sp) => {
+      const img = sp.avatar ? `<img src="assets/speakers/${esc(basename(sp.avatar))}" alt="">` : '';
+      return `<span class="os">${img}<b>${esc(sp.name)}</b></span>`;
+    })
+    .join('');
+  const speakersBlock = people
+    ? `<div class="open-speakers" data-rv="left"><em>Спикеры вечера</em><div class="os-row">${people}</div></div>`
+    : '';
+  return `<section class="slide fx is-title is-opening" id="slide-opening" data-slide="1" data-chrome="opening" data-toc="Открытие стрима">
                 <div class="fx-wrap">
                     <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>${esc(when)}</span></div>
                     <div class="open-num" aria-hidden="true">${esc(stream)}</div>
@@ -526,7 +553,8 @@ export function buildOpeningSlide({ meta, chapter, event, stream, coverFile, tal
                     <p class="open-sub" data-rv><b>${esc(meta.title)}</b> · Глава ${esc(chapter.order)} · ${talksWord(talks)}</p>
                     <div class="title-bar"></div>
                     <div class="title-foot">
-                        ${linksBlock}
+                        ${speakersBlock || linksBlock}
+                        ${speakersBlock ? linksBlock : ''}
                         ${titleBook(meta, coverFile)}
                     </div>
                 </div>
@@ -571,7 +599,7 @@ export function buildAuthorSlide(meta, index, folder) {
     const list = books
       .map((b) => `<li${b.folder === folder ? ' class="is-now"' : ''}>${esc(b.title)}</li>`)
       .join('');
-    return `<section class="slide fx" id="slide-author" data-slide="2" data-chrome="author">
+    return `<section class="slide fx" id="slide-author" data-slide="2" data-chrome="author" data-toc="Кто написал книгу">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
                     <div class="fx-body">
@@ -599,7 +627,7 @@ export function buildAuthorSlide(meta, index, folder) {
     .join('\n                            ');
   const many = authors.length;
   const heading = many === 2 ? 'Два автора' : many === 3 ? 'Три автора' : many === 4 ? 'Четыре автора' : `Авторов: ${many}`;
-  return `<section class="slide fx" id="slide-author" data-slide="2" data-chrome="author">
+  return `<section class="slide fx" id="slide-author" data-slide="2" data-chrome="author" data-toc="Кто написал книгу">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
                     <h2 class="fx-h" data-rv>${heading}</h2>
@@ -639,7 +667,7 @@ export function buildBookSlide(meta, bookEntry, chapter, coverFile) {
   ]
     .filter(Boolean)
     .join('\n                                    ');
-  return `<section class="slide fx" id="slide-book" data-slide="3" data-chrome="book">
+  return `<section class="slide fx" id="slide-book" data-slide="3" data-chrome="book" data-toc="Что это за книга">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade">Что это за книга</div>
                     <div class="fx-body">
@@ -867,6 +895,7 @@ async function main() {
           coverFile,
           talks: program.items.length,
           socials,
+          speakers: eveningSpeakers(program.items),
         })
       : '',
   );

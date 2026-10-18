@@ -93,6 +93,13 @@
         </span>
     </button>
 
+    <!-- Содержание: список слайдов, клик — переход на слайд (клавиша O) -->
+    <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false"
+            aria-controls="tocPanel" aria-label="Содержание презентации" title="Содержание (O)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"></path></svg>
+    </button>
+    <nav class="toc-panel" id="tocPanel" aria-label="Содержание презентации"></nav>
+
     <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
     <script src="assets/js/deck.js"></script>
 

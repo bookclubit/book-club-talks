@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Оформление контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body>
@@ -106,7 +108,627 @@
 
             <!-- SLIDE 3 (Copy of Slide 3) -->
 
-<section class="slide" data-slide="4" data-chrome="whatnext">
+            <!-- ===== Контентные слайды доклада ===== -->
+
+            <section class="slide fx is-hero" id="slide-idea" data-slide="3">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Главная мысль</div>
+                    <h2 class="fx-h" data-rv style="font-size:80px; max-width:1620px">Предобучение даёт <mark>знания</mark>.<br>Последующее учит <mark>ими пользоваться</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile" data-rv="left">
+                                <div class="tile-k">Предобучение</div>
+                                <div class="tile-t">Читает интернет</div>
+                                <p class="tile-p">Учится угадывать следующий токен&nbsp;— и попутно узнаёт о мире почти всё.</p>
+                            </div>
+                            <div class="tile is-hi" data-rv="right">
+                                <div class="tile-k">Последующее обучение</div>
+                                <div class="tile-t">Учится отвечать</div>
+                                <p class="tile-p">На примерах и оценках людей&nbsp;— так, чтобы ответ был полезен и уместен.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Артём рассказал, как устроена модель и сколько ей нужно данных и вычислений. Допустим, мы её обучили — получилась предобученная модель. Она прочитала интернет и знает очень много. Но пользоваться ею пока неудобно, а иногда и опасно. Превратить её в ассистента — задача последующего обучения, post-training.</p>
+                    <p>В книге есть хорошее сравнение: предобучение — это чтение ради знаний, а последующее обучение — обучение тому, как этими знаниями пользоваться. Поэтому для последующего обучения обязательно нужна уже предобученная модель.</p>
+                    <p><em>Переход</em> Что именно не так с моделью после предобучения?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-problems" data-slide="4">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Зачем это нужно</div>
+                    <h2 class="fx-h" data-rv>У предобученной модели <mark class="hot">две проблемы</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile is-hot" data-rv="left">
+                                <div class="tile-k">Проблема 1</div>
+                                <div class="tile-t">Дописывает текст, а не беседует</div>
+                                <p class="tile-p">Самообучение учит продолжать текст. Как сказал друг автора, такая модель говорит как веб-страница, а не как человек.</p>
+                            </div>
+                            <div class="tile is-hot" data-rv="right">
+                                <div class="tile-k">Проблема 2</div>
+                                <div class="tile-t">Повторяет худшее из интернета</div>
+                                <p class="tile-p">Данные собраны без разбора&nbsp;— ответы бывают расистскими, сексистскими, грубыми или просто неверными.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Обычно у предобученной модели две проблемы. Первая: самообучение оптимизирует её на дополнение текста, а не на беседу. Друг автора сформулировал это так: предобученная модель разговаривает как веб-страница, а не как человек.</p>
+                    <p>Вторая: если данные собраны по всему интернету без разбора — а в первом докладе мы видели, что так и есть, — её ответы бывают расистскими, сексистскими, грубыми или просто неверными. Цель последующего обучения — решить обе проблемы.</p>
+                    <p><em>Переход</em> Ещё один способ увидеть разницу.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-goal" data-slide="5">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Что оптимизируем</div>
+                    <h2 class="fx-h" data-rv>Предобучение оценивает токен,<br><mark>человек&nbsp;— весь ответ</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2" style="gap:40px">
+                            <div class="tile" data-rv="left">
+                                <div class="tile-k">Предобучение</div>
+                                <div class="tokline" data-seq style="margin:10px 0 26px"><span>Столица</span><span>Франции</span><span>—</span><span class="next">Париж</span></div>
+                                <p class="tile-p">Награда&nbsp;— за точно угаданный следующий токен.</p>
+                            </div>
+                            <div class="tile is-hi" data-rv="right">
+                                <div class="tile-k">Последующее обучение</div>
+                                <div class="whole" style="margin:10px 0 26px">
+                                    <div class="bon-lines" style="margin:4px 0 16px"><i></i><i></i><i></i></div>
+                                    <div class="chips"><span class="chip is-hi">полезный?</span><span class="chip is-hi">правдивый?</span><span class="chip is-hi">уместный?</span></div>
+                                </div>
+                                <p class="tile-p">Награда&nbsp;— за ответ, который предпочтёт человек.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Предобучение оптимизирует качество на уровне токенов: модель учится как можно точнее угадывать следующий токен. Но пользователю неважно, насколько хорошо угадан каждый отдельный токен, — ему важен ответ целиком. Последующее обучение как раз и оптимизирует модель под ответы, которые предпочитают люди.</p>
+                    <p><em>Переход</em> И стоит это на удивление дёшево.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-compute" data-slide="6">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">04</span>Цена</div>
+                    <h2 class="fx-h" data-rv>На последующее обучение&nbsp;— <mark>всего 2%</mark> вычислений</h2>
+                    <div class="fx-body">
+                        <div class="split" data-rv="fade"><div class="s1"><span>предобучение</span></div><div class="s2"></div></div>
+                        <div class="split-cap">
+                            <div class="stat" data-rv><b><span data-count="98">98</span><small>%</small></b><span>вычислений InstructGPT ушло на предобучение</span></div>
+                            <div class="stat is-hi" data-rv style="align-items:flex-end; text-align:right"><b><span data-count="2">2</span><small>%</small></b><span>на последующее обучение</span></div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:30px">Последующее обучение раскрывает способности, которые у модели уже есть, но которые трудно достать одними промптами.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> У InstructGPT — модели OpenAI, «сестры» ChatGPT, — на последующее обучение ушло всего 2% вычислений, а 98% — на предобучение. Поэтому последующее обучение можно считать раскрытием способностей, которые у модели уже есть, но которые трудно достать одними промптами. Знания уже внутри — мы учим модель их показывать.</p>
+                    <p><em>Переход</em> Как устроен этот процесс?</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/9bbzX" target="_blank" rel="noopener">OpenAI — Aligning language models to follow instructions (InstructGPT)</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-pipeline" data-slide="7">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">05</span>Конвейер</div>
+                    <h2 class="fx-h" data-rv>Предобучение → <mark>SFT</mark> → <mark>предпочтения</mark></h2>
+                    <div class="fx-body">
+                        <div class="rail" style="--n:4; --line-y:139px">
+                            <div class="rail-line"></div>
+                            <div class="rail-bracket" style="left:50%; right:-18px"><span>RLHF</span></div>
+                            <div class="rail-node" data-rv>
+                                <div class="rn-data"><span><b>данные</b>интернет, низкое качество</span></div>
+                                <span class="rn-dot"></span>
+                                <div class="rn-k">шаг 1</div>
+                                <div class="rn-t">Предобучение</div>
+                                <div class="rn-out">дописывает текст</div>
+                            </div>
+                            <div class="rail-node" data-rv>
+                                <div class="rn-data"><span><b>данные</b>демонстрации «запрос&nbsp;— ответ»</span></div>
+                                <span class="rn-dot"></span>
+                                <div class="rn-k">шаг 2</div>
+                                <div class="rn-t">SFT</div>
+                                <div class="rn-out">ведёт диалог</div>
+                            </div>
+                            <div class="rail-node" data-rv>
+                                <div class="rn-data"><span><b>данные</b>сравнения ответов</span></div>
+                                <span class="rn-dot"></span>
+                                <div class="rn-k">шаг 3а</div>
+                                <div class="rn-t">Модель вознаграждения</div>
+                                <div class="rn-out">оценивает ответы</div>
+                            </div>
+                            <div class="rail-node is-end" data-rv>
+                                <div class="rn-data"><span><b>данные</b>запросы пользователей</span></div>
+                                <span class="rn-dot"></span>
+                                <div class="rn-k">шаг 3б</div>
+                                <div class="rn-t">Обучение с подкреплением</div>
+                                <div class="rn-out">отвечает, как нравится людям</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> У каждой компании последующее обучение своё, но в общем случае этапов два. Первый — дообучение с учителем, SFT, supervised finetuning: модель дообучают на качественных примерах, чтобы она вела беседу, а не дописывала текст. Второй — дообучение с учётом предпочтений: модель учат отвечать так, как нравится людям.</p>
+                    <p>Второй этап обычно делают обучением с подкреплением. Самый известный метод — RLHF, обучение с подкреплением на основе обратной связи от человека; его использовали в GPT-3.5 и Llama 2. Есть DPO — прямая оптимизация предпочтений, и RLAIF — когда обратную связь даёт AI; его, возможно, применяют в моделях Claude. На схеме видно, что RLHF сам состоит из двух частей: сначала на сравнениях ответов учат модель вознаграждения, потом с её помощью дообучают основную модель.</p>
+                    <p>И осторожно с терминами: «инструкционным дообучением» одни называют только SFT, а другие — оба этапа сразу. Автор этот термин не использует, и я не буду.</p>
+                    <p><em>Переход</em> У этой схемы есть знаменитая иллюстрация.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-shoggoth" data-slide="8">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Мем</div>
+                    <h2 class="fx-h" data-rv>Улыбающийся <mark>Шоггот</mark></h2>
+                    <div class="fx-body">
+                        <div class="shog">
+                            <svg class="shog-svg" viewBox="0 0 640 600" aria-hidden="true">
+                                <g data-particles="350,290,265,260"></g>
+                                <path class="mask" d="M128 300 C 128 222, 232 190, 300 232 C 356 266, 358 384, 296 424 C 236 462, 128 430, 128 362 Z"/>
+                                <circle class="face" cx="236" cy="330" r="62"/>
+                                <circle class="eye" cx="216" cy="314" r="6"/>
+                                <circle class="eye" cx="256" cy="314" r="6"/>
+                                <path class="smile" d="M206 344 Q 236 374 266 344"/>
+                            </svg>
+                            <div class="layers">
+                                <div class="layer l1" data-rv="right"><i></i><div><b>Предобучение</b><p>Неукротимый монстр: вырос на неструктурированных данных из интернета.</p></div></div>
+                                <div class="layer l2" data-rv="right"><i></i><div><b>SFT</b><p>Маска: дообучение на качественных данных&nbsp;— Stack Overflow, Quora, ответах людей.</p></div></div>
+                                <div class="layer l3" data-rv="right"><i></i><div><b>Предпочтения</b><p>Улыбка, вишенка на торте: модель становится пригодной для клиентов.</p></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Эту схему часто иллюстрируют мемом про улыбающегося Шоггота — щупальцевого монстра из рассказов Лавкрафта. Предобученная модель — неукротимый монстр: она выросла на неструктурированных данных из интернета. SFT на качественных данных — Stack Overflow, Quora, ответах, написанных людьми, — надевает на монстра маску, и он становится социально приемлемее. А дообучение с учётом предпочтений — это улыбка, вишенка на торте: модель становится пригодной для клиентов.</p>
+                    <p>Важная оговорка: такая связка популярна, но не единственная. Любой из этих шагов можно пропустить.</p>
+                    <p><em>Как показывать</em> На слайде — абстрактная версия мема: облако частиц, маска и улыбка рисуются по очереди. Оригинальная картинка — anthrupad, в книге это рисунок 2.11.</p>
+                    <p><em>Переход</em> Начнём с маски — с SFT.</p>
+                    <p><em>Источники</em> <a href="https://x.com/anthrupad/status/1622349563922362368" target="_blank" rel="noopener">anthrupad — оригинальный мем</a>; <a href="https://en.wikipedia.org/wiki/Shoggoth" target="_blank" rel="noopener">Шоггот в Википедии</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-pizza" data-slide="9">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">07</span>Дообучение с учителем</div>
+                    <h2 class="fx-h" data-rv>Предобученная модель <mark>продолжает</mark>, а не отвечает</h2>
+                    <div class="fx-body">
+                        <div class="chat">
+                            <div class="bubble" data-rv="left"><span class="k">запрос</span>Как приготовить пиццу<span class="caret"></span></div>
+                            <div class="opt is-no" data-rv><span class="n">01</span><span class="t">…для семьи из шести человек?</span><span class="tag">продолжение</span></div>
+                            <div class="opt is-no" data-rv><span class="n">02</span><span class="t">Какие ингредиенты понадобятся? Сколько времени это займёт?</span><span class="tag">продолжение</span></div>
+                            <div class="opt is-yes" data-rv><span class="n">03</span><span class="t">Инструкция: тесто, соус, начинка, духовка&nbsp;— по шагам</span><span class="tag">ответ</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Предобученная модель оптимизирована на дополнение текста. Введите «Как приготовить пиццу» — и она просто продолжит фразу, потому что не понимает, что должна вести беседу. Подойдёт любой из трёх вариантов: добавить контекст — «…для семьи из шести человек?», добавить ещё вопросы — «Какие ингредиенты понадобятся? Сколько времени это займёт?» — или дать инструкцию.</p>
+                    <p>С точки зрения статистики текста все три правдоподобны. Но если мы хотим ответить пользователю, правильный — только третий.</p>
+                    <p><em>Как показывать</em> Через пару секунд первые два варианта гаснут, третий подсвечивается.</p>
+                    <p><em>Переход</em> Как научить модель выбирать третий?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-demos" data-slide="10">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">08</span>Демонстрации</div>
+                    <h2 class="fx-h" data-rv>Покажи модели, как надо,&nbsp;— <mark>она повторит</mark></h2>
+                    <p class="fx-lead" data-rv>Пары «запрос&nbsp;— ответ» называют демонстрационными данными, а обучение на них&nbsp;— клонированием поведения</p>
+                    <div class="fx-body">
+                        <div class="pair">
+                            <div class="q" data-rv="left"><span class="k">запрос</span>«Удачное стечение обстоятельств»&nbsp;— это когда события случайно складываются счастливо. Составьте с этим выражением предложение.</div>
+                            <div class="a" data-rv="right"><span class="k">ответ маркировщика</span>Встретить Маргарет и через неё познакомиться с Томом&nbsp;— настоящее удачное стечение обстоятельств.</div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модель имитирует свои обучающие данные. Значит, чтобы она отвечала как надо, ей нужно показать примеры правильных ответов — пары «запрос — ответ». Их называют демонстрационными данными, а сам процесс иногда называют клонированием поведения: вы показываете, как модель должна себя вести, а она это поведение копирует.</p>
+                    <p>Вот пример из данных InstructGPT: попросили объяснить выражение и составить с ним предложение — и маркировщик написал образцовый ответ. В наборе есть задачи и посложнее: прочитать длинную статью и ответить на вопросы по ней или объяснить что-то «как пятилетнему».</p>
+                    <p><em>Как показывать</em> Пример на слайде — мой пересказ первой строки таблицы 2.6 книги.</p>
+                    <p><em>Переход</em> Каких запросов в таких данных больше всего?</p>
+                    <p><em>Источники</em> <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">Ouyang и др., 2022 — Training language models to follow instructions with human feedback</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-mix" data-slide="11">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">09</span>Ассортимент</div>
+                    <h2 class="fx-h" data-rv>Разным запросам&nbsp;— <mark>разные ответы</mark></h2>
+                    <p class="fx-lead" data-rv>Типы запросов в демонстрациях InstructGPT, %</p>
+                    <div class="fx-body">
+                        <div class="hb is-dense" style="--max:50">
+                            <div class="hb-row is-hi" data-rv><span class="hb-l">Генерация</span><div class="hb-t"><i style="--v:45.6"></i></div><span class="hb-v">45,6</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Открытые вопросы</span><div class="hb-t"><i style="--v:12.4"></i></div><span class="hb-v">12,4</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Мозговой штурм</span><div class="hb-t"><i style="--v:11.2"></i></div><span class="hb-v">11,2</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Беседа</span><div class="hb-t"><i style="--v:8.4"></i></div><span class="hb-v">8,4</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Перефразирование</span><div class="hb-t"><i style="--v:6.6"></i></div><span class="hb-v">6,6</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Реферирование</span><div class="hb-t"><i style="--v:4.2"></i></div><span class="hb-v">4,2</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Классификация</span><div class="hb-t"><i style="--v:3.5"></i></div><span class="hb-v">3,5</span></div>
+                            <div class="hb-row is-dim" data-rv><span class="hb-l">Другое</span><div class="hb-t"><i style="--v:3.5"></i></div><span class="hb-v">3,5</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Закрытые вопросы</span><div class="hb-t"><i style="--v:2.6"></i></div><span class="hb-v">2,6</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Извлечение</span><div class="hb-t"><i style="--v:1.9"></i></div><span class="hb-v">1,9</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Разные запросы требуют разных ответов, поэтому демонстрации должны покрывать всё, что модель должна уметь. Вот как распределились типы запросов в данных InstructGPT. Почти половина — генерация текста, 45,6%. Дальше открытые вопросы — 12,4%, мозговой штурм — 11%, беседа — 8%. Перефразирование, реферирование, классификация, извлечение — по нескольку процентов.</p>
+                    <p>Мультимодальных задач здесь нет: InstructGPT работала только с текстом.</p>
+                    <p><em>Переход</em> Кто пишет эти ответы?</p>
+                    <p><em>Источники</em> Рисунок 2.12 книги; <a href="https://oreil.ly/8U2z8" target="_blank" rel="noopener">статья OpenAI об InstructGPT</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-labelers" data-slide="12">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">10</span>Маркировщики</div>
+                    <h2 class="fx-h" data-rv>Хорошим ответам нужны <mark>хорошие учителя</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid3" style="gap:56px; align-items:start">
+                            <div class="stat" data-rv><b><span data-count="90">90</span><small>%</small></b><span>маркировщиков InstructGPT&nbsp;— с высшим образованием, больше трети&nbsp;— магистры</span></div>
+                            <div class="stat" data-rv><b><span data-count="30">30</span><small> мин</small></b><span>может уйти на одну пару «запрос&nbsp;— ответ»</span></div>
+                            <div class="stat is-hi" data-rv><b><small>$</small><span data-count="130000">130&#8239;000</span></b><span>13 000 пар по $10&nbsp;— без проектирования данных, найма и контроля качества</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Людям для учёбы нужны хорошие учителя — модели тоже. В отличие от обычной разметки, где хватает, скажем, обвести объект на фото, демонстрации требуют критического мышления, поиска информации и понимания, уместен ли вообще запрос.</p>
+                    <p>Поэтому компании нанимают высококвалифицированных маркировщиков. У InstructGPT примерно у 90% из них было как минимум высшее образование, у больше чем трети — степень магистра. Обвести объект на картинке — секунды, а одна хорошая пара «запрос — ответ» может занять до получаса, особенно если нужно пересказать длинный текст.</p>
+                    <p>Посчитаем: если пара стоит 10 долларов, то 13 тысяч пар, которые OpenAI собрала для InstructGPT, — это 130 тысяч долларов. И это без проектирования данных, найма людей и контроля качества.</p>
+                    <p><em>Переход</em> Не каждая компания может такое себе позволить.</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/SF_X9" target="_blank" rel="noopener">статистика маркировщиков InstructGPT</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-paths" data-slide="13">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">11</span>Где взять демонстрации</div>
+                    <h2 class="fx-h" data-rv>Эксперты, <mark>волонтёры</mark> или эвристики</h2>
+                    <div class="fx-body">
+                        <div class="paths">
+                            <div class="tile" data-rv>
+                                <div class="tile-k">OpenAI · InstructGPT</div>
+                                <div class="tile-t">Эксперты</div>
+                                <div class="big"><span data-count="13000">13&#8239;000</span> <small>пар</small></div>
+                                <p class="tile-p">Высококвалифицированные маркировщики. Качественно, но дорого.</p>
+                            </div>
+                            <div class="tile is-hot" data-rv>
+                                <div class="tile-k">LAION</div>
+                                <div class="tile-t">Волонтёры</div>
+                                <div class="big"><span data-count="13500">13&#8239;500</span> <small>человек</small></div>
+                                <p class="tile-p">10 000 бесед на 35 языках. Но 90% разметчиков&nbsp;— мужчины: перекос.</p>
+                            </div>
+                            <div class="tile" data-rv>
+                                <div class="tile-k">DeepMind · Gopher</div>
+                                <div class="tile-t">Эвристики</div>
+                                <div class="dlg"><b>[A]:</b> короткий абзац<br><b>[B]:</b> короткий абзац<br><b>[A]:</b> …</div>
+                                <p class="tile-p" style="margin-top:12px">Ищут в интернете тексты, похожие на диалог.</p>
+                            </div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:34px">Ещё один путь&nbsp;— <b>синтетические данные</b>: о них восьмая глава.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Есть другие пути. Некоммерческая организация LAION собрала волонтёров: 13,5 тысячи человек со всего мира создали 10 тысяч бесед — 161 тысячу сообщений на 35 языках с 461 тысячей оценок качества. Но волонтёров никто не отбирал. В идеале разметчики должны представлять всё человечество, а здесь 90% указали, что они мужчины.</p>
+                    <p>DeepMind для модели Gopher пошла третьим путём — эвристиками: искала в интернете тексты в формате диалога — реплика A, реплика B, снова A, снова B. А чтобы меньше зависеть от людей, многие команды переходят на синтетические данные — о них в восьмой главе.</p>
+                    <p>Кстати, технически можно вообще пропустить предобучение и учить модель с нуля на демонстрациях. Но с предобучением результат обычно лучше.</p>
+                    <p><em>Переход</em> SFT учит модель разговаривать. Но о чём?</p>
+                    <p><em>Источники</em> <a href="https://arxiv.org/abs/2304.07327" target="_blank" rel="noopener">Köpf и др., 2023 — OpenAssistant Conversations</a>; <a href="https://arxiv.org/abs/2112.11446" target="_blank" rel="noopener">Rae и др., 2021 — Gopher</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-prefs" data-slide="14">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">12</span>Предпочтения</div>
+                    <h2 class="fx-h" data-rv>Демонстрации учат беседовать, <mark>но не говорят, о чём</mark></h2>
+                    <div class="fx-body">
+                        <div class="chips" style="justify-content:center; margin-bottom:60px">
+                            <span class="chip" data-rv="pop">аборты</span>
+                            <span class="chip" data-rv="pop">оружие</span>
+                            <span class="chip" data-rv="pop">воспитание детей</span>
+                            <span class="chip" data-rv="pop">иммиграция</span>
+                            <span class="chip" data-rv="pop">базовый доход</span>
+                            <span class="chip" data-rv="pop">легализация марихуаны</span>
+                        </div>
+                        <div class="spectrum" data-rv>
+                            <div class="spec-bar"></div>
+                            <span class="spec-mid"></span>
+                            <div class="spec-ends">
+                                <div><b>слишком свободно</b>ответила на спорное&nbsp;— расстроила часть людей</div>
+                                <div><b>слишком строго</b>скучная цензура&nbsp;— люди уходят</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> С большой силой приходит большая ответственность. Модель, которая помогает человеку достигать великих целей, может помочь и в ужасных. Демонстрации учат модель вести беседу, но не говорят, какие беседы ей стоит вести.</p>
+                    <p>Если попросить объяснить, как угнать самолёт, большинству очевидно, что модель должна сделать. Но многие вопросы не так однозначны: аборты, оружие, воспитание детей, иммиграция, базовый доход. Люди с разными взглядами часто не согласны друг с другом. Ответит модель на спорный вопрос — расстроит часть пользователей. Будет слишком строгой — станет скучной, и люди уйдут. А страх неподобающих ответов мешает компаниям выпускать свои приложения.</p>
+                    <p>Цель дообучения с учётом предпочтений — научить AI вести себя в соответствии с человеческими предпочтениями. Автор честно называет её амбициозной и, возможно, недостижимой: она предполагает, что универсальные предпочтения существуют и их можно встроить в модель.</p>
+                    <p><em>Переход</em> Как это делают?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-rlhf" data-slide="15">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">13</span>RLHF</div>
+                    <h2 class="fx-h" data-rv>RLHF&nbsp;— <mark>два шага</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile is-hi" data-rv>
+                                <div class="tile-k">Шаг 1</div>
+                                <div class="tile-t">Модель вознаграждения</div>
+                                <p class="tile-p">Учится ставить оценку ответам базовой модели.</p>
+                            </div>
+                            <div class="tile is-hi" data-rv>
+                                <div class="tile-k">Шаг 2</div>
+                                <div class="tile-t">Оптимизация</div>
+                                <p class="tile-p">Базовую модель учат отвечать так, чтобы оценка была максимальной.</p>
+                            </div>
+                            <div class="tile" data-rv>
+                                <div class="tile-k">Альтернатива</div>
+                                <div class="tile-t">DPO</div>
+                                <p class="tile-p">Проще. Meta перешла с RLHF в Llama 2 на DPO в Llama 3.</p>
+                            </div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:40px">Автор разбирает RLHF: он сложнее, но даёт больше гибкости в настройке модели.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Будь цель простой, решение было бы элегантным. Но цель сложная — и решение тоже. Первый успешный алгоритм дообучения с учётом предпочтений, до сих пор популярный, — RLHF. В нём два шага: сначала обучить модель вознаграждения, которая оценивает ответы, а потом оптимизировать основную модель так, чтобы её ответы получали от модели вознаграждения максимальные оценки.</p>
+                    <p>Набирают популярность и новые подходы — прежде всего DPO. Meta, чтобы упростить процесс, перешла с RLHF в Llama 2 на DPO в Llama 3. Автор разбирает именно RLHF: он сложнее, но гибче. Авторы Llama 2 писали, что превосходство модели в написании текстов во многом заслуга RLHF.</p>
+                    <p><em>Переход</em> Начнём с модели вознаграждения.</p>
+                    <p><em>Источники</em> <a href="https://arxiv.org/abs/2305.18290" target="_blank" rel="noopener">Rafailov и др., 2023 — DPO</a>; <a href="https://arxiv.org/abs/2307.09288" target="_blank" rel="noopener">Touvron и др., 2023 — Llama 2</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-compare" data-slide="16">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">14</span>Модель вознаграждения</div>
+                    <h2 class="fx-h" data-rv>Поставить балл трудно, <mark>сравнить&nbsp;— проще</mark></h2>
+                    <div class="fx-body">
+                        <div class="vs">
+                            <div class="tile is-hot" data-rv="left">
+                                <div class="tile-k">Точечная оценка</div>
+                                <div class="tile-t">«Оцените от 1 до 10»</div>
+                                <div class="score-row"><i>1</i><i>2</i><i>3</i><i>4</i><i class="a">5</i><i>6</i><i class="b">7</i><i>8</i><i>9</i><i>10</i></div>
+                                <p class="tile-p">Один маркировщик ставит 5, другой&nbsp;— 7. Даже тот же человек во второй раз может оценить иначе.</p>
+                            </div>
+                            <div class="tile is-hi" data-rv="right">
+                                <div class="tile-k">Сравнение</div>
+                                <div class="tile-t">«Какой ответ лучше?»</div>
+                                <div class="ab"><span>A</span><span class="win">B</span></div>
+                                <p class="tile-p">Получаются тройки: запрос, хороший ответ, плохой ответ.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модель вознаграждения получает пару «запрос — ответ» и выдаёт оценку: насколько ответ хорош. Учить модель оценивать — обычная задача машинного обучения. Сложность, как и с SFT, — в данных.</p>
+                    <p>Если просить маркировщиков ставить оценку каждому ответу — это называется точечной оценкой, — цифры будут гулять: один поставит 5 из 10, другой — 7, и даже один и тот же человек во второй раз может поставить другую. Гораздо проще спросить: какой из двух ответов лучше? Так получаются сравнительные данные — тройки «запрос, хороший ответ, плохой ответ».</p>
+                    <p><em>Переход</em> Вот как они выглядят вживую.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-dog" data-slide="17">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">15</span>Пример</div>
+                    <h2 class="fx-h" data-rv>«Правильный» ответ&nbsp;— <mark>дело вкуса</mark></h2>
+                    <div class="fx-body">
+                        <div class="bubble" data-rv="left" style="margin-bottom:30px"><span class="k">запрос</span>Как споить собаку?</div>
+                        <div class="grid2">
+                            <div class="tile is-hi" data-rv>
+                                <div class="tile-k">хороший ответ</div>
+                                <p class="tile-p" style="font-size:28px; color:var(--text-main)">«Не уверена, что понимаю, о чём вы».</p>
+                            </div>
+                            <div class="tile" data-rv>
+                                <div class="tile-k">плохой ответ</div>
+                                <p class="tile-p" style="font-size:28px; color:var(--text-main)">«Не думаю, что стоит. Собаке важно познавать мир на трезвую голову».</p>
+                            </div>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; margin-top:24px"><span class="chip is-hi" data-rv="pop">↑ автору книги больше нравится этот</span></div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Вот пример сравнительных данных из открытого набора Anthropic HH-RLHF. Запрос: «Как споить собаку?». Хороший ответ — уклончивый: «Не уверена, что понимаю, о чём вы». Плохой — с юмором: не стоит, собаке важно познавать мир на трезвую голову.</p>
+                    <p>И автор книги признаётся, что ей больше нравится ответ, помеченный как плохой. Это отлично показывает, как трудно уложить разнообразные человеческие предпочтения в одну математическую формулу.</p>
+                    <p><em>Как показывать</em> Ответы на слайде — мой перевод из открытого набора, близкий к таблице 2.7 книги.</p>
+                    <p><em>Переход</em> Сравнивать проще, но не бесплатно.</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/h9oG6" target="_blank" rel="noopener">Anthropic HH-RLHF</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-cost" data-slide="18">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">16</span>Цена разметки</div>
+                    <h2 class="fx-h" data-rv>Сравнивать дешевле, <mark>но тоже недёшево</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid3" style="gap:56px; align-items:start">
+                            <div class="stat" data-rv><b>3–5<small> мин</small></b><span>на одно сравнение: в обоих ответах нужно проверить факты (LMSYS)</span></div>
+                            <div class="stat is-hi" data-rv><b><small>$</small>3,5</b><span>за сравнение в Llama 2&nbsp;— против $25 за написанный с нуля ответ</span></div>
+                            <div class="stat" data-rv><b><span data-count="73">73</span><small>%</small></b><span>совпадение мнений маркировщиков InstructGPT: семь из десяти</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Исследователи LMSYS выяснили, что сравнение двух ответов занимает в среднем 3–5 минут: в обоих нужно проверить факты. Один из авторов Llama 2, Томас Сьялом, рассказывал, что каждое сравнение обошлось им в 3,5 доллара. Дорого, но всё равно намного дешевле, чем писать ответ с нуля, — 25 долларов за штуку.</p>
+                    <p>И люди расходятся во мнениях: у маркировщиков InstructGPT оценки совпадали примерно в 73% случаев. То есть из десяти человек, сравнивающих два ответа, примерно семеро выберут одно и то же.</p>
+                    <p><em>Переход</em> Как разметку ускоряют?</p>
+                    <p><em>Источники</em> <a href="https://arxiv.org/abs/2403.04132" target="_blank" rel="noopener">Chiang и др., 2024 — Chatbot Arena</a>; <a href="https://oreil.ly/P1MPQ" target="_blank" rel="noopener">Томас Сьялом о стоимости разметки</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-rank" data-slide="19">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">17</span>Ускорение</div>
+                    <h2 class="fx-h" data-rv>Одно ранжирование&nbsp;— <mark>три пары</mark> для обучения</h2>
+                    <p class="fx-lead" data-rv>В интерфейсе OpenAI ответам ставили оценку от 1 до 7 и расставляли их по порядку. Для модели вознаграждения брали только порядок.</p>
+                    <div class="fx-body">
+                        <div class="rank">
+                            <div class="rank-list">
+                                <div class="rk" data-rv="left"><em>1-й</em>A</div>
+                                <div class="rk" data-rv="left"><em>2-й</em>B</div>
+                                <div class="rk" data-rv="left"><em>3-й</em>C</div>
+                            </div>
+                            <div class="rank-arrow" data-rv="fade"></div>
+                            <div class="pairs">
+                                <span class="pr" data-rv="right">A <span class="gt">&gt;</span> B</span>
+                                <span class="pr" data-rv="right">A <span class="gt">&gt;</span> C</span>
+                                <span class="pr" data-rv="right">B <span class="gt">&gt;</span> C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Чтобы ускорить разметку, маркировщику показывают сразу несколько ответов. В интерфейсе OpenAI он ставил каждому оценку от 1 до 7 и расставлял ответы по порядку — но для обучения модели вознаграждения использовали только порядок. Ранжирование трёх ответов A > B > C сразу даёт три пары: A лучше B, A лучше C и B лучше C.</p>
+                    <p><em>Переход</em> Остаётся вопрос: как из одних сравнений получить модель, которая ставит баллы?</p>
+                    <p><em>Источники</em> Рисунок 2.13 книги; <a href="https://oreil.ly/kYtBG" target="_blank" rel="noopener">интерфейс разметки InstructGPT</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-loss" data-slide="20">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">18</span>Функция потерь</div>
+                    <h2 class="fx-h" data-rv>Цель&nbsp;— <mark>увеличить разрыв</mark> между хорошим и плохим</h2>
+                    <div class="fx-body">
+                        <div class="loss">
+                            <div>
+                                <div class="formula" data-rv>−log <span class="s">σ</span>( <span class="w">r(x, y<sub>w</sub>)</span> − <span class="l">r(x, y<sub>l</sub>)</span> )</div>
+                                <div class="fl-legend" data-rv>
+                                    <div><code class="w acc">r(x, y<sub>w</sub>)</code><span>оценка хорошего ответа</span></div>
+                                    <div><code class="hot">r(x, y<sub>l</sub>)</code><span>оценка плохого ответа</span></div>
+                                    <div><code>x</code><span>запрос</span></div>
+                                    <div><code style="color:var(--fx2)">σ</code><span>сигмоида</span></div>
+                                </div>
+                            </div>
+                            <svg class="sig" viewBox="0 0 540 360" aria-hidden="true">
+                                <path class="axis" d="M40 30 V300 H520"/>
+                                <line class="axis dash" x1="270" y1="40" x2="270" y2="300"/>
+                                <path id="lossCurve" class="curve" d="M40 51.3 L68.75 81.5 L97.5 111.3 L126.25 140.3 L155 168.3 L183.75 194.7 L212.5 218.7 L241.25 239.7 L270 257.1 L298.75 270.7 L327.5 280.6 L356.25 287.6 L385 292.1 L413.75 295.1 L442.5 297 L471.25 298.1 L500 298.9"/>
+                                <circle class="dot" r="9"><animateMotion dur="6s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear"><mpath href="#lossCurve"/></animateMotion></circle>
+                                <text x="50" y="22">штраф</text>
+                                <text x="270" y="326" text-anchor="middle">0</text>
+                                <text x="520" y="350" text-anchor="end">разрыв оценок →</text>
+                                <text class="ann hot" x="112" y="46">перепутала местами</text>
+                                <text class="ann acc" x="510" y="270" text-anchor="end">хороший выше&nbsp;— штраф ≈ 0</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Как и человека, модель можно заставить сделать что угодно, если правильно мотивировать, — то есть задать правильную функцию потерь. Идея простая: модель вознаграждения ставит баллы хорошему и плохому ответу, а мы хотим, чтобы разрыв между ними был как можно больше.</p>
+                    <p>Формально для каждой тройки — запрос x, хороший ответ y<sub>w</sub>, плохой y<sub>l</sub> — считается минус логарифм сигмоиды от разницы оценок. Справа график: когда хороший ответ оценён намного выше плохого, штраф стремится к нулю; когда модель путает их местами — штраф большой. Обучение ищет такие параметры модели вознаграждения, при которых средний штраф по всем тройкам минимален. Эту формулу использовали для InstructGPT.</p>
+                    <p>Саму модель вознаграждения можно учить с нуля или дообучить готовую — предобученную или после SFT. Некоторые считают, что она должна быть не слабее основной модели. Но, как будет в третьей главе, слабая модель может оценивать сильную: оценивать проще, чем генерировать.</p>
+                    <p><em>Переход</em> Модель вознаграждения готова — что дальше?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-loop" data-slide="21">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">19</span>Дообучение</div>
+                    <h2 class="fx-h" data-rv>Модель учится <mark>нравиться</mark> модели вознаграждения</h2>
+                    <div class="fx-body">
+                        <div class="loop">
+                            <div class="ring" data-rv="pop">
+                                <div class="ring-track"></div>
+                                <div class="ring-orbit"></div>
+                                <div class="rnode n1"><b>Запрос</b><span>из реальных запросов</span></div>
+                                <div class="rnode n2 is-hi"><b>SFT-модель</b><span>пишет ответ</span></div>
+                                <div class="rnode n3"><b>Модель вознаграждения</b><span>ставит оценку</span></div>
+                                <div class="rnode n4 is-hi"><b>PPO</b><span>подправляет модель</span></div>
+                                <div class="ring-core">цикл<b>RL</b></div>
+                            </div>
+                            <div>
+                                <p class="fx-lead" data-rv style="margin-top:0 !important">Запросы берут случайно&nbsp;— например, из реальных запросов пользователей. Модель отвечает, модель вознаграждения ставит оценку, алгоритм обучения с подкреплением подправляет модель&nbsp;— и снова по кругу.</p>
+                                <div class="stat is-md" data-rv style="margin-top:44px"><b>PPO</b><span>проксимальная оптимизация политики&nbsp;— алгоритм OpenAI, 2017</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Теперь с помощью модели вознаграждения дообучаем SFT-модель. Запросы берутся случайным образом — например, из реальных запросов пользователей. Модель отвечает, модель вознаграждения ставит оценку, и алгоритм обучения с подкреплением подправляет модель, чтобы оценки росли. Обычно это PPO — проксимальная оптимизация политики, алгоритм, который OpenAI выпустила в 2017 году. И так по кругу.</p>
+                    <p><em>Переход</em> Это работает. Но почему — вопрос открытый.</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/TpaGg" target="_blank" rel="noopener">OpenAI — Proximal Policy Optimization</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-why" data-slide="22">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">20</span>Открытый вопрос</div>
+                    <h2 class="fx-h" data-rv>Работает&nbsp;— видно на практике.<br><mark>Почему&nbsp;— спорят</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile" data-rv="left">
+                                <div class="tile-k">Взгляд автора</div>
+                                <div class="tile-t">Заплатка на плохие данные</div>
+                                <p class="tile-p">SFT и предпочтения чинят проблему, которую создали данные предобучения низкого качества.</p>
+                            </div>
+                            <div class="tile is-hi" data-rv="right">
+                                <div class="tile-k">Возможное будущее</div>
+                                <div class="tile-t">Могут не понадобиться</div>
+                                <p class="tile-p">Появятся данные получше или способы обучения эффективнее&nbsp;— и без этих шагов можно будет обойтись.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> На практике RLHF и DPO улучшают результаты модели. Но на момент написания книги шли споры о том, почему именно они работают, и автор ожидает, что дообучение с учётом предпочтений ещё сильно изменится.</p>
+                    <p>Есть и более радикальный взгляд. И SFT, и предпочтения — по сути, заплатка на проблему, которую создали данные предобучения низкого качества. Если однажды появятся данные получше или более эффективные способы обучения, эти шаги могут вообще не понадобиться.</p>
+                    <p><em>Как показывать</em> Кому интересно копнуть глубже в RLHF — материалы есть в репозитории книги на GitHub.</p>
+                    <p><em>Переход</em> А кто-то уже сейчас обходится без обучения с подкреплением.</p>
+                    <p><em>Источники</em> <a href="https://github.com/chiphuyen/aie-book" target="_blank" rel="noopener">github.com/chiphuyen/aie-book</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-bestofn" data-slide="23">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">21</span>Без RL</div>
+                    <h2 class="fx-h" data-rv>Сгенерировать N ответов&nbsp;— <mark>выбрать лучший</mark></h2>
+                    <div class="fx-body">
+                        <div class="bon">
+                            <div class="bon-c" data-rv><span class="k">ответ 1</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.62" data-dec="2">0,62</b><span class="rm">оценка RM</span></div>
+                            <div class="bon-c" data-rv><span class="k">ответ 2</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.71" data-dec="2">0,71</b><span class="rm">оценка RM</span></div>
+                            <div class="bon-c win" data-rv><span class="tag">лучший</span><span class="k">ответ 3</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.93" data-dec="2">0,93</b><span class="rm">оценка RM</span></div>
+                            <div class="bon-c" data-rv><span class="k">ответ 4</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.48" data-dec="2">0,48</b><span class="rm">оценка RM</span></div>
+                            <div class="bon-c" data-rv><span class="k">ответ 5</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.8" data-dec="2">0,80</b><span class="rm">оценка RM</span></div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:46px">Так делают <b>Stitch Fix</b> и <b>Grab</b>: им хватает одной модели вознаграждения. Это стратегия «лучшее из N»&nbsp;— она уже про сэмплирование.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Некоторые компании считают, что обучение с подкреплением можно пропустить совсем. Stitch Fix и Grab решили, что им хватает одной модели вознаграждения: модель генерирует несколько вариантов ответа, а модель вознаграждения выбирает тот, у которого оценка выше. Это стратегия «лучшее из N».</p>
+                    <p>Она меняет уже не саму модель, а то, как модель выбирает свой ответ, — и это ровно тема следующего доклада, про сэмплирование.</p>
+                    <p><em>Как показывать</em> Оценки на карточках условные — для иллюстрации.</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/iYh-B" target="_blank" rel="noopener">Stitch Fix</a>; <a href="https://oreil.ly/CSSed" target="_blank" rel="noopener">Grab</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-outro" data-slide="24">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">22</span>Итог</div>
+                    <h2 class="fx-h" data-rv>Выводы</h2>
+                    <div class="fx-body">
+                        <div class="takeaways">
+                            <div class="tw" data-rv><span class="n">01</span><p><b>Предобучение даёт знания</b>, последующее обучение&nbsp;— умение ими пользоваться. И стоит всего пару процентов вычислений.</p></div>
+                            <div class="tw" data-rv><span class="n">02</span><p><b>SFT</b> учит вести диалог на демонстрациях «запрос&nbsp;— ответ». Хорошие демонстрации&nbsp;— дорогие.</p></div>
+                            <div class="tw" data-rv><span class="n">03</span><p><b>Предпочтения</b> передают сравнениями: на них учится модель вознаграждения, а основная модель&nbsp;— ей нравиться.</p></div>
+                            <div class="tw" data-rv><span class="n">04</span><p><b>Цель спорная</b>: универсальных человеческих предпочтений может и не быть.</p></div>
+                        </div>
+                        <div class="quote" data-rv>
+                            <img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
+                            <div>
+                                <blockquote>«Если бы цель была простой, решение могло бы быть элегантным»</blockquote>
+                                <cite>Чип Хьюен · AI-инженерия, глава 2</cite>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Первое: предобучение даёт знания, последующее обучение учит ими пользоваться — и стоит всего пару процентов вычислений. Второе: SFT учит модель вести диалог на демонстрациях «запрос — ответ», и хорошие демонстрации — это дорого. Третье: предпочтения передают через сравнения — на них учится модель вознаграждения, а основная модель учится ей нравиться. Четвёртое: сама цель спорная — универсальных предпочтений может и не быть.</p>
+                    <p>Для нас, разработчиков приложений, это значит: поведение модели — тон, отказы, многословность — во многом результат чужих решений на этапе последующего обучения. Если модель ведёт себя не так, как нужно вашему продукту, — это повод выбрать другую модель или дообучить свою; об этом будет седьмая глава.</p>
+                    <p><em>Переход</em> А теперь Артём расскажет, как модель выбирает ответ, — про сэмплирование. Спасибо!</p>
+                </aside>
+            </section>
+
+            <section class="slide" data-slide="25" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
@@ -198,6 +820,8 @@
 
     <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
     <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов: появление, счётчики, заметки (N) -->
+    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

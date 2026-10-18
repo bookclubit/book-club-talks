@@ -1,94 +1,36 @@
 /*
  * talk.css — оформление контентных слайдов доклада (глава 2 «AI-инженерии»).
  * «Хром»-слайды (титул, о книге, программа, что далее) живут в deck.css и
- * здесь не трогаются. Стиль — минимализм с HUD-деталями: тонкая сетка,
- * уголки рамки, моноширинные подписи и один «сигнальный» цвет.
+ * здесь не трогаются. Стиль — монохромный минимализм в палитре самого дека:
+ * чёрный и белый, тонкие линии, моноширинные подписи и один акцент — лайм.
+ * Без градиентов, свечений и декоративных рамок.
  * Цвета — только токенами: дек переключает тему (T).
  */
 
 /* ===== Палитра доклада ===== */
 :root {
-    --fx: #6ff3ff;
-    --fx-rgb: 111, 243, 255;
-    --fx2: #a98bff;
-    --fx2-rgb: 169, 139, 255;
-    --hot: #ff7a6b;
-    --hot-rgb: 255, 122, 107;
-    --glow-k: 1;
+    --fx: #d4ff3f;
+    --fx-rgb: 212, 255, 63;
+    --fx2: #e4e4e7;
+    --fx2-rgb: 228, 228, 231;
+    --hot: #ff6b4a;
+    --hot-rgb: 255, 107, 74;
+    --glow-k: 0;
     --mask: #000;
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root[data-theme='light'] {
-    --fx: #0b7285;
-    --fx-rgb: 11, 114, 133;
-    --fx2: #6d3fd8;
-    --fx2-rgb: 109, 63, 216;
+    --fx: #4d7c0f;
+    --fx-rgb: 77, 124, 15;
+    --fx2: #3f3f46;
+    --fx2-rgb: 63, 63, 70;
     --hot: #c2410c;
     --hot-rgb: 194, 65, 12;
-    --glow-k: 0.5;
-}
-
-/* ===== Фон всего дека: сетка и мягкое свечение ===== */
-.deck-stage::before,
-.deck-stage::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-}
-.deck-stage::before {
-    background-image:
-        linear-gradient(rgba(var(--tint-rgb), 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(var(--tint-rgb), 0.045) 1px, transparent 1px);
-    background-size: 96px 96px;
-    background-position: center center;
-    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, var(--mask) 35%, transparent 90%);
-    mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, var(--mask) 35%, transparent 90%);
-}
-.deck-stage::after {
-    background:
-        radial-gradient(900px 620px at 88% 6%, rgba(var(--fx-rgb), calc(0.075 * var(--glow-k))), transparent 70%),
-        radial-gradient(820px 620px at 6% 104%, rgba(var(--fx2-rgb), calc(0.075 * var(--glow-k))), transparent 70%);
+    --glow-k: 0;
 }
 
 /* ===== Каркас контентного слайда ===== */
-.slide.fx::before {
-    /* уголки HUD-рамки */
-    content: '';
-    position: absolute;
-    inset: 40px;
-    pointer-events: none;
-    --c: rgba(var(--tint-rgb), 0.28);
-    background:
-        linear-gradient(var(--c), var(--c)) left top / 26px 1px no-repeat,
-        linear-gradient(var(--c), var(--c)) left top / 1px 26px no-repeat,
-        linear-gradient(var(--c), var(--c)) right top / 26px 1px no-repeat,
-        linear-gradient(var(--c), var(--c)) right top / 1px 26px no-repeat,
-        linear-gradient(var(--c), var(--c)) left bottom / 26px 1px no-repeat,
-        linear-gradient(var(--c), var(--c)) left bottom / 1px 26px no-repeat,
-        linear-gradient(var(--c), var(--c)) right bottom / 26px 1px no-repeat,
-        linear-gradient(var(--c), var(--c)) right bottom / 1px 26px no-repeat;
-}
-/* Луч сканера: один проход сверху вниз при входе на слайд */
-.slide.fx::after {
-    content: '';
-    position: absolute;
-    left: 40px;
-    right: 40px;
-    top: 0;
-    height: 180px;
-    pointer-events: none;
-    opacity: 0;
-    background: linear-gradient(to bottom, transparent, rgba(var(--fx-rgb), 0.05) 80%, rgba(var(--fx-rgb), 0.4) 99.4%, transparent);
-}
-.slide.fx.active::after { animation: fxScan 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.05s both; }
-@keyframes fxScan {
-    0% { opacity: 1; transform: translateY(-180px); }
-    85% { opacity: 1; }
-    100% { opacity: 0; transform: translateY(1080px); }
-}
 
 .fx-wrap {
     position: absolute;
@@ -128,13 +70,13 @@
     font-size: 70px;
     font-weight: 600;
     line-height: 1.07;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.04em;
     color: var(--text-main);
     text-wrap: balance;
 }
 .fx-h mark,
 .fx mark {
-    background: linear-gradient(100deg, var(--fx) 10%, var(--fx2) 90%);
+    background: linear-gradient(var(--fx), var(--fx));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -234,7 +176,7 @@
     padding: 34px 38px 36px;
     border: 1px solid var(--border);
     border-radius: 22px;
-    background: linear-gradient(180deg, rgba(var(--tint-rgb), 0.035), rgba(var(--tint-rgb), 0.01));
+    background: rgba(var(--tint-rgb), 0.025);
     overflow: hidden;
 }
 .tile::before {
@@ -244,12 +186,11 @@
     right: 0;
     top: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(var(--fx-rgb), 0.7), transparent);
-    opacity: 0.6;
+    display: none;
 }
 .tile.is-hi { border-color: rgba(var(--fx-rgb), 0.45); box-shadow: 0 0 0 1px rgba(var(--fx-rgb), 0.12), 0 30px 80px -40px rgba(var(--fx-rgb), calc(0.5 * var(--glow-k))); }
 .tile.is-hot { border-color: rgba(var(--hot-rgb), 0.45); }
-.tile.is-hot::before { background: linear-gradient(90deg, transparent, rgba(var(--hot-rgb), 0.8), transparent); }
+
 .tile-k {
     margin-bottom: 18px;
     font-family: var(--font-mono);
@@ -291,7 +232,7 @@
 }
 .stat b.grad,
 .stat.is-hi b {
-    background: linear-gradient(100deg, var(--fx), var(--fx2));
+    background: linear-gradient(var(--fx), var(--fx));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -326,7 +267,7 @@
     width: calc(var(--v) / var(--max) * 100%);
     min-width: 6px;
     border-radius: 999px;
-    background: rgba(var(--fx-rgb), 0.5);
+    background: rgba(var(--tint-rgb), 0.38);
     transform-origin: left center;
 }
 .hb-v {
@@ -335,7 +276,7 @@
     font-variant-numeric: tabular-nums;
     color: var(--text-muted);
 }
-.hb-row.is-hi .hb-t > i { background: linear-gradient(90deg, var(--fx), var(--fx2)); box-shadow: 0 0 24px rgba(var(--fx-rgb), calc(0.45 * var(--glow-k))); }
+.hb-row.is-hi .hb-t > i { background: var(--fx); box-shadow: 0 0 24px rgba(var(--fx-rgb), calc(0.45 * var(--glow-k))); }
 .hb-row.is-hi .hb-l, .hb-row.is-hi .hb-v { color: var(--text-main); }
 .hb-row.is-hot .hb-t > i { background: var(--hot); }
 .hb-row.is-hot .hb-v { color: var(--hot); }
@@ -384,10 +325,10 @@
     bottom: 0;
     height: calc(var(--v) / var(--max) * 100%);
     border-radius: 8px 8px 2px 2px;
-    background: linear-gradient(180deg, rgba(var(--fx-rgb), 0.75), rgba(var(--fx-rgb), 0.2));
+    background: rgba(var(--tint-rgb), 0.3);
     transform-origin: bottom center;
 }
-.vb-col.is-hi .vb-bar > i { background: linear-gradient(180deg, var(--fx), rgba(var(--fx2-rgb), 0.45)); box-shadow: 0 0 30px rgba(var(--fx-rgb), calc(0.35 * var(--glow-k))); }
+.vb-col.is-hi .vb-bar > i { background: var(--fx); box-shadow: 0 0 30px rgba(var(--fx-rgb), calc(0.35 * var(--glow-k))); }
 .vb-l {
     min-height: 58px;
     font-size: 19px;
@@ -411,7 +352,7 @@
     right: calc(100% / var(--n, 4) / 2);
     top: var(--line-y, 150px);
     height: 2px;
-    background: linear-gradient(90deg, rgba(var(--fx-rgb), 0.9), rgba(var(--fx2-rgb), 0.9));
+    background: rgba(var(--tint-rgb), 0.35);
     transform-origin: left center;
     opacity: 0.7;
 }
@@ -436,7 +377,7 @@
     border-radius: 50%;
     background: var(--bg);
     border: 2px solid var(--fx);
-    box-shadow: 0 0 0 6px rgba(var(--fx-rgb), 0.1), 0 0 24px rgba(var(--fx-rgb), calc(0.6 * var(--glow-k)));
+    box-shadow: none;
 }
 .rail-node.is-end .rn-dot { background: var(--fx); }
 .rn-k { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fx); margin-bottom: 10px; }
@@ -515,16 +456,16 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
     gap: 34px;
     align-items: center;
     padding: 34px 40px;
-    border: 1px solid rgba(var(--fx-rgb), 0.3);
+    border: 1px solid var(--border);
     border-radius: 24px;
-    background: linear-gradient(120deg, rgba(var(--fx-rgb), 0.06), rgba(var(--fx2-rgb), 0.04));
+    background: rgba(var(--tint-rgb), 0.025);
 }
 .quote img {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 0 0 1px rgba(var(--fx-rgb), 0.5), 0 0 0 8px rgba(var(--fx-rgb), 0.08);
+    box-shadow: 0 0 0 1px var(--border);
 }
 .quote blockquote { margin: 0; font-size: 34px; font-weight: 500; line-height: 1.35; letter-spacing: -0.015em; color: var(--text-main); }
 .quote cite { display: block; margin-top: 12px; font-style: normal; font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); }
@@ -542,6 +483,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .au-photo { position: relative; width: 260px; height: 260px; margin: 0 0 34px 20px; }
 .au-photo img { position: relative; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; z-index: 1; }
 .au-ring {
+    display: none;
     position: absolute;
     inset: -20px;
     border-radius: 50%;
@@ -576,7 +518,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
     position: absolute;
     inset: -60px;
     z-index: -1;
-    background: radial-gradient(closest-side, rgba(var(--fx-rgb), calc(0.18 * var(--glow-k))), transparent);
+    display: none;
 }
 .bk2-title { font-size: 64px; font-weight: 600; letter-spacing: -0.035em; line-height: 1.05; color: var(--text-main); }
 .bk2-sub { margin-top: 14px !important; font-size: 27px; line-height: 1.4; color: var(--text-muted); }
@@ -687,7 +629,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 }
 .bub.is-hi i {
     border-color: var(--fx);
-    background: radial-gradient(circle at 35% 30%, rgba(var(--fx-rgb), 0.55), rgba(var(--fx2-rgb), 0.25));
+    background: var(--fx);
     box-shadow: 0 0 50px rgba(var(--fx-rgb), calc(0.5 * var(--glow-k)));
 }
 .bub span { font-family: var(--font-mono); font-size: 17px; letter-spacing: 0.1em; color: var(--text-dim); text-align: center; }
@@ -801,7 +743,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .split { position: relative; display: flex; height: 120px; border-radius: 20px; overflow: hidden; gap: 4px; }
 .split > div { position: relative; display: flex; align-items: center; padding: 0 30px; transform-origin: left; }
 .split .s1 { flex: 98; background: rgba(var(--tint-rgb), 0.08); border: 1px solid var(--border); border-radius: 20px 6px 6px 20px; }
-.split .s2 { flex: 2; padding: 0; background: linear-gradient(180deg, var(--fx), var(--fx2)); border-radius: 6px 20px 20px 6px; box-shadow: 0 0 40px rgba(var(--fx-rgb), calc(0.6 * var(--glow-k))); }
+.split .s2 { flex: 2; padding: 0; background: var(--fx); border-radius: 6px 20px 20px 6px; box-shadow: 0 0 40px rgba(var(--fx-rgb), calc(0.6 * var(--glow-k))); }
 .split .s1 span { font-size: 26px; color: var(--text-muted); }
 .slide.active .split .s1 { animation: fxGrowX 1.6s var(--ease-out) 0.4s backwards; }
 .slide.active .split .s2 { animation: fxPop 0.6s var(--ease-out) 1.8s backwards; }
@@ -816,7 +758,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .spec-ends div { max-width: 520px; font-size: 24px; line-height: 1.4; color: var(--text-muted); }
 .spec-ends div:last-child { text-align: right; }
 .spec-ends b { display: block; margin-bottom: 6px; font-family: var(--font-mono); font-size: 15px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--hot); }
-.spec-mid { position: absolute; left: 50%; top: -2px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--fx); box-shadow: 0 0 20px rgba(var(--fx-rgb), 0.6); }
+.spec-mid { position: absolute; left: 50%; top: -2px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--fx); box-shadow: none; }
 
 /* ===== Оценка баллом против сравнения ===== */
 .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -868,7 +810,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
     color: var(--text-main);
 }
 .rk em { font-style: normal; font-family: var(--font-mono); font-size: 17px; color: var(--text-dim); letter-spacing: 0.1em; }
-.rank-arrow { height: 2px; margin: 0 30px; background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.2), var(--fx)); transform-origin: left; }
+.rank-arrow { height: 2px; margin: 0 30px; background: rgba(var(--tint-rgb), 0.35); transform-origin: left; }
 .slide.active .rank-arrow { animation: fxGrowX 0.8s var(--ease-out) calc(var(--d, 0ms) + 200ms) backwards; }
 .pr { display: inline-flex; align-items: center; gap: 16px; padding: 18px 34px; border: 1px solid rgba(var(--fx-rgb), 0.5); border-radius: 999px; font-size: 36px; font-weight: 600; color: var(--text-main); align-self: flex-start; }
 .pr .gt { color: var(--fx); }
@@ -893,7 +835,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .sig .curve { fill: none; stroke: var(--fx); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 900; }
 .slide.active .sig .curve { animation: fxDraw 1.6s var(--ease-out) 0.6s backwards; --len: 900; }
 .sig text { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.08em; fill: var(--text-dim); }
-.sig .dot { fill: var(--fx2); filter: drop-shadow(0 0 8px rgba(var(--fx2-rgb), 0.8)); }
+.sig .dot { fill: var(--fx); }
 .sig .dash { stroke-dasharray: 4 7; }
 .sig .ann { font-size: 16px; fill: var(--text-muted); }
 .sig .ann.hot { fill: var(--hot); }
@@ -914,7 +856,6 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
     margin-left: -7px;
     border-radius: 50%;
     background: var(--fx);
-    box-shadow: 0 0 18px var(--fx);
 }
 .slide.active .ring-orbit { animation: fxSpin 6s linear infinite; }
 .rnode {
@@ -1009,7 +950,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
     font-size: 26px;
     color: var(--text-soft);
 }
-.tokline span.next { border-style: dashed; border-color: var(--fx); color: var(--fx); }
+.tokline span.next { border-style: solid; border-color: var(--fx); color: var(--fx); }
 .slide.active .tokline span { animation: fxPop 0.4s ease calc(var(--d, 0ms) + var(--i, 0) * 110ms) backwards; }
 .whole {
     position: relative;
@@ -1040,7 +981,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .post-t { font-size: 26px; line-height: 1.35; color: var(--text-soft); }
 .post-t .u { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 16px; color: var(--text-dim); }
 .gate-mid { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.gate-mid .line { width: 100%; height: 2px; background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.2), var(--fx)); transform-origin: left; }
+.gate-mid .line { width: 100%; height: 2px; background: rgba(var(--tint-rgb), 0.35); transform-origin: left; }
 .slide.active .gate-mid .line { animation: fxGrowX 0.9s var(--ease-out) calc(var(--d, 0ms) + 300ms) backwards; }
 .gate-mid span { font-family: var(--font-mono); font-size: 22px; color: var(--fx); }
 .gate-out { padding: 28px 30px; border: 1px solid rgba(var(--fx-rgb), 0.55); border-radius: 20px; font-size: 26px; line-height: 1.4; color: var(--text-main); }

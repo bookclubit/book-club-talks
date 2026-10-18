@@ -26,91 +26,44 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
-    <!-- Оформление контентных слайдов этого доклада -->
-    <link rel="stylesheet" href="assets/css/talk.css">
+    <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
+    <link rel="stylesheet" href="assets/css/theme.css">
 
 </head>
-<body>
+<body data-hud="AI-инженерия · Глава 2 · Последующее обучение">
     <div class="progress" id="progressBar" style="width: 0%"></div>
 
     <div class="deck-viewport">
         <main class="deck-stage" id="deckStage">
+
+            <!-- Титул: глава, тема, кто читает доклад и по какой книге -->
+            <section class="slide fx is-title" data-slide="1" data-chrome="title">
+                <div class="fx-wrap">
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>Стрим <b>120</b></span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Глава 2</span>Знакомство с базовыми моделями</div>
+                    <h1 class="title-h" data-rv>Последующее обучение</h1>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <a class="title-speaker" data-rv="left" href="https://t.me/kunjutone" target="_blank" rel="noopener">
+                            <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                            <span><em>Доклад читает</em><b>Антон Помазков</b><i>@kunjutone</i></span>
+                        </a>
+                        <a class="title-book" data-rv="right" href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>AI-инженерия</b><span>Чип Хьюен</span></span>
+                            <img src="assets/cover/ai-engineering.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Автор и книга — только в первом докладе вечера -->
             
-            <!-- SLIDE 1 (Copy of Slide 1) -->
-            <section class="slide" data-slide="1">
-                <div class="layout-center">
-                    <div class="title-tags">
-                        <span class="badge">Глава 2</span>
-                        <span class="title-tail">
-                            <span class="title-x" aria-hidden="true">×</span>
-                            <span class="badge">Знакомство с базовыми моделями</span>
-                        </span>
-                    </div>
-                    <h1 class="gradient-text">Последующее обучение</h1>
-                </div>
-            </section>
+            
 
-            <!-- SLIDE 2 (Copy of Slide 2) -->
-            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
-            <section class="slide" data-slide="2">
-
-                <div class="about-book-slide">
-                    <!-- Book block -->
-                    <div class="book-container">
-                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
-                        <div class="book-row">
-                            <div class="book-cover-container">
-                                <a href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank">
-                                    <img class="book-cover" src="assets/cover/ai-engineering.webp" alt="AI-инженерия">
-                                </a>
-                            </div>
-                            <div class="book-text-info">
-                                <a class="book-link" href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank">
-                                    AI-инженерия
-                                </a>
-                                <p class="book-subtitle">
-                                    AI Engineering
-                                </p>
-                                <p class="book-desc-ru">
-                                    Это практическое руководство по созданию приложений на основе готовых фундаментальных моделей (foundation models). В книге объясняется, чем AI-инжиниринг отличается от традиционного ML-инжиниринга, и предлагается пошаговый фреймворк для разработки AI-продуктов — от простых методов (промпт-инжиниринг) до более сложных (RAG, дообучение, AI-агенты). Особое внимание уделяется вопросам оценки моделей (включая подход «AI-as-a-judge»), а также оптимизации задержек и стоимости при развертывании
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- People block in two columns -->
-                    <div class="people-section">
-                        <div class="authors-column">
-                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
-                            <div class="authors-grid">
-                                <a class="author-card" href="https://huyenchip.com/" target="_blank">
-                                    <img class="author-avatar" src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
-                                    <div class="author-info">
-                                        <div class="author-name">Чип Хьюен</div>
-                                        <div class="author-link-text">huyenchip.com ↗</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="speaker-column">
-                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
-                            <a class="author-card" href="https://t.me/kunjutone" target="_blank">
-                                <img class="author-avatar" src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
-                                <div class="author-info">
-                                    <div class="author-name">Антон Помазков</div>
-                                    <div class="author-link-text">t.me/kunjutone ↗</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SLIDE 3 (Copy of Slide 3) -->
 
             <!-- ===== Контентные слайды доклада ===== -->
 
-            <section class="slide fx is-hero" id="slide-idea" data-slide="3">
+            <section class="slide fx is-hero" id="slide-idea" data-slide="2">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Главная мысль</div>
                     <h2 class="fx-h" data-rv style="font-size:80px; max-width:1620px">Предобучение даёт <mark>знания</mark>.<br>Последующее учит <mark>ими пользоваться</mark></h2>
@@ -136,7 +89,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-problems" data-slide="4">
+            <section class="slide fx" id="slide-problems" data-slide="3">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Зачем это нужно</div>
                     <h2 class="fx-h" data-rv>У предобученной модели <mark class="hot">две проблемы</mark></h2>
@@ -162,7 +115,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-goal" data-slide="5">
+            <section class="slide fx" id="slide-goal" data-slide="4">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Что оптимизируем</div>
                     <h2 class="fx-h" data-rv>Предобучение оценивает токен,<br><mark>человек&nbsp;— весь ответ</mark></h2>
@@ -190,7 +143,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-compute" data-slide="6">
+            <section class="slide fx" id="slide-compute" data-slide="5">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">04</span>Цена</div>
                     <h2 class="fx-h" data-rv>На последующее обучение&nbsp;— <mark>всего 2%</mark> вычислений</h2>
@@ -210,7 +163,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-pipeline" data-slide="7">
+            <section class="slide fx" id="slide-pipeline" data-slide="6">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">05</span>Конвейер</div>
                     <h2 class="fx-h" data-rv>Предобучение → <mark>SFT</mark> → <mark>предпочтения</mark></h2>
@@ -257,7 +210,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-shoggoth" data-slide="8">
+            <section class="slide fx" id="slide-shoggoth" data-slide="7">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Мем</div>
                     <h2 class="fx-h" data-rv>Улыбающийся <mark>Шоггот</mark></h2>
@@ -288,7 +241,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-pizza" data-slide="9">
+            <section class="slide fx" id="slide-pizza" data-slide="8">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">07</span>Дообучение с учителем</div>
                     <h2 class="fx-h" data-rv>Предобученная модель <mark>продолжает</mark>, а не отвечает</h2>
@@ -309,7 +262,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-demos" data-slide="10">
+            <section class="slide fx" id="slide-demos" data-slide="9">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">08</span>Демонстрации</div>
                     <h2 class="fx-h" data-rv>Покажи модели, как надо,&nbsp;— <mark>она повторит</mark></h2>
@@ -330,7 +283,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-mix" data-slide="11">
+            <section class="slide fx" id="slide-mix" data-slide="10">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">09</span>Ассортимент</div>
                     <h2 class="fx-h" data-rv>Разным запросам&nbsp;— <mark>разные ответы</mark></h2>
@@ -358,7 +311,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-labelers" data-slide="12">
+            <section class="slide fx" id="slide-labelers" data-slide="11">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">10</span>Маркировщики</div>
                     <h2 class="fx-h" data-rv>Хорошим ответам нужны <mark>хорошие учителя</mark></h2>
@@ -379,7 +332,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-paths" data-slide="13">
+            <section class="slide fx" id="slide-paths" data-slide="12">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">11</span>Где взять демонстрации</div>
                     <h2 class="fx-h" data-rv>Эксперты, <mark>волонтёры</mark> или эвристики</h2>
@@ -416,7 +369,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-prefs" data-slide="14">
+            <section class="slide fx" id="slide-prefs" data-slide="13">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">12</span>Предпочтения</div>
                     <h2 class="fx-h" data-rv>Демонстрации учат беседовать, <mark>но не говорят, о чём</mark></h2>
@@ -447,7 +400,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-rlhf" data-slide="15">
+            <section class="slide fx" id="slide-rlhf" data-slide="14">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">13</span>RLHF</div>
                     <h2 class="fx-h" data-rv>RLHF&nbsp;— <mark>два шага</mark></h2>
@@ -480,7 +433,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-compare" data-slide="16">
+            <section class="slide fx" id="slide-compare" data-slide="15">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">14</span>Модель вознаграждения</div>
                     <h2 class="fx-h" data-rv>Поставить балл трудно, <mark>сравнить&nbsp;— проще</mark></h2>
@@ -508,7 +461,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-dog" data-slide="17">
+            <section class="slide fx" id="slide-dog" data-slide="16">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">15</span>Пример</div>
                     <h2 class="fx-h" data-rv>«Правильный» ответ&nbsp;— <mark>дело вкуса</mark></h2>
@@ -536,7 +489,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-cost" data-slide="18">
+            <section class="slide fx" id="slide-cost" data-slide="17">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">16</span>Цена разметки</div>
                     <h2 class="fx-h" data-rv>Сравнивать дешевле, <mark>но тоже недёшево</mark></h2>
@@ -556,7 +509,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-rank" data-slide="19">
+            <section class="slide fx" id="slide-rank" data-slide="18">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">17</span>Ускорение</div>
                     <h2 class="fx-h" data-rv>Одно ранжирование&nbsp;— <mark>три пары</mark> для обучения</h2>
@@ -584,7 +537,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-loss" data-slide="20">
+            <section class="slide fx" id="slide-loss" data-slide="19">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">18</span>Функция потерь</div>
                     <h2 class="fx-h" data-rv>Цель&nbsp;— <mark>увеличить разрыв</mark> между хорошим и плохим</h2>
@@ -621,7 +574,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-loop" data-slide="21">
+            <section class="slide fx" id="slide-loop" data-slide="20">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">19</span>Дообучение</div>
                     <h2 class="fx-h" data-rv>Модель учится <mark>нравиться</mark> модели вознаграждения</h2>
@@ -650,7 +603,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-why" data-slide="22">
+            <section class="slide fx" id="slide-why" data-slide="21">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">20</span>Открытый вопрос</div>
                     <h2 class="fx-h" data-rv>Работает&nbsp;— видно на практике.<br><mark>Почему&nbsp;— спорят</mark></h2>
@@ -678,7 +631,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-bestofn" data-slide="23">
+            <section class="slide fx" id="slide-bestofn" data-slide="22">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">21</span>Без RL</div>
                     <h2 class="fx-h" data-rv>Сгенерировать N ответов&nbsp;— <mark>выбрать лучший</mark></h2>
@@ -701,7 +654,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-outro" data-slide="24">
+            <section class="slide fx" id="slide-outro" data-slide="23">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">22</span>Итог</div>
                     <h2 class="fx-h" data-rv>Выводы</h2>
@@ -728,10 +681,11 @@
                 </aside>
             </section>
 
-            <section class="slide" data-slide="25" data-chrome="whatnext">
 
+            <section class="slide fx" data-slide="24" data-chrome="whatnext">
                 <div class="timeline-next-container">
-                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="fx-kicker" data-rv="fade">Дальше</div>
+                    <h2 class="fx-h" data-rv>Что далее</h2>
                     <div class="timeline-next-columns" data-cols="1" data-density="normal">
                         <div class="timeline-column">
                             <div class="timeline-next">
@@ -741,7 +695,7 @@
                             </div>
                             <div class="timeline-next-content">
                                 <div class="timeline-next-title">
-                                    <span style="text-decoration: line-through;"><a href="https://bc-120-ai-2-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Обучающие данные</a></span>
+                                    <span style="text-decoration: line-through;">Обучающие данные</span>
                                     <span class="timeline-badge-completed">Пройдено</span>
                                 </div>
                                 <div class="timeline-next-speaker">
@@ -757,7 +711,7 @@
                             </div>
                             <div class="timeline-next-content">
                                 <div class="timeline-next-title">
-                                    <span style="text-decoration: line-through;"><a href="https://bc-120-ai-2-2-nikiforov.pages.dev" target="_blank" rel="noreferrer">Создание модели</a></span>
+                                    <span style="text-decoration: line-through;">Создание модели</span>
                                     <span class="timeline-badge-completed">Пройдено</span>
                                 </div>
                                 <div class="timeline-next-speaker">
@@ -818,10 +772,8 @@
         </span>
     </button>
 
-    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
     <script src="assets/js/deck.js"></script>
-    <!-- Поведение контентных слайдов: появление, счётчики, заметки (N) -->
-    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

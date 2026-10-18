@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Пересборка «хром»-слайдов уже созданного доклада: «Программа вечера»
-// и «Что далее». Нужна, когда программа изменилась — спикера подтвердили,
-// заменили или появились ссылки на соседние доклады.
+// и «Что далее», а у докладов нового стиля ещё и спикер на титуле. Нужна,
+// когда программа изменилась — спикера подтвердили, заменили или появились
+// ссылки на соседние доклады.
 //
 // Контентные слайды спикера не трогаются: правим только секции, помеченные
 // в шаблоне data-chrome (их ставит генератор new-talk.mjs).
@@ -24,7 +25,10 @@ import {
   buildAgenda,
   buildWhatNext,
   dropChromeSlide,
+  renumberSlides,
   replaceTimeline,
+  replaceTitleSpeaker,
+  speakerContact,
   syncChromeStyles,
 } from './new-talk.mjs';
 
@@ -120,8 +124,25 @@ if (!html.includes('data-chrome=')) {
 
 html = replaceTimeline(html, 'agenda', buildAgenda(items, currentIdx));
 html = replaceTimeline(html, 'whatnext', buildWhatNext(items, currentIdx));
-// «Программа вечера» живёт только в первом докладе вечера.
-if (currentIdx > 0) html = dropChromeSlide(html, 'agenda');
+// Автор, книга и «Программа вечера» живут только в первом докладе вечера.
+if (currentIdx > 0) {
+  for (const kind of ['author', 'book', 'agenda']) html = dropChromeSlide(html, kind);
+}
+
+// Спикер на титуле (доклады нового стиля): если тему передали другому
+// человеку, меняем имя, аватар и контакт. Контакт берём из реестра спикеров.
+const current = items[currentIdx].speaker;
+const shown = html.match(/class="title-speaker"[\s\S]*?<b>([^<]*)<\/b>/);
+if (current?.name && shown && shown[1] !== current.name) {
+  const indexPath = join(DATA, 'index.json');
+  const known = existsSync(indexPath)
+    ? (JSON.parse(readFileSync(indexPath, 'utf8')).speakers ?? []).find((s) => s.name === current.name)
+    : null;
+  const contact = known ? speakerContact(known) : { url: '', label: '' };
+  html = replaceTitleSpeaker(html, { name: current.name, avatar: current.avatar ?? known?.avatar, ...contact });
+  console.log(`  Спикер на титуле: ${shown[1]} → ${current.name}`);
+}
+html = renumberSlides(html);
 
 writeFileSync(indexPath, html);
 
@@ -140,5 +161,5 @@ if (existsSync(deckCssPath) && existsSync(templateCssPath)) {
 
 console.log(`\n✓ Пересобраны слайды доклада ${talk}`);
 console.log(`  Тема доклада: ${items[currentIdx].title}`);
-console.log(`  Программа вечера: ${currentIdx === 0 ? 'есть (первый доклад)' : 'убрана (не первый доклад)'}`);
+console.log(`  Автор, книга и программа вечера: ${currentIdx === 0 ? 'есть (первый доклад)' : 'убраны (не первый доклад)'}`);
 console.log(`  Тем в программе: ${items.length}`);

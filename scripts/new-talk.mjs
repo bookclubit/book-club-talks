@@ -29,6 +29,8 @@ import { dirname, resolve, join, basename } from 'node:path';
 import { createInterface } from 'node:readline/promises';
 import { stdin, stdout, env } from 'node:process';
 
+import { themeCss } from './book-themes.mjs';
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const TEMPLATE = join(ROOT, '_template');
 
@@ -82,13 +84,20 @@ function urlLabel(url) {
 
 // ---------- «хром»-слайды ----------
 // Слайды, которые собирает генератор, помечены в шаблоне data-chrome
-// («agenda», «whatnext»): по этой метке их находит и пересборка
-// (scripts/rebuild-talk.mjs), не трогая контентные слайды спикера.
+// («title», «author», «book», «agenda», «whatnext»): по этой метке их находит
+// и пересборка (scripts/rebuild-talk.mjs), не трогая контентные слайды спикера.
+// Класс у секции бывает и просто «slide» (старые доклады), и «slide fx …».
 export function chromeSlideRe(kind) {
   return new RegExp(
-    `[ \\t]*<section class="slide"[^>]*data-chrome="${kind}"[\\s\\S]*?</section>\\s*`,
+    `[ \\t]*<section class="slide[^"]*"[^>]*data-chrome="${kind}"[\\s\\S]*?</section>\\s*`,
     '',
   );
+}
+
+/** Сквозная нумерация data-slide: после выброшенных слайдов номера не прыгают. */
+export function renumberSlides(html) {
+  let n = 0;
+  return html.replace(/(<section class="slide[^"]*"[^>]*?)data-slide="\d+"/g, (_, head) => `${head}data-slide="${++n}"`);
 }
 
 /** Убирает «хром»-слайд целиком (например, программу вечера у второго доклада). */
@@ -396,49 +405,185 @@ function loadChapters(DATA, folder, entries) {
     .sort((a, b) => a.order - b.order);
 }
 
-// Карточка автора: если у автора есть ссылка (meta.authors[].url) — кликабельна.
-function authorCard(a) {
-  const label = urlLabel(a.url);
-  const img = a.avatar
-    ? `<img class="author-avatar" src="assets/authors/${esc(basename(a.avatar))}" alt="${esc(a.name)}">`
-    : '';
-  const inner = `${img}
-                                    <div class="author-info">
-                                        <div class="author-name">${esc(a.name)}</div>
-                                        <div class="author-link-text">${esc(label)}</div>
-                                    </div>`;
-  return a.url
-    ? `<a class="author-card" href="${esc(a.url)}" target="_blank">
-                                    ${inner}
-                                </a>`
-    : `<div class="author-card">
-                                    ${inner}
-                                </div>`;
-}
-
-function speakerCard(s) {
-  const label = urlLabel(s.url);
-  const img = s.avatar
-    ? `<img class="author-avatar" src="assets/speakers/${esc(basename(s.avatar))}" alt="${esc(s.name)}">`
-    : '';
-  const inner = `${img}
-                                <div class="author-info">
-                                    <div class="author-name">${esc(s.name)}</div>
-                                    <div class="author-link-text">${esc(label)}</div>
-                                </div>`;
-  return s.url
-    ? `<a class="author-card" href="${esc(s.url)}" target="_blank">
-                                ${inner}
-                            </a>`
-    : `<div class="author-card">
-                                ${inner}
-                            </div>`;
-}
-
-// url спикера — из его соцсетей (github → website → telegram).
-function speakerUrl(s) {
+// ---------- спикер, автор, книга ----------
+// Контакт спикера для титула: в клубе все на связи в Telegram, поэтому он
+// первый (и подписью «@ник»), дальше GitHub и сайт. В данных Telegram бывает
+// и ссылкой, и «@ником» — приводим к одному виду.
+export function speakerContact(s) {
   const soc = s.socials ?? {};
-  return soc.github || soc.website || soc.telegram || '';
+  const tg = String(soc.telegram ?? '').trim();
+  if (tg) {
+    const handle = tg.replace(/^https?:\/\/(t\.me|telegram\.me)\//i, '').replace(/^@/, '').replace(/\/+$/, '');
+    if (handle) return { url: `https://t.me/${handle}`, label: `@${handle}` };
+  }
+  const url = soc.github || soc.website || '';
+  return { url, label: url ? url.replace(/^https?:\/\//, '').replace(/\/$/, '') : '' };
+}
+
+/** Блок спикера на титуле: аватар, имя и контакт — кто читает этот доклад. */
+export function titleSpeaker(view) {
+  const img = view.avatar ? `<img src="assets/speakers/${esc(basename(view.avatar))}" alt="">` : '';
+  const inner = `${img}
+                            <span><em>Доклад читает</em><b>${esc(view.name)}</b>${view.label ? `<i>${esc(view.label)}</i>` : ''}</span>`;
+  return view.url
+    ? `<a class="title-speaker" data-rv="left" href="${esc(view.url)}" target="_blank" rel="noopener">
+                            ${inner}
+                        </a>`
+    : `<div class="title-speaker" data-rv="left">
+                            ${inner}
+                        </div>`;
+}
+
+/** Заменить блок спикера на титуле (пересборка, когда спикера сменили). */
+export function replaceTitleSpeaker(html, view) {
+  return html.replace(/<(a|div) class="title-speaker"[\s\S]*?<\/\1>/, () => titleSpeaker(view));
+}
+
+/** Книга на титуле: обложка, название и авторы — по какой книге доклад. */
+function titleBook(meta, coverFile) {
+  const authors = (meta.authors ?? []).map((a) => a.name).join(', ');
+  const img = coverFile ? `<img src="assets/cover/${esc(coverFile)}" alt="">` : '';
+  const inner = `<span><em>Книга</em><b>${esc(meta.title)}</b>${authors ? `<span>${esc(authors)}</span>` : ''}</span>
+                            ${img}`;
+  return meta.url
+    ? `<a class="title-book" data-rv="right" href="${esc(meta.url)}" target="_blank" rel="noopener">
+                            ${inner}
+                        </a>`
+    : `<div class="title-book" data-rv="right">
+                            ${inner}
+                        </div>`;
+}
+
+// Ключ автора — одно правило на три репозитория: id, иначе имя файла
+// аватарки, иначе имя.
+const authorKey = (a) => a.id || (a.avatar ? basename(a.avatar) : '') || a.name;
+
+const authorNotes = (many) => `
+                <aside class="notes">
+                    <p><em>Текст</em> Слайд собран генератором из book-club-data. Допишите два-три факта ${many ? 'об авторах: чем они известны и почему им' : 'об авторе: чем он известен и почему ему'} стоит доверять.</p>
+                </aside>`;
+
+/**
+ * Слайд «Кто написал книгу». Один автор — крупное фото, сайт и все его книги,
+ * которые читал клуб (из реестра index.json); несколько — карточки в ряд.
+ * Биографии в данных нет: что рассказать об авторе, спикер дописывает сам,
+ * подсказка лежит в заметках.
+ */
+export function buildAuthorSlide(meta, index, folder) {
+  const authors = meta.authors ?? [];
+  if (authors.length === 0) return '';
+
+  if (authors.length === 1) {
+    const a = authors[0];
+    const rec = (index.authors ?? []).find((x) => authorKey(x) === authorKey(a));
+    const books = (rec?.books ?? [folder])
+      .map((f) => (index.books ?? []).find((b) => b.folder === f))
+      .filter(Boolean);
+    const photo = a.avatar
+      ? `<div class="au-photo" data-rv="pop"><img src="assets/authors/${esc(basename(a.avatar))}" alt="${esc(a.name)}"></div>`
+      : '';
+    const site = a.url
+      ? `
+                                <div class="au-row" data-rv><span class="k">Сайт</span><div><p><a class="lnk" href="${esc(a.url)}" target="_blank" rel="noopener">${esc(urlLabel(a.url))}</a></p></div></div>`
+      : '';
+    const list = books
+      .map((b) => `<li${b.folder === folder ? ' class="is-now"' : ''}>${esc(b.title)}</li>`)
+      .join('');
+    return `<section class="slide fx" id="slide-author" data-slide="2" data-chrome="author">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
+                    <div class="fx-body">
+                        <div class="au">
+                            <div class="au-id">
+                                ${photo}
+                                <h2 class="au-name" data-rv="left">${esc(a.name)}</h2>
+                            </div>
+                            <div class="au-rows">${site}
+                                <div class="au-row" data-rv><span class="k">${books.length > 1 ? 'Книги в клубе' : 'В клубе'}</span><div><ul class="au-books">${list}</ul></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>${authorNotes(false)}
+            </section>`;
+  }
+
+  const cards = authors
+    .map((a) => {
+      const img = a.avatar ? `<img src="assets/authors/${esc(basename(a.avatar))}" alt="">` : '';
+      return a.url
+        ? `<a class="au-card" data-rv="pop" href="${esc(a.url)}" target="_blank" rel="noopener">${img}<b>${esc(a.name)}</b><span>${esc(urlLabel(a.url))}</span></a>`
+        : `<div class="au-card" data-rv="pop">${img}<b>${esc(a.name)}</b></div>`;
+    })
+    .join('\n                            ');
+  const many = authors.length;
+  const heading = many === 2 ? 'Два автора' : many === 3 ? 'Три автора' : many === 4 ? 'Четыре автора' : `Авторов: ${many}`;
+  return `<section class="slide fx" id="slide-author" data-slide="2" data-chrome="author">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
+                    <h2 class="fx-h" data-rv>${heading}</h2>
+                    <div class="fx-body">
+                        <div class="au-grid" style="--n:${Math.min(many, 4)}">
+                            ${cards}
+                        </div>
+                    </div>
+                </div>${authorNotes(true)}
+            </section>`;
+}
+
+/**
+ * Слайд «Что это за книга»: обложка, название, оригинал и издание, описание,
+ * сколько глав и тем, полоса глав с сегодняшней главой.
+ */
+export function buildBookSlide(meta, bookEntry, chapter, coverFile) {
+  const total = Number(meta.total_chapters) || (bookEntry.chapters ?? []).length || Number(chapter.order);
+  const titles = new Map((bookEntry.chapters ?? []).map((c) => [Number(c.order), c.title]));
+  const cells = Array.from({ length: total }, (_, i) => {
+    const n = i + 1;
+    const t = titles.get(n);
+    return `<span class="chap${n === Number(chapter.order) ? ' is-now' : ''}"${t ? ` title="${esc(t)}"` : ''}>${n}</span>`;
+  }).join('');
+  const sub = [meta.title_original, Number(meta.edition) > 1 ? `${meta.edition}-е издание` : '']
+    .filter(Boolean)
+    .map(esc)
+    .join(' · ');
+  const img = `<img src="assets/cover/${esc(coverFile)}" alt="Обложка книги ${esc(meta.title)}">`;
+  const cover = coverFile
+    ? `<div class="bk2-cover" data-rv="left">${meta.url ? `<a href="${esc(meta.url)}" target="_blank" rel="noopener">${img}</a>` : img}</div>`
+    : '<div></div>';
+  const topics = (chapter.topics ?? []).length;
+  const stats = [
+    `<div class="stat"><b data-count="${total}">${total}</b><span>глав в книге</span></div>`,
+    topics ? `<div class="stat"><b data-count="${topics}">${topics}</b><span>тем в главе ${esc(chapter.order)}</span></div>` : '',
+  ]
+    .filter(Boolean)
+    .join('\n                                    ');
+  return `<section class="slide fx" id="slide-book" data-slide="3" data-chrome="book">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Что это за книга</div>
+                    <div class="fx-body">
+                        <div class="bk2">
+                            ${cover}
+                            <div>
+                                <div data-rv>
+                                    <div class="bk2-title">${esc(meta.title)}</div>
+                                    ${sub ? `<p class="bk2-meta">${sub}</p>` : ''}
+                                    ${meta.description ? `<p class="bk2-desc">${esc(meta.description)}</p>` : ''}
+                                </div>
+                                <div class="stats" data-rv>
+                                    ${stats}
+                                </div>
+                                <div data-rv>
+                                    <div class="chaps" style="--chaps:${Math.min(total, 12)}">${cells}</div>
+                                    <p class="chaps-cap"><b>Глава ${esc(chapter.order)}</b> · ${esc(chapter.title ?? '')} — сегодня</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Слайд собран генератором из book-club-data. Расскажите, почему клуб читает эту книгу и о чём глава, которую разбираем сегодня.</p>
+                </aside>
+            </section>`;
 }
 
 // ---------- интерактивный выбор ----------
@@ -580,7 +725,9 @@ async function main() {
   mkdirSync(join(target, 'assets', 'authors'), { recursive: true });
   mkdirSync(join(target, 'assets', 'speakers'), { recursive: true });
   if (meta.cover) copyAsset(meta.cover, 'cover', `обложка книги ${bookEntry.folder} (meta.json → "cover")`);
-  for (const a of meta.authors ?? []) {
+  // Фото авторов нужны только слайду «Кто написал книгу» — он есть лишь
+  // в первом докладе вечера.
+  for (const a of program.currentIdx === 0 ? meta.authors ?? [] : []) {
     if (a.avatar) copyAsset(a.avatar, 'authors', `аватар автора «${a.name}» (meta.json → authors[].avatar)`);
   }
   if (speaker.avatar) copyAsset(speaker.avatar, 'speakers', `аватар спикера «${speaker.name}» (index.json → speakers[].avatar)`);
@@ -594,41 +741,45 @@ async function main() {
 
   // 3. подстановки
   const subtitle = meta.title_original ?? '';
-  const bookUrl = meta.url ?? '';
   const coverFile = meta.cover ? basename(meta.cover) : '';
   const ogTitle = `${topicTitle} — ${meta.title}`;
   const ogImage = coverFile ? `${domain}/assets/cover/${coverFile}` : '';
+  const first = program.currentIdx === 0;
 
   const scalars = {
     TALK_TITLE: esc(topicTitle),
     BOOK_TITLE: esc(meta.title),
-    BOOK_SUBTITLE: esc(subtitle),
-    BOOK_DESC: esc(meta.description ?? ''),
-    BOOK_URL: esc(bookUrl),
-    BOOK_COVER_FILE: esc(coverFile),
     CHAPTER_LABEL: `Глава ${esc(chapter.order)}`,
     CHAPTER_TITLE: esc(chapter.title ?? ''),
-    AUTHORS_BADGE: (meta.authors ?? []).length > 1 ? 'Авторы' : 'Автор',
+    STREAM: esc(stream),
+    // Подпись внизу каждого слайда (её выводит deck.js).
+    HUD_LABEL: esc(`${meta.title} · Глава ${chapter.order} · ${topicTitle}`),
     OG_TITLE: esc(ogTitle),
     OG_DESCRIPTION: esc(subtitle || meta.description || ''),
     OG_IMAGE: esc(ogImage),
   };
 
-  const speakerView = { name: speaker.name, avatar: speaker.avatar, url: speakerUrl(speaker) };
+  const contact = speakerContact(speaker);
+  const speakerView = { name: speaker.name, avatar: speaker.avatar, url: contact.url, label: contact.label };
 
   let html = readFileSync(join(target, 'index.html'), 'utf8');
   for (const [k, v] of Object.entries(scalars)) html = html.split(`{{${k}}}`).join(v);
-  html = html.replace('<!--AUTHOR_CARDS-->', (meta.authors ?? []).map(authorCard).join('\n                                '));
-  html = html.replace('<!--SPEAKER_CARD-->', speakerCard(speakerView));
+  html = html.replace('<!--SPEAKER_CARD-->', titleSpeaker(speakerView));
+  html = html.replace('<!--TITLE_BOOK-->', titleBook(meta, coverFile));
+  // Автор, книга и программа вечера — только в первом докладе вечера: в
+  // остальных о книге уже рассказали, а ход вечера показывает «Что далее».
+  html = html.replace('<!--AUTHOR_SLIDE-->', first ? buildAuthorSlide(meta, index, bookEntry.folder) : '');
+  html = html.replace('<!--BOOK_SLIDE-->', first ? buildBookSlide(meta, bookEntry, chapter, coverFile) : '');
   html = html.replace('<!--AGENDA_ITEMS-->', buildAgenda(program.items, program.currentIdx));
   html = html.replace('<!--WHATNEXT_ITEMS-->', buildWhatNext(program.items, program.currentIdx));
+  if (!first) html = dropChromeSlide(html, 'agenda');
+  html = renumberSlides(html);
 
-  // «Программа вечера» — только в первом докладе вечера: дальше её повторять
-  // незачем, ход вечера показывает слайд «Что далее».
-  if (program.currentIdx > 0) html = dropChromeSlide(html, 'agenda');
-
-  const leftover = html.match(/\{\{[A-Z_]+\}\}|<!--(?:AUTHOR_CARDS|SPEAKER_CARD|AGENDA_ITEMS|WHATNEXT_ITEMS)-->/g);
+  const leftover = html.match(/\{\{[A-Z_]+\}\}|<!--(?:SPEAKER_CARD|TITLE_BOOK|AUTHOR_SLIDE|BOOK_SLIDE|AGENDA_ITEMS|WHATNEXT_ITEMS)-->/g);
   if (leftover) fail(`Остались незаполненные маркеры: ${[...new Set(leftover)].join(', ')}`);
+
+  // Цвет книги — свой у каждой книги клуба (scripts/book-themes.mjs).
+  writeFileSync(join(target, 'assets', 'css', 'theme.css'), themeCss(bookEntry.folder, meta.title));
 
   writeFileSync(join(target, 'index.html'), html);
 

@@ -97,7 +97,7 @@ for (const dir of talkDirs) {
   const html = readFileSync(indexPath, 'utf8');
 
   // 4. незаполненные маркеры
-  const markers = html.match(/\{\{[A-Z_]+\}\}|<!--(?:AUTHOR_CARDS|SPEAKER_CARD|AGENDA_ITEMS|WHATNEXT_ITEMS)-->/g);
+  const markers = html.match(/\{\{[A-Z_]+\}\}|<!--(?:AUTHOR_CARDS|SPEAKER_CARD|TITLE_BOOK|AUTHOR_SLIDE|BOOK_SLIDE|AGENDA_ITEMS|WHATNEXT_ITEMS)-->/g);
   if (markers) problems.push(`${dir}: незаполненные маркеры шаблона: ${[...new Set(markers)].join(', ')}`);
 
   // 2. внешние загрузки ресурсов: src (script/img/iframe/…), <link href>, srcset, url()

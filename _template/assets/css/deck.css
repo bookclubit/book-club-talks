@@ -2684,6 +2684,46 @@ a.title-speaker:hover b { color: var(--fx); }
 .title-book b { display: block; max-width: 460px; font-size: 22px; font-weight: 600; line-height: 1.3; color: var(--text-soft); }
 .title-book span { display: block; max-width: 460px; margin-top: 6px; font-size: 18px; line-height: 1.35; color: var(--text-dim); }
 
+/* ===== Открытие стрима (первый слайд первого доклада вечера) =====
+   Тот же каркас, что у титула, плюс крупный контурный номер стрима справа
+   и ссылки клуба внизу слева. */
+.open-num {
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-58%);
+    font-size: 380px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    font-variant-numeric: tabular-nums;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(var(--fx-rgb), 0.45);
+    pointer-events: none;
+    user-select: none;
+}
+.slide.active .open-num { animation: fxFade 1.4s ease 0.2s backwards; }
+.is-opening .title-h { max-width: 960px; font-size: 96px; }
+.open-sub {
+    margin-top: 26px !important;
+    font-size: 30px;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+.open-sub b { color: var(--text-main); font-weight: 600; }
+.open-links em {
+    display: block;
+    margin-bottom: 12px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fx);
+}
+.open-links .chips { gap: 10px; }
+.open-links .chip { padding: 9px 18px; font-size: 19px; }
+
 /* ===== Авторы (несколько) — карточки в ряд ===== */
 .au-grid { display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); gap: 48px; align-items: start; }
 .au-card { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; color: inherit; text-decoration: none; }

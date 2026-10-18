@@ -455,6 +455,87 @@ function titleBook(meta, coverFile) {
                         </div>`;
 }
 
+// ---------- открытие стрима ----------
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+const TZ_SHORT = { 'Europe/Moscow': 'МСК' };
+
+/** «23 октября 2026 · 18:00 МСК» из полей встречи; без даты — пусто. */
+export function eventWhen(event) {
+  const m = String(event?.date ?? '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return '';
+  const day = `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}`;
+  const time = event.time ? ` · ${event.time}${TZ_SHORT[event.timezone] ? ` ${TZ_SHORT[event.timezone]}` : ''}` : '';
+  return day + time;
+}
+
+/** «1 доклад», «4 доклада», «5 докладов». */
+export function talksWord(n) {
+  const d10 = n % 10;
+  const d100 = n % 100;
+  if (d10 === 1 && d100 !== 11) return `${n} доклад`;
+  if (d10 >= 2 && d10 <= 4 && (d100 < 12 || d100 > 14)) return `${n} доклада`;
+  return `${n} докладов`;
+}
+
+/**
+ * Встреча этого стрима в book-club-data (events/<путь> из реестра): из неё
+ * слайд открытия берёт дату, время и название вечера. Не нашлась — слайд
+ * соберётся без даты, генерация не падает.
+ */
+export function findEvent(DATA, index, stream) {
+  for (const rel of index.events ?? []) {
+    const p = join(DATA, 'events', String(rel));
+    if (!existsSync(p)) continue;
+    try {
+      const e = readJSON(p);
+      if (String(e.stream ?? '') === String(stream)) return e;
+    } catch {
+      // битый файл встречи не должен ронять генерацию доклада
+    }
+  }
+  return null;
+}
+
+const CLUB_LINKS = [
+  ['telegram', 'Telegram'],
+  ['youtube', 'YouTube'],
+  ['vk', 'VK Видео'],
+  ['boosty', 'Boosty'],
+];
+
+/**
+ * Слайд «Открытие стрима» — первый в первом докладе вечера: клуб, номер
+ * стрима, дата, о чём вечер (книга, глава, сколько докладов) и ссылки клуба
+ * из settings.json — их видят и те, кто смотрит запись.
+ */
+export function buildOpeningSlide({ meta, chapter, event, stream, coverFile, talks, socials }) {
+  const when = eventWhen(event);
+  const title = String(event?.title ?? '').trim() || chapter.title || meta.title;
+  const links = CLUB_LINKS.filter(([k]) => socials?.[k])
+    .map(([k, label]) => `<a class="chip" href="${esc(socials[k])}" target="_blank" rel="noopener">${label}</a>`)
+    .join('');
+  const linksBlock = links
+    ? `<div class="open-links" data-rv="left"><em>Клуб</em><div class="chips">${links}</div></div>`
+    : '<div></div>';
+  return `<section class="slide fx is-title is-opening" id="slide-opening" data-slide="1" data-chrome="opening">
+                <div class="fx-wrap">
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>${esc(when)}</span></div>
+                    <div class="open-num" aria-hidden="true">${esc(stream)}</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Стрим ${esc(stream)}</span>Добро пожаловать</div>
+                    <h1 class="title-h" data-rv>${esc(title)}</h1>
+                    <p class="open-sub" data-rv><b>${esc(meta.title)}</b> · Глава ${esc(chapter.order)} · ${talksWord(talks)}</p>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        ${linksBlock}
+                        ${titleBook(meta, coverFile)}
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Открытие стрима: поздоровайтесь, назовите книгу и главу вечера, скажите, сколько будет докладов, и напомните про Telegram-канал клуба. Дальше — пара слов об авторе и книге, потом программа.</p>
+                </aside>
+            </section>`;
+}
+
 // Ключ автора — одно правило на три репозитория: id, иначе имя файла
 // аватарки, иначе имя.
 const authorKey = (a) => a.id || (a.avatar ? basename(a.avatar) : '') || a.name;
@@ -767,8 +848,28 @@ async function main() {
   for (const [k, v] of Object.entries(scalars)) html = html.split(`{{${k}}}`).join(v);
   html = html.replace('<!--SPEAKER_CARD-->', titleSpeaker(speakerView));
   html = html.replace('<!--TITLE_BOOK-->', titleBook(meta, coverFile));
-  // Автор, книга и программа вечера — только в первом докладе вечера: в
-  // остальных о книге уже рассказали, а ход вечера показывает «Что далее».
+  // Открытие стрима, автор, книга и программа вечера — только в первом
+  // докладе вечера: в остальных о книге уже рассказали, а ход вечера
+  // показывает «Что далее». У первого доклада номер стрима и клуб уже на
+  // слайде открытия, поэтому с титула доклада эта строка уходит.
+  const settingsPath = join(DATA, 'settings.json');
+  const socials = existsSync(settingsPath) ? readJSON(settingsPath).socials ?? {} : {};
+  // Строку убираем до вставки открытия: у него своя такая же.
+  if (first) html = html.replace(/[ \t]*<div class="title-meta"[^\n]*\n/, '');
+  html = html.replace(
+    '<!--OPENING_SLIDE-->',
+    first
+      ? buildOpeningSlide({
+          meta,
+          chapter,
+          event: findEvent(DATA, index, stream),
+          stream,
+          coverFile,
+          talks: program.items.length,
+          socials,
+        })
+      : '',
+  );
   html = html.replace('<!--AUTHOR_SLIDE-->', first ? buildAuthorSlide(meta, index, bookEntry.folder) : '');
   html = html.replace('<!--BOOK_SLIDE-->', first ? buildBookSlide(meta, bookEntry, chapter, coverFile) : '');
   html = html.replace('<!--AGENDA_ITEMS-->', buildAgenda(program.items, program.currentIdx));
@@ -776,7 +877,7 @@ async function main() {
   if (!first) html = dropChromeSlide(html, 'agenda');
   html = renumberSlides(html);
 
-  const leftover = html.match(/\{\{[A-Z_]+\}\}|<!--(?:SPEAKER_CARD|TITLE_BOOK|AUTHOR_SLIDE|BOOK_SLIDE|AGENDA_ITEMS|WHATNEXT_ITEMS)-->/g);
+  const leftover = html.match(/\{\{[A-Z_]+\}\}|<!--(?:SPEAKER_CARD|TITLE_BOOK|OPENING_SLIDE|AUTHOR_SLIDE|BOOK_SLIDE|AGENDA_ITEMS|WHATNEXT_ITEMS)-->/g);
   if (leftover) fail(`Остались незаполненные маркеры: ${[...new Set(leftover)].join(', ')}`);
 
   // Цвет книги — свой у каждой книги клуба (scripts/book-themes.mjs).

@@ -26,91 +26,121 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
-    <!-- Оформление контентных слайдов этого доклада -->
-    <link rel="stylesheet" href="assets/css/talk.css">
+    <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
+    <link rel="stylesheet" href="assets/css/theme.css">
 
 </head>
-<body>
+<body data-hud="AI-инженерия · Глава 2 · Обучающие данные">
     <div class="progress" id="progressBar" style="width: 0%"></div>
 
     <div class="deck-viewport">
         <main class="deck-stage" id="deckStage">
-            
-            <!-- SLIDE 1 (Copy of Slide 1) -->
-            <section class="slide" data-slide="1">
-                <div class="layout-center">
-                    <div class="title-tags">
-                        <span class="badge">Глава 2</span>
-                        <span class="title-tail">
-                            <span class="title-x" aria-hidden="true">×</span>
-                            <span class="badge">Знакомство с базовыми моделями</span>
-                        </span>
+
+            <!-- Титул: глава, тема, кто читает доклад и по какой книге -->
+            <section class="slide fx is-title" data-slide="1" data-chrome="title">
+                <div class="fx-wrap">
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>Стрим <b>120</b></span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Глава 2</span>Знакомство с базовыми моделями</div>
+                    <h1 class="title-h" data-rv>Обучающие данные</h1>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <a class="title-speaker" data-rv="left" href="https://t.me/kunjutone" target="_blank" rel="noopener">
+                            <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                            <span><em>Доклад читает</em><b>Антон Помазков</b><i>@kunjutone</i></span>
+                        </a>
+                        <a class="title-book" data-rv="right" href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>AI-инженерия</b><span>Чип Хьюен</span></span>
+                            <img src="assets/cover/ai-engineering.webp" alt="">
+                        </a>
                     </div>
-                    <h1 class="gradient-text">Обучающие данные</h1>
                 </div>
             </section>
 
-            <!-- SLIDE 2 (Copy of Slide 2) -->
-            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
-            <section class="slide" data-slide="2">
-
-                <div class="about-book-slide">
-                    <!-- Book block -->
-                    <div class="book-container">
-                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
-                        <div class="book-row">
-                            <div class="book-cover-container">
-                                <a href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank">
-                                    <img class="book-cover" src="assets/cover/ai-engineering.webp" alt="AI-инженерия">
-                                </a>
-                            </div>
-                            <div class="book-text-info">
-                                <a class="book-link" href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank">
-                                    AI-инженерия
-                                </a>
-                                <p class="book-subtitle">
-                                    AI Engineering
-                                </p>
-                                <p class="book-desc-ru">
-                                    Это практическое руководство по созданию приложений на основе готовых фундаментальных моделей (foundation models). В книге объясняется, чем AI-инжиниринг отличается от традиционного ML-инжиниринга, и предлагается пошаговый фреймворк для разработки AI-продуктов — от простых методов (промпт-инжиниринг) до более сложных (RAG, дообучение, AI-агенты). Особое внимание уделяется вопросам оценки моделей (включая подход «AI-as-a-judge»), а также оптимизации задержек и стоимости при развертывании
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- People block in two columns -->
-                    <div class="people-section">
-                        <div class="authors-column">
-                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Автор</div>
-                            <div class="authors-grid">
-                                <a class="author-card" href="https://huyenchip.com/" target="_blank">
-                                    <img class="author-avatar" src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
-                                    <div class="author-info">
-                                        <div class="author-name">Чип Хьюен</div>
-                                        <div class="author-link-text">huyenchip.com ↗</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="speaker-column">
-                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
-                            <a class="author-card" href="https://t.me/kunjutone" target="_blank">
-                                <img class="author-avatar" src="assets/speakers/pomazkov-anton.webp" alt="Антон Помазков">
-                                <div class="author-info">
-                                    <div class="author-name">Антон Помазков</div>
-                                    <div class="author-link-text">t.me/kunjutone ↗</div>
+            <!-- Автор и книга — только в первом докладе вечера -->
+            <section class="slide fx" id="slide-author" data-slide="2" data-chrome="author">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
+                    <div class="fx-body">
+                        <div class="au">
+                            <div class="au-id">
+                                <div class="au-photo" data-rv="pop"><img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен"></div>
+                                <h2 class="au-name" data-rv="left">Чип Хьюен</h2>
+                                <div class="au-en" data-rv="left">Chip Huyen</div>
+                                <p class="au-role" data-rv="left">Писательница и инженер, около десяти лет занимается системами машинного обучения</p>
+                                <div class="au-links" data-rv="left">
+                                    <a class="lnk" href="https://huyenchip.com" target="_blank" rel="noopener">huyenchip.com ↗</a>
+                                    <a class="lnk" href="https://x.com/chipro" target="_blank" rel="noopener">x.com/chipro ↗</a>
                                 </div>
-                            </a>
+                            </div>
+                            <div class="au-rows">
+                                <div class="au-row" data-rv><span class="k">Работа</span><div>
+                                    <p><b>NVIDIA</b>&nbsp;— инструменты для ML, одна из ключевых разработчиц NeMo. А ещё Snorkel AI и Netflix.</p>
+                                    <p>Основала стартап по AI-инфраструктуре и продала его.</p>
+                                </div></div>
+                                <div class="au-row" data-rv><span class="k">Стэнфорд</span><div>
+                                    <p>Окончила университет и вела там курс по системам машинного обучения&nbsp;— из него выросла первая книга.</p>
+                                </div></div>
+                                <div class="au-row" data-rv><span class="k">Книги</span><div>
+                                    <p><b>Designing Machine Learning Systems</b> (2022)&nbsp;— бестселлер, переведена на 10+ языков.</p>
+                                    <p><b>AI Engineering</b> (2025)&nbsp;— самая читаемая книга O’Reilly за 2025 год.</p>
+                                    <p>И четыре бестселлера на вьетнамском&nbsp;— о людях, встреченных в путешествиях.</p>
+                                </div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Книгу написала Чип Хьюен — инженер и писательница, которая около десяти лет занимается языковыми моделями и системами машинного обучения. Она окончила Стэнфорд и вела там курс по ML-системам. Из этого курса выросла её первая техническая книга — «Designing Machine Learning Systems»: она стала бестселлером и переведена больше чем на десять языков, в том числе на русский.</p>
+                    <p>Работала в NVIDIA — делала инструменты для машинного обучения и была одной из ключевых разработчиц фреймворка NeMo, — а ещё в Snorkel AI и Netflix. Потом основала свой стартап по AI-инфраструктуре и продала его.</p>
+                    <p>Любопытная деталь: задолго до технических книг она написала четыре книги на вьетнамском — истории о людях, которых встретила, путешествуя по миру. Все четыре стали бестселлерами. «AI-инженерия» вышла в 2025 году, и, по словам автора, это самая читаемая книга на платформе O’Reilly за 2025 год.</p>
+                    <p><em>Переход</em> Теперь — что это за книга.</p>
+                    <p><em>Источники</em> <a href="https://huyenchip.com/" target="_blank" rel="noopener">huyenchip.com — о себе</a>; раздел «Об авторе» в русском издании, с. 557.</p>
+                </aside>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
-            <section class="slide" data-slide="3" data-chrome="agenda">
+            
 
+<section class="slide fx" id="slide-book" data-slide="3" data-chrome="book">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Что это за книга</div>
+                    <div class="fx-body">
+                        <div class="bk2">
+                            <div class="bk2-cover" data-rv="left"><img src="assets/cover/ai-engineering.webp" alt="Обложка книги AI Engineering"></div>
+                            <div>
+                                <div data-rv>
+                                    <div class="bk2-title">AI-инженерия</div>
+                                    <p class="bk2-sub">Построение приложений с использованием базовых моделей</p>
+                                    <p class="bk2-meta">O’Reilly, 2025 · на русском&nbsp;— «Спринт Бук», 2025</p>
+                                </div>
+                                <div class="stats" data-rv>
+                                    <div class="stat"><b data-count="560">560</b><span>страниц</span></div>
+                                    <div class="stat"><b data-count="10">10</b><span>глав</span></div>
+                                    <div class="stat"><b data-count="975">975</b><span>ссылок на источники</span></div>
+                                    <div class="stat"><b data-count="100" data-suffix="+">100+</b><span>бесед и интервью</span></div>
+                                </div>
+                                <div data-rv>
+                                    <div class="chaps"><span class="chap">1</span><span class="chap is-now">2</span><span class="chap">3</span><span class="chap">4</span><span class="chap">5</span><span class="chap">6</span><span class="chap">7</span><span class="chap">8</span><span class="chap">9</span><span class="chap">10</span></div>
+                                    <p class="chaps-cap"><b>Глава 2</b> · Знакомство с базовыми моделями&nbsp;— сегодня</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Сама книга — о том, как строить приложения на готовых базовых моделях: промпты, RAG и агенты, дообучение, оценка качества, оптимизация скорости и стоимости. На русском её выпустило издательство «Спринт Бук»: 560 страниц, 10 глав. Автор писала её два года и опиралась больше чем на сто бесед с исследователями OpenAI, Google, Anthropic, с разработчиками фреймворков и командами, которые внедряют AI. В книге 975 ссылок на источники — её удобно использовать как карту всей области.</p>
+                    <p>Главный принцип книги — основы, а не инструменты: инструменты быстро устаревают, а основы живут долго.</p>
+                    <p>Мы во второй главе. Она объясняет, откуда берутся модели: на каких данных их учат, как выбирают архитектуру и размер, как подстраивают под людей и как модель выбирает ответ. Автор честно предупреждает: эта глава не научит обучать свой ChatGPT, но поможет понять, почему модели ведут себя так, а не иначе, и выбрать подходящую.</p>
+                    <p><em>Переход</em> Начнём с главного.</p>
+                    <p><em>Источники</em> Выходные данные и эпилог русского издания (с. 4, 556); предисловие, с. 13–15.</p>
+                </aside>
+            </section>
+
+            
+
+<section class="slide fx" data-slide="4" data-chrome="agenda">
                 <div class="timeline-next-container">
-                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Программа вечера</h2>
+                    <div class="fx-kicker" data-rv="fade">Стрим 120</div>
+                    <h2 class="fx-h" data-rv>Программа вечера</h2>
                     <div class="timeline-next-columns" data-cols="1" data-density="normal">
                         <div class="timeline-column">
                             <div class="timeline-next">
@@ -162,87 +192,12 @@
                     </div>
                 </div>
             </section>
+
             <!-- ===== Контентные слайды доклада ===== -->
 
-            <section class="slide fx" id="slide-author" data-slide="4">
+<section class="slide fx is-hero" id="slide-idea" data-slide="5">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Кто написал книгу</div>
-                    <div class="fx-body">
-                        <div class="au">
-                            <div class="au-id">
-                                <div class="au-photo" data-rv="pop"><span class="au-ring"></span><span class="au-ring r2"></span><img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен"></div>
-                                <h2 class="au-name" data-rv="left">Чип Хьюен</h2>
-                                <div class="au-en" data-rv="left">Chip Huyen</div>
-                                <p class="au-role" data-rv="left">Писательница и инженер, около десяти лет занимается системами машинного обучения</p>
-                                <div class="au-links" data-rv="left">
-                                    <a class="lnk" href="https://huyenchip.com" target="_blank" rel="noopener">huyenchip.com ↗</a>
-                                    <a class="lnk" href="https://x.com/chipro" target="_blank" rel="noopener">x.com/chipro ↗</a>
-                                </div>
-                            </div>
-                            <div class="au-rows">
-                                <div class="au-row" data-rv><span class="k">Работа</span><div>
-                                    <p><b>NVIDIA</b>&nbsp;— инструменты для ML, одна из ключевых разработчиц NeMo. А ещё Snorkel AI и Netflix.</p>
-                                    <p>Основала стартап по AI-инфраструктуре и продала его.</p>
-                                </div></div>
-                                <div class="au-row" data-rv><span class="k">Стэнфорд</span><div>
-                                    <p>Окончила университет и вела там курс по системам машинного обучения&nbsp;— из него выросла первая книга.</p>
-                                </div></div>
-                                <div class="au-row" data-rv><span class="k">Книги</span><div>
-                                    <p><b>Designing Machine Learning Systems</b> (2022)&nbsp;— бестселлер, переведена на 10+ языков.</p>
-                                    <p><b>AI Engineering</b> (2025)&nbsp;— самая читаемая книга O’Reilly за 2025 год.</p>
-                                    <p>И четыре бестселлера на вьетнамском&nbsp;— о людях, встреченных в путешествиях.</p>
-                                </div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Текст</em> Книгу написала Чип Хьюен — инженер и писательница, которая около десяти лет занимается языковыми моделями и системами машинного обучения. Она окончила Стэнфорд и вела там курс по ML-системам. Из этого курса выросла её первая техническая книга — «Designing Machine Learning Systems»: она стала бестселлером и переведена больше чем на десять языков, в том числе на русский.</p>
-                    <p>Работала в NVIDIA — делала инструменты для машинного обучения и была одной из ключевых разработчиц фреймворка NeMo, — а ещё в Snorkel AI и Netflix. Потом основала свой стартап по AI-инфраструктуре и продала его.</p>
-                    <p>Любопытная деталь: задолго до технических книг она написала четыре книги на вьетнамском — истории о людях, которых встретила, путешествуя по миру. Все четыре стали бестселлерами. «AI-инженерия» вышла в 2025 году, и, по словам автора, это самая читаемая книга на платформе O’Reilly за 2025 год.</p>
-                    <p><em>Переход</em> Теперь — что это за книга.</p>
-                    <p><em>Источники</em> <a href="https://huyenchip.com/" target="_blank" rel="noopener">huyenchip.com — о себе</a>; раздел «Об авторе» в русском издании, с. 557.</p>
-                </aside>
-            </section>
-
-            <section class="slide fx" id="slide-book" data-slide="5">
-                <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Что это за книга</div>
-                    <div class="fx-body">
-                        <div class="bk2">
-                            <div class="bk2-cover" data-rv="left"><img src="assets/cover/ai-engineering.webp" alt="Обложка книги AI Engineering"></div>
-                            <div>
-                                <div data-rv>
-                                    <div class="bk2-title">AI-инженерия</div>
-                                    <p class="bk2-sub">Построение приложений с использованием базовых моделей</p>
-                                    <p class="bk2-meta">O’Reilly, 2025 · на русском&nbsp;— «Спринт Бук», 2025</p>
-                                </div>
-                                <div class="stats" data-rv>
-                                    <div class="stat"><b data-count="560">560</b><span>страниц</span></div>
-                                    <div class="stat"><b data-count="10">10</b><span>глав</span></div>
-                                    <div class="stat"><b data-count="975">975</b><span>ссылок на источники</span></div>
-                                    <div class="stat"><b data-count="100" data-suffix="+">100+</b><span>бесед и интервью</span></div>
-                                </div>
-                                <div data-rv>
-                                    <div class="chaps"><span class="chap">1</span><span class="chap is-now">2</span><span class="chap">3</span><span class="chap">4</span><span class="chap">5</span><span class="chap">6</span><span class="chap">7</span><span class="chap">8</span><span class="chap">9</span><span class="chap">10</span></div>
-                                    <p class="chaps-cap"><b>Глава 2</b> · Знакомство с базовыми моделями&nbsp;— сегодня</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Текст</em> Сама книга — о том, как строить приложения на готовых базовых моделях: промпты, RAG и агенты, дообучение, оценка качества, оптимизация скорости и стоимости. На русском её выпустило издательство «Спринт Бук»: 560 страниц, 10 глав. Автор писала её два года и опиралась больше чем на сто бесед с исследователями OpenAI, Google, Anthropic, с разработчиками фреймворков и командами, которые внедряют AI. В книге 975 ссылок на источники — её удобно использовать как карту всей области.</p>
-                    <p>Главный принцип книги — основы, а не инструменты: инструменты быстро устаревают, а основы живут долго.</p>
-                    <p>Мы во второй главе. Она объясняет, откуда берутся модели: на каких данных их учат, как выбирают архитектуру и размер, как подстраивают под людей и как модель выбирает ответ. Автор честно предупреждает: эта глава не научит обучать свой ChatGPT, но поможет понять, почему модели ведут себя так, а не иначе, и выбрать подходящую.</p>
-                    <p><em>Переход</em> Начнём с главного.</p>
-                    <p><em>Источники</em> Выходные данные и эпилог русского издания (с. 4, 556); предисловие, с. 13–15.</p>
-                </aside>
-            </section>
-
-            <section class="slide fx is-hero" id="slide-idea" data-slide="6">
-                <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Главная мысль</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Главная мысль</div>
                     <h2 class="fx-h" data-rv>Модель хороша настолько, насколько хороши <mark>данные</mark>, на которых она училась</h2>
                     <div class="fx-body">
                         <div class="ex-rows">
@@ -267,9 +222,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-crawl" data-slide="7">
+            <section class="slide fx" id="slide-crawl" data-slide="6">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">04</span>Откуда берут данные</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Откуда берут данные</div>
                     <h2 class="fx-h" data-rv>Главный источник&nbsp;— <mark>Common&nbsp;Crawl</mark>, снимок интернета</h2>
                     <div class="fx-body">
                         <div class="rail" style="--n:4; --line-y:139px">
@@ -309,9 +264,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-quality" data-slide="8">
+            <section class="slide fx" id="slide-quality" data-slide="7">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">05</span>Качество</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Качество</div>
                     <h2 class="fx-h" data-rv>Бесплатно&nbsp;— не значит <mark class="hot">чисто</mark></h2>
                     <div class="fx-body">
                         <div class="chips" style="margin-bottom:44px">
@@ -345,9 +300,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-filter" data-slide="9">
+            <section class="slide fx" id="slide-filter" data-slide="8">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Фильтры</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">04</span>Фильтры</div>
                     <h2 class="fx-h" data-rv>Мусор отсеивают <mark>простыми правилами</mark></h2>
                     <div class="fx-body">
                         <div class="gate" data-rv>
@@ -369,9 +324,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-tradeoff" data-slide="10">
+            <section class="slide fx" id="slide-tradeoff" data-slide="9">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">07</span>Компромисс</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">05</span>Компромисс</div>
                     <h2 class="fx-h" data-rv>Используем то, что есть, <mark>а не то, что нужно</mark></h2>
                     <div class="fx-body">
                         <div class="venn">
@@ -389,9 +344,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-less" data-slide="11">
+            <section class="slide fx" id="slide-less" data-slide="10">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">08</span>Качество важнее объёма</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Качество важнее объёма</div>
                     <h2 class="fx-h" data-rv>Маленькая модель на хороших данных <mark>обходит больших</mark></h2>
                     <div class="fx-body">
                         <div class="grid2" style="align-items:center; gap:60px">
@@ -415,9 +370,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-english" data-slide="12">
+            <section class="slide fx" id="slide-english" data-slide="11">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">09</span>Языки</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">07</span>Языки</div>
                     <h2 class="fx-h" data-rv>Почти половина данных&nbsp;— <mark>на английском</mark></h2>
                     <div class="fx-body">
                         <div class="hb" style="--max:50">
@@ -441,9 +396,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-skew" data-slide="13">
+            <section class="slide fx" id="slide-skew" data-slide="12">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">10</span>Перекос</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">08</span>Перекос</div>
                     <h2 class="fx-h" data-rv>Сотни миллионов носителей&nbsp;— и <mark class="hot">почти ноль</mark> данных</h2>
                     <div class="fx-body">
                         <div class="ratio">
@@ -466,9 +421,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-mmlu" data-slide="14">
+            <section class="slide fx" id="slide-mmlu" data-slide="13">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">11</span>Последствия</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">09</span>Последствия</div>
                     <h2 class="fx-h" data-rv>Меньше данных&nbsp;— <mark>хуже ответы</mark></h2>
                     <p class="fx-lead" data-rv>GPT-4 на тесте MMLU: 14 000 вопросов по 57 темам, переведённые на разные языки</p>
                     <div class="fx-body">
@@ -497,9 +452,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-euler" data-slide="15">
+            <section class="slide fx" id="slide-euler" data-slide="14">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">12</span>Математика</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">10</span>Математика</div>
                     <h2 class="fx-h" data-rv>Те же задачи, другой язык&nbsp;— <mark>другой результат</mark></h2>
                     <p class="fx-lead" data-rv>Шесть задач «Проекта Эйлера», GPT-4, исследование Йенни Джун</p>
                     <div class="fx-body">
@@ -517,9 +472,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-translate" data-slide="16">
+            <section class="slide fx" id="slide-translate" data-slide="15">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">13</span>Перевести?</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">11</span>Перевести?</div>
                     <h2 class="fx-h" data-rv>Перевод на английский <mark>теряет смысл</mark></h2>
                     <p class="fx-lead" data-rv>Модель всё равно должна понимать исходный язык. А во вьетнамском местоимения говорят, кто кому кем приходится:</p>
                     <div class="fx-body">
@@ -549,9 +504,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-newsguard" data-slide="17">
+            <section class="slide fx" id="slide-newsguard" data-slide="16">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">14</span>Неожиданности</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">12</span>Неожиданности</div>
                     <h2 class="fx-h" data-rv>На китайском ChatGPT <mark class="hot">охотнее пишет ложь</mark></h2>
                     <p class="fx-lead" data-rv>NewsGuard, апрель 2023: семь просьб к ChatGPT-3.5 написать статью с ложной информацией о Китае</p>
                     <div class="fx-body">
@@ -571,9 +526,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-tokens" data-slide="18">
+            <section class="slide fx" id="slide-tokens" data-slide="17">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">15</span>Цена токенов</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">13</span>Цена токенов</div>
                     <h2 class="fx-h" data-rv>Тот же смысл&nbsp;— <mark class="hot">в 10 раз дороже</mark></h2>
                     <p class="fx-lead" data-rv>Медианная длина текста в токенах GPT-4 · набор MASSIVE: миллион коротких текстов на 52 языках</p>
                     <div class="fx-body">
@@ -594,9 +549,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-langmodels" data-slide="19">
+            <section class="slide fx" id="slide-langmodels" data-slide="18">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">16</span>Свои модели</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">14</span>Свои модели</div>
                     <h2 class="fx-h" data-rv>Ответ&nbsp;— модели, <mark>заточенные под язык</mark></h2>
                     <div class="fx-body">
                         <div class="langs">
@@ -618,9 +573,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-domains" data-slide="20">
+            <section class="slide fx" id="slide-domains" data-slide="19">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">17</span>Предметные области</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">15</span>Предметные области</div>
                     <h2 class="fx-h" data-rv>Модель сильна в том, <mark>что было в данных</mark></h2>
                     <p class="fx-lead" data-rv>Темы сайтов в наборе C4 по анализу Washington Post, 2023, %</p>
                     <div class="fx-body">
@@ -648,9 +603,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-nodata" data-slide="21">
+            <section class="slide fx" id="slide-nodata" data-slide="20">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">18</span>Где общих моделей мало</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">16</span>Где общих моделей мало</div>
                     <h2 class="fx-h" data-rv>Для некоторых задач данных <mark>нет в интернете</mark></h2>
                     <div class="fx-body">
                         <div class="grid2">
@@ -674,9 +629,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-domainmodels" data-slide="22">
+            <section class="slide fx" id="slide-domainmodels" data-slide="21">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">19</span>Предметные модели</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">17</span>Предметные модели</div>
                     <h2 class="fx-h" data-rv>Своя область&nbsp;— <mark>своя модель</mark></h2>
                     <div class="fx-body">
                         <div class="grid3">
@@ -709,9 +664,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-outro" data-slide="23">
+            <section class="slide fx" id="slide-outro" data-slide="22">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">20</span>Итог</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">18</span>Итог</div>
                     <h2 class="fx-h" data-rv>Выводы</h2>
                     <div class="fx-body">
                         <div class="takeaways">
@@ -736,10 +691,11 @@
                 </aside>
             </section>
 
-            <section class="slide" data-slide="24" data-chrome="whatnext">
 
+            <section class="slide fx" data-slide="23" data-chrome="whatnext">
                 <div class="timeline-next-container">
-                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="fx-kicker" data-rv="fade">Дальше</div>
+                    <h2 class="fx-h" data-rv>Что далее</h2>
                     <div class="timeline-next-columns" data-cols="1" data-density="normal">
                         <div class="timeline-column">
                             <div class="timeline-next">
@@ -816,10 +772,8 @@
         </span>
     </button>
 
-    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
     <script src="assets/js/deck.js"></script>
-    <!-- Поведение контентных слайдов: появление, счётчики, заметки (N) -->
-    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

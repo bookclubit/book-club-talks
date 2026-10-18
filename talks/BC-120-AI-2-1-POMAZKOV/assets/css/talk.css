@@ -801,7 +801,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .split { position: relative; display: flex; height: 120px; border-radius: 20px; overflow: hidden; gap: 4px; }
 .split > div { position: relative; display: flex; align-items: center; padding: 0 30px; transform-origin: left; }
 .split .s1 { flex: 98; background: rgba(var(--tint-rgb), 0.08); border: 1px solid var(--border); border-radius: 20px 6px 6px 20px; }
-.split .s2 { flex: 2; background: linear-gradient(180deg, var(--fx), var(--fx2)); border-radius: 6px 20px 20px 6px; box-shadow: 0 0 40px rgba(var(--fx-rgb), calc(0.6 * var(--glow-k))); }
+.split .s2 { flex: 2; padding: 0; background: linear-gradient(180deg, var(--fx), var(--fx2)); border-radius: 6px 20px 20px 6px; box-shadow: 0 0 40px rgba(var(--fx-rgb), calc(0.6 * var(--glow-k))); }
 .split .s1 span { font-size: 26px; color: var(--text-muted); }
 .slide.active .split .s1 { animation: fxGrowX 1.6s var(--ease-out) 0.4s backwards; }
 .slide.active .split .s2 { animation: fxPop 0.6s var(--ease-out) 1.8s backwards; }
@@ -854,23 +854,23 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .slide.active .ab span.win { animation: winIn 0.6s ease 2s backwards; }
 
 /* ===== Ранжирование → пары ===== */
-.rank { display: grid; grid-template-columns: 260px 160px 1fr; align-items: center; }
-.rank-list, .pairs { display: flex; flex-direction: column; gap: 14px; }
+.rank { display: grid; grid-template-columns: 340px 260px 380px; justify-content: center; align-items: center; }
+.rank-list, .pairs { display: flex; flex-direction: column; gap: 20px; }
 .rk {
     display: flex;
     align-items: center;
     gap: 18px;
-    padding: 14px 22px;
+    padding: 20px 30px;
     border: 1px solid var(--border);
-    border-radius: 14px;
-    font-size: 30px;
+    border-radius: 16px;
+    font-size: 40px;
     font-weight: 600;
     color: var(--text-main);
 }
-.rk em { font-style: normal; font-family: var(--font-mono); font-size: 15px; color: var(--text-dim); letter-spacing: 0.1em; }
+.rk em { font-style: normal; font-family: var(--font-mono); font-size: 17px; color: var(--text-dim); letter-spacing: 0.1em; }
 .rank-arrow { height: 2px; margin: 0 30px; background: linear-gradient(90deg, rgba(var(--tint-rgb), 0.2), var(--fx)); transform-origin: left; }
 .slide.active .rank-arrow { animation: fxGrowX 0.8s var(--ease-out) calc(var(--d, 0ms) + 200ms) backwards; }
-.pr { display: inline-flex; align-items: center; gap: 14px; padding: 12px 26px; border: 1px solid rgba(var(--fx-rgb), 0.5); border-radius: 999px; font-size: 28px; color: var(--text-main); align-self: flex-start; }
+.pr { display: inline-flex; align-items: center; gap: 16px; padding: 18px 34px; border: 1px solid rgba(var(--fx-rgb), 0.5); border-radius: 999px; font-size: 36px; font-weight: 600; color: var(--text-main); align-self: flex-start; }
 .pr .gt { color: var(--fx); }
 
 /* ===== Формула потерь ===== */
@@ -893,14 +893,16 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .sig .curve { fill: none; stroke: var(--fx); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 900; }
 .slide.active .sig .curve { animation: fxDraw 1.6s var(--ease-out) 0.6s backwards; --len: 900; }
 .sig text { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.08em; fill: var(--text-dim); }
-.sig .dot { fill: var(--fx2); filter: drop-shadow(0 0 8px rgba(var(--fx2-rgb), 0.8)); offset-rotate: 0deg; }
-@keyframes ride { from { offset-distance: 8%; } to { offset-distance: 96%; } }
-.slide.active .sig .dot { animation: ride 3.6s cubic-bezier(0.45, 0, 0.55, 1) 2s infinite alternate backwards; }
+.sig .dot { fill: var(--fx2); filter: drop-shadow(0 0 8px rgba(var(--fx2-rgb), 0.8)); }
+.sig .dash { stroke-dasharray: 4 7; }
+.sig .ann { font-size: 16px; fill: var(--text-muted); }
+.sig .ann.hot { fill: var(--hot); }
+.sig .ann.acc { fill: var(--fx); }
 
 /* ===== Цикл обучения с подкреплением ===== */
 .loop { display: grid; grid-template-columns: 640px 1fr; gap: 70px; align-items: center; }
-.ring { position: relative; width: 600px; height: 600px; }
-.ring-track { position: absolute; inset: 70px; border-radius: 50%; border: 1px dashed rgba(var(--fx-rgb), 0.45); }
+.ring { position: relative; width: 600px; height: 600px; margin-left: 20px; }
+.ring-track { position: absolute; inset: 70px; border-radius: 50%; border: 2px dashed rgba(var(--fx-rgb), 0.45); }
 .ring-orbit { position: absolute; inset: 70px; border-radius: 50%; }
 .ring-orbit::before {
     content: '';
@@ -986,7 +988,7 @@ a.chip:hover { border-color: rgba(var(--fx-rgb), 0.6); color: var(--text-main); 
 .slide.active .shog-svg .face { animation: fxDraw 1s var(--ease-out) 2.3s backwards; --len: 420; }
 .shog-svg .smile { fill: none; stroke: var(--fx); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 120; }
 .slide.active .shog-svg .smile { animation: fxDraw 0.7s ease 3.1s backwards; --len: 120; }
-.shog-svg .eye { fill: var(--fx); }
+.shog-svg .eye { fill: var(--fx); transform-box: fill-box; transform-origin: center; }
 .slide.active .shog-svg .eye { animation: fxPop 0.4s ease 3s backwards; }
 .layers { display: flex; flex-direction: column; gap: 22px; }
 .layer { display: grid; grid-template-columns: 26px 1fr; gap: 22px; align-items: start; }

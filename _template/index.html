@@ -26,84 +26,48 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
+    <link rel="stylesheet" href="assets/css/theme.css">
 
 </head>
-<body>
+<body data-hud="{{HUD_LABEL}}">
     <div class="progress" id="progressBar" style="width: 0%"></div>
 
     <div class="deck-viewport">
         <main class="deck-stage" id="deckStage">
-            
-            <!-- SLIDE 1 (Copy of Slide 1) -->
-            <section class="slide" data-slide="1">
-                <div class="layout-center">
-                    <div class="title-tags">
-                        <span class="badge">{{CHAPTER_LABEL}}</span>
-                        <span class="title-tail">
-                            <span class="title-x" aria-hidden="true">×</span>
-                            <span class="badge">{{CHAPTER_TITLE}}</span>
-                        </span>
-                    </div>
-                    <h1 class="gradient-text">{{TALK_TITLE}}</h1>
-                </div>
-            </section>
 
-            <!-- SLIDE 2 (Copy of Slide 2) -->
-            <!-- SLIDE 2: ABOUT THE BOOK & AUTHORS -->
-            <section class="slide" data-slide="2">
-
-                <div class="about-book-slide">
-                    <!-- Book block -->
-                    <div class="book-container">
-                        <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Книга</div>
-                        <div class="book-row">
-                            <div class="book-cover-container">
-                                <a href="{{BOOK_URL}}" target="_blank">
-                                    <img class="book-cover" src="assets/cover/{{BOOK_COVER_FILE}}" alt="{{BOOK_TITLE}}">
-                                </a>
-                            </div>
-                            <div class="book-text-info">
-                                <a class="book-link" href="{{BOOK_URL}}" target="_blank">
-                                    {{BOOK_TITLE}}
-                                </a>
-                                <p class="book-subtitle">
-                                    {{BOOK_SUBTITLE}}
-                                </p>
-                                <p class="book-desc-ru">
-                                    {{BOOK_DESC}}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- People block in two columns -->
-                    <div class="people-section">
-                        <div class="authors-column">
-                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">{{AUTHORS_BADGE}}</div>
-                            <div class="authors-grid">
-                                <!--AUTHOR_CARDS-->
-                            </div>
-                        </div>
-                        <div class="speaker-column">
-                            <div class="badge" style="align-self: flex-start; margin-bottom: 12px;">Спикер</div>
-                            <!--SPEAKER_CARD-->
-                        </div>
+            <!-- Титул: глава, тема, кто читает доклад и по какой книге -->
+            <section class="slide fx is-title" data-slide="1" data-chrome="title">
+                <div class="fx-wrap">
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>Стрим <b>{{STREAM}}</b></span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">{{CHAPTER_LABEL}}</span>{{CHAPTER_TITLE}}</div>
+                    <h1 class="title-h" data-rv>{{TALK_TITLE}}</h1>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <!--SPEAKER_CARD-->
+                        <!--TITLE_BOOK-->
                     </div>
                 </div>
             </section>
 
-            <!-- SLIDE 3 (Copy of Slide 3) -->
-            <section class="slide" data-slide="3" data-chrome="agenda">
+            <!-- Автор и книга — только в первом докладе вечера -->
+            <!--AUTHOR_SLIDE-->
+            <!--BOOK_SLIDE-->
 
+            <section class="slide fx" data-slide="4" data-chrome="agenda">
                 <div class="timeline-next-container">
-                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Программа вечера</h2>
+                    <div class="fx-kicker" data-rv="fade">Стрим {{STREAM}}</div>
+                    <h2 class="fx-h" data-rv>Программа вечера</h2>
                     <!--AGENDA_ITEMS-->
                 </div>
             </section>
-            <section class="slide" data-slide="4" data-chrome="whatnext">
 
+            <!-- Здесь — контентные слайды доклада -->
+
+            <section class="slide fx" data-slide="5" data-chrome="whatnext">
                 <div class="timeline-next-container">
-                    <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
+                    <div class="fx-kicker" data-rv="fade">Дальше</div>
+                    <h2 class="fx-h" data-rv>Что далее</h2>
                     <!--WHATNEXT_ITEMS-->
                 </div>
             </section>
@@ -127,7 +91,7 @@
         </span>
     </button>
 
-    <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
+    <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
     <script src="assets/js/deck.js"></script>
 
 </body>

@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="assets/css/fonts.css">
     <!-- Единый стиль дека (общий «хром» всех докладов) -->
     <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Оформление контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body>
@@ -160,7 +162,581 @@
                     </div>
                 </div>
             </section>
-            <section class="slide" data-slide="4" data-chrome="whatnext">
+            <!-- ===== Контентные слайды доклада ===== -->
+
+            <section class="slide fx" id="slide-author" data-slide="4">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Кто написал книгу</div>
+                    <div class="fx-body">
+                        <div class="au">
+                            <div class="au-id">
+                                <div class="au-photo" data-rv="pop"><span class="au-ring"></span><span class="au-ring r2"></span><img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен"></div>
+                                <h2 class="au-name" data-rv="left">Чип Хьюен</h2>
+                                <div class="au-en" data-rv="left">Chip Huyen</div>
+                                <p class="au-role" data-rv="left">Писательница и инженер, около десяти лет занимается системами машинного обучения</p>
+                                <div class="au-links" data-rv="left">
+                                    <a class="lnk" href="https://huyenchip.com" target="_blank" rel="noopener">huyenchip.com ↗</a>
+                                    <a class="lnk" href="https://x.com/chipro" target="_blank" rel="noopener">x.com/chipro ↗</a>
+                                </div>
+                            </div>
+                            <div class="au-rows">
+                                <div class="au-row" data-rv><span class="k">Работа</span><div>
+                                    <p><b>NVIDIA</b>&nbsp;— инструменты для ML, одна из ключевых разработчиц NeMo. А ещё Snorkel AI и Netflix.</p>
+                                    <p>Основала стартап по AI-инфраструктуре и продала его.</p>
+                                </div></div>
+                                <div class="au-row" data-rv><span class="k">Стэнфорд</span><div>
+                                    <p>Окончила университет и вела там курс по системам машинного обучения&nbsp;— из него выросла первая книга.</p>
+                                </div></div>
+                                <div class="au-row" data-rv><span class="k">Книги</span><div>
+                                    <p><b>Designing Machine Learning Systems</b> (2022)&nbsp;— бестселлер, переведена на 10+ языков.</p>
+                                    <p><b>AI Engineering</b> (2025)&nbsp;— самая читаемая книга O’Reilly за 2025 год.</p>
+                                    <p>И четыре бестселлера на вьетнамском&nbsp;— о людях, встреченных в путешествиях.</p>
+                                </div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Книгу написала Чип Хьюен — инженер и писательница, которая около десяти лет занимается языковыми моделями и системами машинного обучения. Она окончила Стэнфорд и вела там курс по ML-системам. Из этого курса выросла её первая техническая книга — «Designing Machine Learning Systems»: она стала бестселлером и переведена больше чем на десять языков, в том числе на русский.</p>
+                    <p>Работала в NVIDIA — делала инструменты для машинного обучения и была одной из ключевых разработчиц фреймворка NeMo, — а ещё в Snorkel AI и Netflix. Потом основала свой стартап по AI-инфраструктуре и продала его.</p>
+                    <p>Любопытная деталь: задолго до технических книг она написала четыре книги на вьетнамском — истории о людях, которых встретила, путешествуя по миру. Все четыре стали бестселлерами. «AI-инженерия» вышла в 2025 году, и, по словам автора, это самая читаемая книга на платформе O’Reilly за 2025 год.</p>
+                    <p><em>Переход</em> Теперь — что это за книга.</p>
+                    <p><em>Источники</em> <a href="https://huyenchip.com/" target="_blank" rel="noopener">huyenchip.com — о себе</a>; раздел «Об авторе» в русском издании, с. 557.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-book" data-slide="5">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Что это за книга</div>
+                    <div class="fx-body">
+                        <div class="bk2">
+                            <div class="bk2-cover" data-rv="left"><img src="assets/cover/ai-engineering.webp" alt="Обложка книги AI Engineering"></div>
+                            <div>
+                                <div data-rv>
+                                    <div class="bk2-title">AI-инженерия</div>
+                                    <p class="bk2-sub">Построение приложений с использованием базовых моделей</p>
+                                    <p class="bk2-meta">O’Reilly, 2025 · на русском&nbsp;— «Спринт Бук», 2025</p>
+                                </div>
+                                <div class="stats" data-rv>
+                                    <div class="stat"><b data-count="560">560</b><span>страниц</span></div>
+                                    <div class="stat"><b data-count="10">10</b><span>глав</span></div>
+                                    <div class="stat"><b data-count="975">975</b><span>ссылок на источники</span></div>
+                                    <div class="stat"><b data-count="100" data-suffix="+">100+</b><span>бесед и интервью</span></div>
+                                </div>
+                                <div data-rv>
+                                    <div class="chaps"><span class="chap">1</span><span class="chap is-now">2</span><span class="chap">3</span><span class="chap">4</span><span class="chap">5</span><span class="chap">6</span><span class="chap">7</span><span class="chap">8</span><span class="chap">9</span><span class="chap">10</span></div>
+                                    <p class="chaps-cap"><b>Глава 2</b> · Знакомство с базовыми моделями&nbsp;— сегодня</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Сама книга — о том, как строить приложения на готовых базовых моделях: промпты, RAG и агенты, дообучение, оценка качества, оптимизация скорости и стоимости. На русском её выпустило издательство «Спринт Бук»: 560 страниц, 10 глав. Автор писала её два года и опиралась больше чем на сто бесед с исследователями OpenAI, Google, Anthropic, с разработчиками фреймворков и командами, которые внедряют AI. В книге 975 ссылок на источники — её удобно использовать как карту всей области.</p>
+                    <p>Главный принцип книги — основы, а не инструменты: инструменты быстро устаревают, а основы живут долго.</p>
+                    <p>Мы во второй главе. Она объясняет, откуда берутся модели: на каких данных их учат, как выбирают архитектуру и размер, как подстраивают под людей и как модель выбирает ответ. Автор честно предупреждает: эта глава не научит обучать свой ChatGPT, но поможет понять, почему модели ведут себя так, а не иначе, и выбрать подходящую.</p>
+                    <p><em>Переход</em> Начнём с главного.</p>
+                    <p><em>Источники</em> Выходные данные и эпилог русского издания (с. 4, 556); предисловие, с. 13–15.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx is-hero" id="slide-idea" data-slide="6">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Главная мысль</div>
+                    <h2 class="fx-h" data-rv>Модель хороша настолько, насколько хороши <mark>данные</mark>, на которых она училась</h2>
+                    <div class="fx-body">
+                        <div class="ex-rows">
+                            <div class="ex" data-rv>
+                                <div class="ex-a"><span class="k">в данных</span>нет вьетнамского языка</div>
+                                <div class="ex-arrow"></div>
+                                <div class="ex-b"><span class="k">результат</span>не переводит на вьетнамский</div>
+                            </div>
+                            <div class="ex" data-rv>
+                                <div class="ex-a"><span class="k">в данных</span>на картинках только животные</div>
+                                <div class="ex-arrow"></div>
+                                <div class="ex-b"><span class="k">результат</span>плохо узнаёт растения</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Если запомнить из доклада одну фразу, то эту: модель хороша ровно настолько, насколько хороши данные, на которых она училась.</p>
+                    <p>Два простых примера из книги. Если в обучающих данных нет вьетнамского, модель не сможет переводить с английского на вьетнамский. Если классификатор картинок видел только животных, на фотографиях растений он будет работать плохо.</p>
+                    <p>Отсюда очевидный рецепт: хотите, чтобы модель лучше решала вашу задачу, — добавьте в обучение больше данных про эту задачу. Беда в том, что собрать много хороших данных трудно и дорого. Поэтому разработчики моделей берут то, что доступно, даже если это не совсем то, что им нужно. Об этом, по сути, весь доклад.</p>
+                    <p><em>Переход</em> А что доступно?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-crawl" data-slide="7">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">04</span>Откуда берут данные</div>
+                    <h2 class="fx-h" data-rv>Главный источник&nbsp;— <mark>Common&nbsp;Crawl</mark>, снимок интернета</h2>
+                    <div class="fx-body">
+                        <div class="rail" style="--n:4; --line-y:139px">
+                            <div class="rail-line"></div>
+                            <div class="rail-node" data-rv>
+                                <div class="rn-data"><span><b>что</b>сайты по всему интернету</span></div>
+                                <span class="rn-dot"></span>
+                                <div class="rn-t">Интернет</div>
+                                <div class="rn-out">всё подряд</div>
+                            </div>
+                            <div class="rail-node" data-rv>
+                                <div class="rn-data"><span><b>кто</b>некоммерческая организация</span></div>
+                                <span class="rn-dot"></span>
+                                <div class="rn-t">Common Crawl</div>
+                                <div class="rn-out">2–3 млрд страниц в месяц</div>
+                            </div>
+                            <div class="rail-node" data-rv>
+                                <div class="rn-data"><span><b>кто</b>Google</span></div>
+                                <span class="rn-dot"></span>
+                                <div class="rn-t">C4</div>
+                                <div class="rn-out">очищенная выборка</div>
+                            </div>
+                            <div class="rail-node is-end" data-rv>
+                                <div class="rn-data"><span><b>где</b>модели, раскрывшие данные</span></div>
+                                <span class="rn-dot"></span>
+                                <div class="rn-t">Модели</div>
+                                <div class="rn-out">GPT-3, Gemini и другие</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Самый распространённый источник обучающих данных — Common Crawl. Это архив некоммерческой организации, которая регулярно обходит сайты в интернете: в 2022–2023 годах — по два-три миллиарда страниц каждый месяц. Google сделала из него очищенную выборку — C4, Colossal Clean Crawled Corpus.</p>
+                    <p>Вариации Common Crawl есть почти во всех моделях, которые раскрывают свои обучающие данные, — например, в GPT-3 от OpenAI и в Gemini от Google.</p>
+                    <p><em>Переход</em> Звучит как идеальный источник: огромный и бесплатный. Но есть нюанс.</p>
+                    <p><em>Источники</em> <a href="https://commoncrawl.org" target="_blank" rel="noopener">commoncrawl.org</a>; <a href="https://arxiv.org/abs/1910.10683v4" target="_blank" rel="noopener">C4 — Raffel и др., 2019</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-quality" data-slide="8">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">05</span>Качество</div>
+                    <h2 class="fx-h" data-rv>Бесплатно&nbsp;— не значит <mark class="hot">чисто</mark></h2>
+                    <div class="fx-body">
+                        <div class="chips" style="margin-bottom:44px">
+                            <span class="chip is-hot" data-rv="pop">кликбейт</span>
+                            <span class="chip is-hot" data-rv="pop">дезинформация</span>
+                            <span class="chip is-hot" data-rv="pop">пропаганда</span>
+                            <span class="chip is-hot" data-rv="pop">теории заговора</span>
+                            <span class="chip is-hot" data-rv="pop">расизм</span>
+                            <span class="chip is-hot" data-rv="pop">сексизм</span>
+                        </div>
+                        <div class="grid2">
+                            <div class="tile is-hot" data-rv>
+                                <div class="tile-k">Washington Post, 2023</div>
+                                <div class="tile-t">Фейков полно</div>
+                                <p class="tile-p">Среди тысячи самых частых сайтов набора&nbsp;— СМИ с низким рейтингом достоверности по шкале NewsGuard.</p>
+                            </div>
+                            <div class="tile" data-rv>
+                                <div class="tile-k">И всё равно</div>
+                                <div class="tile-t">Его берут почти все</div>
+                                <p class="tile-p">Просто потому, что он доступен. А многие компании перестали раскрывать, на чём учат модели.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Нюанс — в качестве. В Common Crawl, и отчасти в C4, есть всё, что вы когда-либо видели в интернете или старались не видеть: кликбейт, дезинформация, пропаганда, теории заговора, расизм, сексизм.</p>
+                    <p>Washington Post в 2023 году разбирали состав набора: среди тысячи самых частых сайтов нашлись медиа с низким рейтингом достоверности по шкале NewsGuard. Если коротко — фальшивых новостей там полно.</p>
+                    <p>И всё равно его используют почти все — не потому, что он хороший, а потому, что он есть. Автор подозревает, что Common Crawl есть и в моделях, которые свои данные не раскрывают: многие компании перестали об этом рассказывать, чтобы не привлекать внимание общества и конкурентов.</p>
+                    <p><em>Переход</em> Как с этим мусором борются?</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/-1UMD" target="_blank" rel="noopener">Washington Post — Inside the secret list of websites that make AI sound smart</a>; <a href="https://oreil.ly/OisOs" target="_blank" rel="noopener">NewsGuard</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-filter" data-slide="9">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Фильтры</div>
+                    <h2 class="fx-h" data-rv>Мусор отсеивают <mark>простыми правилами</mark></h2>
+                    <div class="fx-body">
+                        <div class="gate" data-rv>
+                            <div class="post">
+                                <div class="vote"><span class="up"></span><b data-count="3">3</b><span>голоса</span></div>
+                                <div class="post-t">Ссылка, которую запостили на Reddit<span class="u">reddit.com / r / …</span></div>
+                            </div>
+                            <div class="gate-mid"><span>≥ 3 голосов</span><div class="line"></div></div>
+                            <div class="gate-out"><span class="k">OpenAI · GPT-2</span>Ссылка попадает в обучающие данные</div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:56px">Скучные ссылки отсеиваются. Но популярность&nbsp;— не качество: Reddit, как замечает автор, <b>далеко не образец приличия и хорошего вкуса</b>.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Чаще всего — простыми эвристиками. Пример: для обучения GPT-2 OpenAI брала только те ссылки с Reddit, которые набрали хотя бы три голоса. Логика понятная: если ссылкой никто не заинтересовался, скорее всего, это мусор.</p>
+                    <p>Скучное такой фильтр действительно отсекает. Но, как иронично замечает автор, Reddit — далеко не образец приличия и хорошего вкуса. Фильтр по популярности не равен фильтру по качеству.</p>
+                    <p><em>Переход</em> В итоге получается компромисс.</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/gGwRz" target="_blank" rel="noopener">OpenAI — Better language models (GPT-2), 2019</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-tradeoff" data-slide="10">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">07</span>Компромисс</div>
+                    <h2 class="fx-h" data-rv>Используем то, что есть, <mark>а не то, что нужно</mark></h2>
+                    <div class="fx-body">
+                        <div class="venn">
+                            <div class="venn-c a"><span>Задачи, которых много в данных</span></div>
+                            <div class="venn-c b"><span>Ваши задачи</span></div>
+                            <div class="venn-x" data-rv="fade">совпадут<br>ли?</div>
+                        </div>
+                        <p class="fx-note" data-rv style="text-align:center; margin-top:18px">Выход&nbsp;— подбирать данные под язык и предметную область. Чаще дообучают модель общего назначения, чем учат с нуля.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Получается подход «используем то, что есть, а не то, что хотим». Модель отлично справляется с задачами, которые часто встречаются в её данных, — но это не обязательно ваши задачи.</p>
+                    <p>Чтобы это исправить, данные подбирают под конкретные нужды — под язык или предметную область. Такие языковые и предметные модели можно обучать с нуля, но чаще берут модель общего назначения и дообучают её. Подробно о работе с данными — оценке качества и синтезе — будет в восьмой главе.</p>
+                    <p><em>Переход</em> Логичный вопрос: может, просто учить на всём сразу?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-less" data-slide="11">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">08</span>Качество важнее объёма</div>
+                    <h2 class="fx-h" data-rv>Маленькая модель на хороших данных <mark>обходит больших</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2" style="align-items:center; gap:60px">
+                            <div class="stats" style="flex-direction:column; align-items:flex-start; gap:40px">
+                                <div class="stat is-hi" data-rv="left"><b><span data-count="7">7</span><small> млрд</small></b><span>токенов качественного кода&nbsp;— и всё</span></div>
+                                <div class="stat" data-rv="left"><b><span data-count="1.3" data-dec="1">1,3</span><small> млрд</small></b><span>параметров у модели, которая обошла гораздо более крупные на тестах по коду</span></div>
+                            </div>
+                            <div class="bubbles" style="height:440px">
+                                <div class="bub" data-rv="pop"><i style="--s:300px"></i><span>крупные модели</span></div>
+                                <div class="bub" data-rv="pop"><i style="--s:220px"></i><span>крупные модели</span></div>
+                                <div class="bub is-hi" data-rv="pop"><i style="--s:96px"></i><span>1,3 млрд</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Многие так и делают. Но больше данных — это больше вычислений, и результат от этого лучше не всегда. Модель, обученная на меньшем объёме качественных данных, может превзойти модель, обученную на большом объёме плохих.</p>
+                    <p>Яркий пример — работа Гунасекара и коллег 2023 года. Они взяли всего 7 миллиардов токенов, но очень качественного кода, и обучили модель на 1,3 миллиарда параметров. Эта маленькая модель обошла гораздо более крупные на нескольких важных тестах по написанию кода. Качество данных способно перевесить и объём, и размер модели.</p>
+                    <p><em>Переход</em> Теперь посмотрим, что в этих данных с языками.</p>
+                    <p><em>Источники</em> <a href="https://arxiv.org/abs/2306.11644" target="_blank" rel="noopener">Gunasekar и др., 2023 — Textbooks Are All You Need</a> (модель phi-1 от Microsoft).</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-english" data-slide="12">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">09</span>Языки</div>
+                    <h2 class="fx-h" data-rv>Почти половина данных&nbsp;— <mark>на английском</mark></h2>
+                    <div class="fx-body">
+                        <div class="hb" style="--max:50">
+                            <div class="hb-row is-hi" data-rv><span class="hb-l">Английский</span><div class="hb-t"><i style="--v:45.88"></i></div><span class="hb-v">45,88 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l acc">Русский</span><div class="hb-t"><i style="--v:5.97"></i></div><span class="hb-v">5,97 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Немецкий</span><div class="hb-t"><i style="--v:5.88"></i></div><span class="hb-v">5,88 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Китайский</span><div class="hb-t"><i style="--v:4.87"></i></div><span class="hb-v">4,87 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Японский</span><div class="hb-t"><i style="--v:4.79"></i></div><span class="hb-v">4,79 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Французский</span><div class="hb-t"><i style="--v:4.73"></i></div><span class="hb-v">4,73 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">Испанский</span><div class="hb-t"><i style="--v:4.47"></i></div><span class="hb-v">4,47 %</span></div>
+                            <div class="hb-row is-dim" data-rv><span class="hb-l">Вьетнамский</span><div class="hb-t"><i style="--v:1.03"></i></div><span class="hb-v">1,03 %</span></div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:34px">Доля языка в Common Crawl. Языки, которых меньше одного процента, называют <b>низкоресурсными</b>.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Английский доминирует в интернете: в Common Crawl на него приходится почти половина данных — 45,88%. Второй по объёму язык — русский, но его в восемь раз меньше, около 6%. Дальше немецкий, китайский, японский, французский, испанский — по 4–6%.</p>
+                    <p>Языки, которые не дотягивают даже до одного процента, называют низкоресурсными. Нам с русским, как видите, повезло: он в группе с высоким ресурсом.</p>
+                    <p><em>Переход</em> А вот кому не повезло.</p>
+                    <p><em>Источники</em> Таблица 2.1 книги; Лай и др., 2023 — анализ языков Common Crawl.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-skew" data-slide="13">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">10</span>Перекос</div>
+                    <h2 class="fx-h" data-rv>Сотни миллионов носителей&nbsp;— и <mark class="hot">почти ноль</mark> данных</h2>
+                    <div class="fx-body">
+                        <div class="ratio">
+                            <div class="ratio-head" data-rv="fade"><span>Язык</span><span>Носителей</span><span>В мире → в данных</span><span></span><span style="text-align:right">Перекос</span></div>
+                            <div class="ratio-row" data-rv><span class="l">Пенджаби</span><span class="m">113 млн</span><span class="m">1,41 % → 0,0061 %</span><div class="bar"><i style="--v:231.56"></i></div><span class="x">×231</span></div>
+                            <div class="ratio-row" data-rv><span class="l">Суахили</span><span class="m">71 млн</span><span class="m">0,89 % → 0,0077 %</span><div class="bar"><i style="--v:115.26"></i></div><span class="x">×115</span></div>
+                            <div class="ratio-row" data-rv><span class="l">Урду</span><span class="m">231 млн</span><span class="m">2,89 % → 0,0274 %</span><div class="bar"><i style="--v:105.38"></i></div><span class="x">×105</span></div>
+                            <div class="ratio-row" data-rv><span class="l">Бенгали</span><span class="m">272 млн</span><span class="m">3,40 % → 0,0930 %</span><div class="bar"><i style="--v:36.56"></i></div><span class="x">×37</span></div>
+                            <div class="ratio-row is-ref" data-rv><span class="l">Английский</span><span class="m">1452 млн</span><span class="m">18,15 % → 45,88 %</span><div class="bar"><i style="--v:0.4"></i></div><span class="x">×0,4</span></div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:30px">Перекос&nbsp;— во сколько раз доля среди людей больше доли в данных. В идеале&nbsp;— единица.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Возьмём долю языка среди населения мира, долю в Common Crawl и поделим одно на другое. В идеале получится единица: язык представлен в данных так же, как среди людей.</p>
+                    <p>У пенджаби больше 110 миллионов носителей — 1,4% населения Земли, а в Common Crawl его 0,006%. Перекос в 231 раз. У суахили — в 115 раз, у урду — в 105, у бенгали, на котором говорят 272 миллиона человек, — в 37 раз.</p>
+                    <p>Для сравнения английский: 18% населения и почти 46% данных. Он, наоборот, представлен с избытком.</p>
+                    <p><em>Переход</em> Чем это оборачивается на практике?</p>
+                    <p><em>Источники</em> Таблица 2.2 книги; население мира принято за 8 млрд, доли в Common Crawl — Лай и др., 2023.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-mmlu" data-slide="14">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">11</span>Последствия</div>
+                    <h2 class="fx-h" data-rv>Меньше данных&nbsp;— <mark>хуже ответы</mark></h2>
+                    <p class="fx-lead" data-rv>GPT-4 на тесте MMLU: 14 000 вопросов по 57 темам, переведённые на разные языки</p>
+                    <div class="fx-body">
+                        <div class="hb-wrap">
+                            <div class="hb is-dense" style="--max:100">
+                                <div class="hb-row is-hi" data-rv><span class="hb-l">Английский</span><div class="hb-t"><i style="--v:85.5"></i></div><span class="hb-v">85,5 %</span></div>
+                                <div class="hb-row" data-rv><span class="hb-l">Итальянский</span><div class="hb-t"><i style="--v:84.1"></i></div><span class="hb-v">84,1 %</span></div>
+                                <div class="hb-row" data-rv><span class="hb-l acc">Русский</span><div class="hb-t"><i style="--v:82.7"></i></div><span class="hb-v">82,7 %</span></div>
+                                <div class="hb-row" data-rv><span class="hb-l">Китайский</span><div class="hb-t"><i style="--v:80.1"></i></div><span class="hb-v">80,1 %</span></div>
+                                <div class="hb-row" data-rv><span class="hb-l">Суахили</span><div class="hb-t"><i style="--v:78.5"></i></div><span class="hb-v">78,5 %</span></div>
+                                <div class="hb-row" data-rv><span class="hb-l">Бенгали</span><div class="hb-t"><i style="--v:73.2"></i></div><span class="hb-v">73,2 %</span></div>
+                                <div class="hb-row is-hot" data-rv><span class="hb-l">Пенджаби</span><div class="hb-t"><i style="--v:71.4"></i></div><span class="hb-v">71,4 %</span></div>
+                                <div class="hb-row is-hot" data-rv><span class="hb-l">Марати</span><div class="hb-t"><i style="--v:66.7"></i></div><span class="hb-v">66,7 %</span></div>
+                                <div class="hb-row is-hot" data-rv><span class="hb-l">Телугу</span><div class="hb-t"><i style="--v:62"></i></div><span class="hb-v">62,0 %</span></div>
+                            </div>
+                            <div class="hb-base" style="--at:25" data-rv="fade"><span>угадывание · 25 %</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модели общего назначения работают на английском заметно лучше, чем на других языках. OpenAI проверяла GPT-4 на тесте MMLU — это 14 тысяч вопросов с вариантами ответа по 57 темам; для других языков вопросы переводили сервисом Azure AI Translator.</p>
+                    <p>На английском — 85,5%. На русском — 82,7%, почти так же. А внизу — пенджаби, марати и телугу: от 71 до 62%. Для ориентира: случайное угадывание даёт 25%.</p>
+                    <p>Эти три языка — одни из наименее представленных в Common Crawl. Но автор подчёркивает: дело не только в объёме данных. Структура языка и культура, которую он несёт, тоже могут мешать модели его выучить.</p>
+                    <p><em>Переход</em> Ещё нагляднее — с математикой.</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/qK2Ap" target="_blank" rel="noopener">OpenAI — GPT-4, 2023</a>; рисунок 2.1 книги.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-euler" data-slide="15">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">12</span>Математика</div>
+                    <h2 class="fx-h" data-rv>Те же задачи, другой язык&nbsp;— <mark>другой результат</mark></h2>
+                    <p class="fx-lead" data-rv>Шесть задач «Проекта Эйлера», GPT-4, исследование Йенни Джун</p>
+                    <div class="fx-body">
+                        <div class="grid2" style="gap:60px">
+                            <div class="stat is-hi" data-rv><b>&gt;<span data-count="3">3</span><small>×</small></b><span>настолько чаще модель решает задачи на английском, чем на армянском или фарси</span></div>
+                            <div class="stat is-hot" data-rv><b><span data-count="0">0</span><small> из 6</small></b><span>задач решено на бирманском и амхарском</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Исследовательница Йенни Джун давала GPT-4 шесть математических задач из «Проекта Эйлера» на разных языках. На английском модель решала их более чем в три раза успешнее, чем на армянском или фарси. А на бирманском и амхарском не решила ни одной из шести.</p>
+                    <p>Задачи те же самые — меняется только язык условия.</p>
+                    <p><em>Переход</em> Напрашивается простое решение.</p>
+                    <p><em>Источники</em> Йенни Джун — GPT-4 Can Solve Math Problems — but Not in All Languages; рисунок 2.2 книги.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-translate" data-slide="16">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">13</span>Перевести?</div>
+                    <h2 class="fx-h" data-rv>Перевод на английский <mark>теряет смысл</mark></h2>
+                    <p class="fx-lead" data-rv>Модель всё равно должна понимать исходный язык. А во вьетнамском местоимения говорят, кто кому кем приходится:</p>
+                    <div class="fx-body">
+                        <div class="pron">
+                            <div class="pron-list">
+                                <div class="pw" data-rv="left"><b>anh</b><span>старший брат, мужчина постарше</span></div>
+                                <div class="pw" data-rv="left"><b>chị</b><span>старшая сестра, женщина постарше</span></div>
+                                <div class="pw" data-rv="left"><b>em</b><span>младший или младшая</span></div>
+                                <div class="pw" data-rv="left"><b>ông</b><span>дедушка, пожилой мужчина</span></div>
+                                <div class="pw" data-rv="left"><b>bà</b><span>бабушка, пожилая женщина</span></div>
+                                <div class="pw" data-rv="left"><b>cô</b><span>тётя, молодая женщина</span></div>
+                            </div>
+                            <svg class="pron-svg" viewBox="0 0 260 340" preserveAspectRatio="none" aria-hidden="true">
+                                <path data-draw d="M0 52 C 130 52, 130 170, 252 170"/>
+                                <path data-draw d="M0 170 L 252 170"/>
+                                <path data-draw d="M0 288 C 130 288, 130 170, 252 170"/>
+                            </svg>
+                            <div class="pron-you" data-rv="pop"><b>I / you</b><span>после перевода</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модели ведь хорошо переводят — так давайте переводить запрос на английский, получать ответ и переводить обратно. Многие так и делают, но у подхода два минуса.</p>
+                    <p>Первый: чтобы перевести, модель всё равно должна неплохо понимать этот низкоресурсный язык. Второй: при переводе теряется информация. Пример из книги — вьетнамский. В нём местоимения показывают отношения между собеседниками: к старшему брату, к пожилой женщине, к младшему обращаются разными словами. При переводе на английский всё это превращается в I и you — и информация об отношениях пропадает.</p>
+                    <p><em>Как показывать</em> Слова на слайде — мой пример распространённых вьетнамских местоимений; в книге сам список не приводится.</p>
+                    <p><em>Переход</em> Бывают и совсем неожиданные эффекты.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-newsguard" data-slide="17">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">14</span>Неожиданности</div>
+                    <h2 class="fx-h" data-rv>На китайском ChatGPT <mark class="hot">охотнее пишет ложь</mark></h2>
+                    <p class="fx-lead" data-rv>NewsGuard, апрель 2023: семь просьб к ChatGPT-3.5 написать статью с ложной информацией о Китае</p>
+                    <div class="fx-body">
+                        <div class="dots7">
+                            <div class="d7" data-rv><span class="l">Английский</span><div class="row" data-seq><i></i><i></i><i></i><i></i><i></i><i></i><i class="bad"></i></div><span class="r">написала <b>1</b> из 7</span></div>
+                            <div class="d7" data-rv><span class="l">Упрощённый китайский</span><div class="row" data-seq><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i></div><span class="r">написала <b>7</b> из 7</span></div>
+                            <div class="d7" data-rv><span class="l">Традиционный китайский</span><div class="row" data-seq><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i></div><span class="r">написала <b>7</b> из 7</span></div>
+                            <div class="legend" data-rv="fade" style="margin-left:414px"><span><i></i>отказалась</span><span><i class="bad"></i>написала ложь</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> В апреле 2023 года NewsGuard попросили ChatGPT-3.5 написать статьи с ложной информацией о Китае — на английском, упрощённом и традиционном китайском. На английском модель отказалась в шести случаях из семи. На китайском — написала ложь во всех семи случаях, причём на обоих вариантах письменности.</p>
+                    <p>Почему так — неясно. Автор предполагает: возможно, при обучении — и на этапе предобучения, и на этапе согласования — просто было меньше данных на китайском. То есть даже безопасность модели может зависеть от языка.</p>
+                    <p><em>Переход</em> И последнее про языки — деньги.</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/LcBfx" target="_blank" rel="noopener">NewsGuard — ChatGPT-3.5 и дезинформация на китайском</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-tokens" data-slide="18">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">15</span>Цена токенов</div>
+                    <h2 class="fx-h" data-rv>Тот же смысл&nbsp;— <mark class="hot">в 10 раз дороже</mark></h2>
+                    <p class="fx-lead" data-rv>Медианная длина текста в токенах GPT-4 · набор MASSIVE: миллион коротких текстов на 52 языках</p>
+                    <div class="fx-body">
+                        <div class="tk-rows">
+                            <div class="tk-row" data-rv><span class="tk-l">Английский</span><div class="cells" data-cells="7"></div><span class="tk-n"><b>7</b> ток.</span></div>
+                            <div class="tk-row" data-rv><span class="tk-l">Хинди</span><div class="cells" data-cells="32"></div><span class="tk-n"><b>32</b> ток.</span></div>
+                            <div class="tk-row is-hot" data-rv><span class="tk-l">Бирманский</span><div class="cells" data-cells="72"></div><span class="tk-n"><b>72</b> ток.</span></div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:46px">Время ответа и цена пропорциональны числу токенов: на бирманском примерно <b>в 10 раз медленнее и дороже</b>, чем на английском.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Время ответа модели и стоимость пропорциональны числу токенов — и во входе, и в ответе. А токенизация для разных языков работает с очень разной эффективностью.</p>
+                    <p>Йенни Джун взяла набор MASSIVE — миллион коротких текстов, переведённых на 52 языка, — и посчитала токены GPT-4. Медианная длина на английском — 7 токенов. На хинди — 32. На бирманском — 72, в десять раз больше.</p>
+                    <p>Значит, тот же смысл на бирманском модель генерирует примерно в десять раз дольше, а через API это примерно в десять раз дороже. Если пользователи вашего приложения пишут не на английском, посчитайте токены на их языке — например, токенайзером OpenAI.</p>
+                    <p><em>Переход</em> Что с этим делают?</p>
+                    <p><em>Источники</em> <a href="https://oreil.ly/Zq5Sw" target="_blank" rel="noopener">Йенни Джун — All languages are NOT created (tokenized) equal</a>; <a href="https://oreil.ly/iqhNY" target="_blank" rel="noopener">OpenAI Tokenizer</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-langmodels" data-slide="19">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">16</span>Свои модели</div>
+                    <h2 class="fx-h" data-rv>Ответ&nbsp;— модели, <mark>заточенные под язык</mark></h2>
+                    <div class="fx-body">
+                        <div class="langs">
+                            <div class="lang" data-rv><div class="k">Китайский</div><ul>
+                                <li><a href="https://github.com/THUDM/ChatGLM2-6B" target="_blank" rel="noopener">ChatGLM</a></li>
+                                <li><a href="https://github.com/wenge-research/YAYI" target="_blank" rel="noopener">YAYI</a></li>
+                                <li><a href="https://github.com/LlamaFamily/Llama-Chinese" target="_blank" rel="noopener">Llama-Chinese</a></li>
+                            </ul></div>
+                            <div class="lang" data-rv><div class="k">Французский</div><ul><li><a href="https://oreil.ly/a6j-N" target="_blank" rel="noopener">CroissantLLM</a></li></ul></div>
+                            <div class="lang" data-rv><div class="k">Вьетнамский</div><ul><li><a href="https://github.com/VinAIResearch/PhoGPT" target="_blank" rel="noopener">PhoGPT</a></li></ul></div>
+                            <div class="lang" data-rv><div class="k">Арабский</div><ul><li><a href="https://oreil.ly/uG27L" target="_blank" rel="noopener">Jais</a></li></ul></div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:40px">Самый активный язык после английского&nbsp;— китайский. И это далеко не полный список.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Поэтому появилось много моделей, которые учили с упором на конкретный язык. Самый активный после английского — без сомнения, китайский: ChatGLM, YAYI, Llama-Chinese и другие. Есть французская CroissantLLM, вьетнамская PhoGPT, арабская Jais — и модели для многих других языков.</p>
+                    <p><em>Переход</em> С языками разобрались. Второе измерение — предметные области.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-domains" data-slide="20">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">17</span>Предметные области</div>
+                    <h2 class="fx-h" data-rv>Модель сильна в том, <mark>что было в данных</mark></h2>
+                    <p class="fx-lead" data-rv>Темы сайтов в наборе C4 по анализу Washington Post, 2023, %</p>
+                    <div class="fx-body">
+                        <div class="vb" style="--max:16">
+                            <div class="vb-col is-hi" data-rv><span class="vb-v">16</span><div class="vb-bar"><i style="--v:16"></i></div><span class="vb-l">Бизнес и промыш&shy;ленность</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">15</span><div class="vb-bar"><i style="--v:15"></i></div><span class="vb-l">Технологии</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">13</span><div class="vb-bar"><i style="--v:13"></i></div><span class="vb-l">Новости и СМИ</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">11</span><div class="vb-bar"><i style="--v:11"></i></div><span class="vb-l">Искусство и развлечения</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">9</span><div class="vb-bar"><i style="--v:9"></i></div><span class="vb-l">Наука и здоровье</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">8</span><div class="vb-bar"><i style="--v:8"></i></div><span class="vb-l">Хобби и досуг</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">7</span><div class="vb-bar"><i style="--v:7"></i></div><span class="vb-l">Работа и образование</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">6</span><div class="vb-bar"><i style="--v:6"></i></div><span class="vb-l">Дом и сад</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">6</span><div class="vb-bar"><i style="--v:6"></i></div><span class="vb-l">Путешествия</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">5</span><div class="vb-bar"><i style="--v:5"></i></div><span class="vb-l">Сообщество</span></div>
+                            <div class="vb-col" data-rv><span class="vb-v">4</span><div class="vb-bar"><i style="--v:4"></i></div><span class="vb-l">Закон и правительство</span></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модели общего назначения вроде Gemini, GPT и Llama хорошо отвечают про программирование, право, науку, бизнес, спорт. В основном потому, что эти области были в их обучающих данных.</p>
+                    <p>Вот темы сайтов в C4 по анализу Washington Post: больше всего бизнеса и промышленности — 16%, технологий — 15%, новостей — 13%. Меньше всего — закона и правительства, 4%. Важная оговорка: анализ показывает только категории, которые в наборе есть, — чего в нём нет, на диаграмме не видно.</p>
+                    <p>С картинками сложнее: их труднее классифицировать, и таких анализов почти нет. О доменах модели судят по тестам — например, CLIP и OpenCLIP проверяют на птицах, цветах, машинах, дорожных знаках. Точность там скачет от 15 до 80% в зависимости от набора. Но мир гораздо больше этих нескольких категорий.</p>
+                    <p><em>Переход</em> А есть задачи, где общая модель почти наверняка провалится.</p>
+                    <p><em>Источники</em> Рисунок 2.3 и таблица 2.3 книги; <a href="https://oreil.ly/St1o8" target="_blank" rel="noopener">Washington Post, 2023</a>; <a href="https://oreil.ly/MTqyR" target="_blank" rel="noopener">OpenCLIP</a>.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-nodata" data-slide="21">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">18</span>Где общих моделей мало</div>
+                    <h2 class="fx-h" data-rv>Для некоторых задач данных <mark>нет в интернете</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile" data-rv="left">
+                                <div class="tile-k">Поиск лекарств</div>
+                                <div class="tile-t">Белки, ДНК, РНК</div>
+                                <p class="tile-p">Особые форматы, получать такие данные дорого&nbsp;— в открытом интернете их почти нет.</p>
+                            </div>
+                            <div class="tile" data-rv="right">
+                                <div class="tile-k">Онкоскрининг</div>
+                                <div class="tile-t">Рентген и фМРТ</div>
+                                <p class="tile-p">Снимки трудно собрать: мешают требования конфиденциальности.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модель общего назначения ответит на бытовой вопрос из любой области, но вряд ли справится с узкоспециальной задачей, которую не видела при обучении. В книге два примера.</p>
+                    <p>Поиск лекарств — это данные о белках, ДНК и РНК: у них специфические форматы, и получать их дорого. Онкоскрининг — это рентгеновские снимки и снимки функциональной МРТ, которые трудно собрать из-за требований конфиденциальности. Чтобы модель хорошо решала такие задачи, нужны очень специфические наборы данных.</p>
+                    <p><em>Переход</em> Так появляются предметные модели.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-domainmodels" data-slide="22">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">19</span>Предметные модели</div>
+                    <h2 class="fx-h" data-rv>Своя область&nbsp;— <mark>своя модель</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile is-hi" data-rv>
+                                <div class="tile-k">DeepMind</div>
+                                <div class="tile-t">AlphaFold</div>
+                                <p class="tile-p">Обучена на последовательностях и 3D-структурах около 100 000 известных белков.</p>
+                                <a class="tile-u lnk" href="https://oreil.ly/JX37g" target="_blank" rel="noopener">alphafold ↗</a>
+                            </div>
+                            <div class="tile" data-rv>
+                                <div class="tile-k">NVIDIA</div>
+                                <div class="tile-t">BioNeMo</div>
+                                <p class="tile-p">Биомолекулярные данные для поиска лекарств.</p>
+                                <a class="tile-u lnk" href="https://oreil.ly/M1Nsc" target="_blank" rel="noopener">bionemo ↗</a>
+                            </div>
+                            <div class="tile" data-rv>
+                                <div class="tile-k">Google</div>
+                                <div class="tile-t">Med-PaLM 2</div>
+                                <p class="tile-p">LLM плюс медицинские данные: точные ответы на медицинские вопросы.</p>
+                                <a class="tile-u lnk" href="https://oreil.ly/F76hq" target="_blank" rel="noopener">med-palm ↗</a>
+                            </div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:40px">Не только медицина: модель на архитектурных эскизах полезнее архитектору, чем Stable Diffusion, а модель на планах фабрик&nbsp;— производству, чем ChatGPT.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Самая известная предметная модель — AlphaFold от DeepMind: её обучили на последовательностях и трёхмерных структурах примерно ста тысяч известных белков. BioNeMo от NVIDIA работает с биомолекулярными данными для поиска лекарств. Med-PaLM 2 от Google соединяет возможности LLM с медицинскими данными, чтобы точно отвечать на медицинские вопросы.</p>
+                    <p>Больше всего таких моделей в биомедицине, но идея работает везде. Модель, обученная на архитектурных эскизах, может оказаться полезнее архитектору, чем Stable Diffusion, а модель на планах фабрик — полезнее производству, чем ChatGPT.</p>
+                    <p><em>Переход</em> Подведу итог.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-outro" data-slide="23">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">20</span>Итог</div>
+                    <h2 class="fx-h" data-rv>Выводы</h2>
+                    <div class="fx-body">
+                        <div class="takeaways">
+                            <div class="tw" data-rv><span class="n">01</span><p><b>Модель&nbsp;— это её данные.</b> Чего не было в обучении, того она не умеет.</p></div>
+                            <div class="tw" data-rv><span class="n">02</span><p><b>Интернет-данные дешёвые, но грязные.</b> Качество часто важнее объёма.</p></div>
+                            <div class="tw" data-rv><span class="n">03</span><p><b>Английский доминирует.</b> На других языках модели ошибаются чаще, отвечают медленнее и стоят дороже.</p></div>
+                            <div class="tw" data-rv><span class="n">04</span><p><b>Узкой области&nbsp;— свои данные.</b> Для медицины и науки нужны свои наборы и модели.</p></div>
+                        </div>
+                        <div class="quote" data-rv>
+                            <img src="assets/authors/chip-hyuen.webp" alt="Чип Хьюен">
+                            <div>
+                                <blockquote>«Модель AI хороша настолько, насколько хороши данные, на которых она обучалась»</blockquote>
+                                <cite>Чип Хьюен · AI-инженерия, глава 2</cite>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Первое: модель — это её данные; чего не было в обучении, того она не умеет. Второе: интернет-данные дешёвые, но грязные, и качество часто важнее объёма. Третье: английский доминирует — на других языках модели ошибаются чаще, работают медленнее и стоят дороже. Четвёртое: узкой области нужны свои данные, а часто и свои модели.</p>
+                    <p>Практический вывод для нас, разработчиков приложений: прежде чем выбирать модель, спросите себя, были ли ваш язык и ваша предметная область в её данных, — и проверьте это на своих примерах.</p>
+                    <p><em>Переход</em> А дальше Артём расскажет о второй половине уравнения — как устроена сама модель: архитектура и размер. Спасибо!</p>
+                </aside>
+            </section>
+
+            <section class="slide" data-slide="24" data-chrome="whatnext">
 
                 <div class="timeline-next-container">
                     <h2 class="gradient-text" style="font-size: 64px; margin-bottom: 40px; line-height: 1;">Что далее</h2>
@@ -242,6 +818,8 @@
 
     <!-- Движок презентации (клавиатура, масштабирование, интерактив) -->
     <script src="assets/js/deck.js"></script>
+    <!-- Поведение контентных слайдов: появление, счётчики, заметки (N) -->
+    <script src="assets/js/talk.js"></script>
 
 </body>
 </html>

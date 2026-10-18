@@ -36,7 +36,15 @@
     <div class="deck-viewport">
         <main class="deck-stage" id="deckStage">
 
-            <!-- Титул: глава, тема, кто читает доклад и по какой книге -->
+            <!-- Открытие стрима, автор и книга — только в первом докладе вечера -->
+            
+            
+            
+
+
+
+            <!-- Титул доклада: глава, тема, кто читает и по какой книге.
+                 В первом докладе вечера идёт после программы, в остальных — первым. -->
             <section class="slide fx is-title" data-slide="1" data-chrome="title">
                 <div class="fx-wrap">
                     <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>Стрим <b>120</b></span></div>
@@ -55,11 +63,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- Автор и книга — только в первом докладе вечера -->
-            
-            
-
 
             <!-- ===== Контентные слайды доклада ===== -->
 
@@ -771,6 +774,13 @@
             </span>
         </span>
     </button>
+
+    <!-- Содержание: список слайдов, клик — переход на слайд (клавиша O) -->
+    <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false"
+            aria-controls="tocPanel" aria-label="Содержание презентации" title="Содержание (O)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"></path></svg>
+    </button>
+    <nav class="toc-panel" id="tocPanel" aria-label="Содержание презентации"></nav>
 
     <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
     <script src="assets/js/deck.js"></script>

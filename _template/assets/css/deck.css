@@ -770,7 +770,25 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
     justify-content: flex-start;
 }
 .slide.fx .timeline-next-columns { max-width: none; margin-top: 56px; }
-.slide.fx .timeline-next-columns[data-cols='1'] { max-width: 1100px; }
+.slide.fx .timeline-next-columns[data-cols='1'] {
+    max-width: 1200px;
+    /* Одна колонка — места много: темы крупнее, чем в старой раскладке. */
+    --tl-gap: 44px;
+    --tl-title: 34px;
+    --tl-title-active: 54px;
+    --tl-title-done: 34px;
+    --tl-avatar: 40px;
+    --tl-speaker: 21px;
+}
+.slide.fx .timeline-next-columns[data-cols='1'][data-density='tight'] {
+    --tl-gap: 20px;
+    --tl-title: 24px;
+    --tl-title-active: 32px;
+    --tl-title-done: 24px;
+    --tl-avatar: 28px;
+    --tl-speaker: 16px;
+}
+.slide.fx .timeline-next-marker.active { top: 26px; }
 .slide.fx .timeline-column:only-child { justify-self: start; }
 .slide.fx .timeline-next::before { background: var(--border); width: 1px; left: 21px; }
 .slide.fx .timeline-next-marker.upcoming { background: var(--border-strong); }

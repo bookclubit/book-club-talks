@@ -36,27 +36,28 @@
     <div class="deck-viewport">
         <main class="deck-stage" id="deckStage">
 
-            <!-- Титул: глава, тема, кто читает доклад и по какой книге -->
-            <section class="slide fx is-title" data-slide="1" data-chrome="title">
+            <!-- Открытие стрима, автор и книга — только в первом докладе вечера -->
+            <section class="slide fx is-title is-opening" id="slide-opening" data-slide="1" data-chrome="opening">
                 <div class="fx-wrap">
-                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>Стрим <b>120</b></span></div>
-                    <div class="fx-kicker" data-rv="fade"><span class="n">Глава 2</span>Знакомство с базовыми моделями</div>
-                    <h1 class="title-h" data-rv>Обучающие данные</h1>
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>23 октября 2026 · 18:00 МСК</span></div>
+                    <div class="open-num" aria-hidden="true">120</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Стрим 120</span>Добро пожаловать</div>
+                    <h1 class="title-h" data-rv>Знакомство с базовыми моделями</h1>
+                    <p class="open-sub" data-rv><b>AI-инженерия</b> · Глава 2 · 4 доклада</p>
                     <div class="title-bar"></div>
                     <div class="title-foot">
-                        <a class="title-speaker" data-rv="left" href="https://t.me/kunjutone" target="_blank" rel="noopener">
-                            <img src="assets/speakers/pomazkov-anton.webp" alt="">
-                            <span><em>Доклад читает</em><b>Антон Помазков</b><i>@kunjutone</i></span>
-                        </a>
+                        <div class="open-links" data-rv="left"><em>Клуб</em><div class="chips"><a class="chip" href="https://t.me/booksclubfrontend" target="_blank" rel="noopener">Telegram</a><a class="chip" href="https://www.youtube.com/@pomazkovclub" target="_blank" rel="noopener">YouTube</a><a class="chip" href="https://vkvideo.ru/@pomazkovclub" target="_blank" rel="noopener">VK Видео</a><a class="chip" href="https://boosty.to/booksclub" target="_blank" rel="noopener">Boosty</a></div></div>
                         <a class="title-book" data-rv="right" href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank" rel="noopener">
                             <span><em>Книга</em><b>AI-инженерия</b><span>Чип Хьюен</span></span>
                             <img src="assets/cover/ai-engineering.webp" alt="">
                         </a>
                     </div>
                 </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Всем привет! Это сто двадцатый стрим «Книжного клуба». Сегодня начинаем вторую главу книги Чип Хьюен «AI-инженерия» — «Знакомство с базовыми моделями». В программе четыре доклада. Если вы смотрите запись — заходите в наш Telegram-канал, ссылки на слайде.</p>
+                    <p><em>Переход</em> Пару слов о том, кто написал эту книгу.</p>
+                </aside>
             </section>
-
-            <!-- Автор и книга — только в первом докладе вечера -->
             <section class="slide fx" id="slide-author" data-slide="2" data-chrome="author">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
@@ -193,9 +194,29 @@
                 </div>
             </section>
 
+            <!-- Титул доклада: глава, тема, кто читает и по какой книге.
+                 В первом докладе вечера идёт после программы, в остальных — первым. -->
+            <section class="slide fx is-title" data-slide="5" data-chrome="title">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Глава 2</span>Знакомство с базовыми моделями</div>
+                    <h1 class="title-h" data-rv>Обучающие данные</h1>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <a class="title-speaker" data-rv="left" href="https://t.me/kunjutone" target="_blank" rel="noopener">
+                            <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                            <span><em>Доклад читает</em><b>Антон Помазков</b><i>@kunjutone</i></span>
+                        </a>
+                        <a class="title-book" data-rv="right" href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>AI-инженерия</b><span>Чип Хьюен</span></span>
+                            <img src="assets/cover/ai-engineering.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             <!-- ===== Контентные слайды доклада ===== -->
 
-<section class="slide fx is-hero" id="slide-idea" data-slide="5">
+<section class="slide fx is-hero" id="slide-idea" data-slide="6">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Главная мысль</div>
                     <h2 class="fx-h" data-rv>Модель хороша настолько, насколько хороши <mark>данные</mark>, на которых она училась</h2>
@@ -222,7 +243,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-crawl" data-slide="6">
+            <section class="slide fx" id="slide-crawl" data-slide="7">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Откуда берут данные</div>
                     <h2 class="fx-h" data-rv>Главный источник&nbsp;— <mark>Common&nbsp;Crawl</mark>, снимок интернета</h2>
@@ -264,7 +285,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-quality" data-slide="7">
+            <section class="slide fx" id="slide-quality" data-slide="8">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Качество</div>
                     <h2 class="fx-h" data-rv>Бесплатно&nbsp;— не значит <mark class="hot">чисто</mark></h2>
@@ -300,7 +321,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-filter" data-slide="8">
+            <section class="slide fx" id="slide-filter" data-slide="9">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">04</span>Фильтры</div>
                     <h2 class="fx-h" data-rv>Мусор отсеивают <mark>простыми правилами</mark></h2>
@@ -324,7 +345,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-tradeoff" data-slide="9">
+            <section class="slide fx" id="slide-tradeoff" data-slide="10">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">05</span>Компромисс</div>
                     <h2 class="fx-h" data-rv>Используем то, что есть, <mark>а не то, что нужно</mark></h2>
@@ -344,7 +365,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-less" data-slide="10">
+            <section class="slide fx" id="slide-less" data-slide="11">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Качество важнее объёма</div>
                     <h2 class="fx-h" data-rv>Маленькая модель на хороших данных <mark>обходит больших</mark></h2>
@@ -370,7 +391,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-english" data-slide="11">
+            <section class="slide fx" id="slide-english" data-slide="12">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">07</span>Языки</div>
                     <h2 class="fx-h" data-rv>Почти половина данных&nbsp;— <mark>на английском</mark></h2>
@@ -396,7 +417,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-skew" data-slide="12">
+            <section class="slide fx" id="slide-skew" data-slide="13">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">08</span>Перекос</div>
                     <h2 class="fx-h" data-rv>Сотни миллионов носителей&nbsp;— и <mark class="hot">почти ноль</mark> данных</h2>
@@ -421,7 +442,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-mmlu" data-slide="13">
+            <section class="slide fx" id="slide-mmlu" data-slide="14">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">09</span>Последствия</div>
                     <h2 class="fx-h" data-rv>Меньше данных&nbsp;— <mark>хуже ответы</mark></h2>
@@ -452,7 +473,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-euler" data-slide="14">
+            <section class="slide fx" id="slide-euler" data-slide="15">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">10</span>Математика</div>
                     <h2 class="fx-h" data-rv>Те же задачи, другой язык&nbsp;— <mark>другой результат</mark></h2>
@@ -472,7 +493,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-translate" data-slide="15">
+            <section class="slide fx" id="slide-translate" data-slide="16">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">11</span>Перевести?</div>
                     <h2 class="fx-h" data-rv>Перевод на английский <mark>теряет смысл</mark></h2>
@@ -504,7 +525,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-newsguard" data-slide="16">
+            <section class="slide fx" id="slide-newsguard" data-slide="17">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">12</span>Неожиданности</div>
                     <h2 class="fx-h" data-rv>На китайском ChatGPT <mark class="hot">охотнее пишет ложь</mark></h2>
@@ -526,7 +547,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-tokens" data-slide="17">
+            <section class="slide fx" id="slide-tokens" data-slide="18">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">13</span>Цена токенов</div>
                     <h2 class="fx-h" data-rv>Тот же смысл&nbsp;— <mark class="hot">в 10 раз дороже</mark></h2>
@@ -549,7 +570,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-langmodels" data-slide="18">
+            <section class="slide fx" id="slide-langmodels" data-slide="19">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">14</span>Свои модели</div>
                     <h2 class="fx-h" data-rv>Ответ&nbsp;— модели, <mark>заточенные под язык</mark></h2>
@@ -573,7 +594,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-domains" data-slide="19">
+            <section class="slide fx" id="slide-domains" data-slide="20">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">15</span>Предметные области</div>
                     <h2 class="fx-h" data-rv>Модель сильна в том, <mark>что было в данных</mark></h2>
@@ -603,7 +624,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-nodata" data-slide="20">
+            <section class="slide fx" id="slide-nodata" data-slide="21">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">16</span>Где общих моделей мало</div>
                     <h2 class="fx-h" data-rv>Для некоторых задач данных <mark>нет в интернете</mark></h2>
@@ -629,7 +650,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-domainmodels" data-slide="21">
+            <section class="slide fx" id="slide-domainmodels" data-slide="22">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">17</span>Предметные модели</div>
                     <h2 class="fx-h" data-rv>Своя область&nbsp;— <mark>своя модель</mark></h2>
@@ -664,7 +685,7 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-outro" data-slide="22">
+            <section class="slide fx" id="slide-outro" data-slide="23">
                 <div class="fx-wrap">
                     <div class="fx-kicker" data-rv="fade"><span class="n">18</span>Итог</div>
                     <h2 class="fx-h" data-rv>Выводы</h2>
@@ -692,7 +713,7 @@
             </section>
 
 
-            <section class="slide fx" data-slide="23" data-chrome="whatnext">
+            <section class="slide fx" data-slide="24" data-chrome="whatnext">
                 <div class="timeline-next-container">
                     <div class="fx-kicker" data-rv="fade">Дальше</div>
                     <h2 class="fx-h" data-rv>Что далее</h2>

@@ -1,0 +1,18 @@
+/*
+ * theme.css — цвет книги «AI-инженерия»: лайм.
+ * Файл пишет генератор (scripts/new-talk.mjs, таблица scripts/book-themes.mjs);
+ * правьте таблицу, а не этот файл.
+ */
+:root {
+    --fx: #d4ff3f;
+    --fx-rgb: 212, 255, 63;
+    --hot: #ff6b4a;
+    --hot-rgb: 255, 107, 74;
+}
+
+:root[data-theme='light'] {
+    --fx: #4d7c0f;
+    --fx-rgb: 77, 124, 15;
+    --hot: #c2410c;
+    --hot-rgb: 194, 65, 12;
+}

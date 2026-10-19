@@ -416,21 +416,26 @@
                     <div class="fx-body">
                         <div class="cmp">
                             <div class="cmp-col" data-rv="left">
-                                <div class="cmp-vis"><i style="--s:190px"></i><i style="--s:150px"></i></div>
+                                <div class="cmp-vis"><i style="--s:150px"></i><i style="--s:115px"></i></div>
                                 <div class="cmp-k">Всё подряд</div>
                                 <div class="cmp-t">Многие так и поступают</div>
                                 <p class="cmp-p">Но это часто требует больше вычислительных ресурсов и не&nbsp;всегда повышает качество.</p>
                             </div>
                             <div class="cmp-vs" data-rv="fade">vs</div>
                             <div class="cmp-col is-hi" data-rv="right">
-                                <div class="cmp-vis"><i style="--s:64px"></i></div>
+                                <div class="cmp-vis"><i style="--s:56px"></i></div>
                                 <div class="cmp-k">Мало, но качественно</div>
                                 <div class="cmp-t"><a class="lnk" href="https://huggingface.co/microsoft/phi-1" target="_blank" rel="noopener">phi-1</a>&nbsp;· 1,3&nbsp;млрд параметров</div>
                                 <p class="cmp-p">Всего 7&nbsp;млрд токенов качественного кода&nbsp;— и&nbsp;обошла гораздо более крупные модели на тестах по коду.</p>
                                 <div class="cmp-links"><a class="lnk" href="https://huggingface.co/microsoft/phi-1" target="_blank" rel="noopener">модель ↗</a><a class="lnk" href="https://arxiv.org/abs/2306.11644" target="_blank" rel="noopener">исследование «Textbooks Are All You Need» ↗</a></div>
                             </div>
                         </div>
-                        <p class="concl is-one" data-rv>Модель, обученная на меньшем объёме <b>высококачественных</b> данных, может превзойти ту, что обучена на большем объёме низкокачественных.</p>
+                        <div class="verdict is-one">
+                            <div class="vd is-fix" data-rv>
+                                <svg class="vd-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.7 2.7L16.2 9.5"/></svg>
+                                <div><span class="k">вывод</span><p>Модель, обученная на меньшем объёме <b>высококачественных</b> данных, может превзойти ту, что обучена на большем объёме низкокачественных</p></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <aside class="notes">
@@ -543,9 +548,15 @@
                             <div class="hb-row is-zero" data-rv><span class="hb-l">Бирманский</span><div class="hb-t"><em>ни одной задачи</em></div><span class="hb-v">0 %</span></div>
                             <div class="hb-row is-zero" data-rv><span class="hb-l">Амхарский</span><div class="hb-t"><em>ни одной задачи</em></div><span class="hb-v">0 %</span></div>
                         </div>
-                        <div class="concl is-row" data-rv>
-                            <p><b>Недостаточная представленность</b>&nbsp;— одна из главных причин такой малой результативности.</p>
-                            <p>Структура языка и культура, которую он воплощает, тоже могут затруднять модели изучение языка.</p>
+                        <div class="verdict is-pair is-compact">
+                            <div class="vd is-risk" data-rv="left">
+                                <svg class="vd-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><path d="M6.5 20v-4M11 20V9M15.5 20v-6M20 20v-2.5"/></svg>
+                                <div><span class="k">главная причина</span><p><b>Недостаточная представленность</b> языка в&nbsp;данных&nbsp;— отсюда такая малая результативность</p></div>
+                            </div>
+                            <div class="vd is-note" data-rv="right">
+                                <svg class="vd-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+                                <div><span class="k">и&nbsp;ещё</span><p><b>Структура языка и культура</b>, которую он воплощает, тоже могут затруднять модели его изучение</p></div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -2869,28 +2869,6 @@ a.au-card:hover b { color: var(--fx); }
 }
 .fx-cap.is-under { margin: 14px 0 0 !important; }
 
-/* Вывод под схемой: акцентная черта слева */
-.concl {
-    max-width: 1320px;
-    margin-top: 34px;
-    padding: 4px 0 4px 28px;
-    border-left: 2px solid var(--fx);
-    font-size: 26px;
-    line-height: 1.45;
-    color: var(--text-soft);
-}
-.concl p + p { margin-top: 8px !important; }
-.concl b { color: var(--text-main); font-weight: 600; }
-.concl.is-row {
-    max-width: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    margin-top: 30px;
-    font-size: 23px;
-}
-.concl.is-row p + p { margin-top: 0 !important; }
-
 /* Подсказка при наведении (NewsGuard) */
 .tip {
     position: relative;
@@ -2972,6 +2950,14 @@ a.au-card:hover b { color: var(--fx); }
 .vd.is-fix .k { color: var(--fx); }
 .vd.is-fix .vd-ico { stroke: var(--fx); background: rgba(var(--fx-rgb), 0.1); }
 .verdict .ex-arrow { align-self: center; margin: 0 20px; }
+.verdict.is-one { grid-template-columns: 1fr; margin-top: 30px; }
+.verdict.is-pair { grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 26px; }
+.verdict.is-compact .vd { grid-template-columns: 60px 1fr; gap: 18px; padding: 18px 26px 18px 18px; }
+.verdict.is-compact .vd-ico { width: 60px; height: 60px; padding: 13px; border-radius: 16px; }
+.verdict.is-compact .vd p { font-size: 22px; }
+.vd.is-note { border-color: var(--border-strong); background: rgba(var(--tint-rgb), 0.03); }
+.vd.is-note .k { color: var(--text-dim); }
+.vd.is-note .vd-ico { stroke: var(--text-soft); background: rgba(var(--tint-rgb), 0.07); }
 
 /* Два пути к своей модели: с нуля и дообучением */
 .route { display: flex; flex-direction: column; gap: 30px; }
@@ -3007,7 +2993,7 @@ a.au-card:hover b { color: var(--fx); }
 .cmp { display: grid; grid-template-columns: 1fr 90px 1fr; align-items: stretch; }
 .cmp-col { padding: 28px 34px 30px; border: 1px solid var(--border); border-radius: 22px; }
 .cmp-col.is-hi { border-color: rgba(var(--fx-rgb), 0.5); }
-.cmp-vis { height: 170px; display: flex; align-items: flex-end; gap: 14px; margin-bottom: 22px; }
+.cmp-vis { height: 150px; display: flex; align-items: flex-end; gap: 14px; margin-bottom: 22px; }
 .cmp-vis i {
     display: block;
     width: var(--s);
@@ -3024,7 +3010,6 @@ a.au-card:hover b { color: var(--fx); }
 .cmp-p { font-size: 23px; line-height: 1.45; color: var(--text-muted); }
 .cmp-links { display: flex; flex-wrap: wrap; gap: 8px 26px; margin-top: 14px; font-family: var(--font-mono); font-size: 16px; color: var(--text-soft); }
 .cmp-vs { align-self: center; text-align: center; font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
-.fx .concl.is-one { margin-top: 30px; }
 
 /* Плотная диаграмма на 11 строк и «ноль» с акцентом */
 .hb.is-tight { gap: 7px; }

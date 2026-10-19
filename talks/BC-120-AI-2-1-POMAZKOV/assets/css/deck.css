@@ -2927,17 +2927,6 @@ a.au-card:hover b { color: var(--fx); }
 .tip:focus-within .tip-c { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 .tile.is-open { overflow: visible; z-index: 2; }
 
-/* C4 — справка под «рельсой» */
-.c4 {
-    margin-top: 44px;
-    padding: 24px 30px;
-    border: 1px dashed rgba(var(--fx-rgb), 0.45);
-    border-radius: 18px;
-}
-.c4-k { margin-bottom: 10px; font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fx); }
-.c4 p { font-size: 23px; line-height: 1.5; color: var(--text-muted); }
-.c4 b { color: var(--text-main); font-weight: 600; }
-
 /* Венн с подписями снаружи кругов: внутри им не хватало места */
 .venn.is-out { width: 1320px; height: 400px; }
 .venn.is-out .venn-c { width: 380px; height: 380px; top: 10px; padding: 0; justify-content: center; }

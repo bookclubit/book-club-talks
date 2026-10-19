@@ -261,7 +261,7 @@
                                 <div class="rn-data"><span><b>кто</b>Google, 2019</span></div>
                                 <span class="rn-dot"></span>
                                 <div class="rn-t"><a class="lnk" href="https://arxiv.org/abs/1910.10683" target="_blank" rel="noopener">C4</a></div>
-                                <div class="rn-out">очищенная выборка</div>
+                                <div class="rn-out"><span class="tip" tabindex="0">очищенная выборка<span class="tip-c" role="tooltip"><b>C4&nbsp;— Colossal Clean Crawled Corpus.</b> Выборка Google из Common Crawl для обучения T5: оставили английские страницы, выкинули дубли, обрывки, код и страницы с&nbsp;бранью. Получилось около 750&nbsp;ГБ текста. <a href="https://arxiv.org/abs/1910.10683" target="_blank" rel="noopener">Статья ↗</a> · <a href="https://huggingface.co/datasets/allenai/c4" target="_blank" rel="noopener">набор открыт ↗</a></span></span></div>
                             </div>
                             <div class="rail-node is-end" data-rv>
                                 <div class="rn-data"><span><b>где</b>модели, раскрывшие данные</span></div>
@@ -270,15 +270,11 @@
                                 <div class="rn-out">GPT-3, Gemini и другие</div>
                             </div>
                         </div>
-                        <div class="c4" data-rv>
-                            <div class="c4-k">C4&nbsp;— <a class="lnk" href="https://arxiv.org/abs/1910.10683" target="_blank" rel="noopener">Colossal Clean Crawled Corpus</a></div>
-                            <p>Выборка Google из Common Crawl для обучения T5: оставили английские страницы, выкинули дубли, обрывки, код и страницы с&nbsp;бранью. Получилось около <b>750&nbsp;ГБ текста</b>&nbsp;— <a class="lnk" href="https://huggingface.co/datasets/allenai/c4" target="_blank" rel="noopener">набор открыт</a>.</p>
-                        </div>
                     </div>
                 </div>
                 <aside class="notes">
                     <p><em>Текст</em> Самый распространённый источник обучающих данных — Common Crawl. Это архив некоммерческой организации, которая регулярно обходит сайты в интернете: в 2022–2023 годах — по два-три миллиарда страниц каждый месяц.</p>
-                    <p>Google сделала из него очищенную выборку — C4, Colossal Clean Crawled Corpus, «огромный чистый корпус из обхода интернета». Её собрали в 2019 году для обучения модели T5: оставили только английские страницы, убрали дубликаты, короткие обрывки, страницы с кодом и с нецензурной лексикой. Вышло около 750 гигабайт текста, и этот набор открыт — его можно скачать.</p>
+                    <p>Google сделала из него очищенную выборку — C4, Colossal Clean Crawled Corpus, «огромный чистый корпус из обхода интернета». Её собрали в 2019 году для обучения модели T5: оставили только английские страницы, убрали дубликаты, короткие обрывки, страницы с кодом и с нецензурной лексикой. Вышло около 750 гигабайт текста, и этот набор открыт — его можно скачать. На слайде это пояснение — в подсказке при наведении на «очищенная выборка».</p>
                     <p>Вариации Common Crawl есть почти во всех моделях, которые раскрывают свои обучающие данные, — например, в GPT-3 от OpenAI и в Gemini от Google.</p>
                     <p><em>Переход</em> Звучит как идеальный источник: огромный и бесплатный. Но есть нюанс.</p>
                     <p><em>Источники</em> <a href="https://commoncrawl.org" target="_blank" rel="noopener">commoncrawl.org</a>; <a href="https://arxiv.org/abs/1910.10683" target="_blank" rel="noopener">C4 — Raffel и др., 2019 (статья о T5, раздел 2.2)</a>; <a href="https://huggingface.co/datasets/allenai/c4" target="_blank" rel="noopener">C4 на Hugging Face</a>.</p>

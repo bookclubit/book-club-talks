@@ -2928,10 +2928,10 @@ a.au-card:hover b { color: var(--fx); }
 .tile.is-open { overflow: visible; z-index: 2; }
 
 /* Венн с подписями снаружи кругов: внутри им не хватало места */
-.venn.is-out { width: 1320px; height: 400px; }
-.venn.is-out .venn-c { width: 380px; height: 380px; top: 10px; padding: 0; justify-content: center; }
-.venn.is-out .venn-c.a { left: 355px; }
-.venn.is-out .venn-c.b { right: 355px; }
+.venn.is-out { width: 1320px; height: 350px; }
+.venn.is-out .venn-c { width: 340px; height: 340px; top: 5px; padding: 0; justify-content: center; }
+.venn.is-out .venn-c.a { left: 395px; }
+.venn.is-out .venn-c.b { right: 395px; }
 .venn.is-out .venn-c span {
     position: absolute;
     top: 50%;
@@ -2941,7 +2941,37 @@ a.au-card:hover b { color: var(--fx); }
 }
 .venn.is-out .venn-c.a span { right: calc(100% + 34px); text-align: right; }
 .venn.is-out .venn-c.b span { left: calc(100% + 34px); text-align: left; }
-.venn.is-out + .concl { margin: 30px auto 0; }
+/* Вывод под Венном: «риск → что делать» */
+.verdict { display: grid; grid-template-columns: 1fr 110px 1fr; align-items: stretch; margin-top: 34px; }
+.vd {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 22px;
+    align-items: center;
+    padding: 24px 30px 24px 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+.vd .k { display: block; margin-bottom: 6px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; }
+.vd p { font-size: 24px; line-height: 1.4; color: var(--text-soft); }
+.vd p b { color: var(--text-main); font-weight: 600; }
+.vd-ico {
+    width: 72px;
+    height: 72px;
+    padding: 16px;
+    border-radius: 18px;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.vd.is-risk { border-color: rgba(var(--hot-rgb), 0.45); background: rgba(var(--hot-rgb), 0.05); }
+.vd.is-risk .k { color: var(--hot); }
+.vd.is-risk .vd-ico { stroke: var(--hot); background: rgba(var(--hot-rgb), 0.1); }
+.vd.is-fix { border-color: rgba(var(--fx-rgb), 0.55); background: rgba(var(--fx-rgb), 0.05); }
+.vd.is-fix .k { color: var(--fx); }
+.vd.is-fix .vd-ico { stroke: var(--fx); background: rgba(var(--fx-rgb), 0.1); }
+.verdict .ex-arrow { align-self: center; margin: 0 20px; }
 
 /* Два пути к своей модели: с нуля и дообучением */
 .route { display: flex; flex-direction: column; gap: 30px; }

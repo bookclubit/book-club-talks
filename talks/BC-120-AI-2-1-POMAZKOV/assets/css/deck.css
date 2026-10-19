@@ -2852,3 +2852,241 @@ a.au-card:hover b { color: var(--fx); }
     .slide.active .opt.is-no { opacity: 0.32; }
     .bon-c.win .tag { opacity: 1; }
 }
+
+/* =====================================================================
+   BC-120-AI-2-1: правки спикера 19.10.2026 — ссылки, подсказка,
+   выводы под схемами, путь «с нуля / дообучение», сравнение объёма
+   и качества, диаграмма «Проекта Эйлера», модели по языкам с иконками.
+   ===================================================================== */
+
+/* Подпись над схемой («Пример · …») и строка-источник под заголовком */
+.fx-cap {
+    margin-bottom: 20px;
+    font-family: var(--font-mono);
+    font-size: 19px;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+}
+.fx-cap.is-under { margin: 14px 0 0 !important; }
+
+/* Вывод под схемой: акцентная черта слева */
+.concl {
+    max-width: 1320px;
+    margin-top: 34px;
+    padding: 4px 0 4px 28px;
+    border-left: 2px solid var(--fx);
+    font-size: 26px;
+    line-height: 1.45;
+    color: var(--text-soft);
+}
+.concl p + p { margin-top: 8px !important; }
+.concl b { color: var(--text-main); font-weight: 600; }
+.concl.is-row {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 30px;
+    font-size: 23px;
+}
+.concl.is-row p + p { margin-top: 0 !important; }
+
+/* Подсказка при наведении (NewsGuard) */
+.tip {
+    position: relative;
+    color: var(--text-main);
+    border-bottom: 1px dashed rgba(var(--fx-rgb), 0.7);
+    cursor: help;
+    outline: none;
+}
+.tip-c {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 16px);
+    z-index: 20;
+    width: 600px;
+    padding: 22px 26px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--bg-card);
+    box-shadow: 0 24px 60px -20px rgba(var(--shadow-rgb), calc(0.9 * var(--shadow-k)));
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    text-align: left;
+    cursor: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 6px);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+}
+.tip-c::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 20px; }
+.tip-c b { color: var(--text-main); font-weight: 600; }
+.tip-c a { color: var(--fx); text-decoration: none; border-bottom: 1px dashed rgba(var(--fx-rgb), 0.6); }
+.tip:hover .tip-c,
+.tip:focus-within .tip-c { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.tile.is-open { overflow: visible; z-index: 2; }
+
+/* C4 — справка под «рельсой» */
+.c4 {
+    margin-top: 44px;
+    padding: 24px 30px;
+    border: 1px dashed rgba(var(--fx-rgb), 0.45);
+    border-radius: 18px;
+}
+.c4-k { margin-bottom: 10px; font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fx); }
+.c4 p { font-size: 23px; line-height: 1.5; color: var(--text-muted); }
+.c4 b { color: var(--text-main); font-weight: 600; }
+
+/* Венн с подписями снаружи кругов: внутри им не хватало места */
+.venn.is-out { width: 1320px; height: 400px; }
+.venn.is-out .venn-c { width: 380px; height: 380px; top: 10px; padding: 0; justify-content: center; }
+.venn.is-out .venn-c.a { left: 355px; }
+.venn.is-out .venn-c.b { right: 355px; }
+.venn.is-out .venn-c span {
+    position: absolute;
+    top: 50%;
+    width: 260px;
+    max-width: none;
+    transform: translateY(-50%);
+}
+.venn.is-out .venn-c.a span { right: calc(100% + 34px); text-align: right; }
+.venn.is-out .venn-c.b span { left: calc(100% + 34px); text-align: left; }
+.venn.is-out + .concl { margin: 30px auto 0; }
+
+/* Два пути к своей модели: с нуля и дообучением */
+.route { display: flex; flex-direction: column; gap: 30px; }
+.route-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 90px 1fr 90px 1fr;
+    align-items: stretch;
+    row-gap: 12px;
+}
+.route-k, .route-row .ex-arrow { align-self: center; }
+.route-k { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+.route-k b { display: block; margin-bottom: 4px; font-family: var(--font-sans); font-size: 30px; font-weight: 600; letter-spacing: -0.01em; text-transform: none; color: var(--text-soft); }
+.route-box {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    font-size: 23px;
+    line-height: 1.35;
+    color: var(--text-soft);
+}
+.route-row .ex-arrow { margin: 0 14px; }
+.route-eg { grid-column: 2 / -1; font-size: 20px; color: var(--text-dim); }
+.route-row.is-dim .route-box { border-style: dashed; border-color: var(--border-strong); color: var(--text-muted); }
+.route-row.is-hi .route-k b { color: var(--fx); }
+.route-row.is-hi .route-box.is-end { border-color: var(--fx); color: var(--text-main); font-weight: 600; }
+
+/* Вопрос-заголовок длиннее обычного */
+.fx-h.is-q { font-size: 60px; max-width: 1620px; }
+
+/* «Всё подряд» против «мало, но качественно» */
+.cmp { display: grid; grid-template-columns: 1fr 90px 1fr; align-items: stretch; }
+.cmp-col { padding: 28px 34px 30px; border: 1px solid var(--border); border-radius: 22px; }
+.cmp-col.is-hi { border-color: rgba(var(--fx-rgb), 0.5); }
+.cmp-vis { height: 170px; display: flex; align-items: flex-end; gap: 14px; margin-bottom: 22px; }
+.cmp-vis i {
+    display: block;
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    border: 1px solid rgba(var(--tint-rgb), 0.25);
+    background: rgba(var(--tint-rgb), 0.04);
+}
+.cmp-col.is-hi .cmp-vis i { border-color: var(--fx); background: var(--fx); }
+.slide.active .cmp-vis i { animation: fxPop 0.6s var(--ease-out) calc(var(--d, 0ms) + 250ms) backwards; }
+.cmp-k { margin-bottom: 8px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+.cmp-col.is-hi .cmp-k { color: var(--fx); }
+.cmp-t { margin-bottom: 10px; font-size: 34px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; color: var(--text-main); }
+.cmp-p { font-size: 23px; line-height: 1.45; color: var(--text-muted); }
+.cmp-links { display: flex; flex-wrap: wrap; gap: 8px 26px; margin-top: 14px; font-family: var(--font-mono); font-size: 16px; color: var(--text-soft); }
+.cmp-vs { align-self: center; text-align: center; font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+.fx .concl.is-one { margin-top: 30px; }
+
+/* Плотная диаграмма на 11 строк и «ноль» с акцентом */
+.hb.is-tight { gap: 7px; }
+.hb.is-tight .hb-row { grid-template-columns: 240px 1fr 130px; }
+.hb.is-tight .hb-l, .hb.is-tight .hb-v { font-size: 22px; }
+.hb-row.is-zero .hb-l, .hb-row.is-zero .hb-v { color: var(--hot); font-weight: 600; }
+.hb-row.is-zero .hb-t { height: 26px; border: 1px dashed rgba(var(--hot-rgb), 0.7); background: rgba(var(--hot-rgb), 0.06); }
+.hb-row.is-zero .hb-t em {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--hot);
+}
+
+/* Подпись под схемой местоимений */
+.fx .pron-cap { margin-top: 26px; }
+
+/* Цена токенов: условия исследования и кратность */
+.tk-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    margin-bottom: 44px;
+    padding: 18px 0;
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+.tk-meta .k { display: block; margin-bottom: 6px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+.tk-n i { margin-left: 14px; font-style: normal; font-size: 20px; color: var(--text-dim); }
+.tk-row.is-hot .tk-n i { color: var(--hot); }
+.tk-row { grid-template-columns: 220px 1fr 230px; }
+
+/* Модели по языкам: без рамок, у каждой модели значок-монограмма */
+.langs.is-flat { grid-template-columns: repeat(5, 1fr); gap: 36px; }
+.langs.is-flat .lang { padding: 0; border: 0; border-radius: 0; }
+.langs.is-flat .lang .k { padding-bottom: 16px; font-size: 17px; border-bottom: 1px solid var(--border-soft); }
+.langs.is-flat ul { margin-top: 28px; gap: 26px; }
+.langs.is-flat li { display: flex; align-items: center; gap: 16px; font-size: 30px; }
+.langs.is-flat li > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+.langs.is-flat li em {
+    margin-top: 2px;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+}
+.mono {
+    flex: none;
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(var(--fx-rgb), 0.45);
+    border-radius: 14px;
+    background: rgba(var(--fx-rgb), 0.07);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--fx);
+}
+
+/* Иконка карточки */
+.tile-ico {
+    display: block;
+    width: 76px;
+    height: 76px;
+    margin-bottom: 24px;
+    fill: none;
+    stroke: var(--fx);
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}

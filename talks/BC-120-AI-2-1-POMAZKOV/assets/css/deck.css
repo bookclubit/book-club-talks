@@ -2923,8 +2923,8 @@ a.au-card:hover b { color: var(--fx); }
 .verdict { display: grid; grid-template-columns: 1fr 110px 1fr; align-items: stretch; margin-top: 34px; }
 .vd {
     display: grid;
-    grid-template-columns: 72px 1fr;
-    gap: 22px;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
     align-items: center;
     padding: 24px 30px 24px 24px;
     border: 1px solid var(--border);
@@ -2934,9 +2934,11 @@ a.au-card:hover b { color: var(--fx); }
 .vd p { font-size: 24px; line-height: 1.4; color: var(--text-soft); }
 .vd p b { color: var(--text-main); font-weight: 600; }
 .vd-ico {
-    width: 72px;
-    height: 72px;
-    padding: 16px;
+    box-sizing: border-box;
+    flex: none;
+    width: 84px;
+    height: 84px;
+    padding: 17px;
     border-radius: 18px;
     fill: none;
     stroke-width: 1.5;
@@ -2952,8 +2954,8 @@ a.au-card:hover b { color: var(--fx); }
 .verdict .ex-arrow { align-self: center; margin: 0 20px; }
 .verdict.is-one { grid-template-columns: 1fr; margin-top: 30px; }
 .verdict.is-pair { grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 26px; }
-.verdict.is-compact .vd { grid-template-columns: 60px 1fr; gap: 18px; padding: 18px 26px 18px 18px; }
-.verdict.is-compact .vd-ico { width: 60px; height: 60px; padding: 13px; border-radius: 16px; }
+.verdict.is-compact .vd { gap: 20px; padding: 18px 26px 18px 18px; }
+.verdict.is-compact .vd-ico { width: 68px; height: 68px; padding: 14px; border-radius: 16px; }
 .verdict.is-compact .vd p { font-size: 22px; }
 .vd.is-note { border-color: var(--border-strong); background: rgba(var(--tint-rgb), 0.03); }
 .vd.is-note .k { color: var(--text-dim); }

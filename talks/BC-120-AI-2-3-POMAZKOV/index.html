@@ -88,13 +88,42 @@
                 <aside class="notes">
                     <p><em>Текст</em> Артём рассказал, как устроена модель и сколько ей нужно данных и вычислений. Допустим, мы её обучили — получилась предобученная модель. Она прочитала интернет и знает очень много. Но пользоваться ею пока неудобно, а иногда и опасно. Превратить её в ассистента — задача последующего обучения, post-training.</p>
                     <p>Отсюда первое правило: для последующего обучения обязательно нужна уже предобученная модель.</p>
-                    <p><em>Переход</em> Какую задачу решает последующее обучение?</p>
+                    <p><em>Переход</em> Чем по сути отличаются два этапа?</p>
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-goal" data-slide="3">
+            <section class="slide fx" id="slide-diff" data-slide="3">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Цель последующего обучения</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Разница между предварительным и последующим обучением</div>
+                    <h2 class="fx-h" data-rv>Токен за токеном против <mark>ответа целиком</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2 is-plain">
+                            <div class="tile" data-rv="left">
+                                <div class="tile-k">Предварительное обучение</div>
+                                <div class="tokline" data-seq style="margin:4px 0 24px"><span>Столица</span><span>Франции</span><span>—</span><span class="next">Париж</span></div>
+                                <p class="tile-p">Оптимизирует качество <b>на уровне токенов</b>: модель учится точно предсказывать следующий токен.</p>
+                            </div>
+                            <div class="tile is-hi" data-rv="right">
+                                <div class="tile-k">Последующее обучение</div>
+                                <div class="whole" style="margin:4px 0 24px; padding:18px 26px">
+                                    <div class="bon-lines" style="margin:2px 0 14px"><i></i><i></i><i></i></div>
+                                    <div class="chips"><span class="chip is-hi">полезный?</span><span class="chip is-hi">правдивый?</span><span class="chip is-hi">уместный?</span></div>
+                                </div>
+                                <p class="tile-p">Оптимизирует модель для генерации <b>ответов, предпочитаемых людьми</b>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Подчеркну разницу ещё раз. Предварительное обучение оптимизирует качество на уровне токенов: модель учится точно предсказывать следующий токен. Но пользователям неважно качество отдельных токенов — им важно качество всего ответа. Последующее обучение в целом оптимизирует модель для генерации ответов, которые предпочитают люди.</p>
+                    <p>Иногда это сравнивают так: предобучение — чтение ради получения знаний, а последующее обучение — обучение тому, как этими знаниями пользоваться.</p>
+                    <p><em>Переход</em> Какие проблемы предобученной модели оно решает?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="slide-goal" data-slide="4">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Цель последующего обучения</div>
                     <h2 class="fx-h" data-rv>Решить <mark>две проблемы</mark> предобученной модели</h2>
                     <div class="fx-body">
                         <div class="goal2">
@@ -114,58 +143,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="goal-strip" data-rv>
-                            <span class="gs-k">Цель</span>
-                            <span class="gs-t">решить обе проблемы:</span>
-                            <span class="gs-i"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>вести беседу</span>
-                            <span class="gs-i"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>отвечать уместно и верно</span>
-                        </div>
                     </div>
                 </div>
                 <aside class="notes">
                     <p><em>Текст</em> Из-за того, как сегодня устроено предобучение, у предобученной модели обычно две проблемы. Первая: самообучение оптимизирует её на задачу дополнения текста, а не ведения беседы. Спросите «Как выучить английский» — и она продолжит как веб-страница: заголовок статьи, комментарии, «читайте также». Друг автора сформулировал это так: предобученная модель разговаривает как веб-страница, а не как человек.</p>
                     <p>Вторая: если модель обучали на данных, без разбора собранных по всему интернету, — а в первом докладе мы видели, что так и есть, — её вывод бывает расистским, сексистским, грубым или просто неверным. Цель последующего обучения — решить обе проблемы: научить модель беседовать и отвечать уместно.</p>
                     <p><em>Как показывать</em> Продолжение про английский — мой пример к сноске автора о веб-странице.</p>
-                    <p><em>Переход</em> Чем по сути отличаются два этапа?</p>
-                </aside>
-            </section>
-
-            <section class="slide fx" id="slide-diff" data-slide="4">
-                <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Разница между предварительным и последующим обучением</div>
-                    <h2 class="fx-h" data-rv>Токен за токеном против <mark>ответа целиком</mark></h2>
-                    <div class="fx-body">
-                        <div class="grid2" style="gap:36px">
-                            <div class="tile" data-rv="left">
-                                <div class="tile-k">Предварительное обучение</div>
-                                <div class="tokline" data-seq style="margin:4px 0 24px"><span>Столица</span><span>Франции</span><span>—</span><span class="next">Париж</span></div>
-                                <p class="tile-p">Оптимизирует качество <b>на уровне токенов</b>: модель учится точно предсказывать следующий токен.</p>
-                            </div>
-                            <div class="tile is-hi" data-rv="right">
-                                <div class="tile-k">Последующее обучение</div>
-                                <div class="whole" style="margin:4px 0 24px; padding:18px 26px">
-                                    <div class="bon-lines" style="margin:2px 0 14px"><i></i><i></i><i></i></div>
-                                    <div class="chips"><span class="chip is-hi">полезный?</span><span class="chip is-hi">правдивый?</span><span class="chip is-hi">уместный?</span></div>
-                                </div>
-                                <p class="tile-p">Оптимизирует модель для генерации <b>ответов, предпочитаемых людьми</b>.</p>
-                            </div>
-                        </div>
-                        <div class="verdict is-pair is-compact">
-                            <div class="vd is-note" data-rv>
-                                <svg class="vd-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg>
-                                <div><span class="k">Предобучение&nbsp;— это</span><p><b>чтение</b> ради получения знаний</p></div>
-                            </div>
-                            <div class="vd is-fix" data-rv>
-                                <svg class="vd-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                                <div><span class="k">Последующее обучение&nbsp;— это</span><p>обучение тому, <b>как использовать</b> эти знания</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Текст</em> Подчеркну разницу ещё раз. Предварительное обучение оптимизирует качество на уровне токенов: модель учится точно предсказывать следующий токен. Но пользователям неважно качество отдельных токенов — им важно качество всего ответа. Последующее обучение в целом оптимизирует модель для генерации ответов, которые предпочитают люди.</p>
-                    <p>Иногда это сравнивают так: предобучение — чтение ради получения знаний, а последующее обучение — обучение тому, как этими знаниями пользоваться.</p>
-                    <p><em>Переход</em> И второе обходится куда дешевле первого.</p>
+                    <p><em>Переход</em> И обходится это куда дешевле предобучения.</p>
                 </aside>
             </section>
 

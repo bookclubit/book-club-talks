@@ -1838,6 +1838,9 @@ p { font-size: 26px; line-height: 1.6; color: var(--text-muted); margin-bottom: 
 }
 .tile.is-hi { border-color: rgba(var(--fx-rgb), 0.45); box-shadow: 0 0 0 1px rgba(var(--fx-rgb), 0.12), 0 30px 80px -40px rgba(var(--fx-rgb), calc(0.5 * var(--glow-k))); }
 .tile.is-hot { border-color: rgba(var(--hot-rgb), 0.45); }
+/* Без рамок: колонки, а не карточки */
+.grid2.is-plain { gap: 80px; }
+.is-plain > .tile { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible; }
 
 .tile-k {
     margin-bottom: 18px;
@@ -2996,12 +2999,7 @@ a.au-card:hover b { color: var(--fx); }
     display: flex;
     flex-direction: column;
     gap: 22px;
-    padding: 28px 32px 30px;
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    background: rgba(var(--tint-rgb), 0.02);
 }
-.gp.is-hot { border-color: rgba(var(--hot-rgb), 0.4); }
 .gp-head { display: grid; grid-template-columns: 52px 1fr; gap: 18px; align-items: start; }
 .gp-n {
     width: 52px;
@@ -3038,20 +3036,6 @@ a.au-card:hover b { color: var(--fx); }
     color: var(--hot);
 }
 .slide.active .junk-chips span { animation: fxPop 0.45s var(--ease-out) calc(1700ms + var(--i, 0) * 160ms) backwards; }
-.goal-strip {
-    display: flex;
-    align-items: center;
-    gap: 26px;
-    margin-top: 28px;
-    padding: 20px 30px;
-    border: 1px solid rgba(var(--fx-rgb), 0.55);
-    border-radius: 18px;
-    background: rgba(var(--fx-rgb), 0.05);
-}
-.gs-k { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fx); }
-.gs-t { font-size: 27px; font-weight: 600; color: var(--text-main); }
-.gs-i { display: inline-flex; align-items: center; gap: 10px; font-size: 25px; color: var(--text-soft); }
-.gs-i .ico { color: var(--fx); font-size: 26px; }
 
 /* ===== Раскрытие возможностей ===== */
 .split-cap .stat > span { max-width: 520px; }

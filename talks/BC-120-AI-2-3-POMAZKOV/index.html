@@ -839,7 +839,7 @@
 
             <section class="slide fx" id="slide-rm" data-slide="24">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">23</span>Модель вознаграждения<span class="sec">1 / 9</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">23</span>Модель вознаграждения<span class="sec">1 / 6</span></div>
                     <h2 class="fx-h" data-rv>RLHF держится на <mark>модели вознаграждения</mark></h2>
                     <div class="fx-body">
                         <div class="rmf">
@@ -871,7 +871,7 @@
 
             <section class="slide fx" id="slide-pointwise" data-slide="25">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">24</span>Модель вознаграждения<span class="sec">2 / 9</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">24</span>Модель вознаграждения<span class="sec">2 / 6</span></div>
                     <h2 class="fx-h" data-rv>Балл за каждый ответ&nbsp;— <mark class="hot">оценки гуляют</mark></h2>
                     <p class="fx-lead" data-rv>Независимая оценка каждого примера&nbsp;— <b>точечная оценка</b> (pointwise evaluation)</p>
                     <div class="fx-body">
@@ -892,7 +892,7 @@
 
             <section class="slide fx" id="slide-compare" data-slide="26">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">25</span>Модель вознаграждения<span class="sec">3 / 9</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">25</span>Модель вознаграждения<span class="sec">3 / 6</span></div>
                     <h2 class="fx-h" data-rv>Проще попросить <mark>сравнить два ответа</mark></h2>
                     <div class="fx-body">
                         <div class="cmp3">
@@ -919,7 +919,7 @@
 
             <section class="slide fx" id="slide-dog" data-slide="27">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">26</span>Модель вознаграждения<span class="sec">4 / 9</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">26</span>Модель вознаграждения<span class="sec">4 / 6</span></div>
                     <h2 class="fx-h" data-rv>«Правильный» ответ&nbsp;— <mark>дело вкуса</mark></h2>
                     <div class="fx-body">
                         <div class="fx-cap" data-rv="fade">Пример · набор сравнений <a class="lnk" href="https://huggingface.co/datasets/Anthropic/hh-rlhf" target="_blank" rel="noopener">HH-RLHF, Anthropic ↗</a></div>
@@ -948,7 +948,7 @@
 
             <section class="slide fx" id="slide-lmsys" data-slide="28">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">27</span>Модель вознаграждения<span class="sec">5 / 9</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">27</span>Модель вознаграждения<span class="sec">5 / 6</span></div>
                     <h2 class="fx-h" data-rv>Но и одно сравнение&nbsp;— это <mark>3–5 минут</mark></h2>
                     <div class="fx-body">
                         <div class="fx-cap" data-rv="fade">Исследование <a class="lnk" href="https://lmsys.org" target="_blank" rel="noopener">LMSYS ↗</a> (Large Model Systems Organization)&nbsp;· <a class="lnk" href="https://arxiv.org/abs/2403.04132" target="_blank" rel="noopener">Чианг и др., 2024 ↗</a></div>
@@ -977,7 +977,7 @@
 
             <section class="slide fx" id="slide-cost" data-slide="29">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">28</span>Модель вознаграждения<span class="sec">6 / 9</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">28</span>Модель вознаграждения<span class="sec">6 / 6</span></div>
                     <h2 class="fx-h" data-rv>Сравнение&nbsp;— <mark>$3,5</mark>, ответ с нуля&nbsp;— $25</h2>
                     <div class="fx-body">
                         <div class="fx-cap" data-rv="fade">Томас Сьялом, один из авторов Llama 2, в беседе с сообществом · <a class="lnk" href="https://www.youtube.com/watch?v=CzR3OrOkM9w" target="_blank" rel="noopener">запись ↗</a></div>
@@ -993,153 +993,16 @@
                 <aside class="notes">
                     <p><em>Текст</em> Один из авторов Llama 2, Томас Сьялом, рассказывал сообществу, что каждое сравнение обошлось им в 3,5 доллара. Это всё равно намного дешевле, чем писать ответы с нуля, — по 25 долларов за каждый. Разница примерно в семь раз.</p>
                     <p><em>Как показывать</em> В книге сказано, что разговор был в Discord; ссылка ведёт на запись.</p>
-                    <p><em>Переход</em> Как выглядит сама разметка?</p>
+                    <p><em>Переход</em> Допустим, сравнения собраны и модель вознаграждения обучена. Что дальше?</p>
                     <p><em>Источники</em> <a href="https://www.youtube.com/watch?v=CzR3OrOkM9w" target="_blank" rel="noopener">Томас Сьялом о стоимости разметки для Llama 2</a>.</p>
-                </aside>
-            </section>
-
-            <section class="slide fx" id="slide-ui" data-slide="30">
-                <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">29</span>Модель вознаграждения<span class="sec">7 / 9</span></div>
-                    <h2 class="fx-h" data-rv>Так размечали <mark>сравнения для InstructGPT</mark></h2>
-                    <div class="fx-body">
-                        <div class="fx-cap" data-rv="fade">Интерфейс маркировщиков OpenAI · <a class="lnk" href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">статья InstructGPT, приложение ↗</a>&nbsp;· в книге&nbsp;— рис. 2.13</div>
-                        <div class="ui2">
-                            <div class="ui" data-rv="left">
-                                <span class="ui-tag">а · оценка ответа</span>
-                                <div class="ui-bar"><span class="ui-btn is-dark">Отправить</span><span class="ui-btn">Пропустить</span><span class="ui-page">стр. 3 / 11</span><span class="ui-time">время 05:39</span></div>
-                                <div class="ui-a">
-                                    <div>
-                                        <div class="ui-h">Инструкция</div>
-                                        <p class="ui-t">Кратко перескажи новостную статью:<br>====<br>{статья}<br>====</p>
-                                    </div>
-                                    <div>
-                                        <div class="ui-h">Ответ A</div>
-                                        <p class="ui-t">пересказ 1</p>
-                                        <div class="ui-zone has-tip" tabindex="0">
-                                            <div class="ui-h" style="font-size:14px">Оценка (1&nbsp;— худший, 7&nbsp;— лучший)</div>
-                                            <div class="ui-rate"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i class="on">6</i><i>7</i></div>
-                                            <span class="tip-c" role="tooltip"><b>Оценка от 1 до 7</b>&nbsp;— абсолютный балл за ответ. Её собирали, но для обучения модели вознаграждения не использовали.</span>
-                                        </div>
-                                        <div class="ui-zone has-tip" tabindex="0">
-                                            <div class="ui-flags">
-                                                <div><span>Не выполняет инструкцию</span><em><i></i>да<i class="on"></i>нет</em></div>
-                                                <div><span>Неуместно для ассистента</span><em><i></i>да<i class="on"></i>нет</em></div>
-                                                <div><span>Сексуальный контент</span><em><i></i>да<i class="on"></i>нет</em></div>
-                                                <div><span>Насилие</span><em><i></i>да<i class="on"></i>нет</em></div>
-                                                <div><span>Поощряет насилие, травлю, терроризм</span><em><i></i>да<i class="on"></i>нет</em></div>
-                                                <div><span>Унижает защищённую группу</span><em><i></i>да<i class="on"></i>нет</em></div>
-                                                <div><span>Вредный совет</span><em><i></i>да<i class="on"></i>нет</em></div>
-                                                <div><span>Моральное суждение</span><em><i></i>да<i class="on"></i>нет</em></div>
-                                            </div>
-                                            <span class="tip-c" role="tooltip"><b>Метки</b> для каждого ответа: вредность, насилие, неуместность, моральные суждения&nbsp;— отдельно от общей оценки.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui has-tip" tabindex="0" data-rv="right">
-                                <span class="ui-tag">б · ранжирование ответов</span>
-                                <div class="ui-pool"><span class="k">ещё не расставлены</span><div class="rc"><b>B</b><div class="bon-lines"><i></i><i></i><i></i></div></div><div class="rc"><b>C</b><div class="bon-lines"><i></i><i></i><i></i></div></div></div>
-                                <div class="ui-ranks">
-                                    <div class="ur is-best" data-seq><span class="k">1 · лучший</span><div class="rc"><b>A</b><div class="bon-lines"><i></i><i></i><i></i></div></div></div>
-                                    <div class="ur"><span class="k">2</span></div>
-                                    <div class="ur"><span class="k">3</span><div class="rc" style="--i:1"><b>E</b><div class="bon-lines"><i></i><i></i><i></i></div></div><div class="rc" style="--i:2"><b>D</b><div class="bon-lines"><i></i><i></i><i></i></div></div></div>
-                                    <div class="ur"><span class="k">4</span></div>
-                                    <div class="ur"><span class="k">5 · худший</span></div>
-                                </div>
-                                <span class="tip-c" role="tooltip"><b>Ранжирование</b>: ответы раскладывают по местам, от лучшего к худшему. Именно порядок, а не баллы, шёл в обучение модели вознаграждения.</span>
-                            </div>
-                        </div>
-                        <div class="ui-facts">
-                            <div class="ui-fact" data-rv><b>1–7</b>оценка каждого ответа и порядок ответов</div>
-                            <div class="ui-fact" data-rv><b>только</b>порядок шёл в модель вознаграждения</div>
-                            <div class="ui-fact" data-rv><b>≈73%</b>совпадение мнений маркировщиков</div>
-                        </div>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Текст</em> Так выглядел интерфейс, в котором маркировщики OpenAI создавали сравнительные данные для модели вознаграждения InstructGPT, — это рисунок 2.13 книги. Слева — оценка одного ответа: шкала от 1 до 7 и метки вроде «не выполняет инструкцию», «неуместно для ассистента», «вредный совет». Справа — ранжирование: ответы раскладывают по местам, от лучшего к худшему.</p>
-                    <p>Важно: баллы ставили, но для обучения модели вознаграждения использовали только ранжирование. И люди не всегда согласны друг с другом: совпадение маркировщиков — около 73%. То есть если попросить десятерых ранжировать два одних и тех же ответа, примерно у семерых результат совпадёт.</p>
-                    <p><em>Как показывать</em> Наведите на шкалу, метки или ранжирование — там пояснения. Интерфейс переведён, расположение — как в оригинале.</p>
-                    <p><em>Переход</em> Зачем раскладывать сразу несколько ответов?</p>
-                    <p><em>Источники</em> <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">Оуян и др., 2022 — статья InstructGPT (интерфейс — в приложении)</a>.</p>
-                </aside>
-            </section>
-
-            <section class="slide fx" id="slide-rank" data-slide="31">
-                <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">30</span>Модель вознаграждения<span class="sec">8 / 9</span></div>
-                    <h2 class="fx-h" data-rv>Одно ранжирование&nbsp;— <mark>три пары</mark> для обучения</h2>
-                    <p class="fx-lead" data-rv>Чтобы ускорить разметку, маркировщик оценивает сразу несколько ответов</p>
-                    <div class="fx-body">
-                        <div class="rank">
-                            <div class="rank-list">
-                                <div class="rk" data-rv="left"><em>1-й</em>A</div>
-                                <div class="rk" data-rv="left"><em>2-й</em>B</div>
-                                <div class="rk" data-rv="left"><em>3-й</em>C</div>
-                            </div>
-                            <div class="rank-arrow" data-rv="fade"></div>
-                            <div class="pairs">
-                                <span class="pr" data-rv="right">A <span class="gt">&gt;</span> B</span>
-                                <span class="pr" data-rv="right">A <span class="gt">&gt;</span> C</span>
-                                <span class="pr" data-rv="right">B <span class="gt">&gt;</span> C</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Текст</em> Чтобы ускорить разметку, каждый маркировщик может оценивать несколько ответов одновременно. Ранжирование трёх ответов A > B > C сразу даёт три пары: A лучше B, A лучше C и B лучше C.</p>
-                    <p><em>Переход</em> Остаётся вопрос: как из одних сравнений получить модель, которая ставит точные оценки?</p>
-                </aside>
-            </section>
-
-            <section class="slide fx" id="slide-loss" data-slide="32">
-                <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">31</span>Модель вознаграждения<span class="sec">9 / 9</span></div>
-                    <h2 class="fx-h" data-rv>Функция потерь: <mark>увеличить разрыв</mark> между хорошим и плохим</h2>
-                    <div class="fx-body">
-                        <div class="fx-cap" data-rv="fade">Формула для <a class="lnk" href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">InstructGPT ↗</a></div>
-                        <div class="loss">
-                            <div>
-                                <div class="formula" data-rv><span class="k">для тройки</span>−log <span class="s">σ</span>( <span class="w">r<sub>θ</sub>(x, y<sub>w</sub>)</span> − <span class="l">r<sub>θ</sub>(x, y<sub>l</sub>)</span> )</div>
-                                <div class="formula" data-rv><span class="k">цель</span>min<sub>θ</sub> −E<sub>x</sub> log <span class="s">σ</span>( <span class="w">r<sub>θ</sub>(x, y<sub>w</sub>)</span> − <span class="l">r<sub>θ</sub>(x, y<sub>l</sub>)</span> )</div>
-                                <div class="fl-legend is-full" data-rv>
-                                    <div><code>r<sub>θ</sub></code><span>обучаемая модель вознаграждения с параметрами θ</span></div>
-                                    <div><code>x</code><span>запрос</span></div>
-                                    <div><code class="acc">y<sub>w</sub></code><span>хороший ответ</span></div>
-                                    <div><code class="hot">y<sub>l</sub></code><span>плохой ответ</span></div>
-                                    <div><code style="color:var(--fx2)">σ</code><span>сигмоида: превращает разницу оценок в число от 0 до 1</span></div>
-                                    <div><code>E<sub>x</sub></code><span>среднее по всем обучающим тройкам</span></div>
-                                </div>
-                            </div>
-                            <svg class="sig" viewBox="0 0 540 360" aria-hidden="true">
-                                <path class="axis" d="M40 30 V300 H520"/>
-                                <line class="axis dash" x1="270" y1="40" x2="270" y2="300"/>
-                                <path id="lossCurve" class="curve" d="M40 51.3 L68.75 81.5 L97.5 111.3 L126.25 140.3 L155 168.3 L183.75 194.7 L212.5 218.7 L241.25 239.7 L270 257.1 L298.75 270.7 L327.5 280.6 L356.25 287.6 L385 292.1 L413.75 295.1 L442.5 297 L471.25 298.1 L500 298.9"/>
-                                <circle class="dot" r="9"><animateMotion dur="6s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear"><mpath href="#lossCurve"/></animateMotion></circle>
-                                <text x="50" y="22">штраф</text>
-                                <text x="270" y="326" text-anchor="middle">0</text>
-                                <text x="520" y="350" text-anchor="end">разрыв оценок →</text>
-                                <text class="ann hot" x="112" y="46">перепутала местами</text>
-                                <text class="ann acc" x="510" y="236" text-anchor="end">хороший выше&nbsp;— штраф ≈ 0</text>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Текст</em> Как и человека, модель можно заставить сделать практически что угодно, если правильно мотивировать, — то есть задать правильную целевую функцию. Часто используемая функция потерь строится на разнице баллов хорошего и плохого ответов, и задача — сделать эту разницу как можно больше.</p>
-                    <p>Для тех, кому интересна математика, — формула InstructGPT. r с индексом θ — обучаемая модель вознаграждения с параметрами θ. Данные — тройки: запрос x, хороший ответ y<sub>w</sub>, плохой ответ y<sub>l</sub>. Для каждой тройки потери — минус логарифм сигмоиды от разницы оценок. Цель обучения — найти такие θ, при которых средние потери по всем тройкам минимальны.</p>
-                    <p>Справа график: когда хороший ответ оценён намного выше плохого, штраф стремится к нулю; когда модель путает их местами — штраф большой.</p>
-                    <p>Саму модель вознаграждения можно учить с нуля или дообучить готовую — предобученную или после SFT. Некоторые считают, что она должна быть не слабее базовой модели. Но, как будет в третьей главе, слабая модель может оценивать сильную: оценивать проще, чем генерировать.</p>
-                    <p><em>Переход</em> Модель вознаграждения готова. Что дальше?</p>
                 </aside>
             </section>
 
             <!-- ===== Раздел: дообучение с помощью модели вознаграждения ===== -->
 
-            <section class="slide fx" id="slide-maxr" data-slide="33">
+            <section class="slide fx" id="slide-maxr" data-slide="30">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">32</span>Дообучение с помощью модели вознаграждения<span class="sec">1 / 6</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">29</span>Дообучение с помощью модели вознаграждения<span class="sec">1 / 4</span></div>
                     <h2 class="fx-h" data-rv>Модель SFT учится получать <mark>максимальные оценки</mark></h2>
                     <div class="fx-body">
                         <div class="maxr">
@@ -1166,9 +1029,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-loop" data-slide="34">
+            <section class="slide fx" id="slide-loop" data-slide="31">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">33</span>Дообучение с помощью модели вознаграждения<span class="sec">2 / 6</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">30</span>Дообучение с помощью модели вознаграждения<span class="sec">2 / 4</span></div>
                     <h2 class="fx-h" data-rv>Запрос → ответ → оценка&nbsp;— <mark>и снова по кругу</mark></h2>
                     <div class="fx-body">
                         <div class="loop">
@@ -1193,48 +1056,13 @@
                 </div>
                 <aside class="notes">
                     <p><em>Текст</em> Во время этого процесса запросы случайным образом выбирают из множества вариантов — например, из существующих запросов пользователей. Запросы подаются в модель, её ответы оценивает модель вознаграждения, и по этой оценке модель подправляют. И так по кругу.</p>
-                    <p><em>Переход</em> Кто именно подправляет модель?</p>
-                </aside>
-            </section>
-
-            <section class="slide fx" id="slide-ppo" data-slide="35">
-                <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">34</span>Дообучение с помощью модели вознаграждения<span class="sec">3 / 6</span></div>
-                    <h2 class="fx-h" data-rv>Обычно этот цикл крутит <mark>PPO</mark></h2>
-                    <div class="fx-body">
-                        <div class="fx-cap" data-rv="fade"><a class="lnk" href="https://openai.com/research/openai-baselines-ppo" target="_blank" rel="noopener">OpenAI, 2017 ↗</a>&nbsp;· <a class="lnk" href="https://arxiv.org/abs/1707.06347" target="_blank" rel="noopener">Шульман и др.&nbsp;— статья ↗</a></div>
-                        <div class="ppo">
-                            <div class="ppo-name" data-rv="left">
-                                <b>PPO</b>
-                                <span>proximal policy optimization</span>
-                                <em>проксимальная оптимизация политики&nbsp;— алгоритм обучения с подкреплением, который выпустила OpenAI</em>
-                                <svg class="steps-svg" viewBox="0 0 520 120" aria-hidden="true">
-                                    <path d="M10 105 C 140 100, 260 70, 510 15"/>
-                                    <g data-seq>
-                                        <circle cx="30" cy="104" r="6"/><circle cx="95" cy="101" r="6"/><circle cx="160" cy="95" r="6"/><circle cx="225" cy="86" r="6"/><circle cx="290" cy="74" r="6"/><circle cx="355" cy="59" r="6"/><circle cx="420" cy="41" r="6"/><circle cx="485" cy="22" r="6"/>
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="ppo-words">
-                                <div class="pw2" data-rv><span class="k">Политика<i>policy</i></span><p>сама модель: по запросу она выбирает ответ</p></div>
-                                <div class="pw2" data-rv><span class="k">Оптимизация<i>optimization</i></span><p>модель подправляют, чтобы оценка модели вознаграждения росла</p></div>
-                                <div class="pw2" data-rv><span class="k">Проксимальная<i>proximal</i></span><p>«ближайшая»: каждый шаг небольшой, модель не уходит далеко от прежней версии</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Текст</em> Обычно этот процесс выполняют с помощью PPO — проксимальной оптимизации политики. Это алгоритм обучения с подкреплением, который OpenAI выпустила в 2017 году.</p>
-                    <p>Расшифрую название. Политика — это сама модель: по запросу она выбирает ответ. Оптимизация — модель подправляют, чтобы оценка росла. Проксимальная — «ближайшая»: каждый шаг небольшой, и модель не уходит далеко от прежней версии.</p>
-                    <p><em>Как показывать</em> Расшифровка названия — моя, в книге её нет.</p>
                     <p><em>Переход</em> И что это даёт?</p>
-                    <p><em>Источники</em> <a href="https://openai.com/research/openai-baselines-ppo" target="_blank" rel="noopener">OpenAI — Proximal Policy Optimization</a>; <a href="https://arxiv.org/abs/1707.06347" target="_blank" rel="noopener">Шульман и др., 2017</a>.</p>
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-gain" data-slide="36">
+            <section class="slide fx" id="slide-gain" data-slide="32">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">35</span>Дообучение с помощью модели вознаграждения<span class="sec">4 / 6</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">31</span>Дообучение с помощью модели вознаграждения<span class="sec">3 / 4</span></div>
                     <h2 class="fx-h" data-rv>RLHF и DPO улучшают модель <mark>сильнее, чем одно SFT</mark></h2>
                     <p class="fx-lead" data-rv>Установлено эмпирически. А вот почему они работают&nbsp;— на момент написания книги спорили</p>
                     <div class="fx-body">
@@ -1263,9 +1091,9 @@
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-why" data-slide="37">
+            <section class="slide fx" id="slide-why" data-slide="33">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">36</span>Дообучение с помощью модели вознаграждения<span class="sec">5 / 6</span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">32</span>Дообучение с помощью модели вознаграждения<span class="sec">4 / 4</span></div>
                     <h2 class="fx-h" data-rv>SFT и предпочтения&nbsp;— <mark>заплатка</mark> на плохие данные</h2>
                     <div class="fx-body">
                         <div class="chain3">
@@ -1288,36 +1116,13 @@
                 </div>
                 <aside class="notes">
                     <p><em>Текст</em> Есть и более радикальный взгляд. И SFT, и дообучение с учётом предпочтений — это шаги, которые решают проблему, возникшую из-за низкого качества данных для предварительного обучения. Если однажды у нас появятся более качественные данные или более эффективные способы обучать базовые модели, возможно, SFT и дообучение с учётом предпочтений вообще не понадобятся.</p>
-                    <p><em>Переход</em> А кто-то уже сейчас обходится без обучения с подкреплением.</p>
+                    <p><em>Переход</em> Подведу итог.</p>
                 </aside>
             </section>
 
-            <section class="slide fx" id="slide-bestofn" data-slide="38">
+            <section class="slide fx" id="slide-outro" data-slide="34">
                 <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">37</span>Дообучение с помощью модели вознаграждения<span class="sec">6 / 6</span></div>
-                    <h2 class="fx-h" data-rv>Без RL: сгенерировать N ответов&nbsp;— <mark>выбрать лучший</mark></h2>
-                    <div class="fx-body">
-                        <div class="bon">
-                            <div class="bon-c" data-rv><span class="k">ответ 1</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.62" data-dec="2">0,62</b><span class="rm">оценка RM</span></div>
-                            <div class="bon-c" data-rv><span class="k">ответ 2</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.71" data-dec="2">0,71</b><span class="rm">оценка RM</span></div>
-                            <div class="bon-c win" data-rv><span class="tag">лучший</span><span class="k">ответ 3</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.93" data-dec="2">0,93</b><span class="rm">оценка RM</span></div>
-                            <div class="bon-c" data-rv><span class="k">ответ 4</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.48" data-dec="2">0,48</b><span class="rm">оценка RM</span></div>
-                            <div class="bon-c" data-rv><span class="k">ответ 5</span><div class="bon-lines"><i></i><i></i><i></i></div><b data-count="0.8" data-dec="2">0,80</b><span class="rm">оценка RM</span></div>
-                        </div>
-                        <p class="fx-note" data-rv style="margin-top:46px">Так делают <a class="lnk" href="https://multithreaded.stitchfix.com/blog/2023/03/06/expert-in-the-loop-generative-ai-at-stitch-fix/" target="_blank" rel="noopener"><b>Stitch Fix ↗</b></a> и <a class="lnk" href="https://engineering.grab.com/llm-powered-data-classification" target="_blank" rel="noopener"><b>Grab ↗</b></a>: им хватает одной модели вознаграждения. Это стратегия «лучшее из&nbsp;N»&nbsp;— она уже про сэмплирование.</p>
-                    </div>
-                </div>
-                <aside class="notes">
-                    <p><em>Текст</em> Некоторые компании считают, что от обучения с подкреплением можно отказаться совсем. Stitch Fix и Grab решили, что для их приложений достаточно одной модели вознаграждения: модель генерирует несколько вариантов ответа, а выбирают тот, который модель вознаграждения оценила выше. Это стратегия «лучшее из N».</p>
-                    <p>Она меняет уже не саму модель, а то, как модель выбирает свой вывод, — и это ровно тема следующего доклада, про сэмплирование.</p>
-                    <p><em>Как показывать</em> Оценки на карточках условные — для иллюстрации.</p>
-                    <p><em>Источники</em> <a href="https://multithreaded.stitchfix.com/blog/2023/03/06/expert-in-the-loop-generative-ai-at-stitch-fix/" target="_blank" rel="noopener">Stitch Fix — Expert-in-the-loop generative AI</a>; <a href="https://engineering.grab.com/llm-powered-data-classification" target="_blank" rel="noopener">Grab — LLM-powered data classification</a>.</p>
-                </aside>
-            </section>
-
-            <section class="slide fx" id="slide-outro" data-slide="39">
-                <div class="fx-wrap">
-                    <div class="fx-kicker" data-rv="fade"><span class="n">38</span>Итог</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">33</span>Итог</div>
                     <h2 class="fx-h" data-rv>Выводы</h2>
                     <div class="fx-body">
                         <div class="takeaways">
@@ -1343,7 +1148,7 @@
             </section>
 
 
-            <section class="slide fx" data-slide="40" data-chrome="whatnext">
+            <section class="slide fx" data-slide="35" data-chrome="whatnext">
                 <div class="timeline-next-container">
                     <div class="fx-kicker" data-rv="fade">Дальше</div>
                     <h2 class="fx-h" data-rv>Что далее</h2>

@@ -1,0 +1,250 @@
+/*
+ * talk.css — интерактив и свои блоки докладов Артёма по главе 2 «AI-инженерии»
+ * («Создание модели», «Сэмплирование»). Каркас слайда, карточки, появление
+ * блоков и заметки — шаблонные (deck.css, deck.js). Стиль тот же: монохром,
+ * тонкие линии, моноширинные подписи, один акцент — цвет книги (--fx),
+ * «плохо» — --hot. Литералов цвета нет.
+ */
+
+/* ===== Вопрос слайда и вывод «что это значит для нас» =====
+   Сквозная нить доклада: сверху вопрос, на который отвечает слайд,
+   снизу — что из этого следует; из вывода вытекает вопрос следующего. */
+.fx-q {
+    margin-bottom: 18px !important;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+}
+.fx-q::before { content: '?  '; color: var(--fx); }
+.fx-so {
+    margin-top: 30px !important;
+    padding-left: 22px;
+    border-left: 2px solid rgba(var(--fx-rgb), 0.7);
+    max-width: 1560px;
+    font-size: 25px;
+    line-height: 1.45;
+    color: var(--text-soft);
+}
+.fx-so b { color: var(--text-main); font-weight: 600; }
+
+/* ===== SVG-схемы: общие детали ===== */
+.fx svg text {
+    font-family: var(--font-sans);
+    text-anchor: middle;
+    dominant-baseline: central;
+    fill: var(--text-main);
+}
+.tok rect { fill: var(--bg); stroke: var(--border-strong); stroke-width: 1.5; }
+.tok text { font-family: var(--font-mono); font-size: 30px; font-weight: 500; }
+.rbk { fill: rgba(var(--tint-rgb), 0.03); stroke: var(--border-strong); stroke-width: 1.5; }
+.rbk.is-hi, .rbk.is-ok { fill: rgba(var(--fx-rgb), 0.1); stroke: var(--fx); }
+.rbk.is-bad, .rbk.is-warn { fill: rgba(var(--hot-rgb), 0.08); stroke: var(--hot); }
+.ln { fill: none; stroke: var(--border-strong); stroke-width: 1.5; stroke-linecap: round; }
+.ln.dash { stroke-dasharray: 3 9; }
+.ln.acc { stroke: var(--fx); }
+.ar .ln { stroke: var(--text-muted); }
+.ar .ah { fill: var(--text-muted); }
+.ar.acc .ln { stroke: var(--fx); }
+.ar.acc .ah { fill: var(--fx); }
+.tx { font-size: 24px; font-weight: 500; }
+.tx.cap { font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--text-dim); }
+.tx.call { font-size: 26px; font-weight: 600; }
+.tx.big { font-size: 34px; font-weight: 600; }
+.tx.mono { font-family: var(--font-mono); }
+.tx.acc, .tx.good { fill: var(--fx); }
+.tx.bad { fill: var(--hot); }
+.tx.dim { fill: var(--text-dim); }
+.fx svg .tok, .fx svg .pk, .fx svg .ex { transform-box: fill-box; transform-origin: center; }
+.slide.active svg .tok, .slide.active svg .pk, .slide.active svg .ex {
+    animation: fxPop 0.6s var(--ease-out) backwards;
+    animation-delay: calc(var(--d, 0ms) + 350ms + var(--i, 0) * 80ms);
+}
+
+/* ===== Переключатель шагов =====
+   Кнопка пишет data-state в блок-цель (talk.js), остальное решает CSS. */
+.steps {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+}
+.steps button {
+    all: unset;
+    cursor: pointer;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--text-muted);
+    transition: background 0.2s, color 0.2s;
+}
+.steps button:hover, .steps button:focus-visible { color: var(--text-main); }
+.steps button.is-active { background: rgba(var(--fx-rgb), 0.16); color: var(--fx); }
+.steps-cap { margin-top: 12px; font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+
+/* ===== Ползунок =====
+   Заливка слева от бегунка — --fill, её выставляет talk.js. */
+.rng {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    margin: 0;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--fx) var(--fill, 50%), var(--border-mid) var(--fill, 50%));
+    outline: none;
+    cursor: pointer;
+}
+.rng::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%; background: var(--bg); border: 2px solid var(--fx); }
+.rng::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--bg); border: 2px solid var(--fx); }
+.rng:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 8px rgba(var(--fx-rgb), 0.2); }
+.ctl { display: flex; flex-direction: column; gap: 16px; }
+.ctl-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.ctl-head span { font-size: 24px; color: var(--text-soft); }
+.ctl-head b { font-family: var(--font-mono); font-size: 32px; font-weight: 500; color: var(--fx); }
+.ctl-hint { font-size: 19px; color: var(--text-dim); }
+
+/* ===== Внимание: на какие слова смотрит модель =====
+   Толщину и яркость линий по весам выставляет talk.js. */
+.attn .ot { cursor: pointer; }
+.attn .ot rect, .attn .it rect { transition: stroke 0.3s, fill 0.3s; }
+.attn .aw { stroke: var(--fx); stroke-linecap: round; fill: none; transition: stroke-width 0.45s var(--ease-out), opacity 0.45s; }
+.attn .aw-l { font-family: var(--font-mono); font-size: 24px; font-weight: 500; fill: var(--fx); }
+.attn .aw-cap { font-size: 28px; font-weight: 500; fill: var(--fx); }
+.attn[data-state='t1'] .ot[data-t='t1'] rect,
+.attn[data-state='t2'] .ot[data-t='t2'] rect,
+.attn[data-state='t3'] .ot[data-t='t3'] rect,
+.attn .it.is-top rect { stroke: var(--fx); fill: rgba(var(--fx-rgb), 0.12); }
+.attn .ot.is-future { opacity: 0.35; }
+
+/* ===== Коллектив экспертов: какие эксперты включились ===== */
+.moe .ex rect { fill: transparent; stroke: var(--border-strong); stroke-width: 1.5; transition: fill 0.35s, stroke 0.35s; }
+.moe .ex text { font-family: var(--font-mono); font-size: 30px; fill: var(--text-dim); transition: fill 0.35s; }
+.moe .ml { stroke: var(--border-mid); stroke-width: 1.5; stroke-dasharray: 3 9; fill: none; transition: stroke 0.35s, stroke-width 0.35s; }
+.moe .tk-l { display: none; }
+.moe[data-state='t1'] .tk-l[data-s='t1'],
+.moe[data-state='t2'] .tk-l[data-s='t2'],
+.moe[data-state='t3'] .tk-l[data-s='t3'] { display: inline; }
+.moe[data-state='t1'] .ex[data-on~='t1'] rect,
+.moe[data-state='t2'] .ex[data-on~='t2'] rect,
+.moe[data-state='t3'] .ex[data-on~='t3'] rect { fill: rgba(var(--fx-rgb), 0.14); stroke: var(--fx); }
+.moe[data-state='t1'] .ex[data-on~='t1'] text,
+.moe[data-state='t2'] .ex[data-on~='t2'] text,
+.moe[data-state='t3'] .ex[data-on~='t3'] text { fill: var(--fx); }
+.moe[data-state='t1'] .ml[data-on~='t1'],
+.moe[data-state='t2'] .ml[data-on~='t2'],
+.moe[data-state='t3'] .ml[data-on~='t3'] { stroke: var(--fx); stroke-width: 3; stroke-dasharray: none; }
+
+/* ===== Калькулятор стоимости обучения ===== */
+.calc { display: grid; grid-template-columns: minmax(0, 1fr) 520px; gap: 80px; align-items: center; }
+.calc-ctl { display: flex; flex-direction: column; gap: 40px; }
+.calc-out { display: flex; flex-direction: column; gap: 22px; }
+.calc-out .stat b { font-size: 96px; }
+
+/* ===== Сэмплер: распределение по токенам и выбор =====
+   Строки и вероятности рисует talk.js из data-tokens. */
+.smp { display: grid; grid-template-columns: 540px minmax(0, 1fr); gap: 72px; align-items: center; }
+.smp-ctl { display: flex; flex-direction: column; gap: 30px; }
+.smp-prompt { font-size: 30px; line-height: 1.35; color: var(--text-soft); }
+.smp-prompt b { font-family: var(--font-mono); font-weight: 500; color: var(--fx); }
+.smp-prompt .is-empty { color: var(--text-dim); }
+.smp-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.smp-btn {
+    all: unset;
+    cursor: pointer;
+    padding: 12px 26px;
+    border: 1px solid rgba(var(--fx-rgb), 0.6);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 19px;
+    letter-spacing: 0.06em;
+    color: var(--fx);
+    transition: background 0.2s;
+}
+.smp-btn:hover, .smp-btn:focus-visible { background: rgba(var(--fx-rgb), 0.12); }
+.smp-btn.is-ghost { border-color: var(--border-mid); color: var(--text-muted); }
+.smp-head, .smp-row { display: grid; grid-template-columns: 200px minmax(0, 1fr) 96px 90px; align-items: center; gap: 18px; }
+.smp-head { padding-bottom: 8px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+.smp-head span:nth-child(n+3) { text-align: right; }
+.smp-rows { display: flex; flex-direction: column; gap: 12px; }
+.smp-row { transition: opacity 0.3s; }
+.smp-row > span { font-family: var(--font-mono); font-size: 24px; color: var(--text-main); white-space: nowrap; }
+.smp-row > em { font-style: normal; font-family: var(--font-mono); font-size: 23px; text-align: right; color: var(--text-soft); }
+.smp-row > small { font-family: var(--font-mono); font-size: 18px; text-align: right; color: var(--text-dim); }
+.smp-track { position: relative; height: 26px; border-radius: 4px; background: rgba(var(--tint-rgb), 0.05); overflow: hidden; }
+.smp-track i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p, 0) * 100%); background: rgba(var(--fx-rgb), 0.35); transition: width 0.35s var(--ease-out); }
+.smp-row.is-cut { opacity: 0.28; }
+.smp-row.is-hit .smp-track i { background: var(--fx); }
+.smp-row.is-hit > span { color: var(--fx); }
+.smp-tally { min-height: 28px; font-family: var(--font-mono); font-size: 18px; color: var(--text-dim); }
+
+@media (prefers-reduced-motion: reduce) {
+    .smp-track i, .attn .aw, .moe .ex rect, .moe .ml { transition: none !important; }
+}
+
+/* ===== Свои блоки слайдов этого доклада ===== */
+/* Текст слева, схема справа */
+.fx-split { display: grid; grid-template-columns: 560px minmax(0, 1fr); gap: 70px; align-items: center; height: 100%; }
+.fx-scene { height: 488px; max-height: none; }
+.fx-scene > svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.tx.l { text-anchor: start; }
+.nd circle { fill: var(--bg); stroke: var(--border-strong); stroke-width: 1.5; }
+/* Пример в карточке и строка кода */
+.fx-ex { margin-top: 18px !important; padding-top: 14px; border-top: 1px dashed var(--border); font-family: var(--font-mono); font-size: 20px; color: var(--fx); }
+.fx-code { margin: 8px 0 18px; padding: 18px 24px; border: 1px solid var(--border); border-radius: 14px; font-family: var(--font-mono); font-size: 24px; color: var(--text-soft); background: rgba(var(--tint-rgb), 0.03); }
+/* Путь слова: слои сверху вниз, блок повторяется */
+.fx-path { display: flex; flex-direction: column; gap: 12px; }
+.fx-step { display: grid; grid-template-columns: 240px minmax(0, 1fr) 380px; gap: 26px; align-items: center; padding: 16px 28px; border: 1px solid var(--border); border-radius: 18px; }
+.fx-path > .fx-step { margin-inline: 15px; }
+.fx-step > b { font-size: 28px; font-weight: 600; color: var(--text-main); }
+.fx-step > span { font-size: 22px; line-height: 1.35; color: var(--text-muted); }
+.fx-step > em { font-style: normal; font-family: var(--font-mono); font-size: 18px; color: var(--text-dim); }
+.fx-step.is-hi { border-color: rgba(var(--fx-rgb), 0.45); }
+.fx-path-head { display: grid; grid-template-columns: 240px minmax(0, 1fr) 380px; gap: 26px; margin: 0 15px -4px; padding: 0 28px; font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+.fx-repeat { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 14px; border: 1px dashed rgba(var(--fx-rgb), 0.5); border-radius: 22px; }
+.fx-repeat::after { content: attr(data-times); position: absolute; right: 26px; top: -13px; padding: 0 10px; background: var(--bg); font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx); }
+/* Подпись внутри большого числа */
+.stat > span strong { color: var(--text-main); font-weight: 600; }
+
+/* Формула */
+.formula-line { font-family: var(--font-mono); font-size: 46px; font-weight: 500; letter-spacing: -0.01em; color: var(--text-main); }
+.formula-line b { color: var(--fx); font-weight: 500; }
+.formula-cap { margin-top: 10px; font-family: var(--font-mono); font-size: 17px; color: var(--text-dim); }
+
+/* Таблица чисел (Llama) */
+.tbl { border-collapse: collapse; width: 100%; font-size: 24px; }
+.tbl th { padding: 6px 18px 10px; text-align: right; font-family: var(--font-mono); font-size: 15px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+.tbl td { padding: 8px 18px; text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--text-soft); border-bottom: 1px solid var(--border); }
+.tbl th:first-child, .tbl td:first-child { text-align: left; padding-left: 0; font-family: var(--font-sans); }
+.tbl td:first-child { color: var(--text-main); }
+.tbl tr.is-hi td { color: var(--fx); }
+.tbl-cap { margin-top: 8px; font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.1em; color: var(--text-dim); }
+
+/* Коллектив экспертов: схема роутера */
+.moe-row { display: grid; grid-template-columns: 300px 1fr; gap: 50px; align-items: center; }
+.moe-row svg.moe { display: block; width: 100%; height: 400px; }
+.moe .tok rect, .moe .moe-box { fill: transparent; stroke: var(--border-strong); stroke-width: 2; }
+.moe .moe-box.is-out { stroke: rgba(var(--fx-rgb), 0.6); }
+.moe text { font-family: var(--font-sans); text-anchor: middle; dominant-baseline: central; fill: var(--text-main); font-size: 30px; }
+.moe .moe-cap { font-family: var(--font-mono); font-size: 22px; letter-spacing: 0.14em; text-transform: uppercase; fill: var(--text-dim); }
+.moe .moe-cap.r { text-anchor: end; }
+.moe .moe-ln { stroke: var(--border-strong); stroke-width: 2; fill: none; }
+
+/* Плотная сетка карточек под таблицей */
+.grid4.is-tight .tile { padding: 20px 26px 22px; }
+.grid4.is-tight .tile-k { margin-bottom: 10px; }
+.grid4.is-tight .tile-p { font-size: 22px; line-height: 1.4; }
+/* Вторая строка подписи полосы */
+.hb-l .sub { display: block; font-size: 17px; color: var(--text-dim); }
+
+/* Схема внимания не должна наезжать на вывод внизу слайда. */
+#s-attn .fx-scene svg { max-height: 500px; }
+
+/* Номер слайда внутри раздела плашкой, как у Антона: «… 3 / 8» */
+.fx-kicker .sec { padding: 3px 12px; border: 1px solid rgba(var(--fx-rgb), 0.4); border-radius: 999px; font-size: 13px; letter-spacing: 0.14em; color: var(--text-dim); }
+
+#s-seq .fx-scene svg { max-height: 460px; }
+#s-seq .tile { margin-bottom: 0; }

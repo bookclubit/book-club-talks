@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сэмплирование — AI-инженерия</title>
+    <meta name="description" content="AI Engineering">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Сэмплирование — AI-инженерия">
+    <meta property="og:description" content="AI Engineering">
+    <meta property="og:image" content="https://bc-120-ai-2-4-nikiforov.pages.dev/assets/cover/ai-engineering.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Сэмплирование — AI-инженерия">
+    <meta name="twitter:description" content="AI Engineering">
+    <meta name="twitter:image" content="https://bc-120-ai-2-4-nikiforov.pages.dev/assets/cover/ai-engineering.webp">
+    <!-- Тема до первой отрисовки: иначе светлый дек моргнёт тёмным. -->
+    <script>
+        try {
+            if (localStorage.getItem('bc-deck-theme') === 'light')
+                document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <!-- Интерактив и свои блоки этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
+
+</head>
+<body data-hud="AI-инженерия · Глава 2 · Сэмплирование">
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+
+            <!-- Открытие стрима, автор и книга — только в первом докладе вечера -->
+            
+            
+            
+
+
+
+            <!-- Титул доклада: глава, тема, кто читает и по какой книге.
+                 В первом докладе вечера идёт после программы, в остальных — первым. -->
+            <section class="slide fx is-title" data-slide="1" data-chrome="title">
+                <div class="fx-wrap">
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>Стрим <b>120</b></span></div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Глава 2</span>Знакомство с базовыми моделями</div>
+                    <h1 class="title-h" data-rv>Сэмплирование</h1>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <a class="title-speaker" data-rv="left" href="https://t.me/Frich22" target="_blank" rel="noopener">
+                            <img src="assets/speakers/nikiforov-artem.webp" alt="">
+                            <span><em>Доклад читает</em><b>Артём Никифоров</b><i>@Frich22</i></span>
+                        </a>
+                        <a class="title-book" data-rv="right" href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>AI-инженерия</b><span>Чип Хьюен</span></span>
+                            <img src="assets/cover/ai-engineering.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Контентные слайды доклада ===== -->
+
+            <!-- ===== Контентные слайды: части 1–2 (основы и стратегии) ===== -->
+
+            <section class="slide fx is-hero" id="s-main" data-slide="2">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Модель обучена&nbsp;— как она пишет ответ?</div>
+                    <h2 class="fx-h" data-rv>Модель выдаёт <mark>вероятности</mark>.<br>Текст&nbsp;— это <mark>наш выбор</mark></h2>
+                    <p class="fx-lead" data-rv>Обученная модель выдаёт шансы для каждого следующего кусочка текста&nbsp;— <b>токена</b>. Выбрать из них&nbsp;— это <b>сэмплирование</b>.</p>
+                    <div class="fx-body">
+                        <div class="grid4">
+                            <div class="tile" data-rv><div class="tile-k">Часть 1</div><div class="tile-t">Выбрать токен</div><p class="tile-p">Насколько рисковать и когда остановиться.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Часть 2</div><div class="tile-t">Выбрать ответ</div><p class="tile-p">Сгенерировать несколько и взять лучший.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Часть 3</div><div class="tile-t">Удержать формат</div><p class="tile-p">JSON, SQL, категории&nbsp;— без сюрпризов.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Часть 4</div><div class="tile-t">Принять случайность</div><p class="tile-p">Почему AI отвечает по-разному и выдумывает.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: temperature, top_p, max_tokens в API&nbsp;— это и есть ручки выбора.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> В «Создании модели» мы закончили на выходном слое: он превращает вектор в вероятности всех токенов. Антон рассказал, как последующее обучение учит модель отвечать так, как хотят люди, — и в конце упомянул стратегию «лучшее из N». Сегодня — последний шаг: как из вероятностей получается текст. Автор так и начинает раздел: модель конструирует вывод в процессе, который называется сэмплированием. Модель не пишет текст сама. На каждом шаге она говорит: «вот насколько вероятен каждый токен», а какой взять — решаем мы, точнее, процесс сэмплирования. Токен — кусочек слова, единица текста для модели. От того, как мы выбираем, зависит всё: творческий ответ или предсказуемый, в нужном формате или нет. И даже то, почему AI иногда отвечает по-разному и выдумывает.</p>
+                    <p>Это, по-моему, самый практичный доклад вечера: temperature, top_p, max_tokens вы видели в любом API. Разберёмся, что они делают на самом деле.</p>
+                    <p><em>Как показывать</em> Четыре части — план доклада. Четвёртый — вероятностная природа AI: несогласованность и галлюцинации.</p>
+                    <p><em>Термины этого доклада</em> Токен — кусочек слова. Словарь — все токены, которые модель знает (около 100 тыс.). Логит — «сырая» оценка токена. Softmax — превращает логиты в вероятности. Температура, top-k, top-p — ручки выбора. Logprobs — логарифмы вероятностей. Каждый раскрыт на слайде, где появляется впервые.</p>
+                    <p><em>Переход</em> Сначала посмотрим, из чего выбираем. Вероятности чего именно и как они выглядят?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-probs" data-slide="3">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Вероятности чего именно и как они выглядят?<span class="sec">1 / 3</span></div>
+                    <h2 class="fx-h" data-rv>Не слово, а <mark>вероятность каждого токена</mark></h2>
+                    <p class="fx-lead" data-rv>Классификатор выбирает из 2&nbsp;вариантов, языковая модель&nbsp;— из 100&nbsp;тыс. на каждый токен (это её <b>словарь</b>).</p>
+                    <div class="fx-body">
+                        <p class="fx-note" data-rv style="margin-bottom:22px">Промпт «Мой любимый цвет&nbsp;—». Вероятности всех токенов в сумме&nbsp;— 100&nbsp;%.</p>
+                        <p class="hb-cap" data-rv>шанс токена (вся дорожка = 100%) · подсвечен&nbsp;— самый вероятный</p>
+                        <div class="hb">
+                            <div class="hb-row is-hi" data-rv><span class="hb-l">зелёный</span><div class="hb-t"><i style="--v:50"></i></div><span class="hb-v">50 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">красный</span><div class="hb-t"><i style="--v:30"></i></div><span class="hb-v">30 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">синий</span><div class="hb-t"><i style="--v:10"></i></div><span class="hb-v">10 %</span></div>
+                            <div class="hb-row" data-rv><span class="hb-l">фиолетовый</span><div class="hb-t"><i style="--v:6"></i></div><span class="hb-v">6 %</span></div>
+                            <div class="hb-row is-dim" data-rv><span class="hb-l">ещё ~100 тыс.</span><div class="hb-t"><i style="--v:4"></i></div><span class="hb-v">4 %</span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: тот же промпт может дать другой текст&nbsp;— не сравнивайте ответ модели строкой в тестах и не ждите одинакового ответа в UI.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Начнём с простого — классификатора спама. У него два исхода: «спам» и «не спам». Модель говорит: 90 % — спам. У языковой модели то же самое, только исходов не два, а десятки и сотни тысяч — по одному на каждый токен словаря. Сто тысяч — пример из книги: размер словаря у разных моделей свой.</p>
+                    <p>Словарь — все токены, которые модель знает. Чтобы сгенерировать следующий токен, модель вычисляет распределение вероятностей по всему словарю — это рисунок 2.14 книги.</p>
+                    <p><em>Как показывать</em> Числа условные, в духе рисунка книги: «My favorite color is…» → green 50 %, red 30 %.</p>
+                    <p><em>Переход</em> Почему бы просто не брать самый вероятный токен?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-greedy" data-slide="4">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Почему бы просто не брать самый вероятный токен?<span class="sec">2 / 3</span></div>
+                    <h2 class="fx-h" data-rv>Всегда брать лучший&nbsp;— <mark>скучно</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile" data-rv="left"><div class="tile-k">Классификация</div><div class="tile-t">Жадно: всегда самый вероятный</div><p class="tile-p">Спам на 90 %? Помечаем. Каждый раз одинаково.</p></div>
+                            <div class="tile is-hi" data-rv="right"><div class="tile-k">Текст</div><div class="tile-t">Выбор по вероятностям</div><p class="tile-p">«Зелёный» в 50 % случаев, «красный»&nbsp;— в 30 %.</p></div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:34px"><b>Жадное сэмплирование</b>&nbsp;— всегда самый вероятный токен. <b>Сэмплирование по распределению</b>&nbsp;— бросок кубика с неравными гранями.</p>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: жадно&nbsp;— для классификации и извлечения, где нужен один ответ; случайно&nbsp;— для текстов, иначе «Сгенерировать ещё» выдаст то же.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Если модель считает, что письмо скорее спам, логично пометить его как спам — тут жадное сэмплирование отлично работает — в книге это тоже вид сэмплирования. А теперь представьте собеседника, который на любой вопрос отвечает самыми распространёнными словами. Поэтому для текста модель выбирает следующий токен по распределению: если у «красного» 30 %, а у «зелёного» 50 %, то «красный» выпадет в 30 % случаев, «зелёный» — в половине.</p>
+                    <p><em>Для фронтендеров (дополнение, не из книги)</em> Это взвешенный Math.random(): вероятности — веса. Ровно так работает сэмплер на следующих слайдах.</p>
+                    <p><em>Переход</em> Грани кубика задаёт модель. Чтобы их подкрутить, надо знать, откуда они берутся. Где у модели ручка, чтобы подкрутить кубик?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-logits" data-slide="5">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">04</span>Где у модели ручка, чтобы подкрутить кубик?<span class="sec">3 / 3</span></div>
+                    <h2 class="fx-h" data-rv>Логиты → softmax → <mark>вероятности</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile" data-rv><div class="tile-k">Шаг 1 · логиты</div><div class="tile-t">Сырые оценки</div><p class="tile-p">По числу на токен. Бывают отрицательными.</p><p class="tile-p mono">зелёный 4,3 · красный 3,8</p><span class="knob">здесь T</span></div>
+                            <div class="tile" data-rv><div class="tile-k">Шаг 2 · softmax</div><div class="tile-t">Переводит в доли</div><p class="tile-p">Всё положительно, в сумме 100&nbsp;%.</p><p class="tile-p mono">больше логит → больше доля</p></div>
+                            <div class="tile is-hi" data-rv><div class="tile-k">Шаг 3 · вероятности</div><div class="tile-t">Готово к выбору</div><p class="tile-p">Из них и бросаем кубик.</p><p class="tile-p mono">зелёный 50% · красный 30%</p><span class="knob">здесь top-p</span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: модель не меняется, меняем только способ выбора&nbsp;— temperature и top_p подбираются бесплатно, без дообучения.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Как модель вычисляет вероятности? Получив вход, сеть выдаёт вектор логитов — по одному числу на каждый токен словаря, размер вектора равен размеру словаря (рисунок 2.15). Больший логит значит большую вероятность, но логиты — не вероятности: они бывают отрицательными и в сумме не дают единицу. Превращает их в вероятности функция softmax — её часто ставят последним слоем.</p>
+                    <p>Это важно для всего, что дальше: температура меняет логиты до softmax; top-k оставляет k лучших логитов, и softmax считают только по ним (дешевле); top-p отсекает по накопленной вероятности — уже после softmax. Автор пишет: можно придумать и свою стратегию сэмплирования, но для этого обычно нужен доступ к логитам модели.</p>
+                    <p><em>Формула, если спросят</em> p<sub>i</sub> = e<sup>x<sub>i</sub></sup> / Σ e<sup>x<sub>j</sub></sup>: экспонента логита, делённая на сумму экспонент всех логитов.</p>
+                    <p><em>Переход</em> Первая ручка — как сделать ответ смелее или скромнее?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-temp" data-slide="6">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">05</span>Первая ручка&nbsp;— как сделать ответ смелее или скромнее?<span class="sec">1 / 4</span></div>
+                    <h2 class="fx-h" data-rv>Температура&nbsp;— <mark>смелость</mark> модели</h2>
+                    <div class="fx-body">
+                        <div class="smp" data-rv data-tokens='[["зелёный",4.3],["красный",3.8],["синий",2.7],["фиолетовый",2.2],["морской волны",1.5],["не знаю",0.4]]'>
+                            <div class="smp-ctl">
+                                <p class="smp-prompt">Мой любимый цвет&nbsp;— <b class="smp-word is-empty" data-empty="…">…</b></p>
+                                <label class="ctl"><span class="ctl-head"><span>Температура T</span><b data-val="t"></b></span><input class="rng" type="range" min="0" max="2" step="0.05" value="1" data-ctl="t"><span class="rng-ends"><span>0 · всегда лучший</span><span>2 · смелее, случайнее</span></span><span class="ctl-hint">T&nbsp;&lt;&nbsp;1&nbsp;— лидер забирает всё, T&nbsp;&gt;&nbsp;1&nbsp;— шансы выравниваются</span></label>
+                                <div class="smp-btns"><button type="button" class="smp-btn" data-sample="1">выбрать слово</button><button type="button" class="smp-btn is-ghost" data-sample="100">× 100</button><span class="smp-hint">подсвечен&nbsp;— выпавший токен</span></div>
+                                <div class="smp-tally"></div>
+                            </div>
+                            <div>
+                                <div class="smp-head"><span>токен</span><span>вероятность</span><span>%</span><span>логит</span></div>
+                                <div class="smp-rows"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: низкая T&nbsp;— предсказуемо, высокая&nbsp;— творчески, но рискованно.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Температура перераспределяет вероятности. Высокая поднимает редкие токены — ответы творческие, но менее связные. Низкая усиливает самый вероятный — ответы предсказуемые, но скучные. Технически температура — число, на которое делят логиты перед softmax: p<sub>i</sub> = softmax(x<sub>i</sub> / T).</p>
+                    <p>Пример автора: без температуры модель отвечает как пятилетний ребёнок — «Мой любимый цвет — зелёный». А творческое «…это цвет спокойного озера весенним утром» начинается с редкого токена. Температура даёт таким токенам шанс.</p>
+                    <p><em>Как показывать</em> T = 1, нажмите «× 100»: «зелёный» около половины. Сдвиньте к 0 — «зелёный» забирает всё, это жадный выбор. Сдвиньте к 2 — распределение выравнивается, выпадают «морской волны» и «не знаю».</p>
+                    <p><em>Цифры книги</em> Логиты [1, 2]: при T = 1 softmax даёт [0,27, 0,73], при T = 0,5 — [0,12, 0,88]. Ниже 0,1 модель почти всегда выдаёт второй вариант.</p>
+                    <p><em>Переход</em> Какую температуру ставить на практике?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-tpractice" data-slide="7" data-toc="Температура на практике">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Какую температуру ставить на практике?<span class="sec">2 / 4</span></div>
+                    <h2 class="fx-h" data-rv>T&nbsp;=&nbsp;0&nbsp;— <mark>почти</mark> стабильно, ≈0,7&nbsp;— творчески</h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="stat" data-rv><em class="stat-k">T</em><b>0</b><span>Всегда самый вероятный токен&nbsp;— единообразно.</span></div>
+                            <div class="stat is-hi" data-rv><em class="stat-k">T</em><b>0,7</b><span>Совет для творческих задач.</span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: для данных и классификации T&nbsp;=&nbsp;0, для текстов около 0,7. Гарантии одинакового ответа нет&nbsp;— см. дальше.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Чтобы ответы были единообразнее, обычно ставят температуру 0. Технически это невозможно — логиты делятся на T. Поэтому при нуле модель просто берёт токен с наибольшим логитом, не считая softmax. Для творческих задач часто советуют 0,7 — баланс творчества и предсказуемости, но автор прямо говорит: экспериментируйте. Провайдеры обычно дают диапазон 0–2 — пробуйте.</p>
+                    <p><em>Дополнение, не из книги</em> «Для кода и извлечения данных — T = 0» — практическое правило, а не цитата: книга говорит только о единообразном выводе. И «почти» в заголовке не случайно: даже T = 0 через API не гарантирует одинаковый ответ — вернёмся к этому в части про несогласованность.</p>
+                    <p><em>Что изменилось с выхода книги</em> (не из книги) У рассуждающих моделей (думают перед ответом) T часто не дают менять, ручки сэмплирования сокращают. У рассуждающих моделей OpenAI temperature, top_p и logprobs не поддерживаются; у части моделей GPT-5.x они доступны только с выключенными рассуждениями (reasoning effort = none). У Claude с включённым extended thinking нельзя менять temperature, top_p и top_k, а у Sonnet 4.5 нельзя задать одновременно temperature и top_p — вернётся ошибка. Совет: проверяйте документацию конкретной модели.</p>
+                    <p><em>Источники</em> <a href="https://platform.openai.com/docs/guides/reasoning" target="_blank" rel="noopener">OpenAI — Reasoning models</a>; <a href="https://docs.claude.com/en/docs/build-with-claude/extended-thinking" target="_blank" rel="noopener">Anthropic — Extended thinking</a>; <a href="https://docs.claude.com/en/docs/about-claude/models/whats-new-sonnet-4-5" target="_blank" rel="noopener">Anthropic — What's new in Sonnet 4.5</a>.</p>
+                    <p><em>Переход</em> Словарь — 100 тыс. токенов, большинство бессмысленны. Как сузить выбор?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-topk" data-slide="8">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">07</span>Как сузить выбор из 100&nbsp;тыс. токенов?<span class="sec">3 / 4</span></div>
+                    <h2 class="fx-h" data-rv>Top-k и top-p: <mark>сузить выбор</mark></h2>
+                    <p class="fx-lead" data-rv>top-k&nbsp;— фиксированные k лучших; top-p&nbsp;— столько, сколько нужно по смыслу.</p>
+                    <div class="fx-body">
+                        <div class="smp" data-rv data-tokens='[["да",6.52],["возможно",5.80],["нет",4.41],["Конечно",1.19],["Я",0.09],["Ну",0.09]]'>
+                            <div class="smp-ctl">
+                                <p class="smp-prompt">Вы любите музыку? Ответьте «да» или «нет».&nbsp;→ <b class="smp-word is-empty" data-empty="…">…</b></p>
+                                <label class="ctl"><span class="ctl-head"><span>top-k</span><b data-val="k"></b></span><input class="rng" type="range" min="1" max="6" step="1" value="6" data-ctl="k"><span class="ctl-hint">только k самых вероятных (в демо до 6)</span></label>
+                                <label class="ctl"><span class="ctl-head"><span>top-p</span><b data-val="p"></b></span><input class="rng" type="range" min="0.5" max="1" step="0.01" value="0.9" data-ctl="p"><span class="ctl-hint">самые вероятные, пока сумма не наберёт p</span></label>
+                                <div class="smp-btns"><button type="button" class="smp-btn" data-sample="1">выбрать слово</button><button type="button" class="smp-btn is-ghost" data-sample="100">× 100</button></div>
+                                <div class="smp-tally"></div>
+                            </div>
+                            <div>
+                                <div class="smp-head"><span>токен</span><span>вероятность</span><span>%</span><span>логит<br>сырой балл</span></div>
+                                <div class="smp-rows"></div>
+                                <p class="smp-legend">бледная строка&nbsp;— отрезан</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: обычно крутят одно&nbsp;— T или top_p; top_p&nbsp;≈&nbsp;0,9 срезает бред на высокой T.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Обе стратегии выбрасывают маловероятные токены перед выбором. Зачем top-k, по книге: softmax по всему словарю в 100 тыс. токенов дорог, а по k лучшим логитам — дешевле. Top-k оставляет фиксированное число лучших — по книге обычно от 50 до 500, в демо до 6. Меньше k — текст предсказуемее, но скучнее.</p>
+                    <p>Проблема top-k: число вариантов должно зависеть от вопроса. На «ответьте да или нет» разумных вариантов два, на «в чём смысл жизни?» — сотни. Top-p, или ядерное сэмплирование, складывает вероятности самых вероятных токенов по убыванию и останавливается, когда сумма достигает p — обычно 0,9–0,95. Вычислений не экономит, зато подстраивается под контекст. На практике работает хорошо, поэтому и популярен.</p>
+                    <p><em>Совет провайдеров (дополнение, не из книги)</em> OpenAI и Anthropic советуют менять что-то одно — temperature или top_p, а не оба сразу. Top_p около 0,9 держит высокую T от совсем бредовых токенов.</p>
+                    <p><em>Как показывать</em> Пример с рисунка 2.18. По умолчанию top-p = 0,9: остаются «да» и «возможно», их сумма больше 90 %, остальные бледные — отрезаны. Top-p = 0,99 — добавляется «нет». Потом поставьте p = 1 и k = 1 — это жадный выбор. Логит — сырой балл модели до softmax. После отсечения оставшиеся токены делят 100 % между собой. Оговорка: отрезанный хвост не гарантирует правильный ответ — при p = 0,9 «нет» уходит, а «возможно» остаётся.</p>
+                    <p><em>Min-p</em> Упомянута в книге одной строкой. Родственная стратегия: токен участвует, только если его вероятность выше заданного минимума. (Дополнение, не из книги) Есть в llama.cpp и Hugging Face transformers.</p>
+                    <p><em>Переход</em> Выбрали токен, потом следующий… Когда модель перестаёт писать?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-stop" data-slide="9">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">08</span>Когда модель перестаёт писать?<span class="sec">4 / 4</span></div>
+                    <h2 class="fx-h" data-rv>Два способа <mark>остановиться</mark></h2>
+                    <p class="fx-lead" data-rv>Модель пишет по токену. Длинный ответ&nbsp;— это время, деньги и раздражение пользователя.</p>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile is-hot" data-rv="left"><div class="tile-k">Лимит токенов · max_tokens</div><div class="tile-t">Предсказуемо, но обрывает</div><p class="tile-p">Ответ режется на полуслове&nbsp;— даже посреди JSON.</p><p class="tile-p mono">{"items": ["первый", "вто <span class="hot">✂ обрезано лимитом</span></p></div>
+                            <div class="tile is-hi" data-rv="right"><div class="tile-k">Стоп-токен</div><div class="tile-t">Модель ставит точку сама</div><p class="tile-p">Пишет специальный токен «конец» или встречает стоп&#8209;слово.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: <span class="mono">finish_reason = "length"</span> (OpenAI) или <span class="mono">stop_reason = "max_tokens"</span> (Anthropic)&nbsp;— ответ обрезан, JSON битый.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модель генерирует токены один за другим, и длинный вывод — это больше времени и больше денег: платные API берут плату за выходные токены. Поэтому генерацию нужно уметь останавливать. Простой способ — остановиться после фиксированного числа токенов. Минус: ответ обрывается посреди предложения. Второй способ — стоп-токены или стоп-слова, например токен конца последовательности.</p>
+                    <p>Подвох с форматом: если нужен JSON, ранняя остановка оставит его без закрывающих скобок — его не распарсить.</p>
+                    <p><em>Для фронтендеров (дополнение, не из книги)</em> В ответе API есть причина остановки: у OpenAI finish_reason (stop, length…), у Anthropic stop_reason (end_turn, max_tokens, stop_sequence…). Если причина — лимит, не парсьте: повторите с бо́льшим лимитом или попросите продолжить. При стриминге особенно важно: частичный JSON в интерфейсе — частая причина ошибок.</p>
+                    <p><em>Переход</em> Каждый ответ — бросок кубика, иногда неудачный. Можно ли выбирать ответ целиком?</p>
+                </aside>
+            </section>
+
+            <!-- ===== Часть 3. Несколько ответов ===== -->
+
+            <section class="slide fx" id="s-tcc" data-slide="10" data-toc="Несколько ответов вместо одного">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">09</span>Можно ли выбирать ответ целиком?<span class="sec">1 / 5</span></div>
+                    <h2 class="fx-h" data-rv>Сгенерировать несколько&nbsp;— <mark>выбрать лучший</mark></h2>
+                    <p class="fx-lead" data-rv>Ответ случаен&nbsp;— можно бросить кубик несколько раз.</p>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile" data-rv><div class="tile-k">Попытка 1</div><div class="tile-t">Ответ A</div><p class="tile-p">Тот же промпт, T&nbsp;&gt;&nbsp;0.</p></div>
+                            <div class="tile is-hi" data-rv><div class="tile-k">Попытка 2</div><div class="tile-t">Ответ B</div><p class="tile-p">Лучший&nbsp;— его и покажем.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Попытка 3</div><div class="tile-t">Ответ C</div><p class="tile-p">Другие параметры.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: качество можно купить вычислениями.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> До сих пор мы говорили, как модель выбирает следующий токен и когда останавливается. Теперь — как выбрать весь ответ целиком. Мы выяснили, что каждый ответ — результат случайного выбора. Значит, можно бросить кубик несколько раз и оставить лучший результат. Это и есть вычисления во время инференса, test-time compute: вместо одного ответа генерируем несколько, чтобы повысить шанс получить хороший. Самый простой вариант — «лучшее из N», о нём говорил Антон: N независимых ответов, берём лучший.</p>
+                    <p>Вариант умнее — лучевой поиск, beam search: на каждом шаге держим несколько самых перспективных продолжений и отбрасываем слабые. Чтобы варианты были разными, между попытками часто меняют параметры сэмплирования: чем разнее кандидаты, тем вероятнее среди них хороший.</p>
+                    <p><em>Термин</em> Инференс — работа уже обученной модели: получить запрос и выдать ответ. В книге «вычисление во время тестирования» — так принято в исследованиях, где модель проверяют на новых данных. А в продакшене имя оправдано тем, что число ответов зависит от бюджета вычислений на один вызов.</p>
+                    <p><em>Цена</em> Два ответа обходятся примерно вдвое дороже одного — к этому вернёмся.</p>
+                    <p><em>Переход</em> Чтобы выбирать, нужна мерка. Первая — уверенность самой модели. Модель ответила. Насколько она была уверена?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-logprobs" data-slide="11" data-toc="Logprobs">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">10</span>Насколько модель уверена в ответе?<span class="sec">2 / 5</span></div>
+                    <h2 class="fx-h" data-rv>Уверенность видна в&nbsp;<mark>logprobs</mark></h2>
+                    <div class="fx-body">
+                        <div class="stat is-hi" data-rv><em class="stat-k">logprob</em><b>−23</b><span>логарифм шанса 0,0000000001. Всегда ≤&nbsp;0: чем ближе к&nbsp;0, тем увереннее. Логарифм — потому что такие крошечные шансы иначе округлятся до&nbsp;0.</span></div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: можно подсветить неуверенные места или отправить ответ на перепроверку. Проверьте, отдаёт ли ваш API logprobs&nbsp;— у многих их нет.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Logprobs — логарифмы вероятностей. Зачем логарифм: в словаре 100 тыс. токенов, у многих вероятность настолько мала, что компьютер округлил бы её до нуля. Логарифм решает проблему: 10<sup>−10</sup> превращается примерно в −23. Вероятность не больше 1, поэтому logprob не больше 0: 0 — полная уверенность, чем отрицательнее, тем менее вероятен токен.</p>
+                    <p>Ещё это приём отладки: если вероятности выглядят случайными, модель толком ничему не научилась. Logprobs пригодятся для классификации, оценки и понимания модели — вернёмся к ним в главах 3–4. А прямо сейчас — чтобы сравнить несколько ответов.</p>
+                    <p><em>Провайдеры прячут</em> На момент книги OpenAI отдавала logprobs только для 20 самых вероятных токенов, Anthropic не раскрывает их вовсе. Скорее всего, из соображений безопасности: по вероятностям модель легче воспроизвести.</p>
+                    <p><em>Для фронтендеров (дополнение, не из книги)</em> Подсветка неуверенных токенов в UI и отправка ответа на перепроверку при низком logprob — практические идеи, а не из книги.</p>
+                    <p><em>Переход</em> Три ответа, судьи нет. По какому числу выбрать?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-logprob" data-slide="12" data-toc="Самый уверенный ответ">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">11</span>По какому числу выбрать лучший ответ?<span class="sec">3 / 5</span></div>
+                    <h2 class="fx-h" data-rv>Выбрать <mark>самый уверенный</mark> ответ</h2>
+                    <p class="fx-lead" data-rv>Вероятность ответа&nbsp;— произведение вероятностей его токенов.</p>
+                    <div class="fx-body">
+                        <div class="chain">
+                            <div class="tile" data-rv><div class="tile-k">«Я»</div><div class="tile-t">0,2</div><p class="tile-p">шанс токена</p></div>
+                            <span class="chain-op" data-rv="fade">×</span>
+                            <div class="tile" data-rv><div class="tile-k">«люблю» после «Я»</div><div class="tile-t">0,1</div><p class="tile-p">шанс токена</p></div>
+                            <span class="chain-op" data-rv="fade">×</span>
+                            <div class="tile" data-rv><div class="tile-k">«еду» после «Я люблю»</div><div class="tile-t">0,3</div><p class="tile-p">шанс токена</p></div>
+                            <span class="chain-op" data-rv="fade">=</span>
+                            <div class="tile is-hi" data-rv><div class="tile-k">весь ответ</div><div class="tile-t">0,006</div><p class="tile-p">шанс всего ответа</p></div>
+                        </div>
+                        <p class="fx-note" data-rv style="margin-top:36px">Чем длиннее ответ, тем больше множителей и меньше произведение → берём <b>средний logprob</b> на токен.</p>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: самый уверенный&nbsp;— выбор без судьи и без лишних вызовов модели, но только если API отдаёт logprobs.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Ответ — последовательность токенов, и у каждого есть вероятность. Вероятность всего ответа — их произведение. Пример книги: «I love food», на слайде — по-русски «Я люблю еду». p(I) = 0,2, p(love | I) = 0,1, p(food | I, love) = 0,3. Вместе 0,2 × 0,1 × 0,3 = 0,006.</p>
+                    <p>С вероятностями удобнее работать в логарифмах: логарифм произведения — сумма логарифмов. Но логарифмы вероятностей отрицательные, и чем длиннее ответ, тем меньше сумма — короткие ответы всегда побеждали бы. Поэтому сумму делят на длину и сравнивают средний logprob. По словам автора, так работал параметр best_of в API OpenAI: попросить 10 ответов и вернуть самый уверенный.</p>
+                    <p><em>Дополнение, не из книги</em> Оговорка «уверенный ≠ верный» — моя: книга её прямо не делает. Модель может быть уверена в выдумке — об этом в части про галлюцинации.</p>
+                    <p><em>Переход</em> Уверенный ≠ верный. Кто ещё может выбрать лучший ответ?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-judge" data-slide="13" data-toc="Другие способы выбрать">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">12</span>Кто ещё может выбрать лучший ответ?<span class="sec">4 / 5</span></div>
+                    <h2 class="fx-h" data-rv>Оценщик, голосование, правило <mark>или скорость</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile is-hi" data-rv><div class="tile-k">Оценщик</div><div class="tile-t">Модель вознаграждения</div><p class="tile-p">Отдельная модель ставит ответам баллы.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Голосование</div><div class="tile-t">Самый частый ответ</div><p class="tile-p">Для задач с точным ответом: взять частый.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Правило задачи</div><div class="tile-t">Эвристика</div><p class="tile-p">Самый короткий. Или повторять, пока SQL не валиден.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Скорость</div><div class="tile-t">Первый готовый</div><p class="tile-p">Запустить несколько сразу, показать первый валидный.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: правило (валидный JSON)&nbsp;— бесплатно, оценщик&nbsp;— ещё вызов модели, гонка&nbsp;— платим за всё, но ждём меньше.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модель вознаграждения — модель, которая оценивает ответы другой модели; о ней рассказывал Антон в докладе про последующее обучение. Не путать с AI-судьёй из следующих глав. Stitch Fix и Grab выбирают ответы, которым их модели вознаграждения или верификаторы поставили высокие оценки. Nextdoor (2023) назвала модель вознаграждения главным фактором роста качества.</p>
+                    <p>Голосование — для задач с точным ответом (математика, выбор варианта). Решаем задачу несколько раз и берём самый частый ответ — это называют самосогласованностью (Ванг и др., 2023). Google так оценивала Gemini на тесте MMLU: 32 ответа на вопрос — и балл выше, чем с одним. Модель устойчива, если не меняет ответ кардинально от мелких изменений входа; чем она менее устойчива, тем полезнее несколько попыток. В проекте автора модель извлекала данные с фото товара только в половине случаев, а с тремя попытками — из большинства изображений. Хотя ненадёжную модель лучше заменить.</p>
+                    <p>Эвристики задачи: если приложению нужны короткие ответы — берём самый короткий; если превращаем текст в SQL — генерируем, пока запрос не станет корректным.</p>
+                    <p>Первый готовый: в TIFIN (Киттипат Кампа) рассуждения долгие, поэтому запускают несколько генераций параллельно и показывают первую завершённую и валидную. Задержка меньше — за счёт денег. Ещё один вариант — показать несколько ответов человеку и дать выбрать.</p>
+                    <p><em>Переход</em> Стоит ли игра свеч?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-tccnum" data-slide="14" data-toc="Сколько даёт и сколько стоит">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">13</span>Стоит ли игра свеч?<span class="sec">5 / 5</span></div>
+                    <h2 class="fx-h" data-rv>Сколько это даёт&nbsp;— <mark>и сколько стоит</mark></h2>
+                    <div class="fx-body">
+                        <div class="stats">
+                            <div class="stat is-hi" data-rv><em class="stat-k">выигрыш</em><b>×<span data-count="30">30</span></b><span>маленькая модель + проверка ≈ модель в 30 раз крупнее</span></div>
+                            <div class="stat" data-rv><em class="stat-k">потолок</em><b><span data-count="400">400</span></b><span>после ~400 ответов рост остановился (OpenAI)</span></div>
+                            <div class="stat is-hot" data-rv><em class="stat-k">цена</em><b>×<span data-count="2">2</span></b><span>два ответа&nbsp;— вдвое дороже одного</span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: маленькая модель + проверка может заменить большую, но каждая попытка&nbsp;— деньги и ожидание. Считайте бюджет: обычно хватает нескольких попыток.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> OpenAI (Коббе и др., 2021) обучила верификатор — модель-проверяющего для математических задач. Прирост — как от увеличения модели в 30 раз. Параметры — числа внутри модели, которые подбираются при обучении; их количество и есть «размер» модели. Модель на 100 млн параметров с верификатором сравнялась с моделью на 3 млрд без него. DeepMind (Снелл и др., 2024): масштабировать вычисления при выводе бывает выгоднее, чем параметры.</p>
+                    <p>Но есть потолок. У OpenAI качество росло до 400 ответов, дальше падало: больше шансов найти ответ, который обманет верификатор. А вот в статье Monkey Business из Стэнфорда (Браун и др., 2024) число решённых задач росло логарифмически до 10 000 попыток — это не противоречие: потолок зависит от задачи и от того, чем проверяем. Автор трезво замечает: 400 ответов на запрос в продакшене никто делать не будет.</p>
+                    <p>Цена: два ответа — примерно вдвое дороже. Немного экономит то, что вход обрабатывают один раз и переиспользуют для всех вариантов.</p>
+                    <p><em>Что изменилось с выхода книги</em> (не из книги) Рассуждающие модели перед ответом пишут длинную цепочку размышлений. o1 (сентябрь 2024) скрывает цепочку размышлений, DeepSeek-R1 (январь 2025) показывает её. Идея родственная: вычисления при инференсе растут последовательно, длинным рассуждением, а не N параллельными ответами. Сейчас почти у всех провайдеров есть рассуждающий режим — reasoning effort, extended thinking. Это тот же компромисс: токены размышлений оплачиваются, задержка растёт.</p>
+                    <p><em>Источники</em> <a href="https://openai.com/index/learning-to-reason-with-llms/" target="_blank" rel="noopener">OpenAI — Learning to reason with LLMs</a>; <a href="https://arxiv.org/abs/2501.12948" target="_blank" rel="noopener">DeepSeek-R1 (arXiv 2501.12948)</a>.</p>
+                    <p><em>Переход</em> Лучший ответ выбрали. А если его читает не человек, а программа?</p>
+                </aside>
+            </section>
+
+            <!-- ===== Часть 4. Структурированный вывод ===== -->
+
+            <section class="slide fx" id="s-struct" data-slide="15" data-toc="Зачем нужен формат">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">14</span>А если ответ читает программа?<span class="sec">1 / 3</span></div>
+                    <h2 class="fx-h" data-rv>Ответ должен быть <mark>в нужном формате</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile" data-rv><div class="tile-k">Задача сама про структуру</div><div class="tile-t">Текст → SQL, регулярка, категория</div><p class="tile-p">«Средняя зарплата за полгода?» → запрос к Postgres.</p></div>
+                            <div class="tile is-hi" data-rv><div class="tile-k">Ответ читает код</div><div class="tile-t">JSON для приложения</div><p class="tile-p">Фронтенд ждёт ключи <span class="acc">title</span> и <span class="acc">body</span>.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: одно лишнее «Конечно! Вот ваш JSON:»&nbsp;— и парсер падает.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> В продакшене вывод часто должен иметь строгий формат. Два сценария. Первый: задача сама требует структуры. Самый частый случай — семантический разбор: перевести естественный язык в машиночитаемый формат. Текст в SQL: «Какая средняя месячная зарплата за последние полгода?» вместо запроса к PostgreSQL. Пример книги: GPT-4o по описанию пишет регулярные выражения — для адреса почты, для дат. Сюда же классификация: ответ — одна из допустимых категорий.</p>
+                    <p>Второй: самой задаче структура не нужна — письмо можно написать свободным текстом, — но результат читает другая программа. Приложение ждёт JSON вида {"title": …, "body": …}. Особенно важно для агентов — моделей, которые сами вызывают функции: вывод модели идёт прямо на вход инструментов (глава 6).</p>
+                    <p><em>Переход</em> Как заставить модель держать формат?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-ladder" data-slide="16" data-toc="Пять уровней">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">15</span>Как заставить модель держать формат?<span class="sec">2 / 3</span></div>
+                    <h2 class="fx-h" data-rv>Пять уровней: <mark>от пластыря до терапии</mark></h2>
+                    <div class="fx-body">
+                        <div class="rail" style="--n:5; --line-y:27px">
+                            <div class="rail-line"></div>
+                            <div class="rail-node" data-rv><div class="rn-dot"></div><div class="rn-k">пластырь</div><div class="rn-t">Промпт</div><div class="rn-out">«Только JSON». Без гарантий</div></div>
+                            <div class="rail-node" data-rv><div class="rn-dot"></div><div class="rn-k">пластырь</div><div class="rn-t">Постобработка</div><div class="rn-out">Чиним типовые ошибки скриптом</div></div>
+                            <div class="rail-node" data-rv><div class="rn-dot"></div><div class="rn-k">пластырь</div><div class="rn-t">Повтор</div><div class="rn-out">Пока не пройдёт проверку</div></div>
+                            <div class="rail-node is-end" data-rv><div class="rn-dot"></div><div class="rn-k">терапия</div><div class="rn-t">Ограниченное сэмплирование</div><div class="rn-out">Запрещаем лишние токены</div></div>
+                            <div class="rail-node is-end" data-rv><div class="rn-dot"></div><div class="rn-k">терапия</div><div class="rn-t">Дообучение</div><div class="rn-out">Учим на примерах формата</div></div>
+                        </div>
+                        <div class="rail-ends" data-rv="fade"><span>← проще, без гарантий</span><span>○ пластырь · ● терапия</span><span>надёжнее, дороже →</span></div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: валидация обычно проходит&nbsp;— пластырь; часто падает&nbsp;— терапия.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Автор раскладывает способы по уровням стека: промпт, постобработка, повторные попытки, ограниченное сэмплирование и дообучение. Первые три — «пластырь»: работают, если модель уже почти справляется. Последние два — «интенсивная терапия».</p>
+                    <p>Промпт — первая линия: просим нужный формат. Выполнит ли модель, зависит от умения следовать инструкциям (глава 4) и ясности инструкций (глава 5). Автор встречала долю корректных JSON от 0 до 90 % — даже несколько процентов брака многим неприемлемы. Можно проверять вывод второй моделью, AI-судьёй, но это второй запрос: дороже и дольше.</p>
+                    <p>Постобработка — дёшево и неожиданно эффективно. Модели повторяют похожие ошибки, как студенты. Нашли типовые — пишем скрипт: нет закрывающей скобки — допишите. LinkedIn с защитным парсером YAML поднял долю корректного вывода с 90 до 99,99 %. И выбрал YAML вместо JSON: он короче, значит меньше выходных токенов. Оговорка: постобработка помогает, только если ошибки мелкие и типовые.</p>
+                    <p>Повтор — это вычисления при инференсе из прошлой части: генерируем, пока ответ не пройдёт проверку формата.</p>
+                    <p>Дообучение на примерах нужного формата — самый эффективный и универсальный способ. Но и оно не гарантирует, что модель всегда выдаст ожидаемый формат, — просто гораздо надёжнее промптов. Гарантию даёт изменение архитектуры: для классификации к базовой модели добавляют классификатор, и она выдаёт только один из заранее заданных классов (рис. 2.22). Этот подход называется переносом на основе признаков (feature-based transfer), подробнее — в главе 7. Дообучать можно всю модель целиком или только часть, например классификатор: целиком — больше ресурсов, но выше качество.</p>
+                    <p><em>Переход</em> Как именно сэмплер запрещает лишние токены?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-constr" data-slide="17" data-toc="Ограниченное сэмплирование">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">16</span>Как именно сэмплер запрещает лишние токены?<span class="sec">3 / 3</span></div>
+                    <h2 class="fx-h" data-rv>Ограниченное сэмплирование: <mark>запретить лишнее</mark></h2>
+                    <p class="fx-lead" data-rv>После <span class="acc">{"answer":</span> JSON-схема (описание полей) разрешает только "да" или "нет".</p>
+                    <div class="fx-body">
+                        <p class="hb-cap" data-rv>полоса&nbsp;— до фильтра; справа&nbsp;— после (остаток пересчитан до 100%)</p>
+                        <div class="hb">
+                            <div class="hb-row is-hot" data-rv><span class="hb-l">Конечно</span><div class="hb-t"><i style="--v:40"></i></div><span class="hb-v">40% → ✕ запрещено</span></div>
+                            <div class="hb-row is-hi" data-rv><span class="hb-l">"да"</span><div class="hb-t"><i style="--v:35"></i></div><span class="hb-v">35% → 70%</span></div>
+                            <div class="hb-row is-hi" data-rv><span class="hb-l">"нет"</span><div class="hb-t"><i style="--v:15"></i></div><span class="hb-v">15% → 30%</span></div>
+                            <div class="hb-row is-hot" data-rv title="новый объект — схема ждёт строку"><span class="hb-l">{</span><div class="hb-t"><i style="--v:6"></i></div><span class="hb-v">6% → ✕ запрещено</span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: <b>structured outputs</b> гарантируют формат, но не правильность, и не спасут от обрыва по max_tokens.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Ограниченное сэмплирование — constrained sampling. Перед выбором каждого токена из вектора логитов убирают всё, что нарушает формат, и выбирают только из допустимого (рисунок 2.21). Модель уже написала {"answer": и «хочет» сказать «Конечно» — она ведь обучена быть вежливой. Схема разрешает только строку «да» или «нет». Запрещённые токены выкидываем, оставшиеся перенормируем: 35 и 15 превращаются в 70 и 30. Ровно как top-k и top-p, только отсекаем не по вероятности, а по правилам формата. Часть специалистов против: лучше учить модель следовать инструкциям.</p>
+                    <p>Правила формата называют <b>грамматикой</b>: что может идти после чего. Например, в JSON после { не может идти ещё одна {, если она не внутри строки. Для каждого формата — JSON, YAML, regex, CSV — нужна своя грамматика, поэтому подход хуже обобщается и может замедлить генерацию. Инструменты из книги: Outlines, Guidance, instructor, llama.cpp.</p>
+                    <p>Режим JSON, который первой добавила OpenAI, гарантирует только корректный JSON, а не содержимое. И даже корректный JSON обрежется, если генерация упрётся в лимит токенов. А слишком большой лимит — медленно и дорого.</p>
+                    <p><em>Как показывать</em> Полосы — исходные вероятности, что «хочет» модель. Потом правые числа — что остаётся после фильтра: запрещённые выкинуты, «да» и «нет» делят 100 % между собой (35 : 15 = 70 : 30). Проценты условные, для иллюстрации. «{» запрещён, потому что это начало нового объекта, а схема ждёт строку.</p>
+                    <p><em>Что изменилось с выхода книги</em> (не из книги) Автор предполагала, что эти методы станут менее важны, — на деле их встроили в API. OpenAI Structured Outputs (август 2024): ответ строго по JSON-схеме. Structured outputs есть и в API Anthropic. Гарантируется формат, а не правильность ответа. В открытых движках (vLLM, SGLang) грамматики встроены через XGrammar и Outlines. Для фронтендера: описываем схему через Zod или Pydantic — и получаем объект для UI. Валидацию на своей стороне всё равно оставьте.</p>
+                    <p><em>Источники</em> <a href="https://openai.com/index/introducing-structured-outputs-in-the-api/" target="_blank" rel="noopener">OpenAI — Introducing Structured Outputs in the API</a>; <a href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" target="_blank" rel="noopener">Anthropic — Structured outputs</a>; <a href="https://github.com/mlc-ai/xgrammar" target="_blank" rel="noopener">XGrammar</a>.</p>
+                    <p><em>Переход</em> Формат удержали. Но весь доклад мы боремся со случайностью. Чем ответ модели отличается от ответа друга?</p>
+                </aside>
+            </section>
+
+            <!-- ===== Часть 5. Вероятностная природа ===== -->
+
+            <section class="slide fx" id="s-prob" data-slide="18" data-toc="AI вероятностный">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">17</span>Чем ответ модели отличается от ответа друга?<span class="sec">1 / 3</span></div>
+                    <h2 class="fx-h" data-rv>AI <mark>вероятностный</mark></h2>
+                    <p class="fx-lead" data-rv>Друг дважды назовёт одну лучшую кухню. Модель, уверенная на 70&nbsp;% во вьетнамской, в 30&nbsp;% скажет «итальянская».</p>
+                    <div class="fx-body">
+                        <p class="fx-note" data-rv style="margin-bottom:28px">Может прозвучать всё, у чего шанс не ноль, даже неправда.</p>
+                        <div class="grid2">
+                            <div class="tile is-hi" data-rv><div class="tile-k">Плюс</div><div class="tile-t">Творчество</div><p class="tile-p">Редкий вариант&nbsp;— свежая идея.</p></div>
+                            <div class="tile is-hot" data-rv><div class="tile-k">Минус</div><div class="tile-t">Несогласованность и галлюцинации</div><p class="tile-p">Разные ответы на тот же вопрос. Уверенные выдумки.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: интерфейс проектируем под вероятностный ответ&nbsp;— «перегенерировать», источники, возможность поправить.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Способ, которым модель выбирает ответ, делает её вероятностной. Противоположность — детерминизм, когда результат определён без случайности. Спросите друга дважды с разницей в минуту, какая кухня лучшая, — ответ будет одним. Модель, которая считает, что у вьетнамской кухни 70 % шансов, а у итальянской 30 %, ответит «вьетнамская» в 70 % случаев.</p>
+                    <p>Откуда выдумки: представьте эссе «все президенты США — инопланетяне», попавшее в обучающие данные. Модель будет иногда, с некоторой вероятностью, это повторять. Базовые модели — совокупность мнений масс, мир возможностей: всё, у чего вероятность не нулевая, может быть сгенерировано. Как в меме: шансы малы, но не равны нулю.</p>
+                    <p>Для творческих задач это подарок, для всего остального — проблема. Два минуса — несогласованность и галлюцинации. Пятая часть обращений в поддержку одной AI-компании была про несогласованность, а в дискуссии с Дрю Хьюстоном (Dropbox) и Харрисоном Чейзом (LangChain) все сошлись, что галлюцинации — главное препятствие для корпоративного AI.</p>
+                    <p><em>Переход</em> Почему на тот же вопрос — другой ответ?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-incons" data-slide="19" data-toc="Несогласованность">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">18</span>Почему на тот же вопрос&nbsp;— другой ответ?<span class="sec">2 / 3</span></div>
+                    <h2 class="fx-h" data-rv><mark class="hot">Несогласованность</mark>: два сценария</h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile is-hot" data-rv><div class="tile-k">Проблема · тот же запрос&nbsp;— другой ответ</div><div class="tile-t">ChatGPT оценил эссе: 3/5, потом 5/5</div><p class="tile-p">Помогают кэш, одни настройки и <b>seed</b>&nbsp;— зерно случайности… но железо провайдера может дать другой ответ.</p></div>
+                            <div class="tile is-hot" data-rv><div class="tile-k">Проблема · чуть другой запрос&nbsp;— другой ответ</div><div class="tile-t">Заглавная буква меняет всё</div><p class="tile-p">Настроек мало. Помогают промпты и память (история диалога).</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: помните T&nbsp;=&nbsp;0? Через API и он не гарантирует одинаковый ответ&nbsp;— кэшируйте ответы у себя.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Несогласованность — очень разные ответы на одинаковые или чуть разные запросы. Пользователи ждут от AI того же, что от людей: вообразите знакомого, который при каждой встрече называется другим именем.</p>
+                    <p>Сценарий 1: тот же запрос — разные ответы. Автор попросила ChatGPT оценить эссе и на один запрос получила 3/5 и 5/5. Что делать: кэшировать ответ; зафиксировать температуру, top-p, top-k; зафиксировать seed — начальное значение генератора случайных чисел. Но и это не даёт 100 %: разное железо по-разному выполняет одни и те же операции. Аналогия автора: учитель, который ставит стабильные оценки, только сидя в одном кабинете.</p>
+                    <p>Сценарий 2: чуть другой запрос, например случайная заглавная буква, — совсем другой ответ. Фиксация настроек всё ещё полезна, но одинакового ответа на разные входы не даст; помогают продуманные промпты (глава 5) и системы памяти (глава 6).</p>
+                    <p><em>Две причины</em> Книга называет одну: железо — разное оборудование по-разному выполняет одни и те же операции. Вторая, батчи, — дополнение 2025 года, ниже. «Кэш» здесь — сохранить ответ модели у себя (в БД, по ключу «промпт + настройки») и отдавать его повторно, а не спрашивать модель снова.</p>
+                    <p><em>Что изменилось с выхода книги</em> (не из книги) В сентябре 2025 года Thinking Machines Lab (компания Миры Мурати) разобрала, почему ответ гуляет даже при T = 0. Сервер объединяет запросы разных пользователей в пачки (батчи), и вычисления идут по-разному в зависимости от размера пачки. На Qwen3-235B-A22B (Instruct-2507) при T = 0 промпт «Tell me about Richard Feynman» — тысяча одинаковых запросов дала 80 разных ответов; с «пакетно-инвариантными» ядрами — все одинаковые, ценой скорости.</p>
+                    <p><em>Источники</em> <a href="https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/" target="_blank" rel="noopener">Thinking Machines — Defeating Nondeterminism in LLM Inference</a>; <a href="https://simonwillison.net/2025/Sep/11/defeating-nondeterminism" target="_blank" rel="noopener">разбор Simon Willison</a>.</p>
+                    <p><em>Переход</em> Случайность объясняет разные ответы. А откуда уверенные выдумки?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-halluc" data-slide="20" data-toc="Галлюцинации">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">19</span>Откуда берутся уверенные выдумки?<span class="sec">3 / 3</span></div>
+                    <h2 class="fx-h" data-rv><mark class="hot">Галлюцинации</mark>: две гипотезы</h2>
+                    <p class="fx-lead" data-rv>Галлюцинация&nbsp;— ответ, не основанный на фактах.</p>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile is-hot" data-rv><div class="tile-k">Проблема · гипотеза 1</div><div class="tile-t">Самообман</div><p class="tile-p">Свой текст принимает за факт: «Хьюен&nbsp;— архитектор»&nbsp;— и врёт дальше.</p></div>
+                            <div class="tile is-hot" data-rv><div class="tile-k">Проблема · гипотеза 2</div><div class="tile-t">Чужие знания</div><p class="tile-p">Учили на ответах разметчиков&nbsp;— имитирует знания, которых у неё нет.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: «не уверен&nbsp;— скажи “не знаю”», короткие ответы и ответ по найденным документам, как экзамен с открытой книгой (<b>RAG</b>).</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Для задач, которые зависят от фактов, галлюцинации критичны. В июне 2023 года юридическую фирму оштрафовали за выдуманные ChatGPT прецеденты в суде. Несогласованность объясняется случайностью выбора, а галлюцинации — нет: как невиданное стало вероятным? Две гипотезы.</p>
+                    <p>Самообман (Ортега и др., DeepMind, 2021): модель не отличает данные, которые ей дали, от того, что сгенерировала сама. Начала «Чип Хьюен — архитектор» — и дальше считает это фактом. LLaVA решила, что шампунь на фото — молоко, и добавила молоко в состав. Это галлюцинации «снежного кома» (Цзан и др., 2023): ошибочное начало модель оправдывает — вплоть до «9677 делится на 13». Лечение по DeepMind: учить модель отличать запрос пользователя от собственных токенов — и обучение с учителем на фактических и контрфактических примерах.</p>
+                    <p>Несоответствие знаний (Лео Гао и Джон Шульман, OpenAI): при дообучении модель копирует ответы разметчиков — людей, которые пишут образцовые ответы. Если они используют знания, которых у модели нет, мы учим её выдумывать. Лечение: просить источники и сильнее штрафовать за выдумки. Гипотезы дополняют друг друга: первая — про самообучение, вторая — про обучение с учителем.</p>
+                    <p>Шульман: модель знает, что ей известно, — смелое допущение. На нём держатся промпт «не уверен — скажи „не знаю“» и просьба отвечать кратко (меньше токенов — меньше шансов выдумать). Он же говорил, что RLHF уменьшает галлюцинации, но у InstructGPT RLHF их усилило (рис. 2.26), хотя в целом модель стала лучше.</p>
+                    <p><em>Авторы гипотез</em> Первая — Ортега и др., DeepMind, 2021; вторая — Лео Гао и Джон Шульман, OpenAI.</p>
+                    <p><em>RAG (отсылка к главе 6)</em> Retrieval-augmented generation: сначала найти подходящие документы, потом отвечать по ним — как экзамен с открытой книгой. В этом разделе книги RAG прямо не предлагается — это мостик к главе 6.</p>
+                    <p><em>Что изменилось с выхода книги</em> (не из книги) В сентябре 2025 года OpenAI опубликовала «Why Language Models Hallucinate»: обучение и бенчмарки вознаграждают угадывание. За «не знаю» — ноль, а догадка иногда попадает, поэтому модели учатся уверенно угадывать. Предложение — штрафовать уверенные ошибки сильнее честного «не знаю».</p>
+                    <p><em>Источники</em> <a href="https://openai.com/index/why-language-models-hallucinate/" target="_blank" rel="noopener">OpenAI — Why language models hallucinate</a>; <a href="https://arxiv.org/abs/2509.04664" target="_blank" rel="noopener">Kalai и др., 2025 (arXiv 2509.04664)</a>.</p>
+                    <p><em>Переход</em> Что унести с собой?</p>
+                </aside>
+            </section>
+
+            <!-- ===== Финал ===== -->
+
+            <section class="slide fx" id="s-sum" data-slide="21" data-toc="Выводы">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">20</span>Что унести с собой?</div>
+                    <h2 class="fx-h" data-rv>Модель выдаёт вероятности&nbsp;— <mark>текст выбираем мы</mark></h2>
+                    <div class="fx-body">
+                        <div class="takeaways">
+                            <div class="tw" data-rv><span class="n">01</span><p><b>Токен</b>: T&nbsp;=&nbsp;0&nbsp;— почти стабильно, ≈0,7&nbsp;— творчески.</p></div>
+                            <div class="tw" data-rv><span class="n">02</span><p>Проверяйте <b>причину остановки</b>: обрезанный JSON&nbsp;— частый баг.</p></div>
+                            <div class="tw" data-rv><span class="n">03</span><p><b>Ответ</b>: несколько попыток + проверка&nbsp;— качество за деньги.</p></div>
+                            <div class="tw" data-rv><span class="n">04</span><p><b>Формат</b>: structured outputs, валидацию оставьте.</p></div>
+                            <div class="tw" data-rv><span class="n">05</span><p><b>Одинаковый ответ</b> не гарантирован даже при T&nbsp;=&nbsp;0&nbsp;— кэшируйте.</p></div>
+                            <div class="tw" data-rv><span class="n">06</span><p><b>Галлюцинации</b> не исключить, только смягчить: источники, краткость, «не знаю».</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: в каждом вызове осознанно выбираем temperature, max_tokens, число попыток и схему ответа.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Модель на каждом шаге выдаёт распределение, а текст — результат нашего выбора. Ручки выбора токена: температура, top-k, top-p, условие остановки. Выбор ответа целиком: несколько попыток и оценщик — а теперь и рассуждающие модели, которые делают это внутри. Формат: пять уровней, самый сильный — ограниченное сэмплирование, оно теперь в API. И вероятностная природа: творчество, несогласованность и галлюцинации.</p>
+                    <p>На этом глава 2 закончена. В главе 3 автор переходит к оценке моделей — там же кросс-энтропия и наты.</p>
+                    <p><em>Переход</em> А как это устроено у вас?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-talk" data-slide="22" data-toc="Вопросы залу">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">21</span>А как это устроено у вас?</div>
+                    <h2 class="fx-h" data-rv>Три вопроса <mark>залу</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile" data-rv><div class="tile-k">01</div><div class="tile-t">Какая у вас температура?</div><p class="tile-p">Для чата, поиска, кода&nbsp;— и кто её выбирал?</p></div>
+                            <div class="tile" data-rv><div class="tile-k">02</div><div class="tile-t">Как вы получаете JSON?</div><p class="tile-p">Промпт, повтор, схема&nbsp;— что сработало?</p></div>
+                            <div class="tile" data-rv><div class="tile-k">03</div><div class="tile-t">Как показать неуверенность?</div><p class="tile-p">Варианты, источники, «не знаю»&nbsp;— как это выглядит?</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Что это значит для нас: соберите 20–50 своих промптов и прогоняйте их при каждой смене модели, T или схемы.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Последний доклад вечера — хорошее место для разговора.</p>
+                    <p>Вопрос 1. Типичный ответ: никто не выбирал, стоит дефолт. Для извлечения данных и классификации — ближе к 0, для текстов и идей — выше. Напомнить, что у части современных моделей температуру не поменять.</p>
+                    <p>Вопрос 2. Опыт зала: Zod-схемы, structured outputs, повторы с валидацией, починка частичного JSON при стриминге.</p>
+                    <p>Вопрос 3. На стыке с UX: показывать источники, давать перегенерировать, честно писать «не уверен». Связь с главой 4 про оценку галлюцинаций.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" data-slide="23" data-chrome="whatnext">
+                <div class="timeline-next-container">
+                    <div class="fx-kicker" data-rv="fade">Дальше</div>
+                    <h2 class="fx-h" data-rv>Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-120-ai-2-1-pomazkov.pages.dev" target="_blank" rel="noreferrer">Обучающие данные</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-120-ai-2-2-nikiforov.pages.dev" target="_blank" rel="noreferrer">Создание модели</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-120-ai-2-3-pomazkov.pages.dev" target="_blank" rel="noreferrer">Последующее обучение</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;"><a href="https://bc-120-ai-2-4-nikiforov.pages.dev" target="_blank" rel="noreferrer">Сэмплирование</a></span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Переключатель темы: светлая ↔ тёмная (клавиша T) -->
+    <button class="theme-toggle" id="themeToggle" type="button" role="switch"
+            aria-checked="false" aria-label="Переключить тему" title="Светлая тема (T)">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-knob"></span>
+            <span class="theme-ico theme-ico-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            </span>
+            <span class="theme-ico theme-ico-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+            </span>
+        </span>
+    </button>
+
+    <!-- Содержание: список слайдов, клик — переход на слайд (клавиша O) -->
+    <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false"
+            aria-controls="tocPanel" aria-label="Содержание презентации" title="Содержание (O)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"></path></svg>
+    </button>
+    <nav class="toc-panel" id="tocPanel" aria-label="Содержание презентации"></nav>
+
+    <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
+    <script src="assets/js/deck.js"></script>
+    <!-- Интерактив этого доклада: схемы по шагам, калькулятор, сэмплер -->
+    <script src="assets/js/talk.js"></script>
+
+</body>
+</html>

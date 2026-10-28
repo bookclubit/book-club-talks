@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения. Программирование, масштабирование, поддержка</title>
+    <meta name="description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+    <meta property="og:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <meta property="og:image" content="https://bc-121-designing-data-intensive-applications-2-1-pomazkov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+    <meta name="twitter:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <meta name="twitter:image" content="https://bc-121-designing-data-intensive-applications-2-1-pomazkov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
+    <!-- Тема до первой отрисовки: иначе светлый дек моргнёт тёмным. -->
+    <script>
+        try {
+            if (localStorage.getItem('bc-deck-theme') === 'light')
+                document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
+    <link rel="stylesheet" href="assets/css/theme.css">
+
+</head>
+<body data-hud="Высоконагруженные приложения. Программирование, масштабирование, поддержка · Глава 2 · Реляционная модель в сравнении с документоориентированной моделью">
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+
+            <!-- Открытие стрима, автор и книга — только в первом докладе вечера -->
+            <section class="slide fx is-title is-opening" id="slide-opening" data-slide="1" data-chrome="opening" data-toc="Открытие стрима">
+                <div class="fx-wrap">
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>6 ноября 2026 · 18:00 МСК</span></div>
+                    <div class="open-num" aria-hidden="true">121</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Стрим 121</span>Добро пожаловать</div>
+                    <h1 class="title-h" data-rv>Модели данных и языки запросов</h1>
+                    <p class="open-sub" data-rv><b>Высоконагруженные приложения. Программирование, масштабирование, поддержка</b> · Глава 2 · 3 доклада</p>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <div class="open-speakers" data-rv="left"><em>Спикеры вечера</em><div class="os-row"><span class="os"><img src="assets/speakers/pomazkov-anton.webp" alt=""><b>Антон Помазков</b></span><span class="os"><img src="assets/speakers/nikiforov-artem.webp" alt=""><b>Артём Никифоров</b></span></div></div>
+                        <div class="open-links" data-rv="fade"><em>Клуб</em><div class="chips"><a class="chip" href="https://t.me/booksclubfrontend" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Telegram</a><a class="chip" href="https://www.youtube.com/@pomazkovclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>YouTube</a><a class="chip" href="https://vkvideo.ru/@pomazkovclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5 6.5 17 10 7.5"/><path d="M13.5 7.5v9.5"/><path d="M13.5 12.5 19 7.5"/><path d="M15.3 11 19.5 17"/></svg>VK Видео</a><a class="chip" href="https://boosty.to/booksclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4.1 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Boosty</a></div></div>
+                        <a class="title-book" data-rv="right" href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>Высоконагруженные приложения. Программирование, масштабирование, поддержка</b><span>Мартин Клеппман</span></span>
+                            <img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Открытие стрима: поздоровайтесь, назовите книгу и главу вечера, скажите, сколько будет докладов, и напомните про Telegram-канал клуба. Дальше — пара слов об авторе и книге, потом программа.</p>
+                </aside>
+            </section>
+            <section class="slide fx" id="slide-author" data-slide="2" data-chrome="author" data-toc="Кто написал книгу">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
+                    <div class="fx-body">
+                        <div class="au">
+                            <div class="au-id">
+                                <div class="au-photo" data-rv="pop"><img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман"></div>
+                                <h2 class="au-name" data-rv="left">Мартин Клеппман</h2>
+                            </div>
+                            <div class="au-rows">
+                                <div class="au-row" data-rv><span class="k">Сайт</span><div><p><a class="lnk" href="https://martin.kleppmann.com/" target="_blank" rel="noopener">martin.kleppmann.com ↗</a></p></div></div>
+                                <div class="au-row" data-rv><span class="k">В клубе</span><div><ul class="au-books"><li class="is-now">Высоконагруженные приложения. Программирование, масштабирование, поддержка</li></ul></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Слайд собран генератором из book-club-data. Допишите два-три факта об авторе: чем он известен и почему ему стоит доверять.</p>
+                </aside>
+            </section>
+            <section class="slide fx" id="slide-book" data-slide="3" data-chrome="book" data-toc="Что это за книга">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Что это за книга</div>
+                    <div class="fx-body">
+                        <div class="bk2">
+                            <div class="bk2-cover" data-rv="left"><a href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener"><img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="Обложка книги Высоконагруженные приложения. Программирование, масштабирование, поддержка"></a></div>
+                            <div>
+                                <div data-rv>
+                                    <div class="bk2-title">Высоконагруженные приложения. Программирование, масштабирование, поддержка</div>
+                                    <p class="bk2-meta">Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems</p>
+                                    <p class="bk2-desc">Главная книга для тех, кто хочет научиться создавать крупные, быстрые и надежные ИТ-системы вроде Telegram, Netflix или крупных интернет-магазинов.</p>
+                                </div>
+                                <div class="stats" data-rv>
+                                    <div class="stat"><b data-count="12">12</b><span>глав в книге</span></div>
+                                    <div class="stat"><b data-count="3">3</b><span>тем в главе 2</span></div>
+                                </div>
+                                <div data-rv>
+                                    <div class="chaps" style="--chaps:12"><span class="chap" title="Надежные, масштабируемые и удобные в сопровождении приложения">1</span><span class="chap is-now" title="Модели данных и языки запросов">2</span><span class="chap">3</span><span class="chap">4</span><span class="chap">5</span><span class="chap">6</span><span class="chap">7</span><span class="chap">8</span><span class="chap">9</span><span class="chap">10</span><span class="chap">11</span><span class="chap">12</span></div>
+                                    <p class="chaps-cap"><b>Глава 2</b> · Модели данных и языки запросов — сегодня</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Слайд собран генератором из book-club-data. Расскажите, почему клуб читает эту книгу и о чём глава, которую разбираем сегодня.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" data-slide="4" data-chrome="agenda">
+                <div class="timeline-next-container">
+                    <div class="fx-kicker" data-rv="fade">Стрим 121</div>
+                    <h2 class="fx-h" data-rv>Программа вечера</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Реляционная модель в сравнении с документоориентированной моделью</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Языки запросов для данных</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Графоподобные модели данных</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Титул доклада: глава, тема, кто читает и по какой книге.
+                 В первом докладе вечера идёт после программы, в остальных — первым. -->
+            <section class="slide fx is-title" data-slide="5" data-chrome="title">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Глава 2</span>Модели данных и языки запросов</div>
+                    <h1 class="title-h" data-rv>Реляционная модель в сравнении с документоориентированной моделью</h1>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <a class="title-speaker" data-rv="left" href="https://t.me/kunjutone" target="_blank" rel="noopener">
+                            <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                            <span><em>Доклад читает</em><b>Антон Помазков</b><i>@kunjutone</i></span>
+                        </a>
+                        <a class="title-book" data-rv="right" href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>Высоконагруженные приложения. Программирование, масштабирование, поддержка</b><span>Мартин Клеппман</span></span>
+                            <img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Здесь — контентные слайды доклада -->
+
+            <section class="slide fx" data-slide="6" data-chrome="whatnext">
+                <div class="timeline-next-container">
+                    <div class="fx-kicker" data-rv="fade">Дальше</div>
+                    <h2 class="fx-h" data-rv>Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Реляционная модель в сравнении с документоориентированной моделью</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Языки запросов для данных</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Графоподобные модели данных</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Переключатель темы: светлая ↔ тёмная (клавиша T) -->
+    <button class="theme-toggle" id="themeToggle" type="button" role="switch"
+            aria-checked="false" aria-label="Переключить тему" title="Светлая тема (T)">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-knob"></span>
+            <span class="theme-ico theme-ico-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            </span>
+            <span class="theme-ico theme-ico-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+            </span>
+        </span>
+    </button>
+
+    <!-- Содержание: список слайдов, клик — переход на слайд (клавиша O) -->
+    <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false"
+            aria-controls="tocPanel" aria-label="Содержание презентации" title="Содержание (O)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"></path></svg>
+    </button>
+    <nav class="toc-panel" id="tocPanel" aria-label="Содержание презентации"></nav>
+
+    <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
+    <script src="assets/js/deck.js"></script>
+
+</body>
+</html>

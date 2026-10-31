@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения</title>
+    <meta name="description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения">
+    <meta property="og:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <meta property="og:image" content="https://bc-121-designing-data-intensive-applications-2-1-pomazkov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения">
+    <meta name="twitter:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
+    <meta name="twitter:image" content="https://bc-121-designing-data-intensive-applications-2-1-pomazkov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
+    <!-- Тема до первой отрисовки: иначе светлый дек моргнёт тёмным. -->
+    <script>
+        try {
+            if (localStorage.getItem('bc-deck-theme') === 'light')
+                document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <!-- Компоненты контентных слайдов этого доклада -->
+    <link rel="stylesheet" href="assets/css/talk.css">
+
+</head>
+<body data-hud="Высоконагруженные приложения · Глава 2 · Реляционная модель в сравнении с документоориентированной моделью">
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+
+            <!-- Открытие стрима, автор и книга — только в первом докладе вечера -->
+            <section class="slide fx is-title is-opening" id="slide-opening" data-slide="1" data-chrome="opening" data-toc="Открытие стрима">
+                <div class="fx-wrap">
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>6 ноября 2026 · 18:00 МСК</span></div>
+                    <div class="open-num" aria-hidden="true">121</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Стрим 121</span>Добро пожаловать</div>
+                    <h1 class="title-h" data-rv>Модели данных и языки запросов</h1>
+                    <p class="open-sub" data-rv><b>Высоконагруженные приложения</b> · Глава 2 · 3 доклада</p>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <div class="open-speakers" data-rv="left"><em>Спикеры вечера</em><div class="os-row"><span class="os"><img src="assets/speakers/pomazkov-anton.webp" alt=""><b>Антон Помазков</b></span><span class="os"><img src="assets/speakers/nikiforov-artem.webp" alt=""><b>Артём Никифоров</b></span></div></div>
+                        <div class="open-links" data-rv="fade"><em>Клуб</em><div class="chips"><a class="chip" href="https://t.me/booksclubfrontend" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Telegram</a><a class="chip" href="https://www.youtube.com/@pomazkovclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>YouTube</a><a class="chip" href="https://vkvideo.ru/@pomazkovclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5 6.5 17 10 7.5"/><path d="M13.5 7.5v9.5"/><path d="M13.5 12.5 19 7.5"/><path d="M15.3 11 19.5 17"/></svg>VK Видео</a><a class="chip" href="https://boosty.to/booksclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4.1 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Boosty</a></div></div>
+                        <a class="title-book" data-rv="right" href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>Высоконагруженные приложения</b><span>Мартин Клеппман</span></span>
+                            <img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Открытие стрима: поздоровайтесь, назовите книгу и главу вечера, скажите, сколько будет докладов, и напомните про Telegram-канал клуба. Дальше — пара слов об авторе и книге, потом программа.</p>
+                </aside>
+            </section>
+            <section class="slide fx" id="slide-author" data-slide="2" data-chrome="author" data-toc="Кто написал книгу">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
+                    <div class="fx-body">
+                        <div class="au">
+                            <div class="au-id">
+                                <div class="au-photo" data-rv="pop"><img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман"></div>
+                                <h2 class="au-name" data-rv="left">Мартин Клеппман</h2>
+                                <p class="au-role" data-rv><a class="lnk" href="https://martin.kleppmann.com/" target="_blank" rel="noopener">martin.kleppmann.com ↗</a></p>
+                            </div>
+                            <div class="au-rows">
+                                <div class="au-row" data-rv><span class="k">Сейчас</span><div><p>Доцент <a class="lnk" href="https://www.cst.cam.ac.uk/" target="_blank" rel="noopener">Кембриджского университета ↗</a>: <b>local-first</b> и безопасность распределённых систем</p></div></div>
+                                <div class="au-row" data-rv><span class="k">Код</span><div><p>Один из тех, кто стоит за <a class="lnk" href="https://github.com/automerge/automerge" target="_blank" rel="noopener">Automerge ↗</a>. Соавтор статей <a class="lnk" href="https://martin.kleppmann.com/2019/10/23/local-first-at-onward.html" target="_blank" rel="noopener">Local-first software ↗</a> и <a class="lnk" href="https://martin.kleppmann.com/2024/12/09/bluesky-at-protocol.html" target="_blank" rel="noopener">Bluesky и AT Protocol ↗</a></p></div></div>
+                                <div class="au-row" data-rv><span class="k">Раньше</span><div><p>Инженер и основатель стартапов: <b>Rapportive</b> (купил LinkedIn, 2012) и <b>Go Test It</b> (купил Red Gate, 2009)</p></div></div>
+                                <div class="au-row" data-rv><span class="k">Книги</span><div><p><b>Высоконагруженные приложения</b> · эта книга, 2017; 2-е издание с Крисом Риккомини — 2026. И <a class="lnk" href="https://martin.kleppmann.com/2022/04/07/secret-colors.html" target="_blank" rel="noopener">Secret Colors ↗</a> о криптографии</p></div></div>
+                                <div class="au-row" data-rv><span class="k">А ещё</span><div><p>Сочинил мюзикл <a class="lnk" href="https://martin.kleppmann.com/die-tuerme-des-februar/" target="_blank" rel="noopener">Die Türme des Februar ↗</a>: премьера в 2007-м, 150 человек в составе</p></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Книгу написал Мартин Клеппман. Сейчас он доцент Кембриджского университета, занимается local-first софтом и безопасностью распределённых систем, преподаёт распределённые системы и криптографию. Он один из тех, кто стоит за открытым проектом Automerge и соавтор статьи Local-first software, а ещё статьи про Bluesky и AT Protocol.</p>
+                    <p>Важно, что он не только учёный. До науки он был инженером и основателем стартапов: Rapportive купил LinkedIn в 2012 году, а Go Test It купила Red Gate в 2009-м. То есть о системах, про которые пишет, он знает и с практической стороны.</p>
+                    <p>Книга вышла в 2017-м и стала бестселлером об архитектуре баз данных и распределённой обработке. Мы читаем русский перевод первого издания, а в 2026-м вышло второе, в соавторстве с Крисом Риккомини. И неожиданный факт: он сочинил мюзикл по книге Тонке Драгт, его премьера прошла в 2007 году, в постановке участвовало 150 человек.</p>
+                    <p><em>Источники</em> <a href="https://martin.kleppmann.com/" target="_blank" rel="noopener">martin.kleppmann.com</a>.</p>
+                </aside>
+            </section>
+            <section class="slide fx" id="slide-book" data-slide="3" data-chrome="book" data-toc="Что это за книга">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Что это за книга</div>
+                    <div class="fx-body">
+                        <div class="bk2">
+                            <div class="bk2-cover" data-rv="left"><a href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener"><img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="Обложка книги Высоконагруженные приложения"></a></div>
+                            <div>
+                                <div data-rv>
+                                    <div class="bk2-title">Высоконагруженные приложения</div>
+                                    <p class="bk2-meta">Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems</p>
+                                    <p class="bk2-desc">Главная книга для тех, кто хочет научиться создавать крупные, быстрые и надежные ИТ-системы вроде Telegram, Netflix или крупных интернет-магазинов.</p>
+                                </div>
+                                <div class="stats" data-rv>
+                                    <div class="stat"><b data-count="12">12</b><span>глав в книге</span></div>
+                                    <div class="stat"><b data-count="3">3</b><span>тем в главе 2</span></div>
+                                </div>
+                                <div data-rv>
+                                    <div class="chaps" style="--chaps:12"><span class="chap" title="Надежные, масштабируемые и удобные в сопровождении приложения">1</span><span class="chap is-now" title="Модели данных и языки запросов">2</span><span class="chap">3</span><span class="chap">4</span><span class="chap">5</span><span class="chap">6</span><span class="chap">7</span><span class="chap">8</span><span class="chap">9</span><span class="chap">10</span><span class="chap">11</span><span class="chap">12</span></div>
+                                    <p class="chaps-cap"><b>Глава 2</b> · Модели данных и языки запросов — сегодня</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Слайд собран генератором из book-club-data. Расскажите, почему клуб читает эту книгу и о чём глава, которую разбираем сегодня.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" data-slide="4" data-chrome="agenda">
+                <div class="timeline-next-container">
+                    <div class="fx-kicker" data-rv="fade">Стрим 121</div>
+                    <h2 class="fx-h" data-rv>Программа вечера</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Реляционная модель в сравнении с документоориентированной моделью</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Языки запросов для данных</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Графоподобные модели данных</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Титул доклада: глава, тема, кто читает и по какой книге.
+                 В первом докладе вечера идёт после программы, в остальных — первым. -->
+            <section class="slide fx is-title" data-slide="5" data-chrome="title">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Глава 2</span>Модели данных и языки запросов</div>
+                    <h1 class="title-h" data-rv>Реляционная модель в сравнении с документоориентированной моделью</h1>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <a class="title-speaker" data-rv="left" href="https://t.me/kunjutone" target="_blank" rel="noopener">
+                            <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                            <span><em>Доклад читает</em><b>Антон Помазков</b><i>@kunjutone</i></span>
+                        </a>
+                        <a class="title-book" data-rv="right" href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>Высоконагруженные приложения</b><span>Мартин Клеппман</span></span>
+                            <img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Здесь — контентные слайды доклада -->
+
+<section class="slide fx is-hero" id="slide-idea" data-slide="6" data-toc="Главная мысль">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">01</span>Главная мысль</div>
+<h2 class="fx-h" data-rv>Модель данных решает, что будет <mark>просто</mark>, а что — <mark class="hot">мучительно</mark></h2><div class="fx-body is-top"><blockquote class="epi" data-rv style="margin:44px 0 0">Границы моего языка — это границы моего мира.<cite>Людвиг Витгенштейн · Логико-философский трактат, 1922</cite></blockquote></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Вторая глава открывается цитатой Витгенштейна, и это не украшение. Клеппман начинает с сильного утверждения: модели данных — вероятно, важнейшая часть разработки, потому что они влияют не только на то, как написан код, но и на то, как мы вообще думаем о задаче.</p>
+<p><em>Текст</em> Каждая модель воплощает допущения о том, как ею будут пользоваться: одни операции быстрые, другие медленные, одни преобразования естественны, другие выглядят почти невозможными. Выбрать модель — значит заранее решить, что будет просто, а что мучительно. Весь доклад об этом.</p>
+<p><em>Переход</em> Сначала разберёмся, о каком именно уровне идёт речь.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-layers" data-slide="7">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">02</span>Слои моделей</div>
+<h2 class="fx-h" data-rv>Каждый слой <mark>прячет сложность</mark> нижнего</h2><div class="fx-body "><div class="lays">
+      <div class="lay" data-rv data-tip="Люди, компании, товары, платежи, датчики — всё это мы описываем объектами и API."><span class="n">1</span><b>Приложение</b><span>объекты, структуры данных, API</span></div>
+      <div class="lay is-hi" data-rv data-tip="Об этом слое вся глава: как сохранить объекты в универсальном виде."><span class="n">2</span><b>Универсальная модель</b><span>JSON, XML, таблицы, граф · об этом глава</span></div>
+      <div class="lay" data-rv data-tip="Как JSON или таблица превращаются в байты — это подсистемы хранения, глава 3."><span class="n">3</span><b>СУБД</b><span>байты в памяти, на диске, в сети</span></div>
+      <div class="lay" data-rv data-tip="Самый низ: байты как физические сигналы."><span class="n">4</span><b>Железо</b><span>ток, световые импульсы, магнитные поля</span></div>
+    </div>
+    <div class="so" data-rv><span>Зачем</span><div>Абстракции позволяют разным людям работать вместе: <b>разработчику СУБД</b> и <b>разработчику приложения</b> незачем знать работу друг друга</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Большинство приложений — это одна модель данных поверх другой. Разработчик смотрит на мир и описывает его объектами. Чтобы их сохранить, выражает их в универсальной модели: JSON, таблицы, граф. Разработчики СУБД решают, как представить это байтами. А инженеры железа — как представить байты током и светом.</p>
+<p><em>Текст</em> На каждом слое один вопрос: как выразить себя на языке слоя ниже? И каждый слой прячет сложность нижнего. Благодаря этому люди из разных компаний могут эффективно работать вместе. Сегодня нас интересует второй слой, третий — это глава 3.</p>
+<p><em>Как показывать</em> На слоях есть подсказки при наведении.</p>
+<p><em>Переход</em> Самая известная модель этого слоя — реляционная.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-codd" data-slide="8">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">03</span>Реляционная модель</div>
+<h2 class="fx-h" data-rv>Эдгар Кодд, 1970: данные — это <mark>отношения</mark></h2><div class="fx-body "><div class="cols" style="align-items:center">
+      <div data-rv="left"><table class="rel-t"><tr><th>user_id</th><th>first_name</th><th>last_name</th></tr><tr class="is-hi"><td>251</td><td>Bill</td><td>Gates</td></tr><tr><td>467</td><td>Lucy</td><td>Smith</td></tr></table></div>
+      <div class="terms" data-rv="right">
+        <div class="term"><b>Отношение</b><i>=</i><span>таблица в SQL</span></div>
+        <div class="term"><b>Кортеж</b><i>=</i><span>строка в SQL</span></div>
+        <div class="term"><b>Порядок</b><i>—</i><span>не задан: неупорядоченный набор</span></div>
+      </div>
+    </div>
+    <div class="so" data-rv><span>Итог</span><div>Теория, в которой многие сомневались, к середине 1980-х стала стандартом — и <b>правила 25–30 лет</b></div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Самая известная модель — модель данных SQL. Её основа — реляционная модель, которую Эдгар Кодд предложил в 1970 году: данные организованы в отношения, в SQL это таблицы, а каждое отношение — неупорядоченный набор кортежей, то есть строк.</p>
+<p><em>Текст</em> Это была теоретическая конструкция, и многие сомневались, что её можно эффективно реализовать. Но к середине 1980-х реляционные СУБД и SQL стали основным инструментом для всех, кому нужно хранить более или менее структурированные данные и выполнять запросы. Господство длилось 25–30 лет — целая вечность для нашей отрасли.</p>
+<p><em>Как показывать</em> Строка с Lucy Smith в таблице — мой пример, в книге этой таблицы нет.</p>
+<p><em>Источники</em> <a class="lnk" href="https://dl.acm.org/doi/10.1145/362384.362685" target="_blank" rel="noopener">Codd — A Relational Model of Data for Large Shared Data Banks, 1970</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-history" data-slide="9">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">04</span>История</div>
+<h2 class="fx-h" data-rv>Соперники приходили и уходили, <mark>SQL оставался</mark></h2><div class="fx-body "><div class="tl" style="--n:7"><div class="tl-line"></div>
+      <div class="tl-i" data-rv data-tip="IBM выпускает IMS, созданную для учёта запасов программы «Аполлон». Подробнее — через несколько слайдов."><div class="tl-y">1968</div><div class="tl-d"></div><div class="tl-t">IMS</div><div class="tl-s">иерархическая</div></div>
+      <div class="tl-i is-hi" data-rv data-tip="Статья Кодда с реляционной моделью."><div class="tl-y">1970</div><div class="tl-d"></div><div class="tl-t">Кодд</div><div class="tl-s">реляционная</div></div>
+      <div class="tl-i" data-rv data-tip="«Великий спор» реляционного и сетевого лагерей занял большую часть десятилетия."><div class="tl-y">1970-е</div><div class="tl-d"></div><div class="tl-t">CODASYL</div><div class="tl-s">сетевая</div></div>
+      <div class="tl-i is-hi" data-rv data-tip="Реляционные СУБД становятся основным инструментом хранения данных."><div class="tl-y">сер. 1980-х</div><div class="tl-d"></div><div class="tl-t">RDBMS и SQL</div><div class="tl-s">становятся стандартом</div></div>
+      <div class="tl-i" data-rv data-tip="Много шума, но ненадолго."><div class="tl-y">конец 1980-х</div><div class="tl-d"></div><div class="tl-t">Объектные БД</div><div class="tl-s">вышли из моды</div></div>
+      <div class="tl-i" data-rv data-tip="Нашли только узкое применение."><div class="tl-y">начало 2000-х</div><div class="tl-d"></div><div class="tl-t">XML-базы</div><div class="tl-s">узкое применение</div></div>
+      <div class="tl-i is-hi" data-rv data-tip="Самая недавняя попытка свергнуть реляционную модель — на момент написания книги."><div class="tl-y">2009</div><div class="tl-d"></div><div class="tl-t">NoSQL</div><div class="tl-s">новая попытка</div></div>
+    </div>
+    <div class="reign" data-rv="fade"><i style="--a:43%; --b:0%">господство реляционных БД: 25–30 лет</i></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Реляционные базы выросли из обработки коммерческих данных в 1960–70-х на больших ЭВМ: транзакции, бронирование билетов, счета, отчёты. Звучит рутинно. Но потом случилось интересное.</p>
+<p><em>Текст</em> В 1970-х альтернативами были сетевая и иерархическая модели. В конце 1980-х пришли объектные базы и снова вышли из моды. В начале 2000-х — XML-базы, но нашли только узкое применение. Каждый соперник наделал шума, но ненадолго. А реляционные базы тем временем вышли далеко за пределы бизнес-данных: публикации, форумы, соцсети, магазины, SaaS.</p>
+<p><em>Переход</em> И вот самый свежий соперник из книги.</p>
+<p><em>Источники</em> <a class="lnk" href="https://people.csail.mit.edu/tdanford/6830papers/stonebraker-what-goes-around.pdf" target="_blank" rel="noopener">Stonebraker, Hellerstein — What Goes Around Comes Around</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-nosql" data-slide="10">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">05</span>Рождение NoSQL</div>
+<h2 class="fx-h" data-rv>Название появилось из <mark>хештега</mark>, а причины настоящие</h2><div class="fx-body "><div class="grid4">
+      <div class="tile" data-rv><svg class="ico-ln" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg><div class="tile-k">Масштаб</div><p class="tile-p">Большие наборы данных и высокая пропускная способность по записи</p></div>
+      <div class="tile" data-rv><svg class="ico-ln" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg><div class="tile-k">Свобода</div><p class="tile-p">Свободное ПО вместо коммерческих продуктов</p></div>
+      <div class="tile" data-rv><svg class="ico-ln" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><div class="tile-k">Запросы</div><p class="tile-p">Специальные операции, плохо поддержанные реляционной моделью</p></div>
+      <div class="tile" data-rv><svg class="ico-ln" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"/></svg><div class="tile-k">Схема</div><p class="tile-p">Усталость от жёстких схем, нужны более динамичные модели</p></div>
+    </div>
+    <div class="so" data-rv><span>Будущее</span><div>Не победитель, а соседство: <b>polyglot persistence</b> — несколько систем хранения в одном приложении</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> NoSQL — название неудачное: оно ничего не говорит о технологии. В 2009 году это был просто броский хештег в Twitter для семинара по распределённым нереляционным базам с открытым кодом. Термин задел за живое, и задним числом его расшифровали как Not Only SQL.</p>
+<p><em>Текст</em> Причин для внедрения четыре: потребность в большем масштабировании, предпочтение свободного ПО, специальные запросы, которые плохо ложатся на реляционную модель, и разочарование ограниченностью схем.</p>
+<p><em>Текст</em> Вывод автора: у каждого приложения свои требования, и реляционные базы будут жить рядом с нереляционными. Это называют polyglot persistence.</p>
+<p><em>Переход</em> Теперь конкретная боль, из-за которой на SQL ругаются чаще всего. И нам, разработчикам, она знакома лично.</p>
+<p><em>Источники</em> <a class="lnk" href="https://en.wikipedia.org/wiki/Polyglot_persistence" target="_blank" rel="noopener">Polyglot persistence</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-mismatch" data-slide="11">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">06</span>Рассогласование</div>
+<h2 class="fx-h" data-rv>Код думает <mark>объектами</mark>, база — <mark>строками</mark></h2><p class="fx-lead" data-rv>Impedance mismatch — термин из электроники: при несовпадении импедансов сигнал отражается</p><div class="fx-body "><div class="mis">
+      <div class="mis-c" data-rv="left"><span class="k">В коде</span><pre class="cd "><span class="l">user = {</span><span class="l">  name: <span class="s">"Bill"</span>,</span><span class="l">  positions: [ … ],</span><span class="l">  education: [ … ],</span><span class="l">}</span></pre></div>
+      <div class="mis-mid" data-rv="pop"><span class="mis-a">⇄</span><div class="mis-bar" data-tip="ORM сокращает шаблонный код слоя трансляции, но не может полностью скрыть различия моделей.">ORM<small>неуклюжий слой</small></div></div>
+      <div class="mis-c" data-rv="right"><span class="k">В базе</span><div class="tbls"><span>users</span><span>positions</span><span>education</span><span>contact_info</span><span>regions</span><span>industries</span></div></div>
+    </div>
+    <div class="so" data-rv><span>Значит</span><div><a class="lnk" href="https://guides.rubyonrails.org/active_record_basics.html" target="_blank" rel="noopener">ActiveRecord ↗</a> и <a class="lnk" href="https://hibernate.org/orm/" target="_blank" rel="noopener">Hibernate ↗</a> сокращают шаблонный код, но <b>не скрывают разницу</b> между моделями</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Большая часть кода сегодня объектно-ориентированная, и отсюда главная критика SQL: между объектами в коде и таблицами, строками и столбцами нужен неуклюжий промежуточный слой. Эту расстыковку называют impedance mismatch, рассогласование. Термин из электроники: при соединении цепей мощность передаётся лучше всего, когда импедансы совпадают; иначе сигналы отражаются.</p>
+<p><em>Текст</em> ORM-фреймворки — ActiveRecord, Hibernate — сокращают количество шаблонного кода, но полностью скрыть разницу между моделями не могут. Посмотрим на примере.</p>
+<p><em>Источники</em> <a class="lnk" href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_impedance_mismatch" target="_blank" rel="noopener">Object–relational impedance mismatch</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-fig21" data-slide="12" data-toc="Резюме в реляционной схеме">
+<div class="fx-wrap">
+<div class="sf" style="--l:440px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">07</span>Рис. 2.1</div>
+    <h2 class="fx-h" data-rv>Одно резюме — <mark>шесть таблиц</mark></h2>
+    <p class="fx-lead" data-rv>Поля «по одному» — столбцы. Всё, чего много, — отдельная таблица со ссылкой на <code>user_id</code></p>
+    <div class="so" data-rv style="display:block"><b>Другие варианты</b><br>структурные типы и JSON прямо в столбце · текст с JSON, но запросов к нему нет</div>
+  </div><div class="sf-f"><svg class="fig" viewBox="70 366 566 506" role="img" aria-label="Рисунок 2.1: профиль LinkedIn в реляционной схеме">
+<defs>
+  <marker id="m21" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker>
+  <marker id="m21F" class="fk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker>
+</defs>
+<g data-rv="fade" data-tip="Профиль целиком: одно резюме на экране, но ниже оно разбито на шесть таблиц.">
+  <text x="75" y="380" font-size="9.2" class="dim">http://www.linkedin.com/in/williamhgates</text>
+  <rect class="bx" x="75" y="393" width="228" height="359"/>
+  <image href="assets/img/bill-gates.webp" x="85" y="406" width="45" height="46"/>
+  <text x="138" y="422" font-size="14" class="hd">Bill Gates</text>
+  <text x="138" y="440" font-size="9.2">Greater Seattle Area | Philanthropy</text>
+  <text x="85" y="475" font-size="9.5" class="hd">Summary</text>
+  <text x="85" y="494" font-size="9">Co-chair of the Bill &amp; Melinda Gates Foundation.</text>
+  <text x="85" y="506" font-size="9">Chairman, Microsoft Corporation. Voracious</text>
+  <text x="85" y="518" font-size="9">reader. Avid traveler. Active blogger.</text>
+  <text x="85" y="541" font-size="9.5" class="hd">Experience</text>
+  <text x="85" y="562" font-size="9">Co-chair • Bill &amp; Melinda Gates Foundation</text>
+  <text x="85" y="574" font-size="8.6" class="dim" font-style="italic">2000 – Present</text>
+  <text x="85" y="593" font-size="9">Co-founder, Chairman • Microsoft</text>
+  <text x="85" y="605" font-size="8.6" class="dim" font-style="italic">1975 – Present</text>
+  <text x="85" y="631" font-size="9.5" class="hd">Education</text>
+  <text x="85" y="650" font-size="9">Harvard University</text>
+  <text x="85" y="662" font-size="8.6" class="dim" font-style="italic">1973 – 1975</text>
+  <text x="85" y="680" font-size="9">Lakeside School, Seattle</text>
+  <text x="85" y="706" font-size="9.5" class="hd">Contact Info</text>
+  <text x="85" y="724" font-size="9">Blog: thegatesnotes.com</text>
+  <text x="85" y="736" font-size="9">Twitter: @BillGates</text>
+</g>
+<g data-rv="fade" data-tip="users: поля, которые у человека ровно по одному, — столбцы одной строки. user_id — первичный ключ, на него ссылаются все подчинённые таблицы."><text x="628" y="378" text-anchor="end" font-size="10" class="ttl">Таблица пользователей</text><rect class="bx th" x="322" y="383" width="63" height="21"/><text x="353.5" y="396.9" text-anchor="middle" font-size="9.6" class="hd">user_id</text><rect class="bx th" x="385" y="383" width="65" height="21"/><text x="417.5" y="396.9" text-anchor="middle" font-size="9.6" class="hd">first_name</text><rect class="bx th" x="450" y="383" width="64" height="21"/><text x="482" y="396.9" text-anchor="middle" font-size="9.6" class="hd">last_name</text><rect class="bx th" x="514" y="383" width="114" height="21"/><text x="571" y="396.9" text-anchor="middle" font-size="9.6" class="hd">summary</text><rect class="bx" x="322" y="404" width="63" height="24"/><text x="353.5" y="419.4" text-anchor="middle" font-size="9.6" class="">251</text><rect class="bx" x="385" y="404" width="65" height="24"/><text x="417.5" y="419.4" text-anchor="middle" font-size="9.6" class="">Bill</text><rect class="bx" x="450" y="404" width="64" height="24"/><text x="482" y="419.4" text-anchor="middle" font-size="9.6" class="">Gates</text><rect class="bx" x="514" y="404" width="114" height="24"/><text x="571" y="419.4" text-anchor="middle" font-size="9.6" class="">Co-chair of … blogger.</text></g>
+<g data-rv="fade"><rect class="bx" x="322" y="428" width="63" height="39"/><rect class="bx th" x="385" y="430" width="65" height="19"/><rect class="bx th" x="450" y="430" width="64" height="19"/><rect class="bx th" x="514" y="430" width="114" height="19"/>
+<text x="417" y="443" text-anchor="middle" font-size="9.6" class="hd">region_id</text><text x="482" y="443" text-anchor="middle" font-size="9.6" class="hd">industry_id</text><text x="571" y="443" text-anchor="middle" font-size="9.6" class="hd">photo_id</text>
+<rect class="bx" x="385" y="449" width="65" height="18"/><rect class="bx" x="450" y="449" width="64" height="18"/><rect class="bx" x="514" y="449" width="114" height="18"/>
+<text x="422" y="461.5" text-anchor="middle" font-size="9.6">us:91</text><text x="478" y="461.5" text-anchor="middle" font-size="9.6">131</text><text x="571" y="461.5" text-anchor="middle" font-size="9.6">57817532</text></g>
+<g data-rv="fade" data-tip="Справочник регионов: связь «многие-к-одному» — в одном регионе живёт много людей. В профиле лежит только идентификатор us:91."><text x="481" y="489" text-anchor="end" font-size="10" class="ttl">Таблица регионов</text><rect class="bx th" x="344" y="494" width="36" height="20"/><text x="362" y="507.4" text-anchor="middle" font-size="9.6" class="hd">id</text><rect class="bx th" x="380" y="494" width="101" height="20"/><text x="430.5" y="507.4" text-anchor="middle" font-size="9.6" class="hd">region_name</text><rect class="bx" x="344" y="514" width="36" height="20"/><text x="362" y="527.4" text-anchor="middle" font-size="9.6" class="">us:7</text><rect class="bx" x="380" y="514" width="101" height="20"/><text x="430.5" y="527.4" text-anchor="middle" font-size="9.6" class="">Greater Boston Area</text><rect class="bx" x="344" y="534" width="36" height="20"/><text x="362" y="547.4" text-anchor="middle" font-size="9.6" class="">us:91</text><rect class="bx" x="380" y="534" width="101" height="20"/><text x="430.5" y="547.4" text-anchor="middle" font-size="9.6" class="">Greater Seattle Area</text></g>
+<g data-rv="fade" data-tip="Справочник отраслей — такая же связь «многие-к-одному»."><text x="628" y="489" text-anchor="end" font-size="10" class="ttl">Таблица отраслей</text><rect class="bx th" x="507" y="494" width="33" height="20"/><text x="523.5" y="507.4" text-anchor="middle" font-size="9.6" class="hd">id</text><rect class="bx th" x="540" y="494" width="88" height="20"/><text x="584" y="507.4" text-anchor="middle" font-size="9.6" class="hd">industry_name</text><rect class="bx" x="507" y="514" width="33" height="20"/><text x="523.5" y="527.4" text-anchor="middle" font-size="9.6" class="">43</text><rect class="bx" x="540" y="514" width="88" height="20"/><text x="584" y="527.4" text-anchor="middle" font-size="9.6" class="">Financial Services</text><rect class="bx" x="507" y="534" width="33" height="20"/><text x="523.5" y="547.4" text-anchor="middle" font-size="9.6" class="">48</text><rect class="bx" x="540" y="534" width="88" height="20"/><text x="584" y="547.4" text-anchor="middle" font-size="9.6" class="">Construction</text><rect class="bx" x="507" y="554" width="33" height="19"/><text x="523.5" y="566.9" text-anchor="middle" font-size="9.6" class="">131</text><rect class="bx" x="540" y="554" width="88" height="19"/><text x="584" y="566.9" text-anchor="middle" font-size="9.6" class="">Philanthropy</text></g>
+<g data-rv="fade" data-tip="positions: связь «один-ко-многим» — должностей у человека несколько, поэтому отдельная таблица со ссылкой user_id."><text x="628" y="611" text-anchor="end" font-size="10" class="ttl">Таблица должностей</text><rect class="bx th" x="335" y="616" width="50" height="20"/><text x="360" y="629.4" text-anchor="middle" font-size="9.6" class="hd">id</text><rect class="bx th" x="385" y="616" width="57" height="20"/><text x="413.5" y="629.4" text-anchor="middle" font-size="9.6" class="hd">user_id</text><rect class="bx th" x="442" y="616" width="71" height="20"/><text x="477.5" y="629.4" text-anchor="middle" font-size="9.6" class="hd">job_title</text><rect class="bx th" x="513" y="616" width="115" height="20"/><text x="570.5" y="629.4" text-anchor="middle" font-size="9.6" class="hd">organization</text><rect class="bx" x="335" y="636" width="50" height="20"/><text x="360" y="649.4" text-anchor="middle" font-size="9.6" class="">458</text><rect class="bx" x="385" y="636" width="57" height="20"/><text x="413.5" y="649.4" text-anchor="middle" font-size="9.6" class="">251</text><rect class="bx" x="442" y="636" width="71" height="20"/><text x="477.5" y="649.4" text-anchor="middle" font-size="9.6" class="">Co-chair</text><rect class="bx" x="513" y="636" width="115" height="20"/><text x="570.5" y="649.4" text-anchor="middle" font-size="9.6" class="">Bill &amp; Melinda Gates F…</text><rect class="bx" x="335" y="656" width="50" height="31"/><text x="360" y="674.9" text-anchor="middle" font-size="9.6" class="">457</text><rect class="bx" x="385" y="656" width="57" height="31"/><text x="413.5" y="674.9" text-anchor="middle" font-size="9.6" class="">251</text><rect class="bx" x="442" y="656" width="71" height="31"/><text x="477.5" y="669.4" text-anchor="middle" font-size="9.6" class="">Co-founder,</text><text x="477.5" y="680.4" text-anchor="middle" font-size="9.6" class="">Chairman</text><rect class="bx" x="513" y="656" width="115" height="31"/><text x="570.5" y="674.9" text-anchor="middle" font-size="9.6" class="">Microsoft</text></g>
+<g data-rv="fade" data-tip="education: тоже «один-ко-многим». Чтобы показать одно резюме, эту таблицу нужно прочитать отдельно или присоединить."><text x="628" y="706" text-anchor="end" font-size="10" class="ttl">Таблица образования</text><rect class="bx th" x="335" y="711" width="50" height="21"/><text x="360" y="724.9" text-anchor="middle" font-size="9.6" class="hd">id</text><rect class="bx th" x="385" y="711" width="57" height="21"/><text x="413.5" y="724.9" text-anchor="middle" font-size="9.6" class="hd">user_id</text><rect class="bx th" x="442" y="711" width="96" height="21"/><text x="490" y="724.9" text-anchor="middle" font-size="9.6" class="hd">school_name</text><rect class="bx th" x="538" y="711" width="45" height="21"/><text x="560.5" y="724.9" text-anchor="middle" font-size="9.6" class="hd">start</text><rect class="bx th" x="583" y="711" width="45" height="21"/><text x="605.5" y="724.9" text-anchor="middle" font-size="9.6" class="hd">end</text><rect class="bx" x="335" y="732" width="50" height="20"/><text x="360" y="745.4" text-anchor="middle" font-size="9.6" class="">807</text><rect class="bx" x="385" y="732" width="57" height="20"/><text x="413.5" y="745.4" text-anchor="middle" font-size="9.6" class="">251</text><rect class="bx" x="442" y="732" width="96" height="20"/><text x="490" y="745.4" text-anchor="middle" font-size="9.6" class="">Harvard University</text><rect class="bx" x="538" y="732" width="45" height="20"/><text x="560.5" y="745.4" text-anchor="middle" font-size="9.6" class="">1973</text><rect class="bx" x="583" y="732" width="45" height="20"/><text x="605.5" y="745.4" text-anchor="middle" font-size="9.6" class="">1975</text><rect class="bx" x="335" y="752" width="50" height="30"/><text x="360" y="770.4" text-anchor="middle" font-size="9.6" class="">806</text><rect class="bx" x="385" y="752" width="57" height="30"/><text x="413.5" y="770.4" text-anchor="middle" font-size="9.6" class="">251</text><rect class="bx" x="442" y="752" width="96" height="30"/><text x="490" y="764.9" text-anchor="middle" font-size="9.6" class="">Lakeside School,</text><text x="490" y="775.9" text-anchor="middle" font-size="9.6" class="">Seattle</text><rect class="bx" x="538" y="752" width="45" height="30"/><text x="560.5" y="770.4" text-anchor="middle" font-size="9.6" class="">NULL</text><rect class="bx" x="583" y="752" width="45" height="30"/><text x="605.5" y="770.4" text-anchor="middle" font-size="9.6" class="">NULL</text></g>
+<g data-rv="fade" data-tip="contact_info: число контактов меняется от человека к человеку — снова отдельная таблица."><text x="628" y="803" text-anchor="end" font-size="10" class="ttl">Таблица контактной информации</text><rect class="bx th" x="335" y="808" width="50" height="21"/><text x="360" y="821.9" text-anchor="middle" font-size="9.6" class="hd">id</text><rect class="bx th" x="385" y="808" width="57" height="21"/><text x="413.5" y="821.9" text-anchor="middle" font-size="9.6" class="hd">user_id</text><rect class="bx th" x="442" y="808" width="50" height="21"/><text x="467" y="821.9" text-anchor="middle" font-size="9.6" class="hd">type</text><rect class="bx th" x="492" y="808" width="136" height="21"/><text x="560" y="821.9" text-anchor="middle" font-size="9.6" class="hd">url</text><rect class="bx" x="335" y="829" width="50" height="20"/><text x="360" y="842.4" text-anchor="middle" font-size="9.6" class="">155</text><rect class="bx" x="385" y="829" width="57" height="20"/><text x="413.5" y="842.4" text-anchor="middle" font-size="9.6" class="">251</text><rect class="bx" x="442" y="829" width="50" height="20"/><text x="467" y="842.4" text-anchor="middle" font-size="9.6" class="">blog</text><rect class="bx" x="492" y="829" width="136" height="20"/><text x="560" y="842.4" text-anchor="middle" font-size="9.6" class="">http://thegatesnotes.com</text><rect class="bx" x="335" y="849" width="50" height="19"/><text x="360" y="861.9" text-anchor="middle" font-size="9.6" class="">156</text><rect class="bx" x="385" y="849" width="57" height="19"/><text x="413.5" y="861.9" text-anchor="middle" font-size="9.6" class="">251</text><rect class="bx" x="442" y="849" width="50" height="19"/><text x="467" y="861.9" text-anchor="middle" font-size="9.6" class="">twitter</text><rect class="bx" x="492" y="849" width="136" height="19"/><text x="560" y="861.9" text-anchor="middle" font-size="9.6" class="">http://twitter.com/BillGates</text></g>
+<g data-rv="fade" data-tip="Внешний ключ: все подчинённые строки указывают на одного пользователя. Чтобы собрать профиль — несколько запросов или соединение таблиц.">
+  <path class="hit" d="M394 858 V640 C394 560 320 520 320 470 C320 445 334 425 345 418"/>
+  <path class="ln fk" d="M394 858 V640 C394 560 320 520 320 470 C320 445 334 425 345 418" marker-end="url(#m21F)"/>
+  <circle class="dot" cx="394" cy="646" r="2.6"/><circle class="dot" cx="394" cy="666" r="2.6"/><circle class="dot" cx="394" cy="742" r="2.6"/><circle class="dot" cx="394" cy="767" r="2.6"/><circle class="dot" cx="394" cy="838" r="2.6"/><circle class="dot" cx="394" cy="858" r="2.6"/>
+</g>
+<g data-rv="fade" data-tip="region_id указывает на строку справочника регионов: us:91 — Greater Seattle Area.">
+  <path class="hit" d="M401 458 C398 490 395 520 372 544"/>
+  <path class="ln fk" d="M401 458 C398 490 395 520 372 544" marker-end="url(#m21F)"/><circle class="dot" cx="401" cy="458" r="2.6"/>
+</g>
+<g data-rv="fade" data-tip="industry_id указывает на справочник отраслей: 131 — Philanthropy.">
+  <path class="hit" d="M496 458 C486 500 486 550 508 563"/>
+  <path class="ln fk" d="M496 458 C486 500 486 550 508 563" marker-end="url(#m21F)"/><circle class="dot" cx="496" cy="458" r="2.6"/>
+</g>
+</svg></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Вот резюме из LinkedIn, профиль Билла Гейтса. У него есть уникальный user_id. Имя и фамилия встречаются ровно один раз — это столбцы таблицы users. Но должностей за карьеру больше одной, мест учёбы и контактов тоже. Это связь «один-ко-многим».</p>
+<p><em>Текст</em> В классическом нормализованном виде должности, образование и контакты уходят в отдельные таблицы со ссылкой на users через внешний ключ. Позже в SQL-стандарт добавили структурные типы и XML, а затем и JSON: многоэлементные данные можно хранить в одной строке и даже делать к ним запросы. Третий вариант — положить JSON текстом в обычный столбец; но тогда база не сможет выполнять запросы к его содержимому.</p>
+<p><em>Как показывать</em> Схема — как рис. 2.1 в книге. При наведении на таблицу или стрелку появляется подсказка. Фото вырезано из рисунка книги (автор снимка указан в подписи к рисунку: Рикардо Стикерт, «Аженсия Бразил»).</p>
+<p><em>Переход</em> А можно ли проще?</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-json" data-slide="13">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">08</span>Документная модель</div>
+<h2 class="fx-h" data-rv>Тот же профиль — <mark>один документ</mark></h2><div class="fx-body "><div class="cols" style="grid-template-columns:1.25fr 1fr; align-items:center">
+      <div data-rv="left"><pre class="cd sm" data-seq style="--st:45ms"><span class="l">{</span><span class="l">  <span class="k">"user_id"</span>:    251,</span><span class="l">  <span class="k">"first_name"</span>: <span class="s">"Bill"</span>,</span><span class="l">  <span class="k">"last_name"</span>:  <span class="s">"Gates"</span>,</span><span class="l">  <span class="k">"region_id"</span>:  <span class="s">"us:91"</span>,</span><span class="l">  <span class="m"><span class="k">"positions"</span>: [</span><span class="l">    {<span class="k">"job_title"</span>: <span class="s">"Co-chair"</span>,</span><span class="l">     <span class="k">"organization"</span>: <span class="s">"Bill &amp; Melinda Gates Foundation"</span>},</span><span class="l">    {<span class="k">"job_title"</span>: <span class="s">"Co-founder, Chairman"</span>,</span><span class="l">     <span class="k">"organization"</span>: <span class="s">"Microsoft"</span>}</span><span class="l">  ],</span></span><span class="l">  <span class="m"><span class="k">"education"</span>: [ … ],</span></span><span class="l">  <span class="m"><span class="k">"contact_info"</span>: { … }</span></span><span class="l">}</span></pre></div>
+      <div data-rv="right">
+        <div class="stat is-hi"><b><span data-count="1">1</span></b><span>запрос — и весь профиль у нас. В схеме с таблицами запрос к каждой таблице или запутанное соединение</span></div>
+        <div class="chips tight" style="margin-top:32px"><a class="chip" href="https://www.mongodb.com/docs/manual/" target="_blank" rel="noopener">MongoDB ↗</a><a class="chip" href="https://rethinkdb.com/" target="_blank" rel="noopener">RethinkDB ↗</a><a class="chip" href="https://couchdb.apache.org/" target="_blank" rel="noopener">CouchDB ↗</a><span class="chip">Espresso</span></div>
+      </div>
+    </div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Резюме — самостоятельный документ, поэтому формат JSON ему подходит. Это пример 2.1 из книги. Модель поддерживают документоориентированные базы: MongoDB, RethinkDB, CouchDB, Espresso.</p>
+<p><em>Текст</em> Главное преимущество — локальность. В реляционном варианте нужно либо несколько запросов по user_id, либо запутанное многостороннее соединение. Здесь вся информация в одном месте, и хватает одного запроса. Некоторые считают, что JSON заодно снижает рассогласование с кодом — правда, у JSON как формата кодирования свои проблемы, о них глава 4.</p>
+<p><em>Как показывать</em> Пример сокращён: поля summary, industry_id и photo_url и содержимое education и contact_info — в книге на с. 58.</p>
+<p><em>Переход</em> Заметьте форму этих данных.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-fig22" data-slide="14" data-toc="Связи «один-ко-многим» — дерево">
+<div class="fx-wrap">
+<div class="sf" style="--l:520px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">09</span>Рис. 2.2</div>
+    <h2 class="fx-h" data-rv>«Один-ко-многим» — это <mark>дерево</mark></h2>
+    <p class="fx-lead" data-rv>JSON делает эту структуру явной: ветка дерева — вложенный список</p>
+  </div><div class="sf-f"><svg class="fig" viewBox="165 112 360 275" role="img" aria-label="Рисунок 2.2: связи один-ко-многим образуют дерево">
+  <g data-rv="fade" data-tip="Простые поля профиля: встречаются ровно один раз и лежат прямо в корне.">
+    <path class="ln thin" d="M324 137 L189 180"/><text transform="translate(193 184) rotate(-90)" font-size="10.5" text-anchor="end">first_name</text><path class="ln thin" d="M324 137 L208 180"/><text transform="translate(212 184) rotate(-90)" font-size="10.5" text-anchor="end">last_name</text><path class="ln thin" d="M324 137 L227 180"/><text transform="translate(231 184) rotate(-90)" font-size="10.5" text-anchor="end">summary</text>
+  </g>
+  <g data-rv="fade" data-tip="positions: список должностей. Связь «один-ко-многим» — ветка дерева."><path class="ln" d="M326 140 L272 192"/><rect class="nd" x="252" y="190" width="20" height="20"/><text x="278" y="204" font-size="12">positions</text></g>
+  <g data-rv="fade" data-tip="education: список мест учёбы. Ещё одна ветка того же дерева."><path class="ln" d="M342 140 L394 192"/><path class="nd" d="M402 189 L413 209.35 L391 209.35 z"/><text x="418" y="204" font-size="12">education</text></g>
+  <g data-rv="fade" data-tip="Должность: вложена в профиль, у неё один родитель.">
+    <path class="ln" d="M262 200 L193 267"/><rect class="nd" x="183" y="257" width="20" height="20"/><text x="208" y="271" font-size="12">job 1</text><path class="ln thin" d="M193 277 L184 301"/><text transform="translate(188 305) rotate(-90)" font-size="10.5" text-anchor="end">job_title</text><path class="ln thin" d="M193 277 L202 301"/><text transform="translate(206 305) rotate(-90)" font-size="10.5" text-anchor="end">organization</text></g><g data-rv="fade" data-tip="Должность: вложена в профиль, у неё один родитель.">
+    <path class="ln" d="M262 200 L262 267"/><rect class="nd" x="252" y="257" width="20" height="20"/><text x="277" y="271" font-size="12">job 2</text><path class="ln thin" d="M262 277 L253 301"/><text transform="translate(257 305) rotate(-90)" font-size="10.5" text-anchor="end">job_title</text><path class="ln thin" d="M262 277 L271 301"/><text transform="translate(275 305) rotate(-90)" font-size="10.5" text-anchor="end">organization</text></g><g data-rv="fade" data-tip="Должность: вложена в профиль, у неё один родитель.">
+    <path class="ln" d="M262 200 L331 267"/><rect class="nd" x="321" y="257" width="20" height="20"/><text x="346" y="271" font-size="12">job 3</text><path class="ln thin" d="M331 277 L322 301"/><text transform="translate(326 305) rotate(-90)" font-size="10.5" text-anchor="end">job_title</text><path class="ln thin" d="M331 277 L340 301"/><text transform="translate(344 305) rotate(-90)" font-size="10.5" text-anchor="end">organization</text></g><g data-rv="fade" data-tip="Место учёбы: вложено в профиль, у него один родитель.">
+    <path class="ln" d="M402 200 L402 267"/><path class="nd" d="M402 256 L413 276.35 L391 276.35 z"/><text x="417" y="271" font-size="12">edu 1</text><path class="ln thin" d="M402 277 L384 301"/><text transform="translate(388 305) rotate(-90)" font-size="10.5" text-anchor="end">school_name</text><path class="ln thin" d="M402 277 L402 301"/><text transform="translate(406 305) rotate(-90)" font-size="10.5" text-anchor="end">start</text><path class="ln thin" d="M402 277 L420 301"/><text transform="translate(424 305) rotate(-90)" font-size="10.5" text-anchor="end">end</text></g><g data-rv="fade" data-tip="Место учёбы: вложено в профиль, у него один родитель.">
+    <path class="ln" d="M402 200 L471 267"/><path class="nd" d="M471 256 L482 276.35 L460 276.35 z"/><text x="486" y="271" font-size="12">edu 2</text><path class="ln thin" d="M471 277 L453 301"/><text transform="translate(457 305) rotate(-90)" font-size="10.5" text-anchor="end">school_name</text><path class="ln thin" d="M471 277 L471 301"/><text transform="translate(475 305) rotate(-90)" font-size="10.5" text-anchor="end">start</text><path class="ln thin" d="M471 277 L489 301"/><text transform="translate(493 305) rotate(-90)" font-size="10.5" text-anchor="end">end</text></g>
+  <g data-rv="pop" data-tip="Корень — один пользователь. Весь документ грузится разом: это и есть локальность."><circle class="nd u" cx="334" cy="133" r="11"/><text x="352" y="137" font-size="13">user 251</text></g>
+  </svg></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Связи профиля с должностями, учёбой и контактами образуют дерево. У каждой должности ровно один родитель — конкретный пользователь. И JSON эту структуру показывает явно: каждая ветка просто вложена внутрь.</p>
+<p><em>Текст</em> Запомните эту картинку: пока данные — дерево, документная модель работает отлично. Сейчас посмотрим, что её ломает.</p>
+<p><em>Как показывать</em> Схема как рис. 2.2. На ветках — подсказки.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-ids" data-slide="15">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">10</span>Зачем идентификаторы</div>
+<h2 class="fx-h" data-rv>ID ничего не значит — поэтому его <mark>не надо менять</mark></h2><div class="fx-body "><div class="cols">
+      <div class="tile" data-rv="left"><div class="tile-k">Текст в каждой записи</div>
+        <div class="ren"><div class="ren-r"><span>user 251</span><div class="ren-v" style="--i:0"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 467</span><div class="ren-v" style="--i:2"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 512</span><div class="ren-v" style="--i:4"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 804</span><div class="ren-v" style="--i:6"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div></div>
+        <div class="ren-count">Переименовали город — обновляем <b>все копии</b>. Забыли одну — данные разошлись</div></div>
+      <div class="tile is-hi" data-rv="right"><div class="tile-k">Ссылка по ID</div>
+        <div class="ren"><div class="ren-r"><span>user 251</span><div class="ren-v is-id"><span>ru:78</span></div></div><div class="ren-r"><span>user 467</span><div class="ren-v is-id"><span>ru:78</span></div></div></div>
+        <div class="ren-sep">Таблица регионов</div>
+        <div class="ren"><div class="ren-r"><span>ru:78</span><div class="ren-v" style="--i:0"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div></div>
+        <div class="ren-count">Имя лежит в <b>одном месте</b>. Это и есть идея нормализации</div></div>
+    </div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> В примере 2.1 region_id и industry_id — идентификаторы, а не строки вроде "Greater Seattle Area". Почему? Стандартные списки дают единый стиль написания, снимают неоднозначность при одинаковых названиях городов, упрощают модификацию, локализацию на другие языки и поиск: можно закодировать, что Сиэтл находится в штате Вашингтон, чего из строки не понять.</p>
+<p><em>Текст</em> По сути, хранить ID или текст — вопрос дублирования. ID не значит ничего для людей, поэтому его не нужно менять. А всё осмысленное может понадобиться изменить, и тогда придётся обновить все копии: лишняя запись и риск, что копии разойдутся. Идея исключить такое дублирование и лежит в основе нормализации. Эмпирическое правило из сноски автора: если значения, которые могут храниться в одном месте, у вас дублируются, схема не нормализована.</p>
+<p><em>Как показывать</em> Пример с Ленинградом — мой, в книге общая фраза о городе, сменившем название «по политическим причинам».</p>
+<p><em>Переход</em> Но у нормализации есть цена, и платит за неё именно документная модель.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-joins" data-slide="16">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">11</span>Многие-к-одному</div>
+<h2 class="fx-h" data-rv>Нормализация требует соединений — <mark class="hot">а их нет</mark></h2><p class="fx-lead" data-rv>Много людей живёт в одной области. Это «многие-к-одному», и оно плохо ложится на дерево</p><div class="fx-body "><div class="cols">
+      <div data-rv="left"><div class="cd-k is-hi">Реляционная БД: соединяет база</div><pre class="cd sm" data-seq><span class="l"><span class="k">SELECT</span> u.first_name, r.region_name</span><span class="l"><span class="k">FROM</span> users u</span><span class="l"><span class="k">JOIN</span> regions r <span class="k">ON</span> r.id = u.region_id</span><span class="l"><span class="k">WHERE</span> u.user_id = 251;</span></pre></div>
+      <div data-rv="right"><div class="cd-k is-hot">Документная БД: соединяете вы</div><pre class="cd sm" data-seq><span class="l"><span class="c">// соединение эмулируем в коде приложения</span></span><span class="l"><span class="k">const</span> user = <span class="k">await</span> users.findOne({ user_id: 251 });</span><span class="l"><span class="k">const</span> region = <span class="k">await</span> regions.findOne({</span><span class="l">  id: user.region_id,</span><span class="l">});</span></pre></div>
+    </div>
+    <div class="so" data-rv><span>Сегодня</span><div>На момент книги MongoDB соединений не поддерживала. С версии 3.2 есть <a class="lnk" href="https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/" target="_blank" rel="noopener"><code>$lookup</code> ↗</a></div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Нормализация требует связей «многие-к-одному»: много людей живёт в одной области или работает в одной отрасли. В дерево такое не вписывается. В реляционных базах ссылаться на строки других таблиц по ID — норма, соединения выполняются легко. В документных для деревьев соединения не нужны, поэтому их поддержка часто слабая.</p>
+<p><em>Текст</em> Если СУБД соединения не умеет, приходится эмулировать их в коде приложения несколькими запросами. Работа, которую делала база, просто переезжает к вам.</p>
+<p><em>Как показывать</em> Код на слайде — моя иллюстрация, в книге этого примера нет. Сноска книги о поддержке соединений устарела: она описывает MongoDB на момент написания, а $lookup появился в версии 3.2 (2015).</p>
+<p><em>Переход</em> И дальше становится хуже: связи имеют свойство нарастать.</p>
+<p><em>Источники</em> <a class="lnk" href="https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/" target="_blank" rel="noopener">MongoDB — $lookup</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-grow" data-slide="17">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">12</span>Связи нарастают</div>
+<h2 class="fx-h" data-rv>Новые фичи превращают строки <mark>в сущности</mark></h2><div class="fx-body "><div class="cols" style="grid-template-columns:1.1fr 1fr; align-items:center">
+      <div data-rv="left"><img src="assets/img/linkedin-microsoft-entity.webp" alt="Снимок LinkedIn: название компании Microsoft открывает карточку компании" style="display:block; width:100%; max-height:520px; object-fit:contain; border-radius:12px; border:1px solid var(--border)"></div>
+      <div>
+        <div class="tile" data-rv="right"><div class="tile-k">Компании и школы</div><p class="tile-p"><code>organization</code> был строкой. Нужны логотип, страница, лента новостей — значит, нужна <b>ссылка на сущность</b></p></div>
+        <div class="tile is-hi" data-rv="right" style="margin-top:22px"><div class="tile-k">Рекомендации</div><p class="tile-p">Автор сменил фото — оно должно обновиться во всех рекомендациях. Значит, рекомендация <b>ссылается на профиль</b></p></div>
+      </div>
+    </div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Даже если первая версия приложения идеально подходит под документы без соединений, связи данных имеют обыкновение усиливаться. Два примера из книги.</p>
+<p><em>Текст</em> Первый: компании и школы. Сейчас organization — просто строка. Но захотели страницу компании с логотипом и лентой новостей — и строка становится ссылкой на сущность. На снимке LinkedIn видно: название Microsoft уже открывает карточку компании. Второй: рекомендации. Если автор рекомендации сменил фото, новое фото должно появиться во всех его рекомендациях. Значит, рекомендация должна ссылаться на его профиль.</p>
+<p><em>Как показывать</em> Снимок — рис. 2.3 из книги.</p>
+<p><em>Переход</em> Что с данными в итоге.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-fig24" data-slide="18" data-toc="Резюме со связями «многие-ко-многим»">
+<div class="fx-wrap">
+<div class="sf" style="--l:400px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">13</span>Рис. 2.4</div>
+    <h2 class="fx-h" data-rv>Дерево стало <mark>сетью</mark></h2>
+    <p class="fx-lead" data-rv>Внутри пунктира — документы. Снаружи — общие сущности, которые будут соединяться при каждом чтении</p>
+  </div><div class="sf-f"><svg class="fig" viewBox="100 118 525 360" role="img" aria-label="Рисунок 2.4: резюме со связями многие-ко-многим">
+  <defs>
+  <marker id="m24" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker>
+  <marker id="m24F" class="fk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker>
+</defs>
+  <g data-rv="fade" data-tip="Резюме пользователя 251: всё внутри пунктира можно сложить в один документ.">
+    <rect class="frame" x="106" y="198" width="222" height="272"/>
+    <path class="ln" d="M138 326 L176 263" marker-end="url(#m24)"/><path class="ln" d="M138 333 L175 333" marker-end="url(#m24)"/><path class="ln" d="M136 342 L177 404" marker-end="url(#m24)"/>
+    <path class="ln" d="M197 252 L239 237" marker-end="url(#m24)"/><path class="ln" d="M197 258 L239 277" marker-end="url(#m24)"/><path class="ln" d="M198 329 L238 317" marker-end="url(#m24)"/><path class="ln" d="M198 337 L238 349" marker-end="url(#m24)"/><path class="ln" d="M197 412 L239 412" marker-end="url(#m24)"/>
+    <path class="ln" d="M260 235 L282 235" marker-end="url(#m24)"/><path class="ln" d="M260 279 L282 279" marker-end="url(#m24)"/>
+    <path class="ln" d="M260 313 L282 318" marker-end="url(#m24)"/><path class="ln" d="M260 316 L282 327" marker-end="url(#m24)"/><path class="ln" d="M260 349 L282 353" marker-end="url(#m24)"/><path class="ln" d="M260 352 L282 366" marker-end="url(#m24)"/>
+    <circle class="nd u" cx="128" cy="333" r="10"/><text transform="translate(127 318) rotate(-90)" font-size="10.5">user 251</text>
+    <rect class="nd" x="178" y="246" width="18" height="18"/><text x="187" y="242" font-size="10" text-anchor="middle">positions</text>
+    <rect class="nd" x="241" y="226" width="18" height="18"/><text x="250" y="222" font-size="10" text-anchor="middle">job 1</text><rect class="nd" x="241" y="270" width="18" height="18"/><text x="250" y="266" font-size="10" text-anchor="middle">job 2</text>
+    <text x="286" y="239" font-size="9" text-anchor="start">job_title</text><text x="286" y="283" font-size="9" text-anchor="start">job_title</text>
+    <path class="nd" d="M187 322 L198 342.35 L176 342.35 z"/><text x="187" y="356" font-size="10" text-anchor="middle">education</text>
+    <path class="nd" d="M250 303 L260 321.5 L240 321.5 z"/><text x="250" y="335" font-size="10" text-anchor="middle">edu 1</text><path class="nd" d="M250 341 L260 359.5 L240 359.5 z"/><text x="250" y="374" font-size="10" text-anchor="middle">edu 2</text>
+    <text x="285" y="321" font-size="8.5" text-anchor="start">start</text><text x="285" y="330" font-size="8.5" text-anchor="start">end</text><text x="285" y="356" font-size="8.5" text-anchor="start">start</text><text x="285" y="369" font-size="8.5" text-anchor="start">end</text>
+    <circle class="nd" cx="187" cy="412" r="9"/><text x="187" y="436" font-size="10" text-anchor="middle">recommen-</text><text x="187" y="448" font-size="10" text-anchor="middle">dations</text><circle class="nd" cx="250" cy="412" r="9"/><text x="250" y="436" font-size="10" text-anchor="middle">rec 1</text>
+  </g><g data-rv="fade" data-tip="Резюме пользователя 467 — тоже отдельный документ. А вот всё, что снаружи пунктира, общее.">
+    <rect class="frame" x="398" y="198" width="220" height="194"/>
+    <path class="ln" d="M588 288 L548 260" marker-end="url(#m24)"/><path class="ln" d="M588 302 L549 327" marker-end="url(#m24)"/>
+    <path class="ln" d="M528 252 L486 238" marker-end="url(#m24)"/><path class="ln" d="M528 258 L486 277" marker-end="url(#m24)"/><path class="ln" d="M527 329 L487 317" marker-end="url(#m24)"/><path class="ln" d="M527 337 L487 349" marker-end="url(#m24)"/>
+    <path class="ln" d="M466 235 L442 235" marker-end="url(#m24)"/><path class="ln" d="M466 279 L442 279" marker-end="url(#m24)"/>
+    <path class="ln" d="M465 314 L444 318" marker-end="url(#m24)"/><path class="ln" d="M465 317 L444 327" marker-end="url(#m24)"/><path class="ln" d="M465 349 L444 353" marker-end="url(#m24)"/><path class="ln" d="M465 352 L444 366" marker-end="url(#m24)"/>
+    <circle class="nd u" cx="597" cy="294" r="10"/><text transform="translate(601 279) rotate(-90)" font-size="10.5">user 467</text>
+    <rect class="nd" x="529" y="246" width="18" height="18"/><text x="538" y="242" font-size="10" text-anchor="middle">positions</text>
+    <rect class="nd" x="467" y="226" width="18" height="18"/><text x="476" y="222" font-size="10" text-anchor="middle">job 1</text><rect class="nd" x="467" y="270" width="18" height="18"/><text x="476" y="266" font-size="10" text-anchor="middle">job 2</text>
+    <text x="438" y="239" font-size="9" text-anchor="end">job_title</text><text x="438" y="283" font-size="9" text-anchor="end">job_title</text>
+    <path class="nd" d="M538 322 L549 342.35 L527 342.35 z"/><text x="538" y="356" font-size="10" text-anchor="middle">education</text>
+    <path class="nd" d="M476 303 L486 321.5 L466 321.5 z"/><text x="476" y="335" font-size="10" text-anchor="middle">edu 1</text><path class="nd" d="M476 341 L486 359.5 L466 359.5 z"/><text x="476" y="374" font-size="10" text-anchor="middle">edu 2</text>
+    <text x="440" y="321" font-size="8.5" text-anchor="end">start</text><text x="440" y="330" font-size="8.5" text-anchor="end">end</text><text x="440" y="356" font-size="8.5" text-anchor="end">start</text><text x="440" y="369" font-size="8.5" text-anchor="end">end</text>
+  </g>
+  <g data-rv="pop" data-tip="Компания — уже не строка, а сущность: своя страница, логотип, лента новостей."><rect class="nd" x="349" y="144" width="26" height="26"/><text x="362" y="137" font-size="11" text-anchor="middle">org 1</text></g>
+  <g data-rv="pop" data-tip="Компания, на которую ссылается резюме пользователя 467."><rect class="nd" x="349" y="195" width="26" height="26"/><text x="362" y="189" font-size="11" text-anchor="middle">org 2</text></g>
+  <g data-rv="pop" data-tip="В этой компании работали оба. Вот он, «многие-ко-многим»: в документ её не вложить, нужна ссылка."><rect class="nd" x="349" y="250" width="26" height="26"/><text x="362" y="244" font-size="11" text-anchor="middle">org 3</text></g>
+  <g data-rv="pop" data-tip="В этой школе учились оба пользователя — одна сущность, две ссылки."><path class="nd" d="M362 300 L376 325.9 L348 325.9 z"/><text x="362" y="345" font-size="11" text-anchor="middle">school 1</text></g>
+  <g data-rv="pop" data-tip="Школа тоже стала сущностью со своей страницей."><path class="nd" d="M362 355 L376 380.9 L348 380.9 z"/><text x="362" y="397" font-size="11" text-anchor="middle">school 2</text></g>
+  <g data-rv="pop" data-tip="Школа пользователя 467."><path class="nd" d="M362 406 L376 431.9 L348 431.9 z"/><text x="362" y="447" font-size="11" text-anchor="middle">school 3</text></g>
+  <g data-rv="fade" data-tip="Должность ссылается на компанию: при чтении нужно соединение."><path class="hit" d="M259 235 C300 225 330 205 351 171"/><path class="ln fk" d="M259 235 C300 225 330 205 351 171" marker-end="url(#m24F)"/></g>
+  <g data-rv="fade" data-tip="Ещё одна ссылка из резюме на компанию."><path class="hit" d="M259 285 C290 302 325 285 347 268"/><path class="ln fk" d="M259 285 C290 302 325 285 347 268" marker-end="url(#m24F)"/></g>
+  <g data-rv="fade" data-tip="Ссылка на компанию из второго резюме."><path class="hit" d="M467 241 C440 262 400 240 376 214"/><path class="ln fk" d="M467 241 C440 262 400 240 376 214" marker-end="url(#m24F)"/></g>
+  <g data-rv="fade" data-tip="Оба резюме ссылаются на org 3 — одна строка, две ссылки."><path class="hit" d="M467 285 C440 302 400 292 376 269"/><path class="ln fk" d="M467 285 C440 302 400 292 376 269" marker-end="url(#m24F)"/></g>
+  <g data-rv="fade" data-tip="Ссылка на школу из первого резюме."><path class="hit" d="M259 310 C290 295 320 296 349 312"/><path class="ln fk" d="M259 310 C290 295 320 296 349 312" marker-end="url(#m24F)"/></g>
+  <g data-rv="fade" data-tip="Ссылка на ту же школу из второго резюме."><path class="hit" d="M467 310 C440 295 410 296 376 312"/><path class="ln fk" d="M467 310 C440 295 410 296 376 312" marker-end="url(#m24F)"/></g>
+  <g data-rv="fade" data-tip="Ссылка на школу 2."><path class="hit" d="M259 347 C290 330 320 340 349 366"/><path class="ln fk" d="M259 347 C290 330 320 340 349 366" marker-end="url(#m24F)"/></g>
+  <g data-rv="fade" data-tip="Ссылка на школу 3."><path class="hit" d="M467 344 C425 338 412 375 374 414"/><path class="ln fk" d="M467 344 C425 338 412 375 374 414" marker-end="url(#m24F)"/></g>
+  <g data-rv="fade" data-tip="Рекомендация ссылается на профиль автора: обновит он фото — новое фото появится во всех его рекомендациях."><path class="hit" d="M259 415 C340 490 590 480 597 306"/><path class="ln fk" d="M259 415 C340 490 590 480 597 306" marker-end="url(#m24F)"/></g>
+  </svg></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Вот что получилось. Внутри каждого пунктирного прямоугольника данные всё ещё можно сложить в один документ. Но компании, школы и другие пользователи должны быть именно ссылками — и потребуют соединений при запросах. И заметьте: один профиль теперь ссылается на другой через рекомендацию. Дерево превратилось в сеть.</p>
+<p><em>Как показывать</em> Схема как рис. 2.4. При наведении на узлы и зелёные стрелки — подсказки.</p>
+<p><em>Переход</em> Интересно, что индустрия уже бывала здесь — полвека назад.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-ims" data-slide="19">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">14</span>История повторяется?</div>
+<h2 class="fx-h" data-rv>IMS, 1968: <mark>те же деревья</mark>, те же проблемы</h2><div class="fx-body "><div class="grid3">
+      <div class="tile" data-rv><div class="tile-k">Откуда</div><div class="tile-t">Запасы «Аполлона»</div><p class="tile-p"><a class="lnk" href="https://en.wikipedia.org/wiki/IBM_Information_Management_System" target="_blank" rel="noopener">Information Management System ↗</a> от IBM — самая популярная СУБД 1970-х. До сих пор поддерживается</p></div>
+      <div class="tile" data-rv><div class="tile-k">Модель</div><div class="tile-t">Иерархическая</div><p class="tile-p">Дерево записей, вложенных в другие записи. Очень похоже на JSON с рис. 2.2</p></div>
+      <div class="tile is-hot" data-rv><div class="tile-k">Беда</div><div class="tile-t">Те же развилки</div><p class="tile-p">Со связями «многие-ко-многим» плохо, соединений нет. Дублировать данные или вручную разрешать ссылки?</p></div>
+    </div>
+    <div class="so" data-rv><span>Поэтому</span><div>Спор 1970-х стоит послушать: он о <b>той же проблеме</b>, что и сегодняшний спор о документных базах</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> В 1970-х самой популярной СУБД для коммерческих данных была IMS от IBM. Её разработали для управления запасами в программе «Аполлон» и выпустили в 1968 году. Она до сих пор поддерживается.</p>
+<p><em>Текст</em> В IMS иерархическая модель, очень похожая на JSON: дерево вложенных записей. И как и документные базы, IMS хорошо работает с «один-ко-многим», но плохо с «многие-ко-многим» и не поддерживает соединения. Разработчикам приходилось решать: дублировать данные или разрешать ссылки вручную. Проблемы 1960-х оказались очень похожи на проблемы сегодняшних разработчиков.</p>
+<p><em>Переход</em> Решений предложили два. Первое — сетевая модель.</p>
+<p><em>Источники</em> <a class="lnk" href="https://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/" target="_blank" rel="noopener">Sarah Mei — Why You Should Never Use MongoDB</a> (статья, на которую ссылается автор).</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-codasyl" data-slide="20" data-toc="Сетевая модель">
+<div class="fx-wrap">
+<div class="sf" style="--l:600px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">15</span>Сетевая модель · CODASYL</div>
+    <h2 class="fx-h" data-rv>Программист как <mark>навигатор</mark></h2>
+    <p class="fx-lead" data-rv>У записи теперь несколько родителей, а ссылка — это указатель на диске. К записи ведут только пути доступа от корня</p>
+    <div class="so" data-rv style="display:block"><b class="hot">Цена</b><br>Поменялся запрос — ручной перебор кода под новые пути. Не знаете пути — вы в тупике</div>
+  </div><div class="sf-f"><svg class="fig" viewBox="0 0 800 460" role="img" aria-label="Два пути доступа к одной записи">
+  <defs>
+  <marker id="mc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker>
+  <marker id="mcF" class="fk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker>
+</defs>
+  <defs>
+    <path id="pA" d="M90 230 L250 110 L450 110 L640 230"/>
+    <path id="pB" d="M90 230 L250 350 L450 350 L640 230"/>
+  </defs>
+  <g data-rv="fade"><path class="ln" d="M100 222 L240 118" marker-end="url(#mc)"/><path class="ln" d="M100 238 L240 342" marker-end="url(#mc)"/><path class="ln" d="M285 110 L415 110" marker-end="url(#mc)"/><path class="ln" d="M285 350 L415 350" marker-end="url(#mc)"/><path class="ln" d="M485 118 L620 218" marker-end="url(#mc)"/><path class="ln" d="M485 342 L620 242" marker-end="url(#mc)"/></g>
+  <g data-tip="Корень. В CODASYL до записи можно добраться только отсюда — по цепочкам указателей." data-rv="pop"><circle class="nd u" cx="90" cy="230" r="28"/><text x="90" y="285" text-anchor="middle" font-size="22">корень</text></g>
+  <g data-tip="Запись набора регионов." data-rv="pop"><rect class="bx" x="185" y="82" width="130" height="56" rx="6"/><text x="250" y="117" text-anchor="middle" font-size="22">регион</text></g>
+  <g data-tip="Запись набора отраслей — другой путь к тому же человеку." data-rv="pop"><rect class="bx" x="185" y="322" width="130" height="56" rx="6"/><text x="250" y="357" text-anchor="middle" font-size="22">отрасль</text></g>
+  <g data-tip="Просматриваем список записей по одной, как связный список." data-rv="pop"><rect class="bx" x="385" y="82" width="130" height="56" rx="6"/><text x="450" y="117" text-anchor="middle" font-size="22">список</text></g>
+  <g data-tip="Другой список — другой код обхода." data-rv="pop"><rect class="bx" x="385" y="322" width="130" height="56" rx="6"/><text x="450" y="357" text-anchor="middle" font-size="22">список</text></g>
+  <g data-tip="У записи несколько родителей. Код приложения должен помнить все её связи." data-rv="pop"><rect class="bx mk" x="615" y="200" width="160" height="60" rx="6"/><text x="695" y="238" text-anchor="middle" font-size="22" class="hd">Билл Гейтс</text></g>
+  <circle r="11" fill="var(--fx)"><animateMotion dur="3.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.8;1" calcMode="linear"><mpath href="#pA"/></animateMotion></circle>
+  <circle r="11" fill="var(--hot)"><animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.8;1" calcMode="linear"><mpath href="#pB"/></animateMotion></circle>
+</svg></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Сетевую модель стандартизировал комитет CODASYL. Это обобщение иерархической: в дереве у записи ровно один родитель, а здесь может быть несколько. Например, одна запись "Greater Seattle Area" и ссылки на неё от всех, кто там живёт. Так появляются «многие-к-одному» и «многие-ко-многим».</p>
+<p><em>Текст</em> Но ссылки здесь не внешние ключи, а скорее указатели, хранящиеся на диске. Единственный способ получить запись — идти от корня по цепочке ссылок. Такой путь и называется путём доступа. В простом случае это обход связного списка. Но к одной записи может вести несколько путей, и программист должен держать их все в голове. Даже члены комитета сравнивали это с навигацией по n-мерному пространству данных.</p>
+<p><em>Текст</em> В 1970-х, с магнитными лентами и их медленным поиском, ручной выбор путей позволял выжать максимум из железа. Но код получался сложным и негибким: если нужного пути нет — вы в трудном положении, а чтобы его поменять, надо переписывать горы кода запросов вручную.</p>
+<p><em>Как показывать</em> Схема на слайде — моя иллюстрация идеи, а не рисунок книги. Точки показывают два разных пути к одной записи.</p>
+<p><em>Переход</em> Реляционная модель решила это радикально иначе.</p>
+<p><em>Источники</em> <a class="lnk" href="https://dl.acm.org/doi/10.1145/355611.362534" target="_blank" rel="noopener">Bachman — The Programmer as Navigator, 1973</a>; <a class="lnk" href="https://en.wikipedia.org/wiki/CODASYL" target="_blank" rel="noopener">CODASYL</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-optimizer" data-slide="21">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">16</span>Ответ реляционной модели</div>
+<h2 class="fx-h" data-rv>Путь доступа выбирает <mark>оптимизатор</mark>, а не вы</h2><div class="fx-body "><div class="cols" style="grid-template-columns:1fr 1fr; align-items:center">
+      <div data-rv="left"><pre class="cd " data-seq style="--st:180ms"><span class="l"><span class="k">SELECT</span> * <span class="k">FROM</span> users</span><span class="l"><span class="k">WHERE</span> region_id = <span class="s">'us:91'</span>;</span><span class="l"> </span><span class="l"><span class="c">-- нужно быстрее? Запрос не трогаем:</span></span><span class="l"><span class="h">CREATE INDEX</span> users_region</span><span class="l">  <span class="k">ON</span> users (region_id);</span></pre></div>
+      <div>
+        <div class="tile" data-rv="right"><div class="tile-k">Всё напоказ</div><p class="tile-p">Таблица — это просто набор строк. Можно читать любую или все сразу, вставлять, не думая о связях</p></div>
+        <div class="tile is-hi" data-rv="right" style="margin-top:22px"><div class="tile-k">Всё решает база</div><p class="tile-p">В каком порядке выполнять запрос и какие индексы брать — решает оптимизатор. <b>Новый индекс подхватывается сам</b></p></div>
+      </div>
+    </div>
+    <div class="so" data-rv><span>Главное</span><div>Оптимизатор — годы исследований. Но его создают <b>один раз</b>, и выигрывают все приложения</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Реляционная модель выставила данные напоказ: отношение — просто набор строк, и всё. Никаких лабиринтов и вложенных структур. Можно прочитать любую строку или все, выбрать по условию, вставить новую, не беспокоясь о связях с другими таблицами.</p>
+<p><em>Текст</em> Путь доступа никуда не делся, но его автоматически выбирает оптимизатор запросов, а не разработчик. Нужно запрашивать данные иначе — объявили новый индекс, и запросы сами начали его использовать. Менять их не надо. Это сильно упрощает добавление новых возможностей.</p>
+<p><em>Текст</em> Оптимизаторы — непростые вещи, это годы исследований и разработки. Но ключевая мысль такая: достаточно один раз сделать оптимизатор — и выгоду получают все приложения. Для одного запроса написать путь руками проще, но в долгосрочной перспективе универсальное решение выигрывает.</p>
+<p><em>Как показывать</em> SQL на слайде — моя иллюстрация.</p>
+<p><em>Переход</em> Так куда в этой истории встают документные базы?</p>
+<p><em>Источники</em> <a class="lnk" href="https://db.cs.berkeley.edu/papers/fntdb07-architecture.pdf" target="_blank" rel="noopener">Hellerstein, Stonebraker, Hamilton — Architecture of a Database System</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-compare" data-slide="22">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">17</span>Документы против CODASYL</div>
+<h2 class="fx-h" data-rv>Документные БД вернулись к дереву, но <mark>не к указателям</mark></h2><div class="fx-body "><table class="tbl3"><tr data-rv="fade"><th>Связь</th><th>Иерархическая · IMS</th><th>Реляционная</th><th>Документная</th></tr>
+      <tr data-rv><td>Один-ко-многим</td><td>вложены в родителя</td><td>отдельная таблица</td><td class="hi">вложены в родителя</td></tr>
+      <tr data-rv><td>Многие-к-одному, многие-ко-многим</td><td class="bad">дублировать или разрешать вручную</td><td>внешний ключ</td><td class="hi">ссылка на документ</td></tr>
+      <tr data-rv><td>Когда разрешается ссылка</td><td class="bad">вручную в коде</td><td>при чтении</td><td class="hi">при чтении</td></tr></table>
+    <div class="so" data-rv><span>Значит</span><div>Внешний ключ и ссылка на документ — по сути <b>одно и то же</b>. Путём CODASYL документные базы не пошли</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Документные базы действительно вернулись к иерархической модели в одном: вложенные записи хранятся внутри родителя, а не в отдельной таблице. Это positions, education и contact_info.</p>
+<p><em>Текст</em> Но для «многие-к-одному» и «многие-ко-многим» реляционные и документные базы по существу не отличаются: обращение идёт по уникальному идентификатору. В реляционной модели он называется внешним ключом, в документной — ссылкой на документ. Разрешается он при чтении: соединением или дополнительными запросами. Так что путём CODASYL документные базы не пошли.</p>
+<p><em>Переход</em> Теперь — современный спор. У какой модели какие доводы.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-args" data-slide="23">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">18</span>Сегодня</div>
+<h2 class="fx-h" data-rv>Что на каждой чаше <mark>весов</mark></h2><p class="fx-lead" data-rv>Сравниваем только модели данных: отказоустойчивость и конкурентный доступ — главы 5 и 7</p><div class="fx-body "><div class="grid2">
+      <div class="tile" data-rv="left"><div class="tile-k">За документы</div><ul class="ul"><li>Гибкость схемы</li><li>Производительность за счёт локальности</li><li>Близость к структурам данных в коде</li></ul></div>
+      <div class="tile is-hi" data-rv="right"><div class="tile-k">За реляционные</div><ul class="ul"><li>Соединения</li><li>Связи «многие-к-одному»</li><li>Связи «многие-ко-многим»</li></ul></div>
+    </div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Различий между реляционными и документными базами много, но в этой главе автор сравнивает только модели данных. Доводы за документную модель: гибкость схемы, лучшая производительность благодаря локальности и большая близость к структурам данных в коде — для некоторых приложений. Реляционная отвечает лучшей поддержкой соединений и связей «многие-к-одному» и «многие-ко-многим».</p>
+<p><em>Переход</em> Разберём по очереди. Сначала простой вопрос: где код проще?</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-simple" data-slide="24">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">19</span>Какой код проще</div>
+<h2 class="fx-h" data-rv>Ответ зависит от <mark>связей</mark> между данными</h2><div class="fx-body "><div class="scale" data-rv="fade"><div class="scale-tr"><i></i><i></i><i></i></div><div class="scale-m"></div></div>
+    <div class="scale-g">
+      <div class="tile" data-rv><div class="tile-k">Дерево, грузится целиком</div><div class="tile-t">Документы</div><p class="tile-p">Расщеплять такое на таблицы (shredding) — путь к запутанной схеме и лишнему коду</p></div>
+      <div class="tile" data-rv><div class="tile-k">Есть «многие-ко-многим»</div><div class="tile-t">Реляционная</div><p class="tile-p">В документах придётся денормализовать или соединять в коде: сложнее и обычно медленнее</p></div>
+      <div class="tile is-hi" data-rv><div class="tile-k">Всё связано со всем</div><div class="tile-t">Графы</div><p class="tile-p">Самая естественная модель для тесных связей. Подробно&nbsp;— в докладе 2.3</p></div>
+    </div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Если данные документоподобные — дерево «один-ко-многим», которое обычно загружается целиком, — документная модель, вероятно, хорошая идея. Реляционный приём shredding, расщепление на таблицы, ведёт к запутанным схемам и лишнему коду.</p>
+<p><em>Текст</em> Ограничения у документов есть: на вложенный элемент нельзя сослаться напрямую, приходится говорить что-то вроде «второй элемент списка должностей пользователя 251». Но если вложенность не очень большая, это обычно не проблема. Отсутствие соединений тоже не всегда беда: аналитическому приложению, которое пишет события, «многие-ко-многим» могут вообще не понадобиться.</p>
+<p><em>Текст</em> А вот если такие связи есть, документная модель менее привлекательна. Денормализация требует поддерживать копии в согласованном виде, а соединения в коде усложняют приложение и обычно работают медленнее, чем соединение внутри СУБД. Итог: в общем случае ответа нет. При тесных связях документная модель неуклюжа, реляционная вполне приемлема, а графовые наиболее естественны. Про них я расскажу в третьем докладе.</p>
+<p><em>Переход</em> Второй довод — схема. Здесь нас ждёт аналогия, которая фронтендерам знакома.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-schema" data-slide="25">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">20</span>Гибкость схемы</div>
+<h2 class="fx-h" data-rv>«Без схемы» — миф: схема есть, просто <mark>при чтении</mark></h2><div class="fx-body "><div class="grid2">
+      <div class="tile" data-rv="left"><div class="tile-k">Schema-on-read</div><div class="tile-t">Как JavaScript</div><p class="tile-p">Структура неявна, её предполагает код при чтении. База ничего не проверяет. Динамическая типизация</p></div>
+      <div class="tile is-hi" data-rv="right"><div class="tile-k">Schema-on-write</div><div class="tile-t">Как TypeScript</div><p class="tile-p">Схема явная, база гарантирует, что всё записанное ей соответствует. Статическая проверка</p></div>
+    </div>
+    <div class="so" data-rv><span>Автор</span><div>Как и в спорах о типизации, <b>правильного ответа нет</b>. Термин «бессхемная» вводит в заблуждение: читающий код всё равно ждёт определённую структуру</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Большинство документных баз, а также реляционные базы с JSON не навязывают схему данных в документе. Такие базы называют бессхемными, но это вводит в заблуждение: читающий код всё равно предполагает определённую структуру. Схема есть, просто неявная. Точнее говорить schema-on-read, схема при чтении, в отличие от schema-on-write, схемы при записи, когда база гарантирует соответствие.</p>
+<p><em>Текст</em> Автор проводит аналогию с языками: схема при чтении — как динамическая проверка типов во время выполнения, схема при записи — как статическая при компиляции. И как в спорах о типах, правильного ответа нет.</p>
+<p><em>Как показывать</em> JavaScript и TypeScript на слайде — моя подстановка для нашей аудитории; в книге аналогия общая, про статические и динамические типы.</p>
+<p><em>Переход</em> Разница особенно заметна, когда формат нужно поменять.</p>
+<p><em>Источники</em> <a class="lnk" href="https://martinfowler.com/articles/schemaless/" target="_blank" rel="noopener">Martin Fowler — Schemaless Data Structures</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-migrate" data-slide="26">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">21</span>Смена формата</div>
+<h2 class="fx-h" data-rv>Делим <code style="font-size:0.85em">name</code> на имя и фамилию: <mark>две стратегии</mark></h2><div class="fx-body "><div class="cols">
+      <div data-rv="left"><div class="cd-k">Документы: дописываем код чтения</div><pre class="cd sm" data-seq><span class="l"><span class="k">if</span> (user &amp;&amp; user.name &amp;&amp; !user.first_name) {</span><span class="l">  <span class="c">// В документах до 8 декабря 2013</span></span><span class="l">  <span class="c">// поля first_name нет</span></span><span class="l">  user.first_name = user.name.split(<span class="s">" "</span>)[0];</span><span class="l">}</span></pre></div>
+      <div data-rv="right"><div class="cd-k is-hi">Схема: выполняем миграцию</div><pre class="cd sm" data-seq><span class="l"><span class="k">ALTER TABLE</span> users</span><span class="l">  <span class="k">ADD COLUMN</span> first_name text;</span><span class="l"><span class="k">UPDATE</span> users</span><span class="l">  <span class="k">SET</span> first_name =</span><span class="l">    split_part(name, <span class="s">' '</span>, 1);</span></pre></div>
+    </div>
+    <div class="grid2" style="margin-top:24px">
+      <div class="tile" data-rv style="padding:20px 26px"><div class="tile-k">Миф</div><p class="tile-p"><code>ALTER TABLE</code> — это простой? Обычно миллисекунды. Исключением в книге была MySQL: копировала всю таблицу</p></div>
+      <div class="tile is-hot" data-rv style="padding:20px 26px"><div class="tile-k">Реальность</div><p class="tile-p">Медленный — <code>UPDATE</code> всех строк в любой базе. Выход: оставить <code>NULL</code> и заполнять при чтении</p></div>
+    </div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Допустим, полное имя лежит в одном поле, а мы хотим хранить имя и фамилию отдельно. В документной базе просто начинаем писать новые документы и добавляем код, который обрабатывает старые. В базе со схемой делаем миграцию: ALTER TABLE и UPDATE.</p>
+<p><em>Текст</em> Об изменениях схемы говорят как о медленных и требующих простоя. Это не совсем верно: большинство реляционных баз выполняют ALTER TABLE за миллисекунды. Известное исключение в книге — MySQL: она копировала всю таблицу, что означало минуты или часы простоя, хотя для обхода есть утилиты. А вот UPDATE большой таблицы медленный везде, ведь переписывать надо все строки. Если это неприемлемо, можно оставить NULL и заполнять поле при чтении — как в документной базе.</p>
+<p><em>Как показывать</em> Сегодня в MySQL 8 добавление столбца обычно выполняется без копирования таблицы (ALGORITHM=INSTANT) — описание в книге относится к версиям её времени. В книге для MySQL другой вариант UPDATE: substring_index.</p>
+<p><em>Источники</em> <a class="lnk" href="https://github.com/github/gh-ost" target="_blank" rel="noopener">gh-ost — онлайн-миграции MySQL от GitHub</a>; <a class="lnk" href="https://dev.mysql.com/doc/refman/8.4/en/innodb-online-ddl-operations.html" target="_blank" rel="noopener">MySQL — Online DDL</a>.</p>
+<p><em>Переход</em> Так когда какой подход лучше?</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-when" data-slide="27">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">22</span>Что выбрать</div>
+<h2 class="fx-h" data-rv>Данные разнородны — схема <mark>при чтении</mark>. Одинаковы — <mark>при записи</mark></h2><div class="fx-body "><div class="grid2">
+      <div class="tile" data-rv="left"><div class="tile-k">Схема при чтении</div><ul class="ul"><li>Много разных типов объектов, и по таблице на каждый — бессмысленно</li><li>Структуру задают внешние системы, вы её не контролируете, и она меняется</li></ul></div>
+      <div class="tile is-hi" data-rv="right"><div class="tile-k">Схема при записи</div><ul class="ul"><li>Все записи предположительно одной структуры</li><li>Схема — удобный способ документировать эту структуру и следить за её соблюдением</li></ul></div>
+    </div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Схема при чтении предпочтительна, когда данные разнородны: много разных типов объектов и нет смысла заводить под каждый таблицу, или структуру определяют внешние системы, которые вы не контролируете и которые могут меняться. Здесь схема принесёт больше вреда, чем пользы.</p>
+<p><em>Текст</em> А если структура всех записей предположительно одинакова, схема — удобный механизм документирования и контроля. Подробнее о схемах и их эволюции — глава 4.</p>
+<p><em>Переход</em> Третий довод — локальность.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-locality" data-slide="28">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">23</span>Локальность</div>
+<h2 class="fx-h" data-rv>Документ лежит на диске <mark>одним куском</mark></h2><div class="fx-body "><div class="disk-l" data-rv><span>Документ: одна строка JSON или BSON</span><b>1 поиск на диске</b></div>
+    <div class="disk" data-rv="fade"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="disk-l" data-rv style="margin-top:44px"><span>Шесть таблиц рис. 2.1</span><b class="h">несколько поисков по индексу</b></div>
+    <div class="disk" data-rv="fade"><i></i><i></i><i></i><i class="u" style="--o:0"></i><i></i><i></i><i></i><i class="u" style="--o:1"></i><i></i><i></i><i></i><i></i><i></i><i class="u" style="--o:2"></i><i></i><i></i><i></i><i></i><i class="u" style="--o:3"></i><i></i><i></i><i></i><i class="u" style="--o:4"></i><i></i><i></i><i></i><i></i><i class="u" style="--o:5"></i><i></i><i></i></div>
+    <div class="so" data-rv><span>Значит</span><div>Если нужен <b>весь документ</b> сразу, например для отрисовки страницы, локальность экономит и операции диска, и время</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Документы обычно хранятся единой непрерывной строкой в JSON, XML или двоичном варианте вроде BSON у MongoDB. Если приложению часто нужен весь документ, например чтобы отрисовать страницу, локальность даёт преимущество. Когда данные разбиты по таблицам, как на рис. 2.1, нужно несколько поисков по индексу, больше операций с диском и больше времени.</p>
+<p><em>Как показывать</em> Полоски — схематичная иллюстрация, расположение блоков условное.</p>
+<p><em>Переход</em> Но у этого есть обратная сторона.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-locality-cost" data-slide="29">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">24</span>Цена локальности</div>
+<h2 class="fx-h" data-rv>Читаем и переписываем <mark class="hot">весь документ</mark></h2><div class="fx-body "><div class="disk-l" data-rv><span>Нужно одно поле? База загружает документ целиком</span></div>
+    <div class="disk is-part" data-rv="fade"><i></i><i></i><i></i><i></i><i></i><i></i><i class="need"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="disk-l" data-rv style="margin-top:36px"><span>Обновили поле? Обычно перезапись всего документа</span></div>
+    <div class="disk is-rew" data-rv="fade" data-seq><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="so" data-rv><span>Поэтому</span><div>Документы стоит держать <b>маленькими</b> и избегать записей, увеличивающих их размер</div></div>
+    <div class="chips tight" data-rv style="margin-top:24px"><span class="chip">Группировать данные умеют и другие:</span><a class="chip" href="https://research.google/pubs/spanner-googles-globally-distributed-database-2/" target="_blank" rel="noopener">Spanner ↗</a><span class="chip">Oracle: кластеризованные таблицы</span><span class="chip">Bigtable: семейства столбцов</span></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Локальность выигрывает, только когда нужны большие части документа сразу. Базе обычно приходится загружать весь документ, даже если вам нужен маленький фрагмент. При обновлении тоже обычно переписывается весь документ, а «на месте» можно сделать только изменения, не меняющие закодированный размер. Поэтому рекомендуется держать документы маленькими и избегать записей, увеличивающих размер. Это заметно сужает круг случаев, где документные базы полезны.</p>
+<p><em>Текст</em> И группировка родственных данных — не монополия документов. Spanner от Google даёт те же свойства в реляционной модели: схема может объявить вложенность строк таблицы в родительскую. В Oracle есть многотабличные кластеризованные таблицы, а семейства столбцов в модели Bigtable, которую используют Cassandra и HBase, тоже управляют локальностью.</p>
+<p><em>Переход</em> И здесь мы подходим к главному выводу: граница между лагерями стирается.</p>
+<p><em>Источники</em> <a class="lnk" href="https://research.google/pubs/spanner-googles-globally-distributed-database-2/" target="_blank" rel="noopener">Corbett и др. — Spanner</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-converge" data-slide="30">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">25</span>Сближение</div>
+<h2 class="fx-h" data-rv>Будущее — за <mark>гибридами</mark></h2><div class="fx-body "><div class="conv">
+      <div class="tile" data-rv="left"><div class="tile-k">Реляционные берут у документов</div><ul class="ul"><li>XML с середины 2000-х</li><li>JSON: PostgreSQL 9.3, MySQL 5.7, DB2 10.5</li></ul></div>
+      <div class="conv-mid" data-rv="fade"><i></i>Гибрид</div>
+      <div class="tile" data-rv="right"><div class="tile-k">Документные берут у реляционных</div><ul class="ul"><li>Соединения в запросах RethinkDB</li><li>Драйверы MongoDB сами разрешают ссылки</li></ul></div>
+    </div>
+    <div class="so" data-rv><span>Сноска</span><div>Кодд в 1970-м уже допускал вложенные значения: <b>nonsimple domains</b> — почти JSON. SQL начал их поддерживать на 30 лет позже</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Большинство реляционных баз, кроме MySQL, поддерживают XML с середины 2000-х, с локальными изменениями, индексацией и запросами. PostgreSQL с версии 9.3, MySQL с 5.7 и DB2 с 10.5 получили примерно такой же уровень поддержки JSON.</p>
+<p><em>Текст</em> С другой стороны, RethinkDB поддерживает соединения, напоминающие реляционные, а некоторые драйверы MongoDB автоматически разрешают ссылки — правда, это клиентское соединение, медленнее, потому что данные ходят по сети туда и обратно.</p>
+<p><em>Текст</em> Модели дополняют друг друга, и автор уверен, что будущее за гибридами. Красивая деталь: в исходной статье Кодда значение в строке могло быть вложенной таблицей, «непростым доменом». Почти JSON, а SQL начал такое поддерживать на 30 лет позже.</p>
+<p><em>Как показывать</em> Сегодня это уже обычная практика: JSONB в PostgreSQL, $lookup в MongoDB.</p>
+<p><em>Источники</em> <a class="lnk" href="https://www.postgresql.org/docs/current/datatype-json.html" target="_blank" rel="noopener">PostgreSQL — JSON Types</a>; <a class="lnk" href="https://dl.acm.org/doi/10.1145/362384.362685" target="_blank" rel="noopener">Codd, 1970</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-takeaways" data-slide="31">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">26</span>Выводы</div>
+<h2 class="fx-h" data-rv>Что <mark>унести</mark> с собой</h2><div class="fx-body "><div class="takeaways">
+      <div class="tw" data-rv><span class="n">01</span><p>Модель данных определяет, <b>что будет просто</b>, а что мучительно</p></div>
+      <div class="tw" data-rv><span class="n">02</span><p>«Один-ко-многим» — дерево, для него хороши <b>документы</b></p></div>
+      <div class="tw" data-rv><span class="n">03</span><p>«Многие-ко-многим» требуют соединений — сильна <b>реляционная</b> модель</p></div>
+      <div class="tw" data-rv><span class="n">04</span><p>Спору полвека: IMS, CODASYL, SQL. <b>Оптимизатор</b> избавил нас от ручных путей</p></div>
+      <div class="tw" data-rv><span class="n">05</span><p>«Без схемы» значит <b>схема при чтении</b>: это выбор, а не её отсутствие</p></div>
+      <div class="tw" data-rv><span class="n">06</span><p>Локальность работает, если документ <b>маленький и нужен целиком</b></p></div>
+    </div>
+    <div class="so" data-rv><span>Дальше</span><div>Мы сравнили, как данные <b>лежат</b>. Как их <b>спрашивать</b> — расскажет Артём: языки запросов</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Итак. Модель данных определяет, что будет просто, а что мучительно. Деревья «один-ко-многим» хорошо ложатся на документы. «Многие-ко-многим» требуют соединений — тут сильна реляционная модель. Спору полвека, и историю стоит помнить: оптимизатор избавил нас от ручных путей доступа. «Без схемы» значит схема при чтении. Локальность работает, если документ маленький и нужен целиком. И модели постепенно сближаются.</p>
+<p><em>Переход</em> Мы поговорили о том, как данные лежат. А как их спрашивать — декларативно или императивно — расскажет Артём.</p>
+</aside>
+</section>
+
+            <section class="slide fx" data-slide="32" data-chrome="whatnext">
+                <div class="timeline-next-container">
+                    <div class="fx-kicker" data-rv="fade">Дальше</div>
+                    <h2 class="fx-h" data-rv>Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Реляционная модель в сравнении с документоориентированной моделью</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Языки запросов для данных</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Графоподобные модели данных</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <!-- Переключатель темы: светлая ↔ тёмная (клавиша T) -->
+    <button class="theme-toggle" id="themeToggle" type="button" role="switch"
+            aria-checked="false" aria-label="Переключить тему" title="Светлая тема (T)">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-knob"></span>
+            <span class="theme-ico theme-ico-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            </span>
+            <span class="theme-ico theme-ico-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+            </span>
+        </span>
+    </button>
+
+    <!-- Содержание: список слайдов, клик — переход на слайд (клавиша O) -->
+    <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false"
+            aria-controls="tocPanel" aria-label="Содержание презентации" title="Содержание (O)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"></path></svg>
+    </button>
+    <nav class="toc-panel" id="tocPanel" aria-label="Содержание презентации"></nav>
+
+    <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
+    <script src="assets/js/deck.js"></script>
+    <script src="assets/js/talk.js"></script>
+
+</body>
+</html>

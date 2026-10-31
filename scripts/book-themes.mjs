@@ -42,7 +42,7 @@ export const BOOK_THEMES = {
   'mastering-blockchain': 'rose',
   'docker-up-and-running': 'blue',
   'designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems':
-    'mint',
+    'amber',
 };
 
 // Запас для новой книги, которой ещё нет в таблице: цвета, не занятые выше.

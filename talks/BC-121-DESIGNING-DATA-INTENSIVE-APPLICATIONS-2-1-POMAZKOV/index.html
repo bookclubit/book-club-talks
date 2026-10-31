@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения. Программирование, масштабирование, поддержка</title>
+    <title>Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения</title>
     <meta name="description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
     <!-- Open Graph / соцсети -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+    <meta property="og:title" content="Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения">
     <meta property="og:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
     <meta property="og:image" content="https://bc-121-designing-data-intensive-applications-2-1-pomazkov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения. Программирование, масштабирование, поддержка">
+    <meta name="twitter:title" content="Реляционная модель в сравнении с документоориентированной моделью — Высоконагруженные приложения">
     <meta name="twitter:description" content="Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems">
     <meta name="twitter:image" content="https://bc-121-designing-data-intensive-applications-2-1-pomazkov.pages.dev/assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp">
     <!-- Тема до первой отрисовки: иначе светлый дек моргнёт тёмным. -->
@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
-<body data-hud="Высоконагруженные приложения. Программирование, масштабирование, поддержка · Глава 2 · Реляционная модель в сравнении с документоориентированной моделью">
+<body data-hud="Высоконагруженные приложения · Глава 2 · Реляционная модель в сравнении с документоориентированной моделью">
     <div class="progress" id="progressBar" style="width: 0%"></div>
 
     <div class="deck-viewport">
@@ -45,13 +45,13 @@
                     <div class="open-num" aria-hidden="true">121</div>
                     <div class="fx-kicker" data-rv="fade"><span class="n">Стрим 121</span>Добро пожаловать</div>
                     <h1 class="title-h" data-rv>Модели данных и языки запросов</h1>
-                    <p class="open-sub" data-rv><b>Высоконагруженные приложения. Программирование, масштабирование, поддержка</b> · Глава 2 · 3 доклада</p>
+                    <p class="open-sub" data-rv><b>Высоконагруженные приложения</b> · Глава 2 · 3 доклада</p>
                     <div class="title-bar"></div>
                     <div class="title-foot">
                         <div class="open-speakers" data-rv="left"><em>Спикеры вечера</em><div class="os-row"><span class="os"><img src="assets/speakers/pomazkov-anton.webp" alt=""><b>Антон Помазков</b></span><span class="os"><img src="assets/speakers/nikiforov-artem.webp" alt=""><b>Артём Никифоров</b></span></div></div>
                         <div class="open-links" data-rv="fade"><em>Клуб</em><div class="chips"><a class="chip" href="https://t.me/booksclubfrontend" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Telegram</a><a class="chip" href="https://www.youtube.com/@pomazkovclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>YouTube</a><a class="chip" href="https://vkvideo.ru/@pomazkovclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5 6.5 17 10 7.5"/><path d="M13.5 7.5v9.5"/><path d="M13.5 12.5 19 7.5"/><path d="M15.3 11 19.5 17"/></svg>VK Видео</a><a class="chip" href="https://boosty.to/booksclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4.1 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Boosty</a></div></div>
                         <a class="title-book" data-rv="right" href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener">
-                            <span><em>Книга</em><b>Высоконагруженные приложения. Программирование, масштабирование, поддержка</b><span>Мартин Клеппман</span></span>
+                            <span><em>Книга</em><b>Высоконагруженные приложения</b><span>Мартин Клеппман</span></span>
                             <img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="">
                         </a>
                     </div>
@@ -68,16 +68,23 @@
                             <div class="au-id">
                                 <div class="au-photo" data-rv="pop"><img src="assets/authors/martin-kleppman.webp" alt="Мартин Клеппман"></div>
                                 <h2 class="au-name" data-rv="left">Мартин Клеппман</h2>
+                                <p class="au-role" data-rv><a class="lnk" href="https://martin.kleppmann.com/" target="_blank" rel="noopener">martin.kleppmann.com ↗</a></p>
                             </div>
                             <div class="au-rows">
-                                <div class="au-row" data-rv><span class="k">Сайт</span><div><p><a class="lnk" href="https://martin.kleppmann.com/" target="_blank" rel="noopener">martin.kleppmann.com ↗</a></p></div></div>
-                                <div class="au-row" data-rv><span class="k">В клубе</span><div><ul class="au-books"><li class="is-now">Высоконагруженные приложения. Программирование, масштабирование, поддержка</li></ul></div></div>
+                                <div class="au-row" data-rv><span class="k">Сейчас</span><div><p>Доцент <a class="lnk" href="https://www.cst.cam.ac.uk/" target="_blank" rel="noopener">Кембриджского университета ↗</a>: <b>local-first</b> и безопасность распределённых систем</p></div></div>
+                                <div class="au-row" data-rv><span class="k">Код</span><div><p>Один из тех, кто стоит за <a class="lnk" href="https://github.com/automerge/automerge" target="_blank" rel="noopener">Automerge ↗</a>. Соавтор статей <a class="lnk" href="https://martin.kleppmann.com/2019/10/23/local-first-at-onward.html" target="_blank" rel="noopener">Local-first software ↗</a> и <a class="lnk" href="https://martin.kleppmann.com/2024/12/09/bluesky-at-protocol.html" target="_blank" rel="noopener">Bluesky и AT Protocol ↗</a></p></div></div>
+                                <div class="au-row" data-rv><span class="k">Раньше</span><div><p>Инженер и основатель стартапов: <b>Rapportive</b> (купил LinkedIn, 2012) и <b>Go Test It</b> (купил Red Gate, 2009)</p></div></div>
+                                <div class="au-row" data-rv><span class="k">Книги</span><div><p><b>Высоконагруженные приложения</b> · эта книга, 2017; 2-е издание с Крисом Риккомини — 2026. И <a class="lnk" href="https://martin.kleppmann.com/2022/04/07/secret-colors.html" target="_blank" rel="noopener">Secret Colors ↗</a> о криптографии</p></div></div>
+                                <div class="au-row" data-rv><span class="k">А ещё</span><div><p>Сочинил мюзикл <a class="lnk" href="https://martin.kleppmann.com/die-tuerme-des-februar/" target="_blank" rel="noopener">Die Türme des Februar ↗</a>: премьера в 2007-м, 150 человек в составе</p></div></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <aside class="notes">
-                    <p><em>Текст</em> Слайд собран генератором из book-club-data. Допишите два-три факта об авторе: чем он известен и почему ему стоит доверять.</p>
+                    <p><em>Текст</em> Книгу написал Мартин Клеппман. Сейчас он доцент Кембриджского университета, занимается local-first софтом и безопасностью распределённых систем, преподаёт распределённые системы и криптографию. Он один из тех, кто стоит за открытым проектом Automerge и соавтор статьи Local-first software, а ещё статьи про Bluesky и AT Protocol.</p>
+                    <p>Важно, что он не только учёный. До науки он был инженером и основателем стартапов: Rapportive купил LinkedIn в 2012 году, а Go Test It купила Red Gate в 2009-м. То есть о системах, про которые пишет, он знает и с практической стороны.</p>
+                    <p>Книга вышла в 2017-м и стала бестселлером об архитектуре баз данных и распределённой обработке. Мы читаем русский перевод первого издания, а в 2026-м вышло второе, в соавторстве с Крисом Риккомини. И неожиданный факт: он сочинил мюзикл по книге Тонке Драгт, его премьера прошла в 2007 году, в постановке участвовало 150 человек.</p>
+                    <p><em>Источники</em> <a href="https://martin.kleppmann.com/" target="_blank" rel="noopener">martin.kleppmann.com</a>.</p>
                 </aside>
             </section>
             <section class="slide fx" id="slide-book" data-slide="3" data-chrome="book" data-toc="Что это за книга">
@@ -85,10 +92,10 @@
                     <div class="fx-kicker" data-rv="fade">Что это за книга</div>
                     <div class="fx-body">
                         <div class="bk2">
-                            <div class="bk2-cover" data-rv="left"><a href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener"><img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="Обложка книги Высоконагруженные приложения. Программирование, масштабирование, поддержка"></a></div>
+                            <div class="bk2-cover" data-rv="left"><a href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener"><img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="Обложка книги Высоконагруженные приложения"></a></div>
                             <div>
                                 <div data-rv>
-                                    <div class="bk2-title">Высоконагруженные приложения. Программирование, масштабирование, поддержка</div>
+                                    <div class="bk2-title">Высоконагруженные приложения</div>
                                     <p class="bk2-meta">Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems</p>
                                     <p class="bk2-desc">Главная книга для тех, кто хочет научиться создавать крупные, быстрые и надежные ИТ-системы вроде Telegram, Netflix или крупных интернет-магазинов.</p>
                                 </div>
@@ -167,7 +174,7 @@
                             <span><em>Доклад читает</em><b>Антон Помазков</b><i>@kunjutone</i></span>
                         </a>
                         <a class="title-book" data-rv="right" href="https://www.piter.com/collection/best/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2" target="_blank" rel="noopener">
-                            <span><em>Книга</em><b>Высоконагруженные приложения. Программирование, масштабирование, поддержка</b><span>Мартин Клеппман</span></span>
+                            <span><em>Книга</em><b>Высоконагруженные приложения</b><span>Мартин Клеппман</span></span>
                             <img src="assets/cover/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems.webp" alt="">
                         </a>
                     </div>

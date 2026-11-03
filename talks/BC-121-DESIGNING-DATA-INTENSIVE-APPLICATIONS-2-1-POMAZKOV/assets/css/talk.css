@@ -76,13 +76,6 @@
 .so b { color: var(--text-main); font-weight: 600; }
 
 /* ---------- Слои ---------- */
-.lays { display: flex; flex-direction: column; gap: 12px; }
-.lay { display: grid; grid-template-columns: 70px 440px 1fr; align-items: center; gap: 24px; padding: 18px 28px; border: 1px solid var(--border); border-radius: 14px; }
-.lay .n { font-family: var(--font-mono); font-size: 18px; color: var(--text-dim); }
-.lay b { font-size: 29px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-main); }
-.lay > span:last-child { font-size: 24px; color: var(--text-muted); }
-.lay.is-hi { border-color: rgba(var(--fx-rgb), 0.6); background: rgba(var(--fx-rgb), 0.06); }
-.lay.is-hi .n, .lay.is-hi b { color: var(--fx); }
 
 /* ---------- Цитата-эпиграф ---------- */
 .epi { margin-top: 44px; padding-left: 28px; border-left: 2px solid var(--fx); font-size: 30px; line-height: 1.4; color: var(--text-soft); }

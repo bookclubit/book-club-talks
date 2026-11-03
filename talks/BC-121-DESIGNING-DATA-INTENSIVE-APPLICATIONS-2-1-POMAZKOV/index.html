@@ -191,32 +191,14 @@
 <aside class="notes">
 <p><em>Текст</em> Вторая глава открывается цитатой Витгенштейна, и это не украшение. Клеппман начинает с сильного утверждения: модели данных — вероятно, важнейшая часть разработки, потому что они влияют не только на то, как написан код, но и на то, как мы вообще думаем о задаче.</p>
 <p><em>Текст</em> Каждая модель воплощает допущения о том, как ею будут пользоваться: одни операции быстрые, другие медленные, одни преобразования естественны, другие выглядят почти невозможными. Выбрать модель — значит заранее решить, что будет просто, а что мучительно. Весь доклад об этом.</p>
-<p><em>Переход</em> Сначала разберёмся, о каком именно уровне идёт речь.</p>
+<p><em>Переход</em> Самая известная модель данных — реляционная.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-layers" data-slide="7">
-<div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">02</span>Слои моделей</div>
-<h2 class="fx-h" data-rv>Каждый слой <mark>прячет сложность</mark> нижнего</h2><div class="fx-body "><div class="lays">
-      <div class="lay" data-rv data-tip="Люди, компании, товары, платежи, датчики — всё это мы описываем объектами и API."><span class="n">1</span><b>Приложение</b><span>объекты, структуры данных, API</span></div>
-      <div class="lay is-hi" data-rv data-tip="Об этом слое вся глава: как сохранить объекты в универсальном виде."><span class="n">2</span><b>Универсальная модель</b><span>JSON, XML, таблицы, граф · об этом глава</span></div>
-      <div class="lay" data-rv data-tip="Как JSON или таблица превращаются в байты — это подсистемы хранения, глава 3."><span class="n">3</span><b>СУБД</b><span>байты в памяти, на диске, в сети</span></div>
-      <div class="lay" data-rv data-tip="Самый низ: байты как физические сигналы."><span class="n">4</span><b>Железо</b><span>ток, световые импульсы, магнитные поля</span></div>
-    </div>
-    <div class="so" data-rv><span>Зачем</span><div>Абстракции позволяют разным людям работать вместе: <b>разработчику СУБД</b> и <b>разработчику приложения</b> незачем знать работу друг друга</div></div></div>
-</div>
-<aside class="notes">
-<p><em>Текст</em> Большинство приложений — это одна модель данных поверх другой. Разработчик смотрит на мир и описывает его объектами. Чтобы их сохранить, выражает их в универсальной модели: JSON, таблицы, граф. Разработчики СУБД решают, как представить это байтами. А инженеры железа — как представить байты током и светом.</p>
-<p><em>Текст</em> На каждом слое один вопрос: как выразить себя на языке слоя ниже? И каждый слой прячет сложность нижнего. Благодаря этому люди из разных компаний могут эффективно работать вместе. Сегодня нас интересует второй слой, третий — это глава 3.</p>
-<p><em>Как показывать</em> На слоях есть подсказки при наведении.</p>
-<p><em>Переход</em> Самая известная модель этого слоя — реляционная.</p>
-</aside>
-</section>
 
-<section class="slide fx" id="slide-codd" data-slide="8">
+<section class="slide fx" id="slide-codd" data-slide="7">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">03</span>Реляционная модель</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">02</span>Реляционная модель</div>
 <h2 class="fx-h" data-rv>Эдгар Кодд, 1970: данные — это <mark>отношения</mark></h2><div class="fx-body "><div class="cols" style="align-items:center">
       <div data-rv="left"><table class="rel-t"><tr><th>user_id</th><th>first_name</th><th>last_name</th></tr><tr class="is-hi"><td>251</td><td>Bill</td><td>Gates</td></tr><tr><td>467</td><td>Lucy</td><td>Smith</td></tr></table></div>
       <div class="terms" data-rv="right">
@@ -235,9 +217,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-history" data-slide="9">
+<section class="slide fx" id="slide-history" data-slide="8">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">04</span>История</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">03</span>История</div>
 <h2 class="fx-h" data-rv>Соперники приходили и уходили, <mark>SQL оставался</mark></h2><div class="fx-body "><div class="tl" style="--n:7"><div class="tl-line"></div>
       <div class="tl-i" data-rv data-tip="IBM выпускает IMS, созданную для учёта запасов программы «Аполлон». Подробнее — через несколько слайдов."><div class="tl-y">1968</div><div class="tl-d"></div><div class="tl-t">IMS</div><div class="tl-s">иерархическая</div></div>
       <div class="tl-i is-hi" data-rv data-tip="Статья Кодда с реляционной моделью."><div class="tl-y">1970</div><div class="tl-d"></div><div class="tl-t">Кодд</div><div class="tl-s">реляционная</div></div>
@@ -257,9 +239,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-nosql" data-slide="10">
+<section class="slide fx" id="slide-nosql" data-slide="9">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">05</span>Рождение NoSQL</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">04</span>Рождение NoSQL</div>
 <h2 class="fx-h" data-rv>Название появилось из <mark>хештега</mark>, а причины настоящие</h2><div class="fx-body "><div class="grid4">
       <div class="tile" data-rv><svg class="ico-ln" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg><div class="tile-k">Масштаб</div><p class="tile-p">Большие наборы данных и высокая пропускная способность по записи</p></div>
       <div class="tile" data-rv><svg class="ico-ln" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg><div class="tile-k">Свобода</div><p class="tile-p">Свободное ПО вместо коммерческих продуктов</p></div>
@@ -277,9 +259,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-mismatch" data-slide="11">
+<section class="slide fx" id="slide-mismatch" data-slide="10">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">06</span>Рассогласование</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">05</span>Рассогласование</div>
 <h2 class="fx-h" data-rv>Код думает <mark>объектами</mark>, база — <mark>строками</mark></h2><p class="fx-lead" data-rv>Impedance mismatch — термин из электроники: при несовпадении импедансов сигнал отражается</p><div class="fx-body "><div class="mis">
       <div class="mis-c" data-rv="left"><span class="k">В коде</span><pre class="cd "><span class="l">user = {</span><span class="l">  name: <span class="s">"Bill"</span>,</span><span class="l">  positions: [ … ],</span><span class="l">  education: [ … ],</span><span class="l">}</span></pre></div>
       <div class="mis-mid" data-rv="pop"><span class="mis-a">⇄</span><div class="mis-bar" data-tip="ORM сокращает шаблонный код слоя трансляции, но не может полностью скрыть различия моделей.">ORM<small>неуклюжий слой</small></div></div>
@@ -294,9 +276,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-fig21" data-slide="12" data-toc="Резюме в реляционной схеме">
+<section class="slide fx" id="slide-fig21" data-slide="11" data-toc="Резюме в реляционной схеме">
 <div class="fx-wrap">
-<div class="sf" style="--l:440px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">07</span>Рис. 2.1</div>
+<div class="sf" style="--l:440px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">06</span>Рис. 2.1</div>
     <h2 class="fx-h" data-rv>Одно резюме — <mark>шесть таблиц</mark></h2>
     <p class="fx-lead" data-rv>Поля «по одному» — столбцы. Всё, чего много, — отдельная таблица со ссылкой на <code>user_id</code></p>
     <div class="so" data-rv style="display:block"><b>Другие варианты</b><br>структурные типы и JSON прямо в столбце · текст с JSON, но запросов к нему нет</div>
@@ -361,9 +343,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-json" data-slide="13">
+<section class="slide fx" id="slide-json" data-slide="12">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">08</span>Документная модель</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">07</span>Документная модель</div>
 <h2 class="fx-h" data-rv>Тот же профиль — <mark>один документ</mark></h2><div class="fx-body "><div class="cols" style="grid-template-columns:1.25fr 1fr; align-items:center">
       <div data-rv="left"><pre class="cd sm" data-seq style="--st:45ms"><span class="l">{</span><span class="l">  <span class="k">"user_id"</span>:    251,</span><span class="l">  <span class="k">"first_name"</span>: <span class="s">"Bill"</span>,</span><span class="l">  <span class="k">"last_name"</span>:  <span class="s">"Gates"</span>,</span><span class="l">  <span class="k">"region_id"</span>:  <span class="s">"us:91"</span>,</span><span class="l">  <span class="m"><span class="k">"positions"</span>: [</span><span class="l">    {<span class="k">"job_title"</span>: <span class="s">"Co-chair"</span>,</span><span class="l">     <span class="k">"organization"</span>: <span class="s">"Bill &amp; Melinda Gates Foundation"</span>},</span><span class="l">    {<span class="k">"job_title"</span>: <span class="s">"Co-founder, Chairman"</span>,</span><span class="l">     <span class="k">"organization"</span>: <span class="s">"Microsoft"</span>}</span><span class="l">  ],</span></span><span class="l">  <span class="m"><span class="k">"education"</span>: [ … ],</span></span><span class="l">  <span class="m"><span class="k">"contact_info"</span>: { … }</span></span><span class="l">}</span></pre></div>
       <div data-rv="right">
@@ -380,9 +362,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-fig22" data-slide="14" data-toc="Связи «один-ко-многим» — дерево">
+<section class="slide fx" id="slide-fig22" data-slide="13" data-toc="Связи «один-ко-многим» — дерево">
 <div class="fx-wrap">
-<div class="sf" style="--l:520px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">09</span>Рис. 2.2</div>
+<div class="sf" style="--l:520px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">08</span>Рис. 2.2</div>
     <h2 class="fx-h" data-rv>«Один-ко-многим» — это <mark>дерево</mark></h2>
     <p class="fx-lead" data-rv>JSON делает эту структуру явной: ветка дерева — вложенный список</p>
   </div><div class="sf-f"><svg class="fig" viewBox="165 112 360 275" role="img" aria-label="Рисунок 2.2: связи один-ко-многим образуют дерево">
@@ -407,9 +389,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-ids" data-slide="15">
+<section class="slide fx" id="slide-ids" data-slide="14">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">10</span>Зачем идентификаторы</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">09</span>Зачем идентификаторы</div>
 <h2 class="fx-h" data-rv>ID ничего не значит — поэтому его <mark>не надо менять</mark></h2><div class="fx-body "><div class="cols">
       <div class="tile" data-rv="left"><div class="tile-k">Текст в каждой записи</div>
         <div class="ren"><div class="ren-r"><span>user 251</span><div class="ren-v" style="--i:0"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 467</span><div class="ren-v" style="--i:2"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 512</span><div class="ren-v" style="--i:4"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 804</span><div class="ren-v" style="--i:6"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div></div>
@@ -429,9 +411,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-joins" data-slide="16">
+<section class="slide fx" id="slide-joins" data-slide="15">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">11</span>Многие-к-одному</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">10</span>Многие-к-одному</div>
 <h2 class="fx-h" data-rv>Нормализация требует соединений — <mark class="hot">а их нет</mark></h2><p class="fx-lead" data-rv>Много людей живёт в одной области. Это «многие-к-одному», и оно плохо ложится на дерево</p><div class="fx-body "><div class="cols">
       <div data-rv="left"><div class="cd-k is-hi">Реляционная БД: соединяет база</div><pre class="cd sm" data-seq><span class="l"><span class="k">SELECT</span> u.first_name, r.region_name</span><span class="l"><span class="k">FROM</span> users u</span><span class="l"><span class="k">JOIN</span> regions r <span class="k">ON</span> r.id = u.region_id</span><span class="l"><span class="k">WHERE</span> u.user_id = 251;</span></pre></div>
       <div data-rv="right"><div class="cd-k is-hot">Документная БД: соединяете вы</div><pre class="cd sm" data-seq><span class="l"><span class="c">// соединение эмулируем в коде приложения</span></span><span class="l"><span class="k">const</span> user = <span class="k">await</span> users.findOne({ user_id: 251 });</span><span class="l"><span class="k">const</span> region = <span class="k">await</span> regions.findOne({</span><span class="l">  id: user.region_id,</span><span class="l">});</span></pre></div>
@@ -447,9 +429,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-grow" data-slide="17">
+<section class="slide fx" id="slide-grow" data-slide="16">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">12</span>Связи нарастают</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">11</span>Связи нарастают</div>
 <h2 class="fx-h" data-rv>Новые фичи превращают строки <mark>в сущности</mark></h2><div class="fx-body "><div class="cols" style="grid-template-columns:1.1fr 1fr; align-items:center">
       <div data-rv="left"><img src="assets/img/linkedin-microsoft-entity.webp" alt="Снимок LinkedIn: название компании Microsoft открывает карточку компании" style="display:block; width:100%; max-height:520px; object-fit:contain; border-radius:12px; border:1px solid var(--border)"></div>
       <div>
@@ -466,9 +448,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-fig24" data-slide="18" data-toc="Резюме со связями «многие-ко-многим»">
+<section class="slide fx" id="slide-fig24" data-slide="17" data-toc="Резюме со связями «многие-ко-многим»">
 <div class="fx-wrap">
-<div class="sf" style="--l:400px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">13</span>Рис. 2.4</div>
+<div class="sf" style="--l:400px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">12</span>Рис. 2.4</div>
     <h2 class="fx-h" data-rv>Дерево стало <mark>сетью</mark></h2>
     <p class="fx-lead" data-rv>Внутри пунктира — документы. Снаружи — общие сущности, которые будут соединяться при каждом чтении</p>
   </div><div class="sf-f"><svg class="fig" viewBox="100 118 525 360" role="img" aria-label="Рисунок 2.4: резюме со связями многие-ко-многим">
@@ -528,9 +510,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-ims" data-slide="19">
+<section class="slide fx" id="slide-ims" data-slide="18">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">14</span>История повторяется?</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">13</span>История повторяется?</div>
 <h2 class="fx-h" data-rv>IMS, 1968: <mark>те же деревья</mark>, те же проблемы</h2><div class="fx-body "><div class="grid3">
       <div class="tile" data-rv><div class="tile-k">Откуда</div><div class="tile-t">Запасы «Аполлона»</div><p class="tile-p"><a class="lnk" href="https://en.wikipedia.org/wiki/IBM_Information_Management_System" target="_blank" rel="noopener">Information Management System ↗</a> от IBM — самая популярная СУБД 1970-х. До сих пор поддерживается</p></div>
       <div class="tile" data-rv><div class="tile-k">Модель</div><div class="tile-t">Иерархическая</div><p class="tile-p">Дерево записей, вложенных в другие записи. Очень похоже на JSON с рис. 2.2</p></div>
@@ -546,9 +528,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-codasyl" data-slide="20" data-toc="Сетевая модель">
+<section class="slide fx" id="slide-codasyl" data-slide="19" data-toc="Сетевая модель">
 <div class="fx-wrap">
-<div class="sf" style="--l:600px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">15</span>Сетевая модель · CODASYL</div>
+<div class="sf" style="--l:600px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">14</span>Сетевая модель · CODASYL</div>
     <h2 class="fx-h" data-rv>Программист как <mark>навигатор</mark></h2>
     <p class="fx-lead" data-rv>У записи теперь несколько родителей, а ссылка — это указатель на диске. К записи ведут только пути доступа от корня</p>
     <div class="so" data-rv style="display:block"><b class="hot">Цена</b><br>Поменялся запрос — ручной перебор кода под новые пути. Не знаете пути — вы в тупике</div>
@@ -582,9 +564,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-optimizer" data-slide="21">
+<section class="slide fx" id="slide-optimizer" data-slide="20">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">16</span>Ответ реляционной модели</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">15</span>Ответ реляционной модели</div>
 <h2 class="fx-h" data-rv>Путь доступа выбирает <mark>оптимизатор</mark>, а не вы</h2><div class="fx-body "><div class="cols" style="grid-template-columns:1fr 1fr; align-items:center">
       <div data-rv="left"><pre class="cd " data-seq style="--st:180ms"><span class="l"><span class="k">SELECT</span> * <span class="k">FROM</span> users</span><span class="l"><span class="k">WHERE</span> region_id = <span class="s">'us:91'</span>;</span><span class="l"> </span><span class="l"><span class="c">-- нужно быстрее? Запрос не трогаем:</span></span><span class="l"><span class="h">CREATE INDEX</span> users_region</span><span class="l">  <span class="k">ON</span> users (region_id);</span></pre></div>
       <div>
@@ -604,9 +586,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-compare" data-slide="22">
+<section class="slide fx" id="slide-compare" data-slide="21">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">17</span>Документы против CODASYL</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">16</span>Документы против CODASYL</div>
 <h2 class="fx-h" data-rv>Документные БД вернулись к дереву, но <mark>не к указателям</mark></h2><div class="fx-body "><table class="tbl3"><tr data-rv="fade"><th>Связь</th><th>Иерархическая · IMS</th><th>Реляционная</th><th>Документная</th></tr>
       <tr data-rv><td>Один-ко-многим</td><td>вложены в родителя</td><td>отдельная таблица</td><td class="hi">вложены в родителя</td></tr>
       <tr data-rv><td>Многие-к-одному, многие-ко-многим</td><td class="bad">дублировать или разрешать вручную</td><td>внешний ключ</td><td class="hi">ссылка на документ</td></tr>
@@ -620,9 +602,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-args" data-slide="23">
+<section class="slide fx" id="slide-args" data-slide="22">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">18</span>Сегодня</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">17</span>Сегодня</div>
 <h2 class="fx-h" data-rv>Что на каждой чаше <mark>весов</mark></h2><p class="fx-lead" data-rv>Сравниваем только модели данных: отказоустойчивость и конкурентный доступ — главы 5 и 7</p><div class="fx-body "><div class="grid2">
       <div class="tile" data-rv="left"><div class="tile-k">За документы</div><ul class="ul"><li>Гибкость схемы</li><li>Производительность за счёт локальности</li><li>Близость к структурам данных в коде</li></ul></div>
       <div class="tile is-hi" data-rv="right"><div class="tile-k">За реляционные</div><ul class="ul"><li>Соединения</li><li>Связи «многие-к-одному»</li><li>Связи «многие-ко-многим»</li></ul></div>
@@ -634,9 +616,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-simple" data-slide="24">
+<section class="slide fx" id="slide-simple" data-slide="23">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">19</span>Какой код проще</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">18</span>Какой код проще</div>
 <h2 class="fx-h" data-rv>Ответ зависит от <mark>связей</mark> между данными</h2><div class="fx-body "><div class="scale" data-rv="fade"><div class="scale-tr"><i></i><i></i><i></i></div><div class="scale-m"></div></div>
     <div class="scale-g">
       <div class="tile" data-rv><div class="tile-k">Дерево, грузится целиком</div><div class="tile-t">Документы</div><p class="tile-p">Расщеплять такое на таблицы (shredding) — путь к запутанной схеме и лишнему коду</p></div>
@@ -652,9 +634,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-schema" data-slide="25">
+<section class="slide fx" id="slide-schema" data-slide="24">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">20</span>Гибкость схемы</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">19</span>Гибкость схемы</div>
 <h2 class="fx-h" data-rv>«Без схемы» — миф: схема есть, просто <mark>при чтении</mark></h2><div class="fx-body "><div class="grid2">
       <div class="tile" data-rv="left"><div class="tile-k">Schema-on-read</div><div class="tile-t">Как JavaScript</div><p class="tile-p">Структура неявна, её предполагает код при чтении. База ничего не проверяет. Динамическая типизация</p></div>
       <div class="tile is-hi" data-rv="right"><div class="tile-k">Schema-on-write</div><div class="tile-t">Как TypeScript</div><p class="tile-p">Схема явная, база гарантирует, что всё записанное ей соответствует. Статическая проверка</p></div>
@@ -670,9 +652,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-migrate" data-slide="26">
+<section class="slide fx" id="slide-migrate" data-slide="25">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">21</span>Смена формата</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">20</span>Смена формата</div>
 <h2 class="fx-h" data-rv>Делим <code style="font-size:0.85em">name</code> на имя и фамилию: <mark>две стратегии</mark></h2><div class="fx-body "><div class="cols">
       <div data-rv="left"><div class="cd-k">Документы: дописываем код чтения</div><pre class="cd sm" data-seq><span class="l"><span class="k">if</span> (user &amp;&amp; user.name &amp;&amp; !user.first_name) {</span><span class="l">  <span class="c">// В документах до 8 декабря 2013</span></span><span class="l">  <span class="c">// поля first_name нет</span></span><span class="l">  user.first_name = user.name.split(<span class="s">" "</span>)[0];</span><span class="l">}</span></pre></div>
       <div data-rv="right"><div class="cd-k is-hi">Схема: выполняем миграцию</div><pre class="cd sm" data-seq><span class="l"><span class="k">ALTER TABLE</span> users</span><span class="l">  <span class="k">ADD COLUMN</span> first_name text;</span><span class="l"><span class="k">UPDATE</span> users</span><span class="l">  <span class="k">SET</span> first_name =</span><span class="l">    split_part(name, <span class="s">' '</span>, 1);</span></pre></div>
@@ -691,9 +673,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-when" data-slide="27">
+<section class="slide fx" id="slide-when" data-slide="26">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">22</span>Что выбрать</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">21</span>Что выбрать</div>
 <h2 class="fx-h" data-rv>Данные разнородны — схема <mark>при чтении</mark>. Одинаковы — <mark>при записи</mark></h2><div class="fx-body "><div class="grid2">
       <div class="tile" data-rv="left"><div class="tile-k">Схема при чтении</div><ul class="ul"><li>Много разных типов объектов, и по таблице на каждый — бессмысленно</li><li>Структуру задают внешние системы, вы её не контролируете, и она меняется</li></ul></div>
       <div class="tile is-hi" data-rv="right"><div class="tile-k">Схема при записи</div><ul class="ul"><li>Все записи предположительно одной структуры</li><li>Схема — удобный способ документировать эту структуру и следить за её соблюдением</li></ul></div>
@@ -706,9 +688,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-locality" data-slide="28">
+<section class="slide fx" id="slide-locality" data-slide="27">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">23</span>Локальность</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">22</span>Локальность</div>
 <h2 class="fx-h" data-rv>Документ лежит на диске <mark>одним куском</mark></h2><div class="fx-body "><div class="disk-l" data-rv><span>Документ: одна строка JSON или BSON</span><b>1 поиск на диске</b></div>
     <div class="disk" data-rv="fade"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="disk-l" data-rv style="margin-top:44px"><span>Шесть таблиц рис. 2.1</span><b class="h">несколько поисков по индексу</b></div>
@@ -722,9 +704,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-locality-cost" data-slide="29">
+<section class="slide fx" id="slide-locality-cost" data-slide="28">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">24</span>Цена локальности</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">23</span>Цена локальности</div>
 <h2 class="fx-h" data-rv>Читаем и переписываем <mark class="hot">весь документ</mark></h2><div class="fx-body "><div class="disk-l" data-rv><span>Нужно одно поле? База загружает документ целиком</span></div>
     <div class="disk is-part" data-rv="fade"><i></i><i></i><i></i><i></i><i></i><i></i><i class="need"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="disk-l" data-rv style="margin-top:36px"><span>Обновили поле? Обычно перезапись всего документа</span></div>
@@ -740,9 +722,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-converge" data-slide="30">
+<section class="slide fx" id="slide-converge" data-slide="29">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">25</span>Сближение</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">24</span>Сближение</div>
 <h2 class="fx-h" data-rv>Будущее — за <mark>гибридами</mark></h2><div class="fx-body "><div class="conv">
       <div class="tile" data-rv="left"><div class="tile-k">Реляционные берут у документов</div><ul class="ul"><li>XML с середины 2000-х</li><li>JSON: PostgreSQL 9.3, MySQL 5.7, DB2 10.5</li></ul></div>
       <div class="conv-mid" data-rv="fade"><i></i>Гибрид</div>
@@ -759,9 +741,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-takeaways" data-slide="31">
+<section class="slide fx" id="slide-takeaways" data-slide="30">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">26</span>Выводы</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">25</span>Выводы</div>
 <h2 class="fx-h" data-rv>Что <mark>унести</mark> с собой</h2><div class="fx-body "><div class="takeaways">
       <div class="tw" data-rv><span class="n">01</span><p>Модель данных определяет, <b>что будет просто</b>, а что мучительно</p></div>
       <div class="tw" data-rv><span class="n">02</span><p>«Один-ко-многим» — дерево, для него хороши <b>документы</b></p></div>
@@ -778,7 +760,7 @@
 </aside>
 </section>
 
-            <section class="slide fx" data-slide="32" data-chrome="whatnext">
+            <section class="slide fx" data-slide="31" data-chrome="whatnext">
                 <div class="timeline-next-container">
                     <div class="fx-kicker" data-rv="fade">Дальше</div>
                     <h2 class="fx-h" data-rv>Что далее</h2>

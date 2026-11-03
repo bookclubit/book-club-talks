@@ -38,3 +38,106 @@
   });
   document.addEventListener('keydown', hide);
 })();
+
+// Шаги, подсветка по наведению и карточки по клику.
+// data-step="1" — блок спрятан, пока слайд не дошёл до шага: клик по слайду
+// или «вперёд» (→, пробел, PageDown) сначала открывают шаги, потом листают.
+// data-hl="ключ" — при наведении слайд получает data-hl, CSS подсвечивает
+// своё; с data-hl-keep подсветка остаётся до наведения на соседа.
+// data-modal="id" — открывает карточку .mdl-c внутри слайда; закрывают
+// Esc, стрелки, клик мимо карточки и крестик. Вход на слайд всё сбрасывает.
+(function () {
+  const slides = [...document.querySelectorAll('.slide')];
+  const forward = ['ArrowRight', ' ', 'PageDown'];
+
+  const total = (s) => Math.max(0, ...[...s.querySelectorAll('[data-step]')].map((el) => +el.dataset.step || 1));
+  const setAt = (s, n) => {
+    s.dataset.at = n;
+    s.querySelectorAll('[data-step]').forEach((el) => el.classList.toggle('is-shown', (+el.dataset.step || 1) <= n));
+  };
+  const advance = (s) => {
+    const at = +s.dataset.at || 0;
+    if (at >= total(s)) return false;
+    setAt(s, at + 1);
+    return true;
+  };
+
+  // Внутри шага блоки появляются заново, когда шаг открыт, — задержки
+  // считаем от начала шага, а не слайда.
+  document.querySelectorAll('[data-step]').forEach((box) => {
+    box.querySelectorAll('[data-rv]').forEach((el, i) => el.style.setProperty('--d', `${120 + i * 110}ms`));
+  });
+
+  const clearHl = (s) => {
+    delete s.dataset.hl;
+    s.querySelectorAll('[data-hl].is-on').forEach((el) => el.classList.remove('is-on'));
+  };
+  document.querySelectorAll('[data-hl]').forEach((el) => {
+    const s = el.closest('.slide');
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    const on = () => {
+      s.dataset.hl = el.dataset.hl;
+      s.querySelectorAll('[data-hl]').forEach((x) => x.classList.toggle('is-on', x === el));
+    };
+    const off = () => { if (!el.hasAttribute('data-hl-keep')) clearHl(s); };
+    el.addEventListener('mouseenter', on);
+    el.addEventListener('focus', on);
+    el.addEventListener('mouseleave', off);
+    el.addEventListener('blur', off);
+  });
+
+  const closeModals = () => document.querySelectorAll('.mdl.is-on').forEach((m) => m.classList.remove('is-on'));
+  document.querySelectorAll('[data-modal]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.slide').querySelector(`#${btn.dataset.modal}`);
+      if (!card) return;
+      const layer = card.closest('.mdl');
+      layer.querySelectorAll('.mdl-c').forEach((c) => c.classList.toggle('is-on', c === card));
+      layer.classList.add('is-on');
+    });
+  });
+  document.querySelectorAll('.mdl').forEach((layer) => {
+    layer.addEventListener('click', (e) => {
+      if (e.target === layer || e.target.closest('[data-close]')) closeModals();
+    });
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (document.querySelector('.mdl.is-on')) {
+      if (e.key === 'Escape' || e.key.startsWith('Arrow') || forward.includes(e.key) || e.key === 'PageUp') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        closeModals();
+      }
+      return;
+    }
+    if (!forward.includes(e.key)) return;
+    const s = document.querySelector('.slide.active');
+    if (s && advance(s)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }, true);
+
+  slides.forEach((s) => {
+    const stepped = total(s) > 0;
+    if (stepped) {
+      setAt(s, 0);
+      s.addEventListener('click', (e) => {
+        if (!s.classList.contains('active') || e.target.closest('a, .notes')) return;
+        advance(s);
+      });
+    }
+    let was = s.classList.contains('active');
+    new MutationObserver(() => {
+      const now = s.classList.contains('active');
+      if (now && !was) {
+        if (stepped) setAt(s, 0);
+        clearHl(s);
+      }
+      if (!now && was) closeModals();
+      was = now;
+    }).observe(s, { attributes: true, attributeFilter: ['class'] });
+  });
+})();

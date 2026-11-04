@@ -141,3 +141,39 @@
     }).observe(s, { attributes: true, attributeFilter: ['class'] });
   });
 })();
+
+// Вкладки .tbs: клик по номеру показывает свою панель, а слайд получает
+// data-tab — по нему CSS меняет метки на резюме («куда ляжет раздел»).
+// Вход на слайд возвращает первую вкладку.
+(function () {
+  document.querySelectorAll('.tbs').forEach((box) => {
+    const s = box.closest('.slide');
+    const btns = [...box.querySelectorAll('[data-tab]')];
+    const panes = [...box.querySelectorAll('[data-pane]')];
+    const show = (n) => {
+      s.dataset.tab = n;
+      btns.forEach((b) => {
+        const on = b.dataset.tab === n;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-selected', String(on));
+      });
+      panes.forEach((p) => p.classList.toggle('is-on', p.dataset.pane === n));
+      s.querySelectorAll('.cv-to').forEach((el) => {
+        el.classList.remove('is-new');
+        void el.offsetWidth;
+        el.classList.add('is-new');
+      });
+    };
+    btns.forEach((b) => b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      show(b.dataset.tab);
+    }));
+    show('1');
+    let was = s.classList.contains('active');
+    new MutationObserver(() => {
+      const now = s.classList.contains('active');
+      if (now && !was) show('1');
+      was = now;
+    }).observe(s, { attributes: true, attributeFilter: ['class'] });
+  });
+})();

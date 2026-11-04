@@ -133,6 +133,22 @@
 .tl-i.is-hi .tl-d { background: var(--fx); border-color: var(--fx); }
 .tl-i.is-hi .tl-t, .tl-i.is-hi .tl-y { color: var(--fx); }
 .tl-i.is-rival .tl-d { border-color: var(--hot); }
+.tl-rng { position: absolute; top: 117px; height: 4px; left: calc((var(--a) - 0.5) / var(--n) * 100%); width: calc((var(--b) - var(--a)) / var(--n) * 100%); transform-origin: left; }
+.tl-rng.is-theory { background: repeating-linear-gradient(90deg, var(--text-muted) 0 10px, transparent 10px 18px); }
+.tl-rng.is-reign { background: repeating-linear-gradient(90deg, var(--fx) 0 10px, transparent 10px 18px); }
+.slide.active .tl-rng { animation: fxGrowX 1s var(--ease-out) 1.5s backwards; }
+.tl-out { position: absolute; top: 0; bottom: -10px; right: -14px; left: calc((var(--a) - 1) / var(--n) * 100%); border-left: 1px dashed var(--border-strong); border-radius: 0 16px 16px 0; background: rgba(var(--tint-rgb), 0.03); }
+.tl-out span { position: absolute; top: 10px; left: 18px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); }
+.tl-br { position: relative; height: 96px; margin-top: 30px; }
+.tl-bk.is-theory span { left: -150px; }
+.tl-bk { position: absolute; top: 0; height: 14px; left: calc((var(--a) - 0.5) / var(--n) * 100%); width: calc((var(--b) - var(--a)) / var(--n) * 100%); border: 1px dashed var(--text-dim); border-top: 0; border-radius: 0 0 8px 8px; }
+.tl-bk span { position: absolute; top: 24px; left: 4px; right: 4px; text-align: center; font-size: 17px; line-height: 1.35; color: var(--text-dim); }
+.tl-bk.is-reign { border-color: rgba(var(--fx-rgb), 0.5); }
+.tl-bk.is-reign span { color: rgba(var(--fx-rgb), 0.85); }
+.tl-lg { display: flex; gap: 40px; margin-top: 8px; font-size: 18px; color: var(--text-dim); }
+.tl-lg i { display: inline-block; width: 14px; height: 14px; margin-right: 10px; border: 2px solid var(--text-muted); border-radius: 50%; vertical-align: -1px; }
+.tl-lg i.is-hi { background: var(--fx); border-color: var(--fx); }
+.tl-lg i.is-rival { border-color: var(--hot); }
 
 /* ---------- Карточка по клику (talk.js) ---------- */
 .mdl { position: absolute; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; background: rgba(var(--bg-rgb), 0.8); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0.25s; }
@@ -287,24 +303,6 @@
 .codd-lead { font-size: 29px; line-height: 1.5; color: var(--text-soft); }
 .dbq .cd.xs { font-size: 18px; line-height: 1.45; }
 
-/* ---------- Таймлайн: эпохи и полоса SQL под ними ---------- */
-.tl2 { margin-top: 10px; }
-.tl2 .tl { padding-top: 0; }
-.tl2 .tl-line { position: absolute; left: 0; right: 0; top: 74px; height: 2px; background: rgba(var(--tint-rgb), 0.22); transform-origin: left; }
-.slide.active .tl2 .tl-line { animation: fxGrowX 1.4s var(--ease-out) 0.2s backwards; }
-.tl2 .tl-y { font-size: 19px; }
-.tl2 .tl-t { font-size: 31px; }
-.tl2 .tl-s { font-size: 19px; }
-.tl-sql { position: relative; height: 150px; margin-top: 56px; }
-.tl-sql-bar { position: absolute; top: 46px; left: calc(1.25 / var(--n) * 100%); right: 0; height: 10px; border-radius: 5px 0 0 5px; background: var(--fx); transform-origin: left; }
-.tl-sql-bar::after { content: ''; position: absolute; right: -2px; top: -9px; border: 14px solid transparent; border-left: 18px solid var(--fx); border-right: 0; }
-.slide.active .tl-sql-bar { animation: fxGrowX 1.3s var(--ease-out) 1.1s backwards; }
-.tl-sql-m { position: absolute; top: 0; left: calc((var(--a) - 0.5) / var(--n) * 100%); transform: translateX(-50%); display: flex; gap: 8px; align-items: baseline; font-size: 19px; color: var(--text-muted); white-space: nowrap; }
-.tl-sql-m b { font-family: var(--font-mono); font-weight: 600; color: var(--fx); }
-.tl-sql-m::after { content: ''; position: absolute; left: 50%; top: 34px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--bg); border: 3px solid var(--fx); }
-.tl-sql-k { position: absolute; top: 80px; left: calc(1.25 / var(--n) * 100%); font-size: 23px; color: var(--text-muted); }
-.tl-sql-k b { font-weight: 600; color: var(--fx); }
-
 /* ---------- #NoSQL ---------- */
 .ns { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .ns-tag { font-family: var(--font-mono); font-size: 150px; font-weight: 700; line-height: 1; letter-spacing: -0.05em; color: var(--fx); }
@@ -326,24 +324,24 @@
 .srvs.is-one .srv { flex: none; width: 200px; }
 
 /* ---------- Polyglot persistence ---------- */
-.pg { display: grid; grid-template-columns: 560px minmax(0, 1fr); gap: 50px; align-items: center; }
-.pg-t li { margin-top: 28px; font-size: 26px; line-height: 1.45; }
-.pg-t li:first-child { margin-top: 0; }
-.pg-t b { font-weight: 600; color: var(--text-main); }
-.pg-m { position: relative; width: 900px; height: 560px; justify-self: center; }
-.pg-ln { position: absolute; inset: 0; width: 100%; height: 100%; }
-.pg-ln path { fill: none; stroke: rgba(var(--fx-rgb), 0.5); stroke-width: 2; stroke-dasharray: 6 8; }
-.slide.active .pg-ln path { animation: pgFlow 1.4s linear infinite; }
+.pgl { display: grid; grid-template-columns: 560px minmax(0, 1fr); gap: 50px; align-items: center; }
+.pgl-t li { margin-top: 28px; font-size: 26px; line-height: 1.45; }
+.pgl-t li:first-child { margin-top: 0; }
+.pgl-t b { font-weight: 600; color: var(--text-main); }
+.pgl-m { position: relative; width: 900px; height: 560px; justify-self: center; }
+.pgl-ln { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pgl-ln path { fill: none; stroke: rgba(var(--fx-rgb), 0.5); stroke-width: 2; stroke-dasharray: 6 8; }
+.slide.active .pgl-ln path { animation: pgFlow 1.4s linear infinite; }
 @keyframes pgFlow { to { stroke-dashoffset: -28; } }
-.pg-app { position: absolute; left: 305px; top: 232px; width: 290px; padding: 22px 20px; border: 1px solid rgba(var(--fx-rgb), 0.6); border-radius: 20px; background: var(--bg-card); text-align: center; }
-.pg-app b { display: block; font-size: 30px; font-weight: 600; color: var(--text-main); }
-.pg-app span { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
-.pg-n { position: absolute; left: calc(var(--x) - 125px); top: calc(var(--y) - 66px); width: 250px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 14px; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--bg); text-align: center; text-decoration: none; transition: border-color 0.2s; }
-.pg-n .lg-i { width: 38px; height: 38px; fill: var(--text-main); transition: fill 0.2s; }
-.pg-n b { font-size: 23px; font-weight: 600; color: var(--text-main); }
-.pg-n span { font-size: 17px; line-height: 1.3; color: var(--text-muted); }
-.pg-n:hover { border-color: rgba(var(--fx-rgb), 0.7); }
-.pg-n:hover .lg-i { fill: var(--fx); }
+.pgl-app { position: absolute; left: 305px; top: 232px; width: 290px; padding: 22px 20px; border: 1px solid rgba(var(--fx-rgb), 0.6); border-radius: 20px; background: var(--bg-card); text-align: center; }
+.pgl-app b { display: block; font-size: 30px; font-weight: 600; color: var(--text-main); }
+.pgl-app span { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+.pgl-n { position: absolute; left: calc(var(--x) - 125px); top: calc(var(--y) - 66px); width: 250px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 14px; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--bg); text-align: center; text-decoration: none; transition: border-color 0.2s; }
+.pgl-n .lg-i { width: 38px; height: 38px; fill: var(--text-main); transition: fill 0.2s; }
+.pgl-n b { font-size: 23px; font-weight: 600; color: var(--text-main); }
+.pgl-n span { font-size: 17px; line-height: 1.3; color: var(--text-muted); }
+.pgl-n:hover { border-color: rgba(var(--fx-rgb), 0.7); }
+.pgl-n:hover .lg-i { fill: var(--fx); }
 
 /* ---------- Логотипы ---------- */
 .chip.lg { padding: 8px 16px 8px 12px; gap: 9px; font-size: 19px; }
@@ -444,7 +442,7 @@
 .tree svg { display: block; width: 100%; max-height: 250px; }
 
 @media (prefers-reduced-motion: reduce) {
-    .slide.active .pg-ln path, .slide.active .loc-q i, .cv-to.is-new,
+    .slide.active .pgl-ln path, .slide.active .loc-q i, .cv-to.is-new,
     .slide.active .fig .walk .bx, .slide.active .fig .walk .ln, .slide.active .scale-m,
     .slide.active .ren-v .old, .slide.active .ren-v .nw, .slide.active .disk i,
     .slide.active .is-rew i, .slide.active .is-part i,

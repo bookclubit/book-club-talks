@@ -242,88 +242,133 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-history" data-slide="8" data-toc="История моделей данных">
+<section class="slide fx" id="slide-history" data-slide="8">
 <div class="fx-wrap">
 <div class="fx-kicker" data-rv="fade"><span class="n">03</span>История</div>
-<h2 class="fx-h" data-rv>Соперники приходили и уходили, <mark>SQL оставался</mark></h2><div class="fx-body"><div class="tl2" style="--n:5">
-    <div class="tl" style="--n:5">
+<h2 class="fx-h" data-rv>Соперники приходили и уходили, <mark>SQL оставался</mark></h2><div class="fx-body "><div class="tl" style="--n:11">
+      <div class="tl-out" style="--a:8" data-rv="fade"><span>после 2009 — не из главы</span></div>
       <div class="tl-line"></div>
-      <button class="tl-i" type="button" data-rv data-modal="m-batch"><span class="tl-y">1960–1970-е</span><span class="tl-d"></span><span class="tl-t">Большие ЭВМ</span><span class="tl-s">обработка коммерческих данных</span></button>
-      <button class="tl-i is-rival" type="button" data-rv data-modal="m-net"><span class="tl-y">1970-е — нач. 1980-х</span><span class="tl-d"></span><span class="tl-t">Сеть и иерархия</span><span class="tl-s">CODASYL и IMS</span></button>
-      <button class="tl-i is-rival" type="button" data-rv data-modal="m-odb"><span class="tl-y">1980-е — нач. 1990-х</span><span class="tl-d"></span><span class="tl-t">Объектные БД</span><span class="tl-s">вышли из моды</span></button>
-      <button class="tl-i is-rival" type="button" data-rv data-modal="m-xml"><span class="tl-y">нач. 2000-х</span><span class="tl-d"></span><span class="tl-t">XML-базы</span><span class="tl-s">узкое применение</span></button>
-      <button class="tl-i is-rival" type="button" data-rv data-modal="m-nosql"><span class="tl-y">2010-е</span><span class="tl-d"></span><span class="tl-t">NoSQL</span><span class="tl-s">новейшая попытка</span></button>
+      <div class="tl-rng is-theory" style="--a:2; --b:4"></div>
+      <div class="tl-rng is-reign" style="--a:4; --b:7"></div>
+      <button class="tl-i is-rival" type="button" data-rv data-modal="m-ims"><span class="tl-y">1968</span><span class="tl-d"></span><span class="tl-t">IMS</span><span class="tl-s">иерархическая</span></button>
+      <button class="tl-i is-hi" type="button" data-rv data-modal="m-codd"><span class="tl-y">1970</span><span class="tl-d"></span><span class="tl-t">Кодд</span><span class="tl-s">реляционная</span></button>
+      <button class="tl-i is-rival" type="button" data-rv data-modal="m-codasyl"><span class="tl-y">1970-е</span><span class="tl-d"></span><span class="tl-t">CODASYL</span><span class="tl-s">сетевая</span></button>
+      <button class="tl-i is-hi" type="button" data-rv data-modal="m-rdbms"><span class="tl-y">сер. 1980-х</span><span class="tl-d"></span><span class="tl-t">Реляционные СУБД</span><span class="tl-s">RDBMS и SQL — стандарт</span></button>
+      <button class="tl-i is-rival" type="button" data-rv data-modal="m-odb"><span class="tl-y">кон. 1980-х</span><span class="tl-d"></span><span class="tl-t">Объектные БД</span><span class="tl-s">вышли из моды</span></button>
+      <button class="tl-i is-rival" type="button" data-rv data-modal="m-xml"><span class="tl-y">нач. 2000-х</span><span class="tl-d"></span><span class="tl-t">XML-базы</span><span class="tl-s">узкая ниша</span></button>
+      <button class="tl-i is-rival" type="button" data-rv data-modal="m-nosql"><span class="tl-y">2009</span><span class="tl-d"></span><span class="tl-t">NoSQL</span><span class="tl-s">новая попытка</span></button>
+      <button class="tl-i is-hi" type="button" data-rv data-modal="m-newsql"><span class="tl-y">2012</span><span class="tl-d"></span><span class="tl-t">NewSQL</span><span class="tl-s">SQL на кластере</span></button>
+      <button class="tl-i" type="button" data-rv data-modal="m-conv"><span class="tl-y">2012–2018</span><span class="tl-d"></span><span class="tl-t">Сближение</span><span class="tl-s">JSON в SQL, JOIN в Mongo</span></button>
+      <button class="tl-i" type="button" data-rv data-modal="m-vec"><span class="tl-y">2023</span><span class="tl-d"></span><span class="tl-t">Векторы</span><span class="tl-s">поиск по смыслу</span></button>
+      <button class="tl-i is-hi" type="button" data-rv data-modal="m-now"><span class="tl-y">2026</span><span class="tl-d"></span><span class="tl-t">Сегодня</span><span class="tl-s">SQL снова в центре</span></button>
     </div>
-    <div class="tl-sql" data-rv="fade">
-      <div class="tl-sql-bar"></div>
-      <span class="tl-sql-m" style="--a:1.75"><b>1970</b>Кодд</span>
-      <span class="tl-sql-m" style="--a:2.35"><b>1979</b>Oracle</span>
-      <span class="tl-sql-m" style="--a:2.95"><b>1986</b>стандарт SQL</span>
-      <span class="tl-sql-k"><b>SQL и реляционные БД</b> — параллельно со всеми: 25–30 лет господства с середины 1980-х</span>
+    <div class="tl-br" style="--n:11" data-rv="fade">
+      <div class="tl-bk is-theory" style="--a:2; --b:4"><span>теория: многие сомневались, что её можно реализовать, — спор с иерархической и сетевой моделями</span></div>
+      <div class="tl-bk is-reign" style="--a:4; --b:7"><span>господство реляционных БД: 25–30 лет</span></div>
     </div>
-  </div></div>
+    <div class="tl-lg" data-rv="fade"><span><i class="is-hi"></i>реляционный мир</span><span><i class="is-rival"></i>соперники</span><span><i></i>смешение моделей</span></div></div>
 </div>
 
 <div class="mdl" role="dialog" aria-modal="true" aria-label="Подробнее о точке таймлайна">
-<article class="mdl-c" id="m-batch">
+<article class="mdl-c" id="m-ims">
   <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
-  <header class="mdl-h"><span class="mdl-y">1960–1970-е · большие ЭВМ</span><h3>Обработка коммерческих данных</h3></header>
+  <header class="mdl-h"><span class="mdl-y">1968 · иерархическая модель</span><h3>IMS</h3></header>
   <div class="mdl-b"><div class="mdl-t">
-    <p>Отсюда выросли базы данных: <b>business data processing</b> на мейнфреймах вроде IBM System/360.</p>
-    <p>Два вида задач. <b>Транзакции</b> — продажи, банковские операции, бронирование авиабилетов, склад. <b>Пакетная обработка</b> — зарплата, счета, отчёты за ночь.</p>
-    <p>Данные — файлы записей фиксированной длины на ленте и диске. Где какое поле, знает только программа, которая файл читает.</p>
-    <a class="lnk" href="https://en.wikipedia.org/wiki/IBM_System/360" target="_blank" rel="noopener">IBM System/360 ↗</a>
-  </div><div class="mdl-ex"><div class="cd-k">Пример: студенты и их курсы</div><pre class="cd sm"><span class="c">*> формат записи описан в программе</span>
-<span class="k">01</span> STUDENT-REC.
-   <span class="k">05</span> STUDENT-ID  <span class="h">PIC 9(5)</span>.
-   <span class="k">05</span> LAST-NAME   <span class="h">PIC X(12)</span>.
-   <span class="k">05</span> GROUP-CODE  <span class="h">PIC X(6)</span>.
-   <span class="k">05</span> COURSE      <span class="h">PIC X(12) OCCURS 2</span>.
+    <p><b>Information Management System</b> — СУБД IBM, сделанная для учёта запасов в программе «Аполлон». Первый коммерческий выпуск — 1968 год.</p>
+    <p>Данные — <b>дерево записей</b>: у каждой записи ровно один родитель. Связи «один-ко-многим» ложатся идеально, а «многие-ко-многим» — нет: общую запись приходится дублировать.</p>
+    <p>Чтобы найти данные, программа сама спускается по дереву сверху вниз. IMS жива до сих пор — на мейнфреймах IBM.</p>
+    <a class="lnk" href="https://en.wikipedia.org/wiki/IBM_Information_Management_System" target="_blank" rel="noopener">IMS ↗</a>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="k">USER</span>      Bill Gates
+├─ <span class="k">POSITION</span>  Co-chair · Gates Foundation
+└─ <span class="k">POSITION</span>  Co-founder · Microsoft
 
-<span class="c">*> а в файле — просто символы подряд</span>
-<span class="s">00101Петров      ФР-21 БазыДанных  Алгоритмы</span>
-<span class="s">00102Смирнова    ФР-21 БазыДанных</span></pre></div></div>
+<span class="c">-- запрос DL/I: найти Билла, затем</span>
+<span class="c">-- по очереди его места работы</span>
+<span class="h">GU</span>  USER (NAME = <span class="s">'Bill Gates'</span>)
+<span class="h">GNP</span> POSITION
+<span class="h">GNP</span> POSITION</pre></div></div>
 </article>
 
-<article class="mdl-c" id="m-net">
+<article class="mdl-c" id="m-codd">
   <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
-  <header class="mdl-h"><span class="mdl-y">1970-е — начало 1980-х · и параллельно SQL</span><h3>Сетевая и иерархическая модели</h3></header>
+  <header class="mdl-h"><span class="mdl-y">1970 · реляционная модель</span><h3>Статья Кодда</h3></header>
   <div class="mdl-b"><div class="mdl-t">
-    <p><b>Иерархическая</b> — IMS от IBM (1968): данные — дерево, у записи ровно один родитель. <b>Сетевая</b> — стандарт CODASYL: родителей может быть несколько, связи — указатели.</p>
-    <p>В обеих программист сам ходит по указателям, как по связному списку, — по <b>пути доступа</b>.</p>
-    <p>А параллельно росла <b>реляционная модель</b>: статья Кодда (1970), SEQUEL в IBM (1974), Oracle (1979). Многие сомневались, что её можно сделать быстрой, — к середине 1980-х сомнения кончились.</p>
-    <a class="lnk" href="https://en.wikipedia.org/wiki/CODASYL" target="_blank" rel="noopener">CODASYL ↗</a> <a class="lnk" href="https://en.wikipedia.org/wiki/IBM_Information_Management_System" target="_blank" rel="noopener">IMS ↗</a>
-  </div><div class="mdl-ex"><div class="cd-k">Пример: курсы Ивана</div><pre class="cd sm"><span class="c">-- IMS: спускаемся по дереву</span>
-<span class="h">GU</span>  STUDENT (ID = <span class="s">101</span>)
-<span class="h">GNP</span> COURSE          <span class="c">-- Базы данных</span>
-<span class="h">GNP</span> COURSE          <span class="c">-- Алгоритмы</span>
+    <p>«A Relational Model of Data for Large Shared Data Banks»: данные — <b>отношения</b>, то есть таблицы, и никаких путей доступа.</p>
+    <p>Главное отличие от IMS и CODASYL: вы говорите, <b>что</b> нужно, а не <b>как</b> до этого дойти. Путь к данным выбирает сама СУБД — позже эту работу назовут оптимизатором запросов.</p>
+    <p>На бумаге красиво, но в 1970 году это была теория: никто не знал, можно ли сделать такую базу быстрой.</p>
+    <a class="lnk" href="https://dl.acm.org/doi/10.1145/362384.362685" target="_blank" rel="noopener">Статья Кодда, ACM ↗</a>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="c">-- отношение — множество кортежей</span>
+users = {
+  (<span class="s">251</span>, <span class="s">'Bill'</span>, <span class="s">'Gates'</span>)
+}
+positions = {
+  (<span class="s">458</span>, <span class="s">251</span>, <span class="s">'Co-chair'</span>, <span class="s">'Gates Foundation'</span>),
+  (<span class="s">457</span>, <span class="s">251</span>, <span class="s">'Co-founder'</span>, <span class="s">'Microsoft'</span>)
+}
 
-<span class="c">-- CODASYL: идём по указателям</span>
-<span class="h">FIND ANY</span> STUDENT <span class="k">USING</span> ID
-<span class="h">FIND NEXT</span> COURSE <span class="k">WITHIN</span> ENROLLMENT
+<span class="c">-- связь — не указатель, а одинаковое</span>
+<span class="c">-- значение user_id в двух отношениях</span></pre></div></div>
+</article>
 
-<span class="c">-- SQL: просто говорим, что нужно</span>
-<span class="k">SELECT</span> course <span class="k">FROM</span> enrollments
-<span class="k">WHERE</span> student_id = <span class="s">101</span>;</pre></div></div>
+<article class="mdl-c" id="m-codasyl">
+  <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
+  <header class="mdl-h"><span class="mdl-y">1969–1970-е · сетевая модель</span><h3>CODASYL</h3></header>
+  <div class="mdl-b"><div class="mdl-t">
+    <p>Комитет CODASYL — тот, что стандартизировал COBOL, — описал <b>сетевую модель</b> (отчёты DBTG 1969 и 1971 годов). Продукты — IDMS и другие.</p>
+    <p>Обобщение иерархии: у записи может быть <b>несколько родителей</b>, поэтому «многие-ко-многим» возможно. Но связи — это указатели, и программист сам ведёт курсор по <b>пути доступа</b>, как по связному списку.</p>
+    <p>В 1974 году на конференции ACM прошёл «Великий спор»: Кодд против Чарльза Бахмана, автора сетевого подхода. Реляционная модель в итоге победила.</p>
+    <a class="lnk" href="https://en.wikipedia.org/wiki/CODASYL" target="_blank" rel="noopener">CODASYL ↗</a>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="c">-- идём по указателям вручную</span>
+<span class="h">FIND ANY</span> USER <span class="k">USING</span> NAME   <span class="c">-- Bill Gates</span>
+<span class="h">FIND FIRST</span> POSITION
+     <span class="k">WITHIN</span> USER-POSITIONS
+<span class="h">GET</span> POSITION                 <span class="c">-- Co-chair</span>
+<span class="h">FIND NEXT</span> POSITION
+     <span class="k">WITHIN</span> USER-POSITIONS
+<span class="h">GET</span> POSITION                 <span class="c">-- Co-founder</span>
+
+<span class="c">-- у POSITION два родителя:</span>
+<span class="c">-- USER и ORGANIZATION</span></pre></div></div>
+</article>
+
+<article class="mdl-c" id="m-rdbms">
+  <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
+  <header class="mdl-h"><span class="mdl-y">середина 1980-х · стандарт</span><h3>Реляционные СУБД (RDBMS) и SQL</h3></header>
+  <div class="mdl-b"><div class="mdl-t">
+    <p><b>RDBMS</b> — relational database management system, система управления реляционными базами данных: программа, которая хранит таблицы и выполняет запросы на SQL.</p>
+    <p>Путь от статьи до продукта: проект System R в IBM (1974) и язык SEQUEL, позже SQL; <b>Oracle</b> — первая коммерческая SQL-СУБД (1979); <b>IBM DB2</b> (1983); стандарт ANSI SQL (1986).</p>
+    <p>К середине 1980-х реляционные СУБД стали основным инструментом для всех, кому нужно хранить данные и делать к ним запросы.</p>
+    <a class="lnk" href="https://en.wikipedia.org/wiki/IBM_System_R" target="_blank" rel="noopener">System R ↗</a>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="k">SELECT</span> p.job_title, p.organization
+<span class="k">FROM</span> users u
+<span class="k">JOIN</span> positions p
+  <span class="k">ON</span> p.user_id = u.user_id
+<span class="k">WHERE</span> u.first_name = <span class="s">'Bill'</span>
+  <span class="k">AND</span> u.last_name = <span class="s">'Gates'</span>;
+
+<span class="c">-- Co-chair    | Gates Foundation</span>
+<span class="c">-- Co-founder  | Microsoft</span></pre></div></div>
 </article>
 
 <article class="mdl-c" id="m-odb">
   <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
-  <header class="mdl-h"><span class="mdl-y">конец 1980-х — начало 1990-х · объектная модель</span><h3>Объектные базы данных</h3></header>
+  <header class="mdl-h"><span class="mdl-y">конец 1980-х · объектная модель</span><h3>Объектные базы данных</h3></header>
   <div class="mdl-b"><div class="mdl-t">
-    <p>Идея: хранить объекты из кода <b>как есть</b> — без таблиц и промежуточного слоя. Рассогласование кода и базы просто исчезает.</p>
+    <p>Идея: хранить объекты из кода <b>как есть</b> — без таблиц и ORM. Рассогласование кода и базы просто исчезает.</p>
     <p>GemStone, ObjectStore, Versant, O2; в 1993 году появился общий стандарт ODMG.</p>
-    <p>Не взлетели и вышли из моды: каждая база привязана к своему языку, нет общего языка запросов, а реляционные СУБД к тому времени уже стояли везде.</p>
+    <p>Не взлетели: каждая база привязана к своему языку, нет общего языка запросов, а реляционные СУБД к тому времени уже стояли везде.</p>
     <a class="lnk" href="https://en.wikipedia.org/wiki/Object_database" target="_blank" rel="noopener">Object database ↗</a>
-  </div><div class="mdl-ex"><div class="cd-k">Пример: студенты и их курсы</div><pre class="cd sm"><span class="c">// псевдокод в духе объектных баз</span>
-Student ivan = <span class="k">new</span> Student(<span class="s">"Иван"</span>, <span class="s">"Петров"</span>);
-ivan.courses.add(databases);
-ivan.courses.add(algorithms);
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="c">// псевдокод в духе объектных баз</span>
+User bill = <span class="k">new</span> User(<span class="s">"Bill"</span>, <span class="s">"Gates"</span>);
+bill.positions.add(
+  <span class="k">new</span> Position(<span class="s">"Co-founder"</span>, microsoft));
+bill.positions.add(
+  <span class="k">new</span> Position(<span class="s">"Co-chair"</span>, foundation));
 
-db.store(ivan);  <span class="c">// объект целиком, со ссылками</span>
+db.store(bill);   <span class="c">// объект целиком, со ссылками</span>
 
 <span class="c">// читаем — и сразу ходим по ссылкам</span>
-db.load(Student.<span class="k">class</span>, <span class="s">101</span>).courses</pre></div></div>
+db.load(User.<span class="k">class</span>, <span class="s">251</span>).positions</pre></div></div>
 </article>
 
 <article class="mdl-c" id="m-xml">
@@ -331,45 +376,140 @@ db.load(Student.<span class="k">class</span>, <span class="s">101</span>).course
   <header class="mdl-h"><span class="mdl-y">начало 2000-х · XML-модель</span><h3>XML-базы данных</h3></header>
   <div class="mdl-b"><div class="mdl-t">
     <p>Время бума XML: веб-сервисы, конфиги, обмен данными. Появились базы, которые хранят XML-документы и отвечают на запросы XPath и XQuery: Tamino, eXist, MarkLogic.</p>
-    <p>Прижились только в узкой нише — документооборот, издательства.</p>
-    <p>Главное наследие — тип XML внутри Oracle, SQL Server и PostgreSQL: реляционные базы просто впитали идею. Вернёмся к этому на примере с резюме.</p>
+    <p>Прижились в узкой нише — документооборот, издательства.</p>
+    <p>Главное наследие — тип XML в Oracle, SQL Server и PostgreSQL и стандарт SQL/XML: реляционные базы просто впитали идею.</p>
     <a class="lnk" href="https://en.wikipedia.org/wiki/XML_database" target="_blank" rel="noopener">XML database ↗</a>
-  </div><div class="mdl-ex"><div class="cd-k">Пример: студенты и их курсы</div><pre class="cd sm"><span class="k">&lt;student</span> id=<span class="s">"101"</span><span class="k">&gt;</span>
-  <span class="k">&lt;name&gt;</span>Иван Петров<span class="k">&lt;/name&gt;</span>
-  <span class="k">&lt;group&gt;</span>ФР-21<span class="k">&lt;/group&gt;</span>
-  <span class="k">&lt;course&gt;</span>Базы данных<span class="k">&lt;/course&gt;</span>
-  <span class="k">&lt;course&gt;</span>Алгоритмы<span class="k">&lt;/course&gt;</span>
-<span class="k">&lt;/student&gt;</span>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="k">&lt;user</span> id=<span class="s">"251"</span><span class="k">&gt;</span>
+  <span class="k">&lt;name&gt;</span>Bill Gates<span class="k">&lt;/name&gt;</span>
+  <span class="k">&lt;position</span> org=<span class="s">"Gates Foundation"</span><span class="k">&gt;</span>
+    Co-chair
+  <span class="k">&lt;/position&gt;</span>
+  <span class="k">&lt;position</span> org=<span class="s">"Microsoft"</span><span class="k">&gt;</span>
+    Co-founder
+  <span class="k">&lt;/position&gt;</span>
+<span class="k">&lt;/user&gt;</span>
 
-<span class="c">(: XPath: курсы Ивана :)</span>
-<span class="h">//student[@id='101']/course</span></pre></div></div>
+<span class="c">(: XPath: где работал Билл :)</span>
+<span class="h">//user[name='Bill Gates']/position/@org</span></pre></div></div>
 </article>
 
 <article class="mdl-c" id="m-nosql">
   <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
-  <header class="mdl-h"><span class="mdl-y">2010-е · семейство моделей</span><h3>NoSQL</h3></header>
+  <header class="mdl-h"><span class="mdl-y">2009 · семейство моделей</span><h3>NoSQL</h3></header>
   <div class="mdl-b"><div class="mdl-t">
-    <p>Новейшая попытка свергнуть реляционную модель. Это не одна модель, а целое семейство: <b>документные</b> (MongoDB, CouchDB), <b>ключ-значение</b> (Redis, Riak), <b>широкие столбцы</b> (Cassandra, HBase), <b>графовые</b> (Neo4j).</p>
-    <p>Общее у них — масштабирование на много машин и гибкая схема. Откуда взялось название и зачем всё это понадобилось — на следующих слайдах.</p>
+    <p>Не одна модель, а целое семейство: <b>документные</b> (MongoDB, CouchDB), <b>ключ-значение</b> (Redis, Riak, DynamoDB), <b>широкие столбцы</b> (Cassandra, HBase), <b>графовые</b> (Neo4j).</p>
+    <p>Общее — масштабирование на много машин и гибкая схема. Откуда взялось название и зачем всё это понадобилось — на следующем слайде.</p>
     <a class="lnk" href="https://en.wikipedia.org/wiki/NoSQL" target="_blank" rel="noopener">NoSQL ↗</a>
-  </div><div class="mdl-ex"><div class="cd-k">Пример: студенты и их курсы</div><pre class="cd sm"><span class="c">// MongoDB: студент — один документ</span>
-db.students.insertOne({
-  _id: <span class="s">101</span>,
-  name: <span class="s">"Иван Петров"</span>,
-  group: <span class="s">"ФР-21"</span>,
-  courses: [<span class="s">"Базы данных"</span>, <span class="s">"Алгоритмы"</span>]
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="c">// MongoDB: резюме — один документ</span>
+db.users.insertOne({
+  _id: <span class="s">251</span>,
+  first_name: <span class="s">"Bill"</span>, last_name: <span class="s">"Gates"</span>,
+  positions: [
+    { job_title: <span class="s">"Co-chair"</span>,
+      organization: <span class="s">"Gates Foundation"</span> },
+    { job_title: <span class="s">"Co-founder"</span>,
+      organization: <span class="s">"Microsoft"</span> }
+  ]
 })
+db.users.find({ last_name: <span class="s">"Gates"</span> })</pre></div></div>
+</article>
 
-db.students.find({ courses: <span class="s">"Алгоритмы"</span> })</pre></div></div>
+<article class="mdl-c" id="m-newsql">
+  <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
+  <header class="mdl-h"><span class="mdl-y">2012 · не из главы</span><h3>NewSQL</h3></header>
+  <div class="mdl-b"><div class="mdl-t">
+    <p>Ответ реляционного мира на NoSQL: <b>SQL и транзакции</b> остаются, но база работает на кластере из многих машин — как NoSQL.</p>
+    <p><b>Google Spanner</b> (статья 2012 года) — одна база на весь мир, время синхронизируют атомные часы и GPS. Следом — CockroachDB, YugabyteDB, TiDB. Слово NewSQL придумал аналитик Мэттью Аслетт в 2011 году.</p>
+    <p>Spanner умеет хранить дочерние строки рядом с родительской — вернёмся к этому на слайде про локальность.</p>
+    <a class="lnk" href="https://www.usenix.org/conference/osdi12/technical-sessions/presentation/corbett" target="_blank" rel="noopener">Spanner, OSDI 2012 ↗</a>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="k">CREATE TABLE</span> users (
+  user_id    INT64,
+  first_name STRING(64),
+  last_name  STRING(64)
+) <span class="k">PRIMARY KEY</span> (user_id);
+
+<span class="k">CREATE TABLE</span> positions (
+  user_id      INT64,
+  position_id  INT64,
+  job_title    STRING(128),
+  organization STRING(128)
+) <span class="k">PRIMARY KEY</span> (user_id, position_id),
+  <span class="h">INTERLEAVE IN PARENT users</span>;
+<span class="c">-- места работы лежат рядом с Биллом</span></pre></div></div>
+</article>
+
+<article class="mdl-c" id="m-conv">
+  <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
+  <header class="mdl-h"><span class="mdl-y">2012–2018 · не из главы</span><h3>Сближение моделей</h3></header>
+  <div class="mdl-b"><div class="mdl-t">
+    <p>Модели перестали воевать и начали заимствовать друг у друга.</p>
+    <p><b>SQL берёт документы:</b> PostgreSQL получил тип json (9.2, 2012) и jsonb с индексами (9.4, 2014), MySQL — JSON (5.7, 2015), стандарт SQL:2016 — функции для JSON.</p>
+    <p><b>Документы берут SQL:</b> MongoDB научилась соединять коллекции через $lookup (3.2, 2015) и делать транзакции на несколько документов (4.0, 2018).</p>
+    <p>Подробнее о сближении — в конце доклада.</p>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="c">-- PostgreSQL: документ внутри таблицы</span>
+<span class="k">CREATE TABLE</span> users (id <span class="k">int</span>, doc <span class="k">jsonb</span>);
+
+<span class="k">SELECT</span> doc-&gt;<span class="s">'positions'</span>
+<span class="k">FROM</span> users
+<span class="k">WHERE</span> doc-&gt;&gt;<span class="s">'last_name'</span> = <span class="s">'Gates'</span>;
+
+<span class="c">// MongoDB: соединение коллекций</span>
+db.users.aggregate([{ <span class="h">$lookup</span>: {
+  from: <span class="s">"positions"</span>,
+  localField: <span class="s">"_id"</span>,
+  foreignField: <span class="s">"user_id"</span>, as: <span class="s">"jobs"</span> } }])</pre></div></div>
+</article>
+
+<article class="mdl-c" id="m-vec">
+  <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
+  <header class="mdl-h"><span class="mdl-y">2023 · не из главы</span><h3>Векторный поиск</h3></header>
+  <div class="mdl-b"><div class="mdl-t">
+    <p>Бум больших языковых моделей: понадобился поиск <b>по смыслу</b>, а не по точному совпадению. Текст превращают в вектор-эмбеддинг и ищут ближайшие векторы.</p>
+    <p>Сначала — отдельные векторные базы: Pinecone, Milvus, Weaviate. Затем то же самое появилось внутри привычных: расширение <b>pgvector</b> для PostgreSQL, векторный поиск в MongoDB Atlas, Redis, Elasticsearch.</p>
+    <p>История повторилась: новая модель стала ещё одним типом столбца.</p>
+    <a class="lnk" href="https://github.com/pgvector/pgvector" target="_blank" rel="noopener">pgvector ↗</a>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="k">CREATE EXTENSION</span> vector;
+<span class="k">ALTER TABLE</span> positions
+  <span class="k">ADD</span> embedding vector(<span class="s">1536</span>);
+
+<span class="c">-- чьи должности похожи на</span>
+<span class="c">-- «Co-founder, Microsoft»?</span>
+<span class="k">SELECT</span> job_title, organization
+<span class="k">FROM</span> positions
+<span class="k">ORDER BY</span> embedding <span class="h">&lt;-&gt;</span> (
+  <span class="k">SELECT</span> embedding <span class="k">FROM</span> positions
+  <span class="k">WHERE</span> id = <span class="s">457</span>)
+<span class="k">LIMIT</span> <span class="s">5</span>;</pre></div></div>
+</article>
+
+<article class="mdl-c" id="m-now">
+  <button class="mdl-close" type="button" data-close aria-label="Закрыть">×</button>
+  <header class="mdl-h"><span class="mdl-y">2026 · не из главы</span><h3>Сегодня</h3></header>
+  <div class="mdl-b"><div class="mdl-t">
+    <p>SQL снова в центре. <b>PostgreSQL</b> — самая используемая база в опросе разработчиков Stack Overflow с 2023 года.</p>
+    <p>Стандарт <b>SQL:2023</b> добавил запросы к графам (SQL/PGQ), а в 2024-м вышел отдельный ISO-стандарт графового языка GQL. У NoSQL-баз появились SQL-подобные языки: CQL в Cassandra, SQL++ в Couchbase, PartiQL в DynamoDB.</p>
+    <p>Вывод главы подтвердился: не победитель, а соседство моделей.</p>
+    <a class="lnk" href="https://survey.stackoverflow.co/" target="_blank" rel="noopener">Опрос Stack Overflow ↗</a>
+  </div><div class="mdl-ex"><div class="cd-k">Пример: Билл Гейтс и места работы</div><pre class="cd sm"><span class="c">-- SQL:2023, графовый запрос</span>
+<span class="c">-- прямо внутри SQL</span>
+<span class="k">SELECT</span> org
+<span class="k">FROM</span> <span class="h">GRAPH_TABLE</span> (resumes
+  <span class="k">MATCH</span> (u <span class="k">IS</span> users
+           <span class="k">WHERE</span> u.last_name = <span class="s">'Gates'</span>)
+        -[<span class="k">IS</span> worked_at]-&gt;
+        (o <span class="k">IS</span> organizations)
+  <span class="k">COLUMNS</span> (o.name <span class="k">AS</span> org)
+);</pre></div></div>
 </article>
 </div>
 
 <aside class="notes">
-<p><em>Как показывать</em> Каждая точка таймлайна кликабельна: открывается карточка — что это было, чем закончилось и один и тот же пример (студенты и их курсы) в этой модели. Закрыть — Esc, клик мимо карточки или любая стрелка. Нижняя полоса — SQL: он идёт параллельно со всеми соперниками.</p>
-<p><em>Текст</em> Корни реляционных баз — в обработке коммерческих данных на больших ЭВМ в 1960–70-х: транзакции, бронирование билетов, банковские операции, склад, и пакетная обработка — зарплата, счета, отчёты. Звучит рутинно.</p>
-<p><em>Текст</em> В 1970-х и начале 1980-х главными были сетевая и иерархическая модели — CODASYL и IMS. А параллельно Кодд предложил реляционную модель, и в IBM появился SQL. В 1980-х и начале 1990-х пришли объектные базы — и вышли из моды. В начале 2000-х — XML-базы, они нашли только узкое применение. В 2010-х — NoSQL, новейшая попытка свергнуть SQL. Каждый соперник наделал шума, а SQL так и остался: господство реляционной модели длится 25–30 лет, целая вечность для нашей отрасли.</p>
-<p><em>Переход</em> Самый свежий соперник из книги — NoSQL. С него и продолжим.</p>
-<p><em>Источники</em> <a class="lnk" href="https://people.csail.mit.edu/tdanford/6830papers/stonebraker-what-goes-around.pdf" target="_blank" rel="noopener">Stonebraker, Hellerstein — What Goes Around Comes Around</a> · <a class="lnk" href="https://en.wikipedia.org/wiki/IBM_System_R" target="_blank" rel="noopener">System R</a>.</p>
+<p><em>Как показывать</em> Каждая точка таймлайна кликабельна: открывается карточка — что это, чем закончилось и один и тот же пример (Билл Гейтс и его места работы) в этой модели. Закрыть — Esc, клик мимо карточки или любая стрелка. Пунктир на линии: серый — годы, когда реляционная модель была теорией; цветной — 25–30 лет господства. Справа, после 2009 года, — то, чего в главе нет: мы додумали сами.</p>
+<p><em>Текст</em> Реляционные базы выросли из обработки коммерческих данных в 1960–70-х на больших ЭВМ: транзакции, бронирование билетов, счета, отчёты. Звучит рутинно. Но потом случилось интересное.</p>
+<p><em>Текст</em> В 1970-х основными альтернативами были сетевая и иерархическая модели — это IMS и CODASYL на таймлайне. Реляционная тогда была теорией, и многие сомневались, что её можно реализовать эффективно. К середине 1980-х она победила и правила 25–30 лет. В конце 1980-х пришли объектные базы и снова вышли из моды. В начале 2000-х — XML-базы, но нашли только узкое применение. Каждый соперник наделал шума, но ненадолго.</p>
+<p><em>Текст</em> А что после книги? NewSQL вернул SQL на кластер, модели начали заимствовать друг у друга, векторный поиск стал ещё одним типом столбца, и сегодня PostgreSQL — самая популярная база. SQL так и остался в центре.</p>
+<p><em>Переход</em> И вот самый свежий соперник из книги.</p>
+<p><em>Источники</em> <a class="lnk" href="https://people.csail.mit.edu/tdanford/6830papers/stonebraker-what-goes-around.pdf" target="_blank" rel="noopener">Stonebraker, Hellerstein — What Goes Around Comes Around</a> · <a class="lnk" href="https://en.wikipedia.org/wiki/NewSQL" target="_blank" rel="noopener">NewSQL</a> · <a class="lnk" href="https://en.wikipedia.org/wiki/Graph_Query_Language" target="_blank" rel="noopener">ISO GQL</a> · <a class="lnk" href="https://survey.stackoverflow.co/2024/technology#most-popular-technologies-database" target="_blank" rel="noopener">Stack Overflow 2024: базы данных</a>.</p>
 </aside>
 </section>
 
@@ -477,22 +617,22 @@ db.students.find({ courses: <span class="s">"Алгоритмы"</span> })</pre>
 <div class="fx-wrap">
 <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Polyglot persistence</div>
 <h2 class="fx-h" data-rv>NoSQL убил SQL? <mark>Нет</mark> — они работают вместе</h2>
-<div class="fx-body"><div class="pg">
-  <ul class="ul pg-t">
+<div class="fx-body"><div class="pgl">
+  <ul class="ul pgl-t">
     <li data-rv>У каждого приложения свои требования, и лучшая технология <b>зависит от сценария</b></li>
     <li data-rv>Реляционные базы останутся — <b>рядом</b> с множеством нереляционных</li>
     <li data-rv><b>Polyglot persistence</b> — «многоязычное хранение»: одно приложение говорит с несколькими базами, и каждая хранит то, что подходит ей лучше всего</li>
   </ul>
-  <div class="pg-m" data-rv="fade">
-    <svg class="pg-ln" viewBox="0 0 900 560" aria-hidden="true">
+  <div class="pgl-m" data-rv="fade">
+    <svg class="pgl-ln" viewBox="0 0 900 560" aria-hidden="true">
       <path d="M450 280 L150 92"/><path d="M450 280 L750 92"/><path d="M450 280 L110 300"/><path d="M450 280 L790 300"/><path d="M450 280 L450 488"/>
     </svg>
-    <div class="pg-app" data-rv="pop"><b>Онлайн-школа</b><span>одно приложение</span></div>
-    <a class="pg-n" style="--x:150px; --y:92px" data-rv="pop" href="https://www.postgresql.org/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-postgresql"/></svg><b>PostgreSQL</b><span>оценки и оплата — транзакции</span></a>
-    <a class="pg-n" style="--x:750px; --y:92px" data-rv="pop" href="https://www.mongodb.com/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-mongodb"/></svg><b>MongoDB</b><span>профили студентов — документы</span></a>
-    <a class="pg-n" style="--x:110px; --y:300px" data-rv="pop" href="https://redis.io/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-redis"/></svg><b>Redis</b><span>сессии и кэш</span></a>
-    <a class="pg-n" style="--x:790px; --y:300px" data-rv="pop" href="https://www.elastic.co/elasticsearch" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-elasticsearch"/></svg><b>Elasticsearch</b><span>поиск по курсам</span></a>
-    <a class="pg-n" style="--x:450px; --y:488px" data-rv="pop" href="https://neo4j.com/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-neo4j"/></svg><b>Neo4j</b><span>«кто ещё прошёл этот курс»</span></a>
+    <div class="pgl-app" data-rv="pop"><b>Онлайн-школа</b><span>одно приложение</span></div>
+    <a class="pgl-n" style="--x:150px; --y:92px" data-rv="pop" href="https://www.postgresql.org/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-postgresql"/></svg><b>PostgreSQL</b><span>оценки и оплата — транзакции</span></a>
+    <a class="pgl-n" style="--x:750px; --y:92px" data-rv="pop" href="https://www.mongodb.com/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-mongodb"/></svg><b>MongoDB</b><span>профили студентов — документы</span></a>
+    <a class="pgl-n" style="--x:110px; --y:300px" data-rv="pop" href="https://redis.io/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-redis"/></svg><b>Redis</b><span>сессии и кэш</span></a>
+    <a class="pgl-n" style="--x:790px; --y:300px" data-rv="pop" href="https://www.elastic.co/elasticsearch" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-elasticsearch"/></svg><b>Elasticsearch</b><span>поиск по курсам</span></a>
+    <a class="pgl-n" style="--x:450px; --y:488px" data-rv="pop" href="https://neo4j.com/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-neo4j"/></svg><b>Neo4j</b><span>«кто ещё прошёл этот курс»</span></a>
   </div>
 </div></div>
 </div>

@@ -938,10 +938,10 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-<section class="slide fx" id="slide-ids" data-slide="16">
+<section class="slide fx" id="slide-ids" data-slide="16" data-toc="Зачем ID, а не текст">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">11</span>Зачем идентификаторы</div>
-<h2 class="fx-h" data-rv>ID ничего не значит — поэтому его <mark>не надо менять</mark></h2><div class="fx-body "><div class="cols">
+<div class="fx-kicker" data-rv="fade"><span class="n">11</span>Где NoSQL хуже · зачем ID</div>
+<h2 class="fx-h" data-rv>ID ничего не значит — поэтому его <mark>не надо менять</mark></h2><p class="fx-lead" data-rv>Почему в резюме лежат <code>region_id</code> и <code>industry_id</code>, а не просто текст?</p><div class="fx-body "><div class="cols">
       <div class="tile" data-rv="left"><div class="tile-k">Текст в каждой записи</div>
         <div class="ren"><div class="ren-r"><span>user 251</span><div class="ren-v" style="--i:0"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 467</span><div class="ren-v" style="--i:2"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 512</span><div class="ren-v" style="--i:4"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div><div class="ren-r"><span>user 804</span><div class="ren-v" style="--i:6"><span class="old">Ленинград</span><span class="nw">Санкт-Петербург</span></div></div></div>
         <div class="ren-count">Переименовали город — обновляем <b>все копии</b>. Забыли одну — данные разошлись</div></div>
@@ -960,40 +960,79 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-<section class="slide fx" id="slide-joins" data-slide="17">
+<section class="slide fx" id="slide-joins" data-slide="17" data-toc="Многие-к-одному: SQL и NoSQL">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">12</span>Многие-к-одному</div>
-<h2 class="fx-h" data-rv>Нормализация требует соединений — <mark class="hot">а их нет</mark></h2><p class="fx-lead" data-rv>Много людей живёт в одной области. Это «многие-к-одному», и оно плохо ложится на дерево</p><div class="fx-body "><div class="cols">
-      <div data-rv="left"><div class="cd-k is-hi">Реляционная БД: соединяет база</div><pre class="cd sm" data-seq><span class="l"><span class="k">SELECT</span> u.first_name, r.region_name</span><span class="l"><span class="k">FROM</span> users u</span><span class="l"><span class="k">JOIN</span> regions r <span class="k">ON</span> r.id = u.region_id</span><span class="l"><span class="k">WHERE</span> u.user_id = 251;</span></pre></div>
-      <div data-rv="right"><div class="cd-k is-hot">Документная БД: соединяете вы</div><pre class="cd sm" data-seq><span class="l"><span class="c">// соединение эмулируем в коде приложения</span></span><span class="l"><span class="k">const</span> user = <span class="k">await</span> users.findOne({ user_id: 251 });</span><span class="l"><span class="k">const</span> region = <span class="k">await</span> regions.findOne({</span><span class="l">  id: user.region_id,</span><span class="l">});</span></pre></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">12</span>Где NoSQL хуже · многие-к-одному</div>
+<h2 class="fx-h" data-rv>Нормализация требует соединений — <mark class="hot">а их нет</mark></h2>
+<p class="fx-lead" data-rv>С ID появляется связь «многие-к-одному»: много людей ссылаются на одну строку справочника регионов или отраслей</p>
+<div class="fx-body"><div class="vs2">
+  <div class="vs2-c" data-rv="left">
+    <div class="vs2-h is-hi">SQL · соединяет база</div>
+    <div class="vs2-dbs">
+      <div class="dbt sm"><div class="dbt-n">users</div><table><thead><tr><th>user_id</th><th>region_id</th></tr></thead><tbody><tr><td>251</td><td class="fkc">ru:78</td></tr><tr><td>467</td><td class="fkc">ru:78</td></tr></tbody></table></div>
+      <span class="vs2-arr" aria-hidden="true">→</span>
+      <div class="dbt sm"><div class="dbt-n">regions</div><table><thead><tr><th>id</th><th>region_name</th></tr></thead><tbody><tr><td class="fkc">ru:78</td><td>Санкт-Петербург</td></tr></tbody></table></div>
     </div>
-    <div class="so" data-rv><span>Сегодня</span><div>На момент книги MongoDB соединений не поддерживала. С версии 3.2 есть <a class="lnk" href="https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/" target="_blank" rel="noopener"><code>$lookup</code> ↗</a></div></div></div>
+    <pre class="cd xs" data-seq><span class="l"><span class="k">SELECT</span> u.user_id, r.region_name</span><span class="l"><span class="k">FROM</span> users u</span><span class="l"><span class="h">JOIN</span> regions r <span class="k">ON</span> r.id = u.region_id;</span></pre>
+    <p class="vs2-n">Обычное дело: один запрос, склеивает сама база</p>
+  </div>
+  <div class="vs2-c" data-rv="right">
+    <div class="vs2-h is-hot">NoSQL · соединяете вы</div>
+    <div class="vs2-dbs">
+      <pre class="cd xs">{ _id: <span class="s">251</span>,
+  region_id: <span class="s">'ru:78'</span>,
+  positions: [ … ] }</pre>
+      <span class="vs2-arr is-hot" aria-hidden="true">?</span>
+      <pre class="cd xs">{ _id: <span class="s">'ru:78'</span>,
+  name: <span class="s">'Санкт-Петербург'</span> }</pre>
+    </div>
+    <pre class="cd xs" data-seq><span class="l"><span class="k">const</span> user = <span class="k">await</span> users.findOne({ _id: <span class="s">251</span> });</span><span class="l"><span class="k">const</span> region = <span class="k">await</span> regions.findOne({ _id: user.region_id });</span><span class="l"><span class="c">// два запроса и склейка в коде приложения</span></span></pre>
+    <p class="vs2-n">Документы — деревья, соединения не нужны им самим и поддержаны слабо. Маленький справочник можно держать в памяти — терпимо, но неудобно</p>
+  </div>
+</div>
+<div class="so" data-rv><span>Сегодня</span><div>На момент книги MongoDB соединений не умела. С версии 3.2 есть <a class="lnk" href="https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/" target="_blank" rel="noopener"><code>$lookup</code> ↗</a></div></div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> Нормализация требует связей «многие-к-одному»: много людей живёт в одной области или работает в одной отрасли. В дерево такое не вписывается. В реляционных базах ссылаться на строки других таблиц по ID — норма, соединения выполняются легко. В документных для деревьев соединения не нужны, поэтому их поддержка часто слабая.</p>
-<p><em>Текст</em> Если СУБД соединения не умеет, приходится эмулировать их в коде приложения несколькими запросами. Работа, которую делала база, просто переезжает к вам.</p>
-<p><em>Как показывать</em> Код на слайде — моя иллюстрация, в книге этого примера нет. Сноска книги о поддержке соединений устарела: она описывает MongoDB на момент написания, а $lookup появился в версии 3.2 (2015).</p>
-<p><em>Переход</em> И дальше становится хуже: связи имеют свойство нарастать.</p>
+<p><em>Текст</em> Работая с идентификаторами, мы получаем связи «многие-к-одному»: много людей живёт в одной области или работает в одной отрасли, и все они ссылаются по ID на одну строку справочника.</p>
+<p><em>Текст</em> Слева — реляционная база. Для неё такие связи — обычное дело: есть таблица users и таблица regions, и запрос с JOIN легко их соединяет. Справа — документная база вроде MongoDB. Данные хранятся вложенными документами, деревьями, а деревьям соединения не нужны, поэтому их поддержка либо отсутствует, либо слабая. Приходится делать несколько запросов из кода приложения и склеивать данные самим. Для маленьких справочников, которые меняются редко, это терпимо: их можно держать в памяти. Но работа, которую делала база, просто переезжает к вам.</p>
+<p><em>Как показывать</em> Код на слайде — моя иллюстрация, в книге этого примера нет. Сноска книги о соединениях устарела: она описывает MongoDB на момент написания, а $lookup появился в версии 3.2 (2015).</p>
+<p><em>Переход</em> И дальше становится только хуже: связи имеют свойство нарастать.</p>
 <p><em>Источники</em> <a class="lnk" href="https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/" target="_blank" rel="noopener">MongoDB — $lookup</a>.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-grow" data-slide="18">
+<section class="slide fx" id="slide-m2m" data-slide="18" data-toc="Многие-ко-многим: SQL и NoSQL">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">13</span>Связи нарастают</div>
-<h2 class="fx-h" data-rv>Новые фичи превращают строки <mark>в сущности</mark></h2><div class="fx-body "><div class="cols" style="grid-template-columns:1.1fr 1fr; align-items:center">
-      <div data-rv="left"><img src="assets/img/linkedin-microsoft-entity.webp" alt="Снимок LinkedIn: название компании Microsoft открывает карточку компании" style="display:block; width:100%; max-height:520px; object-fit:contain; border-radius:12px; border:1px solid var(--border)"></div>
-      <div>
-        <div class="tile" data-rv="right"><div class="tile-k">Компании и школы</div><p class="tile-p"><code>organization</code> был строкой. Нужны логотип, страница, лента новостей — значит, нужна <b>ссылка на сущность</b></p></div>
-        <div class="tile is-hi" data-rv="right" style="margin-top:22px"><div class="tile-k">Рекомендации</div><p class="tile-p">Автор сменил фото — оно должно обновиться во всех рекомендациях. Значит, рекомендация <b>ссылается на профиль</b></p></div>
-      </div>
-    </div></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">13</span>Где NoSQL хуже · многие-ко-многим</div>
+<h2 class="fx-h" data-rv>Связи усложняются: <mark class="hot">многие-ко-многим</mark></h2>
+<p class="fx-lead" data-rv>Компания и школа были строками, а стали сущностями: своя страница, логотип, лента. Рекомендация ссылается на профиль автора</p>
+<div class="fx-body"><div class="vs2">
+  <div class="vs2-c" data-rv="left">
+    <div class="vs2-h is-hi">SQL · та же JOIN, только через таблицу-связку</div>
+    <div class="vs2-dbs is-3">
+      <div class="dbt sm"><div class="dbt-n">users</div><table><thead><tr><th>user_id</th></tr></thead><tbody><tr><td>251</td></tr><tr><td>467</td></tr></tbody></table></div>
+      <span class="vs2-arr" aria-hidden="true">←</span>
+      <div class="dbt sm"><div class="dbt-n">positions</div><table><thead><tr><th>user_id</th><th>org_id</th></tr></thead><tbody><tr><td>251</td><td class="fkc">lnkd</td></tr><tr><td>467</td><td class="fkc">lnkd</td></tr></tbody></table></div>
+      <span class="vs2-arr" aria-hidden="true">→</span>
+      <div class="dbt sm"><div class="dbt-n">organizations</div><table><thead><tr><th>id</th><th>name</th></tr></thead><tbody><tr><td class="fkc">lnkd</td><td>LinkedIn</td></tr></tbody></table></div>
+    </div>
+    <pre class="cd xs" data-seq><span class="l"><span class="c">-- кто работал в LinkedIn</span></span><span class="l"><span class="k">SELECT</span> u.first_name, o.name, o.logo_url</span><span class="l"><span class="k">FROM</span> users u</span><span class="l"><span class="h">JOIN</span> positions p     <span class="k">ON</span> p.user_id = u.user_id</span><span class="l"><span class="h">JOIN</span> organizations o <span class="k">ON</span> o.id = p.org_id</span><span class="l"><span class="k">WHERE</span> o.name = <span class="s">'LinkedIn'</span>;</span></pre>
+    <p class="vs2-n">Одна выборка, сколько бы ни было связей</p>
+  </div>
+  <div class="vs2-c" data-rv="right">
+    <div class="vs2-h is-hot">NoSQL · ссылки внутри документов</div>
+    <pre class="cd xs">{ _id: <span class="s">251</span>, positions: [{ org_id: <span class="s">'lnkd'</span> }, …] }
+{ _id: <span class="s">467</span>, positions: [{ org_id: <span class="s">'lnkd'</span> }, …] }</pre>
+    <pre class="cd xs" data-seq><span class="l"><span class="k">const</span> people = <span class="k">await</span> users</span><span class="l">  .find({ <span class="s">'positions.org_id'</span>: <span class="s">'lnkd'</span> }).toArray();</span><span class="l"><span class="k">const</span> ids = people.flatMap((u) =&gt; u.positions.map((p) =&gt; p.org_id));</span><span class="l"><span class="k">const</span> orgs = <span class="k">await</span> organizations</span><span class="l">  .find({ _id: { $in: ids } }).toArray();</span><span class="l"><span class="x">// склеиваем people и orgs руками</span></span></pre>
+    <p class="vs2-n">Ссылки требуют соединений при выборке, а соединения в документной модели поддержаны плохо</p>
+  </div>
+</div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> Даже если первая версия приложения идеально подходит под документы без соединений, связи данных имеют обыкновение усиливаться. Два примера из книги.</p>
-<p><em>Текст</em> Первый: компании и школы. Сейчас organization — просто строка. Но захотели страницу компании с логотипом и лентой новостей — и строка становится ссылкой на сущность. На снимке LinkedIn видно: название Microsoft уже открывает карточку компании. Второй: рекомендации. Если автор рекомендации сменил фото, новое фото должно появиться во всех его рекомендациях. Значит, рекомендация должна ссылаться на его профиль.</p>
-<p><em>Как показывать</em> Снимок — рис. 2.3 из книги.</p>
-<p><em>Переход</em> Что с данными в итоге.</p>
+<p><em>Текст</em> Даже если первая версия приложения идеально ложится на документы без соединений, связи имеют свойство усложняться. Пример из книги: в резюме organization и school_name — просто строки. Но захотели, чтобы у компании была своя страница с логотипом и лентой новостей, — и строка превращается в ссылку на сущность. Второй пример — рекомендации: если автор сменил фото, оно должно обновиться во всех его рекомендациях, значит, рекомендация ссылается на профиль.</p>
+<p><em>Текст</em> Это уже связи «многие-ко-многим»: у человека много компаний, у компании много людей. В реляционной базе это та же JOIN, только через таблицу-связку positions. В документной модели такие ссылки требуют соединений при выборке, а соединения там поддержаны плохо: снова несколько запросов и склейка в коде.</p>
+<p><em>Как показывать</em> Код — моя иллюстрация; на следующем слайде — рисунок 2.4 из книги, как это выглядит целиком.</p>
+<p><em>Переход</em> Вот что получается с данными в итоге.</p>
 </aside>
 </section>
 
@@ -1055,93 +1094,392 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 <aside class="notes">
 <p><em>Текст</em> Вот что получилось. Внутри каждого пунктирного прямоугольника данные всё ещё можно сложить в один документ. Но компании, школы и другие пользователи должны быть именно ссылками — и потребуют соединений при запросах. И заметьте: один профиль теперь ссылается на другой через рекомендацию. Дерево превратилось в сеть.</p>
 <p><em>Как показывать</em> Схема как рис. 2.4. При наведении на узлы и зелёные стрелки — подсказки.</p>
+<p><em>Переход</em> Подведём итог этой части.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-sum2" data-slide="20" data-toc="SQL vs NoSQL · раунд 2">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">15</span>SQL vs NoSQL · раунд 2</div>
+<h2 class="fx-h" data-rv>Текст или ID — это <mark>компромисс</mark></h2>
+<p class="fx-lead" data-rv>Между дублированием и сложностью связей</p>
+<div class="fx-body"><div class="bal">
+  <div class="bal-beam" data-rv="fade" aria-hidden="true"><i></i></div>
+  <div class="bal-p" data-rv="left">
+    <div class="tile-k">Текст в каждой записи</div>
+    <ul class="ck"><li class="ok">Читать просто, соединения не нужны</li><li class="no">Дублирование: копии расходятся</li></ul>
+  </div>
+  <div class="bal-p is-hi" data-rv="right">
+    <div class="tile-k">ID + справочник · нормализация</div>
+    <ul class="ck"><li class="ok">Одно место правды, дублей нет</li><li class="no">Нужны соединения при чтении</li></ul>
+  </div>
+</div>
+<div class="bal-who">
+  <div class="tile is-hi" data-rv><div class="tile-k">Реляционные БД</div><p class="tile-p">Соединения — <b>родная операция</b>. Нормализация им ничего не стоит</p></div>
+  <div class="tile is-hot" data-rv><div class="tile-k">Документные БД</div><p class="tile-p">Соединения <b>слабые</b>: нормализуешь — склеиваешь в коде</p></div>
+</div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Подведём итог этой части. Выбор между хранением текста и идентификатора — это компромисс между дублированием и сложностью связей. Нормализация, то есть ID плюс справочники, уменьшает дублирование, но требует поддержки соединений. Реляционные базы это умеют, документные — не очень.</p>
 <p><em>Переход</em> Интересно, что индустрия уже бывала здесь — полвека назад.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-ims" data-slide="20">
+<section class="slide fx" id="slide-ims" data-slide="21" data-toc="IMS">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">15</span>История повторяется?</div>
-<h2 class="fx-h" data-rv>IMS, 1968: <mark>те же деревья</mark>, те же проблемы</h2><div class="fx-body "><div class="grid3">
-      <div class="tile" data-rv><div class="tile-k">Откуда</div><div class="tile-t">Запасы «Аполлона»</div><p class="tile-p"><a class="lnk" href="https://en.wikipedia.org/wiki/IBM_Information_Management_System" target="_blank" rel="noopener">Information Management System ↗</a> от IBM — самая популярная СУБД 1970-х. До сих пор поддерживается</p></div>
-      <div class="tile" data-rv><div class="tile-k">Модель</div><div class="tile-t">Иерархическая</div><p class="tile-p">Дерево записей, вложенных в другие записи. Очень похоже на JSON с рис. 2.2</p></div>
-      <div class="tile is-hot" data-rv><div class="tile-k">Беда</div><div class="tile-t">Те же развилки</div><p class="tile-p">Со связями «многие-ко-многим» плохо, соединений нет. Дублировать данные или вручную разрешать ссылки?</p></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">16</span>Information Management System</div>
+<h2 class="fx-h" data-rv>IMS: база, которая <mark>считала запасы «Аполлона»</mark></h2>
+<div class="fx-body"><div class="ims">
+  <figure class="ph ims-a" data-rv="left"><img src="assets/img/apollo-11-launch.webp" alt="Старт «Аполлона-11», 16 июля 1969 года" width="760" height="950"><figcaption>Старт «Аполлона-11», 1969 · NASA</figcaption></figure>
+  <div class="ims-r">
+    <ul class="ims-f">
+      <li data-rv><span class="n">1970-е</span><p>Самая популярная СУБД для <b>обработки коммерческих данных</b></p></li>
+      <li data-rv><span class="n">1968</span><p>Сделана в <b>IBM</b> для учёта запасов в космической программе «Аполлон», в коммерческий оборот — в 1968 году</p></li>
+      <li data-rv><span class="n">сегодня</span><p><b>Жива до сих пор</b>: работает на мейнфреймах IBM — во времена книги под OS/390, сейчас под z/OS</p></li>
+    </ul>
+    <div class="ims-b">
+      <figure class="ph" data-rv="right"><img src="assets/img/ibm-mainframe-vw-1973.webp" alt="Мейнфрейм IBM в вычислительном центре завода Volkswagen, 1973 год" width="800" height="504"><figcaption>Мейнфрейм IBM на заводе Volkswagen, 1973 · Bundesarchiv</figcaption></figure>
+      <div class="chips tight ims-l" data-rv><a class="chip" href="https://www.ibm.com/products/ims" target="_blank" rel="noopener">IMS на ibm.com ↗</a><a class="chip" href="https://en.wikipedia.org/wiki/IBM_Information_Management_System" target="_blank" rel="noopener">История IMS ↗</a><a class="chip" href="https://en.wikipedia.org/wiki/Apollo_program" target="_blank" rel="noopener">Программа «Аполлон» ↗</a></div>
     </div>
-    <div class="so" data-rv><span>Поэтому</span><div>Спор 1970-х стоит послушать: он о <b>той же проблеме</b>, что и сегодняшний спор о документных базах</div></div></div>
+  </div>
+</div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> В 1970-х самой популярной СУБД для коммерческих данных была IMS от IBM. Её разработали для управления запасами в программе «Аполлон» и выпустили в 1968 году. Она до сих пор поддерживается.</p>
-<p><em>Текст</em> В IMS иерархическая модель, очень похожая на JSON: дерево вложенных записей. И как и документные базы, IMS хорошо работает с «один-ко-многим», но плохо с «многие-ко-многим» и не поддерживает соединения. Разработчикам приходилось решать: дублировать данные или разрешать ссылки вручную. Проблемы 1960-х оказались очень похожи на проблемы сегодняшних разработчиков.</p>
-<p><em>Переход</em> Решений предложили два. Первое — сетевая модель.</p>
-<p><em>Источники</em> <a class="lnk" href="https://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/" target="_blank" rel="noopener">Sarah Mei — Why You Should Never Use MongoDB</a> (статья, на которую ссылается автор).</p>
+<p><em>Текст</em> В 1970-х самой популярной СУБД для обработки коммерческих данных была система управления информацией IBM — Information Management System, IMS. Изначально её разработали для управления запасами в космической программе «Аполлон»: миллионы деталей ракеты Saturn V надо было учитывать. В коммерческий оборот она вышла в 1968 году.</p>
+<p><em>Текст</em> И она до сих пор жива и поддерживается: в книге сказано, что работает на OS/390 на больших ЭВМ IBM, сегодня это z/OS. Банки и страховые компании до сих пор держат на ней огромные объёмы данных.</p>
+<p><em>Как показывать</em> Фото: старт «Аполлона-11» — NASA, общественное достояние; мейнфрейм IBM на заводе Volkswagen, 26 января 1973 — Бундесархив, B 145 Bild-F038812-0014, автор Лотар Шаак, CC BY-SA 3.0 de.</p>
+<p><em>Переход</em> Как она устроена внутри?</p>
+<p><em>Источники</em> <a class="lnk" href="https://www.ibm.com/products/ims" target="_blank" rel="noopener">IBM IMS</a> · <a class="lnk" href="https://en.wikipedia.org/wiki/IBM_Information_Management_System" target="_blank" rel="noopener">Wikipedia — IMS</a> · <a class="lnk" href="https://commons.wikimedia.org/wiki/File:Apollo_11_Launch_-_GPN-2000-000630.jpg" target="_blank" rel="noopener">фото «Аполлона-11»</a> · <a class="lnk" href="https://commons.wikimedia.org/wiki/File:Bundesarchiv_B_145_Bild-F038812-0014,_Wolfsburg,_VW_Autowerk.jpg" target="_blank" rel="noopener">фото мейнфрейма</a>.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-codasyl" data-slide="21" data-toc="Сетевая модель">
+<section class="slide fx" id="slide-ims-arch" data-slide="22" data-toc="Архитектура IMS">
 <div class="fx-wrap">
-<div class="sf" style="--l:600px"><div class="sf-t"><div class="fx-kicker" data-rv="fade"><span class="n">16</span>Сетевая модель · CODASYL</div>
-    <h2 class="fx-h" data-rv>Программист как <mark>навигатор</mark></h2>
-    <p class="fx-lead" data-rv>У записи теперь несколько родителей, а ссылка — это указатель на диске. К записи ведут только пути доступа от корня</p>
-    <div class="so" data-rv style="display:block"><b class="hot">Цена</b><br>Поменялся запрос — ручной перебор кода под новые пути. Не знаете пути — вы в тупике</div>
-  </div><div class="sf-f"><svg class="fig" viewBox="0 0 800 460" role="img" aria-label="Два пути доступа к одной записи">
-  <defs>
-  <marker id="mc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker>
-  <marker id="mcF" class="fk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker>
-</defs>
-  <defs>
-    <path id="pA" d="M90 230 L250 110 L450 110 L640 230"/>
-    <path id="pB" d="M90 230 L250 350 L450 350 L640 230"/>
-  </defs>
-  <g data-rv="fade"><path class="ln" d="M100 222 L240 118" marker-end="url(#mc)"/><path class="ln" d="M100 238 L240 342" marker-end="url(#mc)"/><path class="ln" d="M285 110 L415 110" marker-end="url(#mc)"/><path class="ln" d="M285 350 L415 350" marker-end="url(#mc)"/><path class="ln" d="M485 118 L620 218" marker-end="url(#mc)"/><path class="ln" d="M485 342 L620 242" marker-end="url(#mc)"/></g>
-  <g data-tip="Корень. В CODASYL до записи можно добраться только отсюда — по цепочкам указателей." data-rv="pop"><circle class="nd u" cx="90" cy="230" r="28"/><text x="90" y="285" text-anchor="middle" font-size="22">корень</text></g>
-  <g data-tip="Запись набора регионов." data-rv="pop"><rect class="bx" x="185" y="82" width="130" height="56" rx="6"/><text x="250" y="117" text-anchor="middle" font-size="22">регион</text></g>
-  <g data-tip="Запись набора отраслей — другой путь к тому же человеку." data-rv="pop"><rect class="bx" x="185" y="322" width="130" height="56" rx="6"/><text x="250" y="357" text-anchor="middle" font-size="22">отрасль</text></g>
-  <g data-tip="Просматриваем список записей по одной, как связный список." data-rv="pop"><rect class="bx" x="385" y="82" width="130" height="56" rx="6"/><text x="450" y="117" text-anchor="middle" font-size="22">список</text></g>
-  <g data-tip="Другой список — другой код обхода." data-rv="pop"><rect class="bx" x="385" y="322" width="130" height="56" rx="6"/><text x="450" y="357" text-anchor="middle" font-size="22">список</text></g>
-  <g data-tip="У записи несколько родителей. Код приложения должен помнить все её связи." data-rv="pop"><rect class="bx mk" x="615" y="200" width="160" height="60" rx="6"/><text x="695" y="238" text-anchor="middle" font-size="22" class="hd">Билл Гейтс</text></g>
-  <circle r="11" fill="var(--fx)"><animateMotion dur="3.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.8;1" calcMode="linear"><mpath href="#pA"/></animateMotion></circle>
-  <circle r="11" fill="var(--hot)"><animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.8;1" calcMode="linear"><mpath href="#pB"/></animateMotion></circle>
-</svg></div></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">17</span>Архитектура IMS</div>
+<h2 class="fx-h" data-rv>Иерархическая модель — это <mark>почти JSON</mark></h2>
+<p class="fx-lead" data-rv>Все данные — дерево записей, вложенных в другие записи. Ровно как в документных базах</p>
+<div class="fx-body"><div class="arch">
+  <svg class="fig arch-t" viewBox="0 0 640 340" role="img" aria-label="Дерево сегментов IMS: пользователь, должности и образование">
+    <g data-rv="fade"><path class="ln" d="M320 74 L120 190"/><path class="ln" d="M320 74 L320 190"/><path class="ln" d="M320 74 L520 190"/></g>
+    <g data-hl="u" data-tip="Корневой сегмент: сам пользователь. Всё остальное вложено в него." data-rv="pop"><rect class="bx th" x="220" y="20" width="200" height="56" rx="8"/><text x="320" y="44" text-anchor="middle" font-size="14" class="dim mono">USER</text><text x="320" y="64" text-anchor="middle" font-size="17" class="hd">251 · Kleppmann</text></g>
+    <g data-hl="p1" data-tip="Дочерний сегмент POSITION. У него ровно один родитель — пользователь." data-rv="pop"><rect class="bx" x="30" y="190" width="180" height="56" rx="8"/><text x="120" y="214" text-anchor="middle" font-size="14" class="dim mono">POSITION</text><text x="120" y="234" text-anchor="middle" font-size="16">Cambridge</text></g>
+    <g data-hl="p2" data-tip="Ещё одна должность — ещё один дочерний сегмент того же родителя." data-rv="pop"><rect class="bx" x="230" y="190" width="180" height="56" rx="8"/><text x="320" y="214" text-anchor="middle" font-size="14" class="dim mono">POSITION</text><text x="320" y="234" text-anchor="middle" font-size="16">LinkedIn</text></g>
+    <g data-hl="e" data-tip="Сегмент EDUCATION — тоже ветка дерева." data-rv="pop"><rect class="bx" x="430" y="190" width="180" height="56" rx="8"/><text x="520" y="214" text-anchor="middle" font-size="14" class="dim mono">EDUCATION</text><text x="520" y="234" text-anchor="middle" font-size="16">Cambridge</text></g>
+    <text x="320" y="306" text-anchor="middle" font-size="15" class="dim" data-rv="fade">у каждой записи ровно один родитель</text>
+  </svg>
+  <b class="arch-eq" data-rv="pop">≈</b>
+  <pre class="cd sm arch-j" data-rv="right"><span class="l" data-hlt="u">{ <span class="k">"user_id"</span>: 251, <span class="k">"last_name"</span>: <span class="s">"Kleppmann"</span>,</span><span class="l">  <span class="k">"positions"</span>: [</span><span class="l" data-hlt="p1">    { <span class="k">"organization"</span>: <span class="s">"Cambridge"</span> },</span><span class="l" data-hlt="p2">    { <span class="k">"organization"</span>: <span class="s">"LinkedIn"</span> }</span><span class="l">  ],</span><span class="l" data-hlt="e">  <span class="k">"education"</span>: [{ <span class="k">"school"</span>: <span class="s">"Cambridge"</span> }]</span><span class="l" data-hlt="u">}</span></pre>
+</div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> Сетевую модель стандартизировал комитет CODASYL. Это обобщение иерархической: в дереве у записи ровно один родитель, а здесь может быть несколько. Например, одна запись "Greater Seattle Area" и ссылки на неё от всех, кто там живёт. Так появляются «многие-к-одному» и «многие-ко-многим».</p>
-<p><em>Текст</em> Но ссылки здесь не внешние ключи, а скорее указатели, хранящиеся на диске. Единственный способ получить запись — идти от корня по цепочке ссылок. Такой путь и называется путём доступа. В простом случае это обход связного списка. Но к одной записи может вести несколько путей, и программист должен держать их все в голове. Даже члены комитета сравнивали это с навигацией по n-мерному пространству данных.</p>
-<p><em>Текст</em> В 1970-х, с магнитными лентами и их медленным поиском, ручной выбор путей позволял выжать максимум из железа. Но код получался сложным и негибким: если нужного пути нет — вы в трудном положении, а чтобы его поменять, надо переписывать горы кода запросов вручную.</p>
-<p><em>Как показывать</em> Схема на слайде — моя иллюстрация идеи, а не рисунок книги. Точки показывают два разных пути к одной записи.</p>
+<p><em>Текст</em> Устройство у IMS простое: иерархическая модель, очень похожая на JSON-модель документных баз. Все данные представлены деревом записей, вложенных в другие записи. В терминах IMS это сегменты: корень — пользователь, дочерние — его должности и образование. У каждой записи ровно один родитель.</p>
+<p><em>Как показывать</em> Наведите на сегмент дерева — подсветится та же часть JSON справа. Пример — резюме Клеппмана со слайда с вкладками; сегменты называются по-английски, как в IMS.</p>
+<p><em>Переход</em> И проблемы у неё оказались те же самые.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-ims-prob" data-slide="23" data-toc="Проблема IMS">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">18</span>Проблема IMS</div>
+<h2 class="fx-h" data-rv>«Многие-ко-многим» в дереве: <mark class="hot">копировать</mark> или <mark class="hot">ссылаться руками</mark></h2>
+<p class="fx-lead" data-rv>Один-ко-многим IMS держит отлично. Но Клеппман и Люси оба работали в LinkedIn, а соединений в IMS нет</p>
+<div class="fx-body"><div class="ip">
+  <div class="ip-c" data-rv="left">
+    <div class="vs2-h is-hot">Вариант 1 · денормализовать</div>
+    <svg class="fig" viewBox="0 0 520 250" role="img" aria-label="Два дерева, в каждом своя копия LinkedIn">
+      <path class="ln" d="M130 62 L130 148"/><path class="ln" d="M390 62 L390 148"/>
+      <g data-tip="Резюме Клеппмана — отдельное дерево."><rect class="bx th" x="50" y="14" width="160" height="48" rx="8"/><text x="130" y="44" text-anchor="middle" font-size="17" class="hd">user 251</text></g>
+      <g data-tip="Резюме Люси — ещё одно дерево."><rect class="bx th" x="310" y="14" width="160" height="48" rx="8"/><text x="390" y="44" text-anchor="middle" font-size="17" class="hd">user 467</text></g>
+      <g class="ip-copy" data-tip="Копия данных LinkedIn внутри первого резюме."><rect class="bx" x="50" y="148" width="160" height="56" rx="8"/><text x="130" y="172" text-anchor="middle" font-size="14" class="dim mono">ORG (копия)</text><text x="130" y="192" text-anchor="middle" font-size="16">LinkedIn · лого</text></g>
+      <g class="ip-copy" data-tip="Вторая копия тех же данных внутри второго резюме."><rect class="bx" x="310" y="148" width="160" height="56" rx="8"/><text x="390" y="172" text-anchor="middle" font-size="14" class="dim mono">ORG (копия)</text><text x="390" y="192" text-anchor="middle" font-size="16">LinkedIn · лого</text></g>
+      <text x="260" y="238" text-anchor="middle" font-size="15" class="hott">сменили логотип — обновить все копии</text>
+    </svg>
+  </div>
+  <div class="ip-c" data-rv="right">
+    <div class="vs2-h is-hot">Вариант 2 · разрешать ссылки вручную</div>
+    <svg class="fig" viewBox="0 0 520 250" role="img" aria-label="Два дерева ссылаются на отдельную запись LinkedIn">
+      <defs><marker id="mip" class="fk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker></defs>
+      <path class="ln" d="M90 62 L90 120"/><path class="ln" d="M430 62 L430 120"/>
+      <g><rect class="bx th" x="20" y="14" width="140" height="48" rx="8"/><text x="90" y="44" text-anchor="middle" font-size="17" class="hd">user 251</text></g>
+      <g><rect class="bx th" x="360" y="14" width="140" height="48" rx="8"/><text x="430" y="44" text-anchor="middle" font-size="17" class="hd">user 467</text></g>
+      <g data-tip="Должность хранит только «адрес» компании."><rect class="bx" x="20" y="120" width="140" height="44" rx="8"/><text x="90" y="147" text-anchor="middle" font-size="15">→ org lnkd</text></g>
+      <g data-tip="И здесь — только ссылка."><rect class="bx" x="360" y="120" width="140" height="44" rx="8"/><text x="430" y="147" text-anchor="middle" font-size="15">→ org lnkd</text></g>
+      <g data-tip="Отдельная запись LinkedIn. Связать её с резюме база не умеет — это делает код приложения."><rect class="bx mk" x="190" y="176" width="140" height="48" rx="8"/><text x="260" y="206" text-anchor="middle" font-size="17" class="hd">LinkedIn</text></g>
+      <path class="ln fk ip-ref" d="M160 150 C190 160 200 180 214 186" marker-end="url(#mip)"/><path class="ln fk ip-ref" d="M360 150 C330 160 320 180 306 186" marker-end="url(#mip)"/>
+      <text x="260" y="246" text-anchor="middle" font-size="15" class="hott">соединения нет — второй запрос из кода</text>
+    </svg>
+  </div>
+</div>
+<div class="so" data-rv><span>Узнаёте?</span><div>Ровно те же развилки сегодня у <b>документных NoSQL-баз</b></div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> IMS хорошо работает со связями «один-ко-многим», но со связями «многие-ко-многим» у неё хуже, и соединений она не поддерживает. Если два человека работали в одной компании, разработчику приходится выбирать.</p>
+<p><em>Текст</em> Вариант первый — дублировать, денормализовать: положить копию данных компании в каждое резюме. Тогда при любом изменении нужно обновить все копии. Вариант второй — хранить ссылку и вручную разрешать её из кода: найти резюме, взять адрес компании, сделать второй запрос. Это ровно те проблемы, с которыми сегодня сталкиваются разработчики документных баз.</p>
+<p><em>Как показывать</em> Схемы — моя иллюстрация, в книге рисунка нет.</p>
+<p><em>Переход</em> В 1970-х для этой проблемы предложили два решения. Первое — сетевая модель.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-codasyl" data-slide="24" data-toc="Сетевая модель CODASYL">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">19</span>Сетевая модель</div>
+<h2 class="fx-h" data-rv>CODASYL: <mark>сетевая модель</mark> данных</h2>
+<div class="fx-body"><div class="cds">
+  <figure class="ph cds-ph" data-rv="left"><img src="assets/img/charles-bachman.webp" alt="Чарльз Бахман" width="520" height="796"><figcaption>Чарльз Бахман, 2012 · фото Dennis Hamilton, CC BY 2.0</figcaption></figure>
+  <div class="cds-r">
+    <ul class="ims-f">
+      <li data-rv><span class="n">комитет</span><p>Стандартизировал <b>CODASYL</b> — Conference on Data Systems Languages, тот же комитет, что создал COBOL. Отчёты DBTG — 1969 и 1971</p></li>
+      <li data-rv><span class="n">продукты</span><p>Реализовали <b>несколько производителей</b>: IDMS у Cullinane, IDS/II у Honeywell, DMS 1100 у UNIVAC. Отсюда второе имя — модель CODASYL</p></li>
+      <li data-rv><span class="n">идея</span><p>Прообраз — <b>Integrated Data Store</b> Чарльза Бахмана (General Electric, 1963). За него Бахман получил премию Тьюринга 1973 года</p></li>
+    </ul>
+    <div class="chips tight" data-rv><a class="chip" href="https://en.wikipedia.org/wiki/CODASYL" target="_blank" rel="noopener">CODASYL ↗</a><a class="chip" href="https://amturing.acm.org/award_winners/bachman_9385610.cfm" target="_blank" rel="noopener">Бахман, премия Тьюринга ↗</a><a class="chip" href="https://dl.acm.org/doi/10.1145/355611.362534" target="_blank" rel="noopener">«The Programmer as Navigator», 1973 ↗</a><a class="chip" href="https://en.wikipedia.org/wiki/IDMS" target="_blank" rel="noopener">IDMS ↗</a></div>
+  </div>
+</div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Первое решение — сетевая модель. Её стандартизировал комитет «Конференция по языкам систем обработки данных», Conference on Data Systems Languages, CODASYL — тот самый, что придумал COBOL. Реализовали её несколько разных производителей, поэтому её часто называют просто моделью CODASYL.</p>
+<p><em>Текст</em> Корни — в системе Integrated Data Store, которую Чарльз Бахман сделал в General Electric в начале 1960-х. В 1973 году он получил премию Тьюринга, а его лекция называлась «Программист как навигатор» — к этому образу мы ещё вернёмся.</p>
+<p><em>Как показывать</em> Фото — Wikimedia Commons, Charles Bachman 2012, автор Dennis Hamilton, CC BY 2.0.</p>
+<p><em>Переход</em> Чем сетевая модель отличается от иерархической?</p>
+<p><em>Источники</em> <a class="lnk" href="https://en.wikipedia.org/wiki/CODASYL" target="_blank" rel="noopener">CODASYL</a> · <a class="lnk" href="https://amturing.acm.org/award_winners/bachman_9385610.cfm" target="_blank" rel="noopener">ACM: Charles W. Bachman</a> · <a class="lnk" href="https://commons.wikimedia.org/wiki/File:Charles_Bachman_2012.jpg" target="_blank" rel="noopener">фото Бахмана</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-codasyl-model" data-slide="25" data-toc="Дерево и сеть">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">20</span>Модель CODASYL</div>
+<h2 class="fx-h" data-rv>Обобщение дерева: у записи <mark>несколько родителей</mark></h2>
+<div class="fx-body"><div class="tn">
+  <div class="tn-c" data-rv="left">
+    <div class="vs2-h">Иерархическая · ровно один родитель</div>
+    <svg class="fig" viewBox="0 0 520 300" role="img" aria-label="Дерево: у каждой записи один родитель">
+      <path class="ln" d="M140 66 L80 168"/><path class="ln" d="M140 66 L200 168"/><path class="ln" d="M380 66 L320 168"/><path class="ln" d="M380 66 L440 168"/>
+      <rect class="bx th" x="80" y="20" width="120" height="46" rx="8"/><text x="140" y="49" text-anchor="middle" font-size="16" class="hd">user 251</text>
+      <rect class="bx th" x="320" y="20" width="120" height="46" rx="8"/><text x="380" y="49" text-anchor="middle" font-size="16" class="hd">user 467</text>
+      <rect class="bx" x="25" y="168" width="110" height="44" rx="8"/><text x="80" y="195" text-anchor="middle" font-size="15">Cambridge</text>
+      <rect class="bx tn-dup" x="145" y="168" width="110" height="44" rx="8"/><text x="200" y="195" text-anchor="middle" font-size="15">LinkedIn</text>
+      <rect class="bx tn-dup" x="265" y="168" width="110" height="44" rx="8"/><text x="320" y="195" text-anchor="middle" font-size="15">LinkedIn</text>
+      <rect class="bx" x="385" y="168" width="110" height="44" rx="8"/><text x="440" y="195" text-anchor="middle" font-size="15">Google</text>
+      <text x="260" y="270" text-anchor="middle" font-size="15" class="hott">LinkedIn приходится повторять</text>
+    </svg>
+  </div>
+  <div class="tn-c" data-rv="right">
+    <div class="vs2-h is-hi">Сетевая · родителей может быть несколько</div>
+    <svg class="fig" viewBox="0 0 520 300" role="img" aria-label="Сеть: LinkedIn и регион — общие записи с несколькими родителями">
+      <path class="ln" d="M140 66 L80 168"/><path class="ln fk tn-mm" d="M140 66 L260 168"/><path class="ln fk tn-mm" d="M380 66 L260 168"/><path class="ln" d="M380 66 L440 168"/>
+      <path class="ln dash" d="M140 66 C150 230 230 240 245 246"/><path class="ln dash" d="M380 66 C370 230 290 240 275 246"/>
+      <rect class="bx th" x="80" y="20" width="120" height="46" rx="8"/><text x="140" y="49" text-anchor="middle" font-size="16" class="hd">user 251</text>
+      <rect class="bx th" x="320" y="20" width="120" height="46" rx="8"/><text x="380" y="49" text-anchor="middle" font-size="16" class="hd">user 467</text>
+      <rect class="bx" x="25" y="168" width="110" height="44" rx="8"/><text x="80" y="195" text-anchor="middle" font-size="15">Cambridge</text>
+      <g data-tip="Одна запись LinkedIn и два родителя — связь «многие-ко-многим»."><rect class="bx mk" x="205" y="168" width="110" height="44" rx="8"/><text x="260" y="195" text-anchor="middle" font-size="15" class="hd">LinkedIn</text></g>
+      <rect class="bx" x="385" y="168" width="110" height="44" rx="8"/><text x="440" y="195" text-anchor="middle" font-size="15">Google</text>
+      <g data-tip="Общий регион обоих — связь «многие-к-одному»."><rect class="bx" x="215" y="232" width="90" height="38" rx="8"/><text x="260" y="256" text-anchor="middle" font-size="14">ru:78</text></g>
+      <text x="260" y="294" text-anchor="middle" font-size="15" class="acc">одна запись — несколько ссылок</text>
+    </svg>
+  </div>
+</div>
+<div class="so" data-rv><span>Значит</span><div>В сети можно моделировать и <b>«многие-к-одному»</b>, и <b>«многие-ко-многим»</b> — без копий</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Модель CODASYL — обобщение иерархической. В древовидной структуре у каждой записи ровно один родитель. В сетевой же у записи может быть несколько родителей. Например, одна запись региона, на которую ссылаются все, кто в нём живёт, или одна запись компании, в которой работали оба человека.</p>
+<p><em>Текст</em> Благодаря этому появляется возможность моделировать связи «многие-к-одному» и «многие-ко-многим», не копируя данные.</p>
+<p><em>Как показывать</em> Слева — дерево, LinkedIn повторён дважды. Справа — сеть: одна запись LinkedIn и два родителя, общий регион пунктиром. Схемы — моя иллюстрация.</p>
+<p><em>Переход</em> Но как по такой сети ходить?</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-paths" data-slide="26" data-toc="Пути доступа">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">21</span>Как работала «многие-ко-многим»</div>
+<h2 class="fx-h" data-rv>Ссылка — <mark>указатель</mark>, путь — только от корня</h2>
+<div class="fx-body"><div class="pth">
+  <div class="pth-c" data-rv="left">
+    <div class="vs2-h">Обычно · одна цепочка ссылок</div>
+    <svg class="fig" viewBox="0 0 520 330" role="img" aria-label="Путь доступа по цепочке указателей">
+      <defs><path id="pS" d="M70 165 L200 165 L330 165 L455 165"/>
+      <marker id="mpa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.8 L10 5 L0 9.2 z"/></marker></defs>
+      <path class="ln" d="M100 165 L158 165" marker-end="url(#mpa)"/><path class="ln" d="M242 165 L288 165" marker-end="url(#mpa)"/><path class="ln" d="M372 165 L410 165" marker-end="url(#mpa)"/>
+      <g data-tip="Вход в базу: обход начинается только отсюда."><circle class="nd u" cx="70" cy="165" r="28"/><text x="70" y="226" text-anchor="middle" font-size="16">корень</text></g>
+      <rect class="bx" x="160" y="140" width="80" height="50" rx="8"/><text x="200" y="171" text-anchor="middle" font-size="15">user</text>
+      <rect class="bx" x="290" y="140" width="80" height="50" rx="8"/><text x="330" y="171" text-anchor="middle" font-size="15">position</text>
+      <rect class="bx mk" x="412" y="140" width="96" height="50" rx="8"/><text x="460" y="171" text-anchor="middle" font-size="15" class="hd">LinkedIn</text>
+      <circle r="10" fill="var(--fx)"><animateMotion dur="3s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.75;1" calcMode="linear"><mpath href="#pS"/></animateMotion></circle>
+      <text x="260" y="290" text-anchor="middle" font-size="15" class="dim">путь доступа: идём по указателям, как по связному списку</text>
+    </svg>
+  </div>
+  <div class="pth-c" data-step="1">
+    <div class="vs2-h is-hot">Многие-ко-многим · к записи ведут разные пути</div>
+    <svg class="fig" viewBox="0 0 520 330" role="img" aria-label="Три разных пути доступа к одной записи">
+      <defs>
+        <path id="pM1" d="M60 165 L170 60 L330 60 L440 150"/>
+        <path id="pM2" d="M60 165 L170 165 L330 165 L440 165"/>
+        <path id="pM3" d="M60 165 L170 270 L330 270 L440 180"/>
+      </defs>
+      <path class="ln" d="M84 148 L140 76"/><path class="ln" d="M90 165 L130 165"/><path class="ln" d="M84 182 L140 254"/>
+      <path class="ln" d="M210 60 L290 60"/><path class="ln" d="M210 165 L290 165"/><path class="ln" d="M210 270 L290 270"/>
+      <path class="ln" d="M370 66 L420 146"/><path class="ln" d="M370 165 L410 165"/><path class="ln" d="M370 264 L420 184"/>
+      <circle class="nd u" cx="60" cy="165" r="26"/>
+      <rect class="bx" x="130" y="38" width="80" height="44" rx="8"/><text x="170" y="65" text-anchor="middle" font-size="14">user 251</text>
+      <rect class="bx" x="290" y="38" width="80" height="44" rx="8"/><text x="330" y="65" text-anchor="middle" font-size="14">position</text>
+      <rect class="bx" x="130" y="143" width="80" height="44" rx="8"/><text x="170" y="170" text-anchor="middle" font-size="14">регион</text>
+      <rect class="bx" x="290" y="143" width="80" height="44" rx="8"/><text x="330" y="170" text-anchor="middle" font-size="14">список</text>
+      <rect class="bx" x="130" y="248" width="80" height="44" rx="8"/><text x="170" y="275" text-anchor="middle" font-size="14">user 467</text>
+      <rect class="bx" x="290" y="248" width="80" height="44" rx="8"/><text x="330" y="275" text-anchor="middle" font-size="14">position</text>
+      <g data-tip="Одна запись, три пути. Программист должен помнить каждый."><rect class="bx mk" x="412" y="143" width="96" height="44" rx="8"/><text x="460" y="170" text-anchor="middle" font-size="15" class="hd">LinkedIn</text></g>
+      <circle r="9" fill="var(--fx)"><animateMotion dur="3.6s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.7;1" calcMode="linear"><mpath href="#pM1"/></animateMotion></circle>
+      <circle r="9" fill="var(--hot)"><animateMotion dur="3.6s" begin="1.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.7;1" calcMode="linear"><mpath href="#pM2"/></animateMotion></circle>
+      <circle r="9" fill="var(--text-main)"><animateMotion dur="3.6s" begin="2.4s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.7;1" calcMode="linear"><mpath href="#pM3"/></animateMotion></circle>
+    </svg>
+  </div>
+</div>
+<ul class="pth-l">
+  <li data-rv>Ссылки — не внешние ключи, а <b>указатели</b>, только хранятся на диске</li>
+  <li data-rv>Запись можно получить, только <b>пройдя от корня</b> по цепочкам — это путь доступа, access path</li>
+  <li data-step="1">При «многие-ко-многим» к записи ведёт <b>несколько путей</b>, и все их программист держит в голове</li>
+</ul></div>
+</div>
+<aside class="notes">
+<p><em>Как показывать</em> Сначала на слайде только левая схема: обычный путь доступа, точка бежит от корня по указателям. Клик или → — справа появляется сеть, где к одной записи ведут три разных пути.</p>
+<p><em>Текст</em> Ссылки между записями в сетевой модели — не внешние ключи, а скорее указатели, как в языках программирования, только хранящиеся на диске. Единственный способ обратиться к записи — пройти от корневой записи по цепочкам этих ссылок. Такой путь назывался путём доступа, access path.</p>
+<p><em>Текст</em> В простом случае путь доступа похож на обход связного списка: начинаем с головы и идём по одной записи. Но в мире связей «многие-ко-многим» к одной записи может вести несколько разных путей — через одного человека, через регион, через другого человека. И программист, работавший с сетевой моделью, должен был держать все эти пути в голове.</p>
+<p><em>Как показывать</em> Схемы — моя иллюстрация идеи, а не рисунок книги.</p>
+<p><em>Переход</em> Как это выглядело в коде?</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-navigator" data-slide="27" data-toc="Программист как навигатор">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">22</span>Проблемы CODASYL</div>
+<h2 class="fx-h" data-rv>Программист как <mark>навигатор</mark></h2>
+<div class="fx-body"><div class="nav">
+  <div data-rv="left">
+    <div class="cd-k">Запрос = движение курсора по базе</div>
+    <pre class="cd sm nav-c"><span class="l"><span class="c">*&gt; кто работал в LinkedIn</span></span><span class="l"><span class="h">FIND ANY</span> ORG <span class="k">USING</span> ORG-NAME</span><span class="l"><span class="h">FIND FIRST</span> POSITION <span class="k">WITHIN</span> ORG-STAFF</span><span class="l"><span class="k">PERFORM UNTIL</span> END-OF-SET</span><span class="l">  <span class="h">FIND OWNER</span> <span class="k">WITHIN</span> USER-POSITIONS</span><span class="l">  <span class="h">GET</span> USER</span><span class="l">  <span class="h">FIND NEXT</span> POSITION <span class="k">WITHIN</span> ORG-STAFF</span><span class="l"><span class="k">END-PERFORM</span></span></pre>
+    <p class="nav-n">Итерация по спискам записей и переходы по путям доступа — вручную</p>
+  </div>
+  <div class="nav-r">
+    <blockquote class="nav-q" data-rv="right"><img src="assets/img/charles-bachman.webp" alt="" width="520" height="796"><div><p>Навигация по <b>n-мерному пространству</b> данных</p><cite>Так это описывали даже члены комитета CODASYL. Чарльз Бахман назвал свою лекцию «Программист как навигатор», 1973</cite></div></blockquote>
+    <div class="tile is-hot" data-rv="right"><div class="tile-k">Несколько родителей</div><p class="tile-p">Код приложения отслеживает <b>все связи</b> записи сам</p></div>
+    <div class="tile is-hot" data-rv="right"><div class="tile-k">Новый запрос</div><p class="tile-p">Нужного пути нет — тупик. Поменять путь — переписать горы кода</p></div>
+  </div>
+</div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Выполнение запроса в модели CODASYL — это перемещение указателя, курсора, по базе: итерация по спискам записей и следование по путям доступа. Найти компанию, встать на первую должность в её списке, подняться к владельцу-человеку, взять его, перейти к следующей должности — и так до конца списка.</p>
+<p><em>Текст</em> Если у записи несколько родителей, то есть на неё указывают ссылки из нескольких мест, код приложения должен отслеживать все эти связи. Даже члены комитета CODASYL признавали, что это похоже на навигацию по n-мерному пространству данных. Бахман так и назвал свою тьюринговскую лекцию — «Программист как навигатор».</p>
+<p><em>Текст</em> В 1970-х, при магнитных лентах и медленном поиске, ручной выбор пути позволял выжать максимум из железа. Но код получался сложным и негибким: если нужного пути нет — вы в трудном положении, а чтобы его поменять, надо вручную переписывать массу кода запросов.</p>
+<p><em>Как показывать</em> Код — упрощённый псевдокод в духе языка манипуляции данными CODASYL, моя иллюстрация.</p>
 <p><em>Переход</em> Реляционная модель решила это радикально иначе.</p>
-<p><em>Источники</em> <a class="lnk" href="https://dl.acm.org/doi/10.1145/355611.362534" target="_blank" rel="noopener">Bachman — The Programmer as Navigator, 1973</a>; <a class="lnk" href="https://en.wikipedia.org/wiki/CODASYL" target="_blank" rel="noopener">CODASYL</a>.</p>
+<p><em>Источники</em> <a class="lnk" href="https://dl.acm.org/doi/10.1145/355611.362534" target="_blank" rel="noopener">Bachman — The Programmer as Navigator, 1973</a>.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-optimizer" data-slide="22">
+<section class="slide fx" id="slide-relational" data-slide="28" data-toc="Реляционная модель: всё напоказ">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">17</span>Ответ реляционной модели</div>
-<h2 class="fx-h" data-rv>Путь доступа выбирает <mark>оптимизатор</mark>, а не вы</h2><div class="fx-body "><div class="cols" style="grid-template-columns:1fr 1fr; align-items:center">
-      <div data-rv="left"><pre class="cd " data-seq style="--st:180ms"><span class="l"><span class="k">SELECT</span> * <span class="k">FROM</span> users</span><span class="l"><span class="k">WHERE</span> region_id = <span class="s">'us:91'</span>;</span><span class="l"> </span><span class="l"><span class="c">-- нужно быстрее? Запрос не трогаем:</span></span><span class="l"><span class="h">CREATE INDEX</span> users_region</span><span class="l">  <span class="k">ON</span> users (region_id);</span></pre></div>
-      <div>
-        <div class="tile" data-rv="right"><div class="tile-k">Всё напоказ</div><p class="tile-p">Таблица — это просто набор строк. Можно читать любую или все сразу, вставлять, не думая о связях</p></div>
-        <div class="tile is-hi" data-rv="right" style="margin-top:22px"><div class="tile-k">Всё решает база</div><p class="tile-p">В каком порядке выполнять запрос и какие индексы брать — решает оптимизатор. <b>Новый индекс подхватывается сам</b></p></div>
-      </div>
-    </div>
-    <div class="so" data-rv><span>Главное</span><div>Оптимизатор — годы исследований. Но его создают <b>один раз</b>, и выигрывают все приложения</div></div></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">23</span>Реляционная модель</div>
+<h2 class="fx-h" data-rv>Все данные <mark>напоказ</mark>: таблица — просто набор строк</h2>
+<p class="fx-lead" data-rv>Никаких лабиринтов вложенных структур и путей доступа</p>
+<div class="fx-body"><div class="rl">
+  <div class="rl-a">
+    <button class="rl-b" type="button" data-rv data-hl="any" data-hl-keep><b>Любую строку</b><code>SELECT * FROM users</code></button>
+    <button class="rl-b" type="button" data-rv data-hl="cond" data-hl-keep><b>Все строки по условию</b><code>WHERE region_id = 'ru:78'</code></button>
+    <button class="rl-b" type="button" data-rv data-hl="key" data-hl-keep><b>Строку по ключу</b><code>WHERE user_id = 467</code></button>
+    <button class="rl-b" type="button" data-rv data-hl="ins" data-hl-keep><b>Вставить новую</b><code>INSERT INTO users VALUES (904, …)</code></button>
+  </div>
+  <div class="dbt rl-t" data-rv="right"><div class="dbt-n">users</div><table><thead><tr><th class="rl-k">user_id</th><th>first_name</th><th>region_id</th></tr></thead><tbody>
+    <tr class="r-c"><td>251</td><td>Martin</td><td>ru:78</td></tr>
+    <tr class="r-k"><td>467</td><td>Lucy</td><td>uk:cam</td></tr>
+    <tr class="r-a r-c"><td>512</td><td>Анна</td><td>ru:78</td></tr>
+    <tr class="r-c"><td>803</td><td>Иван</td><td>ru:78</td></tr>
+    <tr class="r-n"><td>904</td><td>Пётр</td><td>uk:cam</td></tr>
+  </tbody></table>
+  <p class="rl-n">Вставка — без оглядки на связи с другими таблицами, если не объявлены ограничения внешних ключей</p></div>
+</div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> Реляционная модель выставила данные напоказ: отношение — просто набор строк, и всё. Никаких лабиринтов и вложенных структур. Можно прочитать любую строку или все, выбрать по условию, вставить новую, не беспокоясь о связях с другими таблицами.</p>
-<p><em>Текст</em> Путь доступа никуда не делся, но его автоматически выбирает оптимизатор запросов, а не разработчик. Нужно запрашивать данные иначе — объявили новый индекс, и запросы сами начали его использовать. Менять их не надо. Это сильно упрощает добавление новых возможностей.</p>
-<p><em>Текст</em> Оптимизаторы — непростые вещи, это годы исследований и разработки. Но ключевая мысль такая: достаточно один раз сделать оптимизатор — и выгоду получают все приложения. Для одного запроса написать путь руками проще, но в долгосрочной перспективе универсальное решение выигрывает.</p>
-<p><em>Как показывать</em> SQL на слайде — моя иллюстрация.</p>
-<p><em>Переход</em> Так куда в этой истории встают документные базы?</p>
-<p><em>Источники</em> <a class="lnk" href="https://db.cs.berkeley.edu/papers/fntdb07-architecture.pdf" target="_blank" rel="noopener">Hellerstein, Stonebraker, Hamilton — Architecture of a Database System</a>.</p>
+<p><em>Как показывать</em> Наведите на действие слева — в таблице подсветится, что оно затрагивает: любая строка, строки по условию, строка по ключу (подсвечен и столбец-ключ), новая строка.</p>
+<p><em>Текст</em> Реляционная модель, напротив, выставила все данные напоказ: отношение, то есть таблица, — просто набор кортежей, строк, и всё. Никаких лабиринтообразных вложенных структур, никаких запутанных путей доступа.</p>
+<p><em>Текст</em> Можно прочитать любую строку таблицы или все строки сразу, выбирая те, что соответствуют произвольному условию. Можно прочитать конкретную строку, объявив некоторые столбцы ключом и выполнив поиск по нему. Можно вставить новую строку в любую таблицу, не беспокоясь о связях по внешним ключам с другими таблицами — если, как уточняет сноска книги, ограничения внешних ключей не объявлены.</p>
+<p><em>Переход</em> А кто тогда выбирает путь к данным?</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-compare" data-slide="23">
+<section class="slide fx" id="slide-optimizer" data-slide="29" data-toc="Оптимизатор запросов">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">18</span>Документы против CODASYL</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">24</span>Оптимизатор запросов</div>
+<h2 class="fx-h" data-rv>Путь доступа выбирает <mark>оптимизатор</mark>, а не вы</h2>
+<div class="fx-body"><div class="qo">
+  <div class="qo-l">
+    <div data-rv="left">
+      <div class="cd-k">Запрос и план, который выбрала база</div>
+      <pre class="cd sm"><span class="k">EXPLAIN SELECT</span> * <span class="k">FROM</span> users
+<span class="k">WHERE</span> region_id = <span class="s">'ru:78'</span>;</pre>
+      <div class="qo-p is-bad">→ Seq Scan on users <span>читаем все строки</span></div>
+    </div>
+    <div data-step="1">
+      <div class="cd-k is-hi">Объявили индекс — запрос не трогаем</div>
+      <pre class="cd sm"><span class="h">CREATE INDEX</span> users_region <span class="k">ON</span> users (region_id);</pre>
+      <div class="qo-p">→ Index Scan using users_region <span>тот же запрос, новый путь</span></div>
+    </div>
+  </div>
+  <div class="qo-r">
+    <div class="tile" data-rv="right"><div class="tile-k">Решает база</div><p class="tile-p">В каком порядке выполнять части запроса и какие индексы брать — <b>автоматически</b></p></div>
+    <div class="tile" data-rv="right"><div class="tile-k">Это и есть путь доступа</div><p class="tile-p">Но выбирает его оптимизатор, а не разработчик, — думать об этом приходится редко</p></div>
+    <div class="tile is-hi" data-rv="right"><div class="tile-k">Новый индекс</div><p class="tile-p">Нужно спрашивать иначе — объявили индекс, и запросы <b>сами</b> начали им пользоваться</p></div>
+  </div>
+</div></div>
+</div>
+<aside class="notes">
+<p><em>Как показывать</em> Сначала видны запрос и план без индекса. Клик или → — появляется CREATE INDEX и новый план для того же запроса.</p>
+<p><em>Текст</em> В реляционной базе оптимизатор запросов сам решает, в каком порядке выполнять части запроса и какие индексы использовать. По сути, это и есть «путь доступа». Но важное отличие: его выбирает оптимизатор автоматически, а не разработчик приложения вручную, поэтому думать об этом приходится редко.</p>
+<p><em>Текст</em> Если нужно запрашивать данные по-другому, достаточно объявить новый индекс — и запросы сами начнут использовать наиболее подходящий. Код запросов менять не нужно.</p>
+<p><em>Как показывать</em> Планы — в формате PostgreSQL, сокращены; это моя иллюстрация, в книге примера нет.</p>
+<p><em>Переход</em> Звучит как магия. Откуда она взялась?</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-optimizer-once" data-slide="30" data-toc="Оптимизатор один на всех">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">25</span>Цена оптимизатора</div>
+<h2 class="fx-h" data-rv>Оптимизатор пишут <mark>один раз</mark> — выигрывают все</h2>
+<p class="fx-lead" data-rv>Это непростая вещь: годы исследований и разработки. Но сделать его нужно лишь однажды</p>
+<div class="fx-body"><div class="oo">
+  <div class="oo-c" data-rv="left">
+    <div class="vs2-h is-hot">CODASYL · путь в каждом приложении</div>
+    <div class="oo-g">
+      <div class="oo-apps"><span>приложение 1<i>свой путь</i></span><span>приложение 2<i>свой путь</i></span><span>приложение 3<i>свой путь</i></span></div>
+      <div class="oo-ln is-hot" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="oo-db">база</div>
+    </div>
+  </div>
+  <div class="oo-c" data-rv="right">
+    <div class="vs2-h is-hi">SQL · один оптимизатор на всех</div>
+    <div class="oo-g">
+      <div class="oo-apps"><span>приложение 1<i>SQL</i></span><span>приложение 2<i>SQL</i></span><span>приложение 3<i>SQL</i></span></div>
+      <div class="oo-ln" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="oo-db is-hi"><b>оптимизатор</b>база</div>
+    </div>
+  </div>
+</div>
+<div class="so" data-rv><span>Итог</span><div>Для одного запроса путь проще написать руками. Но <b>в долгосрочной перспективе</b> универсальное решение выигрывает</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Оптимизаторы запросов для реляционных баз — непростые вещи, они потребовали многих лет исследований и разработки. Классическая работа — статья Патриции Селинджер и коллег из IBM System R 1979 года о выборе путей доступа, и с тех пор оптимизаторы совершенствуются до сих пор.</p>
+<p><em>Текст</em> Но ключевой момент реляционной модели такой: достаточно один раз создать оптимизатор запросов, и выгоду из него извлекают все приложения, которые пользуются базой. В CODASYL путь доступа выбирало каждое приложение само, в своём коде. Если оптимизатора нет, написать путь для конкретного запроса проще, чем универсальный оптимизатор, — но в долгосрочной перспективе универсальное решение выигрывает.</p>
+<p><em>Как показывать</em> Схема — моя иллюстрация.</p>
+<p><em>Переход</em> Так куда в этой истории встают документные базы?</p>
+<p><em>Источники</em> <a class="lnk" href="https://dl.acm.org/doi/10.1145/582095.582099" target="_blank" rel="noopener">Selinger et al. — Access Path Selection in a Relational DBMS, 1979</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-compare" data-slide="31">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">26</span>NoSQL и история</div>
 <h2 class="fx-h" data-rv>Документные БД вернулись к дереву, но <mark>не к указателям</mark></h2><div class="fx-body "><table class="tbl3"><tr data-rv="fade"><th>Связь</th><th>Иерархическая · IMS</th><th>Реляционная</th><th>Документная</th></tr>
       <tr data-rv><td>Один-ко-многим</td><td>вложены в родителя</td><td>отдельная таблица</td><td class="hi">вложены в родителя</td></tr>
       <tr data-rv><td>Многие-к-одному, многие-ко-многим</td><td class="bad">дублировать или разрешать вручную</td><td>внешний ключ</td><td class="hi">ссылка на документ</td></tr>
       <tr data-rv><td>Когда разрешается ссылка</td><td class="bad">вручную в коде</td><td>при чтении</td><td class="hi">при чтении</td></tr></table>
+    <div class="fkr" data-rv><div><span class="k">реляционная · внешний ключ</span><pre class="cd xs">org_id int <span class="k">REFERENCES</span> organizations(id)</pre></div><b class="pm-eq">=</b><div><span class="k">документная · ссылка на документ</span><pre class="cd xs">{ org_id: <span class="s">'lnkd'</span> }</pre></div></div>
     <div class="so" data-rv><span>Значит</span><div>Внешний ключ и ссылка на документ — по сути <b>одно и то же</b>. Путём CODASYL документные базы не пошли</div></div></div>
 </div>
 <aside class="notes">
@@ -1151,9 +1489,9 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-<section class="slide fx" id="slide-args" data-slide="24">
+<section class="slide fx" id="slide-args" data-slide="32">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">19</span>Сегодня</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">27</span>SQL vs NoSQL · раунд 3</div>
 <h2 class="fx-h" data-rv>Что на каждой чаше <mark>весов</mark></h2><p class="fx-lead" data-rv>Сравниваем только модели данных: отказоустойчивость и конкурентный доступ — главы 5 и 7</p><div class="fx-body "><div class="grid2">
       <div class="tile" data-rv="left"><div class="tile-k">За документы</div><ul class="ul"><li>Гибкость схемы</li><li>Производительность за счёт локальности</li><li>Близость к структурам данных в коде</li></ul></div>
       <div class="tile is-hi" data-rv="right"><div class="tile-k">За реляционные</div><ul class="ul"><li>Соединения</li><li>Связи «многие-к-одному»</li><li>Связи «многие-ко-многим»</li></ul></div>
@@ -1165,9 +1503,9 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-<section class="slide fx" id="slide-simple" data-slide="25">
+<section class="slide fx" id="slide-simple" data-slide="33">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">20</span>Какой код проще</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">28</span>Какой код проще</div>
 <h2 class="fx-h" data-rv>Ответ зависит от <mark>связей</mark> между данными</h2><div class="fx-body "><div class="scale" data-rv="fade"><div class="scale-tr"><i></i><i></i><i></i></div><div class="scale-m"></div></div>
     <div class="scale-g">
       <div class="tile" data-rv><div class="tile-k">Дерево, грузится целиком</div><div class="tile-t">Документы</div><p class="tile-p">Расщеплять такое на таблицы (shredding) — путь к запутанной схеме и лишнему коду</p></div>
@@ -1183,12 +1521,12 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-<section class="slide fx" id="slide-schema" data-slide="26">
+<section class="slide fx" id="slide-schema" data-slide="34">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">21</span>Гибкость схемы</div>
-<h2 class="fx-h" data-rv>«Без схемы» — миф: схема есть, просто <mark>при чтении</mark></h2><div class="fx-body "><div class="grid2">
-      <div class="tile" data-rv="left"><div class="tile-k">Schema-on-read</div><div class="tile-t">Как JavaScript</div><p class="tile-p">Структура неявна, её предполагает код при чтении. База ничего не проверяет. Динамическая типизация</p></div>
-      <div class="tile is-hi" data-rv="right"><div class="tile-k">Schema-on-write</div><div class="tile-t">Как TypeScript</div><p class="tile-p">Схема явная, база гарантирует, что всё записанное ей соответствует. Статическая проверка</p></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">29</span>Гибкость схемы</div>
+<h2 class="fx-h" data-rv>NoSQL — <mark>бессхемная</mark> база?</h2><p class="fx-lead" data-rv>Говорить так не совсем верно: схема есть всегда. Вопрос — кто и когда её проверяет</p><div class="fx-body "><div class="grid2">
+      <div class="tile" data-rv="left"><div class="tile-k">Schema-on-write · схема при записи</div><div class="tile-t">Как TypeScript</div><p class="tile-p">Схема явная, база гарантирует, что всё записанное ей соответствует. Статическая проверка</p></div>
+      <div class="tile is-hi" data-rv="right"><div class="tile-k">Schema-on-read · схема при чтении</div><div class="tile-t">Как JavaScript</div><p class="tile-p">Структура неявна, её предполагает код при чтении. База ничего не проверяет. Динамическая типизация</p></div>
     </div>
     <div class="so" data-rv><span>Автор</span><div>Как и в спорах о типизации, <b>правильного ответа нет</b>. Термин «бессхемная» вводит в заблуждение: читающий код всё равно ждёт определённую структуру</div></div></div>
 </div>
@@ -1201,30 +1539,73 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-<section class="slide fx" id="slide-migrate" data-slide="27">
+<section class="slide fx" id="slide-sow" data-slide="35" data-toc="Schema-on-write">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">22</span>Смена формата</div>
-<h2 class="fx-h" data-rv>Делим <code style="font-size:0.85em">name</code> на имя и фамилию: <mark>две стратегии</mark></h2><div class="fx-body "><div class="cols">
-      <div data-rv="left"><div class="cd-k">Документы: дописываем код чтения</div><pre class="cd sm" data-seq><span class="l"><span class="k">if</span> (user &amp;&amp; user.name &amp;&amp; !user.first_name) {</span><span class="l">  <span class="c">// В документах до 8 декабря 2013</span></span><span class="l">  <span class="c">// поля first_name нет</span></span><span class="l">  user.first_name = user.name.split(<span class="s">" "</span>)[0];</span><span class="l">}</span></pre></div>
-      <div data-rv="right"><div class="cd-k is-hi">Схема: выполняем миграцию</div><pre class="cd sm" data-seq><span class="l"><span class="k">ALTER TABLE</span> users</span><span class="l">  <span class="k">ADD COLUMN</span> first_name text;</span><span class="l"><span class="k">UPDATE</span> users</span><span class="l">  <span class="k">SET</span> first_name =</span><span class="l">    split_part(name, <span class="s">' '</span>, 1);</span></pre></div>
-    </div>
-    <div class="grid2" style="margin-top:24px">
-      <div class="tile" data-rv style="padding:20px 26px"><div class="tile-k">Миф</div><p class="tile-p"><code>ALTER TABLE</code> — это простой? Обычно миллисекунды. Исключением в книге была MySQL: копировала всю таблицу</p></div>
-      <div class="tile is-hot" data-rv style="padding:20px 26px"><div class="tile-k">Реальность</div><p class="tile-p">Медленный — <code>UPDATE</code> всех строк в любой базе. Выход: оставить <code>NULL</code> и заполнять при чтении</p></div>
-    </div></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">30</span>Schema-on-write</div>
+<h2 class="fx-h" data-rv>Схема при записи: <mark>база проверяет</mark> всё, что пишут</h2>
+<div class="fx-body"><div class="sw">
+  <div class="sw-l">
+    <div class="tile" data-rv="left"><div class="tile-k">Явная схема</div><p class="tile-p">Таблицы, колонки, типы — классический реляционный подход</p></div>
+    <div class="tile" data-rv="left"><div class="tile-k">Гарантия</div><p class="tile-p">Записать можно только то, что соответствует схеме</p></div>
+    <div class="tile is-hi" data-rv="left"><div class="tile-k">Как TypeScript</div><p class="tile-p">Статическая типизация: ошибка ловится <b>при записи</b>, как при компиляции</p></div>
+  </div>
+  <div class="sw-r" data-rv="right">
+    <div class="cd-k is-hi">Было <code>name</code> — стало <code>first_name</code> и <code>last_name</code>: миграция</div>
+    <pre class="cd sm" data-seq><span class="l"><span class="k">ALTER TABLE</span> users <span class="k">ADD COLUMN</span> first_name text;</span><span class="l"><span class="k">UPDATE</span> users</span><span class="l">  <span class="k">SET</span> first_name = split_part(name, <span class="s">' '</span>, 1); <span class="c">-- PostgreSQL</span></span></pre>
+    <div class="dbt sm sw-t"><table><thead><tr><th>user_id</th><th>name</th><th class="sw-new">first_name</th></tr></thead><tbody>
+      <tr><td>251</td><td>Martin Kleppmann</td><td class="sw-new"><span style="--i:0">Martin</span></td></tr>
+      <tr><td>467</td><td>Lucy Smith</td><td class="sw-new"><span style="--i:1">Lucy</span></td></tr>
+      <tr><td>512</td><td>Анна Смирнова</td><td class="sw-new"><span style="--i:2">Анна</span></td></tr>
+      <tr><td>803</td><td>Иван Петров</td><td class="sw-new"><span style="--i:3">Иван</span></td></tr>
+    </tbody></table></div>
+    <p class="sw-n">Меняем схему и <b>переписываем все существующие строки</b>. <code>ALTER</code> обычно занимает миллисекунды (в MySQL времён книги — копию всей таблицы), а медленный — <code>UPDATE</code> большой таблицы</p>
+  </div>
+</div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> Допустим, полное имя лежит в одном поле, а мы хотим хранить имя и фамилию отдельно. В документной базе просто начинаем писать новые документы и добавляем код, который обрабатывает старые. В базе со схемой делаем миграцию: ALTER TABLE и UPDATE.</p>
-<p><em>Текст</em> Об изменениях схемы говорят как о медленных и требующих простоя. Это не совсем верно: большинство реляционных баз выполняют ALTER TABLE за миллисекунды. Известное исключение в книге — MySQL: она копировала всю таблицу, что означало минуты или часы простоя, хотя для обхода есть утилиты. А вот UPDATE большой таблицы медленный везде, ведь переписывать надо все строки. Если это неприемлемо, можно оставить NULL и заполнять поле при чтении — как в документной базе.</p>
-<p><em>Как показывать</em> Сегодня в MySQL 8 добавление столбца обычно выполняется без копирования таблицы (ALGORITHM=INSTANT) — описание в книге относится к версиям её времени. В книге для MySQL другой вариант UPDATE: substring_index.</p>
-<p><em>Источники</em> <a class="lnk" href="https://github.com/github/gh-ost" target="_blank" rel="noopener">gh-ost — онлайн-миграции MySQL от GitHub</a>; <a class="lnk" href="https://dev.mysql.com/doc/refman/8.4/en/innodb-online-ddl-operations.html" target="_blank" rel="noopener">MySQL — Online DDL</a>.</p>
+<p><em>Текст</em> Schema-on-write, схема при записи, — классический реляционный подход. В базе есть явная схема: таблицы, колонки, типы. И база гарантирует, что записать можно только данные, которые этой схеме соответствуют. Это похоже на статическую типизацию: ошибка ловится на этапе компиляции, то есть здесь — записи.</p>
+<p><em>Текст</em> Пример из книги: полное имя лежало в одном поле name, а мы хотим хранить имя и фамилию отдельно. В реляционной базе делают миграцию: ALTER TABLE добавляет столбец, UPDATE заполняет его во всех строках. То есть меняют схему и переписывают все существующие строки.</p>
+<p><em>Текст</em> Об изменениях схемы говорят как о медленных и требующих простоя. Это не совсем так: большинство баз выполняют ALTER TABLE за миллисекунды. Исключение в книге — MySQL, которая копировала всю таблицу. А вот UPDATE большой таблицы медленный везде. Если это неприемлемо, можно оставить NULL и заполнять поле при чтении — как в документной базе.</p>
+<p><em>Как показывать</em> Сегодня MySQL 8 добавляет столбец без копирования таблицы (ALGORITHM=INSTANT). Для MySQL книга даёт вариант UPDATE через substring_index. Аналогия с TypeScript — моя подстановка для нашей аудитории.</p>
+<p><em>Переход</em> А как то же самое делают в документной базе?</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-sor" data-slide="36" data-toc="Schema-on-read">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">31</span>Schema-on-read</div>
+<h2 class="fx-h" data-rv>Схема при чтении: структуру ждёт <mark>код</mark></h2>
+<div class="fx-body"><div class="sw">
+  <div class="sw-l">
+    <div class="tile" data-rv="left"><div class="tile-k">Свобода</div><p class="tile-p">База не навязывает схему: в документ можно добавить любые ключи</p></div>
+    <div class="tile" data-rv="left"><div class="tile-k">Но схема есть</div><p class="tile-p">Читающий код всё равно предполагает структуру — она просто <b>неявная</b></p></div>
+    <div class="tile is-hi" data-rv="left"><div class="tile-k">Как JavaScript</div><p class="tile-p">Динамическая типизация: ошибка всплывает <b>во время выполнения</b></p></div>
+  </div>
+  <div class="sw-r" data-rv="right">
+    <div class="cd-k is-hi">Тот же пример: пишем новые документы, а старые обрабатываем в коде</div>
+    <div class="sr-docs">
+      <div><span class="k">старый документ</span><pre class="cd xs">{ _id: <span class="s">251</span>,
+  name: <span class="s">'Martin Kleppmann'</span> }</pre></div>
+      <div><span class="k">новый документ</span><pre class="cd xs">{ _id: <span class="s">904</span>,
+<span class="m">  first_name: <span class="s">'Пётр'</span>,</span>
+<span class="m">  last_name: <span class="s">'Иванов'</span> }</span></pre></div>
+    </div>
+    <pre class="cd sm" data-seq><span class="l"><span class="k">if</span> (user &amp;&amp; user.name &amp;&amp; !user.first_name) {</span><span class="l">  <span class="c">// старый документ: вычисляем first_name на лету</span></span><span class="l">  user.first_name = user.name.split(<span class="s">' '</span>)[0];</span><span class="l">}</span></pre>
+    <p class="sw-n is-hi"><b>Никакой массовой миграции</b>: старые и новые документы живут рядом</p>
+  </div>
+</div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Schema-on-read, схема при чтении, — подход документных баз и реляционных баз с JSON. База не навязывает схему: в документ можно добавлять произвольные ключи. Но код, который читает данные, всё равно предполагает определённую структуру. Схема есть, просто неявная, и проверяется она при чтении. Это похоже на динамическую типизацию: ошибки всплывают во время выполнения.</p>
+<p><em>Текст</em> Тот же пример с именем. В документной базе можно просто начать писать новые документы с полями first_name и last_name, а в коде обрабатывать старые: если first_name нет, вычисляем его на лету из name. Никакой массовой миграции не нужно.</p>
+<p><em>Как показывать</em> Код — из книги; в оригинале у условия комментарий: документы, созданные до 8 декабря 2013 года, не содержат first_name.</p>
 <p><em>Переход</em> Так когда какой подход лучше?</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-when" data-slide="28">
+<section class="slide fx" id="slide-when" data-slide="37">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">23</span>Что выбрать</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">32</span>Что выбрать</div>
 <h2 class="fx-h" data-rv>Данные разнородны — схема <mark>при чтении</mark>. Одинаковы — <mark>при записи</mark></h2><div class="fx-body "><div class="grid2">
       <div class="tile" data-rv="left"><div class="tile-k">Схема при чтении</div><ul class="ul"><li>Много разных типов объектов, и по таблице на каждый — бессмысленно</li><li>Структуру задают внешние системы, вы её не контролируете, и она меняется</li></ul></div>
       <div class="tile is-hi" data-rv="right"><div class="tile-k">Схема при записи</div><ul class="ul"><li>Все записи предположительно одной структуры</li><li>Схема — удобный способ документировать эту структуру и следить за её соблюдением</li></ul></div>
@@ -1237,9 +1618,9 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-<section class="slide fx" id="slide-locality" data-slide="29">
+<section class="slide fx" id="slide-locality" data-slide="38">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">24</span>Локальность</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">33</span>Локальность</div>
 <h2 class="fx-h" data-rv>Документ лежит на диске <mark>одним куском</mark></h2><div class="fx-body "><div class="disk-l" data-rv><span>Документ: одна строка JSON или BSON</span><b>1 поиск на диске</b></div>
     <div class="disk" data-rv="fade"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i class="f" style="--o:0"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="disk-l" data-rv style="margin-top:44px"><span>Шесть таблиц рис. 2.1</span><b class="h">несколько поисков по индексу</b></div>
@@ -1253,46 +1634,123 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-<section class="slide fx" id="slide-locality-cost" data-slide="30">
+<section class="slide fx" id="slide-locality-cost" data-slide="39" data-toc="Когда локальность помогает и мешает">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">25</span>Цена локальности</div>
-<h2 class="fx-h" data-rv>Читаем и переписываем <mark class="hot">весь документ</mark></h2><div class="fx-body "><div class="disk-l" data-rv><span>Нужно одно поле? База загружает документ целиком</span></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">34</span>Цена локальности</div>
+<h2 class="fx-h" data-rv>Локальность помогает, <mark>только если нужен весь документ</mark></h2>
+<div class="fx-body"><div class="lc">
+  <div class="tile is-hi lc-y" data-rv="left"><div class="tile-k">Помогает</div><p class="tile-p">Часто нужна <b>большая часть документа</b> за один раз — удобно читать одним куском</p>
+    <div class="chips tight"><span class="chip">профиль</span><span class="chip">резюме</span><span class="chip">заказ с товарами</span></div></div>
+  <div class="lc-n">
+    <div class="disk-l" data-rv><span>Мешает · читаете маленький фрагмент — грузите весь документ</span></div>
     <div class="disk is-part" data-rv="fade"><i></i><i></i><i></i><i></i><i></i><i></i><i class="need"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="disk-l" data-rv style="margin-top:36px"><span>Обновили поле? Обычно перезапись всего документа</span></div>
-    <div class="disk is-rew" data-rv="fade" data-seq><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="so" data-rv><span>Поэтому</span><div>Документы стоит держать <b>маленькими</b> и избегать записей, увеличивающих их размер</div></div>
-    <div class="chips tight" data-rv style="margin-top:24px"><span class="chip">Группировать данные умеют и другие:</span><a class="chip" href="https://research.google/pubs/spanner-googles-globally-distributed-database-2/" target="_blank" rel="noopener">Spanner ↗</a><span class="chip">Oracle: кластеризованные таблицы</span><span class="chip">Bigtable: семейства столбцов</span></div></div>
+    <div class="disk-l" data-rv style="margin-top:34px"><span>Мешает · меняете одно поле — перезаписываете весь документ</span></div>
+    <div class="disk is-rew" data-rv="fade"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i><i style="--i:15"></i><i style="--i:16"></i><i style="--i:17"></i><i style="--i:18"></i><i style="--i:19"></i></div>
+    <p class="lc-f" data-rv>«На месте» можно менять только то, что не меняет размер закодированного документа</p>
+  </div>
+</div>
+<div class="so" data-rv><span>Поэтому</span><div>Документы стоит держать <b>маленькими</b> и не раздувать их записью. Это сильно сужает круг задач, где документные БД реально выгодны</div></div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> Локальность выигрывает, только когда нужны большие части документа сразу. Базе обычно приходится загружать весь документ, даже если вам нужен маленький фрагмент. При обновлении тоже обычно переписывается весь документ, а «на месте» можно сделать только изменения, не меняющие закодированный размер. Поэтому рекомендуется держать документы маленькими и избегать записей, увеличивающих размер. Это заметно сужает круг случаев, где документные базы полезны.</p>
-<p><em>Текст</em> И группировка родственных данных — не монополия документов. Spanner от Google даёт те же свойства в реляционной модели: схема может объявить вложенность строк таблицы в родительскую. В Oracle есть многотабличные кластеризованные таблицы, а семейства столбцов в модели Bigtable, которую используют Cassandra и HBase, тоже управляют локальностью.</p>
+<p><em>Текст</em> Локальность помогает только тогда, когда вам часто нужна большая часть документа за один раз: страница профиля, резюме, заказ с товарами — такие вещи удобно читать одним документом.</p>
+<p><em>Текст</em> А мешает в двух случаях. Читаете маленький фрагмент — грузите весь документ: база обычно не умеет читать «полдокумента», ей придётся загрузить его целиком, даже если нужно одно поле. И обновление переписывает весь документ: меняете одно поле — обычно перезаписываете весь. «На месте» можно менять только то, что не меняет размер закодированного документа. Поэтому автор советует держать документы маленькими и избегать операций, которые их раздувают. Эти ограничения сильно сужают круг задач, где документные базы реально выгодны.</p>
+<p><em>Текст</em> И группировка родственных данных — не монополия документов. Spanner от Google даёт ту же локальность в реляционной модели: строки таблицы можно вложить в родительскую. В Oracle есть многотабличные кластеризованные таблицы, а семейства столбцов в модели Bigtable, которую используют Cassandra и HBase, тоже управляют локальностью.</p>
+<p><em>Как показывать</em> Полоски — схематичная иллюстрация, расположение блоков условное.</p>
 <p><em>Переход</em> И здесь мы подходим к главному выводу: граница между лагерями стирается.</p>
-<p><em>Источники</em> <a class="lnk" href="https://research.google/pubs/spanner-googles-globally-distributed-database-2/" target="_blank" rel="noopener">Corbett и др. — Spanner</a>.</p>
+<p><em>Источники</em> <a class="lnk" href="https://research.google/pubs/spanner-googles-globally-distributed-database-2/" target="_blank" rel="noopener">Spanner, Google</a>.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-converge" data-slide="31">
+<section class="slide fx" id="slide-hybrid" data-slide="40" data-toc="Будущее за гибридами">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">26</span>Сближение</div>
-<h2 class="fx-h" data-rv>Будущее — за <mark>гибридами</mark></h2><div class="fx-body "><div class="conv">
-      <div class="tile" data-rv="left"><div class="tile-k">Реляционные берут у документов</div><ul class="ul"><li>XML с середины 2000-х</li><li>JSON: PostgreSQL 9.3, MySQL 5.7, DB2 10.5</li></ul></div>
-      <div class="conv-mid" data-rv="fade"><i></i>Гибрид</div>
-      <div class="tile" data-rv="right"><div class="tile-k">Документные берут у реляционных</div><ul class="ul"><li>Соединения в запросах RethinkDB</li><li>Драйверы MongoDB сами разрешают ссылки</li></ul></div>
-    </div>
-    <div class="so" data-rv><span>Сноска</span><div>Кодд в 1970-м уже допускал вложенные значения: <b>nonsimple domains</b> — почти JSON. SQL начал их поддерживать на 30 лет позже</div></div></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">35</span>Гибриды</div>
+<h2 class="fx-h" data-rv>Модели не воюют — будущее за <mark>гибридами</mark></h2>
+<div class="fx-body"><div class="hy">
+  <ul class="hy-l">
+    <li data-rv data-hl="rel" data-hl-keep><span class="n">01</span><p>Основные сущности и связи — в <b>реляционных таблицах</b></p></li>
+    <li data-rv data-hl="doc" data-hl-keep><span class="n">02</span><p>Гибкие, разнородные и вложенные данные — в полях <b>JSON или XML</b></p></li>
+    <li data-rv data-hl="join" data-hl-keep><span class="n">03</span><p><b>Соединения</b> там, где они нужны, и <b>локальность</b> документа там, где она выгодна</p></li>
+  </ul>
+  <pre class="cd sm hy-c" data-rv="right"><span class="l" data-hlt="rel"><span class="k">CREATE TABLE</span> users (</span><span class="l" data-hlt="rel">  user_id   int <span class="k">PRIMARY KEY</span>,</span><span class="l" data-hlt="rel">  region_id text <span class="k">REFERENCES</span> regions,</span><span class="l" data-hlt="doc">  profile   <span class="h">jsonb</span>   <span class="c">-- резюме целиком</span></span><span class="l" data-hlt="rel">);</span><span class="l"> </span><span class="l" data-hlt="join"><span class="k">SELECT</span> u.profile, r.region_name</span><span class="l" data-hlt="join"><span class="k">FROM</span> users u</span><span class="l" data-hlt="join"><span class="h">JOIN</span> regions r <span class="k">ON</span> r.id = u.region_id</span><span class="l" data-hlt="join"><span class="k">WHERE</span> u.user_id = <span class="s">251</span>;</span></pre>
+</div>
+<div class="so" data-rv><span>Сноска</span><div>Кодд в 1970-м уже допускал вложенные значения — <b>nonsimple domains</b>, почти JSON. SQL начал их поддерживать на 30 лет позже</div></div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> Большинство реляционных баз, кроме MySQL, поддерживают XML с середины 2000-х, с локальными изменениями, индексацией и запросами. PostgreSQL с версии 9.3, MySQL с 5.7 и DB2 с 10.5 получили примерно такой же уровень поддержки JSON.</p>
-<p><em>Текст</em> С другой стороны, RethinkDB поддерживает соединения, напоминающие реляционные, а некоторые драйверы MongoDB автоматически разрешают ссылки — правда, это клиентское соединение, медленнее, потому что данные ходят по сети туда и обратно.</p>
-<p><em>Текст</em> Модели дополняют друг друга, и автор уверен, что будущее за гибридами. Красивая деталь: в исходной статье Кодда значение в строке могло быть вложенной таблицей, «непростым доменом». Почти JSON, а SQL начал такое поддерживать на 30 лет позже.</p>
-<p><em>Как показывать</em> Сегодня это уже обычная практика: JSONB в PostgreSQL, $lookup в MongoDB.</p>
-<p><em>Источники</em> <a class="lnk" href="https://www.postgresql.org/docs/current/datatype-json.html" target="_blank" rel="noopener">PostgreSQL — JSON Types</a>; <a class="lnk" href="https://dl.acm.org/doi/10.1145/362384.362685" target="_blank" rel="noopener">Codd, 1970</a>.</p>
+<p><em>Как показывать</em> Наведите на пункт слева — в коде подсветится, как он выглядит в PostgreSQL.</p>
+<p><em>Текст</em> Реляционная и документная модели не обязаны воевать. Они дополняют друг друга, и автор уверен, что будущее — за гибридами: хранить основные сущности и связи в реляционных таблицах, гибкие, разнородные или вложенные данные держать в полях JSON или XML, а соединения использовать там, где они нужны, и локальность документа — там, где она выгодна.</p>
+<p><em>Текст</em> Красивая деталь: в исходной статье Кодда значение в строке могло быть вложенной таблицей, «непростым доменом». Почти JSON, а SQL начал такое поддерживать на 30 лет позже.</p>
+<p><em>Как показывать</em> Код — моя иллюстрация.</p>
+<p><em>Переход</em> Сближение идёт с двух сторон. Сначала — реляционные базы.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-takeaways" data-slide="32">
+<section class="slide fx" id="slide-rel-docs" data-slide="41" data-toc="Реляционные БД и документы">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">27</span>Выводы</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">36</span>Сближение · сторона SQL</div>
+<h2 class="fx-h" data-rv>Реляционные БД научились <mark>хранить документы</mark></h2>
+<div class="fx-body"><div class="rd">
+  <div class="rd-tl" data-rv>
+    <div class="rd-i"><span class="rd-y">сер. 2000-х</span><b>XML</b><p>почти везде, кроме MySQL: локальные изменения, индексы, запросы</p></div>
+    <div class="rd-i is-hi"><span class="rd-y">2013</span><b><svg class="lg-i"><use href="#lg-postgresql"/></svg>PostgreSQL 9.3</b><p>JSON</p></div>
+    <div class="rd-i is-hi"><span class="rd-y">2013</span><b><svg class="lg-i"><use href="#lg-ibm"/></svg>IBM DB2 10.5</b><p>JSON</p></div>
+    <div class="rd-i is-hi"><span class="rd-y">2015</span><b><svg class="lg-i"><use href="#lg-mysql"/></svg>MySQL 5.7</b><p>JSON</p></div>
+  </div>
+  <div class="rd-g">
+    <pre class="cd sm" data-rv="left"><span class="l"><span class="c">-- документ внутри строки, и при этом транзакция</span></span><span class="l"><span class="k">BEGIN</span>;</span><span class="l"><span class="k">UPDATE</span> users</span><span class="l">  <span class="k">SET</span> profile = <span class="h">jsonb_set</span>(profile, <span class="s">'{blog}'</span>, <span class="s">'"kleppmann.com"'</span>)</span><span class="l">  <span class="k">WHERE</span> user_id = <span class="s">251</span>;</span><span class="l"><span class="k">COMMIT</span>;</span><span class="l"> </span><span class="l"><span class="c">-- индекс по полю документа</span></span><span class="l"><span class="k">CREATE INDEX ON</span> users ((profile-&gt;&gt;<span class="s">'blog'</span>));</span></pre>
+    <ul class="ck rd-ck" data-rv="right"><li class="ok">запросы к полям документа</li><li class="ok">индексы по отдельным полям</li><li class="ok">таблицы, связи и JOIN — как раньше</li><li class="ok">транзакции</li></ul>
+  </div>
+</div>
+<div class="so" data-rv><span>Итог</span><div><b>Гибкость документа</b> без полного отказа от реляционной модели</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> Большинство реляционных СУБД, кроме MySQL, ещё с середины 2000-х поддерживают XML: можно хранить XML-документы, делать в них локальные изменения, индексировать и запрашивать их. Это позволяет приложению внутри реляционной базы работать почти как с документной моделью.</p>
+<p><em>Текст</em> Потом то же самое произошло с JSON: PostgreSQL с версии 9.3, MySQL с 5.7, IBM DB2 с 10.5. В реляционную базу можно положить JSON-документ, запрашивать его, индексировать отдельные поля — и при этом сохранить обычные реляционные возможности: таблицы, связи, JOIN, транзакции. Это гибкость документа без полного отказа от реляционной модели.</p>
+<p><em>Как показывать</em> Код — синтаксис PostgreSQL, моя иллюстрация. Годы выхода версий: PostgreSQL 9.3 — сентябрь 2013, DB2 10.5 — 2013, MySQL 5.7 — октябрь 2015. Сам тип json в PostgreSQL появился ещё в 9.2 (2012), а в 9.3 — функции и операторы для него; jsonb — в 9.4.</p>
+<p><em>Переход</em> А что с другой стороны?</p>
+<p><em>Источники</em> <a class="lnk" href="https://www.postgresql.org/docs/release/9.3.0/" target="_blank" rel="noopener">PostgreSQL 9.3 release notes</a> · <a class="lnk" href="https://dev.mysql.com/doc/refman/5.7/en/json.html" target="_blank" rel="noopener">MySQL 5.7 — JSON</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-doc-joins" data-slide="42" data-toc="Документные БД и соединения">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">37</span>Сближение · сторона NoSQL</div>
+<h2 class="fx-h" data-rv>Документные БД учатся <mark>соединять</mark></h2>
+<div class="fx-body"><div class="vs2">
+  <div class="vs2-c" data-rv="left">
+    <div class="vs2-h is-hi">RethinkDB · соединение в языке запросов</div>
+    <pre class="cd sm" data-seq><span class="l">r.table(<span class="s">'users'</span>)</span><span class="l">  .<span class="h">eqJoin</span>(<span class="s">'region_id'</span>, r.table(<span class="s">'regions'</span>))</span><span class="l">  .zip()</span></pre>
+    <div class="dj">
+      <span class="dj-n">приложение</span>
+      <div class="dj-w"><i class="dj-p"></i></div>
+      <span class="dj-n is-hi">база склеивает сама</span>
+    </div>
+    <p class="vs2-n">Похоже на реляционный JOIN: работа остаётся внутри базы</p>
+  </div>
+  <div class="vs2-c" data-rv="right">
+    <div class="vs2-h is-hot">MongoDB · ссылки разрешает драйвер</div>
+    <pre class="cd sm" data-seq><span class="l"><span class="c">// Mongoose, ODM для MongoDB</span></span><span class="l"><span class="k">const</span> user = <span class="k">await</span> User.findById(<span class="s">251</span>)</span><span class="l">  .<span class="h">populate</span>(<span class="s">'region'</span>);</span></pre>
+    <div class="dj">
+      <span class="dj-n">приложение</span>
+      <div class="dj-w is-hot"><i class="dj-p"></i><i class="dj-p is-2"></i></div>
+      <span class="dj-n">база</span>
+    </div>
+    <p class="vs2-n">Это <b>клиентское соединение</b>: второй запрос, данные ходят по сети туда-обратно — медленнее и хуже оптимизировано</p>
+  </div>
+</div>
+<div class="so" data-rv><span>Сегодня</span><div>В MongoDB 3.2 появился <code>$lookup</code> — соединение уже внутри базы</div></div></div>
+</div>
+<aside class="notes">
+<p><em>Текст</em> С другой стороны, документные базы добавляют то, чего им раньше не хватало. RethinkDB поддерживает в языке запросов соединения, напоминающие реляционные: склеивает сама база.</p>
+<p><em>Текст</em> Некоторые драйверы MongoDB автоматически разрешают ссылки на другие документы. Нам ближе всего пример — populate в Mongoose. Но по сути это клиентское соединение: приложение, точнее библиотека, само делает несколько запросов и склеивает данные. Оно медленнее настоящего соединения внутри базы, потому что данные гоняются по сети туда и обратно, и оптимизировано хуже.</p>
+<p><em>Как показывать</em> В книге речь о драйверах MongoDB, разрешающих DBRef; Mongoose — моя подстановка, это ODM, но механизм тот же. $lookup — уже после книги.</p>
+<p><em>Переход</em> Подведём итоги.</p>
+<p><em>Источники</em> <a class="lnk" href="https://rethinkdb.com/docs/table-joins/" target="_blank" rel="noopener">RethinkDB — table joins</a> · <a class="lnk" href="https://mongoosejs.com/docs/populate.html" target="_blank" rel="noopener">Mongoose — populate</a>.</p>
+</aside>
+</section>
+
+<section class="slide fx" id="slide-takeaways" data-slide="43">
+<div class="fx-wrap">
+<div class="fx-kicker" data-rv="fade"><span class="n">38</span>Выводы</div>
 <h2 class="fx-h" data-rv>Что <mark>унести</mark> с собой</h2><div class="fx-body "><div class="takeaways">
       <div class="tw" data-rv><span class="n">01</span><p>Модель данных определяет, <b>что будет просто</b>, а что мучительно</p></div>
       <div class="tw" data-rv><span class="n">02</span><p>«Один-ко-многим» — дерево, для него хороши <b>документы</b></p></div>
@@ -1309,7 +1767,7 @@ db.users.find({ <span class="s">'positions.organization'</span>: <span class="s"
 </aside>
 </section>
 
-            <section class="slide fx" data-slide="33" data-chrome="whatnext">
+            <section class="slide fx" data-slide="44" data-chrome="whatnext">
                 <div class="timeline-next-container">
                     <div class="fx-kicker" data-rv="fade">Дальше</div>
                     <h2 class="fx-h" data-rv>Что далее</h2>

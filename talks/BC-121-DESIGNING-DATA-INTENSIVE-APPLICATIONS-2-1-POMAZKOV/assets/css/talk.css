@@ -119,13 +119,13 @@
 @keyframes rowUp { 0%, 12% { transform: none; } 38%, 62% { transform: translateY(-100%); } 88%, 100% { transform: none; } }
 
 /* ---------- Таймлайн ---------- */
-.tl { position: relative; display: grid; grid-template-columns: repeat(var(--n, 7), 1fr); padding-top: 46px; }
-.tl-line { position: absolute; left: 0; right: 0; top: 118px; height: 2px; background: rgba(var(--tint-rgb), 0.22); transform-origin: left; }
+.tl { --dot-y: 129px; position: relative; display: grid; grid-template-columns: repeat(var(--n, 7), 1fr); padding-top: 46px; }
+.tl-line { position: absolute; left: 0; right: 0; top: calc(var(--dot-y) - 1px); height: 2px; background: rgba(var(--tint-rgb), 0.22); transform-origin: left; }
 .slide.active .tl-line { animation: fxGrowX 1.6s var(--ease-out) 0.2s backwards; }
 .tl-i { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 0 6px; border: 0; background: none; font: inherit; color: inherit; text-align: center; cursor: pointer; }
 .tl-i:focus-visible { outline: 2px solid rgba(var(--fx-rgb), 0.6); outline-offset: 6px; border-radius: 12px; }
 .tl-y { height: 62px; display: flex; align-items: flex-end; padding-bottom: 6px; font-family: var(--font-mono); font-size: 18px; line-height: 1.15; white-space: nowrap; color: var(--text-muted); }
-.tl-d { width: 22px; height: 22px; margin: 2px 0 20px; border-radius: 50%; background: var(--bg); border: 2px solid var(--text-muted); transition: transform 0.2s, box-shadow 0.2s; }
+.tl-d { box-sizing: content-box; width: 22px; height: 22px; margin: 2px 0 20px; border-radius: 50%; background: var(--bg); border: 2px solid var(--text-muted); transition: transform 0.2s, box-shadow 0.2s; }
 .tl-i:hover .tl-d, .tl-i:focus-visible .tl-d { transform: scale(1.35); box-shadow: 0 0 0 6px rgba(var(--fx-rgb), 0.16); }
 .tl-t { font-size: 23px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; color: var(--text-main); transition: color 0.2s; }
 .tl-i:hover .tl-t { color: var(--fx); }
@@ -133,7 +133,7 @@
 .tl-i.is-hi .tl-d { background: var(--fx); border-color: var(--fx); }
 .tl-i.is-hi .tl-t, .tl-i.is-hi .tl-y { color: var(--fx); }
 .tl-i.is-rival .tl-d { border-color: var(--hot); }
-.tl-rng { position: absolute; top: 117px; height: 4px; left: calc((var(--a) - 0.5) / var(--n) * 100%); width: calc((var(--b) - var(--a)) / var(--n) * 100%); transform-origin: left; }
+.tl-rng { position: absolute; top: calc(var(--dot-y) - 2px); height: 4px; left: calc((var(--a) - 0.5) / var(--n) * 100%); width: calc((var(--b) - var(--a)) / var(--n) * 100%); transform-origin: left; }
 .tl-rng.is-theory { background: repeating-linear-gradient(90deg, var(--text-muted) 0 10px, transparent 10px 18px); }
 .tl-rng.is-reign { background: repeating-linear-gradient(90deg, var(--fx) 0 10px, transparent 10px 18px); }
 .slide.active .tl-rng { animation: fxGrowX 1s var(--ease-out) 1.5s backwards; }
@@ -145,10 +145,6 @@
 .tl-bk span { position: absolute; top: 24px; left: 4px; right: 4px; text-align: center; font-size: 17px; line-height: 1.35; color: var(--text-dim); }
 .tl-bk.is-reign { border-color: rgba(var(--fx-rgb), 0.5); }
 .tl-bk.is-reign span { color: rgba(var(--fx-rgb), 0.85); }
-.tl-lg { display: flex; gap: 40px; margin-top: 8px; font-size: 18px; color: var(--text-dim); }
-.tl-lg i { display: inline-block; width: 14px; height: 14px; margin-right: 10px; border: 2px solid var(--text-muted); border-radius: 50%; vertical-align: -1px; }
-.tl-lg i.is-hi { background: var(--fx); border-color: var(--fx); }
-.tl-lg i.is-rival { border-color: var(--hot); }
 
 /* ---------- Карточка по клику (talk.js) ---------- */
 .mdl { position: absolute; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; background: rgba(var(--bg-rgb), 0.8); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0.25s; }
@@ -290,18 +286,20 @@
 @keyframes walkH { 0% { stroke: var(--border-strong); stroke-width: 1; } 4%, 62% { stroke: var(--hot); stroke-width: 2; } 70%, 100% { stroke: var(--border-strong); stroke-width: 1; } }
 
 /* ---------- Кодд и SQL ---------- */
-.fx-body.codd { display: grid; grid-template-columns: 560px minmax(0, 1fr); gap: 64px; align-items: start; justify-content: initial; margin-top: 44px; }
+.fx-body.codd { display: grid; grid-template-columns: 560px minmax(0, 1fr); gap: 64px; align-items: center; justify-content: initial; margin-top: 44px; }
 .codd-who { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 26px; align-items: start; }
 .codd-ph { display: block; width: 150px; height: auto; border: 1px solid var(--border); border-radius: 14px; }
 .codd-nm { margin-top: 0; }
 .codd-bio { margin-top: 12px !important; font-size: 22px; line-height: 1.5; color: var(--text-muted); }
 .codd-bio b { font-weight: 600; color: var(--text-main); }
 .codd-l { display: inline-block; margin-top: 14px; font-size: 20px; }
-.codd-sq { margin-top: 34px; padding: 24px 28px 26px; border: 1px solid var(--border); border-radius: 16px; }
-.codd-sq p { font-size: 22px; line-height: 1.5; color: var(--text-soft); }
+.codd-sq { position: relative; display: inline-block; margin-top: 34px; padding: 14px 22px; border: 1px dashed rgba(var(--fx-rgb), 0.55); border-radius: 12px; cursor: help; transition: border-color 0.2s, background 0.2s; }
+.codd-sq .cd-k { margin: 0; }
+.codd-sq:hover, .codd-sq:focus-visible { outline: none; border-style: solid; border-color: var(--fx); background: rgba(var(--fx-rgb), 0.06); }
+.codd-pop { position: absolute; z-index: 5; left: 0; top: calc(100% + 12px); width: 560px; padding: 22px 26px 24px; border: 1px solid var(--border-strong); border-radius: 16px; background: var(--bg); font-size: 22px; line-height: 1.5; color: var(--text-soft); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.2s, transform 0.2s var(--ease-out), visibility 0s 0.2s; }
+.codd-sq:hover .codd-pop, .codd-sq:focus-visible .codd-pop { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s, transform 0.2s var(--ease-out), visibility 0s; }
 .codd-sq b { font-weight: 600; color: var(--text-main); }
 .codd-lead { font-size: 29px; line-height: 1.5; color: var(--text-soft); }
-.dbq .cd.xs { font-size: 18px; line-height: 1.45; }
 
 /* ---------- #NoSQL ---------- */
 .ns { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
@@ -673,3 +671,8 @@
     .slide.active .is-rew i, .slide.active .is-part i,
     .slide.active .ask-dots i, .slide[data-hl] .dbt tbody tr, .slide[data-hl] .srv i, .slide[data-hl] .lic-b .is-pay { animation: none; }
 }
+
+/* Главная мысль: SQL → NoSQL → гибрид */
+.fx-body.idea { flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; align-items: stretch; margin-top: 64px; }
+.idea .tile-p { font-size: 27px; }
+.idea .tile-p b { font-weight: 600; color: var(--text-main); }

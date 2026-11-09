@@ -1,3 +1,17 @@
+// В превью и локальной копии открываем превью соседних докладов.
+// Опубликованный доклад сохраняет постоянные адреса из программы.
+(function () {
+  const isPreview = /^[^.]+\.bc-[^.]+\.pages\.dev$/.test(location.hostname);
+  if (!isPreview && location.protocol !== 'file:') return;
+
+  document.querySelectorAll('.timeline-next-title a').forEach((link) => {
+    const url = new URL(link.href);
+    if (!/^bc-[^.]+\.pages\.dev$/.test(url.hostname)) return;
+    url.hostname = 'preview.' + url.hostname;
+    link.href = url.href;
+  });
+})();
+
 // talk.js — поведение контентных слайдов: одна всплывающая подсказка на весь дек.
 // Подсказка живёт в body, а не на сцене: её размер не зависит от масштаба
 // слайда, и она не обрезается краем схемы. Элементы с data-tip доступны с клавиатуры.

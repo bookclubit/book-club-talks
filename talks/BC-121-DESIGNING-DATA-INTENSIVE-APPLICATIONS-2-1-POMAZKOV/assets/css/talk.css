@@ -672,7 +672,12 @@
     .slide.active .ask-dots i, .slide[data-hl] .dbt tbody tr, .slide[data-hl] .srv i, .slide[data-hl] .lic-b .is-pay { animation: none; }
 }
 
-/* Главная мысль: SQL → NoSQL → гибрид */
-.fx-body.idea { flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; align-items: stretch; margin-top: 64px; }
-.idea .tile-p { font-size: 27px; }
-.idea .tile-p b { font-weight: 600; color: var(--text-main); }
+/* Подсказки в главном тезисе */
+.idea-term {
+    text-decoration: underline dashed var(--fx) 2px;
+    text-underline-offset: 0.12em;
+}
+.idea-term:focus-visible {
+    outline: 2px solid var(--fx);
+    outline-offset: 6px;
+}

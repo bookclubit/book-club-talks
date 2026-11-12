@@ -142,6 +142,26 @@
   });
 })();
 
+// Курсор обхода: запускается при входе на слайд, замирает при выходе.
+// При сокращении движения остаётся только статическая схема.
+(function () {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll('svg[data-cursor-route]').forEach((svg) => {
+    const slide = svg.closest('.slide');
+    const sync = () => {
+      svg.pauseAnimations();
+      svg.setCurrentTime(0);
+      svg.querySelectorAll('circle').forEach((dot) => {
+        dot.style.visibility = reduced.matches ? 'hidden' : '';
+      });
+      if (slide.classList.contains('active') && !reduced.matches) svg.unpauseAnimations();
+    };
+    new MutationObserver(sync).observe(slide, { attributes: true, attributeFilter: ['class'] });
+    reduced.addEventListener('change', sync);
+    sync();
+  });
+})();
+
 // Вкладки .tbs: клик по номеру показывает свою панель, а слайд получает
 // data-tab — по нему CSS меняет метки на резюме («куда ляжет раздел»).
 // Вход на слайд возвращает первую вкладку.
@@ -156,6 +176,7 @@
         const on = b.dataset.tab === n;
         b.classList.toggle('is-on', on);
         b.setAttribute('aria-selected', String(on));
+        if (box.classList.contains('codasyl-cost-tabs')) b.tabIndex = on ? 0 : -1;
       });
       panes.forEach((p) => p.classList.toggle('is-on', p.dataset.pane === n));
       s.querySelectorAll('.cv-to').forEach((el) => {
@@ -168,6 +189,20 @@
       e.stopPropagation();
       show(b.dataset.tab);
     }));
+    if (box.classList.contains('codasyl-cost-tabs')) {
+      btns.forEach((b, i) => b.addEventListener('keydown', (e) => {
+        let next;
+        if (e.key === 'ArrowRight') next = (i + 1) % btns.length;
+        else if (e.key === 'ArrowLeft') next = (i + btns.length - 1) % btns.length;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = btns.length - 1;
+        else return;
+        e.preventDefault();
+        e.stopPropagation();
+        btns[next].click();
+        btns[next].focus();
+      }));
+    }
     show('1');
     let was = s.classList.contains('active');
     new MutationObserver(() => {
@@ -176,4 +211,148 @@
       was = now;
     }).observe(s, { attributes: true, attributeFilter: ['class'] });
   });
+})();
+
+// Обходы CODASYL: один курсор, текущая строка и видимое состояние вложенных циклов.
+(function () {
+  const slide = document.getElementById('slide-codasyl-code-cost');
+  const data = document.getElementById('cost-walk-data');
+  if (!slide || !data) return;
+  const walks = JSON.parse(data.textContent);
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const play = slide.querySelector('[data-walk-play]');
+  const next = slide.querySelector('[data-walk-next]');
+  const reset = slide.querySelector('[data-walk-reset]');
+  let pane = null;
+  let steps = [];
+  let index = 0;
+  let elapsed = 0;
+  let lastTime = null;
+  let frame = 0;
+  let paused = false;
+  let complete = false;
+  let wasActive = false;
+  let path = null;
+  let pathLength = 0;
+  let dot = null;
+
+  const controls = () => {
+    play.hidden = reduced.matches;
+    play.textContent = complete ? 'Повторить' : paused ? 'Продолжить' : 'Пауза';
+    next.disabled = complete;
+    if (pane) pane.dataset.walkRunning = String(Boolean(frame));
+  };
+  const stop = () => {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    lastTime = null;
+    controls();
+  };
+  const positionDot = (progress) => {
+    if (!path || !dot || reduced.matches) return;
+    const point = path.getPointAtLength(pathLength * progress);
+    dot.setAttribute('cx', point.x);
+    dot.setAttribute('cy', point.y);
+  };
+  const render = () => {
+    const step = steps[index];
+    pane.dataset.walkStep = index;
+    pane.dataset.walkKind = step.skip ? 'skip' : step.restore ? 'restore' : step.save ? 'save' : 'read';
+    pane.querySelectorAll('.is-current').forEach((el) => el.classList.remove('is-current'));
+    pane.querySelector('[data-walk-count]').textContent = `${index + 1} / ${steps.length}`;
+    pane.querySelector('[data-walk-message]').textContent = step.text;
+    const result = steps.slice(0, index + 1).reduce((value, s) => s.result ?? value, '—');
+    pane.querySelector('[data-walk-result]').textContent = result;
+    if (pane.querySelector('[data-walk-outer]')) {
+      pane.querySelector('[data-walk-outer]').textContent = step.outer;
+      pane.querySelector('[data-walk-inner]').textContent = step.inner;
+    }
+    step.lines.forEach((line) => pane.querySelector(`[data-walk-line="${line}"]`)?.classList.add('is-current'));
+    if (step.node) pane.querySelector(`[data-walk-node="${step.node}"]`)?.classList.add('is-current');
+    path = step.edge ? pane.querySelector(`[data-walk-edge="${step.edge}"]`) : null;
+    if (path) path.classList.add('is-current', 'is-visited');
+    pathLength = path ? path.getTotalLength() : 0;
+    dot = pane.querySelector('[data-walk-dot]');
+    dot.setAttribute('visibility', path && !reduced.matches ? 'visible' : 'hidden');
+    positionDot(paused ? 1 : 0);
+    controls();
+  };
+  const allowed = () => slide.classList.contains('active') && !document.hidden && !reduced.matches && !paused && !complete;
+  const tick = (time) => {
+    if (!allowed()) { stop(); return; }
+    if (lastTime !== null) elapsed += Math.min(time - lastTime, 100);
+    lastTime = time;
+    positionDot(Math.min(elapsed / 1100, 1));
+    if (elapsed >= (steps[index].duration || 1900)) {
+      elapsed = 0;
+      if (index === steps.length - 1) {
+        complete = true;
+        stop();
+        return;
+      }
+      index += 1;
+      render();
+    }
+    frame = requestAnimationFrame(tick);
+  };
+  const start = () => {
+    if (allowed() && !frame) {
+      lastTime = null;
+      frame = requestAnimationFrame(tick);
+    }
+    controls();
+  };
+  const begin = () => {
+    stop();
+    index = 0;
+    elapsed = 0;
+    complete = false;
+    pane.querySelectorAll('.is-visited').forEach((el) => el.classList.remove('is-visited'));
+    render();
+    start();
+  };
+  const sync = () => {
+    const active = slide.classList.contains('active');
+    const selected = slide.querySelector('.codasyl-cost-tabs .tbs-p.is-on');
+    if (selected && (selected !== pane || (active && !wasActive))) {
+      pane = selected;
+      steps = walks[pane.dataset.pane];
+      begin();
+    }
+    wasActive = active;
+    if (active) start();
+    else stop();
+  };
+  play.addEventListener('click', (event) => {
+    event.stopPropagation();
+    if (complete) { paused = false; begin(); return; }
+    paused = !paused;
+    if (paused) stop();
+    else start();
+  });
+  next.addEventListener('click', (event) => {
+    event.stopPropagation();
+    paused = true;
+    stop();
+    if (index < steps.length - 1) index += 1;
+    elapsed = 0;
+    complete = index === steps.length - 1;
+    render();
+  });
+  reset.addEventListener('click', (event) => {
+    event.stopPropagation();
+    paused = reduced.matches;
+    begin();
+  });
+  reduced.addEventListener('change', () => {
+    if (reduced.matches) { paused = true; stop(); }
+    if (pane) render();
+    start();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else start();
+  });
+  new MutationObserver(sync).observe(slide, { attributes: true, attributeFilter: ['class', 'data-tab'] });
+  sync();
 })();

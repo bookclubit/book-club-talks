@@ -173,7 +173,7 @@
 .why-g .tile.is-on { border-color: rgba(var(--fx-rgb), 0.6); background: rgba(var(--fx-rgb), 0.06); }
 .why-g .tile.is-on .tile-k { color: var(--fx); }
 .why-d { position: relative; height: 340px; margin-top: 20px; }
-.why-p { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding: 24px 34px; border: 1px dashed var(--border-strong); border-radius: 20px; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+.why-p { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding: 24px 34px; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
 .slide[data-hl='scale'] .why-p[data-for='scale'], .slide[data-hl='free'] .why-p[data-for='free'],
 .slide[data-hl='query'] .why-p[data-for='query'], .slide[data-hl='schema'] .why-p[data-for='schema'] { opacity: 1; visibility: visible; }
 .shard-c .k { display: block; margin-bottom: 12px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
@@ -416,7 +416,8 @@
 .tbs-db > span { margin-right: 6px; font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
 
 /* ---------- Три плюса документа ---------- */
-.plus .tile { display: flex; flex-direction: column; padding: 28px 30px; }
+.plus .tile { display: flex; flex-direction: column; padding: 28px 30px; border: 0; background: none; }
+.plus .tile::before { display: none; }
 .plus .tile-k { margin-bottom: 0; color: var(--fx); }
 .plus .tile-p { font-size: 21px; line-height: 1.4; }
 .plus .tile-p b { font-weight: 600; color: var(--text-main); }
@@ -441,7 +442,7 @@
 
 /* ---------- Две колонки «SQL | NoSQL» ---------- */
 .vs2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
-.vs2-c { min-width: 0; display: flex; flex-direction: column; gap: 16px; padding: 24px 28px; border: 1px solid var(--border); border-radius: 18px; }
+.vs2-c { min-width: 0; display: flex; flex-direction: column; gap: 16px; padding: 24px 28px; }
 .vs2-c .cd.xs { font-size: 16px; line-height: 1.42; }
 .vs2-h { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
 .vs2-h.is-hi { color: var(--fx); }
@@ -462,8 +463,7 @@
 .bal-beam i { position: absolute; left: 50%; top: 2px; width: 0; height: 0; margin-left: -14px; border: 14px solid transparent; border-bottom: 22px solid var(--text-muted); border-top: 0; }
 .slide.active .bal-beam::before { animation: balTilt 5s ease-in-out infinite; }
 @keyframes balTilt { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(2.5deg); } }
-.bal-p { padding: 26px 30px; border: 1px solid var(--border-strong); border-radius: 18px; }
-.bal-p.is-hi { border-color: rgba(var(--fx-rgb), 0.55); }
+.bal-p { padding: 26px 30px; }
 .bal-p .ck li { font-size: 22px; }
 .bal-who { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 30px; }
 .bal-who .tile { padding: 22px 28px; }
@@ -475,51 +475,79 @@
 .ph img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 14px; filter: grayscale(1) contrast(1.05); }
 .ph figcaption { margin-top: 10px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; color: var(--text-dim); }
 
-/* ---------- IMS и CODASYL: фото + факты ---------- */
-.ims { display: grid; grid-template-columns: 400px minmax(0, 1fr); gap: 48px; align-items: start; }
-.ims-a img { height: 560px; object-fit: cover; }
-.ims-r { display: flex; flex-direction: column; gap: 26px; }
-.ims-f { margin: 0; padding: 0; list-style: none; }
-.ims-f li { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 20px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--border-soft); }
-.ims-f li:first-child { border-top: 0; padding-top: 0; }
-.ims-f .n { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx); }
-.ims-f p { font-size: 24px; line-height: 1.45; color: var(--text-soft); }
-.ims-f b { font-weight: 600; color: var(--text-main); }
-.ims-b { display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 28px; align-items: end; }
-.ims-l { align-self: end; }
-.cds { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 56px; align-items: start; }
-.cds-ph img { height: 480px; object-fit: cover; object-position: 50% 20%; }
-.cds-r { display: flex; flex-direction: column; gap: 28px; }
+/* ---------- История IMS и CODASYL: фото и хронология ---------- */
+.history-layout { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 100px; align-items: center; }
+.ims-photos { display: grid; gap: 20px; }
+.ims-photos img { height: 200px; object-fit: cover; }
+.ims-photos .ims-apollo img { height: 370px; }
+.history-timeline { --timeline-gap: 36px; position: relative; display: grid; gap: var(--timeline-gap); max-width: 920px; margin: 0; padding: 0; list-style: none; }
+.history-timeline::before { content: ''; position: absolute; top: 4px; left: 1px; width: 9px; height: 9px; border: solid var(--fx); border-width: 1px 0 0 1px; transform: rotate(45deg); }
+.history-timeline li { position: relative; display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 20px; align-items: baseline; padding-left: 32px; }
+.history-timeline li::before { content: ''; position: absolute; z-index: 1; left: 1px; top: 15px; width: 9px; height: 9px; border: 1px solid var(--fx); border-radius: 50%; background: var(--bg); }
+.history-timeline li:not(:last-child)::after { content: ''; position: absolute; top: 19px; left: 5px; width: 1px; height: calc(100% + var(--timeline-gap)); background: var(--border-strong); }
+.history-timeline li:last-child::before { background: var(--fx); }
+.history-timeline .n { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx); }
+.history-timeline p { font-size: 29px; line-height: 1.45; color: var(--text-soft); }
+.history-timeline b { font-weight: 600; color: var(--text-main); }
 
-/* ---------- Дерево IMS ≈ JSON (подсветка по наведению) ---------- */
-.arch { display: grid; grid-template-columns: minmax(0, 1fr) 70px minmax(0, 1fr); gap: 16px; align-items: center; }
-.arch-t { width: 100%; }
-.arch-eq { font-size: 64px; font-weight: 600; text-align: center; color: var(--fx); }
-.arch-j .l { border-radius: 4px; transition: background 0.2s; }
-.slide[data-hl='u'] .arch-j [data-hlt='u'], .slide[data-hl='p1'] .arch-j [data-hlt='p1'],
-.slide[data-hl='p2'] .arch-j [data-hlt='p2'], .slide[data-hl='e'] .arch-j [data-hlt='e'] { background: rgba(var(--fx-rgb), 0.2); }
-.fig g.is-on .bx { stroke: var(--fx); stroke-width: 1.8; }
+/* ---------- Архитектура IMS и CODASYL ---------- */
+.arch-lead { max-width: 1420px; }
+.arch-lead b { font-weight: 600; color: var(--text-main); }
+.arch-lead [data-hl] { cursor: help; white-space: nowrap; text-decoration: underline dashed rgba(var(--fx-rgb), 0.6); text-underline-offset: 0.2em; }
+.arch-lead .is-on { color: var(--fx); }
+.arch-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-content: center; align-items: center; justify-content: stretch; }
+.arch-diagram { display: block; width: 100%; }
+.arch-code { margin: 0; }
+.arch-code .cd { padding: 18px 16px; font-size: 25px; white-space: normal; }
+.arch-code code { font-family: var(--font-mono); }
+.arch-code .l { padding: 4px 10px; border-radius: 4px; white-space: pre; transition: background 0.2s; }
+.arch-code .fx-note { margin-top: 12px; font-size: 20px; }
+.codasyl-code .cd { font-size: 22px; line-height: 1.35; }
+.codasyl-code .l { padding-block: 2px; }
+.codasyl-code .code-break { margin-top: 10px; }
+
+#slide-ims-arch[data-hl='root'] .ims-root .bx,
+#slide-ims-arch[data-hl='children'] .ims-child .bx,
+#slide-ims-arch[data-hl='path'] .ims-path-node .bx,
+[data-hl='owners'] [data-net~='owners'] .bx,
+[data-hl='route'] [data-net~='route'] .bx {
+    fill: rgba(var(--fx-rgb), 0.16);
+    stroke: var(--fx);
+    stroke-width: 2;
+}
+#slide-ims-arch[data-hl='path'] .ims-path-edge { stroke: var(--fx); stroke-width: 2.6; }
+[data-hl='owners'] path[data-net~='owners'],
+[data-hl='pointers'] path[data-net~='pointers'],
+[data-hl='route'] path[data-net~='route'] { stroke: var(--fx); stroke-width: 2.6; marker-end: url(#codasyl-arrow-active); }
+[data-hl='owners'] text[data-net~='owners'],
+[data-hl='pointers'] text[data-net~='pointers'],
+[data-hl='route'] text[data-net~='route'] { fill: var(--fx); }
+[data-hl='root'] .arch-code [data-hlt~='root'],
+[data-hl='children'] .arch-code [data-hlt~='children'],
+[data-hl='path'] .arch-code [data-hlt~='path'],
+[data-hl='owners'] .arch-code [data-hlt~='owners'],
+[data-hl='pointers'] .arch-code [data-hlt~='pointers'],
+[data-hl='route'] .arch-code [data-hlt~='route'] { background: rgba(var(--fx-rgb), 0.18); box-shadow: inset 2px 0 var(--fx); }
+
+/* ---------- IMS: связь «один-ко-многим» ---------- */
+.ims-benefits { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 96px; align-items: center; }
+.ims-example { margin: 0; }
+.ims-example svg { display: block; width: 100%; max-height: 510px; }
+.ims-reason h3 { margin: 0 0 10px; font-size: 36px; font-weight: 600; }
+.ims-reason p { max-width: 620px; font-size: 27px; line-height: 1.42; color: var(--text-soft); }
 
 /* ---------- Проблема IMS ---------- */
-.ip { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.ip-c { padding: 22px 26px 14px; border: 1px solid var(--border); border-radius: 18px; }
-.ip-c svg { display: block; width: 100%; max-height: 300px; margin-top: 10px; }
+.ip { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+.ip-c svg { display: block; width: 100%; max-height: 335px; margin-top: 20px; }
 .ip-copy .bx { stroke: var(--hot); stroke-dasharray: 5 4; }
 .slide.active .ip-copy .bx { animation: ipBlink 2.4s ease-in-out infinite; }
 @keyframes ipBlink { 50% { stroke-opacity: 0.35; } }
 .ip-ref { stroke-dasharray: 6 5; }
 .slide.active .ip-ref { animation: pgFlow 1.4s linear infinite; }
 
-/* ---------- Дерево против сети ---------- */
-.tn { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.tn-c { padding: 22px 26px 12px; border: 1px solid var(--border); border-radius: 18px; }
-.tn-c svg { display: block; width: 100%; margin-top: 10px; }
-.tn-dup { stroke: var(--hot) !important; stroke-dasharray: 5 4; }
-.tn-mm { stroke-width: 2.2; }
-
 /* ---------- Пути доступа ---------- */
 .pth { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.pth-c { padding: 22px 26px 8px; border: 1px solid var(--border); border-radius: 18px; }
+.pth-c { padding: 22px 26px 8px; }
 .pth-c svg { display: block; width: 100%; max-height: 300px; margin-top: 8px; }
 .pth-l { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 26px 0 0; padding: 0; list-style: none; }
 .pth-l li { padding-top: 14px; border-top: 2px solid var(--border-strong); font-size: 21px; line-height: 1.45; color: var(--text-soft); }
@@ -579,7 +607,7 @@
 
 /* ---------- Оптимизатор один на всех ---------- */
 .oo { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.oo-c { padding: 24px 28px 28px; border: 1px solid var(--border); border-radius: 18px; }
+.oo-c { padding: 24px 28px 28px; }
 .oo-g { display: grid; grid-template-columns: 1fr 90px 220px; align-items: center; margin-top: 22px; }
 .oo-apps { display: flex; flex-direction: column; gap: 12px; }
 .oo-apps span { padding: 12px 16px; border: 1px solid var(--border-strong); border-radius: 10px; font-size: 19px; color: var(--text-soft); }
@@ -649,6 +677,25 @@
 .rd-g { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 36px; align-items: center; margin-top: 34px; }
 .rd-ck li { font-size: 22px; }
 
+/* История вложенных значений: портрет и ссылка на первоисточник. */
+.fx-body.codd-origin { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 80px; align-items: center; }
+.codd-origin-photo { margin: 0; }
+.codd-origin-photo img { display: block; width: 100%; height: 390px; object-fit: cover; border-radius: 14px; }
+.codd-origin-photo figcaption { margin-top: 18px; font-size: 23px; color: var(--text-muted); }
+.codd-origin-copy p { font-size: 42px; line-height: 1.4; color: var(--text-soft); }
+.codd-origin-copy b { color: var(--text-main); font-weight: 600; }
+.codd-origin-source { display: inline-block; margin-top: 30px; font-size: 25px; }
+
+/* Примеры кода без карточек, SQL по центру и три колонки NoSQL. */
+.cd.code-bare { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+#slide-rel-docs .rd-g { display: flex; justify-content: center; margin-top: 48px; }
+#slide-rel-docs .rd-code { font-size: 25px; line-height: 1.5; }
+.doc-joins-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.doc-joins-grid .vs2-c { padding: 0; gap: 26px; }
+.doc-joins-grid .vs2-h { min-height: 52px; font-size: 18px; line-height: 1.5; letter-spacing: 0.08em; }
+.doc-joins-grid .cd { min-height: 300px; font-size: 21px; line-height: 1.55; }
+.doc-joins-grid .vs2-n { font-size: 25px; line-height: 1.45; }
+
 /* ---------- Соединения в документных БД ---------- */
 .dj { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; }
 .dj-n { padding: 10px 14px; border: 1px solid var(--border-strong); border-radius: 10px; font-size: 17px; color: var(--text-soft); white-space: nowrap; }
@@ -672,6 +719,100 @@
     .slide.active .ask-dots i, .slide[data-hl] .dbt tbody tr, .slide[data-hl] .srv i, .slide[data-hl] .lic-b .is-pay { animation: none; }
 }
 
+/* Один пример сложной связи: записи слева, определения наборов справа */
+.codasyl-benefit-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.codasyl-benefit-diagram { display: block; width: 100%; max-height: 100%; }
+.codasyl-benefit-code .cd { padding: 24px 26px; font-size: 28px; line-height: 1.5; }
+.codasyl-benefit-code .code-break { margin-top: 26px; }
+.codasyl-benefit-code .fx-note { margin-top: 26px; font-size: 23px; line-height: 1.55; }
+
+/* Эффективность навигационного доступа на технике 1970-х */
+.codasyl-hardware-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 64px; align-items: center; }
+.codasyl-hardware-figure { margin: 0; }
+.codasyl-hardware-figure img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 14px; }
+.codasyl-hardware-figure figcaption { margin-top: 14px; font-size: 17px; line-height: 1.5; color: var(--text-dim); }
+.codasyl-access-time { font-size: 120px; font-weight: 600; line-height: 1; letter-spacing: -0.06em; color: var(--fx); }
+.codasyl-access-time span { font-size: 60px; letter-spacing: -0.03em; }
+.codasyl-access-label { margin-top: 16px !important; font-size: 24px; line-height: 1.4; color: var(--text-muted); }
+.codasyl-hardware-explanation { margin-top: 42px !important; font-size: 31px; line-height: 1.5; color: var(--text-soft); }
+.codasyl-hardware-explanation b { color: var(--text-main); font-weight: 600; }
+
+/* Один набор записей, три программы и пошаговый курсор обхода */
+.codasyl-cost-body { margin-top: 26px; }
+.cost-navigation { display: flex; align-items: center; gap: 26px; border-bottom: 1px solid var(--border); }
+.cost-navigation .tbs-n { flex: 1; border: 0; }
+.codasyl-cost-tabs .tbs-b { padding: 10px 16px 16px; font-size: 23px; }
+.codasyl-cost-tabs .tbs-p { padding-top: 24px; }
+.codasyl-cost-tabs .tbs-p.is-on { animation: none; }
+.cost-playback { display: flex; gap: 8px; flex: none; }
+.cost-playback button { padding: 9px 13px; border: 1px solid var(--border-strong); border-radius: 7px; background: var(--bg-card); color: var(--text-soft); font: inherit; font-size: 18px; cursor: pointer; }
+.cost-playback button:hover { border-color: var(--fx); color: var(--text-main); }
+.cost-playback button:active { transform: scale(0.97); }
+.cost-playback button:focus-visible { outline: 2px solid var(--fx); outline-offset: 3px; }
+.cost-playback button:disabled { opacity: 0.45; cursor: default; }
+.codasyl-cost-layout { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.codasyl-cost-diagram { display: block; width: 100%; height: 350px; }
+.codasyl-cost-diagram .ln.fk { stroke-width: 2.4; }
+.codasyl-cost-diagram .cost-next { stroke-dasharray: 7 6; }
+.codasyl-cost-diagram .cost-walk-edge { opacity: 0.15; }
+.codasyl-cost-diagram .cost-walk-edge.is-visited { opacity: 0.5; }
+.codasyl-cost-diagram .cost-walk-edge.is-current { opacity: 1; stroke-width: 3; }
+.codasyl-cost-diagram [data-walk-node].is-current .bx { stroke: var(--fx); stroke-width: 2.5; fill: rgba(var(--fx-rgb), 0.14); }
+.cost-walk-dot { fill: var(--fx); stroke: var(--bg); stroke-width: 1.5; }
+.cost-walk-status { display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: 14px; align-items: baseline; margin-top: 14px; min-height: 60px; }
+.cost-walk-status > span { font-family: var(--font-mono); font-size: 18px; color: var(--fx); white-space: nowrap; }
+.cost-walk-status p { font-size: 23px; line-height: 1.3; color: var(--text-soft); }
+.cost-walk-state { display: flex; justify-content: space-between; gap: 18px; margin-top: 8px; font-size: 21px; line-height: 1.4; color: var(--text-muted); }
+.cost-walk-state b { color: var(--text-main); font-weight: 600; }
+.cost-walk-cursors { font-family: var(--font-mono); font-size: 18px; }
+.tbs-p[data-walk-kind='skip'] .cost-walk-status p { color: var(--hot); }
+.codasyl-cost-layout .cd { padding: 20px 24px; font-size: 25px; line-height: 1.42; }
+.codasyl-cost-layout .cd .l { border-radius: 3px; }
+.codasyl-cost-layout .cd .l.is-current { background: rgba(var(--fx-rgb), 0.17); box-shadow: -3px 0 0 var(--fx); }
+.cost-complex .cd { padding: 16px 20px; font-size: 24px; line-height: 1.28; }
+.cost-complex-note { margin-top: 12px !important; font-size: 20px; color: var(--text-muted); }
+.codasyl-cost-layout .cd-k { font-size: 15px; letter-spacing: 0.12em; }
+.codasyl-cost-takeaway { margin-top: 20px !important; font-size: 25px; line-height: 1.4; color: var(--text-muted); }
+.codasyl-cost-takeaway b { color: var(--text-main); font-weight: 600; }
+
+/* Изменение схемы разрывает явно названный в программе путь */
+.fragility-comparison { gap: 34px; }
+.fragility-state .fig { display: block; width: 100%; }
+.fragility-caption { display: flex; align-items: baseline; gap: 24px; font-size: 32px; font-weight: 600; color: var(--text-main); }
+.fragility-caption span { font-size: 26px; font-weight: 400; color: var(--text-muted); }
+.fig .fragility-deleted { fill: none; stroke: var(--hot); stroke-width: 2.5; stroke-dasharray: 9 7; }
+.fig .fragility-cross { fill: none; stroke: var(--hot); stroke-width: 3; }
+.fragility-conclusion { padding-top: 20px; border-top: 1px solid var(--border); font-size: 30px; color: var(--text-muted); text-align: center; }
+
+/* Реляционная модель: общий пример профиля, компаний и мест работы */
+.rsql-body { gap: 28px; }
+.rsql-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; width: 100%; }
+.rsql-cols > *, .rsql-many-grid > * { min-width: 0; }
+.rsql-code { padding: 22px 26px; font-size: 28px; line-height: 1.42; }
+.rsql-code .l { white-space: pre; }
+.rsql-table table { font-size: 24px; }
+.rsql-table th, .rsql-table td { height: 48px; padding: 0 16px; }
+.rsql-table .dbt-n { font-size: 17px; letter-spacing: 0.1em; line-height: 1.4; }
+.rsql-key { color: var(--fx); font-weight: 600; }
+.rsql-copy { font-size: 31px; line-height: 1.45; color: var(--text-main); }
+.rsql-code + .rsql-copy { margin-top: 22px !important; }
+.rsql-note { margin-top: 20px !important; font-size: 27px; line-height: 1.45; color: var(--text-muted); }
+.rsql-small { margin-top: 18px !important; font-size: 22px; line-height: 1.4; color: var(--text-dim); }
+.rsql-slide .fig { display: block; width: 100%; }
+.rsql-gap { margin-top: 26px; }
+.rsql-plan-option + .rsql-plan-option { margin-top: 28px; }
+.rsql-plan-option > span { display: block; margin-bottom: 12px; font-size: 23px; color: var(--text-muted); }
+.rsql-plan-option .cd { font-size: 26px; }
+.rsql-rule { padding-top: 20px; border-top: 1px solid var(--border); font-size: 28px; line-height: 1.45; color: var(--text-muted); }
+.rsql-rule b { color: var(--text-main); font-weight: 600; }
+.rsql-many-grid { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.12fr) minmax(0, 1fr); gap: 28px; width: 100%; align-items: center; }
+.rsql-compact-stack { display: grid; gap: 18px; }
+.rsql-compact table { font-size: 23px; }
+.rsql-compact th, .rsql-compact td { height: 42px; padding: 0 14px; }
+.rsql-migration { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 56px; align-items: center; width: 100%; }
+.rsql-migration h3 { margin: 0 0 12px; font-size: 32px; line-height: 1.2; color: var(--text-main); font-weight: 600; }
+.rsql-migration p { font-size: 27px; line-height: 1.4; color: var(--text-muted); }
+
 /* Подсказки в главном тезисе */
 .idea-term {
     text-decoration: underline dashed var(--fx) 2px;
@@ -681,3 +822,114 @@
     outline: 2px solid var(--fx);
     outline-offset: 6px;
 }
+
+/* Вертикальный пример JOIN: исходные строки → SQL → результат. */
+.rsql-vertical { align-items: center; gap: 10px; }
+.rsql-links-copy { max-width: 1480px; font-size: 26px; line-height: 1.4; color: var(--text-muted); }
+.rsql-links-copy b { color: var(--text-main); font-weight: 600; }
+
+/* Выводы: один тезис и три конкретных сценария из доклада. */
+.conclusions-slide .fx-h { max-width: none; font-size: 96px; line-height: 1.08; letter-spacing: -0.045em; text-wrap: initial; }
+.fx-body.conclusions-body { justify-content: center; margin-top: 64px; }
+.conclusions-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 72px; width: 100%; }
+.conclusions-column { min-width: 0; }
+.conclusions-column h3 { margin: 0; font-size: 40px; line-height: 1.13; font-weight: 600; letter-spacing: -0.025em; color: var(--text-main); }
+.conclusions-databases { display: flex; align-items: flex-start; gap: 28px; min-height: 58px; margin-top: 28px; }
+.conclusions-db { display: flex; align-items: center; gap: 12px; color: var(--text-soft); }
+.conclusions-db .lg-i { flex: none; width: 36px; height: 42px; color: var(--fx); }
+.conclusions-db > span { font-size: 22px; line-height: 1.35; }
+.conclusions-db small { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 17px; white-space: nowrap; color: var(--text-dim); }
+.conclusions-column p { margin-top: 38px; font-size: 35px; line-height: 1.36; letter-spacing: -0.015em; color: var(--text-muted); }
+.conclusions-column b { font-weight: 500; color: var(--text-main); }
+.rsql-terms { display: flex; justify-content: center; align-items: baseline; gap: 28px; }
+.rsql-term { appearance: none; padding: 0 0 4px; border: 0; border-bottom: 2px dashed var(--fx); background: none; color: var(--text-main); font: inherit; font-size: 27px; cursor: help; }
+.rsql-term.is-on { color: var(--fx); border-bottom-style: solid; }
+.rsql-term-inline { text-decoration: underline dashed var(--fx) 2px; text-underline-offset: 0.12em; cursor: help; }
+.rsql-term:focus-visible, .rsql-term-inline:focus-visible, .rsql-orm-link:focus-visible { outline: 2px solid var(--fx); outline-offset: 6px; }
+.rsql-terms-hint { color: var(--text-dim); font-size: 20px; }
+.rsql-source-tables { display: grid; grid-template-columns: 1fr 1fr; width: 1160px; gap: 56px; }
+.rsql-vertical .rsql-table th, .rsql-vertical .rsql-table td { height: 38px; }
+.rsql-query, .rsql-result { width: 760px; }
+.rsql-vertical .rsql-code { padding: 14px 24px; font-size: 24px; line-height: 1.25; }
+.rsql-flow-arrow { flex: none; text-align: center; color: var(--fx); font-size: 32px; line-height: 1; }
+[data-rel-mark] { border-radius: 3px; transition: background 0.15s, color 0.15s, box-shadow 0.15s; }
+#slide-relational [data-hl] { scroll-margin: 8px; }
+#slide-relational[data-hl='fk'] [data-rel-mark~='fk'],
+#slide-relational[data-hl='id'] [data-rel-mark~='id'],
+#slide-relational[data-hl='join'] [data-rel-mark~='join'] {
+    color: var(--fx); background: rgba(var(--fx-rgb), 0.16); box-shadow: 0 0 0 3px rgba(var(--fx-rgb), 0.16);
+}
+#slide-relational[data-hl='join'] [data-rel-mark] .k { color: var(--fx); }
+.rsql-query-caption { text-align: center; }
+.rsql-many-layout { gap: 28px; align-items: center; }
+.rsql-many-query { width: 1000px; }
+
+/* Языки с поддержкой ООП, объект приложения и нормализованные таблицы. */
+:root { --logo-paper: #ffffff; }
+.rsql-mismatch-flow { display: grid; grid-template-columns: 280px 70px 540px 70px minmax(0, 1fr); align-items: center; width: 100%; }
+.rsql-languages { display: grid; gap: 24px; }
+.rsql-languages h3 { margin: 0 0 8px; font-size: 29px; font-weight: 500; line-height: 1.3; }
+.rsql-language { display: flex; align-items: center; gap: 18px; font-size: 25px; }
+.rsql-language-logo { display: flex; align-items: center; justify-content: center; width: 94px; height: 80px; border-radius: 8px; background: var(--logo-paper); }
+.rsql-language img { display: block; max-width: 84px; max-height: 66px; object-fit: contain; }
+.rsql-horizontal-arrow { text-align: center; font-size: 42px; color: var(--fx); }
+.rsql-object .rsql-code { padding: 20px; font-size: 23px; line-height: 1.5; }
+.rsql-mismatch-flow .rsql-compact th, .rsql-mismatch-flow .rsql-compact td { padding-inline: 12px; }
+
+/* Увеличенный слой ORM со ссылками на JS/TS-инструменты. */
+.rsql-orm-layout { align-items: center; gap: 16px; }
+.rsql-orm-diagram { display: flex; flex-direction: column; align-items: center; width: 1050px; gap: 10px; }
+.rsql-model-node { padding: 16px 28px; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--bg-hover); text-align: center; font-family: var(--font-mono); font-size: 28px; }
+.rsql-orm-diagram > .rsql-model-node { min-width: 300px; }
+.rsql-orm-layer { align-self: stretch; padding: 22px 38px 28px; border: 2px solid var(--fx); border-radius: 14px; background: rgba(var(--fx-rgb), 0.07); text-align: center; }
+.rsql-orm-layer h3 { margin: 0 0 4px; font-size: 38px; color: var(--fx); }
+.rsql-orm-layer > p { font-size: 22px; color: var(--text-muted); }
+.rsql-orm-logos { display: flex; justify-content: center; gap: 32px; margin-top: 22px; }
+.rsql-orm-link { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-main); text-decoration: none; font-size: 24px; }
+.rsql-orm-link img { display: block; box-sizing: border-box; width: 280px; height: 82px; padding: 16px; border-radius: 8px; background: var(--logo-paper); object-fit: contain; }
+.rsql-orm-link:hover span { color: var(--fx); text-decoration: underline; text-underline-offset: 4px; }
+.rsql-orm-branches, .rsql-orm-tables { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; width: 100%; }
+.rsql-orm-branches { font-size: 32px; line-height: 1; color: var(--fx); text-align: center; }
+.rsql-orm-layout .rsql-note { margin-top: 0 !important; max-width: 1330px; text-align: center; }
+.rsql-orm-layout .rsql-copy { margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) {
+    [data-rel-mark] { transition: none; }
+}
+
+/* Плюсы и минусы документной модели после причин появления NoSQL. */
+.nosql-story-body { gap: 28px; }
+.nosql-story-lead { max-width: 1520px; font-size: 31px; line-height: 1.4; color: var(--text-soft); }
+.nosql-story-code { padding: 22px 26px; font-size: 27px; line-height: 1.42; }
+.nosql-story-code .l { white-space: pre; }
+.nosql-code-flow { display: grid; grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr); align-items: center; }
+.nosql-code-flow > *, .nosql-document-pair > *, .nosql-schema-layout > * { min-width: 0; }
+.nosql-story-arrow { color: var(--fx); font-size: 48px; text-align: center; }
+.nosql-story-takeaway { padding-top: 20px; border-top: 1px solid var(--border); font-size: 29px; line-height: 1.4; color: var(--text-soft); }
+.nosql-story-caveat { font-size: 23px; line-height: 1.4; color: var(--text-muted); }
+.nosql-schema-layout { display: grid; grid-template-columns: 520px minmax(0, 1fr); gap: 70px; align-items: center; }
+.nosql-story-explanation h3, .nosql-tradeoff-columns h3, .nosql-cost-row h3 { margin: 0 0 16px; font-size: 33px; font-weight: 600; line-height: 1.2; color: var(--text-main); }
+.nosql-story-explanation h3:not(:first-child) { margin-top: 42px; }
+.nosql-story-explanation p, .nosql-cost-row p { font-size: 29px; line-height: 1.45; color: var(--text-muted); }
+.nosql-document-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: start; }
+.nosql-document-pair .nosql-story-code { font-size: 25px; }
+.nosql-reader-label { margin-top: 24px; }
+.nosql-tradeoff-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; }
+.nosql-tradeoff-columns > div { display: flex; flex-direction: column; min-width: 0; }
+.nosql-tradeoff-columns .nosql-story-code { flex: 1; font-size: 26px; }
+.nosql-tradeoff-columns p { margin-top: 20px; font-size: 28px; line-height: 1.4; color: var(--text-muted); }
+.nosql-cost-rows { display: grid; gap: 50px; }
+.nosql-cost-row { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: center; gap: 60px; }
+.nosql-cost-row .cd-k { letter-spacing: 0.08em; font-size: 17px; }
+.nosql-cost-row .is-part i:not(.need) { background: rgba(var(--hot-rgb), 0.2); }
+.nosql-cost-row .is-rew i { background: rgba(var(--hot-rgb), 0.35); }
+.nosql-address-path { display: flex; align-items: center; gap: 24px; padding: 18px 0; font-family: var(--font-mono); font-size: 28px; color: var(--text-soft); }
+.nosql-address-path b, .nosql-address-path > [aria-hidden] { color: var(--hot); }
+.nosql-address-path code { margin-left: auto; }
+.nosql-address-comparison { display: grid; grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr); align-items: center; }
+.nosql-address-table table { font-size: 28px; }
+.nosql-address-table th, .nosql-address-table td { height: 46px; }
+.nosql-address-table .dbt-n { font-size: 17px; letter-spacing: 0.1em; }
+.nosql-address-selected td { color: var(--hot); background: rgba(var(--hot-rgb), 0.1); }
+#slide-nosql-code-fit .nosql-story-body { gap: 24px; }
+#slide-nosql-code-fit .nosql-story-code { font-size: 26px; }
+#slide-nosql-nested-addressing .nosql-story-body { gap: 20px; }

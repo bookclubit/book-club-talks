@@ -29,7 +29,7 @@
     <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
     <link rel="stylesheet" href="assets/css/theme.css">
     <!-- Компоненты контентных слайдов этого доклада -->
-    <link rel="stylesheet" href="assets/css/talk.css">
+    <link rel="stylesheet" href="assets/css/talk.css?v=2026-11-13-pipeline-1">
 
 </head>
 <body data-hud="Высоконагруженные приложения · Глава 2 · Языки запросов для данных">
@@ -72,15 +72,14 @@
 <section class="slide fx is-hero" id="slide-idea" data-slide="2" data-toc="Главная мысль">
 <div class="fx-wrap">
 <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Главная мысль</div>
-<h2 class="fx-h" data-rv>SQL говорит, <mark>что</mark> нужно, а не <mark class="hot">как</mark> это достать</h2>
-<div class="fx-body is-top"><div class="hero-vs">
-  <div data-rv="left"><span class="k">IMS и CODASYL</span><b class="hot">императивный код</b><p>шаг за шагом: открой, перебери, проверь, сложи</p></div>
-  <i class="hero-arr" data-rv="pop" aria-hidden="true">→</i>
-  <div data-rv="right"><span class="k">реляционная модель</span><b>декларативный SQL</b><p>описание результата, а путь выбирает база</p></div>
-</div></div>
+<h2 class="fx-h" data-rv>SQL описывает, <mark>что</mark> нужно.<br>База решает, <mark>как</mark> это получить.</h2>
+<div class="fx-body idea-body">
+<p class="idea-summary" data-rv>Декларативный подход естественен для баз данных: СУБД сама выбирает и оптимизирует план запроса.</p>
+<p class="idea-conclusion" data-rv><span>Это одна из причин</span><strong>популярности SQL</strong></p>
+</div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> В прошлом докладе мы видели, как реляционная модель победила IMS и CODASYL. Одно из её главных новшеств — новый способ спрашивать данные. SQL — декларативный язык запросов, а IMS и CODASYL выполняли запросы императивным кодом. Что это значит и почему это важно — весь этот доклад.</p>
+<p><em>Текст</em> В прошлом докладе мы видели, как реляционная модель победила IMS и CODASYL. Одно из её главных новшеств — новый способ спрашивать данные. SQL — декларативный язык запросов, а IMS и CODASYL выполняли запросы императивным кодом. Декларативный подход хорошо подходит для баз данных: СУБД сама выбирает и оптимизирует способ получения результата. Это одна из причин популярности SQL. Что это значит и почему это важно — весь этот доклад.</p>
 <p><em>Переход</em> Начнём с императивного кода, который пишет каждый из нас.</p>
 </aside>
 </section>
@@ -128,11 +127,6 @@
     <span class="dec-k">SQL</span>
     <pre class="cd dec-q"><span class="k" data-hlt="sel">SELECT</span> * <span class="k" data-hlt="src">FROM animals</span> <span class="k" data-hlt="cond">WHERE family = <span class="s">'Sharks'</span></span>;</pre>
   </div>
-  <div class="grid3 dec-t">
-    <div class="tile" data-rv><div class="tile-k">Описываем</div><p class="tile-p">Каким условиям соответствует результат и как его преобразовать: отсортировать, сгруппировать, агрегировать</p></div>
-    <div class="tile" data-rv><div class="tile-k">Не описываем</div><p class="tile-p">Какие индексы и методы соединения брать и в каком порядке выполнять части запроса</p></div>
-    <div class="tile is-hi" data-rv><div class="tile-k">Решает</div><p class="tile-p"><b>Оптимизатор запросов</b> СУБД — тот самый из прошлого доклада</p></div>
-  </div>
 </div></div>
 </div>
 <aside class="notes">
@@ -165,12 +159,11 @@
     <p class="vs2-n">Результат — множество, порядок не гарантирован. Базе <b>можно</b> перекладывать записи как угодно</p>
   </div>
 </div>
-<div class="so" data-rv><span>Цена</span><div>Возможностей у SQL меньше, но именно поэтому у оптимизатора <b>гораздо больше свободы</b></div></div></div>
+</div>
 </div>
 <aside class="notes">
 <p><em>Текст</em> Декларативные языки привлекательны, потому что короче и удобнее императивных API. Но важнее другое: они скрывают подробности реализации ядра базы, и у СУБД появляется возможность повышать производительность, не меняя запросов.</p>
 <p><em>Текст</em> Пример из книги. Императивный код выше возвращает животных в определённом порядке. Допустим, базе понадобилось незаметно освободить неиспользуемое место на диске, и для этого надо перетасовать записи — порядок изменится. Сможет ли база сделать это безопасно? Запрос на SQL не гарантирует никакого порядка, поэтому ему всё равно. А если запрос написан императивным кодом, база не может знать, рассчитывает ли код на порядок.</p>
-<p><em>Текст</em> Функциональность SQL более ограничена, но это даёт гораздо больше возможностей для автоматической оптимизации.</p>
 <p><em>Как показывать</em> Строки в обеих колонках меняются местами — слева это риск, справа норма. Строка с getSharks()[0] — моя иллюстрация.</p>
 <p><em>Переход</em> И вторая причина — железо.</p>
 </aside>
@@ -201,165 +194,75 @@
 <p><em>Текст</em> Наконец, декларативные языки хорошо подходят для параллельного выполнения. Сегодня процессоры ускоряются за счёт добавления ядер, а не роста тактовой частоты. Распараллелить императивный код на несколько ядер и машин очень непросто: в нём задан определённый порядок выполнения команд.</p>
 <p><em>Текст</em> У декларативных языков шансы выше: они задают только шаблон результата, а не алгоритм его получения. База при желании может выполнить запрос параллельно — поделить данные между ядрами или машинами.</p>
 <p><em>Как показывать</em> Анимация условная: слева клетки заполняются по одной, справа — четыре ряда одновременно.</p>
-<p><em>Переход</em> Эта идея работает не только в базах данных. Нам, фронтендерам, она знакома лучше всех.</p>
+<p><em>Переход</em> И ещё одно преимущество: СУБД сама выбирает план запроса.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-web" data-slide="7" data-toc="Декларативность в браузере">
+<section class="slide fx" id="slide-optimizer" data-slide="7" data-toc="Оптимизатор запросов">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">06</span>Декларативные запросы в Интернете</div>
-<h2 class="fx-h" data-rv>Сайт о морских животных: <mark>подсветить</mark> выбранный раздел</h2>
-<p class="fx-lead" data-rv>Пользователь смотрит страницу об акулах — пункт меню Sharks помечен классом <code>selected</code></p>
-<div class="fx-body"><div class="web">
-  <pre class="cd sm" data-rv="left"><span class="l"><span class="k">&lt;ul&gt;</span></span><span class="l m">  <span class="k">&lt;li</span> class=<span class="s">"selected"</span><span class="k">&gt;</span></span><span class="l m">    <span class="k">&lt;p&gt;</span>Sharks<span class="k">&lt;/p&gt;</span></span><span class="l">    <span class="k">&lt;ul&gt;</span></span><span class="l">      <span class="k">&lt;li&gt;</span>Great White Shark<span class="k">&lt;/li&gt;</span></span><span class="l">      <span class="k">&lt;li&gt;</span>Tiger Shark<span class="k">&lt;/li&gt;</span></span><span class="l">      <span class="k">&lt;li&gt;</span>Hammerhead Shark<span class="k">&lt;/li&gt;</span></span><span class="l">    <span class="k">&lt;/ul&gt;</span></span><span class="l">  <span class="k">&lt;/li&gt;</span></span><span class="l">  <span class="k">&lt;li&gt;</span></span><span class="l">    <span class="k">&lt;p&gt;</span>Whales<span class="k">&lt;/p&gt;</span></span><span class="l">    <span class="k">&lt;ul&gt;</span> … <span class="k">&lt;/ul&gt;</span></span><span class="l">  <span class="k">&lt;/li&gt;</span></span><span class="l"><span class="k">&lt;/ul&gt;</span></span></pre>
-  <div class="web-r" data-rv="right">
-    <div class="cd-k is-hi">Задача</div>
-    <p class="web-t">Фон заголовка выбранного раздела — <b>синий</b>. Как это сделать?</p>
-    <div class="web-o"><span>CSS</span><span>XSL</span><span>JavaScript и DOM</span></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">06</span>Почему декларативно · 3</div>
+<h2 class="fx-h" data-rv>Вы пишете запрос.<br><mark>СУБД выбирает план.</mark></h2>
+<p class="fx-lead" data-rv>Оптимизатор запросов решает, как получить результат с меньшими затратами</p>
+<div class="fx-body optimizer-body">
+  <div class="optimizer-choices">
+    <div data-rv><span>01</span><h3>Индексы</h3><p>Прочитать всю таблицу<br>или использовать индекс?</p></div>
+    <div data-rv><span>02</span><h3>Порядок соединений</h3><p>С какой таблицы начать<br>и в каком порядке соединять?</p></div>
+    <div data-rv><span>03</span><h3>Способ соединения</h3><p>Вложенный цикл, хеширование<br>или слияние?</p></div>
   </div>
-</div></div>
+</div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> Преимущества декларативных языков не ограничиваются базами данных. Сравним два подхода в совершенно другой среде — в браузере.</p>
-<p><em>Текст</em> Допустим, у нас сайт о морских животных. Пользователь сейчас смотрит страницу об акулах, поэтому мы помечаем пункт меню Sharks как выбранный: у элемента li класс selected, а заголовок выбранной страницы — p со словом Sharks. Задача: фон заголовка выбранной страницы должен быть синим. Как бы вы это сделали? Спросите зал.</p>
-<p><em>Как показывать</em> HTML — из книги, список китов сокращён. Выделены строки с классом selected и заголовком.</p>
-<p><em>Переход</em> Конечно, CSS.</p>
+<p><em>Текст</em> В СУБД есть оптимизатор запросов. Мы пишем SQL, а он выбирает, использовать ли индексы, в каком порядке соединять таблицы и каким способом. Разработчику не нужно задавать эти шаги в каждом запросе.</p>
+<p><em>Переход</em> А теперь посмотрим на другой способ обработки данных — MapReduce.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-css" data-slide="8" data-toc="CSS и XSL">
+<section class="slide fx" id="slide-mr" data-slide="8" data-toc="Что такое MapReduce">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">07</span>Декларативные запросы в Интернете</div>
-<h2 class="fx-h" data-rv>CSS-селектор — это <mark>декларативный запрос</mark></h2>
-<div class="fx-body"><div class="web">
-  <div class="web-l">
-    <div data-rv="left"><div class="cd-k is-hi">CSS</div><pre class="cd sm">li.selected &gt; p {
-  background-color: blue;
-}</pre></div>
-    <div data-rv="left"><div class="cd-k">XSL · то же через XPath</div><pre class="cd xs"><span class="k">&lt;xsl:template</span> match=<span class="s">"li[@class='selected']/p"</span><span class="k">&gt;</span>
-  <span class="k">&lt;fo:block</span> background-color=<span class="s">"blue"</span><span class="k">&gt;</span>
-    <span class="k">&lt;xsl:apply-templates/&gt;</span>
-  <span class="k">&lt;/fo:block&gt;</span>
-<span class="k">&lt;/xsl:template&gt;</span></pre></div>
-    <p class="web-n" data-rv>Шаблон: все <code>&lt;p&gt;</code>, чей непосредственный родитель — <code>&lt;li&gt;</code> с классом <code>selected</code></p>
-  </div>
-  <div class="demo" data-rv="right" data-demo="css">
-    <div class="cd-k">Живое меню · правило CSS работает само</div>
-    <ul class="menu">
-      <li class="selected" data-m="sh"><p>Sharks</p><ul><li>Great White Shark</li><li>Tiger Shark</li><li>Hammerhead Shark</li></ul></li>
-      <li data-m="wh"><p>Whales</p><ul><li>Blue Whale</li><li>Humpback Whale</li><li>Fin Whale</li></ul></li>
-    </ul>
-    <div class="demo-b"><button type="button" data-pick="sh">Открыть Sharks</button><button type="button" data-pick="wh">Открыть Whales</button></div>
-    <p class="demo-s">Класс переехал — подсветка переехала за ним</p>
-  </div>
-</div></div>
-</div>
-<aside class="notes">
-<p><em>Как показывать</em> Справа живое меню. Кликните «Открыть Whales»: класс selected переезжает, и браузер сам переносит подсветку. Это пригодится на следующем слайде для сравнения.</p>
-<p><em>Текст</em> В CSS это одна строка: li.selected &gt; p, background-color blue. Селектор объявляет шаблон элементов: все p, чей непосредственный родитель — li с классом selected. Sharks соответствует шаблону, Whales — нет, у его родителя нет класса selected.</p>
-<p><em>Текст</em> То же самое можно сделать в XSL: XPath-выражение li[@class='selected']/p эквивалентно CSS-селектору. XSL и CSS объединяет то, что оба — декларативные языки описания стилей документа.</p>
-<p><em>Как показывать</em> В демо вместо синего — цвет книги, как во всём деке.</p>
-<p><em>Переход</em> А теперь представьте, что CSS нет.</p>
-</aside>
-</section>
-
-<section class="slide fx" id="slide-dom" data-slide="9" data-toc="Императивный DOM">
-<div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">08</span>Декларативные запросы в Интернете</div>
-<h2 class="fx-h" data-rv>А теперь императивно: <mark class="hot">DOM API</mark></h2>
-<div class="fx-body"><div class="web">
-  <div class="web-l">
-    <pre class="cd xs dom-c" data-rv="left"><span class="k">var</span> liElements = document.getElementsByTagName(<span class="s">"li"</span>);
-<span class="k">for</span> (<span class="k">var</span> i = 0; i &lt; liElements.length; i++) {
-  <span class="k">if</span> (liElements[i].className === <span class="s">"selected"</span>) {
-    <span class="k">var</span> children = liElements[i].childNodes;
-    <span class="k">for</span> (<span class="k">var</span> j = 0; j &lt; children.length; j++) {
-      <span class="k">var</span> child = children[j];
-      <span class="k">if</span> (child.nodeType === Node.ELEMENT_NODE &amp;&amp;
-          child.tagName === <span class="s">"P"</span>) {
-        child.setAttribute(<span class="s">"style"</span>, <span class="s">"background-color: blue"</span>);
-      }
-    }
-  }
-}</pre>
-    <div class="dom-p">
-      <div class="tile is-hot" data-rv><div class="tile-k">Класс сняли — фон остался</div><p class="tile-p">Даже если выполнить код ещё раз. CSS убрал бы подсветку сам</p></div>
-      <div class="tile is-hot" data-rv><div class="tile-k">Новый API — переписать</div><p class="tile-p"><code>getElementsByClassName</code>, <code>document.evaluate()</code>. А браузер ускоряет CSS и XPath без поломок</p></div>
-    </div>
-  </div>
-  <div class="demo" data-rv="right" data-demo="dom">
-    <div class="cd-k is-hot">Живое меню · стиль ставит JavaScript</div>
-    <ul class="menu">
-      <li class="selected" data-m="sh"><p>Sharks</p><ul><li>Great White Shark</li><li>Tiger Shark</li><li>Hammerhead Shark</li></ul></li>
-      <li data-m="wh"><p>Whales</p><ul><li>Blue Whale</li><li>Humpback Whale</li><li>Fin Whale</li></ul></li>
-    </ul>
-    <div class="demo-b"><button type="button" data-run>Запустить код</button><button type="button" data-pick="wh">Открыть Whales</button><button type="button" data-reset>Сначала</button></div>
-    <p class="demo-s" data-out>Нажмите «Запустить код»</p>
-  </div>
-</div></div>
-</div>
-<aside class="notes">
-<p><em>Как показывать</em> Живое демо: «Запустить код» — Sharks подсветился. «Открыть Whales» — класс переехал, а подсветка осталась на Sharks. Ещё раз «Запустить код» — теперь подсвечены оба. «Сначала» — сброс.</p>
-<p><em>Текст</em> Если использовать императивный подход, на JavaScript с базовым DOM API получится вот это: найти все li, для каждого проверить класс, перебрать детей, найти среди них элемент P и поставить ему стиль. Код ужасен: он намного длиннее и труднее, чем CSS, и у него серьёзные проблемы.</p>
-<p><em>Текст</em> Первая: при удалении класса selected, например когда пользователь перешёл на другую страницу, синий фон останется, даже если выполнить код ещё раз, — пока страницу не перезагрузят. CSS браузер пересчитывает сам и уберёт фон сразу. Вторая: захотите воспользоваться новым API ради производительности — getElementsByClassName или document.evaluate — придётся переписывать код. А создатели браузеров улучшают производительность CSS и XPath, ничего не ломая.</p>
-<p><em>Переход</em> Вывод очевиден для любого фронтендера.</p>
-</aside>
-</section>
-
-<section class="slide fx is-hero" id="slide-web-moral" data-slide="10" data-toc="Мораль про браузер">
-<div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">09</span>Вывод</div>
-<h2 class="fx-h" data-rv>CSS в браузере — это <mark>SQL</mark> в базе данных</h2>
-<div class="fx-body is-top"><div class="mor">
-  <div class="mor-r" data-rv><span class="k">в браузере</span><p>Декларативный <b>CSS</b> удобнее императивного управления стилями из JavaScript</p></div>
-  <div class="mor-r" data-rv><span class="k">в базе</span><p>Декларативный <b>SQL</b> удобнее императивных API запросов</p></div>
-  <div class="mor-r is-dim" data-rv><span class="k">сноска</span><p>IMS и CODASYL как раз императивны: приложения на COBOL перебирали записи <b>по одной</b></p></div>
-</div></div>
-</div>
-<aside class="notes">
-<p><em>Текст</em> В браузере декларативные CSS-стили намного удобнее императивного управления стилями из JavaScript. Точно так же в базах данных декларативные языки вроде SQL удобнее императивных API запросов. Сноска книги напоминает: и IMS, и CODASYL используют именно императивные API — приложения на COBOL перебирали записи в базе по одной за раз.</p>
-<p><em>Переход</em> Но между декларативным и императивным есть и третий путь.</p>
-</aside>
-</section>
-
-<section class="slide fx" id="slide-mr" data-slide="11" data-toc="Что такое MapReduce">
-<div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">10</span>Запросы с помощью MapReduce</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">07</span>Запросы с помощью MapReduce</div>
 <h2 class="fx-h" data-rv>MapReduce — нечто <mark>среднее</mark></h2>
-<p class="fx-lead" data-rv>Модель обработки больших объёмов данных блоками на множестве машин, которую продвигала Google. В ограниченном виде её поддерживают MongoDB и CouchDB — для запросов на чтение по многим документам</p>
+<p class="fx-lead" data-rv>Модель обработки больших объёмов данных блоками на множестве машин, которую продвигала <a class="lnk" href="https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/" target="_blank" rel="noopener">Google (2004)</a>. В ограниченном виде её поддерживают <a class="lnk" href="https://www.mongodb.com/" target="_blank" rel="noopener">MongoDB</a> и <a class="lnk" href="https://couchdb.apache.org/" target="_blank" rel="noopener">CouchDB</a> — для запросов на чтение по многим документам</p>
 <div class="fx-body"><div class="mr">
   <div class="mr-flow" data-rv="fade">
-    <span class="mr-b">документы</span><i></i>
-    <span class="mr-b is-hi"><b>map</b>на каждый документ</span><i></i>
-    <span class="mr-b">пары ключ — значение</span><i></i>
-    <span class="mr-b">группировка по ключу</span><i></i>
-    <span class="mr-b is-hi"><b>reduce</b>на каждый ключ</span><i></i>
-    <span class="mr-b">результат</span>
+    <span class="mr-b" data-tip-code data-tip="Входные документы
+[
+  { family: &quot;Sharks&quot;, numAnimals: 3 },
+  { family: &quot;Sharks&quot;, numAnimals: 4 }
+]">документы</span><i></i>
+    <span class="mr-b is-hi" data-tip-code data-tip="map: вызывается для каждого документа
+function map() {
+  emit(&quot;1995-12&quot;, this.numAnimals);
+}"><b>map</b>на каждый документ</span><i></i>
+    <span class="mr-b" data-tip-code data-tip="Результат map
+[&quot;1995-12&quot;, 3]
+[&quot;1995-12&quot;, 4]">пары ключ — значение</span><i></i>
+    <span class="mr-b" data-tip-code data-tip="Одинаковые ключи собираются вместе
+&quot;1995-12&quot; → [3, 4]">группировка по ключу</span><i></i>
+    <span class="mr-b is-hi" data-tip-code data-tip="reduce: сворачивает значения одного ключа
+function reduce(key, values) {
+  return Array.sum(values);
+}"><b>reduce</b>на каждый ключ</span><i></i>
+    <span class="mr-b" data-tip-code data-tip="Итоговый документ
+{ _id: &quot;1995-12&quot;, value: 7 }">результат</span>
   </div>
-  <div class="grid3 mr-t">
-    <div class="tile" data-rv><div class="tile-k">Не декларативно</div><p class="tile-p">Логика — это фрагменты кода, которые фреймворк вызывает много раз</p></div>
-    <div class="tile" data-rv><div class="tile-k">Не императивно</div><p class="tile-p">Порядок обхода, группировку и место выполнения выбирает фреймворк</p></div>
-    <div class="tile is-hi" data-rv><div class="tile-k">Знакомо по JS</div><p class="tile-p">map (collect) и reduce (fold, inject) — из функциональных языков. Как <code>arr.map().reduce()</code></p></div>
-  </div>
-  <div class="chips tight" data-rv><a class="chip lg" href="https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/" target="_blank" rel="noopener">Google · MapReduce, 2004 ↗</a><a class="chip lg" href="https://www.mongodb.com/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-mongodb"/></svg>MongoDB</a><a class="chip lg" href="https://couchdb.apache.org/" target="_blank" rel="noopener"><svg class="lg-i"><use href="#lg-apachecouchdb"/></svg>CouchDB</a></div>
 </div></div>
 </div>
 <aside class="notes">
 <p><em>Текст</em> MapReduce — модель программирования для обработки больших объёмов данных блоками на множестве машин, её активно продвигала Google. В ограниченном виде MapReduce поддерживают некоторые NoSQL-хранилища, включая MongoDB и CouchDB, — как механизм запросов только на чтение по многим документам. Подробно MapReduce разбирается в главе 10, сейчас — коротко и на примере MongoDB.</p>
 <p><em>Текст</em> MapReduce — ни декларативный язык запросов, ни полностью императивный API. Нечто среднее: логика запроса выражается фрагментами кода, которые фреймворк вызывает многократно. Основа — функции map, она же collect, и reduce, она же fold или inject, из функциональных языков. Нам они знакомы по массивам в JavaScript.</p>
-<p><em>Как показывать</em> Сравнение с Array.prototype.map и reduce — моя подстановка для аудитории.</p>
+<p><em>Как показывать</em> Наведите на любой блок схемы или выберите его клавишей Tab: появится пример кода или данных для этого шага.</p>
 <p><em>Переход</em> Пример из книги: морской биолог.</p>
 <p><em>Источники</em> <a class="lnk" href="https://research.google/pubs/mapreduce-simplified-data-processing-on-large-clusters/" target="_blank" rel="noopener">Dean, Ghemawat — MapReduce: Simplified Data Processing on Large Clusters, 2004</a>.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-sharks-sql" data-slide="12" data-toc="Отчёт по акулам на SQL">
+<section class="slide fx" id="slide-sharks-sql" data-slide="9" data-toc="Отчёт по акулам на SQL">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">11</span>Запросы с помощью MapReduce</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">08</span>Запросы с помощью MapReduce</div>
 <h2 class="fx-h" data-rv>Задача биолога: <mark>сколько акул</mark> за месяц</h2>
 <p class="fx-lead" data-rv>Каждое наблюдение животных в океане — запись в базе. Нужен отчёт по месяцам</p>
 <div class="fx-body"><div class="ssq">
-  <pre class="cd ssq-c" data-rv="left"><span class="l" data-hlt="g"><span class="k">SELECT</span> <span class="h">date_trunc</span>(<span class="s">'month'</span>, observation_timestamp) <span class="k">AS</span> observation_month,</span><span class="l" data-hlt="s">       <span class="h">sum</span>(num_animals) <span class="k">AS</span> total_animals</span><span class="l"><span class="k">FROM</span> observations</span><span class="l" data-hlt="f"><span class="k">WHERE</span> family = <span class="s">'Sharks'</span></span><span class="l" data-hlt="g"><span class="k">GROUP BY</span> observation_month;</span></pre>
+  <pre class="cd ssq-c" data-rv="left"><span class="l" data-hlt="g"><span class="k">SELECT</span> <span class="h">date_trunc</span>(<span class="s">'month'</span>, observation_timestamp)</span><span class="l" data-hlt="g">       <span class="k">AS</span> observation_month,</span><span class="l" data-hlt="s">       <span class="h">sum</span>(num_animals) <span class="k">AS</span> total_animals</span><span class="l"><span class="k">FROM</span> observations</span><span class="l" data-hlt="f"><span class="k">WHERE</span> family = <span class="s">'Sharks'</span></span><span class="l" data-hlt="g"><span class="k">GROUP BY</span> observation_month;</span></pre>
   <div class="ssq-s">
     <div class="ssq-i" data-rv data-hl="f" data-hl-keep><span>1</span><p><b>Фильтр</b>: остаются только наблюдения семейства Sharks</p></div>
     <div class="ssq-i" data-rv data-hl="g" data-hl-keep><span>2</span><p><b>Группировка</b> по месяцу: <code>date_trunc</code> округляет метку времени до начала месяца</p></div>
@@ -375,9 +278,9 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-sharks-mr" data-slide="13" data-toc="Отчёт по акулам на MapReduce">
+<section class="slide fx" id="slide-sharks-mr" data-slide="10" data-toc="Отчёт по акулам на MapReduce">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">12</span>Запросы с помощью MapReduce</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">09</span>Запросы с помощью MapReduce</div>
 <h2 class="fx-h" data-rv>То же в MongoDB: <mark>две функции</mark> и фильтр</h2>
 <div class="fx-body"><div class="ssq">
   <pre class="cd sm ssq-c" data-rv="left"><span class="l">db.observations.<span class="h">mapReduce</span>(</span><span class="l" data-hlt="m">  <span class="k">function</span> map() {</span><span class="l" data-hlt="m">    <span class="k">var</span> year  = <span class="k">this</span>.observationTimestamp.getFullYear();</span><span class="l" data-hlt="m">    <span class="k">var</span> month = <span class="k">this</span>.observationTimestamp.getMonth() + 1;</span><span class="l" data-hlt="e">    <span class="h">emit</span>(year + <span class="s">"-"</span> + month, <span class="k">this</span>.numAnimals);</span><span class="l" data-hlt="m">  },</span><span class="l" data-hlt="r">  <span class="k">function</span> reduce(key, values) {</span><span class="l" data-hlt="r">    <span class="k">return</span> Array.sum(values);</span><span class="l" data-hlt="r">  },</span><span class="l">  {</span><span class="l" data-hlt="q">    query: { family: <span class="s">"Sharks"</span> },</span><span class="l" data-hlt="o">    out: <span class="s">"monthlySharkReport"</span></span><span class="l">  }</span><span class="l">);</span></pre>
@@ -394,58 +297,13 @@
 <p><em>Как показывать</em> Наведите на пункт справа — подсветится его часть кода. Удобно идти по пунктам сверху вниз.</p>
 <p><em>Текст</em> То же самое через MapReduce в MongoDB. Фильтр только по акулам задаётся декларативно — это расширение MongoDB к модели MapReduce. Функция map на JavaScript вызывается один раз для каждого документа, подходящего под query, и this в ней — сам документ. Она порождает ключ — строку из года и месяца, например «2013-12» или «2014-1», — и значение — количество животных в наблюдении.</p>
 <p><em>Текст</em> Пары «ключ — значение», порождённые map, группируются по ключу, и для всех пар с одинаковым ключом, то есть с одним месяцем, один раз вызывается reduce. Она суммирует количество животных за месяц. Итог записывается в коллекцию monthlySharkReport.</p>
-<p><em>Переход</em> Прогоним это руками на двух документах.</p>
-</aside>
-</section>
-
-<section class="slide fx" id="slide-mr-run" data-slide="14" data-toc="MapReduce по шагам">
-<div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">13</span>Запросы с помощью MapReduce</div>
-<h2 class="fx-h" data-rv>Прогоним по шагам: <mark>3 + 4 = 7</mark></h2>
-<div class="fx-body"><div class="run">
-  <div class="run-c" data-rv>
-    <div class="run-k">observations</div>
-    <pre class="cd xs">{ observationTimestamp:
-    <span class="s">"25 Dec 1995 12:34:56"</span>,
-  family: <span class="s">"Sharks"</span>,
-  species: <span class="s">"Carcharodon carcharias"</span>,
-  numAnimals: <span class="s">3</span> }</pre>
-    <pre class="cd xs">{ observationTimestamp:
-    <span class="s">"12 Dec 1995 16:17:18"</span>,
-  family: <span class="s">"Sharks"</span>,
-  species: <span class="s">"Carcharias taurus"</span>,
-  numAnimals: <span class="s">4</span> }</pre>
-  </div>
-  <i class="run-a" data-step="1" aria-hidden="true">→</i>
-  <div class="run-c" data-step="1">
-    <div class="run-k is-hi">map · по разу на документ</div>
-    <code class="run-v">emit("1995-12", 3)</code>
-    <code class="run-v">emit("1995-12", 4)</code>
-  </div>
-  <i class="run-a" data-step="2" aria-hidden="true">→</i>
-  <div class="run-c" data-step="2">
-    <div class="run-k">группировка по ключу</div>
-    <code class="run-v">"1995-12": [3, 4]</code>
-  </div>
-  <i class="run-a" data-step="3" aria-hidden="true">→</i>
-  <div class="run-c" data-step="3">
-    <div class="run-k is-hi">reduce · по разу на ключ</div>
-    <code class="run-v">reduce("1995-12", [3, 4])</code>
-    <b class="run-r">7</b>
-  </div>
-</div></div>
-</div>
-<aside class="notes">
-<p><em>Как показывать</em> Слайд по шагам: клик или → — следующая стадия: map, группировка, reduce.</p>
-<p><em>Текст</em> Пусть в коллекции observations два документа: 25 декабря 1995 года — три большие белые акулы, 12 декабря — четыре песчаные акулы. Функция map вызывается по разу для каждого документа: emit «1995-12», 3 и emit «1995-12», 4. Пары группируются по ключу, затем reduce вызывается с параметрами «1995-12» и массивом 3, 4 и возвращает 7.</p>
-<p><em>Как показывать</em> Документы — из книги, Date.parse сокращён до строки даты.</p>
 <p><em>Переход</em> Что разрешено делать внутри map и reduce?</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-pure" data-slide="15" data-toc="Чистые функции">
+<section class="slide fx" id="slide-pure" data-slide="11" data-toc="Чистые функции">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">14</span>Запросы с помощью MapReduce</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">10</span>Запросы с помощью MapReduce</div>
 <h2 class="fx-h" data-rv>map и reduce должны быть <mark>чистыми</mark></h2>
 <div class="fx-body"><div class="vs2">
   <div class="vs2-c" data-rv="left">
@@ -477,49 +335,51 @@
 </aside>
 </section>
 
-<section class="slide fx" id="slide-mr-cost" data-slide="16" data-toc="Цена MapReduce">
+<section class="slide fx" id="slide-mr-cost" data-slide="12" data-toc="Почему отказались от MapReduce">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">15</span>Запросы с помощью MapReduce</div>
-<h2 class="fx-h" data-rv>MapReduce — <mark>низкий уровень</mark> для кластеров</h2>
-<div class="fx-body"><div class="grid2 mc">
-  <div class="mc-col">
-    <div class="tile" data-rv="left"><div class="tile-k">Для чего</div><p class="tile-p">Распределённые вычисления на кластерах машин. Поверх него можно построить SQL как конвейер операций MapReduce — глава 10</p></div>
-    <div class="tile" data-rv="left"><div class="tile-k">Без монополий</div><p class="tile-p">Есть распределённые SQL без MapReduce, а SQL ничто не мешает работать на одной машине</p></div>
-    <div class="tile" data-rv="left"><div class="tile-k">JavaScript в запросах</div><p class="tile-p">Не привилегия MapReduce: некоторые SQL-базы тоже расширяют запросы JS-функциями, например <a class="lnk" href="https://plv8.github.io/" target="_blank" rel="noopener">PL/V8 ↗</a> для PostgreSQL</p></div>
-  </div>
-  <div class="mc-col">
-    <div class="tile is-hot" data-rv="right"><div class="tile-k">Неудобно</div><p class="tile-p">Две тщательно согласованные функции — обычно сложнее, чем один запрос</p></div>
-    <div class="tile is-hot" data-rv="right"><div class="tile-k">Медленнее</div><p class="tile-p">Декларативный запрос даёт оптимизатору больше возможностей ускорить выполнение</p></div>
-    <div class="mc-n" data-rv="right"><span class="cnt is-hot" data-count="2">2</span><p>функции вместо <b>1</b> запроса</p></div>
-  </div>
+<div class="fx-kicker" data-rv="fade"><span class="n">11</span>Запросы с помощью MapReduce</div>
+<h2 class="fx-h" data-rv>Почему отказались от <mark>MapReduce</mark></h2>
+<div class="fx-body"><div class="mr-reasons">
+  <div class="mr-reason" data-rv><span>Неудобно</span><p>Две тщательно согласованные функции —<br>обычно сложнее, чем <b>один запрос</b>.</p></div>
+  <div class="mr-reason" data-rv><span>Сложнее оптимизировать</span><p>Декларативный запрос даёт оптимизатору<br><b>больше возможностей</b> ускорить выполнение.</p></div>
 </div></div>
 </div>
 <aside class="notes">
-<p><em>Текст</em> MapReduce — модель программирования довольно низкого уровня, предназначенная для распределённых вычислений на кластерах. Языки более высокого уровня, такие как SQL, можно реализовать как конвейер операций MapReduce — об этом глава 10. Но существует и множество распределённых реализаций SQL без MapReduce. В SQL нет ничего, что запрещало бы его использование на одной машине, а у MapReduce нет монополии на распределённое выполнение запросов.</p>
-<p><em>Текст</em> JavaScript в запросах — отличная возможность для продвинутых случаев, но она есть не только в MapReduce: некоторые SQL-базы тоже позволяют расширять запросы функциями на JavaScript. В книге ссылка на PL/V8 для PostgreSQL.</p>
-<p><em>Текст</em> Неудобство MapReduce: приходится писать две тщательно согласованные функции, что обычно сложнее одного запроса. А декларативный язык даёт оптимизатору больше возможностей улучшить производительность.</p>
-<p><em>Переход</em> Что сделала MongoDB?</p>
-<p><em>Источники</em> <a class="lnk" href="https://plv8.github.io/" target="_blank" rel="noopener">PL/V8</a>.</p>
+<p><em>Текст</em> Главная проблема MapReduce для запросов — нужно написать и согласовать две функции. Один декларативный запрос обычно проще, а оптимизатор получает больше свободы при выборе способа выполнения.</p>
+<p><em>Переход</em> Поэтому MongoDB предложила декларативный конвейер агрегирования.</p>
 </aside>
 </section>
 
-<section class="slide fx" id="slide-agg" data-slide="17" data-toc="Конвейер агрегирования">
+<section class="slide fx" id="slide-agg" data-slide="13" data-toc="Конвейер агрегирования">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">16</span>Запросы с помощью MapReduce</div>
+<div class="fx-kicker" data-rv="fade"><span class="n">12</span>Запросы с помощью MapReduce</div>
 <h2 class="fx-h" data-rv>MongoDB 2.2: <mark>конвейер агрегирования</mark></h2>
-<p class="fx-lead" data-rv>Декларативный язык запросов: по возможностям — подмножество SQL, по синтаксису — JSON</p>
+<p class="fx-lead" data-rv>Документы проходят стадии по очереди: выход одной становится входом следующей</p>
 <div class="fx-body"><div class="agg">
   <div data-rv="left"><div class="cd-k is-hi">aggregation pipeline</div><pre class="cd sm agg-c"><span class="l">db.observations.<span class="h">aggregate</span>([</span><span class="l" data-hlt="f">  { <span class="h">$match</span>: { family: <span class="s">"Sharks"</span> } },</span><span class="l" data-hlt="g">  { <span class="h">$group</span>: {</span><span class="l" data-hlt="g">    _id: {</span><span class="l" data-hlt="g">      year:  { $year:  <span class="s">"$observationTimestamp"</span> },</span><span class="l" data-hlt="g">      month: { $month: <span class="s">"$observationTimestamp"</span> }</span><span class="l" data-hlt="g">    },</span><span class="l" data-hlt="s">    totalAnimals: { <span class="h">$sum</span>: <span class="s">"$numAnimals"</span> }</span><span class="l">  } }</span><span class="l">]);</span></pre></div>
-  <div class="agg-m">
-    <button class="agg-b" type="button" data-rv data-hl="f" data-hl-keep><code>$match</code><i>≈</i><code>WHERE</code></button>
-    <button class="agg-b" type="button" data-rv data-hl="g" data-hl-keep><code>$group</code><i>≈</i><code>GROUP BY</code></button>
-    <button class="agg-b" type="button" data-rv data-hl="s" data-hl-keep><code>$sum</code><i>≈</i><code>sum()</code></button>
-  </div>
-  <div data-rv="right"><div class="cd-k">SQL · для сравнения</div><pre class="cd sm agg-c"><span class="l" data-hlt="g"><span class="k">SELECT</span> date_trunc(<span class="s">'month'</span>, …) <span class="k">AS</span> month,</span><span class="l" data-hlt="s">       <span class="h">sum</span>(num_animals)</span><span class="l"><span class="k">FROM</span> observations</span><span class="l" data-hlt="f"><span class="k">WHERE</span> family = <span class="s">'Sharks'</span></span><span class="l" data-hlt="g"><span class="k">GROUP BY</span> month;</span></pre></div>
+  <div class="agg-visual" data-rv="right"><svg class="agg-pipe" viewBox="0 0 620 580" role="group" aria-label="Труба конвейера: документы проходят фильтр $match, затем группировку $group и подсчёт суммы $sum">
+  <text class="pipe-caption" x="310" y="24" text-anchor="middle">входные документы</text>
+  <path class="pipe-shell" d="M100 82 C100 45 520 45 520 82 L520 490 C520 530 100 530 100 490 Z"/>
+  <ellipse class="pipe-rim" cx="310" cy="82" rx="210" ry="27"/>
+  <g class="pipe-stage" data-hl="f" aria-label="$match — фильтруем документы">
+    <text class="pipe-operation" x="310" y="164" text-anchor="middle">$match</text>
+    <text class="pipe-label" x="310" y="202" text-anchor="middle">оставить только Sharks</text>
+    <text class="pipe-sample" x="310" y="239" text-anchor="middle">{ family: "Sharks" }</text>
+  </g>
+  <path class="pipe-seam" d="M100 280 C100 316 520 316 520 280"/>
+  <path class="pipe-arrow" d="M310 262 V296 M300 286 L310 296 L320 286"/>
+  <g class="pipe-stage" data-hl="g" aria-label="$group — группируем по месяцу и считаем сумму">
+    <text class="pipe-operation" x="310" y="362" text-anchor="middle">$group</text>
+    <text class="pipe-label" x="310" y="400" text-anchor="middle">собрать наблюдения по месяцу</text>
+    <text class="pipe-sample" x="310" y="438" text-anchor="middle">$sum → всего животных</text>
+  </g>
+  <path class="pipe-arrow" d="M310 518 V548 M300 538 L310 548 L320 538"/>
+  <text class="pipe-caption" x="310" y="577" text-anchor="middle">результат: месяц → сумма</text>
+</svg></div>
 </div></div>
 </div>
 <aside class="notes">
-<p><em>Как показывать</em> Наведите на пару в середине — подсветятся соответствующие части обоих запросов.</p>
+<p><em>Как показывать</em> Наведите на стадию трубы — подсветится соответствующая часть кода.</p>
 <p><em>Текст</em> Именно из-за этих неудобств в версии 2.2 в MongoDB добавили поддержку декларативного языка запросов — конвейера агрегирования, aggregation pipeline. Тот же подсчёт акул: стадия $match фильтрует, $group группирует по году и месяцу, $sum суммирует.</p>
 <p><em>Текст</em> По выразительности конвейер напоминает подмножество SQL, но использует синтаксис на основе JSON, а не фразы в стиле английского языка. Это, вероятно, дело вкуса.</p>
 <p><em>Как показывать</em> Уже после книги, начиная с MongoDB 5.0, mapReduce объявлен устаревшим: документация советует конвейер агрегирования.</p>
@@ -528,41 +388,23 @@
 </aside>
 </section>
 
-<section class="slide fx is-hero" id="slide-moral" data-slide="18" data-toc="Мораль">
+<section class="slide fx is-hero" id="slide-moral" data-slide="14" data-toc="Мораль">
 <div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">17</span>Мораль</div>
-<h2 class="fx-h" data-rv>NoSQL-система может случайно <mark>заново изобрести SQL</mark></h2>
-<div class="fx-body is-top"><blockquote class="epi" data-rv style="margin:44px 0 0">…хотя и в замаскированном виде<cite>Мартин Клеппман · Высоконагруженные приложения, глава 2</cite></blockquote></div>
+<div class="fx-kicker" data-rv="fade"><span class="n">13</span>Мораль</div>
+<h2 class="fx-h" data-rv>NoSQL-система может случайно <mark class="term-tip" data-tip="Декларативный подход">заново изобрести SQL</mark></h2>
+<div class="fx-body is-top"><blockquote class="epi" data-rv style="margin:44px 0 0">…хотя и в замаскированном виде</blockquote></div>
 </div>
 <aside class="notes">
 <p><em>Текст</em> Мораль этой истории, как пишет автор: NoSQL-система может случайно прийти к повторному изобретению SQL, хотя и в замаскированном виде. Начали с «никакого SQL», а через пару версий получили декларативный язык с фильтрами, группировками и агрегатами.</p>
 <p><em>Как показывать</em> Сегодня MongoDB пошла ещё дальше: mapReduce устарел, а для аналитики есть Atlas SQL Interface. Это уже после книги.</p>
-<p><em>Переход</em> Подведём итоги.</p>
-</aside>
-</section>
-
-<section class="slide fx" id="slide-takeaways" data-slide="19" data-toc="Выводы">
-<div class="fx-wrap">
-<div class="fx-kicker" data-rv="fade"><span class="n">18</span>Выводы</div>
-<h2 class="fx-h" data-rv>Что <mark>унести</mark> с собой</h2>
-<div class="fx-body"><div class="takeaways">
-  <div class="tw" data-rv><span class="n">01</span><p>Императивный код говорит <b>как</b>, декларативный запрос — <b>что</b></p></div>
-  <div class="tw" data-rv><span class="n">02</span><p>Декларативный запрос скрывает реализацию: база может <b>ускоряться</b>, не ломая запросов</p></div>
-  <div class="tw" data-rv><span class="n">03</span><p>Шаблон результата проще <b>распараллелить</b>, чем цикл</p></div>
-  <div class="tw" data-rv><span class="n">04</span><p>CSS для браузера — то же, что <b>SQL</b> для базы</p></div>
-  <div class="tw" data-rv><span class="n">05</span><p>MapReduce — середина: <b>чистые</b> map и reduce, низкий уровень для кластеров</p></div>
-  <div class="tw" data-rv><span class="n">06</span><p>NoSQL в итоге пришёл к <b>декларативному</b> языку — конвейеру агрегирования</p></div>
-</div>
-<div class="so" data-rv><span>Дальше</span><div>Когда «многие-ко-многим» становится слишком много — <b>графоподобные модели</b>. Расскажет Антон</div></div></div>
-</div>
-<aside class="notes">
-<p><em>Текст</em> Итак. Императивный код говорит, как получить данные, декларативный запрос — что нужно. Декларативный запрос скрывает реализацию, поэтому база может ускоряться, не ломая существующих запросов, и его проще распараллелить. В браузере та же история: CSS вместо ручного управления стилями. MapReduce — середина между подходами: чистые функции map и reduce, низкий уровень для кластеров. А NoSQL в итоге пришёл к декларативному конвейеру агрегирования.</p>
-<p><em>Переход</em> Дальше — графоподобные модели данных: что делать, когда связей «многие-ко-многим» становится очень много. Об этом расскажет Антон.</p>
+<p><em>Переход</em> Дальше — графоподобные модели данных.</p>
 </aside>
 </section>
 
 
-            <section class="slide fx" data-slide="20" data-chrome="whatnext">
+
+
+            <section class="slide fx" data-slide="15" data-chrome="whatnext">
                 <div class="timeline-next-container">
                     <div class="fx-kicker" data-rv="fade">Дальше</div>
                     <h2 class="fx-h" data-rv>Что далее</h2>
@@ -645,7 +487,7 @@
 
     <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
     <script src="assets/js/deck.js"></script>
-    <script src="assets/js/talk.js"></script>
+    <script src="assets/js/talk.js?v=2026-11-13-tips-1"></script>
 
 </body>
 </html>

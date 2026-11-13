@@ -5,6 +5,8 @@
   const tip = document.createElement('div');
   tip.className = 'tip-float';
   tip.setAttribute('role', 'tooltip');
+  tip.id = 'talk-tooltip';
+  tip.setAttribute('aria-hidden', 'true');
   document.body.appendChild(tip);
 
   const stage = document.getElementById('deckStage');
@@ -24,10 +26,17 @@
   };
   const show = (el) => {
     tip.textContent = el.dataset.tip;
+    tip.classList.toggle('is-code', el.hasAttribute('data-tip-code'));
+    tip.setAttribute('aria-hidden', 'false');
+    el.setAttribute('aria-describedby', tip.id);
     place(el);
     tip.classList.add('is-on');
   };
-  const hide = () => tip.classList.remove('is-on');
+  const hide = () => {
+    tip.classList.remove('is-on');
+    tip.setAttribute('aria-hidden', 'true');
+    document.querySelectorAll('[aria-describedby="talk-tooltip"]').forEach((el) => el.removeAttribute('aria-describedby'));
+  };
 
   document.querySelectorAll('[data-tip]').forEach((el) => {
     if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
@@ -173,64 +182,6 @@
     new MutationObserver(() => {
       const now = s.classList.contains('active');
       if (now && !was) show('1');
-      was = now;
-    }).observe(s, { attributes: true, attributeFilter: ['class'] });
-  });
-})();
-
-// Живое меню (.demo): data-demo="css" — подсветку держит правило CSS,
-// data-demo="dom" — стиль ставит императивный код из книги, и он «залипает».
-(function () {
-  document.querySelectorAll('.demo').forEach((box) => {
-    const out = box.querySelector('[data-out]');
-    const items = [...box.querySelectorAll('.menu > li')];
-    const say = (text, bad) => {
-      if (!out) return;
-      out.textContent = text;
-      out.classList.toggle('is-bad', !!bad);
-    };
-    const pick = (m) => items.forEach((li) => {
-      li.className = li.dataset.m === m ? 'selected' : '';
-    });
-    const run = () => {
-      // тот же алгоритм, что в книге, только внутри демо
-      const lis = box.getElementsByTagName('li');
-      for (let i = 0; i < lis.length; i++) {
-        if (lis[i].className === 'selected') {
-          const children = lis[i].childNodes;
-          for (let j = 0; j < children.length; j++) {
-            const child = children[j];
-            if (child.nodeType === Node.ELEMENT_NODE && child.tagName === 'P') child.classList.add('is-js');
-          }
-        }
-      }
-    };
-    const reset = () => {
-      pick('sh');
-      box.querySelectorAll('.is-js').forEach((p) => p.classList.remove('is-js'));
-      say(box.dataset.demo === 'dom' ? 'Нажмите «Запустить код»' : 'Класс переехал — подсветка переехала за ним');
-    };
-    box.addEventListener('click', (e) => {
-      const b = e.target.closest('button');
-      if (!b) return;
-      e.stopPropagation();
-      if (b.hasAttribute('data-reset')) return reset();
-      if (b.hasAttribute('data-run')) {
-        run();
-        const stuck = items.some((li) => li.className !== 'selected' && li.querySelector('p.is-js'));
-        return say(stuck ? 'Подсвечены оба: старый фон никто не снял' : 'Подсветили Sharks', stuck);
-      }
-      pick(b.dataset.pick);
-      if (box.dataset.demo === 'dom') {
-        const stuck = items.some((li) => li.className !== 'selected' && li.querySelector('p.is-js'));
-        say(stuck ? 'Класс переехал, а фон остался на старом пункте' : 'Класс переехал, но код ещё не запускали', stuck);
-      }
-    });
-    const s = box.closest('.slide');
-    let was = s.classList.contains('active');
-    new MutationObserver(() => {
-      const now = s.classList.contains('active');
-      if (now && !was) reset();
       was = now;
     }).observe(s, { attributes: true, attributeFilter: ['class'] });
   });

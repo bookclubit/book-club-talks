@@ -11,11 +11,11 @@
 .tip-float.is-on { opacity: 1; }
 [data-tip] { cursor: help; outline: none; }
 .cd {
-    margin: 0; padding: 26px 30px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg-card);
+    margin: 0; padding: 0; border: 0; border-radius: 0; background: none;
     font-family: var(--font-mono); font-size: 23px; line-height: 1.5; color: var(--text-soft); white-space: pre; overflow: hidden;
 }
-.cd.sm { font-size: 19px; line-height: 1.48; padding: 22px 26px; }
-.cd.xs { font-size: 15.5px; line-height: 1.34; padding: 16px 22px; }
+.cd.sm { font-size: 19px; line-height: 1.48; padding: 0; }
+.cd.xs { font-size: 15.5px; line-height: 1.34; padding: 0; }
 .cd .l { display: block; }
 .cd .k { color: var(--text-main); font-weight: 700; }
 .cd .s { color: var(--fx); }
@@ -70,15 +70,13 @@
 .cds-ph img { height: 480px; object-fit: cover; object-position: 50% 20%; }
 .cds-r { display: flex; flex-direction: column; gap: 28px; }
 
-/* ---------- Главная мысль: как против что ---------- */
-.hero-vs { display: grid; grid-template-columns: 1fr 100px 1fr; gap: 24px; align-items: center; max-width: 1400px; margin-top: 60px; }
-.hero-vs > div { padding: 30px 34px; border: 1px solid var(--border); border-radius: 20px; }
-.hero-vs > div:last-child { border-color: rgba(var(--fx-rgb), 0.55); }
-.hero-vs .k { display: block; font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
-.hero-vs b { display: block; margin-top: 10px; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; color: var(--fx); }
-.hero-vs b.hot { color: var(--hot); }
-.hero-vs p { margin-top: 10px !important; font-size: 24px; line-height: 1.45; color: var(--text-muted); }
-.hero-arr { font-style: normal; font-size: 56px; text-align: center; color: var(--fx); }
+/* === Главная мысль: тезис, объяснение, вывод для устного выступления === */
+#slide-idea .fx-h { max-width: 1620px; font-size: 84px; line-height: 1.12; text-wrap: initial; }
+.idea-body { justify-content: flex-start; gap: 42px; margin-top: 48px; }
+.idea-summary { max-width: 1320px; font-size: 34px; line-height: 1.5; color: var(--text-muted); }
+.idea-conclusion { display: flex; flex-direction: column; gap: 12px; }
+.idea-conclusion span { font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+.idea-conclusion strong { font-size: 68px; font-weight: 600; line-height: 1.1; letter-spacing: -0.035em; color: var(--fx); }
 
 /* ---------- Императивный перебор ---------- */
 .imp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
@@ -113,11 +111,6 @@
 .dec-q { font-size: 30px; }
 .dec-q [data-hlt] { border-radius: 4px; transition: background 0.2s; }
 .slide[data-hl='sel'] .dec-q [data-hlt='sel'], .slide[data-hl='cond'] .dec-q [data-hlt='cond'], .slide[data-hl='src'] .dec-q [data-hlt='src'] { background: rgba(var(--fx-rgb), 0.22); }
-.dec-t { margin-top: 12px; }
-.dec-t .tile { padding: 22px 26px; }
-.dec-t .tile-k { margin-bottom: 8px; }
-.dec-t .tile-p { font-size: 21px; }
-.dec-t .tile-p b { font-weight: 600; color: var(--text-main); }
 
 /* ---------- Порядок и перетасовка ---------- */
 .shf { display: flex; flex-direction: column; gap: 8px; }
@@ -144,42 +137,6 @@
 .par-n b { font-family: var(--font-mono); font-size: 40px; color: var(--fx); margin-right: 8px; }
 .par-n b.hot { color: var(--hot); }
 
-/* ---------- Браузер: меню и демо ---------- */
-.web { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 44px; align-items: start; }
-.web-l { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
-.web .cd .l.m { background: rgba(var(--fx-rgb), 0.14); border-radius: 4px; }
-.web-t { font-size: 30px; line-height: 1.4; color: var(--text-soft); }
-.web-t b { color: var(--fx); font-weight: 600; }
-.web-o { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-.web-o span { padding: 12px 20px; border: 1px dashed var(--border-strong); border-radius: 999px; font-size: 22px; color: var(--text-muted); }
-.web-n { font-size: 21px; line-height: 1.45; color: var(--text-muted); }
-.demo { padding: 24px 28px; border: 1px solid var(--border-strong); border-radius: 18px; background: var(--bg-card); }
-.menu { margin: 14px 0 0; padding: 0; list-style: none; font-size: 22px; }
-.menu > li { margin-bottom: 12px; }
-.menu p { padding: 8px 14px; border-radius: 8px; font-weight: 600; color: var(--text-main); transition: background 0.25s, color 0.25s; }
-.menu ul { margin: 4px 0 0; padding-left: 34px; list-style: disc; color: var(--text-muted); font-size: 19px; line-height: 1.6; }
-.demo[data-demo='css'] .menu li.selected > p { background: var(--fx); color: var(--bg); }
-.demo .menu p.is-js { background: var(--hot); color: var(--bg); }
-.demo-b { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-.demo-b button { padding: 10px 18px; border: 1px solid var(--border-strong); border-radius: 999px; background: none; font: inherit; font-size: 18px; color: var(--text-soft); cursor: pointer; transition: border-color 0.2s, color 0.2s; }
-.demo-b button:hover { border-color: rgba(var(--fx-rgb), 0.7); color: var(--text-main); }
-.demo-s { margin-top: 14px !important; min-height: 1.4em; font-size: 19px; color: var(--text-dim); }
-.demo-s.is-bad { color: var(--hot); }
-.dom-c { font-size: 15px !important; }
-.dom-p { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.dom-p .tile { padding: 18px 22px; }
-.dom-p .tile-k { margin-bottom: 8px; }
-.dom-p .tile-p { font-size: 19px; }
-
-/* ---------- Мораль про браузер ---------- */
-.mor { display: flex; flex-direction: column; gap: 18px; max-width: 1300px; margin-top: 50px; }
-.mor-r { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; align-items: baseline; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
-.mor-r .k { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fx); }
-.mor-r p { font-size: 32px; line-height: 1.4; color: var(--text-soft); }
-.mor-r b { font-weight: 600; color: var(--text-main); }
-.mor-r.is-dim .k { color: var(--text-dim); }
-.mor-r.is-dim p { font-size: 24px; color: var(--text-muted); }
-
 /* ---------- MapReduce: поток ---------- */
 .mr { display: flex; flex-direction: column; gap: 30px; }
 .mr-flow { display: flex; align-items: center; gap: 0; }
@@ -189,12 +146,9 @@
 .mr-b { flex: none; padding: 14px 16px; border: 1px solid var(--border-strong); border-radius: 12px; font-size: 18px; line-height: 1.3; text-align: center; color: var(--text-soft); }
 .mr-b b { display: block; font-family: var(--font-mono); font-size: 22px; color: var(--fx); }
 .mr-b.is-hi { border-color: rgba(var(--fx-rgb), 0.6); }
-.mr-t .tile { padding: 22px 26px; }
-.mr-t .tile-k { margin-bottom: 8px; }
-.mr-t .tile-p { font-size: 21px; }
 
 /* ---------- Код с пояснениями по наведению ---------- */
-.ssq { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.ssq { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: center; }
 .ssq-c .l { border-radius: 4px; transition: background 0.2s; }
 .ssq-c:not(.sm) { font-size: 17.5px; }
 .slide[data-hl='f'] .ssq-c [data-hlt='f'], .slide[data-hl='g'] .ssq-c [data-hlt='g'], .slide[data-hl='s'] .ssq-c [data-hlt='s'],
@@ -207,36 +161,41 @@
 .ssq-i b { font-weight: 600; color: var(--text-main); }
 .ssq-i.is-on { border-color: rgba(var(--fx-rgb), 0.6); background: rgba(var(--fx-rgb), 0.06); }
 
-/* ---------- MapReduce по шагам ---------- */
-.run { display: grid; grid-template-columns: minmax(0, 1.3fr) 44px minmax(0, 1fr) 44px minmax(0, 0.9fr) 44px minmax(0, 1fr); gap: 8px; align-items: center; }
-.run-c { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-.run-c .cd.xs { font-size: 14.5px; }
-.run-k { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
-.run-k.is-hi { color: var(--fx); }
-.run-v { display: block; padding: 14px 16px; border: 1px solid rgba(var(--fx-rgb), 0.5); border-radius: 12px; font-family: var(--font-mono); font-size: 18px; color: var(--text-main); }
-.run-a { font-style: normal; font-size: 34px; text-align: center; color: var(--fx); }
-.run-r { font-family: var(--font-mono); font-size: 120px; font-weight: 700; line-height: 1; color: var(--fx); }
-.slide.active .run [data-step].is-shown { animation: fxIn 0.5s var(--ease-out) backwards; }
+/* === Подсказки: термин и небольшие фрагменты кода === */
+.term-tip { text-decoration: underline dotted var(--fx); text-underline-offset: 0.14em; text-decoration-thickness: 3px; }
+[data-tip]:focus-visible { outline: 2px dotted var(--fx); outline-offset: 7px; }
+.tip-float.is-code { white-space: pre-wrap; font-family: var(--font-mono); line-height: 1.5; }
 
-/* ---------- Цена MapReduce ---------- */
-.mc-col { display: flex; flex-direction: column; gap: 16px; }
-.mc .tile { padding: 20px 26px; }
-.mc .tile-k { margin-bottom: 8px; }
-.mc .tile-p { font-size: 21px; }
-.mc-n { display: flex; align-items: center; gap: 24px; margin-top: 8px; }
-.mc-n .cnt { font-size: 120px; }
-.mc-n p { font-size: 26px; color: var(--text-muted); }
-.mc-n b { color: var(--fx); font-weight: 600; }
+/* === Оптимизатор: один запрос, три решения СУБД === */
+.optimizer-body { gap: 38px; }
+.optimizer-choices { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 44px; }
+.optimizer-choices > div { padding-top: 18px; border-top: 1px solid var(--border); }
+.optimizer-choices span { font-family: var(--font-mono); font-size: 17px; color: var(--fx); }
+.optimizer-choices h3 { margin: 12px 0; font-size: 30px; font-weight: 600; letter-spacing: -0.025em; color: var(--text-main); }
+.optimizer-choices p { font-size: 24px; line-height: 1.5; color: var(--text-muted); }
 
-/* ---------- Конвейер агрегирования ---------- */
-.agg { display: grid; grid-template-columns: minmax(0, 1.2fr) 230px minmax(0, 1fr); gap: 28px; align-items: center; }
+/* === Почему отказались от MapReduce: две крупные мысли без карточек === */
+.mr-reasons { display: flex; flex-direction: column; gap: 58px; }
+.mr-reason > span { display: block; margin-bottom: 16px; font-family: var(--font-mono); font-size: 19px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--hot); }
+.mr-reason p { font-size: 44px; line-height: 1.35; color: var(--text-soft); }
+.mr-reason b { font-weight: 600; color: var(--text-main); }
+
+/* === Конвейер: код слева, стадии внутри трубы справа === */
+.agg { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 60px; align-items: center; }
 .agg-c .l { border-radius: 4px; transition: background 0.2s; }
-.slide[data-hl='f'] .agg-c [data-hlt='f'], .slide[data-hl='g'] .agg-c [data-hlt='g'], .slide[data-hl='s'] .agg-c [data-hlt='s'] { background: rgba(var(--fx-rgb), 0.2); }
-.agg-m { display: flex; flex-direction: column; gap: 14px; }
-.agg-b { display: grid; grid-template-columns: 1fr 24px 1fr; align-items: center; gap: 6px; padding: 14px 12px; border: 1px solid var(--border); border-radius: 12px; background: none; font: inherit; color: var(--text-soft); cursor: help; transition: border-color 0.2s, background 0.2s; }
-.agg-b code { font-size: 16px !important; text-align: center; }
-.agg-b i { font-style: normal; color: var(--fx); text-align: center; }
-.agg-b.is-on { border-color: rgba(var(--fx-rgb), 0.6); background: rgba(var(--fx-rgb), 0.06); }
+.slide[data-hl='f'] .agg-c [data-hlt='f'], .slide[data-hl='g'] .agg-c [data-hlt='g'], .slide[data-hl='g'] .agg-c [data-hlt='s'] { background: rgba(var(--fx-rgb), 0.2); }
+.agg-visual { min-width: 0; }
+.agg-pipe { display: block; width: 100%; max-height: 550px; overflow: visible; }
+.pipe-shell { fill: var(--bg-card); stroke: var(--border-strong); stroke-width: 2; }
+.pipe-rim { fill: var(--bg); stroke: var(--fx); stroke-width: 2; }
+.pipe-seam { fill: none; stroke: var(--border-strong); stroke-width: 2; }
+.pipe-arrow { fill: none; stroke: var(--fx); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.pipe-operation { font-family: var(--font-mono); font-size: 36px; font-weight: 600; fill: var(--fx); }
+.pipe-label { font-family: var(--font-sans); font-size: 22px; fill: var(--text-soft); }
+.pipe-sample { font-family: var(--font-mono); font-size: 18px; fill: var(--text-muted); }
+.pipe-caption { font-family: var(--font-mono); font-size: 17px; fill: var(--text-dim); }
+.pipe-stage { cursor: help; outline: none; }
+.pipe-stage.is-on .pipe-label, .pipe-stage:focus-visible .pipe-label { fill: var(--fx); }
 
 @media (prefers-reduced-motion: reduce) {
     .slide.active .scan span, .slide.active .scan-out span, .slide.active .shf span, .slide.active .par-r i,

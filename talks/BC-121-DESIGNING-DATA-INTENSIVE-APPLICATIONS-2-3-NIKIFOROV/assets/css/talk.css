@@ -1,0 +1,320 @@
+/*
+ * talk.css — свои блоки доклада «Графоподобные модели данных» (глава 2 DDIA).
+ * Каркас слайда, карточки, появление блоков и заметки — шаблонные
+ * (deck.css, deck.js). Литералов цвета нет: только токены темы.
+ */
+
+/* Счётчик слайда внутри части доклада: «1 / 3» */
+.fx-kicker .sec { padding: 3px 12px; border: 1px solid rgba(var(--fx-rgb), 0.4); border-radius: 999px; font-size: 13px; letter-spacing: 0.14em; color: var(--text-dim); }
+
+/* ===== Вывод «что это значит для нас» ===== */
+.fx-so {
+    margin-top: 30px !important;
+    padding-left: 22px;
+    border-left: 2px solid rgba(var(--fx-rgb), 0.7);
+    max-width: 1560px;
+    font-size: 25px;
+    line-height: 1.45;
+    color: var(--text-soft);
+}
+.fx-so b, .fx-lead b, .tile-p b { color: var(--text-main); font-weight: 600; }
+.tile-p code { font-family: var(--font-mono); font-size: 0.9em; color: var(--text-main); }
+
+/* ===== Код ===== */
+.code-cap {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.code-cap b { color: var(--fx); font-weight: 500; }
+.code-cap.is-hot b { color: var(--hot); }
+.code {
+    margin: 0;
+    padding: 22px 28px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: rgba(var(--tint-rgb), 0.03);
+    font-family: var(--font-mono);
+    font-size: 21px;
+    line-height: 1.55;
+    color: var(--text-soft);
+    white-space: pre;
+    overflow: hidden;
+    /* -> и := без лигатур JetBrains Mono: код как в книге */
+    font-variant-ligatures: none;
+}
+.code.is-sm { font-size: 19px; }
+.code.is-xs { font-size: 17px; }
+.code.is-xxs { font-size: 16px; line-height: 1.45; }
+.code.is-hi { border-color: rgba(var(--fx-rgb), 0.45); }
+.code.is-hot { border-color: rgba(var(--hot-rgb), 0.45); }
+.code .hl {
+    border-radius: 5px;
+    background: rgba(var(--fx-rgb), 0.16);
+    box-shadow: 0 0 0 3px rgba(var(--fx-rgb), 0.16);
+}
+.code .hl.is-hot {
+    background: rgba(var(--hot-rgb), 0.14);
+    box-shadow: 0 0 0 3px rgba(var(--hot-rgb), 0.14);
+}
+.stack { display: flex; flex-direction: column; gap: 26px; }
+.cols { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); gap: 40px; align-items: start; }
+.cols.is-even { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.cols.is-wide-r { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+
+/* Список частей вершины и ребра */
+.plist { margin: 6px 0 0; padding: 0; list-style: none; }
+.plist li { padding: 7px 0; border-top: 1px dashed var(--border); font-size: 21px; line-height: 1.4; color: var(--text-soft); }
+.plist li:first-child { border-top: none; }
+.plist code { font-family: var(--font-mono); font-size: 18px; color: var(--fx); }
+
+/* ===== Граф примера: цепочки «вершина —ребро→ вершина» ===== */
+.gpaths { display: flex; flex-direction: column; gap: 34px; }
+.gpath { display: flex; align-items: center; flex-wrap: nowrap; }
+.gnode {
+    flex: none;
+    padding: 12px 20px;
+    border: 1px solid var(--border-mid);
+    border-radius: 14px;
+    background: rgba(var(--tint-rgb), 0.03);
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+.gnode small { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 13px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.gnode.is-person { border-color: rgba(var(--fx-rgb), 0.6); }
+.gnode.is-goal { border-color: rgba(var(--fx-rgb), 0.6); background: rgba(var(--fx-rgb), 0.12); }
+.gedge {
+    flex: 1 1 0;
+    min-width: 96px;
+    position: relative;
+    margin: 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-strong);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: var(--text-muted);
+    font-variant-ligatures: none;
+}
+.gedge::after {
+    content: "";
+    position: absolute;
+    right: -2px;
+    bottom: -6px;
+    border: 5px solid transparent;
+    border-left: 9px solid var(--border-strong);
+}
+.gedge.is-hi { color: var(--fx); border-bottom-color: rgba(var(--fx-rgb), 0.7); }
+.gedge.is-hi::after { border-left-color: rgba(var(--fx-rgb), 0.7); }
+
+/* Пара «Cypher ↔ SPARQL» */
+.pairs { display: flex; flex-direction: column; gap: 22px; }
+.pair { padding: 18px 24px; border: 1px solid var(--border); border-radius: 16px; }
+.pair-row { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: baseline; gap: 14px; padding: 5px 0; }
+.pair-row > span { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+.pair-row > code { font-family: var(--font-mono); font-size: 18px; color: var(--text-soft); white-space: nowrap; font-variant-ligatures: none; }
+
+/* ===== Datalog: как правила выводят новые факты ===== */
+.derive { display: flex; flex-direction: column; gap: 14px; }
+.dstep { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; align-items: start; padding: 16px 22px; border: 1px solid var(--border); border-radius: 16px; }
+.dstep.is-hi { border-color: rgba(var(--fx-rgb), 0.5); }
+.dstep > .n { font-family: var(--font-mono); font-size: 15px; color: var(--fx); padding-top: 3px; }
+.dstep p { margin: 0; font-size: 19px; line-height: 1.45; color: var(--text-muted); }
+.dstep code { font-family: var(--font-mono); font-size: 17px; color: var(--text-soft); font-variant-ligatures: none; }
+.dstep code.out { color: var(--fx); }
+.turtle { margin-top: 30px; }
+.strat { margin-top: 28px; }
+.tile-t.answer { font-family: var(--font-mono); color: var(--fx); }
+
+/* ===== Граф свойств как строки таблиц: вершина → ребро → вершина ===== */
+.pgd { display: flex; flex-direction: column; }
+.pgv { padding: 16px 22px; border: 1px solid var(--border-mid); border-radius: 14px; background: rgba(var(--tint-rgb), 0.03); }
+.pgv-h { display: flex; justify-content: space-between; gap: 16px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+.pgv-h b { font-weight: 500; color: var(--fx); }
+.pgv-t { margin: 6px 0 6px; font-size: 24px; font-weight: 600; color: var(--text-main); }
+.pgv code, .pge code { display: block; font-family: var(--font-mono); font-size: 16px; line-height: 1.5; color: var(--text-soft); font-variant-ligatures: none; }
+.pge { position: relative; margin-left: 46px; padding: 12px 0 18px 24px; border-left: 2px solid rgba(var(--fx-rgb), 0.7); }
+.pge::after { content: ""; position: absolute; left: -7px; bottom: -2px; border: 6px solid transparent; border-top: 10px solid rgba(var(--fx-rgb), 0.7); }
+.pge .pgv-t { color: var(--fx); }
+
+/* Маленькая цепочка вершин внутри карточки */
+.gpath.is-mini { margin: 4px 0 14px; }
+.gpath.is-mini .gnode { padding: 7px 12px; border-radius: 10px; font-size: 18px; }
+.gpath.is-mini .gnode small { font-size: 11px; }
+.gpath.is-mini .gedge { min-width: 56px; font-size: 12px; }
+.gnode.is-start { border-color: rgba(var(--fx-rgb), 0.9); background: rgba(var(--fx-rgb), 0.18); }
+.walk { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx); }
+
+/* WITH RECURSIVE: множество растёт волнами */
+.wave { display: flex; flex-direction: column; gap: 10px; }
+.wave-row { display: grid; grid-template-columns: 76px minmax(0, 1fr); align-items: center; gap: 12px; }
+.wave-row > span { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.wave-row > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.wave-row i { padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; font-style: normal; font-size: 17px; color: var(--text-muted); }
+.wave-row i.is-new { border-color: rgba(var(--fx-rgb), 0.7); color: var(--text-main); background: rgba(var(--fx-rgb), 0.12); }
+.wave-row.is-stop > div { font-size: 17px; color: var(--text-dim); }
+.gnode small.prop { font-size: 14px; letter-spacing: 0; text-transform: none; color: var(--text-muted); }
+.gpath.is-short .gedge { flex: 0 0 200px; }
+
+/* Вводные схемы: дерево «один-ко-многим» и сеть «многие-ко-многим» */
+.m2m { display: block; width: 100%; height: auto; margin: 10px 0 16px; }
+.m2m line { stroke: var(--border-strong); stroke-width: 2; }
+.m2m line.is-hi { stroke: rgba(var(--fx-rgb), 0.85); stroke-width: 2.5; }
+.m2m rect { fill: rgba(var(--tint-rgb), 0.05); stroke: var(--border-mid); stroke-width: 1.5; }
+.m2m rect.is-hi { stroke: rgba(var(--fx-rgb), 0.85); fill: rgba(var(--fx-rgb), 0.14); }
+.m2m text { fill: var(--text-main); font-family: inherit; font-size: 17px; font-weight: 600; text-anchor: middle; dominant-baseline: central; }
+
+/* Слайд с задачей: цепочки разной длины и счётчик шагов */
+.gpaths.is-task { gap: 26px; padding-top: 34px; }
+.gpaths.is-task .gpath { justify-content: flex-start; }
+.gpaths.is-task .gedge { flex: 0 0 64px; }
+.gcount { margin-left: 18px; font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.1em; color: var(--hot); white-space: nowrap; }
+
+/* Вывод слайда помечен значком «!» вместо повторяющейся подписи */
+.fx-so { position: relative; padding-left: 58px; border-left: none; color: var(--text-main); }
+.fx-so::before {
+    content: "!";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid rgba(var(--fx-rgb), 0.85);
+    border-radius: 50%;
+    background: rgba(var(--fx-rgb), 0.14);
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 31px;
+    text-align: center;
+    color: var(--fx);
+}
+
+/* ===== Граф свойств картинкой: карточки вершин и подписанные рёбра ===== */
+.pgg { display: flex; align-items: center; }
+.pgc { flex: 0 0 330px; padding: 16px 22px 14px; border: 1px solid var(--border-mid); border-radius: 16px; background: rgba(var(--tint-rgb), 0.04); }
+.pgc-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.pgc-h b { font-size: 24px; font-weight: 600; color: var(--text-main); }
+.pgc-h span { font-family: var(--font-mono); font-size: 14px; color: var(--fx); }
+.pgc ul { margin: 10px 0 0; padding: 10px 0 0; list-style: none; border-top: 1px dashed var(--border); }
+.pgc li { font-family: var(--font-mono); font-size: 16px; line-height: 1.6; color: var(--text-soft); font-variant-ligatures: none; }
+.pgc li i { font-style: normal; color: var(--text-dim); }
+.pga { flex: 1 1 0; margin: 0 14px; text-align: center; }
+.pga-l { display: inline-block; padding: 4px 12px; border: 1px solid rgba(var(--fx-rgb), 0.6); border-radius: 999px; font-family: var(--font-mono); font-size: 14px; color: var(--fx); }
+.pga-line { position: relative; height: 2px; margin-top: 10px; background: rgba(var(--fx-rgb), 0.7); }
+.pga-line::after { content: ""; position: absolute; right: -2px; top: -5px; border: 6px solid transparent; border-left: 10px solid rgba(var(--fx-rgb), 0.7); }
+.pga-p { margin-top: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); }
+.pgg-legend { margin-top: 30px; }
+
+/* ===== Код с построчным переводом ===== */
+.rd { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.rd-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: baseline; padding: 7px 26px; border-top: 1px solid var(--border-soft); }
+.rd-row:first-child { border-top: none; }
+.rd-row.is-head { padding: 12px 26px; background: rgba(var(--tint-rgb), 0.04); }
+.rd-row.is-head span { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); }
+.rd-row code { font-family: var(--font-mono); font-size: 17px; color: var(--text-soft); white-space: pre; font-variant-ligatures: none; }
+.rd-row > span { font-size: 20px; line-height: 1.35; color: var(--text-muted); }
+.rd-row > span b { color: var(--text-main); font-weight: 600; }
+.rd-row.is-hi { background: rgba(var(--fx-rgb), 0.09); }
+
+/* ===== Граф строками таблиц: номера вершин раскрашены ===== */
+.dt { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.dt-row { display: grid; align-items: center; gap: 16px; padding: 11px 22px; border-top: 1px solid var(--border-soft); font-size: 21px; color: var(--text-soft); }
+.dt-row:first-child { border-top: none; }
+.dt.is-v .dt-row { grid-template-columns: 90px minmax(0, 1fr); }
+.dt.is-e .dt-row { grid-template-columns: 90px 110px 110px minmax(0, 1fr); }
+.dt-row.is-head { padding: 10px 22px; background: rgba(var(--tint-rgb), 0.04); font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.dt-row > span:first-child { font-family: var(--font-mono); }
+.idc { display: inline-block; min-width: 38px; padding: 1px 10px; border: 1.5px solid currentColor; border-radius: 999px; font-family: var(--font-mono); font-size: 18px; font-style: normal; font-weight: 600; text-align: center; }
+.idc.c1 { color: var(--s-var); }
+.idc.c2 { color: var(--fx); }
+.idc.c3 { color: var(--s-str); }
+.er { margin-top: 22px; }
+.er p { margin: 0 0 10px; font-size: 21px; color: var(--text-main); }
+.er b { font-family: var(--font-mono); font-weight: 500; color: var(--text-dim); }
+.er-a { font-family: var(--font-mono); font-size: 15px; color: var(--text-dim); }
+
+/* ===== Обычная схема против графовой: цепочка таблиц ===== */
+.tchain { display: flex; align-items: center; margin: 14px 0 18px; }
+.tchain.is-graph { justify-content: flex-start; }
+.tbox { flex: none; padding: 8px 14px; border: 1px solid var(--border-mid); border-radius: 10px; background: rgba(var(--tint-rgb), 0.05); font-family: var(--font-mono); font-size: 17px; color: var(--text-main); }
+.tarr { flex: 1 1 0; min-width: 70px; position: relative; margin: 0 8px; padding-bottom: 6px; border-bottom: 2px solid var(--border-strong); font-family: var(--font-mono); font-size: 12px; text-align: center; color: var(--text-dim); }
+.tarr::after { content: ""; position: absolute; right: -2px; bottom: -6px; border: 5px solid transparent; border-left: 9px solid var(--border-strong); }
+.tchain.is-graph .tarr { flex: 0 0 180px; }
+.tarr.is-both::before { content: ""; position: absolute; left: -2px; bottom: -6px; border: 5px solid transparent; border-right: 9px solid var(--border-strong); }
+.cmp { margin: 0; padding: 0; list-style: none; }
+.cmp li { padding: 8px 0; border-top: 1px dashed var(--border); font-size: 20px; line-height: 1.4; color: var(--text-soft); }
+.cmp li:first-child { border-top: none; }
+.cmp b { color: var(--text-main); font-weight: 600; }
+
+/* Построчный перевод длинного кода: шире колонка кода */
+.rd.is-wide-code .rd-row { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); }
+.rd.is-sm .rd-row code { font-size: 15px; }
+.rd.is-sm .rd-row > span { font-size: 18px; }
+
+/* Cypher: код → картинка */
+.trs .trn { padding: 12px 0 14px; border-top: 1px dashed var(--border); }
+.trs .trn:first-of-type { border-top: none; padding-top: 0; }
+.trn > code { display: block; margin-bottom: 8px; font-family: var(--font-mono); font-size: 17px; color: var(--text-main); font-variant-ligatures: none; }
+.trn > p { margin: 4px 0 0; font-size: 19px; line-height: 1.4; color: var(--text-muted); }
+.trn > p b { color: var(--text-main); font-weight: 600; }
+
+/* Datalog: факты одной строкой */
+.facts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 22px; }
+.facts > span { margin-right: 6px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.facts > code { padding: 5px 12px; border: 1px solid var(--border-mid); border-radius: 999px; font-family: var(--font-mono); font-size: 16px; color: var(--text-soft); font-variant-ligatures: none; }
+.rd.is-sm .rd-row.is-head span { font-size: 13px; }
+
+/* Мораль: короткие цепочки в карточках и выбор инструмента */
+.gpath.is-tight .gnode { padding: 6px 10px; font-size: 16px; }
+.gpath.is-tight .gedge { flex: 0 0 auto; min-width: 34px; margin: 0 5px; font-size: 11px; }
+.choose { margin-top: 24px; }
+
+/* ===== Тройка: субъект, предикат, объект — свои цвета ===== */
+.t-s { color: var(--s-var); }
+.t-p { color: var(--fx); }
+.t-o { color: var(--s-str); }
+.fx-h .t-s, .fx-h .t-p, .fx-h .t-o { font-weight: inherit; }
+.trip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.trip-part { padding: 14px 20px; border: 1.5px solid currentColor; border-radius: 14px; }
+.trip-part b { display: block; font-size: 28px; font-weight: 600; }
+.trip-part span { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+.trip-cases { margin-top: 22px; }
+.trip-code { margin: 0 0 10px; font-family: var(--font-mono); font-size: 20px; color: var(--text-soft); }
+/* Turtle по строкам: строка и её три части */
+.tt { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.tt-row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.6fr) minmax(0, 0.9fr) minmax(0, 1fr); gap: 18px; align-items: baseline; padding: 9px 24px; border-top: 1px solid var(--border-soft); font-size: 19px; }
+.tt-row:first-child { border-top: none; }
+.tt-row.is-head { padding: 10px 24px; background: rgba(var(--tint-rgb), 0.04); font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+.tt-row.is-hi { background: rgba(var(--fx-rgb), 0.08); }
+.tt-row code { font-family: var(--font-mono); font-size: 17px; color: var(--text-soft); white-space: nowrap; font-variant-ligatures: none; }
+
+/* RDF сегодня: разбор JSON-LD на тройки и ссылки в карточках */
+.tt-mini { margin-top: 14px; }
+.tt-mini p { margin: 0 0 6px; font-family: var(--font-mono); font-size: 16px; color: var(--text-soft); font-variant-ligatures: none; }
+.tt-mini p b { color: var(--text-main); font-weight: 600; }
+.stack.is-tight { gap: 14px; }
+.stack.is-tight .tile { padding: 18px 24px; }
+.tile-p a { font-family: var(--font-mono); font-size: 0.8em; color: var(--fx); text-decoration: none; border-bottom: 1px solid rgba(var(--fx-rgb), 0.5); white-space: nowrap; }
+
+/* ===== Datalog: вывод фактов волной по цепочке ===== */
+.dv { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto; align-items: center; row-gap: 14px; }
+.dv > .gnode { justify-self: center; }
+.dvb { justify-self: center; padding: 6px 14px; border: 1.5px solid rgba(var(--fx-rgb), 0.8); border-radius: 999px; background: rgba(var(--fx-rgb), 0.12); font-family: var(--font-mono); font-size: 14px; color: var(--fx); white-space: nowrap; }
+.dv-wave { justify-self: center; font-family: var(--font-mono); font-size: 22px; color: var(--fx); }
+.dv-cols { margin-top: 30px; }
+.dv-steps { margin: 0; padding: 0; list-style: none; }
+.dv-steps li { padding: 10px 0; border-top: 1px dashed var(--border); font-size: 20px; line-height: 1.4; color: var(--text-soft); }
+.dv-steps li:first-child { border-top: none; padding-top: 0; }
+.dv-steps b { color: var(--fx); font-weight: 600; }

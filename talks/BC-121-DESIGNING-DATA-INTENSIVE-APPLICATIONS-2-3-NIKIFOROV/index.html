@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="assets/css/deck.css">
     <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
     <link rel="stylesheet" href="assets/css/theme.css">
+    <link rel="stylesheet" href="assets/css/talk.css">
 
 </head>
 <body data-hud="Высоконагруженные приложения · Глава 2 · Графоподобные модели данных">
@@ -63,9 +64,804 @@
                 </div>
             </section>
 
-            <!-- Здесь — контентные слайды доклада -->
+            <!-- ===== Контентные слайды доклада ===== -->
 
-            <section class="slide fx" data-slide="2" data-chrome="whatnext">
+            <section class="slide fx" id="s-why" data-slide="2" data-toc="Проблема">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">01</span>Зачем этот раздел?</div>
+                    <h2 class="fx-h" data-rv>Модель данных решает, какой вопрос <mark>простой</mark>, а какой <mark class="hot">мучительный</mark></h2>
+                    <p class="fx-lead" data-rv>Три вопроса, которые продукт задаёт каждый день. Записи в таблицах и документах отвечают на них с трудом.</p>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile" data-rv><div class="tile-k">Соцсеть</div><div class="tile-t">«Возможно, вы знакомы»</div><p class="tile-p">Кто из друзей ваших друзей вам ещё не друг? А в трёх рукопожатиях?</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Права доступа</div><div class="tile-t">Можно ли Пете открыть документ?</div><p class="tile-p">Доступ выдан группе. Петя в отделе, отдел в департаменте, департамент в этой группе.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Зависимости</div><div class="tile-t">Кто тянет уязвимую библиотеку?</div><p class="tile-p">Сервис&nbsp;→ пакет&nbsp;→ пакет&nbsp;→ … &nbsp;→ уязвимая версия. Глубина у каждого своя.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Во всех трёх важна не сама запись, а <b>связи между записями</b> и путь по ним заранее неизвестной длины. Для таких данных есть своя модель&nbsp;— о ней раздел.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Начну с вопроса: зачем вообще этот раздел. Клеппман открывает главу 2 словами: модели данных&nbsp;— вероятно, важнейшая часть разработки, потому что они влияют на то, как мы думаем о задаче. Каждая модель заложена под свои сценарии: одни операции в ней быстрые и естественные, другие медленные и трудные. Поэтому модель важно выбрать под своё приложение.</p>
+                    <p>Вот три вопроса, которые продукты задают постоянно. «Возможно, вы знакомы»: кто из друзей ваших друзей вам ещё не друг&nbsp;— а если искать в трёх рукопожатиях? Права доступа: документ открыт группе, а Петя состоит в отделе, который входит в департамент, который входит в эту группу&nbsp;— можно ли ему открыть документ? Зависимости: какие наши сервисы тянут уязвимую версию библиотеки, если она приходит через цепочку пакетов разной длины?</p>
+                    <p>Общее у всех трёх: важна не сама запись&nbsp;— человек, группа, пакет,&nbsp;— а связи между записями. И путь по связям, длина которого заранее неизвестна. В таблицах и документах такие вопросы задавать неудобно. Для таких данных есть своя модель, о ней и раздел 2.3.</p>
+                    <p><em>Обозначение</em> Значок «!» внизу слайда&nbsp;— главный вывод слайда. Скажите это один раз здесь, дальше зал узнаёт его сам.</p>
+                    <p><em>Иллюстрация, не из книги</em> Три примера мои, ближе к нашей работе. Пример про зависимости&nbsp;— история Log4Shell в 2021 году: уязвимая log4j часто приходила не напрямую, а через зависимости зависимостей. Мысль о выборе модели&nbsp;— из книги: вступление к главе 2 и резюме 2.4.</p>
+                    <p><em>По книге</em> с. 53–54, 90–91.</p>
+                    <p><em>Переход</em> Что общего у этих данных с точки зрения связей? Напомню, какие связи бывают.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-m2m" data-slide="3" data-toc="Что такое «многие-ко-многим»">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">02</span>Что за связи «многие-ко-многим»?</div>
+                    <h2 class="fx-h" data-rv>Один-ко-многим&nbsp;— дерево. <mark>Многие-ко-многим&nbsp;— сеть</mark></h2>
+                    <p class="fx-lead" data-rv>Тип связи&nbsp;— сколько записей с каждой стороны. У должности один владелец&nbsp;— резюме. У компании много сотрудников, у сотрудника&nbsp;— много компаний.</p>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile" data-rv><div class="tile-k">Один-ко-многим · дерево</div>
+                                <svg class="m2m" viewBox="0 0 440 200" role="img" aria-label="Резюме Люси: две должности и учёба">
+                                    <line x1="220" y1="50" x2="75" y2="140"/><line x1="220" y1="50" x2="220" y2="140"/><line x1="220" y1="50" x2="365" y2="140"/>
+                                    <rect class="is-hi" x="140" y="10" width="160" height="40" rx="10"/><text x="220" y="30">Резюме Люси</text>
+                                    <rect x="10" y="140" width="130" height="40" rx="10"/><text x="75" y="160">Должность 1</text>
+                                    <rect x="155" y="140" width="130" height="40" rx="10"/><text x="220" y="160">Должность 2</text>
+                                    <rect x="300" y="140" width="130" height="40" rx="10"/><text x="365" y="160">Учёба</text>
+                                </svg>
+                                <p class="tile-p">У каждой записи <b>один владелец</b>. Документ (JSON&nbsp;— вложенные объекты) хранит такое целиком.</p>
+                            </div>
+                            <div class="tile is-hi" data-rv><div class="tile-k">Многие-ко-многим · сеть</div>
+                                <svg class="m2m" viewBox="0 0 440 200" role="img" aria-label="Люди и компании: связи пересекаются">
+                                    <line x1="130" y1="100" x2="296" y2="30"/><line x1="130" y1="100" x2="296" y2="100"/><line x1="130" y1="170" x2="296" y2="100"/><line x1="130" y1="170" x2="296" y2="170"/>
+                                    <line class="is-hi" x1="130" y1="30" x2="296" y2="30"/><line class="is-hi" x1="130" y1="30" x2="296" y2="170"/>
+                                    <rect class="is-hi" x="10" y="10" width="120" height="40" rx="10"/><text x="70" y="30">Люси</text>
+                                    <rect x="10" y="80" width="120" height="40" rx="10"/><text x="70" y="100">Ален</text>
+                                    <rect x="10" y="150" width="120" height="40" rx="10"/><text x="70" y="170">Боб</text>
+                                    <rect x="296" y="10" width="138" height="40" rx="10"/><text x="365" y="30">Компания A</text>
+                                    <rect x="296" y="80" width="138" height="40" rx="10"/><text x="365" y="100">Компания B</text>
+                                    <rect x="296" y="150" width="138" height="40" rx="10"/><text x="365" y="170">Университет</text>
+                                </svg>
+                                <p class="tile-p">У человека много мест, у места <b>много людей</b>. Вложить нельзя&nbsp;— нужны ссылки.</p>
+                            </div>
+                            <div class="tile" data-rv><div class="tile-k">Как это моделируют</div>
+                                <ul class="plist">
+                                    <li><b>Документ</b>: дерево вложено, а ссылки соединяет код приложения</li>
+                                    <li><b>Таблицы</b>: таблица-связка <code>(person_id, company_id)</code> и JOIN&nbsp;— соединение таблиц в запросе</li>
+                                    <li><b>Граф</b>: люди и компании&nbsp;— <b>вершины</b>, связи&nbsp;— <b>рёбра</b>, по ним и идёт запрос</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Когда «многие-ко-многим»&nbsp;— <b>основа данных</b>, а не исключение, пора смотреть на граф.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> У всех трёх вопросов с прошлого слайда общий тип связи. Напомню, какие связи бывают. Тип связи&nbsp;— это сколько записей с каждой стороны. Пример из первого доклада Антона, резюме в LinkedIn: у профиля несколько должностей, несколько мест учёбы, контакты. Это связи «один-ко-многим»: у каждой должности один владелец&nbsp;— профиль. Получается дерево, и документ JSON хранит его целиком, одним куском.</p>
+                    <p>Но дальше в резюме появляются компании и школы как отдельные сущности со своими страницами, и рекомендации от других пользователей. Теперь у человека много компаний, а у компании много сотрудников. Это «многие-ко-многим»: связи пересекаются, получается не дерево, а сеть. Вложить одно в другое уже нельзя, нужны ссылки и соединения.</p>
+                    <p>Как это хранят разные модели. Документная база: дерево вложено, а ссылки приходится соединять в коде приложения, несколькими запросами. Реляционная: отдельная таблица-связка, где каждая строка&nbsp;— пара «человек&nbsp;— компания», и JOIN. Граф: люди и компании&nbsp;— это вершины, точки на схеме, а связи между ними&nbsp;— рёбра, линии. Вопрос к таким данным так и звучит: по каким рёбрам пройти.</p>
+                    <p><em>Как показывать</em> Слева&nbsp;— дерево, у каждого узла один родитель. В центре&nbsp;— сеть, подсвечены связи Люси: она в двух местах, а в каждом месте несколько людей. Аналогия: дерево&nbsp;— папки на диске, файл лежит в одной папке; сеть&nbsp;— теги, у файла много тегов, у тега много файлов.</p>
+                    <p><em>По книге</em> с. 58–62, рис. 2.2 и 2.4; с. 76.</p>
+                    <p><em>Переход</em> А что делать, когда таких связей становится всё больше?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx is-hero" id="s-main" data-slide="4" data-toc="Главная мысль">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">03</span>Связей «многие-ко-многим» всё больше&nbsp;— что тогда?</div>
+                    <h2 class="fx-h" data-rv>Тогда данные естественнее<br>моделировать <mark>графом</mark></h2>
+                    <p class="fx-lead" data-rv>Граф&nbsp;— это <b>вершины</b> (люди, места, страницы) и <b>рёбра</b>&nbsp;— связи между ними. Связь «многие-ко-многим» в графе&nbsp;— просто ребро, и у вершины их сколько угодно.</p>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile" data-rv><div class="tile-k">Часть 1</div><div class="tile-t">Как устроен граф</div><p class="tile-p">Вершины и рёбра со свойствами&nbsp;— и почему схема в нём гибче.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Часть 2</div><div class="tile-t">Как задать графу вопрос</div><p class="tile-p">Графовый язык запросов против обычного SQL: 4 строки против 29.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Часть 3</div><div class="tile-t">Тот же граф другой записью</div><p class="tile-p">Факты «кто&nbsp;— что&nbsp;— кому» и их языки запросов.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Граф&nbsp;— взгляд на данные, где главное&nbsp;— <b>цепочки связей</b>. Хранить его можно и в реляционной базе данных (БД), но цепочки тогда нужно видеть осознанно.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Итак, связей «многие-ко-многим» в данных становится всё больше. Клеппман так и начинает раздел: если связи в основном «один-ко-многим», то есть данные&nbsp;— дерево, подойдёт документная модель. Простые случаи «многие-ко-многим» потянет реляционная. Но когда таких связей очень много, данные естественнее моделировать графом.</p>
+                    <p>Граф состоит из вершин&nbsp;— их ещё называют узлами или сущностями&nbsp;— и рёбер, они же связи или дуги. Связь «многие-ко-многим» в графе&nbsp;— просто ребро, и у вершины их может быть сколько угодно.</p>
+                    <p>Важно: граф&nbsp;— это взгляд на данные, где главное&nbsp;— цепочки связей. Хранить граф можно по-разному, хоть в двух таблицах PostgreSQL&nbsp;— это покажу дальше. Но тогда цепочки нужно видеть осознанно: реляционная база о них не знает, и путь любой длины придётся расписывать вручную.</p>
+                    <p>Дальше три части. Первая&nbsp;— как устроен граф свойств и почему он гибче таблиц. Вторая&nbsp;— как задавать графу вопросы: язык Cypher и тот же запрос на SQL. Третья&nbsp;— вторая модель графа, тройки, и их языки SPARQL и Datalog.</p>
+                    <p><em>Как показывать</em> Три части&nbsp;— план доклада. Счётчик в кикере («1 / 8») показывает, где мы внутри части. Около 26 минут.</p>
+                    <p><em>Термины этого доклада</em> Вершина&nbsp;— объект в графе. Ребро&nbsp;— связь между двумя вершинами, у неё есть направление и метка. Граф свойств&nbsp;— модель, где у вершин и рёбер есть свойства «ключ&nbsp;— значение» (Neo4j). Тройка&nbsp;— запись «субъект, предикат, объект». RDF&nbsp;— формат троек. Cypher, SPARQL, Datalog&nbsp;— декларативные языки запросов к графам. Каждый термин раскрыт на слайде, где появляется впервые.</p>
+                    <p><em>Переход</em> Сначала&nbsp;— где данные устроены как граф.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-where" data-slide="5" data-toc="Примеры графов">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">04</span>Где данные устроены как граф?<span class="sec">1 / 8</span></div>
+                    <h2 class="fx-h" data-rv>Граф там, где <mark>главное&nbsp;— связи</mark></h2>
+                    <p class="fx-lead" data-rv>Объект связан со многими другими, а они&nbsp;— обратно. Тогда объекты&nbsp;— <b>вершины</b>, связи&nbsp;— <b>рёбра</b>.</p>
+                    <div class="fx-body">
+                        <div class="grid4">
+                            <div class="tile" data-rv><div class="tile-k">Соцсеть</div><div class="tile-t">Люди и знакомства</div><p class="tile-p">Вершины&nbsp;— люди, рёбра&nbsp;— «знаком с». У каждого много знакомых.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Веб</div><div class="tile-t">Страницы и ссылки</div><p class="tile-p">Вершины&nbsp;— страницы, рёбра&nbsp;— ссылки. <b>PageRank</b> считает вес страницы по входящим ссылкам.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Дороги</div><div class="tile-t">Перекрёстки и дороги</div><p class="tile-p">Вершины&nbsp;— перекрёстки, рёбра&nbsp;— дороги. Навигатор ищет <b>кратчайший путь</b>.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Разные сущности</div><div class="tile-t">Всё в одном графе</div><p class="tile-p">Вершины&nbsp;— люди, места, события. Рёбра&nbsp;— «друг», «был там», «пришёл на».</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Граф нужен, когда вопрос звучит «<b>кто с кем и через кого связан</b>», а не «что лежит в записи».</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Когда данные&nbsp;— граф? Когда объект связан со многими другими, а те связаны обратно. Тогда объекты становятся вершинами, а связи&nbsp;— рёбрами. Типичные примеры из книги. Соцсеть: вершины&nbsp;— люди, рёбра&nbsp;— знакомство. Веб: вершины&nbsp;— страницы, рёбра&nbsp;— ссылки; алгоритм PageRank по этому графу считает вес страницы и её место в поиске. Дороги: вершины&nbsp;— перекрёстки и станции, рёбра&nbsp;— пути между ними; навигатор ищет кратчайший путь.</p>
+                    <p>В этих примерах все вершины однотипные. Но граф так же хорошо хранит разнородные объекты в одном хранилище: людей, места, события, комментарии&nbsp;— и рёбра разного смысла между ними. В книге пример&nbsp;— единый граф крупной соцсети, где так устроены и дружба, и посещения, и комментарии.</p>
+                    <p><em>По книге</em> с. 76–77; ссылка [35]&nbsp;— статья о хранилище TAO.</p>
+                    <p><em>Переход</em> Теперь пример, на котором будем сравнивать языки запросов.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-task" data-slide="6" data-toc="Сквозной пример">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">05</span>На каком примере сравним языки запросов?<span class="sec">2 / 8</span></div>
+                    <h2 class="fx-h" data-rv>Сколько шагов до страны&nbsp;— <mark class="hot">у каждого своё</mark></h2>
+                    <p class="fx-lead" data-rv>Задача: найти, кто родился в России. В базе у человека записано место рождения&nbsp;— самое точное, что знаем. Страна&nbsp;— где-то выше по цепочке «находится в».</p>
+                    <div class="fx-body">
+                        <div class="cols">
+                            <div class="gpaths is-task" data-rv="left">
+                                <div class="gpath is-mini"><span class="gnode">Москва</span><span class="gedge">в</span><span class="gnode is-goal">Россия</span><span class="gcount">1 шаг</span></div>
+                                <div class="gpath is-mini"><span class="gnode">Химки</span><span class="gedge">в</span><span class="gnode">Московская обл.</span><span class="gedge">в</span><span class="gnode is-goal">Россия</span><span class="gcount">2 шага</span></div>
+                                <div class="gpath is-mini"><span class="gnode">Кратово</span><span class="gedge">в</span><span class="gnode">Раменский округ</span><span class="gedge">в</span><span class="gnode">Московская обл.</span><span class="gedge">в</span><span class="gnode is-goal">Россия</span><span class="gcount">3 шага</span></div>
+                            </div>
+                            <div data-rv="right">
+                                <div class="code-cap is-hot"><span>SQL · places(id, name, parent_id)</span><b>сколько JOIN писать?</b></div>
+<pre class="code is-xs is-hot"><span class="s-kw">SELECT</span> person.name <span class="s-kw">FROM</span> people person
+<span class="s-kw">JOIN</span> places p1 <span class="s-kw">ON</span> person.born_in = p1.id
+<span class="s-kw">JOIN</span> places p2 <span class="s-kw">ON</span> p1.parent_id = p2.id
+<span class="s-kw">JOIN</span> places p3 <span class="s-kw">ON</span> p2.parent_id = p3.id
+<span class="s-kw">WHERE</span> <span class="hl is-hot">p3.name = <span class="s-str">'Россия'</span></span>;
+<span class="s-com">-- найдёт только Химки: ровно 2 шага.</span>
+<span class="s-com">-- Москву и Кратово пропустит.</span></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Число JOIN зависит <b>от данных</b>. Путь любой длины&nbsp;— одна из сильных сторон графа: на этом примере сравним графовые языки запросов и обычный SQL.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Вот пример, на котором Клеппман сравнивает языки запросов&nbsp;— я перенёс его на Россию. Хотим найти всех, кто родился в России. Но поля «страна» у человека нет: мы храним место рождения&nbsp;— самое точное, что знаем. У одного это Москва, у другого Химки, у третьего посёлок Кратово. А что это Россия, записано выше: Химки находятся в Московской области, область&nbsp;— в России.</p>
+                    <p>Москва&nbsp;— город федерального значения, от неё до страны один шаг. От Химок&nbsp;— два, через область. От Кратово&nbsp;— три: посёлок, Раменский округ, область, страна. Глубина у каждого своя.</p>
+                    <p>Попробуем на обычном SQL. Места лежат в таблице places, у каждого есть parent_id&nbsp;— «находится в». Чтобы подняться на шаг, нужен ещё один JOIN этой таблицы самой с собой. Пишем два шага&nbsp;— и находим только Химки. Москву запрос пропустит, у неё страна на первом шаге. Кратово тоже пропустит, ему нужен третий. Сколько JOIN писать, заранее неизвестно: это зависит от данных. Нужен способ сказать «поднимайся, пока не дойдёшь до страны». Это одна из сильных сторон графовой модели, но не единственная: про гибкость схемы и разнородные данные&nbsp;— через пару слайдов.</p>
+                    <p><em>Иллюстрация, не из книги</em> Пример с Россией мой, чтобы было ближе. В книге та же задача на примере США и Европы&nbsp;— следующий слайд.</p>
+                    <p><em>Переход</em> Клеппман ставит ту же задачу на своём примере.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-lucy" data-slide="7" data-toc="Пример из книги">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">06</span>Как этот пример выглядит в книге?<span class="sec">3 / 8</span></div>
+                    <h2 class="fx-h" data-rv>Кто родился <mark>в США</mark>, а живёт <mark>в Европе</mark>?</h2>
+                    <p class="fx-lead" data-rv>Люси из Айдахо и Ален из Бона живут в Лондоне. <b>Страны у них в данных нет</b>: есть место и цепочка рёбер WITHIN&nbsp;— «находится в». <b>Метка</b> ребра&nbsp;— тип связи.</p>
+                    <div class="fx-body">
+                        <div class="gpaths">
+                            <div class="gpath" data-rv="left">
+                                <span class="gnode is-person">Lucy<small>Person</small></span>
+                                <span class="gedge is-hi">BORN_IN</span>
+                                <span class="gnode">Idaho<small>штат</small></span>
+                                <span class="gedge">WITHIN</span>
+                                <span class="gnode is-goal">United States<small>страна</small></span>
+                                <span class="gedge">WITHIN</span>
+                                <span class="gnode">North America<small>континент</small></span>
+                            </div>
+                            <div class="gpath" data-rv="left">
+                                <span class="gnode is-person">Lucy<small>Person</small></span>
+                                <span class="gedge is-hi">LIVES_IN</span>
+                                <span class="gnode">London<small>город</small></span>
+                                <span class="gedge">WITHIN</span>
+                                <span class="gnode">England<small>страна</small></span>
+                                <span class="gedge">WITHIN</span>
+                                <span class="gnode">United Kingdom<small>страна</small></span>
+                                <span class="gedge">WITHIN</span>
+                                <span class="gnode is-goal">Europe<small>континент</small></span>
+                            </div>
+                            <div class="gpath" data-rv="left">
+                                <span class="gnode is-person">Alain<small>Person</small></span>
+                                <span class="gedge">BORN_IN</span>
+                                <span class="gnode">Beaune<small>город</small></span>
+                                <span class="gedge">WITHIN</span>
+                                <span class="gnode">…<small>регион</small></span>
+                                <span class="gedge">WITHIN</span>
+                                <span class="gnode">France<small>страна</small></span>
+                                <span class="gedge">WITHIN</span>
+                                <span class="gnode is-goal">Europe<small>континент</small></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>У Люси до США <b>2 шага</b>, до Европы&nbsp;— <b>4</b>. У другого человека шагов будет иначе, и запрос должен пройти цепочку любой длины.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Пример мог бы прийти из соцсети или генеалогической базы. Два человека: Люси из штата Айдахо и Ален из Бона во Франции. Они женаты и живут в Лондоне. Каждый прямоугольник&nbsp;— вершина, каждая стрелка&nbsp;— ребро с меткой: BORN_IN&nbsp;— родился в, LIVES_IN&nbsp;— живёт в, WITHIN&nbsp;— находится внутри.</p>
+                    <p>У Клеппмана тот же пример на американском материале: найти, кто родился в США, а живёт в Европе. Страны у Люси в данных нет: есть ребро «родилась в Айдахо», а то, что Айдахо в США,&nbsp;— отдельное ребро. До США два шага, до Европы четыре: Лондон, Англия, Соединённое Королевство, Европа. У Алена до Европы тоже четыре, но через другие уровни. Запрос должен уметь пройти цепочку любой длины&nbsp;— вот в чём сложность. Ровно как с Москвой, Химками и Кратово. Подсвечены цели поиска: United States и Europe. Ответ&nbsp;— Люси.</p>
+                    <p><em>Как показывать</em> Это упрощённый рис. 2.5: у Алена промежуточные уровни во Франции свёрнуты в «…», ребро MARRIED между Люси и Аленом опущено.</p>
+                    <p><em>По книге</em> с. 77, рис. 2.5; с. 79.</p>
+                    <p><em>Переход</em> Как такой граф устроен внутри?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-prop" data-slide="8" data-toc="Граф свойств">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">07</span>Из чего состоит граф свойств?<span class="sec">4 / 8</span></div>
+                    <h2 class="fx-h" data-rv>Вершины и рёбра&nbsp;— <mark>со своими свойствами</mark></h2>
+                    <p class="fx-lead" data-rv><b>Граф свойств</b>&nbsp;— так граф устроен в графовых системах управления базами данных (<b>СУБД</b>), например Neo4j. Вот кусок нашего примера.</p>
+                    <div class="fx-body">
+                        <div class="pgg" data-rv>
+                            <div class="pgc"><div class="pgc-h"><b>Lucy</b><span>:Person</span></div><ul><li><i>id:</i> 3</li><li><i>name:</i> 'Lucy'</li></ul></div>
+                            <div class="pga"><span class="pga-l">BORN_IN</span><div class="pga-line"></div><div class="pga-p">id: 8 · откуда 3 → куда 2</div></div>
+                            <div class="pgc"><div class="pgc-h"><b>Idaho</b><span>:Location</span></div><ul><li><i>id:</i> 2</li><li><i>name:</i> 'Idaho'</li><li><i>type:</i> 'state'</li></ul></div>
+                            <div class="pga"><span class="pga-l">WITHIN</span><div class="pga-line"></div><div class="pga-p">id: 7 · откуда 2 → куда 1</div></div>
+                            <div class="pgc"><div class="pgc-h"><b>United States</b><span>:Location</span></div><ul><li><i>id:</i> 1</li><li><i>name:</i> 'United States'</li><li><i>type:</i> 'country'</li></ul></div>
+                        </div>
+                        <div class="grid3 pgg-legend">
+                            <div class="tile" data-rv><div class="tile-k">Вершина</div><p class="tile-p">Номер (id), <b>метка</b>&nbsp;— тип объекта (Person, Location)&nbsp;— и свойства «ключ&nbsp;— значение».</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Ребро</div><p class="tile-p">Номер, метка&nbsp;— тип связи, <b>направление</b>: откуда и куда. Может иметь свои свойства.</p></div>
+                            <div class="tile is-hi" data-rv><div class="tile-k">Связи</div><p class="tile-p">У вершины рёбер сколько угодно, входящих и исходящих. <b>Любая вершина</b> связывается с любой.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Всего <b>два вида объектов</b>&nbsp;— вершины и рёбра. Всё остальное&nbsp;— метки и свойства.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Мы привыкли к двум моделям: реляционной, где данные&nbsp;— строки в таблицах, и документной, где данные&nbsp;— вложенные объекты. Граф свойств&nbsp;— третья. Её используют графовые системы управления базами данных, например Neo4j, Titan, InfiniteGraph.</p>
+                    <p>Устроена она так. Объектов всего два вида: вершины и рёбра. У вершины есть уникальный номер, метка&nbsp;— тип объекта, например Person или Location,&nbsp;— и набор свойств «ключ&nbsp;— значение»: имя, тип места. У ребра тоже есть номер, метка&nbsp;— тип связи, например BORN_IN или WITHIN,&nbsp;— направление, то есть откуда и куда оно идёт, и свои свойства.</p>
+                    <p>Важно: у вершины может быть сколько угодно рёбер, входящих и исходящих, и любая вершина может быть связана с любой. Схема этого не ограничивает.</p>
+                    <p><em>Как показывать</em> Это кусок нашего примера: Lucy родилась в Idaho, Idaho находится в United States. Сверху&nbsp;— как граф видит Neo4j, без всяких таблиц. Номера вершин и рёбер понадобятся на следующем слайде.</p>
+                    <p><em>Что изменилось с выхода книги</em> Titan закрыт, его продолжение&nbsp;— JanusGraph. Самая известная графовая СУБД по-прежнему Neo4j.</p>
+                    <p><em>По книге</em> с. 78.</p>
+                    <p><em>Переход</em> А если графовой СУБД нет, а есть обычная реляционная&nbsp;— можно ли хранить граф в ней?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-pgsql" data-slide="9" data-toc="Граф в двух таблицах">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">08</span>Как хранить такой граф в реляционной БД?<span class="sec">5 / 8</span></div>
+                    <h2 class="fx-h" data-rv>Две таблицы: <mark>вершины и рёбра</mark></h2>
+                    <p class="fx-lead" data-rv>Тот же кусок графа в обычной реляционной СУБД PostgreSQL. Цвет&nbsp;— номер вершины.</p>
+                    <div class="fx-body">
+                        <div class="cols is-wide-r">
+                            <div data-rv="left">
+                                <div class="code-cap"><span>Таблица vertices</span><b>вершины</b></div>
+                                <div class="dt is-v">
+                                    <div class="dt-row is-head"><span>номер</span><span>свойства</span></div>
+                                    <div class="dt-row"><span><i class="idc c1">1</i></span><span>United States, страна</span></div>
+                                    <div class="dt-row"><span><i class="idc c2">2</i></span><span>Idaho, штат</span></div>
+                                    <div class="dt-row"><span><i class="idc c3">3</i></span><span>Lucy</span></div>
+                                </div>
+                            </div>
+                            <div data-rv="right">
+                                <div class="code-cap"><span>Таблица edges</span><b>рёбра</b></div>
+                                <div class="dt is-e">
+                                    <div class="dt-row is-head"><span>номер</span><span>откуда</span><span>куда</span><span>метка</span></div>
+                                    <div class="dt-row"><span>7</span><span><i class="idc c2">2</i></span><span><i class="idc c1">1</i></span><span>within</span></div>
+                                    <div class="dt-row"><span>8</span><span><i class="idc c3">3</i></span><span><i class="idc c2">2</i></span><span>born_in</span></div>
+                                </div>
+                                <div class="er">
+                                    <p><b>7:</b> <i class="idc c2">2</i> Idaho <span class="er-a">→ находится в →</span> <i class="idc c1">1</i> United States</p>
+                                    <p><b>8:</b> <i class="idc c3">3</i> Lucy <span class="er-a">→ родилась в →</span> <i class="idc c2">2</i> Idaho</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Ребро&nbsp;— строка с двумя номерами: откуда и куда. По ним граф обходят <b>в обе стороны</b>.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Граф свойств можно положить и в обычную реляционную базу. Клеппман показывает это на PostgreSQL&nbsp;— двумя таблицами. Вершины: номер и свойства. Рёбра: номер, откуда идёт ребро, куда идёт и метка&nbsp;— тип связи.</p>
+                    <p>Смотрите по цветам. Idaho&nbsp;— вершина номер 2. Ребро 7 идёт из вершины 2 в вершину 1: Idaho находится в United States. Ребро 8 идёт из 3 в 2: Lucy родилась в Idaho. Весь граф&nbsp;— это просто строки «откуда, куда, метка».</p>
+                    <p>По столбцам «откуда» и «куда» строят индексы. Тогда быстро находятся и рёбра, выходящие из вершины, и входящие в неё&nbsp;— граф можно обходить в обе стороны: от человека к стране и от страны к людям. Это пригодится, когда будем выбирать, откуда начинать поиск.</p>
+                    <p><em>Как показывать</em> Ведите пальцем по цвету: оранжевая двойка в таблице рёбер&nbsp;— это Idaho из таблицы вершин. Свойства вершин в книге хранятся в JSON; на слайде они написаны словами.</p>
+                    <p><em>По книге</em> с. 78–79, пример 2.2.</p>
+                    <p><em>Переход</em> Как это выглядит на SQL&nbsp;— на следующем слайде, построчно.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-pgddl" data-slide="10" data-toc="Те же таблицы на SQL">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">09</span>Как это записать на SQL?<span class="sec">6 / 8</span></div>
+                    <h2 class="fx-h" data-rv>Те же таблицы&nbsp;— <mark>построчно</mark></h2>
+                    <div class="fx-body">
+                        <div class="rd" data-rv>
+                            <div class="rd-row is-head"><span>PostgreSQL · пример 2.2</span><span>Как читать</span></div>
+                            <div class="rd-row"><code><span class="s-kw">CREATE TABLE</span> vertices (</code><span><b>Таблица вершин</b>:</span></div>
+                            <div class="rd-row"><code>  vertex_id   <span class="s-kw">integer PRIMARY KEY</span>,</code><span>у каждой вершины свой номер</span></div>
+                            <div class="rd-row"><code>  properties  json );</code><span>все её свойства&nbsp;— одним JSON-объектом</span></div>
+                            <div class="rd-row"><code><span class="s-kw">CREATE TABLE</span> edges (</code><span><b>Таблица рёбер</b>:</span></div>
+                            <div class="rd-row"><code>  edge_id     <span class="s-kw">integer PRIMARY KEY</span>,</code><span>у каждого ребра свой номер</span></div>
+                            <div class="rd-row is-hi"><code>  tail_vertex <span class="s-kw">integer REFERENCES</span> vertices (vertex_id),</code><span><b>откуда</b> идёт ребро&nbsp;— номер вершины</span></div>
+                            <div class="rd-row is-hi"><code>  head_vertex <span class="s-kw">integer REFERENCES</span> vertices (vertex_id),</code><span><b>куда</b> идёт ребро&nbsp;— номер вершины</span></div>
+                            <div class="rd-row"><code>  label       text,</code><span>метка: тип связи, например within</span></div>
+                            <div class="rd-row"><code>  properties  json );</code><span>свойства ребра</span></div>
+                            <div class="rd-row"><code><span class="s-kw">CREATE INDEX</span> edges_tails <span class="s-kw">ON</span> edges (tail_vertex);</code><span>быстро найти рёбра, <b>выходящие</b> из вершины</span></div>
+                            <div class="rd-row"><code><span class="s-kw">CREATE INDEX</span> edges_heads <span class="s-kw">ON</span> edges (head_vertex);</code><span>быстро найти рёбра, <b>входящие</b> в вершину</span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Индексы на обоих концах ребра&nbsp;— чтобы ходить по графу <b>в обе стороны</b>.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Теперь то же самое кодом из книги, построчно. Таблица вершин: у каждой вершины номер&nbsp;— первичный ключ, и все свойства одним полем в формате JSON. Таблица рёбер: номер ребра; tail_vertex&nbsp;— откуда идёт ребро, ссылка на номер вершины; head_vertex&nbsp;— куда идёт ребро, тоже ссылка; label&nbsp;— метка, тип связи; и свойства ребра. Два индекса&nbsp;— по началу и по концу ребра: первый быстро находит рёбра, выходящие из вершины, второй&nbsp;— входящие.</p>
+                    <p><em>Как показывать</em> Подсвечены две строки, на которых всё держится: откуда и куда. Если зал устал от кода, слайд можно пролистать: главное было на прошлом.</p>
+                    <p><em>По книге</em> с. 78–79, пример 2.2.</p>
+                    <p><em>Переход</em> Чем такая модель гибче привычной схемы таблиц?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-flex" data-slide="11" data-toc="Обычная схема против графовой">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">10</span>Чем граф отличается, если он тоже лежит в таблицах?<span class="sec">7 / 8</span></div>
+                    <h2 class="fx-h" data-rv>Отличие не в хранении, а <mark>в схеме и вопросах</mark></h2>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile is-hot" data-rv="left"><div class="tile-k">Обычная схема · таблица на каждый тип</div>
+                                <div class="tchain">
+                                    <span class="tbox">people</span><span class="tarr">city_id</span><span class="tbox">cities</span><span class="tarr">state_id</span><span class="tbox">states</span><span class="tarr">country_id</span><span class="tbox">countries</span>
+                                </div>
+                                <ul class="cmp">
+                                    <li>Люси родилась в <b>штате</b>, а ссылка ждёт город&nbsp;— нужна новая колонка</li>
+                                    <li>Новый уровень «регион»&nbsp;— <b>миграция</b> схемы</li>
+                                    <li>Новая связь, например аллергии,&nbsp;— <b>новая таблица</b></li>
+                                    <li>«В какой стране?»&nbsp;— свой JOIN <b>на каждый уровень</b></li>
+                                </ul>
+                            </div>
+                            <div class="tile is-hi" data-rv="right"><div class="tile-k">Графовая схема · две таблицы на всё</div>
+                                <div class="tchain is-graph">
+                                    <span class="tbox">vertices</span><span class="tarr is-both">откуда · куда</span><span class="tbox">edges</span>
+                                </div>
+                                <ul class="cmp">
+                                    <li>Люси&nbsp;→ штат, Ален&nbsp;→ город&nbsp;— <b>просто рёбра</b></li>
+                                    <li>Новый уровень&nbsp;— новая вершина и ребро, <b>схема та же</b></li>
+                                    <li>Новая связь&nbsp;— <b>новая метка</b> у рёбер</li>
+                                    <li>«В какой стране?»&nbsp;— <b>путь по рёбрам</b> любой длины</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Граф может жить и в реляционной БД, но там о <b>цепочках связей</b> помним мы сами&nbsp;— СУБД о них не знает.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Резонный вопрос: если граф лежит в двух таблицах, чем он отличается от реляционной базы? На уровне хранения&nbsp;— ничем: записи со ссылками. Отличие в схеме и в том, какие вопросы задаются легко.</p>
+                    <p>Слева&nbsp;— как мы обычно проектируем: таблица на каждый тип сущности, связи заложены заранее между конкретными типами. Люди ссылаются на город, город на штат, штат на страну. Люси родилась в штате, а ссылка ждёт город&nbsp;— нужна ещё колонка. Появился уровень «регион»&nbsp;— миграция. Захотели аллергии&nbsp;— новая таблица. Вопрос «в какой стране» требует JOIN на каждый уровень, и уровней у разных людей разное число.</p>
+                    <p>Справа&nbsp;— графовая схема: одна таблица на все вершины любого типа и одна на все рёбра. Люси указывает на штат, Ален на город&nbsp;— это просто рёбра. Новый уровень&nbsp;— новая вершина и ребро, схема та же. Новая связь&nbsp;— новая метка. Это примеры Клеппмана: разное деление стран, страна внутри страны, разная точность, аллергии.</p>
+                    <p>Но реляционная СУБД не знает, что эти две таблицы&nbsp;— граф. Для неё это просто таблицы, поэтому путь любой длины придётся писать рекурсивным запросом. Графовая СУБД это знает: запрос в ней&nbsp;— шаблон пути, а шаг по ребру&nbsp;— основная операция. Клеппман в резюме главы так и пишет: одну модель можно эмулировать на языке другой, например граф в реляционной базе, но результат часто неудобен.</p>
+                    <p><em>Не из книги</em> В графовых СУБД вроде Neo4j у вершины хранятся прямые ссылки на её рёбра, поэтому шаг к соседу не требует поиска по индексу. Это называют index-free adjacency.</p>
+                    <p><em>По книге</em> с. 79 (гибкость графа), с. 91 (резюме главы).</p>
+                    <p><em>Переход</em> Похоже на сетевую модель, о которой Антон рассказывал в первом докладе. Не вернулась ли она?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-codasyl" data-slide="12" data-toc="Граф — не CODASYL">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">11</span>Не вернулась ли сетевая модель?<span class="sec">8 / 8</span></div>
+                    <h2 class="fx-h" data-rv>Граф&nbsp;— <mark>не второе пришествие</mark> CODASYL</h2>
+                    <p class="fx-lead" data-rv><b>CODASYL</b>&nbsp;— сетевая модель 1970-х из первого доклада Антона: записи связаны указателями, программа ходит по ним вручную.</p>
+                    <div class="fx-body">
+                        <div class="grid2">
+                            <div class="tile" data-rv><div class="tile-k">01 · Схема</div><p class="tile-p">CODASYL задавал, какие записи вкладываются в какие. В графе <b>любая вершина связывается с любой</b>.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">02 · Доступ</div><p class="tile-p">В CODASYL до записи&nbsp;— только по цепочке указателей от корня. В графе&nbsp;— <b>сразу по id или индексу</b>.</p></div>
+                            <div class="tile" data-rv><div class="tile-k">03 · Порядок</div><p class="tile-p">В CODASYL потомки упорядочены, и порядок поддерживали и база, и приложение. В графе рёбра <b>не упорядочены</b>.</p></div>
+                            <div class="tile is-hi" data-rv><div class="tile-k">04 · Запросы</div><p class="tile-p">В CODASYL&nbsp;— только ручной обход. В графе есть <b>декларативные языки запросов</b>: описываем, что найти, а не как.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Граф взял у сетевой модели <b>гибкость связей</b>, но не её императивность.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> В первом докладе Антон рассказывал, как проблему «многие-ко-многим» решали сетевая модель CODASYL и реляционная модель. На первый взгляд CODASYL похож на граф. Может, графовые базы&nbsp;— это CODASYL, вернувшийся под новым именем? Клеппман отвечает: нет, и называет четыре отличия.</p>
+                    <p>Первое: у CODASYL была схема, которая задавала, какие типы записей можно вкладывать в какие. В графе любая вершина может быть связана с любой, поэтому приложение гибче подстраивается под новые требования. Второе: в CODASYL до записи можно было добраться только по одному из путей доступа. В графе на вершину можно сослаться прямо по id или найти через индекс. Третье: в CODASYL дочерние записи были упорядочены, база поддерживала порядок, а приложение заботилось о позиции новых записей. В графе вершины и рёбра не упорядочены, сортируется только результат запроса. Четвёртое: запросы в CODASYL были императивными, сложными и ломались при смене схемы. В графовой базе императивный обход возможен, но большинство поддерживают декларативные Cypher или SPARQL.</p>
+                    <p><em>Не путать</em> Императивный язык для графов тоже есть&nbsp;— Gremlin, а для обработки больших графов&nbsp;— фреймворк Pregel (глава 10).</p>
+                    <p><em>По книге</em> с. 87, врезка «Графовые базы данных в сравнении с сетевой моделью»; Gremlin&nbsp;— ссылка [36].</p>
+                    <p><em>Переход</em> С моделью разобрались. Как записать в неё данные и как её спросить?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-cypher" data-slide="13" data-toc="Cypher: создать граф">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">12</span>Как записать граф в базу?<span class="sec">1 / 4</span></div>
+                    <h2 class="fx-h" data-rv>Cypher: граф <mark>рисуют стрелками</mark></h2>
+                    <p class="fx-lead" data-rv><b>Cypher</b>&nbsp;— язык запросов Neo4j. Декларативный: описываем, что найти, а не как. Назван в честь персонажа «Матрицы».</p>
+                    <div class="fx-body">
+                        <div class="cols">
+                            <div data-rv="left">
+                                <div class="code-cap"><span>Cypher · левая часть графа</span><b>CREATE</b></div>
+<pre class="code is-xs is-hi"><span class="s-kw">CREATE</span>
+  (NAmerica:Location {name:<span class="s-str">'North America'</span>, type:<span class="s-str">'continent'</span>}),
+  (USA:Location      {name:<span class="s-str">'United States'</span>, type:<span class="s-str">'country'</span>}),
+  (Idaho:Location    {name:<span class="s-str">'Idaho'</span>,         type:<span class="s-str">'state'</span>}),
+  (Lucy:Person       {name:<span class="s-str">'Lucy'</span>}),
+  <span class="hl">(Idaho) -[:WITHIN]-&gt; (USA)</span> -[:WITHIN]-&gt; (NAmerica),
+  (Lucy)  -[:BORN_IN]-&gt; (Idaho)</pre>
+                            </div>
+                            <div class="trs" data-rv="right">
+                                <div class="code-cap"><span>Как читать</span><b>код → картинка</b></div>
+                                <div class="trn"><code>(Idaho:Location {name:'Idaho'})</code>
+                                    <div class="gpath is-mini"><span class="gnode">Idaho<small class="prop">:Location · name: 'Idaho'</small></span></div>
+                                    <p>Круглые скобки&nbsp;— <b>вершина</b>: имя в запросе, метка, свойства.</p></div>
+                                <div class="trn"><code>(Idaho) -[:WITHIN]-&gt; (USA)</code>
+                                    <div class="gpath is-mini is-short"><span class="gnode">Idaho</span><span class="gedge is-hi">WITHIN</span><span class="gnode">USA</span></div>
+                                    <p>Стрелка&nbsp;— <b>ребро</b>: метка в квадратных скобках, направление&nbsp;— куда смотрит стрелка.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Запрос <b>выглядит как схема на доске</b>&nbsp;— кружки и стрелки.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Cypher&nbsp;— декларативный язык запросов для графов свойств, его создали для графовой базы Neo4j. Назван в честь персонажа фильма «Матрица» и к криптографическим шифрам отношения не имеет.</p>
+                    <p>Это запрос, который вставляет левую часть нашего графа. Каждой вершине дано условное имя, например USA или Idaho, у неё есть метка&nbsp;— Location или Person&nbsp;— и свойства в фигурных скобках. Дальше эти имена используются, чтобы стрелочной нотацией создать рёбра: (Idaho) -[:WITHIN]-&gt; (USA)&nbsp;— ребро с меткой WITHIN, начальная вершина Idaho, конечная USA. Остальной граф вставляется так же, Клеппман его опускает.</p>
+                    <p><em>По книге</em> с. 79–80, пример 2.3; Neo4j&nbsp;— ссылка [37].</p>
+                    <p><em>Как показывать</em> Справа&nbsp;— как читать нотацию: круглые скобки&nbsp;— вершина, стрелка с квадратными скобками&nbsp;— ребро.</p>
+                    <p><em>Переход</em> Граф в базе. Теперь наш вопрос: кто переехал из США в Европу?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-match" data-slide="14" data-toc="Cypher: запрос">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">13</span>Как спросить граф?<span class="sec">2 / 4</span></div>
+                    <h2 class="fx-h" data-rv>Пишем <mark>шаблон пути</mark></h2>
+                    <p class="fx-lead" data-rv><b>Шаблон пути</b>&nbsp;— по каким рёбрам пройти: от человека по BORN_IN, потом по цепочке WITHIN до United States.</p>
+                    <div class="fx-body">
+                        <div class="rd is-wide-code" data-rv>
+                            <div class="rd-row is-head"><span>Cypher · кто переехал из США в Европу</span><span>Как читать</span></div>
+                            <div class="rd-row"><code><span class="s-kw">MATCH</span></code><span>найти людей, для которых:</span></div>
+                            <div class="rd-row is-hi"><code>  (person) -[:BORN_IN]-&gt;  () -[:WITHIN*0..]-&gt; (us:Location {name:<span class="s-str">'United States'</span>}),</code><span>человек <b>родился в</b> каком-то месте, оттуда по «находится в» <b>сколько угодно раз</b>&nbsp;— до United States</span></div>
+                            <div class="rd-row is-hi"><code>  (person) -[:LIVES_IN]-&gt; () -[:WITHIN*0..]-&gt; (eu:Location {name:<span class="s-str">'Europe'</span>})</code><span>и тот же человек <b>живёт в</b> месте, которое так же ведёт к Europe</span></div>
+                            <div class="rd-row"><code><span class="s-kw">RETURN</span> person.name</code><span>вернуть его имя</span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv><b>*0..</b>&nbsp;— «ноль или больше раз», как <b>*</b> в регулярке. Длину цепочки указывать не нужно.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Та же стрелочная нотация в MATCH ищет шаблон в графе. Прочитаю по строкам. Найти людей, для которых: человек связан ребром BORN_IN с каким-то местом&nbsp;— пустые скобки значат «любая вершина»,&nbsp;— а от этого места цепочка рёбер WITHIN, ноль или больше, ведёт к вершине Location с именем United States. И у того же человека есть ребро LIVES_IN, от которого цепочка WITHIN ведёт к Europe. Вернуть имя.</p>
+                    <p>Главное здесь&nbsp;— звёздочка: -[:WITHIN*0..]-&gt; значит «пройди по WITHIN сколько угодно раз», как звёздочка в регулярке. Длину цепочки мы не указываем&nbsp;— у Люси до США два шага, у кого-то будет пять, запрос один.</p>
+                    <p><em>Как показывать</em> Подсвечены две строки с путями переменной длины. Это то, что не получалось обычным SQL на слайде с Москвой и Кратово.</p>
+                    <p><em>По книге</em> с. 80, пример 2.4.</p>
+                    <p><em>Переход</em> Запрос говорит, что найти. А с какого конца база начнёт искать?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-strat" data-slide="15" data-toc="Откуда начать обход">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">14</span>С какого конца начать поиск?<span class="sec">3 / 4</span></div>
+                    <h2 class="fx-h" data-rv>Обход выбирает база&nbsp;— <mark>оптимизатор</mark></h2>
+                    <p class="fx-lead" data-rv><b>Оптимизатор</b>&nbsp;— часть базы, которая строит план запроса. Один и тот же шаблон можно пройти с двух концов.</p>
+                    <div class="fx-body">
+                        <div class="grid2 strat">
+                            <div class="tile" data-rv="left"><div class="tile-k">Стратегия А · от людей</div>
+                                <div class="gpath is-mini"><span class="gnode is-start">Lucy</span><span class="gedge">BORN_IN</span><span class="gnode">Idaho</span><span class="gedge">WITHIN</span><span class="gnode">United States</span></div>
+                                <p class="tile-p"><span class="walk">идём по стрелкам →</span> Перебрать всех людей, у каждого подняться до страны и проверить.</p></div>
+                            <div class="tile is-hi" data-rv="right"><div class="tile-k">Стратегия Б · от мест</div>
+                                <div class="gpath is-mini"><span class="gnode">Lucy</span><span class="gedge">BORN_IN</span><span class="gnode">Idaho</span><span class="gedge">WITHIN</span><span class="gnode is-start">United States</span></div>
+                                <p class="tile-p"><span class="walk">← идём против стрелок</span> Найти страну <b>по индексу</b> и спуститься к людям.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Как в SQL: мы пишем, <b>что</b> найти, а <b>как</b> идти, выбирает база.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Выполнить такой запрос можно по-разному. Можно перебрать всех людей и у каждого проверить место рождения и жительства, поднимаясь по рёбрам. А можно пойти с другого конца: если по свойству name есть индекс, быстро найти две вершины, United States и Europe, по входящим рёбрам WITHIN собрать все места внутри них&nbsp;— штаты, регионы, города,&nbsp;— и уже от них по входящим BORN_IN и LIVES_IN найти людей.</p>
+                    <p>Как обычно в декларативных языках, мы этого не указываем: оптимизатор сам выберет стратегию, которую считает самой эффективной. Это ровно мысль из доклада Антона про языки запросов&nbsp;— теперь для графов.</p>
+                    <p><em>Как показывать</em> Цепочка одна и та же, подсвечено, откуда начинается обход. Аналогия: найти всех москвичей, родившихся в Сибири, можно, опрашивая каждого москвича, а можно, взяв списки рождённых в Сибири. Ответ один, цена разная. Обход «против стрелок» возможен благодаря индексу на конце ребра&nbsp;— это было на слайде с двумя таблицами.</p>
+                    <p><em>По книге</em> с. 80–81.</p>
+                    <p><em>Переход</em> А если граф лежит в тех двух таблицах PostgreSQL&nbsp;— можно ли спросить то же на SQL?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-sql" data-slide="16" data-toc="Тот же запрос в SQL">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">15</span>А если граф лежит в SQL?<span class="sec">4 / 4</span></div>
+                    <h2 class="fx-h" data-rv>4 строки на Cypher&nbsp;— <mark class="hot">29 на SQL</mark></h2>
+                    <div class="fx-body">
+                        <div class="cols">
+                            <div data-rv="left">
+                                <div class="code-cap is-hot"><span>SQL · сокращено, в книге 29 строк</span><b>WITH RECURSIVE</b></div>
+<pre class="code is-xxs is-hot"><span class="s-kw">WITH RECURSIVE</span>
+  in_usa(vertex_id) <span class="s-kw">AS</span> (
+    <span class="s-kw">SELECT</span> vertex_id <span class="s-kw">FROM</span> vertices
+      <span class="s-kw">WHERE</span> properties-&gt;&gt;<span class="s-str">'name'</span> = <span class="s-str">'United States'</span>
+    <span class="hl is-hot"><span class="s-kw">UNION</span></span>
+    <span class="s-kw">SELECT</span> edges.tail_vertex <span class="s-kw">FROM</span> edges
+      <span class="hl is-hot"><span class="s-kw">JOIN</span> in_usa</span> <span class="s-kw">ON</span> edges.head_vertex = in_usa.vertex_id
+      <span class="s-kw">WHERE</span> edges.label = <span class="s-str">'within'</span>
+  ),
+  in_europe(vertex_id) <span class="s-kw">AS</span> ( <span class="s-com">-- то же для 'Europe'</span> ),
+  born_in_usa(vertex_id) <span class="s-kw">AS</span> (
+    <span class="s-kw">SELECT</span> edges.tail_vertex <span class="s-kw">FROM</span> edges
+      <span class="s-kw">JOIN</span> in_usa <span class="s-kw">ON</span> edges.head_vertex = in_usa.vertex_id
+      <span class="s-kw">WHERE</span> edges.label = <span class="s-str">'born_in'</span>
+  ),
+  lives_in_europe(vertex_id) <span class="s-kw">AS</span> ( <span class="s-com">-- то же для 'lives_in'</span> )
+<span class="s-kw">SELECT</span> vertices.properties-&gt;&gt;<span class="s-str">'name'</span> <span class="s-kw">FROM</span> vertices
+  <span class="s-kw">JOIN</span> born_in_usa     <span class="s-kw">ON</span> vertices.vertex_id = born_in_usa.vertex_id
+  <span class="s-kw">JOIN</span> lives_in_europe <span class="s-kw">ON</span> vertices.vertex_id = lives_in_europe.vertex_id;</pre>
+                            </div>
+                            <div class="stack">
+                                <div data-rv="right">
+                                    <div class="code-cap"><span>Cypher · тот же запрос</span><b>4 строки</b></div>
+<pre class="code is-xxs is-hi"><span class="s-kw">MATCH</span>
+  (person) -[:BORN_IN]-&gt;  () <span class="hl">-[:WITHIN*0..]-&gt;</span>
+             (us:Location {name:<span class="s-str">'United States'</span>}),
+  (person) -[:LIVES_IN]-&gt; () <span class="hl">-[:WITHIN*0..]-&gt;</span>
+             (eu:Location {name:<span class="s-str">'Europe'</span>})
+<span class="s-kw">RETURN</span> person.name</pre>
+                                </div>
+                                <div class="tile is-hot" data-rv="right"><div class="tile-k">WITH RECURSIVE · рекурсия: множество растёт шагами</div>
+                                    <div class="wave">
+                                        <div class="wave-row"><span>шаг 0</span><div><i class="is-new">Europe</i></div></div>
+                                        <div class="wave-row"><span>шаг 1</span><div><i>Europe</i><i class="is-new">United Kingdom</i><i class="is-new">France</i></div></div>
+                                        <div class="wave-row"><span>шаг 2</span><div><i>…</i><i class="is-new">England</i><i class="is-new">регион</i></div></div>
+                                        <div class="wave-row"><span>шаг 3</span><div><i>…</i><i class="is-new">London</i><i class="is-new">Beaune</i></div></div>
+                                        <div class="wave-row is-stop"><span>стоп</span><div>новых мест нет&nbsp;— множество готово</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Граф в реляционной БД возможен, но цепочку связей там <b>расписываем сами</b>&nbsp;— 29 строк против 4.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Граф можно хранить в реляционной базе. Можно ли его и запрашивать на SQL? Да, но не без проблем. В реляционной базе нужные соединения обычно известны заранее. В графовом запросе, прежде чем найдёшь нужную вершину, может понадобиться пройти неизвестное число рёбер. Ребро LIVES_IN может указывать на улицу, город, район, область, штат&nbsp;— а дальше цепочка WITHIN разной длины. В Cypher это одно выражение :WITHIN*0.., «следуй по WITHIN ноль или более раз».</p>
+                    <p>В SQL путь переменной длины выражается рекурсивным обобщённым табличным выражением, WITH RECURSIVE, начиная со стандарта SQL:1999. Логика такая: берём вершину United States, кладём во множество in_usa. Добавляем туда все вершины, у которых ребро within ведёт в это множество, и так, пока множество растёт. То же для Европы. Потом от этих множеств по рёбрам born_in и lives_in находим людей и пересекаем два множества соединением.</p>
+                    <p>Клеппман делает вывод: один и тот же запрос&nbsp;— 4 строки на одном языке и 29 на другом. Разные модели данных заточены под разные задачи, поэтому модель важно выбирать под своё приложение.</p>
+                    <p><em>Как показывать</em> Справа сверху&nbsp;— те самые 4 строки на Cypher, длинные строки перенесены. Сравните подсвеченное: одна звёздочка *0.. в Cypher делает то же, что весь подсвеченный рекурсивный блок в SQL. Справа снизу&nbsp;— как растёт множество in_europe: на каждом шаге добавляются места, которые лежат WITHIN уже найденных. Аналогия&nbsp;— круги на воде или «друзья друзей» в соцсети: круг за кругом, пока новые не перестанут появляться. Работает в PostgreSQL, Oracle, DB2 и SQL Server. На слайде запрос сокращён: in_europe и lives_in_europe устроены так же, как in_usa и born_in_usa. Подсвечено, где происходит рекурсия: UNION и JOIN множества самого на себя.</p>
+                    <p><em>Что изменилось с выхода книги</em> В стандарт SQL:2023 добавили часть SQL/PGQ&nbsp;— запросы к графу свойств прямо в SQL, с MATCH и стрелками почти как в Cypher. А в 2024 году вышел отдельный стандарт ISO для графовых запросов&nbsp;— GQL, во многом выросший из Cypher. То есть SQL фактически признал: для графов нужен свой синтаксис.</p>
+                    <p><em>По книге</em> с. 81–83, пример 2.5.</p>
+                    <p><em>Переход</em> Граф свойств&nbsp;— не единственный способ записать граф. Вторая модель&nbsp;— тройки.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-triple" data-slide="17" data-toc="Тройки">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">16</span>Можно ли записать граф проще?<span class="sec">1 / 6</span></div>
+                    <h2 class="fx-h" data-rv>Тройка: <span class="t-s">субъект</span>&nbsp;— <span class="t-p">предикат</span>&nbsp;— <span class="t-o">объект</span></h2>
+                    <p class="fx-lead" data-rv>В книге&nbsp;— <b>тройной кортеж</b>. Как простое предложение: подлежащее, сказуемое, дополнение. Вся база&nbsp;— только такие тройки.</p>
+                    <div class="fx-body">
+                        <div class="trip" data-rv>
+                            <div class="trip-part t-s"><b>Джим</b><span>субъект · кто</span></div>
+                            <div class="trip-part t-p"><b>любит</b><span>предикат · что делает, какое свойство</span></div>
+                            <div class="trip-part t-o"><b>бананы</b><span>объект · кого, какое значение</span></div>
+                        </div>
+                        <div class="grid2 trip-cases">
+                            <div class="tile" data-rv="left"><div class="tile-k">Объект&nbsp;— значение → это свойство</div>
+                                <p class="trip-code">(<span class="t-s">lucy</span>, <span class="t-p">age</span>, <span class="t-o">33</span>)</p>
+                                <div class="gpath is-mini"><span class="gnode">lucy<small class="prop">age: 33</small></span></div>
+                                <p class="tile-p">Предикат&nbsp;— <b>ключ свойства</b> вершины.</p></div>
+                            <div class="tile is-hi" data-rv="right"><div class="tile-k">Объект&nbsp;— вершина → это ребро</div>
+                                <p class="trip-code">(<span class="t-s">lucy</span>, <span class="t-p">marriedTo</span>, <span class="t-o">alain</span>)</p>
+                                <div class="gpath is-mini is-short"><span class="gnode">lucy</span><span class="gedge is-hi">marriedTo</span><span class="gnode">alain</span></div>
+                                <p class="tile-p">Предикат&nbsp;— <b>метка ребра</b>.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Это <b>та же модель</b>, что граф свойств, другими словами: субъект&nbsp;— вершина, а свойство и ребро записываются одинаково.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Вторая модель графа&nbsp;— тройки, в книге «тройные кортежи». Она почти эквивалентна графу свойств, просто описывает те же идеи другими словами. Её стоит знать, потому что для неё есть свои инструменты и языки. Её реализуют, например, Datomic и AllegroGraph.</p>
+                    <p>Вся информация хранится как трёхчастные высказывания, как простые предложения. В тройке (Джим, любит, бананы) Джим&nbsp;— субъект, подлежащее: кто. Любит&nbsp;— предикат, сказуемое: что делает или какое свойство. Бананы&nbsp;— объект, дополнение: кого или какое значение.</p>
+                    <p>Субъект всегда вершина графа. А объект бывает двух видов. Если это простое значение, строка или число, то предикат&nbsp;— ключ свойства: (lucy, age, 33)&nbsp;— это вершина lucy со свойством age = 33. Если объект&nbsp;— другая вершина, то предикат&nbsp;— метка ребра: (lucy, marriedTo, alain)&nbsp;— ребро от lucy к alain.</p>
+                    <p><em>Как показывать</em> Цвета держатся на этом и следующем слайде: синий&nbsp;— субъект, оранжевый&nbsp;— предикат, зелёный&nbsp;— объект.</p>
+                    <p><em>По книге</em> с. 83–84.</p>
+                    <p><em>Переход</em> Как тройки записывают в файл?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-turtle" data-slide="18" data-toc="Turtle">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">17</span>Как тройки записывают в файл?<span class="sec">2 / 6</span></div>
+                    <h2 class="fx-h" data-rv>Turtle: <mark>по тройке на строку</mark></h2>
+                    <p class="fx-lead" data-rv><b>Turtle</b>&nbsp;— текстовый формат для троек. Строка&nbsp;— это субъект, предикат, объект и точка. <b>_:lucy</b>&nbsp;— имя вершины внутри файла.</p>
+                    <div class="fx-body">
+                        <div class="tt" data-rv>
+                            <div class="tt-row is-head"><span>Строка Turtle</span><span>субъект</span><span>предикат</span><span>объект</span></div>
+                            <div class="tt-row"><code><span class="t-s">_:lucy</span> <span class="t-p">a</span> <span class="t-o">:Person</span>.</code><span class="t-s">lucy</span><span class="t-p">a&nbsp;— «является»</span><span class="t-o">Person&nbsp;— тип</span></div>
+                            <div class="tt-row"><code><span class="t-s">_:lucy</span> <span class="t-p">:name</span> <span class="t-o">"Lucy"</span>.</code><span class="t-s">lucy</span><span class="t-p">name</span><span class="t-o">"Lucy"&nbsp;— значение</span></div>
+                            <div class="tt-row is-hi"><code><span class="t-s">_:lucy</span> <span class="t-p">:bornIn</span> <span class="t-o">_:idaho</span>.</code><span class="t-s">lucy</span><span class="t-p">bornIn</span><span class="t-o">idaho&nbsp;— вершина</span></div>
+                            <div class="tt-row is-hi"><code><span class="t-s">_:idaho</span> <span class="t-p">:within</span> <span class="t-o">_:usa</span>.</code><span class="t-s">idaho</span><span class="t-p">within</span><span class="t-o">usa&nbsp;— вершина</span></div>
+                        </div>
+                        <div class="turtle" data-rv>
+                            <div class="code-cap"><span>Сокращённо: «;»&nbsp;— тот же субъект, не повторяем</span><b>пример 2.7</b></div>
+<pre class="code is-xs"><span class="t-s">_:lucy</span>  a :Person;   :name <span class="s-str">"Lucy"</span>;  :bornIn _:idaho.
+<span class="t-s">_:idaho</span> a :Location; :name <span class="s-str">"Idaho"</span>; :type <span class="s-str">"state"</span>; :within _:usa.</pre>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Объект&nbsp;— значение: это свойство. Объект&nbsp;— вершина: это <b>ребро</b>. Запись одна и та же.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Тройки записывают в текстовом формате Turtle. Каждая строка&nbsp;— одна тройка: субъект, предикат, объект и точка в конце. Запись _:lucy&nbsp;— просто имя вершины внутри файла, оно нужно, чтобы понимать, какие тройки относятся к одной вершине.</p>
+                    <p>Прочитаю по строкам. lucy является Person&nbsp;— «a» значит «является», это тип. У lucy имя "Lucy"&nbsp;— объект значение, значит это свойство. lucy родилась в idaho&nbsp;— объект вершина, значит это ребро. idaho внутри usa&nbsp;— тоже ребро. Подсвечены рёбра.</p>
+                    <p>Повторять субъект скучно, поэтому есть сокращение: точка с запятой&nbsp;— «и ещё про тот же субъект». Внизу&nbsp;— так эти данные записаны в книге.</p>
+                    <p><em>По книге</em> с. 84, примеры 2.6 и 2.7.</p>
+                    <p><em>Переход</em> Почему тройки так часто связывают с семантической паутиной?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-rdf" data-slide="19" data-toc="Тройки в вебе сегодня">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">18</span>Где тройки встречаются сегодня?<span class="sec">3 / 6</span></div>
+                    <h2 class="fx-h" data-rv>Тройки живут <mark>в разметке страниц</mark></h2>
+                    <p class="fx-lead" data-rv><b>RDF</b>&nbsp;— стандарт записи троек. В 2000-х&nbsp;— «семантическая паутина», интернет для машин. Целиком не взлетело, но кусочки&nbsp;— в нашей вёрстке.</p>
+                    <div class="fx-body">
+                        <div class="cols">
+                            <div data-rv="left">
+                                <div class="code-cap"><span>JSON-LD в &lt;head&gt; страницы</span><b>это RDF</b></div>
+<pre class="code is-xs is-hi">&lt;script type=<span class="s-str">"application/ld+json"</span>&gt;
+{ <span class="s-key">"@context"</span>: <span class="s-str">"https://schema.org"</span>,
+  <span class="s-key">"@type"</span>: <span class="s-str">"Person"</span>,
+  <span class="s-key">"name"</span>: <span class="s-str">"Lucy"</span>,
+  <span class="s-key">"birthPlace"</span>: { <span class="s-key">"@type"</span>: <span class="s-str">"Place"</span>, <span class="s-key">"name"</span>: <span class="s-str">"Idaho"</span> } }
+&lt;/script&gt;</pre>
+                                <div class="tt-mini">
+                                    <p>(<span class="t-s">Lucy</span>, <span class="t-p">name</span>, <span class="t-o">"Lucy"</span>)&nbsp;— свойство</p>
+                                    <p>(<span class="t-s">Lucy</span>, <span class="t-p">birthPlace</span>, <span class="t-o">Idaho</span>)&nbsp;— ребро</p>
+                                    <p><b>@context</b>&nbsp;— пространство имён: «name» значит name из schema.org</p>
+                                </div>
+                            </div>
+                            <div class="stack is-tight" data-rv="right">
+                                <div class="tile"><div class="tile-k">Поиск · schema.org</div><p class="tile-p">Товар, рецепт, рейтинг в JSON-LD&nbsp;— и поисковик рисует <b>карточку в выдаче</b>. <a href="https://schema.org/" target="_blank" rel="noopener">schema.org</a></p></div>
+                                <div class="tile"><div class="tile-k">Превью ссылок · Open Graph</div><p class="tile-p">Теги og:title и og:image&nbsp;— из них Telegram и Slack строят <b>карточку ссылки</b>. <a href="https://ogp.me/" target="_blank" rel="noopener">ogp.me</a></p></div>
+                                <div class="tile is-hi"><div class="tile-k">Википедия для машин · Wikidata</div><p class="tile-p">Миллионы фактов-троек и <b>открытый SPARQL</b>&nbsp;— язык со следующего слайда. <a href="https://query.wikidata.org/" target="_blank" rel="noopener">query.wikidata.org</a></p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Тройки&nbsp;— не музей 2000-х: каждая страница с JSON-LD или og-тегами <b>публикует факты для машин</b>.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Откуда у троек слава семантической паутины? Идея из начала 2000-х: сайты публикуют информацию для людей&nbsp;— текст и картинки. Пусть публикуют и данные для машин, в едином формате RDF, Resource Description Framework,&nbsp;— и данные разных сайтов сольются во «всеобщую базу данных интернета». Идею сильно переоценили, ей навредили лес аббревиатур и слишком сложные стандарты, и целиком она так и не реализовалась. Клеппман пишет: но из проекта получилось немало хорошего.</p>
+                    <p>И это видно сегодня, причём в нашей фронтенд-работе. Первое&nbsp;— JSON-LD со словарём schema.org: блок script в head страницы, где описан товар, рецепт, статья или человек. Поисковики читают его и строят расширенную карточку в выдаче: звёздочки рейтинга, цену, время готовки. JSON-LD&nbsp;— стандарт W3C, это одна из записей RDF, внутри те же тройки. Второе&nbsp;— теги Open Graph: og:title, og:image. Когда вы вставляете ссылку в Telegram или Slack, превью строится из них; сам протокол основан на RDFa&nbsp;— ещё одной записи RDF. Третье&nbsp;— Wikidata: база фактов Википедии, миллионы троек вида «объект&nbsp;— свойство&nbsp;— значение», и открытый SPARQL-эндпоинт, где можно задавать запросы прямо в браузере.</p>
+                    <p>На слайде слева&nbsp;— как наша Люси выглядела бы в JSON-LD. Это тройки: у Lucy имя "Lucy"&nbsp;— свойство, Lucy родилась в Idaho&nbsp;— ребро к другой вершине. А @context&nbsp;— то самое пространство имён: слово name означает name из словаря schema.org, а не чьё-то другое. В RDF для этого субъекты и предикаты записывают как URI, адреса вида https://schema.org/name; открываться по такому адресу ничего не обязано.</p>
+                    <p><em>Как показывать</em> Если есть минута, откройте query.wikidata.org и покажите любой готовый пример запроса.</p>
+                    <p><em>Не путать</em> Есть ещё запись RDF/XML&nbsp;— то же самое, но многословнее; утилиты вроде Apache Jena переводят одно в другое. Хранилища троек как СУБД: Datomic, AllegroGraph.</p>
+                    <p><em>Что изменилось с выхода книги</em> JSON-LD стал рекомендацией W3C (версия 1.1&nbsp;— 2020) и основным форматом структурированных данных для поиска. Freebase, база знаний, на которой вырос граф знаний Google, закрылась в 2016-м, данные ушли в Wikidata.</p>
+                    <p><em>По книге</em> с. 84–86, врезка «Семантическая паутина», «Модель данных RDF»; RDF&nbsp;— ссылка [41].</p>
+                    <p><em>Переход</em> Как задать вопрос тройкам? Языком, который открыт и в Wikidata,&nbsp;— SPARQL.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-sparql" data-slide="20" data-toc="SPARQL">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">19</span>Как задать вопрос тройкам&nbsp;— например, Wikidata?<span class="sec">4 / 6</span></div>
+                    <h2 class="fx-h" data-rv>SPARQL: тот же <mark>шаблон пути</mark>&nbsp;— для троек</h2>
+                    <p class="fx-lead" data-rv>SPARQL («спаркл»)&nbsp;— стандартный язык запросов к тройкам. Им сегодня спрашивают Wikidata. <b>?x</b>&nbsp;— переменная, <b>/</b>&nbsp;— шаг по пути, <b>*</b>&nbsp;— сколько угодно раз.</p>
+                    <div class="fx-body">
+                        <div class="rd" data-rv>
+                            <div class="rd-row is-head"><span>SPARQL · кто переехал из США в Европу</span><span>Как читать</span></div>
+                            <div class="rd-row"><code><span class="s-kw">PREFIX</span> : &lt;urn:example:&gt;</code><span>«:» в начале имени&nbsp;— наше пространство имён</span></div>
+                            <div class="rd-row"><code><span class="s-kw">SELECT</span> ?personName <span class="s-kw">WHERE</span> {</code><span>найти имена людей, для которых:</span></div>
+                            <div class="rd-row"><code>  ?person :name ?personName.</code><span>у человека есть имя</span></div>
+                            <div class="rd-row is-hi"><code>  ?person :bornIn  / :within* / :name <span class="s-str">"United States"</span>.</code><span><b>родился в</b> месте, оттуда «внутри» <b>сколько угодно раз</b>&nbsp;— до места с именем United States</span></div>
+                            <div class="rd-row is-hi"><code>  ?person :livesIn / :within* / :name <span class="s-str">"Europe"</span>.</code><span><b>живёт в</b> месте, которое так же ведёт к Europe</span></div>
+                            <div class="rd-row"><code>}</code><span></span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Идея та же, что в Cypher: <b>описываем путь</b>, а не обход. Меняется только синтаксис&nbsp;— под тройки.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Зачем он здесь</em> Тройки мы уже видели в разметке страниц и в Wikidata. Как их спрашивать? Стандартный язык для этого&nbsp;— SPARQL, им пользуются в Wikidata и в любых хранилищах троек. И это та же идея, что в Cypher,&nbsp;— шаблон пути, только синтаксис под тройки. Cypher, кстати, взял поиск по шаблону как раз у SPARQL.</p>
+                    <p><em>Текст</em> SPARQL&nbsp;— язык запросов для хранилищ троек в модели RDF, расшифровывается как SPARQL Protocol and RDF Query Language, читается «спаркл». Он появился раньше Cypher, и поиск по шаблону Cypher заимствовал у него, поэтому они очень похожи.</p>
+                    <p>Наш вопрос на SPARQL получается ещё короче, чем на Cypher. Переменные начинаются с вопросительного знака. :bornIn / :within* / :name&nbsp;— путь: ребро bornIn, потом within ноль или больше раз, потом свойство name. Структура почти та же, что в Cypher: :within*&nbsp;— это -[:WITHIN*0..]-&gt;. И поскольку RDF не различает свойства и рёбра&nbsp;— и то и другое предикаты,&nbsp;— проверка свойства пишется тем же синтаксисом, что и переход по ребру.</p>
+                    <p>Клеппман называет SPARQL прекрасным языком запросов: семантическая паутина не случилась, но для внутреннего использования в приложениях он отлично подходит.</p>
+                    <p><em>По книге</em> с. 86–87, пример 2.9.</p>
+                    <p><em>Переход</em> И последний язык&nbsp;— самый старый, на идеях которого построены остальные.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-datalog" data-slide="21" data-toc="Datalog: факты и правила">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">20</span>Что лежит в основе этих языков?<span class="sec">5 / 6</span></div>
+                    <h2 class="fx-h" data-rv>Datalog: запрос из правил <mark>«если… то…»</mark></h2>
+                    <p class="fx-lead" data-rv>Язык запросов, как SQL, только вместо SELECT&nbsp;— <b>факты</b> и <b>правила</b>. Придуман в 1980-х, фундамент Cypher и SPARQL; на его потомке работает GitHub CodeQL&nbsp;— поиск уязвимостей в коде.</p>
+                    <div class="fx-body">
+                        <div class="facts" data-rv><span>Факты&nbsp;— это данные:</span><code>name(usa, 'United States')</code><code>within(idaho, usa)</code><code>name(lucy, 'Lucy')</code><code>born_in(lucy, idaho)</code></div>
+                        <div class="rd is-wide-code is-sm" data-rv>
+                            <div class="rd-row is-head"><span>Правила</span><span>Как читать: «:-» значит «если», с большой буквы&nbsp;— переменные</span></div>
+                            <div class="rd-row is-hi"><code>within_recursive(Loc, Name) :- name(Loc, Name).</code><span><b>1.</b> место Loc «внутри» Name, если само так называется</span></div>
+                            <div class="rd-row is-hi"><code>within_recursive(Loc, Name) :- within(Loc, Via),
+                              within_recursive(Via, Name).</code><span><b>2.</b> …или если Loc внутри Via, а Via&nbsp;— <b>рекурсивно</b> внутри Name</span></div>
+                            <div class="rd-row"><code>migrated(Name, BornIn, LivingIn) :- name(Person, Name),</code><span><b>3.</b> человек Name переехал из BornIn в LivingIn, если:</span></div>
+                            <div class="rd-row"><code>    born_in(Person, BornLoc), within_recursive(BornLoc, BornIn),</code><span>родился в месте внутри BornIn</span></div>
+                            <div class="rd-row"><code>    lives_in(Person, LivingLoc), within_recursive(LivingLoc, LivingIn).</code><span>и живёт в месте внутри LivingIn</span></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Правило&nbsp;— как VIEW (сохранённый запрос) в SQL, только может ссылаться <b>само на себя</b>. Сложный запрос собираем из правил по частям.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Зачем он здесь</em> Datalog&nbsp;— не язык программирования вроде JavaScript: в нём нет циклов и ввода-вывода, только факты и правила, из которых система выводит новые факты. По смыслу он ближе к SQL&nbsp;— декларативный язык запросов. Нужен он нам потому, что на нём видна идея, на которой стоят все языки доклада: рекурсивное правило «поднимайся, пока можешь». Это то же, что *0.. в Cypher, :within* в SPARQL и WITH RECURSIVE в SQL. И он жив: GitHub CodeQL ищет уязвимости запросами на языке QL, потомке Datalog.</p>
+                    <p><em>Текст</em> Datalog гораздо старше Cypher и SPARQL, его активно изучали в университетах в 1980-х. Среди разработчиков он малоизвестен, но важен как фундамент более поздних языков запросов. На практике используется в немногих системах: это язык запросов Datomic, а Cascalog&nbsp;— реализация Datalog для больших данных в Hadoop. Datalog&nbsp;— подмножество Prolog, если кто-то его изучал.</p>
+                    <p>Модель данных похожа на тройки, только запись другая: вместо (субъект, предикат, объект)&nbsp;— предикат(субъект, объект). Сверху&nbsp;— часть наших данных в виде фактов, ниже&nbsp;— правила с переводом.</p>
+                    <p>Cypher и SPARQL сразу начинают с SELECT, а Datalog идёт маленькими шагами. Сначала описываем правила, которые вводят новые предикаты&nbsp;— их нет в базе, они выводятся из данных и других правил. Правила 1 и 2 определяют within_recursive: место Loc находится внутри места с именем Name, если оно само так называется&nbsp;— или если оно внутри Via, а Via рекурсивно внутри Name. Правило 3, migrated, собирает из них ответ на наш вопрос. Знак :- читается как «если»: левая часть верна, если для всех условий справа нашлось соответствие. Слова с большой буквы&nbsp;— переменные.</p>
+                    <p><em>Как показывать</em> Слева оставлены факты, нужные для примера. В правилах переменная Location сокращена до Loc, чтобы поместилось; в остальном&nbsp;— как в книге.</p>
+                    <p><em>По книге</em> с. 88–89, примеры 2.10 и 2.11; Datalog&nbsp;— ссылки [44–46], Cascalog&nbsp;— [47].</p>
+                    <p><em>Переход</em> Как система исполняет эти правила?</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-derive" data-slide="22" data-toc="Datalog: вывод">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">21</span>Как из правил получается ответ?<span class="sec">6 / 6</span></div>
+                    <h2 class="fx-h" data-rv>Правила выводят факты <mark>волной</mark>, пока могут</h2>
+                    <div class="fx-body">
+                        <div class="dv" data-rv>
+                            <span class="gnode">Idaho</span><span class="gedge">WITHIN</span><span class="gnode">USA</span><span class="gedge">WITHIN</span><span class="gnode is-goal">North America</span>
+                            <span class="dvb">шаг 3 · внутри North America</span><span class="dv-wave">←</span><span class="dvb">шаг 2 · внутри North America</span><span class="dv-wave">←</span><span class="dvb">шаг 1 · внутри North America</span>
+                        </div>
+                        <div class="cols is-even dv-cols">
+                            <ol class="dv-steps" data-rv="left">
+                                <li><b>Шаг 1.</b> Место North America так и называется&nbsp;— по правилу 1 оно «внутри North America».</li>
+                                <li><b>Шаг 2.</b> USA внутри North America&nbsp;— по правилу 2 USA тоже «внутри North America».</li>
+                                <li><b>Шаг 3.</b> Idaho внутри USA, а USA уже «внутри»&nbsp;— значит, и Idaho. Новых фактов нет&nbsp;— стоп.</li>
+                            </ol>
+                            <div class="stack" data-rv="right">
+                                <div>
+                                    <div class="code-cap"><span>Запрос: найди Who, кто родился в США, а живёт в Европе</span></div>
+<pre class="code is-sm is-hi">?- migrated(Who, <span class="s-str">'United States'</span>, <span class="s-str">'Europe'</span>).</pre>
+                                </div>
+                                <div class="tile is-hi"><div class="tile-k">Ответ</div><div class="tile-t answer">Who = 'Lucy'</div><p class="tile-p">Тот же результат, что у Cypher и SPARQL.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Это та же волна, что у <b>WITH RECURSIVE</b>: как Excel пересчитывает формулы, пока значения меняются.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Правило срабатывает, если система нашла соответствие для всех предикатов справа от :-. Сработавшее правило как будто добавляет в базу свою левую часть с подставленными значениями.</p>
+                    <p>На картинке сверху&nbsp;— как это происходит: волна идёт от North America назад по стрелкам. Факт name(namerica, 'North America') есть в базе, значит, по правилу 1 появляется within_recursive(namerica, 'North America'). Факт within(usa, namerica) есть, и на прошлом шаге появился within_recursive(namerica, …)&nbsp;— правило 2 даёт within_recursive(usa, 'North America'). Так же для Айдахо. Повторяя правила 1 и 2, получаем все места в Северной Америке&nbsp;— или где угодно ещё.</p>
+                    <p>Теперь правило 3 находит людей, родившихся в BornIn и живущих в LivingIn. Мы спрашиваем migrated(Who, 'United States', 'Europe'), оставляя Who переменной, то есть просим систему найти, какие значения может принять Who. Ответ&nbsp;— Lucy, как в Cypher и SPARQL.</p>
+                    <p>Клеппман признаёт: Datalog требует другого типа мышления, и для простых разовых запросов это неудобно. Но он очень многообещающ: правила комбинируются и переиспользуются в разных запросах, и для сложных данных это сильно помогает.</p>
+                    <p><em>Мой вывод</em> Для разового простого запроса это громоздко, а для сложных данных правила окупаются: их комбинируют и переиспользуют.</p>
+                    <p><em>Что изменилось с выхода книги</em> В 2023 году Datomic стал бесплатным. Datalog-подобные языки живут и в новых системах, например язык QL в анализаторе кода CodeQL.</p>
+                    <p><em>По книге</em> с. 89–90, рис. 2.6.</p>
+                    <p><em>Переход</em> Подведём итог.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-sum" data-slide="23" data-toc="Выводы">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">22</span>Что унести с собой?</div>
+                    <h2 class="fx-h" data-rv>Граф&nbsp;— <mark>взгляд на связи</mark>, запрос&nbsp;— <mark>шаблон пути</mark></h2>
+                    <div class="fx-body">
+                        <div class="takeaways">
+                            <div class="tw" data-rv><span class="n">01</span><p>Много связей «многие-ко-многим»&nbsp;— смотрим на данные <b>как на граф</b>: вершины и рёбра.</p></div>
+                            <div class="tw" data-rv><span class="n">02</span><p>Граф свойств: у вершин и рёбер id, метки и свойства; <b>связи не ограничены схемой</b>.</p></div>
+                            <div class="tw" data-rv><span class="n">03</span><p>Cypher и SPARQL декларативны: пишем шаблон пути, обход выбирает <b>оптимизатор</b>.</p></div>
+                            <div class="tw" data-rv><span class="n">04</span><p>Путь переменной длины: в Cypher&nbsp;— <b>*0..</b>, в SQL&nbsp;— <b>WITH RECURSIVE</b>, 4 строки против 29.</p></div>
+                            <div class="tw" data-rv><span class="n">05</span><p>Тройки (субъект, предикат, объект)&nbsp;— <b>та же модель</b> другими словами.</p></div>
+                            <div class="tw" data-rv><span class="n">06</span><p>Datalog&nbsp;— фундамент: запрос из <b>правил</b>, которые комбинируются.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Языки разные, идея одна: описываем <b>путь</b>, а не шаги обхода. Хранить граф можно хоть в реляционной БД.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Итог. Когда связей «многие-ко-многим» много, на данные естественно смотреть как на граф&nbsp;— цепочки связей. Хранить его можно хоть в реляционной базе, но тогда цепочки мы видим и расписываем сами. Граф свойств даёт гибкость: любая вершина связывается с любой, новые виды связей добавляются метками. Cypher и SPARQL&nbsp;— декларативные языки: мы описываем шаблон пути, а как обходить граф, решает оптимизатор. Тот же запрос можно написать на SQL через WITH RECURSIVE, но это 29 строк против четырёх. Тройки&nbsp;— та же модель другими словами, а Datalog&nbsp;— фундамент, на котором выросли эти языки.</p>
+                    <p><em>Итог главы 2</em> Этим разделом заканчивается глава. Её путь: сначала данные были одним большим деревом&nbsp;— иерархическая модель, но она плохо держала связи «многие-ко-многим». Для них придумали реляционную модель. Потом появились NoSQL-модели, и они разошлись в две стороны: документные базы&nbsp;— для данных из самодостаточных документов, где связей мало; графовые&nbsp;— для данных, где всё связано со всем. У каждой модели свой язык запросов, и модель стоит выбирать под свои данные и запросы.</p>
+                    <p><em>Переход</em> А теперь главное: зачем мы всё это изучали.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" id="s-moral" data-slide="24" data-toc="Мораль">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">23</span>Зачем мы это изучали?</div>
+                    <h2 class="fx-h" data-rv>Видишь цепочку связей&nbsp;— <mark>это граф</mark></h2>
+                    <p class="fx-lead" data-rv>Три вопроса из начала доклада. Теперь видно: каждый&nbsp;— путь по рёбрам.</p>
+                    <div class="fx-body">
+                        <div class="grid3">
+                            <div class="tile" data-rv><div class="tile-k">«Возможно, вы знакомы»</div>
+                                <div class="gpath is-mini is-tight"><span class="gnode">Вы</span><span class="gedge">друг</span><span class="gnode">Аня</span><span class="gedge">друг</span><span class="gnode is-goal">Петя</span></div>
+                                <p class="tile-p">Путь из 2–3 рёбер «друг».</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Доступ Пети</div>
+                                <div class="gpath is-mini is-tight"><span class="gnode">Петя</span><span class="gedge">в</span><span class="gnode">отдел</span><span class="gedge">в</span><span class="gnode">…</span><span class="gedge">в</span><span class="gnode is-goal">группа</span></div>
+                                <p class="tile-p">Путь <b>любой длины</b> по «входит в».</p></div>
+                            <div class="tile" data-rv><div class="tile-k">Уязвимая библиотека</div>
+                                <div class="gpath is-mini is-tight"><span class="gnode">сервис</span><span class="gedge">→</span><span class="gnode">пакет</span><span class="gedge">→</span><span class="gnode">…</span><span class="gedge">→</span><span class="gnode is-goal">log4j</span></div>
+                                <p class="tile-p">Путь <b>любой длины</b> по «зависит от».</p></div>
+                        </div>
+                        <div class="grid2 choose">
+                            <div class="tile" data-rv="left"><div class="tile-k">Таких вопросов мало, цепочки короткие</div><p class="tile-p">Реляционная БД: таблицы вершин и рёбер и <b>WITH RECURSIVE</b>. Новая база не нужна.</p></div>
+                            <div class="tile is-hi" data-rv="right"><div class="tile-k">Это сердце продукта, цепочки длинные</div><p class="tile-p">Графовая СУБД вроде Neo4j и Cypher: путь&nbsp;— <b>одна строка</b>, обход оптимизирует база.</p></div>
+                        </div>
+                    </div>
+                    <p class="fx-so" data-rv>Модель данных решает, какой вопрос простой. Сначала <b>увидеть граф</b> в задаче, потом выбрать под него инструмент&nbsp;— а не наоборот.</p>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Зачем мы всё это изучали? Вернёмся к трём вопросам из начала. «Возможно, вы знакомы»&nbsp;— это путь из двух-трёх рёбер «друг». Доступ Пети к документу&nbsp;— путь любой длины по рёбрам «входит в»: отдел, департамент, группа. Уязвимая библиотека&nbsp;— путь любой длины по рёбрам «зависит от». Все три вопроса&nbsp;— про цепочки связей, то есть про граф.</p>
+                    <p>Мораль Клеппмана: модель данных решает, какие вопросы будут простыми, а какие мучительными. Поэтому сначала нужно увидеть в задаче граф, а потом выбирать инструмент. Если таких вопросов мало и цепочки короткие, хватит реляционной базы: таблицы вершин и рёбер и рекурсивный запрос. Если это сердце продукта и цепочки длинные&nbsp;— соцсеть, права доступа, рекомендации,&nbsp;— смотрите в сторону графовой СУБД: там путь пишется одной строкой, а обход оптимизирует база.</p>
+                    <p><em>Мой вывод</em> Границу «мало и коротко» против «сердце продукта» книга не проводит, это практическое правило. Главное&nbsp;— не тащить графовую базу ради одного запроса и не мучить реляционную, когда весь продукт&nbsp;— граф.</p>
+                    <p><em>По книге</em> с. 53–54, 90–91.</p>
+                    <p><em>Переход</em> Спасибо! Вопросы?</p>
+                    <p><em>Если зал молчит · Вопрос 1</em> Типичные ответы: друзья и подписки, рекомендации («кто купил это, купил и то»), права доступа с вложенными группами, оргструктура, зависимости задач или пакетов, комментарии с ответами. Часто это лежит в таблицах со ссылкой на родителя.</p>
+                    <p><em>Если зал молчит · Вопрос 2</em> Для неглубоких обходов и деревьев хватает WITH RECURSIVE в Postgres. Отдельная графовая база окупается, когда обходы глубокие и частые, а вопросы похожи на «найди путь» или «кто в N рукопожатиях». Плюс одной базы&nbsp;— меньше инфраструктуры и одна транзакция.</p>
+                    <p><em>Если зал молчит · Вопрос 3</em> Нет, GraphQL&nbsp;— язык запросов к API, а не к графовой базе. «Граф» в названии&nbsp;— граф объектов API: пользователь → его заказы → товары. Общее с Cypher&nbsp;— декларативность: клиент описывает форму нужных данных. Но путей переменной длины в GraphQL нет, глубина запроса задана явно, а «как» собрать данные пишем мы сами в резолверах.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" data-slide="25" data-chrome="whatnext">
                 <div class="timeline-next-container">
                     <div class="fx-kicker" data-rv="fade">Дальше</div>
                     <h2 class="fx-h" data-rv>Что далее</h2>

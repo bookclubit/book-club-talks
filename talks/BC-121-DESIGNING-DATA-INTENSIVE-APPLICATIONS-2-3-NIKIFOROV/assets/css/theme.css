@@ -1,0 +1,18 @@
+/*
+ * theme.css — цвет книги «Высоконагруженные приложения»: янтарь.
+ * Файл пишет генератор (scripts/new-talk.mjs, таблица scripts/book-themes.mjs);
+ * правьте таблицу, а не этот файл.
+ */
+:root {
+    --fx: #ffb83d;
+    --fx-rgb: 255, 184, 61;
+    --hot: #ff4d6d;
+    --hot-rgb: 255, 77, 109;
+}
+
+:root[data-theme='light'] {
+    --fx: #b45309;
+    --fx-rgb: 180, 83, 9;
+    --hot: #be123c;
+    --hot-rgb: 190, 18, 60;
+}

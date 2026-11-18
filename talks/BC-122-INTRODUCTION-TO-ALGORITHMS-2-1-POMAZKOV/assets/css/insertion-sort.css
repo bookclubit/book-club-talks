@@ -77,7 +77,9 @@
 .is-step-track { display: flex; align-items: center; gap: 18px; margin-top: 22px; padding-right: 42px; }
 .is-step-track input { flex: 1; accent-color: var(--fx); cursor: pointer; height: 22px; }
 .is-step-track output { color: var(--text-muted); font: 16px var(--font-mono); min-width: 82px; text-align: right; }
-.is-content .is-demo-help { font: 14px/1.5 var(--font-mono); color: var(--text-muted); margin-top: 16px; }
+.is-demo-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; padding-right: 42px; }
+.is-content .is-demo-help { font: 15px/1.5 var(--font-mono); color: var(--text-muted); }
+.is-demo #nextSlide { color: var(--fx); border-color: var(--fx); border-radius: 6px; }
 .is-code-panel { min-width: 0; border: 1px solid var(--border); background: var(--bg-card); }
 .is-code-tabs { display: flex; border-bottom: 1px solid var(--border); }
 .is-code-tabs button { border: 0; border-bottom: 2px solid transparent; flex: 1; font-size: 16px; padding: 17px 10px; }

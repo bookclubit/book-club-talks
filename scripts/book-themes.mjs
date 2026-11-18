@@ -38,7 +38,7 @@ export const PALETTE = {
  */
 export const BOOK_THEMES = {
   'ai-engineering': 'lime',
-  'introduction-to-algorithms': 'orange',
+  'introduction-to-algorithms': 'mint',
   'mastering-blockchain': 'rose',
   'docker-up-and-running': 'blue',
   'designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and-maintainable-systems':

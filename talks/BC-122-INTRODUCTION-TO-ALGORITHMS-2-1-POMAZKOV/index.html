@@ -335,7 +335,10 @@
                                     <output id="stepCounter">
                                     </output>
                                 </div>
-                                <p class="is-demo-help">← → — шаги · пробел — запуск / пауза · Page Up / Down — слайды</p>
+                                <div class="is-demo-footer">
+                                    <p class="is-demo-help">← → · переход между слайдами</p>
+                                    <button type="button" id="nextSlide">Следующий слайд →</button>
+                                </div>
                             </div>
                             <div class="is-code-panel">
                                 <div class="is-code-tabs" role="tablist" aria-label="Язык реализации">
@@ -355,7 +358,7 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    <p>Начните с псевдокода: индексы от 1, как в книге. Один шаг соответствует одной операции или проверке. Объясните, что при сдвиге происходит копирование: исходная ячейка сохраняет старое число, а ключ отдельно сохранён в переменной. На вкладках Python, JavaScript и C++ индексы от нуля, текущее состояние алгоритма сохраняется. До прохода с единицей можно идти автоматически, затем остановиться и разобрать сдвиги вручную. Page Down переводит к инварианту.</p>
+                    <p>Начните с псевдокода: индексы от 1, как в книге. Один шаг соответствует одной операции или проверке. Объясните, что при сдвиге происходит копирование: исходная ячейка сохраняет старое число, а ключ отдельно сохранён в переменной. На вкладках Python, JavaScript и C++ индексы от нуля, текущее состояние алгоритма сохраняется. До прохода с единицей можно идти автоматически, затем остановиться и разобрать сдвиги вручную. К инварианту ведут стрелка вправо и кнопка «Следующий слайд».</p>
                 </aside>
             </section>
             <section class="slide fx is-content" id="invariant" data-content="5" data-toc="Что такое инвариант цикла">
@@ -652,8 +655,6 @@
     
 
 
-    <div class="toc-panel" id="tocPanel" role="navigation" aria-label="Содержание презентации"></div>
-
     <!-- Переключатель темы: светлая ↔ тёмная (клавиша T) -->
     <button class="theme-toggle" id="themeToggle" type="button" role="switch"
             aria-checked="false" aria-label="Переключить тему" title="Светлая тема (T)">
@@ -667,8 +668,6 @@
             </span>
         </span>
     </button>
-
-    <nav id="tocPanel" class="toc-panel" aria-label="Содержание презентации"></nav>
 
     <!-- Содержание: список слайдов, клик — переход на слайд (клавиша O) -->
     <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false"

@@ -205,37 +205,37 @@
     paintCode();
     render();
   }
-  tabs.forEach((tab) => tab.addEventListener('click', () => chooseLanguage(tab.dataset.language)));
+  tabs.forEach((tab) => tab.addEventListener('click', (event) => {
+    chooseLanguage(tab.dataset.language);
+    // После клика стрелки снова листают слайды. При активации с клавиатуры
+    // фокус остаётся на вкладке, чтобы стрелками можно было выбирать язык.
+    if (event.detail > 0) tab.blur();
+  }));
   $('stepBack').addEventListener('click', () => { pause(); goTo(step - 1); });
   $('stepForward').addEventListener('click', () => { pause(); goTo(step + 1); });
   $('playDemo').addEventListener('click', togglePlay);
   $('resetDemo').addEventListener('click', () => { pause(); goTo(0, false); });
+  $('nextSlide').addEventListener('click', (event) => {
+    event.currentTarget.blur();
+    window.deck.next();
+  });
   $('stepRange').addEventListener('input', (event) => { pause(); goTo(Number(event.target.value), false); });
-  // Захват раньше обработчика дека: стрелки управляют демонстрацией только
-  // на её слайде. Page Up / Down продолжают переключать слайды.
-  document.addEventListener('keydown', (event) => {
-    if (!slide.classList.contains('active') || event.ctrlKey || event.altKey || event.metaKey) return;
+  // Сохраняем клавиши для вкладок и ползунка в фокусе. Остальные события
+  // доходят до движка презентации и листают слайды как обычно.
+  demo.addEventListener('keydown', (event) => {
+    if (event.ctrlKey || event.altKey || event.metaKey) return;
     if (event.target.closest('[role="tablist"]') && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
-      event.preventDefault(); event.stopImmediatePropagation();
+      event.preventDefault();
+      event.stopPropagation();
       const current = tabs.findIndex((tab) => tab.dataset.language === language);
       const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (current + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
       chooseLanguage(tabs[next].dataset.language); tabs[next].focus();
       return;
     }
-    if (event.key === ' ' && event.target.closest('button, input')) {
-      event.stopImmediatePropagation(); // Нативное нажатие кнопки пробелом.
-      return;
-    }
-    if (event.target.matches('input') && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
-      event.stopImmediatePropagation(); // Нативное управление ползунком.
-      return;
-    }
-    if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) {
-      event.preventDefault(); event.stopImmediatePropagation();
-      if (event.key === ' ') togglePlay();
-      else { pause(); goTo(step + (event.key === 'ArrowRight' ? 1 : -1)); }
-    }
-  }, true);
+    const activatesControl = event.key === ' ' && event.target.closest('button, input');
+    const movesSlider = event.target === $('stepRange') && ['ArrowLeft', 'ArrowRight'].includes(event.key);
+    if (activatesControl || movesSlider) event.stopPropagation();
+  });
   new MutationObserver(() => { if (!slide.classList.contains('active')) pause(); }).observe(slide, { attributes: true, attributeFilter: ['class'] });
   document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
   reducedMotion.addEventListener('change', () => render());

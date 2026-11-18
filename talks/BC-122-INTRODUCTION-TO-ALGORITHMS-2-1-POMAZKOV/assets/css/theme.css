@@ -1,0 +1,18 @@
+/*
+ * theme.css — цвет книги «Алгоритмы: построение и анализ»: оранжевый.
+ * Файл пишет генератор (scripts/new-talk.mjs, таблица scripts/book-themes.mjs);
+ * правьте таблицу, а не этот файл.
+ */
+:root {
+    --fx: #ff8a3d;
+    --fx-rgb: 255, 138, 61;
+    --hot: #ff4d6d;
+    --hot-rgb: 255, 77, 109;
+}
+
+:root[data-theme='light'] {
+    --fx: #c2410c;
+    --fx-rgb: 194, 65, 12;
+    --hot: #be123c;
+    --hot-rgb: 190, 18, 60;
+}

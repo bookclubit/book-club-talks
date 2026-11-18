@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сортировка вставкой — Алгоритмы: построение и анализ</title>
+    <meta name="description" content="Introduction to Algorithms">
+    <!-- Open Graph / соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Сортировка вставкой — Алгоритмы: построение и анализ">
+    <meta property="og:description" content="Introduction to Algorithms">
+    <meta property="og:image" content="https://bc-122-introduction-to-algorithms-2-1-pomazkov.pages.dev/assets/cover/introduction-to-algorithms.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Сортировка вставкой — Алгоритмы: построение и анализ">
+    <meta name="twitter:description" content="Introduction to Algorithms">
+    <meta name="twitter:image" content="https://bc-122-introduction-to-algorithms-2-1-pomazkov.pages.dev/assets/cover/introduction-to-algorithms.webp">
+    <!-- Тема до первой отрисовки: иначе светлый дек моргнёт тёмным. -->
+    <script>
+        try {
+            if (localStorage.getItem('bc-deck-theme') === 'light')
+                document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- Локальные шрифты (Inter + JetBrains Mono), без внешних CDN -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <!-- Единый стиль дека (общий «хром» всех докладов) -->
+    <link rel="stylesheet" href="assets/css/deck.css">
+    <!-- Цвет книги (пишет генератор, таблица scripts/book-themes.mjs) -->
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <link rel="stylesheet" href="assets/css/insertion-sort.css">
+
+</head>
+<body data-hud="Алгоритмы: построение и анализ · Глава 2 · Сортировка вставкой">
+    <div class="progress" id="progressBar" style="width: 0%"></div>
+
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage">
+
+            <!-- Открытие стрима, автор и книга — только в первом докладе вечера -->
+            <section class="slide fx is-title is-opening" id="slide-opening" data-slide="1" data-chrome="opening" data-toc="Открытие стрима">
+                <div class="fx-wrap">
+                    <div class="title-meta" data-rv="fade"><span>Книжный клуб</span><span>27 ноября 2026 · 18:00 МСК</span></div>
+                    <div class="open-num" aria-hidden="true">122</div>
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Стрим 122</span>Добро пожаловать</div>
+                    <h1 class="title-h" data-rv>Приступаем к изучению</h1>
+                    <p class="open-sub" data-rv><b>Алгоритмы: построение и анализ</b> · Глава 2 · 3 доклада</p>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <div class="open-speakers" data-rv="left"><em>Спикеры вечера</em><div class="os-row"><span class="os"><img src="assets/speakers/pomazkov-anton.webp" alt=""><b>Антон Помазков</b></span><span class="os"><img src="assets/speakers/nikiforov-artem.webp" alt=""><b>Артём Никифоров</b></span></div></div>
+                        <div class="open-links" data-rv="fade"><em>Клуб</em><div class="chips"><a class="chip" href="https://t.me/booksclubfrontend" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Telegram</a><a class="chip" href="https://www.youtube.com/@pomazkovclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>YouTube</a><a class="chip" href="https://vkvideo.ru/@pomazkovclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5 6.5 17 10 7.5"/><path d="M13.5 7.5v9.5"/><path d="M13.5 12.5 19 7.5"/><path d="M15.3 11 19.5 17"/></svg>VK Видео</a><a class="chip" href="https://boosty.to/booksclub" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4.1 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Boosty</a></div></div>
+                        <a class="title-book" data-rv="right" href="https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>Алгоритмы: построение и анализ</b><span>Томас Кормен, Чарльз Лейзерсон, Рональд Ривест, Клиффорд Штайн</span></span>
+                            <img src="assets/cover/introduction-to-algorithms.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Открытие стрима: поздоровайтесь, назовите книгу и главу вечера, скажите, сколько будет докладов, и напомните про Telegram-канал клуба. Дальше — пара слов об авторе и книге, потом программа.</p>
+                </aside>
+            </section>
+            <section class="slide fx" id="slide-author" data-slide="2" data-chrome="author" data-toc="Кто написал книгу">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Кто написал книгу</div>
+                    <h2 class="fx-h" data-rv>Четыре автора</h2>
+                    <div class="fx-body">
+                        <div class="au-grid" style="--n:4">
+                            <a class="au-card" data-rv="pop" href="https://www.cs.dartmouth.edu/~thc/" target="_blank" rel="noopener"><img src="assets/authors/tomas-kormen.webp" alt=""><b>Томас Кормен</b><span>www.cs.dartmouth.edu/~thc ↗</span></a>
+                            <a class="au-card" data-rv="pop" href="https://people.csail.mit.edu/cel/" target="_blank" rel="noopener"><img src="assets/authors/charlz-leyzerson.webp" alt=""><b>Чарльз Лейзерсон</b><span>people.csail.mit.edu/cel ↗</span></a>
+                            <a class="au-card" data-rv="pop" href="https://people.csail.mit.edu/rivest/" target="_blank" rel="noopener"><img src="assets/authors/ronald-rivest.webp" alt=""><b>Рональд Ривест</b><span>people.csail.mit.edu/rivest ↗</span></a>
+                            <a class="au-card" data-rv="pop" href="https://www.columbia.edu/~cs2035/" target="_blank" rel="noopener"><img src="assets/authors/klifford-shtayn.webp" alt=""><b>Клиффорд Штайн</b><span>www.columbia.edu/~cs2035 ↗</span></a>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Слайд собран генератором из book-club-data. Допишите два-три факта об авторах: чем они известны и почему им стоит доверять.</p>
+                </aside>
+            </section>
+            <section class="slide fx" id="slide-book" data-slide="3" data-chrome="book" data-toc="Что это за книга">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade">Что это за книга</div>
+                    <div class="fx-body">
+                        <div class="bk2">
+                            <div class="bk2-cover" data-rv="left"><a href="https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844" target="_blank" rel="noopener"><img src="assets/cover/introduction-to-algorithms.webp" alt="Обложка книги Алгоритмы: построение и анализ"></a></div>
+                            <div>
+                                <div data-rv>
+                                    <div class="bk2-title">Алгоритмы: построение и анализ</div>
+                                    <p class="bk2-meta">Introduction to Algorithms · 3-е издание</p>
+                                    <p class="bk2-desc">Самая известная в мире «библия» по алгоритмам для программистов.</p>
+                                </div>
+                                <div class="stats" data-rv>
+                                    <div class="stat"><b data-count="35">35</b><span>глав в книге</span></div>
+                                    <div class="stat"><b data-count="3">3</b><span>тем в главе 2</span></div>
+                                </div>
+                                <div data-rv>
+                                    <div class="chaps" style="--chaps:12"><span class="chap" title="Роль алгоритмов в вычислениях">1</span><span class="chap is-now" title="Приступаем к изучению">2</span><span class="chap">3</span><span class="chap">4</span><span class="chap">5</span><span class="chap">6</span><span class="chap">7</span><span class="chap">8</span><span class="chap">9</span><span class="chap">10</span><span class="chap">11</span><span class="chap">12</span><span class="chap">13</span><span class="chap">14</span><span class="chap">15</span><span class="chap">16</span><span class="chap">17</span><span class="chap">18</span><span class="chap">19</span><span class="chap">20</span><span class="chap">21</span><span class="chap">22</span><span class="chap">23</span><span class="chap">24</span><span class="chap">25</span><span class="chap">26</span><span class="chap">27</span><span class="chap">28</span><span class="chap">29</span><span class="chap">30</span><span class="chap">31</span><span class="chap">32</span><span class="chap">33</span><span class="chap">34</span><span class="chap">35</span></div>
+                                    <p class="chaps-cap"><b>Глава 2</b> · Приступаем к изучению — сегодня</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p><em>Текст</em> Слайд собран генератором из book-club-data. Расскажите, почему клуб читает эту книгу и о чём глава, которую разбираем сегодня.</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" data-slide="4" data-chrome="agenda">
+                <div class="timeline-next-container">
+                    <div class="fx-kicker" data-rv="fade">Стрим 122</div>
+                    <h2 class="fx-h" data-rv>Программа вечера</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Сортировка вставкой</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Анализ алгоритмов</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Разработка алгоритмов</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Титул доклада: глава, тема, кто читает и по какой книге.
+                 В первом докладе вечера идёт после программы, в остальных — первым. -->
+            <section class="slide fx is-title" data-slide="5" data-chrome="title">
+                <div class="fx-wrap">
+                    <div class="fx-kicker" data-rv="fade"><span class="n">Глава 2</span>Приступаем к изучению</div>
+                    <h1 class="title-h" data-rv>Сортировка вставкой</h1>
+                    <div class="title-bar"></div>
+                    <div class="title-foot">
+                        <a class="title-speaker" data-rv="left" href="https://t.me/kunjutone" target="_blank" rel="noopener">
+                            <img src="assets/speakers/pomazkov-anton.webp" alt="">
+                            <span><em>Доклад читает</em><b>Антон Помазков</b><i>@kunjutone</i></span>
+                        </a>
+                        <a class="title-book" data-rv="right" href="https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844" target="_blank" rel="noopener">
+                            <span><em>Книга</em><b>Алгоритмы: построение и анализ</b><span>Томас Кормен, Чарльз Лейзерсон, Рональд Ривест, Клиффорд Штайн</span></span>
+                            <img src="assets/cover/introduction-to-algorithms.webp" alt="">
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Здесь — контентные слайды доклада -->
+
+            <section class="slide fx is-content" id="task" data-content="1" data-toc="Условие задачи">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">01 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Условие задачи</h2>
+                    <div class="fx-body">
+                        <div class="is-flow">
+                            <div>
+                                <p class="is-label">Вход · последовательность чисел</p>
+                                <div class="is-array">
+                                    <span class="is-cell">5</span>
+                                    <span class="is-cell">2</span>
+                                    <span class="is-cell">4</span>
+                                    <span class="is-cell">6</span>
+                                    <span class="is-cell">1</span>
+                                    <span class="is-cell">3</span>
+                                </div>
+                            </div>
+                            <div class="is-flow-arrow">↓</div>
+                            <div>
+                                <p class="is-label">Выход · перестановка исходных элементов</p>
+                                <div class="is-array">
+                                    <span class="is-cell is-sorted">1</span>
+                                    <span class="is-cell is-sorted">2</span>
+                                    <span class="is-cell is-sorted">3</span>
+                                    <span class="is-cell is-sorted">4</span>
+                                    <span class="is-cell is-sorted">5</span>
+                                    <span class="is-cell is-sorted">6</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="is-bottom-line">
+                            <span>Порядок: <b>a₁ ≤ a₂ ≤ … ≤ aₙ</b>
+                            </span>
+                            <span>Каждый элемент сохранён</span>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Задача содержит два требования: неубывающий порядок и сохранение всех элементов с учётом повторений. Просто получить упорядоченные числа недостаточно: нельзя потерять или добавить элементы. Весь доклад разбираем один пример из рисунка 2.2, раздел 2.1, с. 40.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="method" data-content="2" data-toc="Используем сортировку вставкой">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">02 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Используем сортировку вставкой</h2>
+                    <div class="fx-body">
+                        <div class="is-editorial">
+                            <div>
+                                <p class="is-big">Строим отсортированную часть.<br>По <span class="acc">одному элементу</span>.</p>
+                                <p class="is-text">Берём следующий элемент и вставляем его в нужное место среди уже упорядоченных.</p>
+                                <div class="is-properties">
+                                    <span>На месте</span>
+                                    <span>Мало дополнительной памяти</span>
+                                    <span>Простой алгоритм</span>
+                                </div>
+                            </div>
+                            <div class="is-history">
+                                <span class="is-label">Исторический ориентир</span>
+                                <b>1946</b>
+                                <h3>Джон Мокли</h3>
+                                <p>Лекция «Sorting and Collating» в школе Мура.</p>
+                                <p class="is-small">Историческое упоминание машинной сортировки; дата лекции не означает дату изобретения метода.</p>
+                                <a href="https://archives.upenn.edu/collections/finding-aid/upd8_4/" target="_blank" rel="noopener">Архив Пенсильванского университета ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>У ручного способа упорядочивания нет установленного единственного изобретателя. Не приписываем изобретение Кормену, Кнуту или Мокли. Архив университета фиксирует лекцию Мокли 25 июля 1946 года. Для нашей реализации «на месте» означает изменение исходного массива и постоянный объём дополнительной памяти. Эффективность и асимптотику разбирает следующий доклад. Определение метода: https://xlinux.nist.gov/dads/HTML/insertionSort.html.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="cards" data-content="3" data-toc="Пример из жизни: карты">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">03 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Пример из жизни: карты</h2>
+                    <div class="fx-body">
+                        <div class="is-cards-scene">
+                            <div>
+                                <p class="is-label">В руке · уже по порядку</p>
+                                <div class="is-playing-hand">
+                                    <div class="is-card">2<span>♣</span>
+                                    </div>
+                                    <div class="is-card">4<span>♣</span>
+                                    </div>
+                                    <div class="is-card">5<span>♣</span>
+                                    </div>
+                                    <div class="is-card">10<span>♣</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="is-card-incoming">
+                                <p class="is-label">Следующая карта</p>
+                                <div class="is-card is-key">7<span>♣</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="is-card-slot">2 <span>—</span> 4 <span>—</span> 5 <span>—</span>
+                            <b>7</b>
+                            <span>—</span> 10</div>
+                        <p class="is-callout">Сравниваем справа налево → освобождаем место → вставляем.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Аналогия рисунка 2.1. В руке отсортированные карты 2, 4, 5, 10. Для семёрки сравниваем справа: 10 больше, а 5 уже меньше. Семёрка становится между 5 и 10. В массиве место освобождается сдвигами элементов вправо.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="implementation" data-content="4" data-toc="Как работает сортировка вставкой">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">04 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Как работает сортировка вставкой</h2>
+                    <div class="fx-body">
+                        <div class="is-demo" id="insertionDemo">
+                            <div class="is-visual">
+                                <div class="is-demo-heading">
+                                    <span class="is-label">Массив A · рисунок 2.2</span>
+                                    <span id="iterationLabel">До первой итерации</span>
+                                </div>
+                                <div class="is-indexes" id="arrayIndexes">
+                                </div>
+                                <div class="is-array-area">
+                                    <div class="is-array" id="demoArray">
+                                    </div>
+                                    <div class="is-motion-layer" aria-hidden="true">
+                                    </div>
+                                </div>
+                                <div class="is-variable-row">
+                                    <div>
+                                        <span class="is-label">key · сохранённый ключ</span>
+                                        <strong id="keyValue">—</strong>
+                                    </div>
+                                    <div class="is-pointers">
+                                        <span id="jValue">j = —</span>
+                                        <span id="iValue">i = —</span>
+                                    </div>
+                                </div>
+                                <p class="is-status" id="stepDescription" role="status" aria-live="polite">
+                                </p>
+                                <div class="is-legend">
+                                    <span>
+                                        <i class="sorted">
+                                        </i>Отсортированная часть</span>
+                                    <span>
+                                        <i class="key">
+                                        </i>Ключ</span>
+                                    <span>
+                                        <i class="compare">
+                                        </i>Сравнение</span>
+                                </div>
+                                <div class="is-demo-controls">
+                                    <button type="button" id="stepBack" aria-label="Предыдущий шаг">← Назад</button>
+                                    <button type="button" id="playDemo" aria-pressed="false">▶ Запустить</button>
+                                    <button type="button" id="stepForward">Шаг →</button>
+                                    <button type="button" id="resetDemo" aria-label="Сбросить демонстрацию">↺ Сначала</button>
+                                </div>
+                                <div class="is-step-track">
+                                    <input type="range" id="stepRange" min="0" value="0" aria-label="Шаг алгоритма">
+                                    <output id="stepCounter">
+                                    </output>
+                                </div>
+                                <p class="is-demo-help">← → — шаги · пробел — запуск / пауза · Page Up / Down — слайды</p>
+                            </div>
+                            <div class="is-code-panel">
+                                <div class="is-code-tabs" role="tablist" aria-label="Язык реализации">
+                                    <button type="button" role="tab" id="tab-pseudo" aria-controls="codePanel" aria-selected="true" data-language="pseudo">Псевдокод</button>
+                                    <button type="button" role="tab" id="tab-python" aria-controls="codePanel" aria-selected="false" tabindex="-1" data-language="python">Python</button>
+                                    <button type="button" role="tab" id="tab-js" aria-controls="codePanel" aria-selected="false" tabindex="-1" data-language="js">JavaScript</button>
+                                    <button type="button" role="tab" id="tab-cpp" aria-controls="codePanel" aria-selected="false" tabindex="-1" data-language="cpp">C++</button>
+                                </div>
+                                <div id="codePanel" role="tabpanel" aria-labelledby="tab-pseudo" tabindex="0">
+                                    <pre id="algorithmCode">
+                                    </pre>
+                                </div>
+                                <p class="is-code-note" id="codeNote">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Начните с псевдокода: индексы от 1, как в книге. Один шаг соответствует одной операции или проверке. Объясните, что при сдвиге происходит копирование: исходная ячейка сохраняет старое число, а ключ отдельно сохранён в переменной. На вкладках Python, JavaScript и C++ индексы от нуля, текущее состояние алгоритма сохраняется. До прохода с единицей можно идти автоматически, затем остановиться и разобрать сдвиги вручную. Page Down переводит к инварианту.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="invariant" data-content="5" data-toc="Что такое инвариант цикла">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">05 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Что такое инвариант цикла</h2>
+                    <div class="fx-body">
+                        <p class="is-definition">Утверждение, истинное<br>
+                            <span class="acc">перед каждой итерацией</span> цикла.</p>
+                        <div class="is-invariant-example">
+                            <p class="is-label">Для внешнего цикла сортировки вставкой</p>
+                            <p>Подмассив <code>A[1..j − 1]</code> отсортирован<br>и содержит те же элементы, что были в нём изначально.</p>
+                        </div>
+                        <p class="is-callout">Описываем то, что сохраняется, пока алгоритм меняет массив.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Инвариант — не значение переменной, которое никогда не меняется, а сохраняющееся утверждение о состоянии. Для внешнего цикла его проверяем на границе итераций, а не после каждой строки внутреннего цикла. Здесь и далее индексация от единицы, как в книге. Важна вторая часть: сохранение состава элементов исходного префикса.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="proof" data-content="6" data-toc="Как доказать корректность">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">06 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Как доказать корректность</h2>
+                    <div class="fx-body">
+                        <div class="is-proof-grid">
+                            <article>
+                                <span>01</span>
+                                <h3>Инициализация</h3>
+                                <p>Утверждение верно перед первой итерацией.</p>
+                                <code>Начало</code>
+                            </article>
+                            <article>
+                                <span>02</span>
+                                <h3>Сохранение</h3>
+                                <p>Одна итерация сохраняет истинность утверждения.</p>
+                                <code>Шаг → следующий шаг</code>
+                            </article>
+                            <article>
+                                <span>03</span>
+                                <h3>Завершение</h3>
+                                <p>При выходе из цикла получаем требуемый результат.</p>
+                                <code>Инвариант + выход</code>
+                            </article>
+                        </div>
+                        <p class="is-callout">Три части связывают локальное действие с правильностью всего результата.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Схема доказательства из раздела 2.1. Первые две части напоминают математическую индукцию. Третья использует условие выхода, чтобы получить постусловие. Для полной корректности также надо обосновать, что алгоритм действительно завершится. Это сделаем на слайде о завершении.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="initialization" data-content="7" data-toc="Инициализация">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">07 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Инициализация</h2>
+                    <div class="fx-body">
+                        <div class="is-proof-lead">
+                            <span class="is-label">До первой итерации</span>
+                            <div class="is-equation">j = 2 <span>→</span> A[1..j − 1] = A[1]</div>
+                        </div>
+                        <div class="is-proof-array">
+                            <div class="is-array">
+                                <span class="is-cell is-sorted">5</span>
+                                <span class="is-cell is-key">2</span>
+                                <span class="is-cell">4</span>
+                                <span class="is-cell">6</span>
+                                <span class="is-cell">1</span>
+                                <span class="is-cell">3</span>
+                            </div>
+                            <div class="is-array-caption">
+                                <span>Один элемент уже отсортирован</span>
+                                <span>Следующий ключ</span>
+                            </div>
+                        </div>
+                        <p class="is-definition is-definition-small">Один элемент.<br>
+                            <span class="acc">Порядок уже есть. Состав сохранён.</span>
+                        </p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>В начале j = 2. Префикс A[1..1] состоит из одного исходного элемента — 5. Он тривиально отсортирован, и состав совпадает с исходным. Поэтому инвариант выполнен до первого прохода. Выделенная двойка — будущий ключ, ещё не обработанный.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="maintenance" data-content="8" data-toc="Сохранение">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">08 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Сохранение</h2>
+                    <div class="fx-body">
+                        <div class="is-preserve">
+                            <div>
+                                <p class="is-label">До итерации · j = 5</p>
+                                <div class="is-array">
+                                    <span class="is-cell is-sorted">2</span>
+                                    <span class="is-cell is-sorted">4</span>
+                                    <span class="is-cell is-sorted">5</span>
+                                    <span class="is-cell is-sorted">6</span>
+                                    <span class="is-cell is-key">1</span>
+                                    <span class="is-cell">3</span>
+                                </div>
+                            </div>
+                            <div class="is-operation">
+                                <span>Сохранить 1</span>
+                                <span>Сдвинуть 2, 4, 5, 6 вправо</span>
+                                <span>Вставить 1 в начало</span>
+                            </div>
+                            <div>
+                                <p class="is-label">После вставки · перед следующей итерацией j = 6</p>
+                                <div class="is-array">
+                                    <span class="is-cell is-sorted">1</span>
+                                    <span class="is-cell is-sorted">2</span>
+                                    <span class="is-cell is-sorted">4</span>
+                                    <span class="is-cell is-sorted">5</span>
+                                    <span class="is-cell is-sorted">6</span>
+                                    <span class="is-cell is-key">3</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="is-callout">Отсортированная часть выросла на один элемент.<br>Все элементы исходного префикса сохранены.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Предполагаем, что A[1..j−1] отсортирован и содержит исходные элементы этого префикса. Сохраняем A[j] в key. Элементы, большие key, сдвигаем вправо. Вставляем key после последнего элемента, не большего key, либо в начало. Теперь A[1..j] отсортирован и содержит исходные элементы A[1..j]. Увеличение j восстанавливает формулировку инварианта для следующей итерации. Пример иллюстрирует общий аргумент, а не заменяет его.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="termination" data-content="9" data-toc="Завершение">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">09 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Завершение</h2>
+                    <div class="fx-body">
+                        <div class="is-proof-lead">
+                            <span class="is-label">Цикл закончился</span>
+                            <div class="is-equation">j = n + 1 <span>→</span> A[1..j − 1] = A[1..n]</div>
+                        </div>
+                        <div class="is-proof-array">
+                            <div class="is-array">
+                                <span class="is-cell is-sorted">1</span>
+                                <span class="is-cell is-sorted">2</span>
+                                <span class="is-cell is-sorted">3</span>
+                                <span class="is-cell is-sorted">4</span>
+                                <span class="is-cell is-sorted">5</span>
+                                <span class="is-cell is-sorted">6</span>
+                            </div>
+                        </div>
+                        <p class="is-definition is-definition-small">Отсортированная часть —<br>
+                            <span class="acc">теперь весь массив.</span>
+                        </p>
+                        <p class="is-callout">j растёт на 1 до n + 1; внутренний i убывает до остановки.<br>Оба цикла завершаются. Элементы сохранены. Результат корректен.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Условие внешнего цикла j ≤ n перестаёт выполняться при j = n + 1. Подставляем в инвариант: A[1..n] отсортирован и содержит исходные элементы. Внешний цикл конечен: j монотонно увеличивается; внутренний конечен: i уменьшается и проверка i > 0 останавливает его на границе. В книге счётчик сохраняет значение после цикла — это соглашение псевдокода, а не универсальное правило всех языков. Для пустого массива и массива из одного элемента алгоритм также корректен: проходов нет.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="pseudocode" data-content="10" data-toc="Особенности псевдокода">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">10 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Особенности псевдокода</h2>
+                    <div class="fx-body">
+                        <div class="is-conventions">
+                            <article>
+                                <span>01</span>
+                                <div>
+                                    <h3>Описывает идею</h3>
+                                    <p>Отступы задают блоки; <code>//</code> — комментарий.<br>Детали языка уступают место алгоритму.</p>
+                                </div>
+                            </article>
+                            <article>
+                                <span>02</span>
+                                <div>
+                                    <h3>Индексы и границы</h3>
+                                    <p>
+                                        <code>A[1..n]</code> — от первого до n-го включительно.<br>После <code>for j = 2 to n</code> счётчик равен <code>n + 1</code>.</p>
+                                </div>
+                            </article>
+                            <article>
+                                <span>03</span>
+                                <div>
+                                    <h3>Условия вычисляются слева направо</h3>
+                                    <p>
+                                        <code>i &gt; 0 и A[i] &gt; key</code>
+                                        <br>Сначала граница; доступ к массиву — только если она пройдена.</p>
+                                </div>
+                            </article>
+                            <article>
+                                <span>04</span>
+                                <div>
+                                    <h3>Массив — общий объект</h3>
+                                    <p>Копируется ссылка, а не элементы массива.<br>Изменение <code>A[i]</code> видно вызывающему коду.</p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Соглашения раздела 2.1, с. 42–44. В псевдокоде локальные переменные, параметры передаются по значению. Для объекта передаётся копия указателя: менять элементы объекта и переприсвоить локальный параметр — разные действия. В A[1..j] речь о подмассиве, запись не требует создавать его копию. После for значение счётчика сохраняется именно по соглашению книги; Python for ведёт себя иначе. Множественное присваивание i = j = e читается как j = e, затем i = j. NIL обозначает отсутствие объекта, error — ошибочные условия вызова. Эти дополнительные соглашения можно проговорить устно.</p>
+                </aside>
+            </section>
+            <section class="slide fx is-content" id="conclusions" data-content="11" data-toc="Выводы">
+                <div class="fx-wrap">
+                    <div class="fx-kicker">
+                        <span class="n">11 / 11</span>Сортировка вставкой</div>
+                    <h2 class="fx-h">Выводы</h2>
+                    <div class="fx-body">
+                        <div class="is-takeaways">
+                            <div>
+                                <span>01</span>
+                                <p>Сортировка вставкой расширяет<br>
+                                    <b>отсортированную часть</b> по одному элементу.</p>
+                            </div>
+                            <div>
+                                <span>02</span>
+                                <p>Ключ сохраняем, большие элементы сдвигаем,<br>
+                                    <b>ключ вставляем</b> на нужное место.</p>
+                            </div>
+                            <div>
+                                <span>03</span>
+                                <p>Корректность доказываем через инвариант:<br>
+                                    <b>инициализация → сохранение → завершение.</b>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="is-next-question">
+                            <span class="is-label">Следующий вопрос</span>
+                            <p>Алгоритм корректен.<br>
+                                <span class="acc">Сколько работы он выполняет?</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <p>Подведите итог трём идеям. Понимать пример полезно, но для доказательства нужен инвариант. Оценку времени работы передаём следующему докладу «Анализ алгоритмов».</p>
+                </aside>
+            </section>
+
+            <section class="slide fx" data-slide="6" data-chrome="whatnext">
+                <div class="timeline-next-container">
+                    <div class="fx-kicker" data-rv="fade">Дальше</div>
+                    <h2 class="fx-h" data-rv>Что далее</h2>
+                    <div class="timeline-next-columns" data-cols="1" data-density="normal">
+                        <div class="timeline-column">
+                            <div class="timeline-next">
+                            <div class="timeline-next-item completed">
+                            <div class="timeline-next-marker completed">
+                                <svg class="flat-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">
+                                    <span style="text-decoration: line-through;">Сортировка вставкой</span>
+                                    <span class="timeline-badge-completed">Пройдено</span>
+                                </div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item next-large">
+                            <div class="timeline-next-marker active"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Анализ алгоритмов</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/pomazkov-anton.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Антон Помазков</span>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="timeline-next-item">
+                            <div class="timeline-next-marker upcoming"></div>
+                            <div class="timeline-next-content">
+                                <div class="timeline-next-title">Разработка алгоритмов</div>
+                                <div class="timeline-next-speaker">
+                                    <img class="timeline-next-speaker-avatar" src="assets/speakers/nikiforov-artem.webp" alt="">
+                                    <span class="timeline-next-speaker-name">Артём Никифоров</span>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+</main>
+    </div>
+
+    
+
+
+    <div class="toc-panel" id="tocPanel" role="navigation" aria-label="Содержание презентации"></div>
+
+    <!-- Переключатель темы: светлая ↔ тёмная (клавиша T) -->
+    <button class="theme-toggle" id="themeToggle" type="button" role="switch"
+            aria-checked="false" aria-label="Переключить тему" title="Светлая тема (T)">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-knob"></span>
+            <span class="theme-ico theme-ico-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            </span>
+            <span class="theme-ico theme-ico-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+            </span>
+        </span>
+    </button>
+
+    <nav id="tocPanel" class="toc-panel" aria-label="Содержание презентации"></nav>
+
+    <!-- Содержание: список слайдов, клик — переход на слайд (клавиша O) -->
+    <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false"
+            aria-controls="tocPanel" aria-label="Содержание презентации" title="Содержание (O)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"></path></svg>
+    </button>
+    <nav class="toc-panel" id="tocPanel" aria-label="Содержание презентации"></nav>
+
+    <!-- Движок презентации: клавиатура, масштаб, появление блоков, заметки (N) -->
+    <script src="assets/js/deck.js"></script>
+    <script src="assets/js/insertion-sort.js"></script>
+
+</body>
+</html>
